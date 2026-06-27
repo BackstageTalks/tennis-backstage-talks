@@ -1,88 +1,75 @@
-import datetime
 import json
+import datetime
 import os
-from typing import List, Dict, Any
 
-from api import (
-    get_matches,
-    get_match_detail,
-    get_match_h2h,
-    get_match_odds,
-    get_rankings
-)
-from config import TARGET_CATEGORIES, MAX_MATCHES
-from prediction_engine import compute_prediction, compute_value_bet
+from prediction_engine import compute_probabilities, compute_value_bet
 
-def build_rank_map(rankings: List[Dict[str, Any]]) -> Dict[str, int]:
-    result = {}
-    for r in rankings:
-        player = r.get("player", {})
-        name = player.get("name")
-        pos = r.get("position")
-        if name and pos:
-            result[name] = pos
-    return result
+# Fallback zápasy – použijú sa vždy, keď API nič nevráti
+TEST_MATCHES = [
+    {
+        "player1": "Novak Djokovic",
+        "player2": "Carlos Alcaraz",
+        "tournament": "Wimbledon",
+        "p1_odds": 1.80,
+        "p2_odds": 2.10
+    },
+    {
+        "player1": "Jannik Sinner",
+        "player2": "Daniil Medvedev",
+        "tournament": "ATP Finals",
+        "p1_odds": 1.65,
+        "p2_odds": 2.30
+    }
+]
 
-def run_daily(date: str | None = None) -> List[Dict[str, Any]]:
-    if date is None:
-        date = datetime.date.today().isoformat()
+def get_matches():
+    # API zatiaľ vypnuté – vždy vráti prázdno
+    return []
 
-    matches = get_matches(date)
+def main():
+    matches = get_matches()
+
     if not matches:
-        print("No matches found.")
-        return []
-
-    atp = build_rank_map(get_rankings("ATP"))
-    wta = build_rank_map(get_rankings("WTA"))
-    ranks = {**atp, **wta}
+        print("No matches found, using TEST_MATCHES")
+        matches = TEST_MATCHES
 
     predictions = []
 
     for m in matches:
-        tournament = m.get("tournament", {})
-        circuit = (tournament.get("circuit") or "").upper()
+        p1 = m["player1"]
+        p2 = m["player2"]
+        t = m["tournament"]
+        p1_odds = m["p1_odds"]
+        p2_odds = m["p2_odds"]
 
-        if circuit not in TARGET_CATEGORIES:
-            continue
+        prob1, prob2 = compute_probabilities(p1, p2, t)
 
-        match_id = m.get("id")
-        if not match_id:
-            continue
+        vb1 = compute_value_bet(prob1, p1_odds)
+        vb2 = compute_value_bet(prob2, p2_odds)
 
-        detail = get_match_detail(match_id)
-        h2h = get_match_h2h(match_id)
-        odds = get_match_odds(match_id)
+        vb1["odds"] = p1_odds
+        vb2["odds"] = p2_odds
 
-        pred = compute_prediction(m, detail, h2h, ranks)
-
-        p1_odds = None
-        p2_odds = None
-
-        if odds and isinstance(odds, list) and len(odds) > 0:
-            market = odds[0]
-            p1_odds = market.get("player1_odds")
-            p2_odds = market.get("player2_odds")
-
-        pred["value_player1"] = compute_value_bet(pred["prob_player1"], p1_odds)
-        pred["value_player2"] = compute_value_bet(pred["prob_player2"], p2_odds)
-
-        pred["match_id"] = match_id
-        pred["tournament"] = tournament.get("name")
-        pred["match_date"] = m.get("match_date")
-        pred["odds"] = odds
+        pred = {
+            "player1": p1,
+            "player2": p2,
+            "tournament": t,
+            "prob_player1": prob1,
+            "prob_player2": prob2,
+            "value_player1": vb1,
+            "value_player2": vb2,
+        }
 
         predictions.append(pred)
 
-        if MAX_MATCHES and len(predictions) >= MAX_MATCHES:
-            break
-
     os.makedirs("data", exist_ok=True)
-    out_path = f"data/predictions_{date}.json"
+    today = datetime.date.today().isoformat()
+    path = f"data/predictions_{today}.json"
 
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(predictions, f, indent=2, ensure_ascii=False)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(predictions, f, ensure_ascii=False, indent=2)
 
-    return predictions
+    print(f"Saved {len(predictions)} predictions to {path}")
 
 if __name__ == "__main__":
-    run_daily()
+    main()
