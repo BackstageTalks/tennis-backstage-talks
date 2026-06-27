@@ -1,97 +1,70 @@
-from welo import WElo
-from api import get_recent_matches
+# prediction_engine.py
+from typing import Dict, Any
 
-class PredictionEngine:
-    def __init__(self, tour="ATP", limit=500):
-        self.tour = tour
-        self.limit = limit
-        self.welo = WElo()
-        self._bootstrap()
+def surface_factor(surface: str) -> float:
+    s = surface.lower()
+    if "hard" in s: return 1.0
+    if "clay" in s: return 0.95
+    if "grass" in s: return 1.05
+    return 1.0
 
-    def _bootstrap(self):
-        matches = get_recent_matches(tour=self.tour, limit=self.limit)
+def stats_score(detail: Dict[str, Any], p: str) -> float:
+    fs_pct = detail.get(f"{p}_first_serve_pct", 0.60)
+    fs_won = detail.get(f"{p}_first_serve_won_pct", 0.70)
+    ss_won = detail.get(f"{p}_second_serve_won_pct", 0.50)
+    aces = detail.get(f"p{1 if p=='p1' else 2}_aces", 2)
+    df = detail.get(f"p{1 if p=='p1' else 2}_double_faults", 2)
 
-        for m in matches:
-            winner = m["winner"]
-            loser = m["loser"]
+    score = (
+        0.25 * fs_pct +
+        0.25 * fs_won +
+        0.20 * ss_won +
+        0.15 * (aces / 10) +
+        0.15 * (1 - df / 10)
+    )
+    return max(0.01, min(score, 1.5))
 
-            gw_winner = m["winner_games"]
-            gw_loser = m["loser_games"]
+def h2h_score(h2h: Dict[str, Any], p: str) -> float:
+    rec = h2h.get("h2h", {})
+    wins = rec.get(f"{p}_wins", 0)
+    losses = rec.get(f"{p}_losses", 0)
+    total = wins + losses
+    if total == 0:
+        return 1.0
+    return 0.9 + 0.2 * (wins / total)
 
-            winner_sets = m.get("winner_sets", 2)
-            loser_sets = m.get("loser_sets", 0)
+def compute_prediction(match: Dict[str, Any], detail: Dict[str, Any], h2h: Dict[str, Any], ranks: Dict[str, int]) -> Dict[str, Any]:
+    p1 = match["player1"]["name"]
+    p2 = match["player2"]["name"]
 
-            surface = m["surface"]
-            tournament_level = m.get("tournament_level", "ATP250")
+    r1 = ranks.get(p1, 200)
+    r2 = ranks.get(p2, 200)
 
-            winner_continent = m.get("winner_continent", "EU")
-            loser_continent = m.get("loser_continent", "EU")
+    rank_factor_p1 = 1.0 + (200 - r1) / 400.0
+    rank_factor_p2 = 1.0 + (200 - r2) / 400.0
 
-            winner_stats = {
-                "aces": m.get("aces_winner", 0),
-                "double_faults": m.get("double_faults_winner", 0),
-                "first_serve_pct": m.get("first_serve_pct_winner", 0),
-                "break_points_saved": m.get("break_points_saved_winner", 0),
-                "return_games_won": m.get("return_games_won_winner", 0),
-                "break_points_converted": m.get("break_points_converted_winner", 0),
-                "second_serve_return_pct": m.get("second_serve_return_pct_winner", 0),
-                "tiebreak_win_rate": m.get("tiebreak_win_rate_winner", 0),
-                "deciding_set_win_rate": m.get("deciding_set_win_rate_winner", 0)
-            }
+    stats_p1 = stats_score(detail, "p1")
+    stats_p2 = stats_score(detail, "p2")
 
-            loser_stats = {
-                "aces": m.get("aces_loser", 0),
-                "double_faults": m.get("double_faults_loser", 0),
-                "first_serve_pct": m.get("first_serve_pct_loser", 0),
-                "break_points_saved": m.get("break_points_saved_loser", 0),
-                "return_games_won": m.get("return_games_won_loser", 0),
-                "break_points_converted": m.get("break_points_converted_loser", 0),
-                "second_serve_return_pct": m.get("second_serve_return_pct_loser", 0),
-                "tiebreak_win_rate": m.get("tiebreak_win_rate_loser", 0),
-                "deciding_set_win_rate": m.get("deciding_set_win_rate_loser", 0)
-            }
+    h2h_p1 = h2h_score(h2h, "player1")
+    h2h_p2 = h2h_score(h2h, "player2")
 
-            self.welo.update(
-                winner,
-                loser,
-                gw_winner,
-                gw_loser,
-                surface,
-                winner_stats,
-                loser_stats,
-                tournament_level,
-                winner_sets,
-                loser_sets,
-                winner_continent,
-                loser_continent
-            )
+    surface = match["tournament"].get("surface", "hard")
+    sf = surface_factor(surface)
 
-    def predict_match(self, player1, player2, surface):
-        p1 = self.welo.predict(player1, player2, surface)
-        p2 = 1 - p1
+    raw_p1 = sf * rank_factor_p1 * stats_p1 * h2h_p1
+    raw_p2 = sf * rank_factor_p2 * stats_p2 * h2h_p2
 
-        favorite = player1 if p1 >= p2 else player2
+    total = raw_p1 + raw_p2
+    prob1 = raw_p1 / total
+    prob2 = raw_p2 / total
 
-        return {
-            "match": {
-                "player1": {
-                    "name": player1,
-                    "win_prob": round(p1 * 100, 2)
-                },
-                "player2": {
-                    "name": player2,
-                    "win_prob": round(p2 * 100, 2)
-                },
-                "surface": surface
-            },
-            "prediction": {
-                "favorite": favorite
-            }
-        }
-
-
-if __name__ == "__main__":
-    engine = PredictionEngine()
-
-    print(engine.predict_match("Nadal", "Djokovic", "Grass"))
-    print(engine.predict_match("Ruud", "Alcaraz", "Clay"))
+    return {
+        "player1": p1,
+        "player2": p2,
+        "prob_player1": prob1,
+        "prob_player2": prob2,
+        "surface": surface,
+        "rank_player1": r1,
+        "rank_player2": r2,
+    }
