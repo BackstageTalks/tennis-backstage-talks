@@ -43,3 +43,6 @@ def generate_rss():
         f.write(rss)
 
     print("RSS generated → public/tennis.xml")
+
+if __name__ == "__main__":
+    generate_rss()
