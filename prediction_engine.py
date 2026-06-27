@@ -24,8 +24,8 @@ def stats_score(detail: Dict[str, Any], prefix: str) -> float:
     return max(0.01, min(score, 1.5))
 
 def compute_prediction(match: Dict[str, Any], detail: Dict[str, Any], h2h: Dict[str, Any], ranks: Dict[str, int]) -> Dict[str, Any]:
-    p1 = match["player1"]["name"]
-    p2 = match["player2"]["name"]
+    p1 = match.get("player1", {}).get("name", "Player1")
+    p2 = match.get("player2", {}).get("name", "Player2")
 
     r1 = ranks.get(p1, 200)
     r2 = ranks.get(p2, 200)
@@ -36,7 +36,7 @@ def compute_prediction(match: Dict[str, Any], detail: Dict[str, Any], h2h: Dict[
     stats_p1 = stats_score(detail, "p1")
     stats_p2 = stats_score(detail, "p2")
 
-    surface = match["tournament"].get("surface", "hard")
+    surface = match.get("tournament", {}).get("surface", "hard")
     sf = surface_factor(surface)
 
     raw_p1 = sf * rank_factor_p1 * stats_p1
