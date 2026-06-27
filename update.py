@@ -3,7 +3,7 @@ from api import get_recent_matches
 
 w = WElo()
 
-matches = get_recent_matches(limit=500)
+matches = get_recent_matches(limit=200)
 
 for m in matches:
     winner = m["winner"]
