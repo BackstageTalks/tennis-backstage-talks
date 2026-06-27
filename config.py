@@ -1,6 +1,6 @@
 # config.py
 
-API_BASE_URL = "https://sports-api.bsdapi.com/tennis/api/v2"
+API_BASE_URL = "https://api.bsdapi.com/tennis/api/v2"
 
 TARGET_CATEGORIES = [
     "ATP",
