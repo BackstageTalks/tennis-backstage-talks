@@ -8,7 +8,6 @@ HEADERS = {
 }
 
 def safe_request(url: str, params: Dict[str, Any] | None = None) -> Dict[str, Any]:
-    """Retry mechanizmus + fallback."""
     for attempt in range(3):
         try:
             resp = requests.get(url, params=params or {}, headers=HEADERS, timeout=10)
@@ -16,8 +15,6 @@ def safe_request(url: str, params: Dict[str, Any] | None = None) -> Dict[str, An
             return resp.json()
         except Exception:
             time.sleep(1)
-
-    # Fallback ak API padne
     return {}
 
 def _get(path: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
