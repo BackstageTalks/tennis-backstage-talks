@@ -2,7 +2,7 @@ import requests
 import csv
 from io import StringIO
 
-BASE_URL = "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_matches_2023.csv"
+BASE_URL = "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_matches_2022.csv"
 
 def get_recent_matches(limit=200):
     r = requests.get(BASE_URL)
