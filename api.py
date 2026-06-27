@@ -1,97 +1,61 @@
 import requests
-from datetime import datetime
+import csv
+from io import StringIO
 
-API_KEY = "BTalks"
-BASE_URL = "https://api.sportradar.com/tennis/trial/v2/en"
+BASE_URL = "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_matches_2023.csv"
 
-headers = {
-    "Ocp-Apim-Subscription-Key": API_KEY
-}
-
-def get_daily_matches(date=None):
-    if date is None:
-        date = datetime.utcnow().strftime("%Y-%m-%d")
-
-    url = f"{BASE_URL}/schedules/{date}.json"
-    r = requests.get(url, headers=headers)
+def get_recent_matches(limit=200):
+    r = requests.get(BASE_URL)
     r.raise_for_status()
-    return r.json().get("sport_events", [])
 
+    csv_data = r.text
+    reader = csv.DictReader(StringIO(csv_data))
 
-def get_match_summary(match_id):
-    url = f"{BASE_URL}/matches/{match_id}/summary.json"
-    r = requests.get(url, headers=headers)
-    r.raise_for_status()
-    return r.json()
-
-
-def get_match_statistics(match_id):
-    url = f"{BASE_URL}/matches/{match_id}/statistics.json"
-    r = requests.get(url, headers=headers)
-    r.raise_for_status()
-    return r.json()
-
-
-def get_recent_matches(limit=50):
     matches = []
-    daily = get_daily_matches()
 
-    for event in daily[:limit]:
-        match_id = event["id"]
-
-        summary = get_match_summary(match_id)
-        stats = get_match_statistics(match_id)
-
-        try:
-            winner = summary["sport_event_status"]["winner"]["name"]
-            loser = summary["sport_event"]["competitors"][0]["name"] \
-                if summary["sport_event"]["competitors"][1]["name"] == winner \
-                else summary["sport_event"]["competitors"][1]["name"]
-        except:
-            continue
-
+    for row in list(reader)[:limit]:
         matches.append({
-            "winner": winner,
-            "loser": loser,
+            "winner": row["winner_name"],
+            "loser": row["loser_name"],
 
-            "winner_games": summary["sport_event_status"]["period_scores"][0]["home_score"],
-            "loser_games": summary["sport_event_status"]["period_scores"][0]["away_score"],
+            "winner_games": int(row.get("w_games", 0)),
+            "loser_games": int(row.get("l_games", 0)),
 
-            "winner_sets": summary["sport_event_status"]["set_scores"][0]["home_score"],
-            "loser_sets": summary["sport_event_status"]["set_scores"][0]["away_score"],
+            "winner_sets": int(row.get("w_sets", 0)),
+            "loser_sets": int(row.get("l_sets", 0)),
 
-            "surface": summary["sport_event"]["venue"].get("surface", "Unknown"),
-            "tournament_level": summary["sport_event"]["tournament"]["name"],
+            "surface": row.get("surface", "Unknown"),
+            "tournament_level": row.get("tourney_level", "ATP"),
 
-            "winner_continent": summary["sport_event"]["competitors"][0]["country"]["code"],
-            "loser_continent": summary["sport_event"]["competitors"][1]["country"]["code"],
+            "winner_continent": row.get("winner_ioc", "EU"),
+            "loser_continent": row.get("loser_ioc", "EU"),
 
-            "aces_winner": stats["statistics"]["home"]["aces"],
-            "aces_loser": stats["statistics"]["away"]["aces"],
+            "aces_winner": int(row.get("w_aces", 0)),
+            "aces_loser": int(row.get("l_aces", 0)),
 
-            "double_faults_winner": stats["statistics"]["home"]["double_faults"],
-            "double_faults_loser": stats["statistics"]["away"]["double_faults"],
+            "double_faults_winner": int(row.get("w_df", 0)),
+            "double_faults_loser": int(row.get("l_df", 0)),
 
-            "first_serve_pct_winner": stats["statistics"]["home"]["first_serve_success"],
-            "first_serve_pct_loser": stats["statistics"]["away"]["first_serve_success"],
+            "first_serve_pct_winner": int(row.get("w_1stIn", 0)),
+            "first_serve_pct_loser": int(row.get("l_1stIn", 0)),
 
-            "break_points_saved_winner": stats["statistics"]["home"]["break_points_saved"],
-            "break_points_saved_loser": stats["statistics"]["away"]["break_points_saved"],
+            "break_points_saved_winner": int(row.get("w_bpSaved", 0)),
+            "break_points_saved_loser": int(row.get("l_bpSaved", 0)),
 
-            "return_games_won_winner": stats["statistics"]["home"]["return_games_won"],
-            "return_games_won_loser": stats["statistics"]["away"]["return_games_won"],
+            "return_games_won_winner": int(row.get("w_rgWon", 0)),
+            "return_games_won_loser": int(row.get("l_rgWon", 0)),
 
-            "break_points_converted_winner": stats["statistics"]["home"]["break_points_converted"],
-            "break_points_converted_loser": stats["statistics"]["away"]["break_points_converted"],
+            "break_points_converted_winner": int(row.get("w_bpWon", 0)),
+            "break_points_converted_loser": int(row.get("l_bpWon", 0)),
 
-            "second_serve_return_pct_winner": stats["statistics"]["home"]["second_serve_points_won"],
-            "second_serve_return_pct_loser": stats["statistics"]["away"]["second_serve_points_won"],
+            "second_serve_return_pct_winner": int(row.get("w_2ndWon", 0)),
+            "second_serve_return_pct_loser": int(row.get("l_2ndWon", 0)),
 
-            "tiebreak_win_rate_winner": stats["statistics"]["home"].get("tiebreaks_won", 0),
-            "tiebreak_win_rate_loser": stats["statistics"]["away"].get("tiebreaks_won", 0),
+            "tiebreak_win_rate_winner": int(row.get("w_tbWon", 0)),
+            "tiebreak_win_rate_loser": int(row.get("l_tbWon", 0)),
 
-            "deciding_set_win_rate_winner": stats["statistics"]["home"].get("deciding_sets_won", 0),
-            "deciding_set_win_rate_loser": stats["statistics"]["away"].get("deciding_sets_won", 0),
+            "deciding_set_win_rate_winner": int(row.get("w_decision", 0)),
+            "deciding_set_win_rate_loser": int(row.get("l_decision", 0)),
         })
 
     return matches
