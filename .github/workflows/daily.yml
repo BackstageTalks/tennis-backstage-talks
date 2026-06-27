@@ -1,0 +1,36 @@
+# .github/workflows/daily.yml
+name: Daily Tennis Predictions
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # každý deň o 06:00
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run predictions
+        run: python update.py
+
+      - name: Generate RSS
+        run: python rss.py > rss.xml
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add data/ rss.xml
+          git commit -m "Daily predictions"
+          git push
