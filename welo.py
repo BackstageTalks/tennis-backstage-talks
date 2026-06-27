@@ -11,10 +11,7 @@ class WElo:
             "Carpet": {}
         }
 
-        # form index storage
         self.form = {}
-
-        # fatigue storage
         self.fatigue = {}
 
     def get_rating(self, player, surface=None):
@@ -31,7 +28,7 @@ class WElo:
         return 1 + (mov / 6)
 
     # -------------------------
-    # PLAYER STATS ADJUSTMENT
+    # PLAYER STATS
     # -------------------------
     def stats_adjustment(self, stats):
         aces = stats.get("aces", 0)
@@ -65,9 +62,7 @@ class WElo:
         )
 
         total = SSI * 0.25 + RSI * 0.25 + PI * 0.20
-        total = max(-40, min(40, total))
-
-        return total
+        return max(-40, min(40, total))
 
     # -------------------------
     # FORM INDEX
@@ -108,21 +103,15 @@ class WElo:
 
         f = self.fatigue[player]
 
-        # base fatigue from match length
         base = sets * 4 + games * 0.5
 
-        # travel fatigue
         travel = 0
         if f["last_continent"] != continent:
-            travel = 12  # long travel penalty
+            travel = 12
 
-        # accumulate fatigue
         f["fatigue_score"] += base + travel
-
-        # cap fatigue
         f["fatigue_score"] = min(f["fatigue_score"], 80)
 
-        # update continent
         f["last_continent"] = continent
 
     def fatigue_adjustment(self, player):
@@ -130,10 +119,7 @@ class WElo:
             return 0
 
         score = self.fatigue[player]["fatigue_score"]
-
-        # convert fatigue score to rating penalty
         penalty = -(score * 0.4)
-
         return max(-40, min(0, penalty))
 
     # -------------------------
@@ -152,7 +138,7 @@ class WElo:
         return weights.get(level, 0)
 
     # -------------------------
-    # UPDATE RATINGS
+    # UPDATE
     # -------------------------
     def update(self, winner, loser, gw_winner, gw_loser, surface,
                winner_stats, loser_stats, tournament_level,
@@ -173,7 +159,7 @@ class WElo:
         self.surface[surface][winner] = rsW + self.k * w * (1 - eW)
         self.surface[surface][loser]  = rsL + self.k * w * (0 - (1 - eW))
 
-        # stats adjustment
+        # stats
         adj_winner = self.stats_adjustment(winner_stats)
         adj_loser  = self.stats_adjustment(loser_stats)
 
@@ -183,22 +169,20 @@ class WElo:
         self.surface[surface][winner] += adj_winner
         self.surface[surface][loser]  += adj_loser
 
-        # form update
+        # form
         self.update_form(winner, True)
         self.update_form(loser, False)
 
-        # form adjustment
         self.overall[winner] += self.form_adjustment(winner)
         self.overall[loser]  += self.form_adjustment(loser)
 
         self.surface[surface][winner] += self.form_adjustment(winner)
         self.surface[surface][loser]  += self.form_adjustment(loser)
 
-        # fatigue update
+        # fatigue
         self.update_fatigue(winner, winner_sets, gw_winner, winner_continent)
         self.update_fatigue(loser, loser_sets, gw_loser, loser_continent)
 
-        # fatigue adjustment
         self.overall[winner] += self.fatigue_adjustment(winner)
         self.overall[loser]  += self.fatigue_adjustment(loser)
 
