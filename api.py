@@ -2,6 +2,20 @@ import requests
 
 BASE_URL = "https://sportscore.com/api/widget"
 
+def normalize_surface(surface):
+    if not surface or surface == "Unknown":
+        return "Hard"
+    surface = surface.lower()
+    if "clay" in surface:
+        return "Clay"
+    if "grass" in surface:
+        return "Grass"
+    if "hard" in surface:
+        return "Hard"
+    if "carpet" in surface:
+        return "Carpet"
+    return "Hard"  # fallback
+
 def get_recent_matches(limit=50):
     url = f"{BASE_URL}/matches/?sport=tennis&limit={limit}"
     r = requests.get(url)
@@ -15,46 +29,28 @@ def get_recent_matches(limit=50):
             winner = m["home"]
             loser = m["away"]
 
-            # základné info
-            surface = m.get("surface", "Unknown")
+            # surface normalization
+            surface_raw = m.get("surface", "Unknown")
+            surface = normalize_surface(surface_raw)
+
             tournament_level = m.get("competition", "ATP")
 
-            # skóre
-            winner_games = int(m.get("home_score", 0)) if m.get("home_score") else 0
-            loser_games = int(m.get("away_score", 0)) if m.get("away_score") else 0
+            winner_games = int(m.get("home_score", 0) or 0)
+            loser_games = int(m.get("away_score", 0) or 0)
 
-            # sets (SportScore nemusí mať sets → nastavíme 0)
             winner_sets = 0
             loser_sets = 0
 
-            # kontinenty (SportScore nevracia → default EU)
             winner_continent = "EU"
             loser_continent = "EU"
 
-            # štatistiky (SportScore nevracia → default 0)
-            winner_stats = {
-                "aces": 0,
-                "double_faults": 0,
-                "first_serve_pct": 0,
-                "break_points_saved": 0,
-                "return_games_won": 0,
-                "break_points_converted": 0,
-                "second_serve_return_pct": 0,
-                "tiebreak_win_rate": 0,
-                "deciding_set_win_rate": 0
-            }
-
-            loser_stats = {
-                "aces": 0,
-                "double_faults": 0,
-                "first_serve_pct": 0,
-                "break_points_saved": 0,
-                "return_games_won": 0,
-                "break_points_converted": 0,
-                "second_serve_return_pct": 0,
-                "tiebreak_win_rate": 0,
-                "deciding_set_win_rate": 0
-            }
+            # SportScore does not provide stats → default 0
+            winner_stats = {k: 0 for k in [
+                "aces", "double_faults", "first_serve_pct", "break_points_saved",
+                "return_games_won", "break_points_converted", "second_serve_return_pct",
+                "tiebreak_win_rate", "deciding_set_win_rate"
+            ]}
+            loser_stats = {k: 0 for k in winner_stats}
 
             matches.append({
                 "winner": winner,
