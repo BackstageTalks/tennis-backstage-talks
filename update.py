@@ -1,4 +1,3 @@
-# update.py
 import datetime
 import json
 import os
@@ -30,7 +29,9 @@ def run_daily(date: str | None = None) -> List[Dict[str, Any]]:
     predictions = []
 
     for m in matches:
-        circuit = m["tournament"].get("circuit", "").upper()
+        tournament = m.get("tournament", {})
+        circuit = (tournament.get("circuit") or "").upper()
+
         if circuit not in TARGET_CATEGORIES:
             continue
 
@@ -42,8 +43,8 @@ def run_daily(date: str | None = None) -> List[Dict[str, Any]]:
 
         pred = compute_prediction(m, detail, h2h, ranks)
         pred["match_id"] = match_id
-        pred["tournament"] = m["tournament"]["name"]
-        pred["match_date"] = m["match_date"]
+        pred["tournament"] = tournament.get("name")
+        pred["match_date"] = m.get("match_date")
         pred["odds"] = odds
 
         predictions.append(pred)
