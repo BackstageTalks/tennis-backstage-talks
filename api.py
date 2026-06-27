@@ -1,4 +1,3 @@
-# api.py
 import requests
 from typing import Any, Dict, List, Optional
 from config import API_BASE_URL
