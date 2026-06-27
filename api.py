@@ -1,61 +1,106 @@
 import requests
-import csv
-from io import StringIO
 
-BASE_URL = "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_matches_2020.csv"
+BASE_URL = "https://sportscore.com/api/widget"
 
-def get_recent_matches(limit=200):
-    r = requests.get(BASE_URL)
+def get_recent_matches(limit=50):
+    url = f"{BASE_URL}/matches/?sport=tennis&limit={limit}"
+    r = requests.get(url)
     r.raise_for_status()
 
-    csv_data = r.text
-    reader = csv.DictReader(StringIO(csv_data))
-
+    data = r.json()
     matches = []
 
-    for row in list(reader)[:limit]:
-        matches.append({
-            "winner": row["winner_name"],
-            "loser": row["loser_name"],
+    for m in data.get("matches", []):
+        try:
+            winner = m["home"]
+            loser = m["away"]
 
-            "winner_games": int(row.get("w_games", 0)),
-            "loser_games": int(row.get("l_games", 0)),
+            # základné info
+            surface = m.get("surface", "Unknown")
+            tournament_level = m.get("competition", "ATP")
 
-            "winner_sets": int(row.get("w_sets", 0)),
-            "loser_sets": int(row.get("l_sets", 0)),
+            # skóre
+            winner_games = int(m.get("home_score", 0)) if m.get("home_score") else 0
+            loser_games = int(m.get("away_score", 0)) if m.get("away_score") else 0
 
-            "surface": row.get("surface", "Unknown"),
-            "tournament_level": row.get("tourney_level", "ATP"),
+            # sets (SportScore nemusí mať sets → nastavíme 0)
+            winner_sets = 0
+            loser_sets = 0
 
-            "winner_continent": row.get("winner_ioc", "EU"),
-            "loser_continent": row.get("loser_ioc", "EU"),
+            # kontinenty (SportScore nevracia → default EU)
+            winner_continent = "EU"
+            loser_continent = "EU"
 
-            "aces_winner": int(row.get("w_aces", 0)),
-            "aces_loser": int(row.get("l_aces", 0)),
+            # štatistiky (SportScore nevracia → default 0)
+            winner_stats = {
+                "aces": 0,
+                "double_faults": 0,
+                "first_serve_pct": 0,
+                "break_points_saved": 0,
+                "return_games_won": 0,
+                "break_points_converted": 0,
+                "second_serve_return_pct": 0,
+                "tiebreak_win_rate": 0,
+                "deciding_set_win_rate": 0
+            }
 
-            "double_faults_winner": int(row.get("w_df", 0)),
-            "double_faults_loser": int(row.get("l_df", 0)),
+            loser_stats = {
+                "aces": 0,
+                "double_faults": 0,
+                "first_serve_pct": 0,
+                "break_points_saved": 0,
+                "return_games_won": 0,
+                "break_points_converted": 0,
+                "second_serve_return_pct": 0,
+                "tiebreak_win_rate": 0,
+                "deciding_set_win_rate": 0
+            }
 
-            "first_serve_pct_winner": int(row.get("w_1stIn", 0)),
-            "first_serve_pct_loser": int(row.get("l_1stIn", 0)),
+            matches.append({
+                "winner": winner,
+                "loser": loser,
 
-            "break_points_saved_winner": int(row.get("w_bpSaved", 0)),
-            "break_points_saved_loser": int(row.get("l_bpSaved", 0)),
+                "winner_games": winner_games,
+                "loser_games": loser_games,
 
-            "return_games_won_winner": int(row.get("w_rgWon", 0)),
-            "return_games_won_loser": int(row.get("l_rgWon", 0)),
+                "winner_sets": winner_sets,
+                "loser_sets": loser_sets,
 
-            "break_points_converted_winner": int(row.get("w_bpWon", 0)),
-            "break_points_converted_loser": int(row.get("l_bpWon", 0)),
+                "surface": surface,
+                "tournament_level": tournament_level,
 
-            "second_serve_return_pct_winner": int(row.get("w_2ndWon", 0)),
-            "second_serve_return_pct_loser": int(row.get("l_2ndWon", 0)),
+                "winner_continent": winner_continent,
+                "loser_continent": loser_continent,
 
-            "tiebreak_win_rate_winner": int(row.get("w_tbWon", 0)),
-            "tiebreak_win_rate_loser": int(row.get("l_tbWon", 0)),
+                "aces_winner": winner_stats["aces"],
+                "aces_loser": loser_stats["aces"],
 
-            "deciding_set_win_rate_winner": int(row.get("w_decision", 0)),
-            "deciding_set_win_rate_loser": int(row.get("l_decision", 0)),
-        })
+                "double_faults_winner": winner_stats["double_faults"],
+                "double_faults_loser": loser_stats["double_faults"],
+
+                "first_serve_pct_winner": winner_stats["first_serve_pct"],
+                "first_serve_pct_loser": loser_stats["first_serve_pct"],
+
+                "break_points_saved_winner": winner_stats["break_points_saved"],
+                "break_points_saved_loser": loser_stats["break_points_saved"],
+
+                "return_games_won_winner": winner_stats["return_games_won"],
+                "return_games_won_loser": loser_stats["return_games_won"],
+
+                "break_points_converted_winner": winner_stats["break_points_converted"],
+                "break_points_converted_loser": loser_stats["break_points_converted"],
+
+                "second_serve_return_pct_winner": winner_stats["second_serve_return_pct"],
+                "second_serve_return_pct_loser": loser_stats["second_serve_return_pct"],
+
+                "tiebreak_win_rate_winner": winner_stats["tiebreak_win_rate"],
+                "tiebreak_win_rate_loser": loser_stats["tiebreak_win_rate"],
+
+                "deciding_set_win_rate_winner": winner_stats["deciding_set_win_rate"],
+                "deciding_set_win_rate_loser": loser_stats["deciding_set_win_rate"],
+            })
+
+        except Exception:
+            continue
 
     return matches
