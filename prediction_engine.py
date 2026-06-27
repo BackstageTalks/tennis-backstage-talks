@@ -55,3 +55,16 @@ def compute_prediction(match: Dict[str, Any], detail: Dict[str, Any], h2h: Dict[
         "rank_player1": r1,
         "rank_player2": r2,
     }
+
+def compute_value_bet(prob: float, odds: float) -> Dict[str, float]:
+    if not odds or odds <= 1:
+        return {"implied": None, "value": None, "is_value_bet": False}
+
+    implied = 1 / odds
+    value = prob - implied
+
+    return {
+        "implied": implied,
+        "value": value,
+        "is_value_bet": value > 0
+    }
