@@ -14,13 +14,23 @@ from config import TARGET_CATEGORIES, MAX_MATCHES
 from prediction_engine import compute_prediction
 
 def build_rank_map(rankings: List[Dict[str, Any]]) -> Dict[str, int]:
-    return {r["player"]["name"]: r["position"] for r in rankings}
+    result = {}
+    for r in rankings:
+        player = r.get("player", {})
+        name = player.get("name")
+        pos = r.get("position")
+        if name and pos:
+            result[name] = pos
+    return result
 
 def run_daily(date: str | None = None) -> List[Dict[str, Any]]:
     if date is None:
         date = datetime.date.today().isoformat()
 
     matches = get_matches(date)
+    if not matches:
+        print("No matches found.")
+        return []
 
     atp = build_rank_map(get_rankings("ATP"))
     wta = build_rank_map(get_rankings("WTA"))
@@ -35,7 +45,9 @@ def run_daily(date: str | None = None) -> List[Dict[str, Any]]:
         if circuit not in TARGET_CATEGORIES:
             continue
 
-        match_id = m["id"]
+        match_id = m.get("id")
+        if not match_id:
+            continue
 
         detail = get_match_detail(match_id)
         h2h = get_match_h2h(match_id)
