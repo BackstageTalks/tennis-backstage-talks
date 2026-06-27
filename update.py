@@ -11,7 +11,7 @@ from api import (
     get_rankings
 )
 from config import TARGET_CATEGORIES, MAX_MATCHES
-from prediction_engine import compute_prediction
+from prediction_engine import compute_prediction, compute_value_bet
 
 def build_rank_map(rankings: List[Dict[str, Any]]) -> Dict[str, int]:
     result = {}
@@ -54,6 +54,18 @@ def run_daily(date: str | None = None) -> List[Dict[str, Any]]:
         odds = get_match_odds(match_id)
 
         pred = compute_prediction(m, detail, h2h, ranks)
+
+        p1_odds = None
+        p2_odds = None
+
+        if odds and isinstance(odds, list) and len(odds) > 0:
+            market = odds[0]
+            p1_odds = market.get("player1_odds")
+            p2_odds = market.get("player2_odds")
+
+        pred["value_player1"] = compute_value_bet(pred["prob_player1"], p1_odds)
+        pred["value_player2"] = compute_value_bet(pred["prob_player2"], p2_odds)
+
         pred["match_id"] = match_id
         pred["tournament"] = tournament.get("name")
         pred["match_date"] = m.get("match_date")
