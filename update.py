@@ -1,64 +1,63 @@
-from welo import WElo
-from api import get_recent_matches
+# update.py
+import datetime
+import json
+import os
+from typing import List, Dict, Any
 
-w = WElo()
+from api import (
+    get_matches,
+    get_match_detail,
+    get_match_h2h,
+    get_match_odds,
+    get_rankings
+)
+from config import TARGET_CATEGORIES, MAX_MATCHES
+from prediction_engine import compute_prediction
 
-matches = get_recent_matches(limit=200)
+def build_rank_map(rankings: List[Dict[str, Any]]) -> Dict[str, int]:
+    return {r["player"]["name"]: r["position"] for r in rankings}
 
-for m in matches:
-    winner = m["winner"]
-    loser = m["loser"]
+def run_daily(date: str | None = None) -> List[Dict[str, Any]]:
+    if date is None:
+        date = datetime.date.today().isoformat()
 
-    gw_winner = m["winner_games"]
-    gw_loser = m["loser_games"]
+    matches = get_matches(date)
 
-    winner_sets = m["winner_sets"]
-    loser_sets = m["loser_sets"]
+    atp = build_rank_map(get_rankings("ATP"))
+    wta = build_rank_map(get_rankings("WTA"))
+    ranks = {**atp, **wta}
 
-    surface = m["surface"]
-    tournament_level = m["tournament_level"]
+    predictions = []
 
-    winner_continent = m["winner_continent"]
-    loser_continent = m["loser_continent"]
+    for m in matches:
+        circuit = m["tournament"].get("circuit", "").upper()
+        if circuit not in TARGET_CATEGORIES:
+            continue
 
-    winner_stats = {
-        "aces": m["aces_winner"],
-        "double_faults": m["double_faults_winner"],
-        "first_serve_pct": m["first_serve_pct_winner"],
-        "break_points_saved": m["break_points_saved_winner"],
-        "return_games_won": m["return_games_won_winner"],
-        "break_points_converted": m["break_points_converted_winner"],
-        "second_serve_return_pct": m["second_serve_return_pct_winner"],
-        "tiebreak_win_rate": m["tiebreak_win_rate_winner"],
-        "deciding_set_win_rate": m["deciding_set_win_rate_winner"]
-    }
+        match_id = m["id"]
 
-    loser_stats = {
-        "aces": m["aces_loser"],
-        "double_faults": m["double_faults_loser"],
-        "first_serve_pct": m["first_serve_pct_loser"],
-        "break_points_saved": m["break_points_saved_loser"],
-        "return_games_won": m["return_games_won_loser"],
-        "break_points_converted": m["break_points_converted_loser"],
-        "second_serve_return_pct": m["second_serve_return_pct_loser"],
-        "tiebreak_win_rate": m["tiebreak_win_rate_loser"],
-        "deciding_set_win_rate": m["deciding_set_win_rate_loser"]
-    }
+        detail = get_match_detail(match_id)
+        h2h = get_match_h2h(match_id)
+        odds = get_match_odds(match_id)
 
-    w.update(
-        winner,
-        loser,
-        gw_winner,
-        gw_loser,
-        surface,
-        winner_stats,
-        loser_stats,
-        tournament_level,
-        winner_sets,
-        loser_sets,
-        winner_continent,
-        loser_continent
-    )
+        pred = compute_prediction(m, detail, h2h, ranks)
+        pred["match_id"] = match_id
+        pred["tournament"] = m["tournament"]["name"]
+        pred["match_date"] = m["match_date"]
+        pred["odds"] = odds
 
-print("Nadal vs Djokovic (Grass):", w.predict("Nadal", "Djokovic", "Grass"))
-print("Ruud vs Alcaraz (Clay):", w.predict("Ruud", "Alcaraz", "Clay"))
+        predictions.append(pred)
+
+        if MAX_MATCHES and len(predictions) >= MAX_MATCHES:
+            break
+
+    os.makedirs("data", exist_ok=True)
+    out_path = f"data/predictions_{date}.json"
+
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(predictions, f, indent=2, ensure_ascii=False)
+
+    return predictions
+
+if __name__ == "__main__":
+    run_daily()
