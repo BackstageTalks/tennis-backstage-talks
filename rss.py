@@ -1,4 +1,3 @@
-# rss.py
 import datetime
 import json
 import os
