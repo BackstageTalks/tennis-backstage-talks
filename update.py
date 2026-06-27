@@ -1,64 +1,68 @@
-from welo import WElo
-from api import get_recent_matches
+import requests
+import os
 
-w = WElo()
+API_KEY = os.getenv("API_SPORTS_KEY")
 
-matches = get_recent_matches(tour="ATP", limit=500)
+BASE_URL = "https://v1.tennis.api-sports.io"
 
-for m in matches:
-    winner = m["winner"]
-    loser = m["loser"]
+headers = {
+    "x-apisports-key": API_KEY
+}
 
-    gw_winner = m["winner_games"]
-    gw_loser = m["loser_games"]
+def get_recent_matches(tour="ATP", limit=200):
+    url = f"{BASE_URL}/matches?league={tour}&season=2024"
 
-    winner_sets = m.get("winner_sets", 2)
-    loser_sets = m.get("loser_sets", 0)
+    r = requests.get(url, headers=headers)
+    r.raise_for_status()
 
-    surface = m["surface"]
-    tournament_level = m.get("tournament_level", "ATP250")
+    data = r.json()
 
-    winner_continent = m.get("winner_continent", "EU")
-    loser_continent = m.get("loser_continent", "EU")
+    matches = []
 
-    winner_stats = {
-        "aces": m.get("aces_winner", 0),
-        "double_faults": m.get("double_faults_winner", 0),
-        "first_serve_pct": m.get("first_serve_pct_winner", 0),
-        "break_points_saved": m.get("break_points_saved_winner", 0),
-        "return_games_won": m.get("return_games_won_winner", 0),
-        "break_points_converted": m.get("break_points_converted_winner", 0),
-        "second_serve_return_pct": m.get("second_serve_return_pct_winner", 0),
-        "tiebreak_win_rate": m.get("tiebreak_win_rate_winner", 0),
-        "deciding_set_win_rate": m.get("deciding_set_win_rate_winner", 0)
-    }
+    for m in data.get("response", [])[:limit]:
+        matches.append({
+            "winner": m["teams"]["winner"]["name"],
+            "loser": m["teams"]["loser"]["name"],
 
-    loser_stats = {
-        "aces": m.get("aces_loser", 0),
-        "double_faults": m.get("double_faults_loser", 0),
-        "first_serve_pct": m.get("first_serve_pct_loser", 0),
-        "break_points_saved": m.get("break_points_saved_loser", 0),
-        "return_games_won": m.get("return_games_won_loser", 0),
-        "break_points_converted": m.get("break_points_converted_loser", 0),
-        "second_serve_return_pct": m.get("second_serve_return_pct_loser", 0),
-        "tiebreak_win_rate": m.get("tiebreak_win_rate_loser", 0),
-        "deciding_set_win_rate": m.get("deciding_set_win_rate_loser", 0)
-    }
+            "winner_games": m["scores"]["winner"]["games"],
+            "loser_games": m["scores"]["loser"]["games"],
 
-    w.update(
-        winner,
-        loser,
-        gw_winner,
-        gw_loser,
-        surface,
-        winner_stats,
-        loser_stats,
-        tournament_level,
-        winner_sets,
-        loser_sets,
-        winner_continent,
-        loser_continent
-    )
+            "winner_sets": m["scores"]["winner"]["sets"],
+            "loser_sets": m["scores"]["loser"]["sets"],
 
-print("Nadal vs Djokovic (Grass):", w.predict("Nadal", "Djokovic", "Grass"))
-print("Ruud vs Alcaraz (Clay):", w.predict("Ruud", "Alcaraz", "Clay"))
+            "surface": m["surface"],
+            "tournament_level": m["league"]["name"],
+
+            "winner_continent": m["teams"]["winner"]["country"]["code"],
+            "loser_continent": m["teams"]["loser"]["country"]["code"],
+
+            # stats (ak API nemá, dá default)
+            "aces_winner": m.get("statistics", {}).get("winner", {}).get("aces", 0),
+            "aces_loser": m.get("statistics", {}).get("loser", {}).get("aces", 0),
+
+            "double_faults_winner": m.get("statistics", {}).get("winner", {}).get("double_faults", 0),
+            "double_faults_loser": m.get("statistics", {}).get("loser", {}).get("double_faults", 0),
+
+            "first_serve_pct_winner": m.get("statistics", {}).get("winner", {}).get("first_serve_pct", 0),
+            "first_serve_pct_loser": m.get("statistics", {}).get("loser", {}).get("first_serve_pct", 0),
+
+            "break_points_saved_winner": m.get("statistics", {}).get("winner", {}).get("break_points_saved", 0),
+            "break_points_saved_loser": m.get("statistics", {}).get("loser", {}).get("break_points_saved", 0),
+
+            "return_games_won_winner": m.get("statistics", {}).get("winner", {}).get("return_games_won", 0),
+            "return_games_won_loser": m.get("statistics", {}).get("loser", {}).get("return_games_won", 0),
+
+            "break_points_converted_winner": m.get("statistics", {}).get("winner", {}).get("break_points_converted", 0),
+            "break_points_converted_loser": m.get("statistics", {}).get("loser", {}).get("break_points_converted", 0),
+
+            "second_serve_return_pct_winner": m.get("statistics", {}).get("winner", {}).get("second_serve_return_pct", 0),
+            "second_serve_return_pct_loser": m.get("statistics", {}).get("loser", {}).get("second_serve_return_pct", 0),
+
+            "tiebreak_win_rate_winner": m.get("statistics", {}).get("winner", {}).get("tiebreak_win_rate", 0),
+            "tiebreak_win_rate_loser": m.get("statistics", {}).get("loser", {}).get("tiebreak_win_rate", 0),
+
+            "deciding_set_win_rate_winner": m.get("statistics", {}).get("winner", {}).get("deciding_set_win_rate", 0),
+            "deciding_set_win_rate_loser": m.get("statistics", {}).get("loser", {}).get("deciding_set_win_rate", 0),
+        })
+
+    return matches
