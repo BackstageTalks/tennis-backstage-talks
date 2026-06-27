@@ -30,6 +30,14 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add data/ rss.xml
-          git commit -m "Daily predictions"
+
+          if [ -d "data" ]; then
+            git add data/
+          fi
+
+          if [ -f "rss.xml" ]; then
+            git add rss.xml
+          fi
+
+          git diff --quiet || git commit -m "Daily predictions"
           git push
