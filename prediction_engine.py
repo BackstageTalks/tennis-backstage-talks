@@ -4,9 +4,6 @@ from fetch_matches import get_today_matches
 def get_daily_predictions():
     matches = get_today_matches()
 
-    if not matches:
-        return []
-
     predictions = []
 
     for p1, p2, tournament in matches:
@@ -18,22 +15,39 @@ def get_daily_predictions():
         value = prob - implied
         confidence = abs(prob - 0.5)
 
-        score = (prob * 0.6) + (confidence * 0.2) + (value * 0.2)
-
         predictions.append({
             "player1": p1,
             "player2": p2,
             "tournament": tournament,
-            "probability_player1": round(prob, 3),
-            "odds_player1": odds,
+            "probability": round(prob, 3),
+            "odds": odds,
             "value": round(value, 3),
-            "confidence": round(confidence, 3),
-            "score": round(score, 3)
+            "confidence": round(confidence, 3)
         })
+
+    # ✅ záloha
+    backup = predictions.copy()
+
+    # ✅ filtre (kľúčové!)
+    predictions = [
+        p for p in predictions
+        if p["probability"] >= 0.55 and p["confidence"] > 0.05
+    ]
+
+    # ✅ fallback
+    if len(predictions) < 2:
+        predictions = backup
+
+    # ✅ scoring
+    for p in predictions:
+        p["score"] = (p["probability"] * 0.85) + (p["confidence"] * 0.15)
 
     predictions.sort(key=lambda x: x["score"], reverse=True)
 
-    top4 = predictions[:4]
-    elite = [p for p in predictions if p["probability_player1"] > 0.6][:2]
+    # ✅ flexible output
+    if len(predictions) >= 4:
+        final = predictions[:4]
+    else:
+        final = predictions[:len(predictions)]
 
-    return elite + [p for p in top4 if p not in elite]
+    return final
