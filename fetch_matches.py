@@ -98,7 +98,7 @@ def parse_match_time(time_text):
     return candidate
 
 
-def is_within_next_24h(match_start):
+def is_within_bet_window(match_start):
     if match_start is None:
         return False
 
@@ -141,7 +141,7 @@ def extract_matches_from_text(text):
 
         match_start = parse_match_time(time_text)
 
-        if not is_within_next_24h(match_start):
+        if not is_within_bet_window(match_start):
             continue
 
         if not is_valid_player(p1) or not is_valid_player(p2):
