@@ -614,10 +614,12 @@ def create_index_page(predictions):
         page_url = prediction.get("_page_url", "#")
         match_time = format_match_time(prediction.get("match_start", ""))
 
+        pick_link = f'">{esc(pick)} to win</a>'
+
         rows += (
             "<tr>"
             f"<td>#{i}</td>"
-            f'<td>">{esc(pick)} to win</a></td>'
+            f"<td>{pick_link}</td>"
             f"<td>{esc(opponent)}</td>"
             f"<td>{esc(match_time) if match_time else '-'}</td>"
             f"<td>{pct(probability)}%</td>"
