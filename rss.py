@@ -747,6 +747,8 @@ def generate_rss():
 </rss>
 """
 
+    os.makedirs("public", exist_ok=True)
+
     with open("public/tennis.xml", "w", encoding="utf-8") as f:
         f.write(rss)
 
