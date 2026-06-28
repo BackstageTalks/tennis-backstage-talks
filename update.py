@@ -17,16 +17,17 @@ def run():
     today = datetime.date.today().isoformat()
 
     top_preds = get_daily_predictions()
-    top_filename = f"public/predictions_{today}.json"
+    top_preds = top_preds[:7]
 
+    top_filename = f"public/predictions_{today}.json"
     save_json(top_filename, top_preds)
 
     print("Generated TOP predictions:", len(top_preds))
     print("Saved TOP prediction file:", top_filename)
 
     all_preds = get_all_daily_predictions()
-    all_filename = f"public/all_predictions_{today}.json"
 
+    all_filename = f"public/all_predictions_{today}.json"
     save_json(all_filename, all_preds)
 
     print("Generated ALL predictions:", len(all_preds))
