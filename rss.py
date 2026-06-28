@@ -35,9 +35,16 @@ def format_match_time(value):
 def clean_tournament_name(value):
     value = str(value or "").strip()
 
-    hidden = ["", "SportScore Tennis", "Tennis", "Unknown", "None", "null"]
+    hidden_values = [
+        "",
+        "SportScore Tennis",
+        "Tennis",
+        "Unknown",
+        "None",
+        "null"
+    ]
 
-    if value in hidden:
+    if value in hidden_values:
         return ""
 
     return value
@@ -144,6 +151,7 @@ def create_pick_page(index, prediction, label, risk, page_filename):
 
     probability = float(prediction.get("probability", 0))
     confidence = float(prediction.get("confidence", 0))
+    model_edge = confidence
 
     odds = prediction.get("odds", "")
     odds_player1 = prediction.get("odds_player1", "")
@@ -173,3 +181,574 @@ def create_pick_page(index, prediction, label, risk, page_filename):
     tournament_line = ""
     if tournament:
         tournament_line = f"""
+        <div class="data-row">
+            <span>Tournament</span>
+            <strong>{html.escape(tournament)}</strong>
+        </div>
+        """
+
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{html.escape(label)}: {html.escape(pick)} to win</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {{
+    box-sizing: border-box;
+}}
+
+body {{
+    font-family: Arial, sans-serif;
+    background: #160f0f;
+    color: #f4f4f4;
+    margin: 0;
+    padding: 16px;
+}}
+
+.container {{
+    max-width: 780px;
+    margin: 0 auto;
+}}
+
+.back-link {{
+    display: inline-block;
+    margin-bottom: 14px;
+    color: #9fc8ff;
+    text-decoration: none;
+    font-size: 15px;
+}}
+
+.card {{
+    background: #211818;
+    border-radius: 18px;
+    padding: 20px;
+    overflow: hidden;
+}}
+
+.badge {{
+    display: inline-block;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: #2d6cdf;
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 14px;
+    font-size: 14px;
+}}
+
+h1 {{
+    margin: 0 0 8px 0;
+    font-size: 28px;
+    line-height: 1.2;
+}}
+
+.subtitle {{
+    color: #bdbdbd;
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+}}
+
+.metric-grid {{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}}
+
+.metric {{
+    background: #2d2222;
+    border-radius: 14px;
+    padding: 14px;
+    min-height: 78px;
+}}
+
+.metric span {{
+    display: block;
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 6px;
+}}
+
+.metric strong {{
+    display: block;
+    font-size: 22px;
+    line-height: 1.2;
+    word-break: break-word;
+}}
+
+h2 {{
+    font-size: 18px;
+    margin: 22px 0 10px;
+}}
+
+.section {{
+    background: #2a2020;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+}}
+
+.data-row {{
+    display: grid;
+    grid-template-columns: 42% 58%;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid #3a2d2d;
+}}
+
+.data-row:last-child {{
+    border-bottom: none;
+}}
+
+.data-row span {{
+    color: #aaa;
+    font-size: 14px;
+}}
+
+.data-row strong {{
+    text-align: right;
+    font-size: 14px;
+    line-height: 1.35;
+    word-break: break-word;
+}}
+
+.text-box {{
+    background: #2d2222;
+    border-radius: 14px;
+    padding: 14px;
+    line-height: 1.55;
+    color: #f2f2f2;
+    word-break: break-word;
+}}
+
+.footer-note {{
+    margin-top: 22px;
+    padding: 14px;
+    border-radius: 14px;
+    background: #181818;
+    color: #bdbdbd;
+    font-size: 13px;
+    line-height: 1.5;
+}}
+
+.disclaimer {{
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: #332b14;
+    color: #ffe9a6;
+    font-size: 13px;
+    line-height: 1.45;
+}}
+
+@media (max-width: 520px) {{
+    body {{
+        padding: 12px;
+    }}
+
+    .card {{
+        padding: 16px;
+    }}
+
+    h1 {{
+        font-size: 24px;
+    }}
+
+    .metric-grid {{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }}
+
+    .metric {{
+        padding: 12px;
+    }}
+
+    .metric strong {{
+        font-size: 19px;
+    }}
+
+    .data-row {{
+        display: block;
+    }}
+
+    .data-row strong {{
+        display: block;
+        text-align: left;
+        margin-top: 3px;
+    }}
+}}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+    <a href="../index.html" class="back-link">← Back to all picks</a>
+
+    <div class="card">
+        <div class="badge">#{index} {html.escape(label)}</div>
+
+        <h1>{html.escape(pick)} to win</h1>
+
+        <div class="subtitle">
+            {html.escape(pick)} vs {html.escape(opponent)}<br>
+            {html.escape(match_start)}
+        </div>
+
+        <div class="metric-grid">
+            <div class="metric">
+                <span>Win probability</span>
+                <strong>{pct(probability)}%</strong>
+            </div>
+
+            <div class="metric">
+                <span>Odds</span>
+                <strong>{html.escape(str(odds))}</strong>
+            </div>
+
+            <div class="metric">
+                <span>Risk</span>
+                <strong>{html.escape(risk)}</strong>
+            </div>
+
+            <div class="metric">
+                <span>Model edge</span>
+                <strong>+{pct(model_edge)}%</strong>
+            </div>
+        </div>
+
+        <h2>Pick details</h2>
+        <div class="section">
+            <div class="data-row">
+                <span>Pick</span>
+                <strong>{html.escape(pick)}</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Opponent</span>
+                <strong>{html.escape(opponent)}</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Match</span>
+                <strong>{html.escape(player1)} vs {html.escape(player2)}</strong>
+            </div>
+
+              <div class="data-row">
+                <span>Surface</span>
+                <strong>{html.escape(str(surface))}</strong>
+            </div>
+        </div>
+
+        <h2>Market</h2>
+        <div class="section">
+            <div class="data-row">
+                <span>Pick odds</span>
+                <strong>{html.escape(str(odds))}</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Odds player1 / player2</span>
+                <strong>{html.escape(str(odds_player1))} / {html.escape(str(odds_player2))}</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Fair market probability</span>
+                <strong>{pct(market_probability) if market_probability is not None else "N/A"}%</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Value edge</span>
+                <strong>{pct(value_edge) if value_edge is not None else "N/A"}%</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Market agrees</span>
+                <strong>{html.escape(str(market_agrees))}</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Bookie signal</span>
+                <strong>{html.escape(str(bookie_signal))}</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Odds source</span>
+                <strong>{html.escape(str(odds_source))}</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Raw implied probability</span>
+                <strong>{pct(implied_probability) if implied_probability is not None else "N/A"}%</strong>
+            </div>
+        </div>
+
+        <h2>Form & stats</h2>
+        <div class="section">
+            <div class="data-row">
+                <span>Recent / surface form</span>
+                <strong>{pct(form_win_rate) if form_win_rate is not None else "N/A"}%</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Over 0.5 set rate</span>
+                <strong>{pct(over_set_rate) if over_set_rate is not None else "N/A"}%</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Avg aces</span>
+                <strong>{html.escape(str(avg_aces)) if avg_aces is not None else "N/A"}</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Ace rate</span>
+                <strong>{pct(ace_rate) if ace_rate is not None else "N/A"}%</strong>
+            </div>
+
+            <div class="data-row">
+                <span>Historical sample</span>
+                <strong>{html.escape(str(sample))} matches</strong>
+            </div>
+        </div>
+
+        <h2>Signals</h2>
+        <div class="text-box">
+            {html.escape(signal_text(signals))}
+        </div>
+
+        <h2>Alternative signal</h2>
+        <div class="text-box">
+            {html.escape(alternative_text(alt_bets))}
+        </div>
+
+        <div class="footer-note">
+            Generated by <strong>BackstageTalks Stat Model</strong>.
+        </div>
+
+        <div class="disclaimer">
+            Model-based data signal only. Not financial advice.
+        </div>
+    </div>
+</div>
+</body>
+</html>
+"""
+
+    path = os.path.join("public", "picks", page_filename)
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(page)
+
+    return f"picks/{page_filename}"
+
+
+def create_index_page(predictions):
+    rows = ""
+
+    for i, prediction in enumerate(predictions, start=1):
+        pick = str(prediction.get("pick", prediction.get("player1", "Unknown")))
+        opponent = str(prediction.get("opponent", prediction.get("player2", "Unknown")))
+        probability = float(prediction.get("probability", 0))
+        odds = prediction.get("odds", "")
+        page_url = prediction.get("_page_url", "#")
+
+        rows += f"""
+        <tr>
+            <td>#{i}</td>
+            <td>">{html.escape(pick)} to win</a></td>
+            <td>{html.escape(opponent)}</td>
+            <td>{pct(probability)}%</td>
+            <td>{html.escape(str(odds))}</td>
+        </tr>
+        """
+
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Backstage Talks Tennis Picks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {{
+    font-family: Arial, sans-serif;
+    background: #160f0f;
+    color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}}
+
+.container {{
+    max-width: 900px;
+    margin: 0 auto;
+}}
+
+table {{
+    width: 100%;
+    border-collapse: collapse;
+    background: #211818;
+    border-radius: 14px;
+    overflow: hidden;
+}}
+
+th, td {{
+    padding: 12px;
+    border-bottom: 1px solid #372929;
+    text-align: left;
+}}
+
+th {{
+    color: #bbb;
+}}
+
+a {{
+    color: #9fc8ff;
+}}
+
+.note {{
+    color: #aaa;
+    margin-top: 16px;
+    font-size: 14px;
+}}
+
+@media (max-width: 520px) {{
+    th:nth-child(3), td:nth-child(3) {{
+        display: none;
+    }}
+
+    th, td {{
+        padding: 10px;
+        font-size: 14px;
+    }}
+}}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Backstage Talks Tennis Picks</h1>
+    <p>Daily model picks based on match data, market odds and historical player stats.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Pick</th>
+                <th>Opponent</th>
+                <th>Win %</th>
+                <th>Odds</th>
+            </tr>
+        </thead>
+        <tbody>
+            {rows}
+        </tbody>
+    </table>
+
+    <p class="note">Generated by BackstageTalks Stat Model. Model-based data signals only. Not financial advice.</p>
+</div>
+</body>
+</html>
+"""
+
+    with open("public/index.html", "w", encoding="utf-8") as f:
+        f.write(page)
+
+
+def generate_rss():
+    predictions = latest_predictions()
+
+    os.makedirs("public/picks", exist_ok=True)
+
+    items = ""
+
+    for i, prediction in enumerate(predictions, start=1):
+        pick = str(prediction.get("pick", prediction.get("player1", "Unknown")))
+        opponent = str(prediction.get("opponent", prediction.get("player2", "Unknown")))
+
+        probability = float(prediction.get("probability", 0))
+        odds = prediction.get("odds", "")
+        match_start = format_match_time(prediction.get("match_start", ""))
+
+        market_agrees = prediction.get("market_agrees", False)
+        value_edge = prediction.get("bookie_value_edge")
+        signals = prediction.get("extra_signals", [])
+
+        label = label_for_pick(
+            probability=probability,
+            signals=signals,
+            index=i,
+            market_agrees=market_agrees,
+            value_edge=value_edge
+        )
+
+        risk = risk_for_pick(probability, market_agrees)
+
+        slug = safe_slug(f"{i}-{pick}-vs-{opponent}")
+        page_filename = f"{datetime.date.today().isoformat()}-{slug}.html"
+
+        relative_page = create_pick_page(
+            index=i,
+            prediction=prediction,
+            label=label,
+            risk=risk,
+            page_filename=page_filename
+        )
+
+        full_link = BASE + relative_page
+        prediction["_page_url"] = relative_page
+
+        title = f"#{i} {label}: {pick} to win"
+
+        desc_parts = [
+            f"Pick: {pick}",
+            f"Opponent: {opponent}",
+        ]
+
+        if match_start:
+            desc_parts.append(f"Match time: {match_start}")
+
+        desc_parts.append(f"Win probability: {pct(probability)}%")
+
+        if odds:
+            desc_parts.append(f"Odds: {odds}")
+
+        desc = " | ".join(desc_parts)
+
+        guid = f"{pick}-{opponent}-{datetime.date.today().isoformat()}-{i}"
+
+        items += f"""
+<item>
+<title>{html.escape(title)}</title>
+<link>{html.escape(full_link)}</link>
+<guid isPermaLink="false">{html.escape(guid)}</guid>
+<pubDate>{datetime.datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')}</pubDate>
+<description>{html.escape(desc)}</description>
+</item>
+"""
+
+    create_index_page(predictions)
+
+    rss = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+<title>Backstage Talks Tennis Picks</title>
+<link>{BASE}</link>
+<description>Daily tennis picks - compact RSS with full details on pick pages</description>
+{items}
+</channel>
+</rss>
+"""
+
+    with open("public/tennis.xml", "w", encoding="utf-8") as f:
+        f.write(rss)
+
+    print("RSS GENERATED:", len(predictions), "items")
+    print("RSS PREVIEW:")
+    print(rss[:2500])
+
+
+if __name__ == "__main__":
+    generate_rss()
