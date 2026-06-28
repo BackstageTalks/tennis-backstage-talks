@@ -25,6 +25,13 @@ def clean_text(value):
     return re.sub(r"\s+", " ", str(value)).strip()
 
 
+def normalize_name(value):
+    value = clean_text(value)
+    value = value.lower()
+    value = re.sub(r"[^a-zà-ž0-9]+", " ", value)
+    return clean_text(value)
+
+
 def pct(value):
     try:
         return round(float(value) * 100, 1)
@@ -32,7 +39,30 @@ def pct(value):
         return 0
 
 
-def candidate_prediction_dates(days_back=5):
+def odds_to_float(value):
+    try:
+        if value in [None, "", "-", "None"]:
+            return None
+        return float(value)
+    except Exception:
+        return None
+
+
+def units_for_result(status, odds):
+    odd_value = odds_to_float(odds)
+
+    if status == "WON":
+        if odd_value is None:
+            return 0.0
+        return round(odd_value - 1.0, 2)
+
+    if status == "LOST":
+        return -1.0
+
+    return 0.0
+
+
+def candidate_prediction_dates(days_back=7):
     now = datetime.datetime.now(LOCAL_TZ).date()
 
     return [
@@ -121,19 +151,12 @@ def finished_text_only(text):
     return clean_text(text[start_index:])
 
 
-def normalize_name(value):
-    value = clean_text(value)
-    value = value.lower()
-    value = re.sub(r"[^a-zà-ž0-9]+", " ", value)
-    return clean_text(value)
-
-
 def score_from_tokens(tokens):
     """
-    SportScore finished text býva napr:
+    SportScore finished text býva napríklad:
     Player A 6 3 1 6 6 3 Player B
 
-    Toto interpretujeme ako setové páry:
+    Interpretácia:
     6-3, 1-6, 6-3
     """
     numbers = []
@@ -202,10 +225,10 @@ def build_result(status, pick, winner, result_score, note=""):
 
 def find_match_result(prediction, finished_text):
     """
-    Spárovanie je úmyselne konzervatívne:
+    Konzervatívne párovanie:
     - hľadáme len vo finished sekcii
-    - hľadáme mená oboch hráčov
-    - cancelled / walkover / ret. dávame ako VOID
+    - musia sedieť obe mená hráčov
+    - cancelled / walkover / retired dávame ako VOID
     """
     player1 = str(prediction.get("player1", ""))
     player2 = str(prediction.get("player2", ""))
@@ -264,7 +287,15 @@ def find_match_result(prediction, finished_text):
         raw_status = clean_text(match.group("status"))
         score_text = clean_text(match.group("score"))
 
-        if raw_status.lower() in ["canc", "cancelled", "wo", "w/o", "walkover", "ret"]:
+        if raw_status.lower() in [
+            "canc",
+            "cancelled",
+            "wo",
+            "w/o",
+            "walkover",
+            "ret",
+            "retired",
+        ]:
             return build_result(
                 status="VOID",
                 pick=pick,
@@ -291,7 +322,6 @@ def find_match_result(prediction, finished_text):
             note="Matched from SportScore finished results",
         )
 
-    # Ak sme nenašli výsledok, zápas môže byť ešte pending
     return {
         "status": "PENDING",
         "winner": None,
@@ -309,10 +339,14 @@ def summarize(results):
         "pending": 0,
         "unknown": 0,
         "hit_rate": None,
+        "units": 0.0,
     }
 
     for item in results:
         status = item.get("status")
+        units = float(item.get("units", 0) or 0)
+
+        summary["units"] += units
 
         if status == "WON":
             summary["won"] += 1
@@ -329,6 +363,8 @@ def summarize(results):
 
     if decided > 0:
         summary["hit_rate"] = round(summary["won"] / decided * 100, 1)
+
+    summary["units"] = round(summary["units"], 2)
 
     return summary
 
@@ -349,6 +385,10 @@ def run():
 
         pick = str(prediction.get("pick", prediction.get("player1", "Unknown")))
         opponent = str(prediction.get("opponent", prediction.get("player2", "Unknown")))
+        odds = prediction.get("odds")
+
+        status = match_result.get("status")
+        units = units_for_result(status, odds)
 
         output = {
             "prediction_date": prediction_date,
@@ -360,12 +400,13 @@ def run():
             "player2": prediction.get("player2"),
 
             "match_start": prediction.get("match_start"),
-            "odds": prediction.get("odds"),
+            "odds": odds,
             "probability": prediction.get("probability"),
 
-            "status": match_result.get("status"),
+            "status": status,
             "winner": match_result.get("winner"),
             "result_score": match_result.get("result_score"),
+            "units": units,
             "note": match_result.get("note"),
 
             "source_results": "SportScore",
@@ -373,21 +414,3 @@ def run():
 
         results.append(output)
 
-    summary = summarize(results)
-
-    payload = {
-        "type": "TOP7_RESULTS",
-        "prediction_date": prediction_date,
-        "generated_at_utc": generated_at,
-        "summary": summary,
-        "results": results,
-    }
-
-    result_date = prediction_date or datetime.date.today().isoformat()
-    path = f"public/results_{result_date}.json"
-
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=4, ensure_ascii=False)
-
-    print("TOP7 RESULTS GENERATED:", path)
-    print("SUMMARY:", summary)
