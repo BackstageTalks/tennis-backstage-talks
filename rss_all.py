@@ -11,16 +11,6 @@ def esc(value):
     return html.escape(str(value if value is not None else ""))
 
 
-def tag_open(tag, attrs=""):
-    if attrs:
-        return f"{chr(60)}{tag} {attrs}{chr(62)}"
-    return f"{chr(60)}{tag}{chr(62)}"
-
-
-def tag_close(tag):
-    return f"{chr(60)}/{tag}{chr(62)}"
-
-
 def pct(value):
     try:
         return round(float(value) * 100, 1)
@@ -123,16 +113,6 @@ td {
     color: #f4f4f4;
 }
 
-a {
-    color: #f4f4f4;
-    text-decoration: none;
-}
-
-a:hover {
-    color: #9fc8ff;
-    text-decoration: underline;
-}
-
 .time-col {
     white-space: nowrap;
     color: #d6d6d6;
@@ -191,7 +171,7 @@ def create_all_page(predictions):
         key=lambda p: (
             str(p.get("match_start", "")),
             -float(p.get("probability", 0)),
-        )
+        ),
     )
 
     rows = ""
@@ -212,8 +192,8 @@ def create_all_page(predictions):
             f"<td>{esc(opponent)}</td>"
             f"<td>{esc(player1)} vs {esc(player2)}</td>"
             f"<td>{esc(match_time) if match_time else '-'}</td>"
-            f"<td>{esc(odds)}</td>"
             f"<td>{pct(probability)}%</td>"
+            f"<td>{esc(odds)}</td>"
             "</tr>\n"
         )
 
@@ -240,8 +220,8 @@ def create_all_page(predictions):
         "<th>Opponent</th>\n"
         "<th>Match</th>\n"
         "<th class='time-col'>Match time</th>\n"
-        "<th>Odds</th>\n"
         "<th>Win %</th>\n"
+        "<th>Odds</th>\n"
         "</tr>\n"
         "</thead>\n"
         "<tbody>\n"
@@ -264,9 +244,17 @@ def generate_rss_all():
 
     os.makedirs("public", exist_ok=True)
 
+    sorted_predictions = sorted(
+        predictions,
+        key=lambda p: (
+            str(p.get("match_start", "")),
+            -float(p.get("probability", 0)),
+        ),
+    )
+
     items = ""
 
-    for i, prediction in enumerate(predictions, start=1):
+    for i, prediction in enumerate(sorted_predictions, start=1):
         pick = str(prediction.get("pick", "Unknown"))
         opponent = str(prediction.get("opponent", "Unknown"))
 
@@ -304,7 +292,7 @@ def generate_rss_all():
 </item>
 """
 
-    create_all_page(predictions)
+    create_all_page(sorted_predictions)
 
     rss = f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
@@ -320,7 +308,7 @@ def generate_rss_all():
     with open("public/tennis_all.xml", "w", encoding="utf-8") as f:
         f.write(rss)
 
-    print("RSS ALL GENERATED:", len(predictions), "items")
+    print("RSS ALL GENERATED:", len(sorted_predictions), "items")
     print("RSS ALL PREVIEW:")
     print(rss[:2500])
 
