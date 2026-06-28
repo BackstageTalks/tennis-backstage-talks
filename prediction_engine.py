@@ -24,8 +24,8 @@ def get_daily_predictions():
             "player1": p1,
             "player2": p2,
             "tournament": tournament,
-            "probability": round(prob, 3),
-            "odds": odds,
+            "probability_player1": round(prob, 3),
+            "odds_player1": odds,
             "value": round(value, 3),
             "confidence": round(confidence, 3),
             "score": round(score, 3)
@@ -34,9 +34,6 @@ def get_daily_predictions():
     predictions.sort(key=lambda x: x["score"], reverse=True)
 
     top4 = predictions[:4]
+    elite = [p for p in predictions if p["probability_player1"] > 0.6][:2]
 
-    elite = [p for p in predictions if p["probability"] > 0.6][:2]
-
-    final = elite + [p for p in top4 if p not in elite]
-
-    return final
+    return elite + [p for p in top4 if p not in elite]
