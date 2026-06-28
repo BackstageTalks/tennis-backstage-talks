@@ -7,16 +7,16 @@ BASE = "https://backstagetalks.github.io/tennis-backstage-talks/"
 
 
 def latest_predictions():
-    if not os.path.exists("public"):
-        return []
+    os.makedirs("public", exist_ok=True)
 
     files = [
         f for f in os.listdir("public")
         if f.startswith("predictions_") and f.endswith(".json")
     ]
 
+    print("Prediction files found:", files)
+
     if not files:
-        print("NO prediction files found")
         return []
 
     latest = sorted(files)[-1]
@@ -28,9 +28,7 @@ def latest_predictions():
         return json.load(f)
 
 
-def label_for_pick(p):
-    probability = float(p.get("probability", 0))
-
+def label_for_pick(probability):
     if probability >= 0.65:
         return "🔥 STRONG"
     elif probability >= 0.58:
@@ -49,14 +47,15 @@ def generate_rss():
         player2 = html.escape(str(p.get("player2", "Unknown")))
         tournament = html.escape(str(p.get("tournament", "Tennis")))
 
-        probability = p.get("probability", "")
+        probability = float(p.get("probability", 0))
         confidence = p.get("confidence", "")
         value = p.get("value", "")
         odds = p.get("odds", "")
 
-        label = label_for_pick(p)
+        label = label_for_pick(probability)
 
         title = f"{player1} vs {player2}"
+
         desc = (
             f"{label} | {tournament} | "
             f"Prob: {probability} | "
@@ -88,15 +87,12 @@ def generate_rss():
 </rss>
 """
 
-    os.makedirs("public", exist_ok=True)
-
     with open("public/tennis.xml", "w", encoding="utf-8") as f:
         f.write(rss)
 
     print("RSS GENERATED:", len(predictions), "items")
-
     print("RSS PREVIEW:")
-    print(rss[:1000])
+    print(rss[:1500])
 
 
 if __name__ == "__main__":
