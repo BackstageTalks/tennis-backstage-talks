@@ -4,7 +4,7 @@ import os
 
 def generate_rss():
     today = datetime.date.today().isoformat()
-    path = f"data/predictions_{today}.json"
+    path = f"public/predictions_{today}.json"
 
     predictions = []
     if os.path.exists(path):
