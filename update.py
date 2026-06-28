@@ -12,18 +12,19 @@ def save_predictions():
 
     try:
         predictions = get_daily_predictions()
-        print("Predictions generated:", predictions)
+        print("Generated:", len(predictions))
     except Exception as e:
         print("ERROR:", e)
-        predictions = [
-            {
-                "player1": "Fallback A",
-                "player2": "Fallback B",
-                "tournament": "Fallback",
-                "value_player1": {"value": 0.5},
-                "value_player2": {"value": 0.5}
-            }
-        ]
+        predictions = [{
+            "player1": "Fallback",
+            "player2": "Fallback",
+            "tournament": "Fallback",
+            "probability_player1": 0.6,
+            "odds_player1": 1.8,
+            "value": 0.02,
+            "confidence": 0.1,
+            "score": 0.1
+        }]
 
     with open(path, "w", encoding="utf-8") as f:
         json.dump(predictions, f, indent=4)
