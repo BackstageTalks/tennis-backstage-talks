@@ -1,0 +1,244 @@
+name: Refresh Tennis Results
+
+on:
+  schedule:
+    # GitHub Actions cron beží v UTC.
+    #
+    # Daily predictions bežia o 04:00 UTC.
+    #
+    # Tento workflow refreshuje iba výsledky:
+    # UTC: 07:00, 10:00, 13:00, 16:00, 19:00, 22:00
+    # CET label: 09:00, 12:00, 15:00, 18:00, 21:00, 00:00
+    - cron: "0 7-22/3 * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  refresh-results:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
+
+      - name: Rebuild current public snapshot from live site
+        run: |
+          echo "===== REBUILD CURRENT PUBLIC SNAPSHOT ====="
+          rm -rf public
+          mkdir -p public
+
+          python - <<'PY'
+          import os
+          import re
+          import datetime
+          import requests
+
+          BASE = "https://backstagetalks.github.io/tennis-backstage-talks/"
+          HEADERS = {
+              "User-Agent": "Mozilla/5.0",
+              "Accept": "text/html,application/xml,application/json,*/*",
+          }
+
+          os.makedirs("public", exist_ok=True)
+          os.makedirs("public/all", exist_ok=True)
+          os.makedirs("public/picks", exist_ok=True)
+          os.makedirs("public/results", exist_ok=True)
+
+          def download(relative_path, required=False):
+              url = BASE + relative_path
+              target = os.path.join("public", relative_path)
+
+              if relative_path.endswith("/"):
+                  target = os.path.join("public", relative_path, "index.html")
+
+              os.makedirs(os.path.dirname(target), exist_ok=True)
+
+              try:
+                  response = requests.get(url, headers=HEADERS, timeout=25)
+                  print("FETCH", url, response.status_code)
+
+                  if response.status_code != 200:
+                      if required:
+                          raise RuntimeError(f"Required file missing: {url}")
+                      return False
+
+                  with open(target, "wb") as f:
+                      f.write(response.content)
+
+                  return True
+
+              except Exception as e:
+                  print("FETCH ERROR", url, str(e))
+                  if required:
+                      raise
+                  return False
+
+          # Core prediction outputs must be preserved.
+          download("index.html", required=True)
+          download("tennis.xml", required=True)
+          download("all/index.html", required=True)
+          download("tennis_all.xml", required=True)
+
+          # Optional technical outputs.
+          download("source_manifest.json", required=False)
+          download("source_audit.json", required=False)
+
+          # Optional previous results outputs.
+          download("results/index.html", required=False)
+          download("results.xml", required=False)
+
+          # Download recent JSON history.
+          today = datetime.datetime.utcnow().date()
+          candidate_dates = [
+              today - datetime.timedelta(days=i)
+              for i in range(0, 40)
+          ]
+
+          prefixes = [
+              "predictions_",
+              "all_predictions_",
+              "results_",
+          ]
+
+          for date_obj in candidate_dates:
+              date_str = date_obj.isoformat()
+
+              for prefix in prefixes:
+                  download(f"{prefix}{date_str}.json", required=False)
+
+          # Preserve TOP pick detail pages referenced from tennis.xml.
+          tennis_xml_path = "public/tennis.xml"
+
+          if os.path.exists(tennis_xml_path):
+              try:
+                  text = open(tennis_xml_path, "r", encoding="utf-8").read()
+                  links = re.findall(r"<link>(.*?)</link>", text)
+
+                  for link in links:
+                      if not link.startswith(BASE):
+                          continue
+
+                      relative = link.replace(BASE, "")
+
+                      if relative.startswith("picks/") and relative.endswith(".html"):
+                          download(relative, required=False)
+
+              except Exception as e:
+                  print("PICK PAGE PRESERVE ERROR:", str(e))
+
+          print("SNAPSHOT FILES:")
+          for root, dirs, files in os.walk("public"):
+              for file_name in files:
+                  print(os.path.join(root, file_name))
+          PY
+
+      - name: Generate TOP7 results from previous predictions
+        env:
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python results_checker.py
+
+      - name: Generate TOP7 results page and RSS
+        env:
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python rss_results.py
+
+      - name: Verify refreshed results files
+        run: |
+          echo "===== PUBLIC FILES AFTER RESULTS REFRESH ====="
+          ls -R public
+
+          echo "===== CHECK PRESERVED TOP PAGE ====="
+          if [ ! -f public/index.html ]; then
+            echo "ERROR: public/index.html missing after snapshot restore"
+            exit 1
+          fi
+
+          if grep -q "RSS ALL" public/index.html; then
+            echo "ERROR: TOP root page contains RSS ALL after snapshot restore"
+            exit 1
+          fi
+
+          echo "===== CHECK PRESERVED TOP RSS ====="
+          if [ ! -f public/tennis.xml ]; then
+            echo "ERROR: public/tennis.xml missing after snapshot restore"
+            exit 1
+          fi
+
+          TOP_RSS_COUNT=$(grep -c "<item>" public/tennis.xml || true)
+          echo "TOP_RSS_COUNT=$TOP_RSS_COUNT"
+
+          if [ "$TOP_RSS_COUNT" -gt 7 ]; then
+            echo "ERROR: TOP RSS has more than 7 items after snapshot restore"
+            exit 1
+          fi
+
+          echo "===== CHECK PRESERVED ALL PAGE ====="
+          if [ ! -f public/all/index.html ]; then
+            echo "ERROR: public/all/index.html missing after snapshot restore"
+            exit 1
+          fi
+
+          echo "===== CHECK PRESERVED ALL RSS ====="
+          if [ ! -f public/tennis_all.xml ]; then
+            echo "ERROR: public/tennis_all.xml missing after snapshot restore"
+            exit 1
+          fi
+
+          echo "===== CHECK RESULTS PAGE ====="
+          if [ ! -f public/results/index.html ]; then
+            echo "ERROR: public/results/index.html missing"
+            exit 1
+          fi
+
+          echo "===== CHECK RESULTS RSS ====="
+          if [ ! -f public/results.xml ]; then
+            echo "ERROR: public/results.xml missing"
+            exit 1
+          fi
+
+          RESULTS_RSS_COUNT=$(grep -c "<item>" public/results.xml || true)
+          echo "RESULTS_RSS_COUNT=$RESULTS_RSS_COUNT"
+
+          echo "===== TOP INDEX PREVIEW ====="
+          head -n 30 public/index.html
+
+          echo "===== RESULTS INDEX PREVIEW ====="
+          head -n 60 public/results/index.html
+
+          echo "===== RESULTS RSS PREVIEW ====="
+          head -n 80 public/results.xml
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy refreshed results to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
