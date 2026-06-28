@@ -384,7 +384,7 @@ h2 {{
         <h1>{html.escape(pick)} to win</h1>
 
         <div class="subtitle">
-       html.escape(opponent)}<br>
+            {html.escape(pick)} vs {html.escape(opponent)}<br>
             {html.escape(match_start)}
         </div>
 
@@ -445,9 +445,7 @@ h2 {{
             <div class="data-row">
                 <span>Odds player1 / player2</span>
                 <strong>{html.escape(str(odds_player1))} / {html.escape(str(odds_player2))}</strong>
-            </div>
-
-            <div class="data-row">
+     iv class="data-row">
                 <span>Fair market probability</span>
                 <strong>{pct(market_probability) if market_probability is not None else "N/A"}%</strong>
             </div>
