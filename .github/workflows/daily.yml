@@ -2,7 +2,11 @@ name: Daily Tennis Predictions
 
 on:
   schedule:
-    - cron: "0 6 * * *"
+    # GitHub Actions cron beží v UTC.
+    # Pri LOCAL_TZ_OFFSET_HOURS=2:
+    # 04:00 UTC ≈ 06:00 CET/CEST lokálne podľa nášho labelu v systéme.
+    - cron: "0 4 * * *"
+
   workflow_dispatch:
 
 permissions:
@@ -32,30 +36,57 @@ jobs:
           python-version: "3.10"
 
       - name: Install dependencies
-        run: pip install requests beautifulsoup4
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
 
       - name: Run predictions
         env:
-          BET_WINDOW_HOURS: 24
           LOCAL_TZ_OFFSET_HOURS: 2
+          BET_WINDOW_START_HOUR: 6
+          BET_WINDOW_END_NEXT_DAY_HOUR: 6
         run: python update.py
 
-      - name: Generate RSS
+      - name: Generate TOP RSS
         run: python rss.py
 
-      - name: Verify RSS exists
+      - name: Generate RSS ALL
+        run: python rss_all.py
+
+      - name: Verify generated files
         run: |
           echo "===== PUBLIC FILES ====="
           ls -R public
 
-          echo "===== CHECK tennis.xml ====="
+          echo "===== CHECK TOP RSS ====="
           if [ ! -f public/tennis.xml ]; then
             echo "ERROR: public/tennis.xml was not generated"
             exit 1
           fi
 
-          echo "===== TENNIS XML ====="
-          cat public/tennis.xml
+          echo "===== CHECK RSS ALL ====="
+          if [ ! -f public/tennis_all.xml ]; then
+            echo "ERROR: public/tennis_all.xml was not generated"
+            exit 1
+          fi
+
+          echo "===== CHECK TOP INDEX PAGE ====="
+          if [ ! -f public/index.html ]; then
+            echo "ERROR: public/index.html was not generated"
+            exit 1
+          fi
+
+          echo "===== CHECK ALL INDEX PAGE ====="
+          if [ ! -f public/all/index.html ]; then
+            echo "ERROR: public/all/index.html was not generated"
+            exit 1
+          fi
+
+          echo "===== TOP RSS PREVIEW ====="
+          head -n 80 public/tennis.xml
+
+          echo "===== RSS ALL PREVIEW ====="
+          head -n 80 public/tennis_all.xml
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
