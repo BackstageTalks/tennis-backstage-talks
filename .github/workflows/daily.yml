@@ -35,6 +35,9 @@ jobs:
         run: pip install requests beautifulsoup4
 
       - name: Run predictions
+        env:
+          BET_WINDOW_HOURS: 24
+          LOCAL_TZ_OFFSET_HOURS: 2
         run: python update.py
 
       - name: Generate RSS
