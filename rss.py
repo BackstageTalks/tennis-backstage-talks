@@ -35,11 +35,17 @@ def pct(value):
         return 0
 
 
-def label_for_pick(probability, signals, index):
+def label_for_pick(probability, signals, index, market_agrees, value_edge):
     if index == 1:
         return "🔥 TOP PICK"
 
-    if "🎯 Strong set safety" in signals:
+    if market_agrees and probability >= 0.56:
+        return "✅ BOOKIE + MODEL PICK"
+
+    if value_edge is not None and value_edge >= 0.04:
+        return "💎 VALUE PICK"
+
+    if "🎯 Strong over 0.5 set signal" in signals:
         return "🎯 SET SAFETY PICK"
 
     if "💣 Ace edge vs opponent" in signals:
@@ -48,15 +54,50 @@ def label_for_pick(probability, signals, index):
     if probability >= 0.58:
         return "✅ SAFE PICK"
 
-    return "⚖️ LEAN PICK"
+    return "⚖️ QUALIFIED PICK"
 
 
-def risk_for_pick(probability):
-    if probability >= 0.65:
+def risk_for_pick(probability, market_agrees):
+    if probability >= 0.65 and market_agrees:
         return "LOW"
-    elif probability >= 0.58:
+
+    if probability >= 0.58:
         return "MEDIUM"
+
     return "HIGH"
+
+
+def format_alt_bets(alt_bets):
+    if not alt_bets:
+        return "Alternative market: No qualified alternative signal"
+
+    parts = []
+
+    for alt in alt_bets:
+        market = alt.get("market", "")
+        pick = alt.get("pick", "")
+        probability = alt.get("probability")
+        confidence = alt.get("confidence", "")
+        sample = alt.get("sample", 0)
+        note = alt.get("note", "")
+
+        if probability is not None:
+            parts.append(
+                f"Alternative market: {market} | Pick: {pick} | "
+                f"Probability: {pct(probability)}% | "
+                f"Confidence: {confidence} | "
+                f"Sample: {sample} | "
+                f"{note}"
+            )
+        else:
+            parts.append(
+                f"Alternative signal: {market} | Player: {pick} | "
+                f"Confidence: {confidence} | "
+                f"Sample: {sample} | "
+                f"{note}"
+            )
+
+    return " || ".join(parts)
 
 
 def generate_rss():
@@ -74,64 +115,91 @@ def generate_rss():
 
         probability = float(p.get("probability", 0))
         confidence = float(p.get("confidence", 0))
-        value = float(p.get("value", 0))
 
         odds = p.get("odds", "")
+        odds_player1 = p.get("odds_player1", "")
+        odds_player2 = p.get("odds_player2", "")
+        odds_source = p.get("odds_source", "")
+
+        market_probability = p.get("market_probability")
+        implied_probability = p.get("implied_probability")
+        market_agrees = p.get("market_agrees", False)
+        value_edge = p.get("bookie_value_edge")
+        bookie_signal = p.get("bookie_signal", "")
+
+        overround = p.get("overround")
+
+        match_start = p.get("match_start", "")
+        surface = p.get("surface", "Unknown")
 
         signals = p.get("extra_signals", [])
+        alt_bets = p.get("alternative_bets", [])
 
-        pick_stats = p.get("pick_stats", {})
+        pick_metrics = p.get("pick_metrics", {})
 
-        avg_aces = pick_stats.get("avg_aces")
-        at_least_one_set_rate = pick_stats.get("at_least_one_set_rate")
-        matches_found = pick_stats.get("matches_found", 0)
-        aces_sample = pick_stats.get("aces_sample", 0)
-        set_sample = pick_stats.get("matches_with_score", 0)
+        avg_aces = pick_metrics.get("avg_aces")
+        ace_rate = pick_metrics.get("ace_rate")
+        at_least_one_set_rate = pick_metrics.get("at_least_one_set_rate")
+        form_win_rate = pick_metrics.get("win_rate")
+        sample = pick_metrics.get("sample", 0)
 
-        label = label_for_pick(probability, signals, i)
-        risk = risk_for_pick(probability)
+        label = label_for_pick(
+            probability=probability,
+            signals=signals,
+            index=i,
+            market_agrees=market_agrees,
+            value_edge=value_edge
+        )
+
+        risk = risk_for_pick(probability, market_agrees)
 
         title = f"#{i} {label}: {pick} to win"
 
         desc_parts = [
-            f"Pick: {pick} to beat {opponent}",
-            "Market: Match Winner",
+            f"Main pick: {pick} to beat {opponent}",
+            "Main market: Match Winner",
             f"Match: {player1} vs {player2}",
             f"Tournament: {tournament}",
-            f"Win probability: {pct(probability)}%",
+            f"Match start: {match_start}",
+            f"Surface: {surface}",
+            f"Model win probability: {pct(probability)}%",
             f"Confidence: {pct(confidence)}%",
             f"Risk: {risk}",
-            f"Odds reference: {odds}",
-            f"Value edge: {pct(value)}%",
+            f"Pick odds: {odds}",
+            f"Odds player1/player2: {odds_player1} / {odds_player2}",
+            f"Odds source: {odds_source}",
         ]
 
+        if implied_probability is not None:
+            desc_parts.append(f"Raw implied probability: {pct(implied_probability)}%")
+
+        if market_probability is not None:
+            desc_parts.append(f"Fair market probability: {pct(market_probability)}%")
+
+        if value_edge is not None:
+            desc_parts.append(f"Bookie value edge: {pct(value_edge)}%")
+
+        if overround is not None:
+            desc_parts.append(f"Bookie overround: {round(overround, 3)}")
+
+        desc_parts.append(f"Bookie signal: {bookie_signal}")
+        desc_parts.append(f"Market agrees with model: {market_agrees}")
+
+        if form_win_rate is not None:
+            desc_parts.append(f"Recent/surface form win rate: {pct(form_win_rate)}%")
+
         if at_least_one_set_rate is not None:
-            desc_parts.append(
-                f"Set safety: {pct(at_least_one_set_rate)}% to win at least one set historically"
-            )
+            desc_parts.append(f"Historical over 0.5 set rate: {pct(at_least_one_set_rate)}%")
 
         if avg_aces is not None:
-            desc_parts.append(
-                f"Avg aces: {avg_aces}"
-            )
+            desc_parts.append(f"Avg aces: {avg_aces}")
 
-        desc_parts.append(
-            f"Historical sample: {matches_found} matches"
-        )
+        if ace_rate is not None:
+            desc_parts.append(f"Ace rate: {pct(ace_rate)}% of serve points")
 
-        if aces_sample:
-            desc_parts.append(
-                f"Ace sample: {aces_sample} matches"
-            )
-
-        if set_sample:
-            desc_parts.append(
-                f"Set sample: {set_sample} matches"
-            )
-
-        desc_parts.append(
-            "Signals: " + ", ".join(signals)
-        )
+        desc_parts.append(f"Historical sample: {sample} matches")
+        desc_parts.append("Signals: " + ", ".join(signals))
+        desc_parts.append(format_alt_bets(alt_bets))
 
         desc = " | ".join(desc_parts)
 
@@ -152,7 +220,7 @@ def generate_rss():
 <channel>
 <title>Backstage Talks Tennis Picks</title>
 <link>{BASE}</link>
-<description>REAL DATA v6 - Tennis picks with winner, set safety and ace profile signals</description>
+<description>REAL DATA v8 - Top tennis picks with real SportScore odds, quality gate, value edge, set safety and ace profile</description>
 {items}
 </channel>
 </rss>
@@ -163,7 +231,7 @@ def generate_rss():
 
     print("RSS GENERATED:", len(predictions), "items")
     print("RSS PREVIEW:")
-    print(rss[:2500])
+    print(rss[:4000])
 
 
 if __name__ == "__main__":
