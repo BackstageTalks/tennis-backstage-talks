@@ -178,9 +178,9 @@ def create_pick_page(index, prediction, label, risk, page_filename):
     form_win_rate = pick_metrics.get("win_rate")
     sample = pick_metrics.get("sample", 0)
 
-    tournament_line = ""
+    tournament_row = ""
     if tournament:
-        tournament_line = f"""
+        tournament_row = f"""
         <div class="data-row">
             <span>Tournament</span>
             <strong>{html.escape(tournament)}</strong>
@@ -213,89 +213,99 @@ body {{
 }}
 
 .back-link {{
-    display: inline-block;
-    margin-bottom: 14px;
-    color: #9fc8ff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    background: #3a2d2d;
+    color: #ffffff;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 26px;
+    margin-bottom: 22px;
+}}
+
+.back-link:hover {{
+    background: #4a3939;
 }}
 
 .card {{
     background: #211818;
-    border-radius: 18px;
-    padding: 20px;
+    border-radius: 22px;
+    padding: 22px;
     overflow: hidden;
 }}
 
 .badge {{
     display: inline-block;
-    padding: 7px 11px;
+    padding: 8px 12px;
     border-radius: 999px;
     background: #2d6cdf;
     color: #ffffff;
     font-weight: bold;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     font-size: 14px;
 }}
 
 h1 {{
-    margin: 0 0 8px 0;
-    font-size: 28px;
-    line-height: 1.2;
+    margin: 0 0 10px 0;
+    font-size: 34px;
+    line-height: 1.15;
 }}
 
 .subtitle {{
-    color: #bdbdbd;
-    font-size: 15px;
-    line-height: 1.5;
-    margin-bottom: 18px;
+    color: #d2c9c9;
+    font-size: 17px;
+    line-height: 1.45;
+    margin-bottom: 22px;
 }}
 
 .metric-grid {{
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 24px;
 }}
 
 .metric {{
     background: #2d2222;
-    border-radius: 14px;
-    padding: 14px;
-    min-height: 78px;
+    border-radius: 16px;
+    padding: 15px;
+    min-height: 82px;
 }}
 
 .metric span {{
     display: block;
     color: #aaa;
     font-size: 13px;
-    margin-bottom: 6px;
+    margin-bottom: 7px;
 }}
 
 .metric strong {{
     display: block;
-    font-size: 22px;
-    line-height: 1.2;
+    font-size: 24px;
+    line-height: 1.15;
     word-break: break-word;
 }}
 
 h2 {{
-    font-size: 18px;
-    margin: 22px 0 10px;
+    font-size: 22px;
+    margin: 26px 0 12px;
 }}
 
 .section {{
     background: #2a2020;
-    border-radius: 14px;
-    padding: 12px 14px;
-    margin-bottom: 14px;
+    border-radius: 16px;
+    padding: 12px 15px;
+    margin-bottom: 16px;
 }}
 
 .data-row {{
     display: grid;
     grid-template-columns: 42% 58%;
     gap: 10px;
-    padding: 9px 0;
+    padding: 10px 0;
     border-bottom: 1px solid #3a2d2d;
 }}
 
@@ -310,28 +320,28 @@ h2 {{
 
 .data-row strong {{
     text-align: right;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.35;
     word-break: break-word;
 }}
 
 .text-box {{
     background: #2d2222;
-    border-radius: 14px;
-    padding: 14px;
+    border-radius: 16px;
+    padding: 15px;
     line-height: 1.55;
     color: #f2f2f2;
     word-break: break-word;
 }}
 
 .footer-note {{
-    margin-top: 22px;
-    padding: 14px;
-    border-radius: 14px;
+    margin-top: 24px;
+    padding: 15px;
+    border-radius: 16px;
     background: #181818;
     color: #bdbdbd;
-    font-size: 13px;
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.45;
 }}
 
 @media (max-width: 520px) {{
@@ -340,24 +350,29 @@ h2 {{
     }}
 
     .card {{
-        padding: 16px;
+        padding: 18px;
+        border-radius: 20px;
     }}
 
     h1 {{
-        font-size: 24px;
+        font-size: 30px;
+    }}
+
+    .subtitle {{
+        font-size: 16px;
     }}
 
     .metric-grid {{
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
+        gap: 10px;
     }}
 
     .metric {{
-        padding: 12px;
+        padding: 13px;
     }}
 
     .metric strong {{
-        font-size: 19px;
+        font-size: 21px;
     }}
 
     .data-row {{
@@ -367,7 +382,7 @@ h2 {{
     .data-row strong {{
         display: block;
         text-align: left;
-        margin-top: 3px;
+        margin-top: 4px;
     }}
 }}
 </style>
@@ -376,7 +391,7 @@ h2 {{
 <body>
 <div class="container">
 
-    <a class="back-link" href="../index.html">← Back to all picks</a>
+    <a class="back-link" href="../index.html" aria-label="Back to all picks">←</a>
 
     <div class="card">
         <div class="badge">#{index} {html.escape(label)}</div>
@@ -427,7 +442,7 @@ h2 {{
                 <strong>{html.escape(player1)} vs {html.escape(player2)}</strong>
             </div>
 
-            {tournament_line}
+            {tournament_row}
 
             <div class="data-row">
                 <span>Surface</span>
@@ -445,7 +460,9 @@ h2 {{
             <div class="data-row">
                 <span>Odds player1 / player2</span>
                 <strong>{html.escape(str(odds_player1))} / {html.escape(str(odds_player2))}</strong>
-     iv class="data-row">
+            </div>
+
+            <div class="data-row">
                 <span>Fair market probability</span>
                 <strong>{pct(market_probability) if market_probability is not None else "N/A"}%</strong>
             </div>
@@ -456,8 +473,7 @@ h2 {{
             </div>
 
             <div class="data-row">
-                <span>Market agrees</span>
-                <strong>{html.escape(str(market_agrees))}</strong>
+                <span>Market agrees</span/strong>
             </div>
 
             <div class="data-row">
@@ -532,20 +548,28 @@ h2 {{
 
 
 def create_index_page(predictions):
+    sorted_predictions = sorted(
+        predictions,
+        key=lambda p: float(p.get("probability", 0)),
+        reverse=True
+    )
+
     rows = ""
 
-    for i, prediction in enumerate(predictions, start=1):
+    for i, prediction in enumerate(sorted_predictions, start=1):
         pick = str(prediction.get("pick", prediction.get("player1", "Unknown")))
         opponent = str(prediction.get("opponent", prediction.get("player2", "Unknown")))
         probability = float(prediction.get("probability", 0))
         odds = prediction.get("odds", "")
         page_url = prediction.get("_page_url", "#")
+        match_time = format_match_time(prediction.get("match_start", ""))
 
         rows += f"""
         <tr>
             <td>#{i}</td>
             <td>">{html.escape(pick)} to win</a></td>
             <td>{html.escape(opponent)}</td>
+            <td>{html.escape(match_time) if match_time else "-"}</td>
             <td>{pct(probability)}%</td>
             <td>{html.escape(str(odds))}</td>
         </tr>
@@ -559,6 +583,10 @@ def create_index_page(predictions):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+* {{
+    box-sizing: border-box;
+}}
+
 body {{
     font-family: Arial, sans-serif;
     background: #160f0f;
@@ -568,46 +596,96 @@ body {{
 }}
 
 .container {{
-    max-width: 900px;
+    max-width: 980px;
     margin: 0 auto;
+}}
+
+h1 {{
+    font-size: 46px;
+    line-height: 1.1;
+    margin: 30px 0 22px;
+}}
+
+p {{
+    color: #ddd;
+    font-size: 20px;
+    line-height: 1.35;
+}}
+
+.table-wrap {{
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 28px;
+    border-radius: 18px;
+    background: #211818;
 }}
 
 table {{
     width: 100%;
     border-collapse: collapse;
-    background: #211818;
-    border-radius: 14px;
-    overflow: hidden;
+    min-width: 760px;
 }}
 
 th, td {{
-    padding: 12px;
+    padding: 15px 16px;
     border-bottom: 1px solid #372929;
     text-align: left;
+    font-size: 17px;
+    vertical-align: middle;
 }}
 
 th {{
     color: #bbb;
+    font-weight: 700;
+}}
+
+td {{
+    color: #f4f4f4;
 }}
 
 a {{
+    color: #f4f4f4;
+    text-decoration: none;
+}}
+
+a:hover {{
     color: #9fc8ff;
+    text-decoration: underline;
+}}
+
+.time-col {{
+    white-space: nowrap;
+    color: #d6d6d6;
 }}
 
 .note {{
     color: #aaa;
-    margin-top: 16px;
-    font-size: 14px;
+    margin-top: 24px;
+    font-size: 16px;
+    line-height: 1.35;
 }}
 
-@media (max-width: 520px) {{
-    th:nth-child(3), td:nth-child(3) {{
-        display: none;
+@media (max-width: 640px) {{
+    body {{
+        padding: 14px;
+    }}
+
+    h1 {{
+        font-size: 38px;
+        margin-top: 24px;
+    }}
+
+    p {{
+        font-size: 18px;
     }}
 
     th, td {{
-        padding: 10px;
-        font-size: 14px;
+        padding: 13px 12px;
+        font-size: 15px;
+    }}
+
+    .table-wrap {{
+        border-radius: 16px;
     }}
 }}
 </style>
@@ -616,22 +694,26 @@ a {{
 <body>
 <div class="container">
     <h1>Backstage Talks Tennis Picks</h1>
+
     <p>Daily model picks based on match data, market odds and historical player stats.</p>
 
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Pick</th>
-                <th>Opponent</th>
-                <th>Win %</th>
-                <th>Odds</th>
-            </tr>
-        </thead>
-        <tbody>
-            {rows}
-        </tbody>
-    </table>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Pick</th>
+                    <th>Opponent</th>
+                    <th class="time-col">Match time</th>
+                    <th>Win %</th>
+                    <th>Odds</th>
+                </tr>
+            </thead>
+            <tbody>
+                {rows}
+            </tbody>
+        </table>
+    </div>
 
     <p class="note">Generated by BackstageTalks Stat Model for informational and statistical purposes only</p>
 </div>
