@@ -1,43 +1,63 @@
 import requests
-from bs4 import BeautifulSoup
 
 def get_today_matches():
-    url = "https://www.flashscore.com/tennis/"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
+    url = "https://d.flashscore.com/x/feed/f_2_0_3_en_1"
 
-    matches = []
-    seen = set()
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "X-Fsign": "SW9D1eZo"
+    }
 
-    rows = soup.select(".event__match")
+    try:
+        response = requests.get(url, headers=headers)
+        data = response.text.split("\n")
 
-    for r in rows[:20]:
-        try:
-            txt = [x.strip() for x in r.text.split("\n") if x.strip()]
-            p1 = txt[-2]
-            p2 = txt[-1]
+        matches = []
 
-            if p1 == p2:
+        for line in data:
+            # riadky so zápasmi
+            if "~" not in line:
                 continue
 
+            parts = line.split("~")
+
+            try:
+                player1 = parts[2]
+                player2 = parts[3]
+            except:
+                continue
+
+            if not player1 or not player2:
+                continue
+
+            # cleanup
+            if len(player1) < 3 or len(player2) < 3:
+                continue
+
+            matches.append((player1, player2, "Live"))
+
+        # sanity filter
+        unique = []
+        seen = set()
+
+        for p1, p2, t in matches:
             key = f"{p1}-{p2}"
             if key in seen:
                 continue
-
             seen.add(key)
+            unique.append((p1, p2, t))
 
-            matches.append((p1, p2, "Live"))
+        print("✅ REAL matches fetched:", len(unique))
 
-        except:
-            continue
+        return unique[:10]
 
-    # ✅ fallback
-    if not matches:
+    except Exception as e:
+        print("❌ fetch error:", e)
+
+        # fallback (len ak všetko padne)
         return [
-            ("Djokovic", "Alcaraz", "Fallback"),
-            ("Sinner", "Medvedev", "Fallback"),
+            ("Djokovic", "Sinner", "Fallback"),
+            ("Alcaraz", "Medvedev", "Fallback"),
             ("Zverev", "Rublev", "Fallback"),
             ("Rune", "Tsitsipas", "Fallback")
         ]
-
-    return matches
