@@ -108,7 +108,8 @@ def is_valid_player(name):
 
 def bet_window_start():
     """
-    Začiatok okna = dnes 06:00 CET.
+    Začiatok okna = 06:00 CET.
+
     Ak workflow beží pred 06:00, stále berieme okno začaté včera 06:00,
     aby ranné zápasy do 06:00 ešte patrili do predchádzajúceho okna.
     """
@@ -129,6 +130,7 @@ def bet_window_start():
 def bet_window_end():
     """
     Koniec okna = začiatok okna + 24h.
+
     Prakticky:
     dnes 06:00 CET -> zajtra 06:00 CET
     """
@@ -140,11 +142,12 @@ def parse_match_time(time_text):
     Prevedie čas zo SportScore ako '1:00 AM' alebo '13:30'
     na lokálny datetime.
 
-    Keďže SportScore text často neobsahuje dátum, testujeme kandidátov:
-    - včera
-    - dnes
-    - zajtra
-    a vyberieme toho, ktorý spadá do denného okna 06:00 -> 06:00.
+    Dôležitá logika:
+    - SportScore často nedáva dátum, iba čas.
+    - Ak je čas dnes ešte v budúcnosti a patrí do okna, použijeme dnešok.
+    - Ak je čas dnes už v minulosti, skúšame zajtrajšok.
+    - Ak zajtrajší čas presahuje aktuálne okno 06:00 -> 06:00,
+      funkcia vráti None a zápas sa vyhodí.
     """
     time_text = clean_text(time_text)
 
@@ -161,40 +164,46 @@ def parse_match_time(time_text):
         return None
 
     now = datetime.now(LOCAL_TZ)
-
-    candidate_dates = [
-        now.date() - timedelta(days=1),
-        now.date(),
-        now.date() + timedelta(days=1),
-    ]
-
     start = bet_window_start()
     end = bet_window_end()
 
-    for candidate_date in candidate_dates:
-        candidate = datetime.combine(candidate_date, parsed_time, tzinfo=LOCAL_TZ)
+    today_candidate = datetime.combine(
+        now.date(),
+        parsed_time,
+        tzinfo=LOCAL_TZ
+    )
 
-        if start <= candidate <= end:
-            return candidate
+    tomorrow_candidate = today_candidate + timedelta(days=1)
 
-    # fallback: dnešný čas, ak nič nesedí
-    candidate = datetime.combine(now.date(), parsed_time, tzinfo=LOCAL_TZ)
+    # 1. Ak dnešný čas ešte len príde a patrí do aktuálneho okna, použijeme dnešok.
+    if today_candidate >= now and start <= today_candidate <= end:
+        return today_candidate
 
-    if candidate < start:
-        candidate = candidate + timedelta(days=1)
+    # 2. Ak dnešný čas už prešiel, skúsime zajtrajší dátum.
+    # Ak je zajtrajší čas mimo 06:00 -> 06:00 okna, vrátime None.
+    if tomorrow_candidate >= now and start <= tomorrow_candidate <= end:
+        return tomorrow_candidate
 
-    return candidate
+    # 3. Inak zápas nepatrí do aktuálneho okna.
+    return None
 
 
 def is_within_bet_window(match_start):
     """
     Povolené okno:
     06:00 CET aktuálny deň -> 06:00 CET nasledujúci deň
+
+    Navyše:
+    - zápas musí byť v budúcnosti vzhľadom na aktuálny run,
+      aby sa pri opakovanom rune o 09:00 / 12:00 / 15:00 / 18:00
+      nezobrazovali už ranné zápasy ako stále scheduled.
     """
     if match_start is None:
         return False
 
-    return bet_window_start() <= match_start <= bet_window_end()
+    now = datetime.now(LOCAL_TZ)
+
+    return now <= match_start <= bet_window_end()
 
 
 def scheduled_text_only(text):
@@ -231,6 +240,7 @@ def scheduled_text_only(text):
 
     end_markers = [
         "finished matches",
+        "finished results",
         "finished",
     ]
 
@@ -268,9 +278,11 @@ def extract_matches_from_text(text):
         re.IGNORECASE
     )
 
+    now = datetime.now(LOCAL_TZ)
     start = bet_window_start()
     end = bet_window_end()
 
+    print("NOW CET:", now.isoformat())
     print("BET WINDOW START CET:", start.isoformat())
     print("BET WINDOW END CET:", end.isoformat())
 
@@ -286,12 +298,23 @@ def extract_matches_from_text(text):
         match_start = parse_match_time(time_text)
 
         if not is_within_bet_window(match_start):
+            print(
+                "SKIP OUTSIDE WINDOW:",
+                time_text,
+                p1,
+                "vs",
+                p2,
+                "parsed:",
+                match_start.isoformat() if match_start else None
+            )
             continue
 
         if not is_valid_player(p1) or not is_valid_player(p2):
+            print("SKIP INVALID PLAYER:", p1, "vs", p2)
             continue
 
         if p1.lower() == p2.lower():
+            print("SKIP SAME PLAYER:", p1, p2)
             continue
 
         key = f"{p1.lower()}::{p2.lower()}::{match_start.isoformat()}"
@@ -305,7 +328,7 @@ def extract_matches_from_text(text):
             "player1": p1,
             "player2": p2,
 
-            # Reálny turnaj zatiaľ nepoznáme, preto prázdne.
+            # Reálny turnaj zatiaľ nepoznáme spoľahlivo, preto prázdne.
             "tournament": "",
 
             "data_source": "SportScore",
