@@ -1,5 +1,4 @@
 import os, json, datetime
-from tracker import stats
 
 BASE = "https://backstagetalks.github.io/tennis-backstage-talks/"
 
@@ -12,25 +11,24 @@ def latest():
 
 def gen():
     preds = latest()
-    s = stats()
 
     items = ""
 
     for i, p in enumerate(preds):
-        if p["value"] > 0.05:
-            label = "🔥 VALUE"
-        elif p["probability"] > 0.6:
+        if p["probability"] > 0.65:
+            label = "🔥 STRONG"
+        elif p["probability"] > 0.58:
             label = "✅ SAFE"
         else:
-            label = "⚖️"
+            label = "⚖️ RISK"
 
-        desc = f"{label} | Prob {p['probability']} | Odds {p['odds']} | ROI edge {p['value']}"
+        desc = f"{label} | Prob {p['probability']} | Conf {p['confidence']} | Value {p['value']}"
 
         items += f"""
 <item>
 <title>{p['player1']} vs {p['player2']}</title>
 <link>{BASE}</link>
-<guid>{p['player1']}-{i}</guid>
+<guid>{i}</guid>
 <pubDate>{datetime.datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')}</pubDate>
 <description>{desc}</description>
 </item>
@@ -41,7 +39,7 @@ def gen():
 <channel>
 <title>Tennis Picks</title>
 <link>{BASE}</link>
-<description>Accuracy {s['acc']}% | ROI {s['roi']}% | Bets {s['n']}</description>
+<description>Filtered high-probability predictions</description>
 {items}
 </channel>
 </rss>
