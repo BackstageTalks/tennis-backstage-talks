@@ -45,6 +45,11 @@ jobs:
           rm -rf public
           mkdir -p public
 
+      - name: Generate TOP7 results from previous predictions
+        env:
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python results_checker.py
+
       - name: Run predictions
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
@@ -60,6 +65,9 @@ jobs:
 
       - name: Generate ALL page and ALL RSS
         run: python rss_all.py
+
+      - name: Generate TOP7 results page and RSS
+        run: python rss_results.py
 
       - name: Verify generated files
         run: |
@@ -106,6 +114,16 @@ jobs:
           echo "ALL_JSON=$ALL_JSON"
           echo "ALL_COUNT=$ALL_COUNT"
 
+          echo "===== CHECK RESULTS JSON ====="
+          RESULTS_JSON=$(ls public/results_*.json | head -n 1)
+
+          if [ -z "$RESULTS_JSON" ]; then
+            echo "ERROR: results JSON missing"
+            exit 1
+          fi
+
+          echo "RESULTS_JSON=$RESULTS_JSON"
+
           echo "===== CHECK TOP PAGE ====="
           if [ ! -f public/index.html ]; then
             echo "ERROR: public/index.html missing"
@@ -146,8 +164,23 @@ jobs:
           ALL_RSS_COUNT=$(grep -c "<item>" public/tennis_all.xml || true)
           echo "ALL_RSS_COUNT=$ALL_RSS_COUNT"
 
+          echo "===== CHECK RESULTS PAGE ====="
+          if [ ! -f public/results/index.html ]; then
+            echo "ERROR: public/results/index.html missing"
+            exit 1
+          fi
+
+          echo "===== CHECK RESULTS RSS ====="
+          if [ ! -f public/results.xml ]; then
+            echo "ERROR: public/results.xml missing"
+            exit 1
+          fi
+
+          RESULTS_RSS_COUNT=$(grep -c "<item>" public/results.xml || true)
+          echo "RESULTS_RSS_COUNT=$RESULTS_RSS_COUNT"
+
           echo "===== SOURCE AUDIT PREVIEW ====="
-          head -n 80 public/source_audit.json
+          head -n 60 public/source_audit.json
 
           echo "===== TOP INDEX PREVIEW ====="
           head -n 40 public/index.html
@@ -155,11 +188,17 @@ jobs:
           echo "===== ALL INDEX PREVIEW ====="
           head -n 40 public/all/index.html
 
+          echo "===== RESULTS INDEX PREVIEW ====="
+          head -n 40 public/results/index.html
+
           echo "===== TOP RSS PREVIEW ====="
           head -n 80 public/tennis.xml
 
           echo "===== ALL RSS PREVIEW ====="
           head -n 80 public/tennis_all.xml
+
+          echo "===== RESULTS RSS PREVIEW ====="
+          head -n 80 public/results.xml
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
