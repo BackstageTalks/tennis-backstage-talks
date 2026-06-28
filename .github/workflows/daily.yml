@@ -3,8 +3,13 @@ name: Daily Tennis Predictions
 on:
   schedule:
     # GitHub Actions cron beží v UTC.
-    # 04:00 UTC pri LOCAL_TZ_OFFSET_HOURS=2 = cca 06:00 CET podľa nášho systémového labelu.
-    - cron: "0 4 * * *"
+    # Pri LOCAL_TZ_OFFSET_HOURS=2:
+    # 04:00 UTC = cca 06:00 CET podľa nášho systémového labelu.
+    #
+    # Tento schedule beží každé 3 hodiny:
+    # UTC: 04:00, 07:00, 10:00, 13:00, 16:00, 19:00, 22:00
+    # CET label: 06:00, 09:00, 12:00, 15:00, 18:00, 21:00, 00:00
+    - cron: "0 4-22/3 * * *"
 
   workflow_dispatch:
 
