@@ -16,8 +16,6 @@ def get_latest_predictions():
     latest = sorted(files)[-1]
     path = os.path.join("public", latest)
 
-    print("Using:", path)
-
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -28,16 +26,15 @@ def generate_rss():
     items = ""
 
     for i, p in enumerate(predictions):
-        # 🔥 LABEL LOGIKA
-        if p["probability_player1"] > 0.65 and p["confidence"] > 0.12:
-            label = "🔥 ELITE PICK"
-        elif p["probability_player1"] > 0.58:
-            label = "✅ SAFE PICK"
+        # 🔥 LABEL
+        if p["value"] > 0.07:
+            label = "🔥 HIGH VALUE"
+        elif p["value"] > 0.03:
+            label = "✅ VALUE"
         else:
-            label = "⚖️ LEAN"
+            label = "⚖️ LOW EDGE"
 
-        # ✅ ONE-LINE DESCRIPTION (FeedFlow kompatibilné)
-        desc = f"{label} | {p['tournament']} | Prob: {p['probability_player1']} | Conf: {p['confidence']}"
+        desc = f"{label} | {p['tournament']} | Prob: {p['probability_player1']} | Odds: {p['odds_player1']} | Value: {p['value']}"
 
         guid = f"{p['player1']}-{p['player2']}-{i}"
 
@@ -56,7 +53,7 @@ def generate_rss():
 <channel>
 <title>Backstage Talks Tennis Picks</title>
 <link>{BASE_URL}</link>
-<description>Daily tennis predictions (Top + Elite Picks)</description>
+<description>Daily tennis predictions (Value + Elite Picks)</description>
 {items}
 </channel>
 </rss>
@@ -67,7 +64,7 @@ def generate_rss():
     with open("public/tennis.xml", "w", encoding="utf-8") as f:
         f.write(rss)
 
-    print("✅ RSS GENERATED:", len(predictions), "items")
+    print("RSS GENERATED:", len(predictions))
 
 
 if __name__ == "__main__":
