@@ -2,7 +2,7 @@ name: Daily Tennis Predictions
 
 on:
   schedule:
-    - cron: "0 6 * * *"   # každý deň o 06:00 UTC
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
 jobs:
@@ -10,36 +10,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ 1. checkout repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # ✅ 2. python setup
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
-      # ✅ 3. install dependencies
       - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install requests beautifulsoup4
+        run: pip install requests beautifulsoup4
 
-      # ✅ 4. run prediction system
       - name: Run predictions
         run: python update.py
 
-      # ✅ 5. generate RSS
       - name: Generate RSS
         run: python rss.py
 
-      # ✅ 6. DEBUG (vidíš súbory)
-      - name: List files
-        run: ls -R
+      - name: Debug public files
+        run: |
+          echo "===== PUBLIC FILES ====="
+          ls -R public
+          echo "===== TENNIS XML ====="
+          cat public/tennis.xml
 
-      # ✅ 7. upload pre GitHub Pages
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
