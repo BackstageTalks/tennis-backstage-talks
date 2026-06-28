@@ -41,7 +41,7 @@ def clean_tournament_name(value):
         "Tennis",
         "Unknown",
         "None",
-        "null"
+        "null",
     ]
 
     if value in hidden_values:
@@ -138,7 +138,16 @@ def alternative_text(alt_bets):
     return " / ".join(parts)
 
 
-def create_pick_page(index, prediction, label, risk, page_filename):
+def create_data_row(label, value):
+    return f"""
+    <div class="data-row">
+        <span>{html.escape(str(label))}</span>
+        <strong>{html.escape(str(value))}</strong>
+    </div>
+    """
+
+
+def create_pick_page(index, prediction, label, page_filename):
     os.makedirs("public/picks", exist_ok=True)
 
     pick = str(prediction.get("pick", prediction.get("player1", "Unknown")))
@@ -150,8 +159,6 @@ def create_pick_page(index, prediction, label, risk, page_filename):
     tournament = clean_tournament_name(prediction.get("tournament", ""))
 
     probability = float(prediction.get("probability", 0))
-    confidence = float(prediction.get("confidence", 0))
-    model_edge = confidence
 
     odds = prediction.get("odds", "")
     odds_player1 = prediction.get("odds_player1", "")
@@ -178,14 +185,53 @@ def create_pick_page(index, prediction, label, risk, page_filename):
     form_win_rate = pick_metrics.get("win_rate")
     sample = pick_metrics.get("sample", 0)
 
-    tournament_row = ""
+    pick_details_rows = ""
+    pick_details_rows += create_data_row("Pick", pick)
+    pick_details_rows += create_data_row("Opponent", opponent)
+    pick_details_rows += create_data_row("Match", f"{player1} vs {player2}")
+
     if tournament:
-        tournament_row = f"""
-        <div class="data-row">
-            <span>Tournament</span>
-            <strong>{html.escape(tournament)}</strong>
-        </div>
-        """
+        pick_details_rows += create_data_row("Tournament", tournament)
+
+    pick_details_rows += create_data_row("Surface", surface)
+
+    market_rows = ""
+    market_rows += create_data_row("Pick odds", odds)
+    market_rows += create_data_row("Odds player1 / player2", f"{odds_player1} / {odds_player2}")
+    market_rows += create_data_row(
+        "Fair market probability",
+        f"{pct(market_probability)}%" if market_probability is not None else "N/A",
+    )
+    market_rows += create_data_row(
+        "Value edge",
+        f"{pct(value_edge)}%" if value_edge is not None else "N/A",
+    )
+    market_rows += create_data_row("Market agrees", market_agrees)
+    market_rows += create_data_row("Bookie signal", bookie_signal)
+    market_rows += create_data_row("Odds source", odds_source)
+    market_rows += create_data_row(
+        "Raw implied probability",
+        f"{pct(implied_probability)}%" if implied_probability is not None else "N/A",
+    )
+
+    stats_rows = ""
+    stats_rows += create_data_row(
+        "Recent / surface form",
+        f"{pct(form_win_rate)}%" if form_win_rate is not None else "N/A",
+    )
+    stats_rows += create_data_row(
+        "Over 0.5 set rate",
+        f"{pct(over_set_rate)}%" if over_set_rate is not None else "N/A",
+    )
+    stats_rows += create_data_row(
+        "Avg aces",
+        avg_aces if avg_aces is not None else "N/A",
+    )
+    stats_rows += create_data_row(
+        "Ace rate",
+        f"{pct(ace_rate)}%" if ace_rate is not None else "N/A",
+    )
+    stats_rows += create_data_row("Historical sample", f"{sample} matches")
 
     page = f"""<!DOCTYPE html>
 <html lang="en">
@@ -394,9 +440,7 @@ h2 {{
     <a class="back-link" href="../index.html" aria-label="Back to all picks">←</a>
 
     <div class="card">
-        <div class="badge">#{index} {html.escape(label)}</div>
-
-        <h1>{html.escape(pick)} to win</h1>
+        <div class="l.escape(pick)} to win</h1>
 
         <div class="subtitle">
             {html.escape(pick)} vs {html.escape(opponent)}<br>
@@ -413,111 +457,21 @@ h2 {{
                 <span>Odds</span>
                 <strong>{html.escape(str(odds))}</strong>
             </div>
-
-            <div class="metric">
-                <span>Risk</span>
-                <strong>{html.escape(risk)}</strong>
-            </div>
-
-            <div class="metric">
-                <span>Model edge</span>
-                <strong>+{pct(model_edge)}%</strong>
-            </div>
         </div>
 
         <h2>Pick details</h2>
         <div class="section">
-            <div class="data-row">
-                <span>Pick</span>
-                <strong>{html.escape(pick)}</strong>
-            </div>
-
-            <div class="data-row">
-                <span>Opponent</span>
-                <strong>{html.escape(opponent)}</strong>
-            </div>
-
-            <div class="data-row">
-                <span>Match</span>
-                <strong>{html.escape(player1)} vs {html.escape(player2)}</strong>
-            </div>
-
-            {tournament_row}
-
-            <div class="data-row">
-                <span>Surface</span>
-                <strong>{html.escape(str(surface))}</strong>
-            </div>
+            {pick_details_rows}
         </div>
 
         <h2>Market</h2>
         <div class="section">
-            <div class="data-row">
-                <span>Pick odds</span>
-                <strong>{html.escape(str(odds))}</strong>
-            </div>
-
-            <div class="data-row">
-                <span>Odds player1 / player2</span>
-                <strong>{html.escape(str(odds_player1))} / {html.escape(str(odds_player2))}</strong>
-            </div>
-
-            <div class="data-row">
-                <span>Fair market probability</span>
-                <strong>{pct(market_probability) if market_probability is not None else "N/A"}%</strong>
-            </div>
-
-            <div class="data-row">
-                <span>Value edge</span>
-                <strong>{pct(value_edge) if value_edge is not None else "N/A"}%</strong>
-            </div>
-
-            <div class="data-row">
-                <span>Market agrees</span/strong>
-            </div>
-
-            <div class="data-row">
-                <span>Bookie signal</span>
-                <strong>{html.escape(str(bookie_signal))}</strong>
-            </div>
-
-            <div class="data-row">
-                <span>Odds source</span>
-                <strong>{html.escape(str(odds_source))}</strong>
-            </div>
-
-            <div class="data-row">
-                <span>Raw implied probability</span>
-                <strong>{pct(implied_probability) if implied_probability is not None else "N/A"}%</strong>
-            </div>
+            {market_rows}
         </div>
 
         <h2>Form & stats</h2>
         <div class="section">
-            <div class="data-row">
-                <span>Recent / surface form</span>
-                <strong>{pct(form_win_rate) if form_win_rate is not None else "N/A"}%</strong>
-            </div>
-
-            <div class="data-row">
-                <span>Over 0.5 set rate</span>
-                <strong>{pct(over_set_rate) if over_set_rate is not None else "N/A"}%</strong>
-            </div>
-
-            <div class="data-row">
-                <span>Avg aces</span>
-                <strong>{html.escape(str(avg_aces)) if avg_aces is not None else "N/A"}</strong>
-            </div>
-
-            <div class="data-row">
-                <span>Ace rate</span>
-                <strong>{pct(ace_rate) if ace_rate is not None else "N/A"}%</strong>
-            </div>
-
-            <div class="data-row">
-                <span>Historical sample</span>
-                <strong>{html.escape(str(sample))} matches</strong>
-            </div>
+            {stats_rows}
         </div>
 
         <h2>Signals</h2>
@@ -551,7 +505,7 @@ def create_index_page(predictions):
     sorted_predictions = sorted(
         predictions,
         key=lambda p: float(p.get("probability", 0)),
-        reverse=True
+        reverse=True,
     )
 
     rows = ""
@@ -749,10 +703,8 @@ def generate_rss():
             signals=signals,
             index=i,
             market_agrees=market_agrees,
-            value_edge=value_edge
+            value_edge=value_edge,
         )
-
-        risk = risk_for_pick(probability, market_agrees)
 
         slug = safe_slug(f"{i}-{pick}-vs-{opponent}")
         page_filename = f"{datetime.date.today().isoformat()}-{slug}.html"
@@ -761,8 +713,7 @@ def generate_rss():
             index=i,
             prediction=prediction,
             label=label,
-            risk=risk,
-            page_filename=page_filename
+            page_filename=page_filename,
         )
 
         full_link = BASE + relative_page
