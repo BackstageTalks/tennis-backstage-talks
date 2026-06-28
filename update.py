@@ -19,7 +19,6 @@ def run():
         json.dump(preds, f, indent=4, ensure_ascii=False)
 
     print("Saved prediction file:", filename)
-
     print("Public folder after save:")
     print(os.listdir("public"))
 
