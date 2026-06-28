@@ -2,7 +2,7 @@ name: Daily Tennis Predictions
 
 on:
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "0 6 * * *"   # každý deň o 06:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -10,26 +10,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      # ✅ 1. checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
+      # ✅ 2. python setup
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
-      - name: Install deps
-        run: pip install -r requirements.txt || true
+      # ✅ 3. install dependencies
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install requests beautifulsoup4
 
-      - name: Run update
+      # ✅ 4. run prediction system
+      - name: Run predictions
         run: python update.py
 
-      - name: Run RSS
+      # ✅ 5. generate RSS
+      - name: Generate RSS
         run: python rss.py
 
-      - name: DEBUG file list
+      # ✅ 6. DEBUG (vidíš súbory)
+      - name: List files
         run: ls -R
 
+      # ✅ 7. upload pre GitHub Pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
