@@ -2,6 +2,8 @@ name: Daily Tennis Predictions
 
 on:
   schedule:
+    # GitHub Actions cron beží v UTC.
+    # 04:00 UTC pri LOCAL_TZ_OFFSET_HOURS=2 = cca 06:00 CET podľa nášho systémového labelu.
     - cron: "0 4 * * *"
 
   workflow_dispatch:
@@ -39,6 +41,7 @@ jobs:
 
       - name: Clean public folder
         run: |
+          echo "===== CLEAN PUBLIC FOLDER ====="
           rm -rf public
           mkdir -p public
 
@@ -48,6 +51,9 @@ jobs:
           BET_WINDOW_START_HOUR: 6
           BET_WINDOW_END_NEXT_DAY_HOUR: 6
         run: python update.py
+
+      - name: Generate source audit
+        run: python audit_sources.py
 
       - name: Generate TOP page and TOP RSS
         run: python rss.py
@@ -60,9 +66,27 @@ jobs:
           echo "===== PUBLIC FILES ====="
           ls -R public
 
+          echo "===== CHECK SOURCE AUDIT ====="
+          if [ ! -f public/source_audit.json ]; then
+            echo "ERROR: public/source_audit.json missing"
+            exit 1
+          fi
+
+          if [ ! -f public/source_manifest.json ]; then
+            echo "ERROR: public/source_manifest.json missing"
+            exit 1
+          fi
+
           echo "===== CHECK TOP JSON ====="
           TOP_JSON=$(ls public/predictions_*.json | head -n 1)
+
+          if [ -z "$TOP_JSON" ]; then
+            echo "ERROR: TOP predictions JSON missing"
+            exit 1
+          fi
+
           TOP_COUNT=$(python -c "import json; print(len(json.load(open('$TOP_JSON', encoding='utf-8'))))")
+          echo "TOP_JSON=$TOP_JSON"
           echo "TOP_COUNT=$TOP_COUNT"
 
           if [ "$TOP_COUNT" -gt 7 ]; then
@@ -72,7 +96,14 @@ jobs:
 
           echo "===== CHECK ALL JSON ====="
           ALL_JSON=$(ls public/all_predictions_*.json | head -n 1)
+
+          if [ -z "$ALL_JSON" ]; then
+            echo "ERROR: ALL predictions JSON missing"
+            exit 1
+          fi
+
           ALL_COUNT=$(python -c "import json; print(len(json.load(open('$ALL_JSON', encoding='utf-8'))))")
+          echo "ALL_JSON=$ALL_JSON"
           echo "ALL_COUNT=$ALL_COUNT"
 
           echo "===== CHECK TOP PAGE ====="
@@ -115,11 +146,20 @@ jobs:
           ALL_RSS_COUNT=$(grep -c "<item>" public/tennis_all.xml || true)
           echo "ALL_RSS_COUNT=$ALL_RSS_COUNT"
 
+          echo "===== SOURCE AUDIT PREVIEW ====="
+          head -n 80 public/source_audit.json
+
           echo "===== TOP INDEX PREVIEW ====="
           head -n 40 public/index.html
 
           echo "===== ALL INDEX PREVIEW ====="
           head -n 40 public/all/index.html
+
+          echo "===== TOP RSS PREVIEW ====="
+          head -n 80 public/tennis.xml
+
+          echo "===== ALL RSS PREVIEW ====="
+          head -n 80 public/tennis_all.xml
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
