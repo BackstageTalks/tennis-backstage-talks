@@ -57,10 +57,34 @@ jobs:
       - name: Generate RSS ALL
         run: python rss_all.py
 
+      - name: Create fallback root index if missing
+        run: |
+          echo "===== ENSURE ROOT INDEX ====="
+
+          if [ ! -f public/index.html ]; then
+            echo "public/index.html missing"
+
+            if [ -f public/all/index.html ]; then
+              echo "Copying public/all/index.html to public/index.html"
+              cp public/all/index.html public/index.html
+            else
+              echo "ERROR: public/all/index.html also missing"
+              exit 1
+            fi
+          else
+            echo "public/index.html exists"
+          fi
+
       - name: Verify generated files
         run: |
           echo "===== PUBLIC FILES ====="
           ls -R public
+
+          echo "===== CHECK ROOT INDEX ====="
+          if [ ! -f public/index.html ]; then
+            echo "ERROR: public/index.html was not generated"
+            exit 1
+          fi
 
           echo "===== CHECK RSS ALL ====="
           if [ ! -f public/tennis_all.xml ]; then
@@ -82,15 +106,11 @@ jobs:
             echo "WARNING: public/tennis.xml was not generated. Continuing because RSS ALL exists."
           fi
 
-          echo "===== CHECK TOP INDEX OPTIONAL ====="
-          if [ -f public/index.html ]; then
-            echo "TOP index exists"
-          else
-            echo "WARNING: public/index.html was not generated. Continuing because RSS ALL page exists."
-          fi
+          echo "===== ROOT INDEX PREVIEW ====="
+          head -n 40 public/index.html
 
           echo "===== RSS ALL PREVIEW ====="
-          head -n 100 public/tennis_all.xml
+          head -n 80 public/tennis_all.xml
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
