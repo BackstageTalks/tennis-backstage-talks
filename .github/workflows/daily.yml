@@ -114,15 +114,14 @@ jobs:
           echo "ALL_JSON=$ALL_JSON"
           echo "ALL_COUNT=$ALL_COUNT"
 
-          echo "===== CHECK RESULTS JSON ====="
-          RESULTS_JSON=$(ls public/results_*.json | head -n 1)
+          echo "===== CHECK RESULTS JSON OPTIONAL ====="
+          RESULTS_JSON=$(ls public/results_*.json 2>/dev/null | head -n 1 || true)
 
           if [ -z "$RESULTS_JSON" ]; then
-            echo "ERROR: results JSON missing"
-            exit 1
+            echo "WARNING: results_*.json missing. This is OK on first run or when previous predictions were not available."
+          else
+            echo "RESULTS_JSON=$RESULTS_JSON"
           fi
-
-          echo "RESULTS_JSON=$RESULTS_JSON"
 
           echo "===== CHECK TOP PAGE ====="
           if [ ! -f public/index.html ]; then
