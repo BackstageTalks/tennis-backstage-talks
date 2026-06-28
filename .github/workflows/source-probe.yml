@@ -22,6 +22,14 @@ jobs:
       - name: Run no-key tennis source probe
         run: python tennis_sources_probe.py
 
+      - name: Print probe summary
+        run: |
+          echo "===== PROBE SUMMARY ====="
+          cat public/tennis_sources_probe_summary.json || true
+          echo ""
+          echo "===== FULL OUTPUT ====="
+          cat public/tennis_sources_probe_full.json || true
+
       - name: List generated files
         run: ls -R public || true
 
