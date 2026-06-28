@@ -35,16 +35,9 @@ def format_match_time(value):
 def clean_tournament_name(value):
     value = str(value or "").strip()
 
-    hidden_values = [
-        "",
-        "SportScore Tennis",
-        "Tennis",
-        "Unknown",
-        "None",
-        "null"
-    ]
+    hidden = ["", "SportScore Tennis", "Tennis", "Unknown", "None", "null"]
 
-    if value in hidden_values:
+    if value in hidden:
         return ""
 
     return value
@@ -104,46 +97,38 @@ def risk_for_pick(probability, market_agrees=False):
     return "HIGH"
 
 
-def signal_summary(signals):
+def signal_text(signals):
     if not signals:
         return "No extra signal"
 
     return ", ".join(str(s) for s in signals)
 
 
-def create_alt_cards(alt_bets):
+def alternative_text(alt_bets):
     if not alt_bets:
-        return """
-        <div class="mini-card">
-            <div class="mini-title">Alternative signal</div>
-            <div>No qualified alternative signal.</div>
-        </div>
-        """
+        return "No qualified alternative signal"
 
-    cards = ""
+    parts = []
 
     for alt in alt_bets:
-        market = html.escape(str(alt.get("market", "")))
-        alt_pick = html.escape(str(alt.get("pick", "")))
-        alt_probability = alt.get("probability")
-        alt_confidence = html.escape(str(alt.get("confidence", "")))
-        alt_sample = html.escape(str(alt.get("sample", "")))
-        note = html.escape(str(alt.get("note", "")))
+        market = alt.get("market", "")
+        pick = alt.get("pick", "")
+        probability = alt.get("probability")
+        confidence = alt.get("confidence", "")
+        sample = alt.get("sample", "")
+        note = alt.get("note", "")
 
-        probability_text = f"{pct(alt_probability)}%" if alt_probability is not None else "N/A"
+        if probability is not None:
+            probability_text = f"{pct(probability)}%"
+        else:
+            probability_text = "N/A"
 
-        cards += f"""
-        <div class="mini-card">
-            <div class="mini-title">{market}</div>
-            <div><span>Pick</span><strong>{alt_pick}</strong></div>
-            <div><span>Probability</span><strong>{probability_text}</strong></div>
-            <div><span>Confidence</span><strong>{alt_confidence}</strong></div>
-            <div><span>Sample</span><strong>{alt_sample}</strong></div>
-            <p class="muted">{note}</p>
-        </div>
-        """
+        parts.append(
+            f"{market}: {pick} | Probability: {probability_text} | "
+            f"Confidence: {confidence} | Sample: {sample} | {note}"
+        )
 
-    return cards
+    return " / ".join(parts)
 
 
 def create_pick_page(index, prediction, label, risk, page_filename):
@@ -158,3 +143,33 @@ def create_pick_page(index, prediction, label, risk, page_filename):
     tournament = clean_tournament_name(prediction.get("tournament", ""))
 
     probability = float(prediction.get("probability", 0))
+    confidence = float(prediction.get("confidence", 0))
+
+    odds = prediction.get("odds", "")
+    odds_player1 = prediction.get("odds_player1", "")
+    odds_player2 = prediction.get("odds_player2", "")
+    odds_source = prediction.get("odds_source", "")
+
+    market_probability = prediction.get("market_probability")
+    implied_probability = prediction.get("implied_probability")
+    market_agrees = prediction.get("market_agrees", False)
+    value_edge = prediction.get("bookie_value_edge")
+    bookie_signal = prediction.get("bookie_signal", "")
+
+    match_start = format_match_time(prediction.get("match_start", ""))
+    surface = prediction.get("surface", "Unknown")
+
+    signals = prediction.get("extra_signals", [])
+    alt_bets = prediction.get("alternative_bets", [])
+
+    pick_metrics = prediction.get("pick_metrics", {})
+
+    avg_aces = pick_metrics.get("avg_aces")
+    ace_rate = pick_metrics.get("ace_rate")
+    over_set_rate = pick_metrics.get("at_least_one_set_rate")
+    form_win_rate = pick_metrics.get("win_rate")
+    sample = pick_metrics.get("sample", 0)
+
+    tournament_line = ""
+    if tournament:
+        tournament_line = f"""
