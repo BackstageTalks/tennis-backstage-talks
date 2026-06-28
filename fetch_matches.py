@@ -7,17 +7,37 @@ def get_today_matches():
     soup = BeautifulSoup(response.text, "html.parser")
 
     matches = []
+    seen = set()
 
     rows = soup.select(".event__match")
 
     for r in rows[:20]:
         try:
-            text = [t.strip() for t in r.text.split("\n") if t.strip()]
-            player1 = text[-2]
-            player2 = text[-1]
+            txt = [x.strip() for x in r.text.split("\n") if x.strip()]
+            p1 = txt[-2]
+            p2 = txt[-1]
 
-            matches.append((player1, player2, "Live Tour"))
+            if p1 == p2:
+                continue
+
+            key = f"{p1}-{p2}"
+            if key in seen:
+                continue
+
+            seen.add(key)
+
+            matches.append((p1, p2, "Live"))
+
         except:
             continue
+
+    # ✅ fallback
+    if not matches:
+        return [
+            ("Djokovic", "Alcaraz", "Fallback"),
+            ("Sinner", "Medvedev", "Fallback"),
+            ("Zverev", "Rublev", "Fallback"),
+            ("Rune", "Tsitsipas", "Fallback")
+        ]
 
     return matches
