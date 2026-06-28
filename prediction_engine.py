@@ -1,6 +1,6 @@
 from fetch_matches import get_today_matches
 from welo import win_probability
-from stats_engine import get_stats_for_players
+from stats_engine import get_stats_context
 
 
 TOP_N = 7
@@ -181,19 +181,15 @@ def passes_quality_gate(pred):
     ace_edge = "💣 Ace edge vs opponent" in signals
     strong_form = "✅ Strong recent form" in signals
 
-    # Najistejšie: model aj bookie sa zhodujú
     if prob >= 0.56 and market_agrees:
         return True
 
-    # Trh tiež vidí hráča ako dosť silného
     if market_prob is not None and market_prob >= 0.54 and prob >= 0.55:
         return True
 
-    # Value edge podľa reálnych kurzov
     if value_edge is not None and value_edge >= 0.04 and prob >= 0.54:
         return True
 
-    # Silný zostavový / setový signál
     if prob >= 0.53 and (strong_set or ace_edge or strong_form):
         return True
 
@@ -249,7 +245,7 @@ def get_daily_predictions():
 
     stats_map, surface_map = get_stats_context(players, matches)
 
-    predictions = []
+    all_predictions = []
 
     for m in matches:
         p1 = m["player1"]
@@ -260,7 +256,6 @@ def get_daily_predictions():
         odds2 = m.get("odds_player2")
 
         base_prob1 = win_probability(p1, p2)
-        base_prob2 = 1 - base_prob1
 
         match_key = f"{p1}::{p2}"
         surface = surface_map.get(match_key, "Unknown")
@@ -270,9 +265,6 @@ def get_daily_predictions():
 
         p1_metrics = metric_for_surface(p1_stats, surface)
         p2_metrics = metric_for_surface(p2_stats, surface)
-
-        # Form adjustment
-        prob1 = base_prob1
 
         p1_win = p1_metrics.get("win_rate")
         p2_win = p2_metrics.get("win_rate")
@@ -290,7 +282,7 @@ def get_daily_predictions():
 
         boost = max(-0.08, min(0.08, boost))
 
-        prob1 = max(0.05, min(0.95, prob1 + boost))
+        prob1 = max(0.05, min(0.95, base_prob1 + boost))
         prob2 = 1 - prob1
 
         if prob1 >= prob2:
@@ -385,12 +377,17 @@ def get_daily_predictions():
             "alternative_bets": alternative_bets
         }
 
-        if passes_quality_gate(pred):
-            predictions.append(pred)
+        all_predictions.append(pred)
 
-    predictions.sort(key=lambda x: x["score"], reverse=True)
+    qualified = [p for p in all_predictions if passes_quality_gate(p)]
+    qualified.sort(key=lambda x: x["score"], reverse=True)
 
-    final = predictions[:TOP_N]
+    if len(qualified) >= TOP_N:
+        final = qualified[:TOP_N]
+    else:
+        remaining = [p for p in all_predictions if p not in qualified]
+        remaining.sort(key=lambda x: x["score"], reverse=True)
+        final = (qualified + remaining)[:TOP_N]
 
     print("FINAL PICKS:", len(final))
 
