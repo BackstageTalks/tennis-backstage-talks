@@ -1,53 +1,72 @@
-from welo import win_probability
-from fetch_matches import get_today_matches
+import requests
+import random
 
-def get_daily_predictions():
-    matches = get_today_matches()
 
-    predictions = []
+# ✅ FETCH REAL MATCHES (Flashscore data feed)
+def get_today_matches():
+    url = "https://d.flashscore.com/x/feed/f_2_0_3_en_1"
 
-    for p1, p2, tournament in matches:
-        prob = win_probability(p1, p2)
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "X-Fsign": "SW9D1eZo"
+    }
 
-        odds = 1.90
-        implied = 1 / odds
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        data = response.text.split("\n")
 
-        value = prob - implied
-        confidence = abs(prob - 0.5)
+        matches = []
+        seen = set()
 
-        predictions.append({
-            "player1": p1,
-            "player2": p2,
-            "tournament": tournament,
-            "probability": round(prob, 3),
-            "odds": odds,
-            "value": round(value, 3),
-            "confidence": round(confidence, 3)
-        })
+        for line in data:
+            if "~" not in line:
+                continue
 
-    # ✅ záloha
-    backup = predictions.copy()
+            parts = line.split("~")
 
-    # ✅ filtre (kľúčové!)
-    predictions = [
-        p for p in predictions
-        if p["probability"] >= 0.55 and p["confidence"] > 0.05
-    ]
+            if len(parts) < 4:
+                continue
 
-    # ✅ fallback
-    if len(predictions) < 2:
-        predictions = backup
+            p1 = parts[2].strip()
+            p2 = parts[3].strip()
 
-    # ✅ scoring
-    for p in predictions:
-        p["score"] = (p["probability"] * 0.85) + (p["confidence"] * 0.15)
+            # základné čistenie
+            if len(p1) < 3 or len(p2) < 3 or p1 == p2:
+                continue
 
-    predictions.sort(key=lambda x: x["score"], reverse=True)
+            key = f"{p1}-{p2}"
+            if key in seen:
+                continue
 
-    # ✅ flexible output
-    if len(predictions) >= 4:
-        final = predictions[:4]
-    else:
-        final = predictions[:len(predictions)]
+            seen.add(key)
 
-    return final
+            matches.append((p1, p2, "Live"))
+
+        print("✅ REAL matches fetched:", len(matches))
+
+        return matches[:15]
+
+    except Exception as e:
+        print("❌ fetch error:", e)
+
+        # fallback len ak úplne zlyhá
+        return [
+            ("Djokovic", "Sinner", "Fallback"),
+            ("Alcaraz", "Medvedev", "Fallback"),
+            ("Zverev", "Rublev", "Fallback"),
+            ("Rune", "Tsitsipas", "Fallback")
+        ]
+
+
+# ✅ STABILNÁ FORMA (bez random chaosu)
+def get_form(player):
+    random.seed(hash(player) % 100000)
+    wins = random.randint(4, 8)
+    return wins / 10
+
+
+# ✅ ELO (basic skill model)
+ELO = {
+    "Djokovic": 2100,
+    "Alcaraz": 2050,
+    "Sinner": 2000,
