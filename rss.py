@@ -617,7 +617,7 @@ def create_index_page(predictions):
         rows += (
             "<tr>"
             f"<td>#{i}</td>"
-            f"<td>'>{esc(pick)} to win</a></td>"
+            f'<td>">{esc(pick)} to win</a></td>'
             f"<td>{esc(opponent)}</td>"
             f"<td>{esc(match_time) if match_time else '-'}</td>"
             f"<td>{pct(probability)}%</td>"
