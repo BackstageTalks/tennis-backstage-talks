@@ -44,17 +44,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4
 
-      - name: Rebuild current public snapshot from live site
+      - name: Rebuild current public snapshot from private aliases
         run: |
-          echo "===== REBUILD CURRENT PUBLIC SNAPSHOT ====="
+          echo "===== REBUILD CURRENT PUBLIC SNAPSHOT FROM PRIVATE ALIASES ====="
           rm -rf public
           mkdir -p public
 
           python - <<'PY'
           import os
-          import re
           import datetime
           import requests
+          import shutil
 
           BASE = "https://backstagetalks.github.io/tennis-backstage-talks/"
           HEADERS = {
@@ -66,6 +66,7 @@ jobs:
           os.makedirs("public/all", exist_ok=True)
           os.makedirs("public/picks", exist_ok=True)
           os.makedirs("public/results", exist_ok=True)
+          os.makedirs("public/all_results", exist_ok=True)
 
           def download(relative_path, required=False):
               url = BASE + relative_path
@@ -74,7 +75,7 @@ jobs:
               if relative_path.endswith("/"):
                   target = os.path.join("public", relative_path, "index.html")
 
-              os.makedirs(os.path.dirname(target), exist_ok=True)
+              os.makedirs(os.path.dirname(target) or ".", exist_ok=True)
 
               try:
                   response = requests.get(url, headers=HEADERS, timeout=25)
@@ -96,19 +97,52 @@ jobs:
                       raise
                   return False
 
-          # Core prediction outputs must be preserved.
-          download("index.html", required=True)
-          download("tennis.xml", required=True)
-          download("all/index.html", required=True)
-          download("tennis_all.xml", required=True)
+          def copy_if_exists(src, dst):
+              if not os.path.exists(src):
+                  print("RESTORE SKIP missing:", src)
+                  return False
 
-          # Optional technical outputs.
-          download("source_manifest.json", required=False)
-          download("source_audit.json", required=False)
+              os.makedirs(os.path.dirname(dst) or ".", exist_ok=True)
+              shutil.copyfile(src, dst)
+              print("RESTORE", src, "->", dst)
+              return True
 
-          # Optional previous results outputs.
-          download("results/index.html", required=False)
-          download("results.xml", required=False)
+          # Download private aliases.
+          private_aliases = [
+              "H4V34N1C3D4Y170",
+              "H4V34N1C3D4Y171",
+              "H4V34N1C3D4Y180",
+              "H4V34N1C3D4Y181",
+              "H4V34N1C3D4Y181.xml",
+              "H4V34N1C3D4Y182",
+              "H4V34N1C3D4Y183",
+              "H4V34N1C3D4Y183.xml",
+              "H4V34N1C3D4Y184",
+              "H4V34N1C3D4Y185",
+              "H4V34N1C3D4Y185.xml",
+              "H4V34N1C3D4Y186",
+              "H4V34N1C3D4Y187",
+              "H4V34N1C3D4Y187.xml",
+          ]
+
+          for alias in private_aliases:
+              download(alias, required=False)
+
+          # Restore original expected file layout for generators.
+          copy_if_exists("public/H4V34N1C3D4Y170", "public/source_manifest.json")
+          copy_if_exists("public/H4V34N1C3D4Y171", "public/source_audit.json")
+
+          copy_if_exists("public/H4V34N1C3D4Y180", "public/index.html")
+          copy_if_exists("public/H4V34N1C3D4Y181.xml", "public/tennis.xml")
+
+          copy_if_exists("public/H4V34N1C3D4Y184", "public/all/index.html")
+          copy_if_exists("public/H4V34N1C3D4Y185.xml", "public/tennis_all.xml")
+
+          copy_if_exists("public/H4V34N1C3D4Y182", "public/results/index.html")
+          copy_if_exists("public/H4V34N1C3D4Y183.xml", "public/results.xml")
+
+          copy_if_exists("public/H4V34N1C3D4Y186", "public/all_results/index.html")
+          copy_if_exists("public/H4V34N1C3D4Y187.xml", "public/all_results.xml")
 
           # Download recent JSON history.
           today = datetime.datetime.utcnow().date()
@@ -121,6 +155,7 @@ jobs:
               "predictions_",
               "all_predictions_",
               "results_",
+              "all_results_",
           ]
 
           for date_obj in candidate_dates:
@@ -128,26 +163,6 @@ jobs:
 
               for prefix in prefixes:
                   download(f"{prefix}{date_str}.json", required=False)
-
-          # Preserve TOP pick detail pages referenced from tennis.xml.
-          tennis_xml_path = "public/tennis.xml"
-
-          if os.path.exists(tennis_xml_path):
-              try:
-                  text = open(tennis_xml_path, "r", encoding="utf-8").read()
-                  links = re.findall(r"<link>(.*?)</link>", text)
-
-                  for link in links:
-                      if not link.startswith(BASE):
-                          continue
-
-                      relative = link.replace(BASE, "")
-
-                      if relative.startswith("picks/") and relative.endswith(".html"):
-                          download(relative, required=False)
-
-              except Exception as e:
-                  print("PICK PAGE PRESERVE ERROR:", str(e))
 
           print("SNAPSHOT FILES:")
           for root, dirs, files in os.walk("public"):
@@ -160,76 +175,79 @@ jobs:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python results_checker.py
 
+      - name: Generate ALL results from previous ALL predictions
+        env:
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python results_checker_all.py
+
       - name: Generate TOP7 results page and RSS
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python rss_results.py
+
+      - name: Generate ALL results page and RSS
+        env:
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python rss_results_all.py
+
+      - name: Publish private aliases
+        run: python publish_private_aliases.py
 
       - name: Verify refreshed results files
         run: |
           echo "===== PUBLIC FILES AFTER RESULTS REFRESH ====="
           ls -R public
 
-          echo "===== CHECK PRESERVED TOP PAGE ====="
-          if [ ! -f public/index.html ]; then
-            echo "ERROR: public/index.html missing after snapshot restore"
+          echo "===== CHECK PRIVATE TOP PAGE ====="
+          if [ ! -f public/H4V34N1C3D4Y180 ]; then
+            echo "ERROR: private TOP page missing"
             exit 1
           fi
 
-          if grep -q "RSS ALL" public/index.html; then
-            echo "ERROR: TOP root page contains RSS ALL after snapshot restore"
+          echo "===== CHECK PRIVATE ALL PAGE ====="
+          if [ ! -f public/H4V34N1C3D4Y184 ]; then
+            echo "ERROR: private ALL page missing"
             exit 1
           fi
 
-          echo "===== CHECK PRESERVED TOP RSS ====="
-          if [ ! -f public/tennis.xml ]; then
-            echo "ERROR: public/tennis.xml missing after snapshot restore"
+          echo "===== CHECK PRIVATE TOP RESULTS PAGE ====="
+          if [ ! -f public/H4V34N1C3D4Y182 ]; then
+            echo "ERROR: private TOP results page missing"
             exit 1
           fi
 
-          TOP_RSS_COUNT=$(grep -c "<item>" public/tennis.xml || true)
+          echo "===== CHECK PRIVATE ALL RESULTS PAGE ====="
+          if [ ! -f public/H4V34N1C3D4Y186 ]; then
+            echo "ERROR: private ALL results page missing"
+            exit 1
+          fi
+
+          echo "===== CHECK PRIVATE RSS XML ALIASES ====="
+          for f in \
+            H4V34N1C3D4Y181.xml \
+            H4V34N1C3D4Y183.xml \
+            H4V34N1C3D4Y185.xml \
+            H4V34N1C3D4Y187.xml
+          do
+            if [ ! -f "public/$f" ]; then
+              echo "ERROR: private RSS XML alias public/$f missing"
+              exit 1
+            fi
+          done
+
+          TOP_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y181.xml || true)
           echo "TOP_RSS_COUNT=$TOP_RSS_COUNT"
 
           if [ "$TOP_RSS_COUNT" -gt 7 ]; then
-            echo "ERROR: TOP RSS has more than 7 items after snapshot restore"
+            echo "ERROR: TOP RSS has more than 7 items after refresh"
             exit 1
           fi
 
-          echo "===== CHECK PRESERVED ALL PAGE ====="
-          if [ ! -f public/all/index.html ]; then
-            echo "ERROR: public/all/index.html missing after snapshot restore"
-            exit 1
-          fi
+          echo "===== PRIVATE RESULTS RSS PREVIEW ====="
+          head -n 80 public/H4V34N1C3D4Y183.xml
 
-          echo "===== CHECK PRESERVED ALL RSS ====="
-          if [ ! -f public/tennis_all.xml ]; then
-            echo "ERROR: public/tennis_all.xml missing after snapshot restore"
-            exit 1
-          fi
-
-          echo "===== CHECK RESULTS PAGE ====="
-          if [ ! -f public/results/index.html ]; then
-            echo "ERROR: public/results/index.html missing"
-            exit 1
-          fi
-
-          echo "===== CHECK RESULTS RSS ====="
-          if [ ! -f public/results.xml ]; then
-            echo "ERROR: public/results.xml missing"
-            exit 1
-          fi
-
-          RESULTS_RSS_COUNT=$(grep -c "<item>" public/results.xml || true)
-          echo "RESULTS_RSS_COUNT=$RESULTS_RSS_COUNT"
-
-          echo "===== TOP INDEX PREVIEW ====="
-          head -n 30 public/index.html
-
-          echo "===== RESULTS INDEX PREVIEW ====="
-          head -n 60 public/results/index.html
-
-          echo "===== RESULTS RSS PREVIEW ====="
-          head -n 80 public/results.xml
+          echo "===== PRIVATE ALL RESULTS RSS PREVIEW ====="
+          head -n 80 public/H4V34N1C3D4Y187.xml
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
