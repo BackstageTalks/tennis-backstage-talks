@@ -7,6 +7,12 @@ on:
     - cron: "0 4 * * *"
 
   workflow_dispatch:
+    inputs:
+      force_predict:
+        description: "Force prediction generation even outside the normal 06:00 CET run"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -29,28 +35,58 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Decide whether to run predictions
+        id: gate
+        run: |
+          echo "===== PREDICTION RUN GATE ====="
+          echo "EVENT_NAME=${{ github.event_name }}"
+          echo "FORCE_PREDICT=${{ inputs.force_predict }}"
+
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "Scheduled run detected. Predictions allowed."
+            echo "run_predictions=true" >> "$GITHUB_OUTPUT"
+          elif [ "${{ inputs.force_predict }}" = "true" ]; then
+            echo "Manual forced run detected. Predictions allowed."
+            echo "run_predictions=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Manual run without force_predict. Skipping prediction deploy to avoid overwriting TOP7 with empty data."
+            echo "run_predictions=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Stop if predictions are not allowed
+        if: steps.gate.outputs.run_predictions != 'true'
+        run: |
+          echo "Predictions were skipped intentionally."
+          echo "Existing GitHub Pages outputs remain unchanged."
+          echo "If you really want to regenerate predictions manually, run workflow_dispatch with force_predict=true."
+
       - name: Setup Python
+        if: steps.gate.outputs.run_predictions == 'true'
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
       - name: Install dependencies
+        if: steps.gate.outputs.run_predictions == 'true'
         run: |
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4
 
       - name: Clean public folder
+        if: steps.gate.outputs.run_predictions == 'true'
         run: |
           echo "===== CLEAN PUBLIC FOLDER ====="
           rm -rf public
           mkdir -p public
 
       - name: Generate TOP7 results from previous predictions
+        if: steps.gate.outputs.run_predictions == 'true'
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python results_checker.py
 
       - name: Run predictions
+        if: steps.gate.outputs.run_predictions == 'true'
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
           BET_WINDOW_START_HOUR: 6
@@ -58,20 +94,25 @@ jobs:
         run: python update.py
 
       - name: Generate source audit
+        if: steps.gate.outputs.run_predictions == 'true'
         run: python audit_sources.py
 
       - name: Generate TOP page and TOP RSS
+        if: steps.gate.outputs.run_predictions == 'true'
         run: python rss.py
 
       - name: Generate ALL page and ALL RSS
+        if: steps.gate.outputs.run_predictions == 'true'
         run: python rss_all.py
 
       - name: Generate TOP7 results page and RSS
+        if: steps.gate.outputs.run_predictions == 'true'
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python rss_results.py
 
       - name: Verify generated files
+        if: steps.gate.outputs.run_predictions == 'true'
         run: |
           echo "===== PUBLIC FILES ====="
           ls -R public
@@ -99,6 +140,11 @@ jobs:
           echo "TOP_JSON=$TOP_JSON"
           echo "TOP_COUNT=$TOP_COUNT"
 
+          if [ "$TOP_COUNT" -eq 0 ]; then
+            echo "ERROR: TOP predictions has 0 items. Refusing to deploy empty TOP page."
+            exit 1
+          fi
+
           if [ "$TOP_COUNT" -gt 7 ]; then
             echo "ERROR: TOP predictions has more than 7 items"
             exit 1
@@ -115,6 +161,11 @@ jobs:
           ALL_COUNT=$(python -c "import json; print(len(json.load(open('$ALL_JSON', encoding='utf-8'))))")
           echo "ALL_JSON=$ALL_JSON"
           echo "ALL_COUNT=$ALL_COUNT"
+
+          if [ "$ALL_COUNT" -eq 0 ]; then
+            echo "ERROR: ALL predictions has 0 items. Refusing to deploy empty ALL page."
+            exit 1
+          fi
 
           echo "===== CHECK RESULTS JSON OPTIONAL ====="
           RESULTS_JSON=$(ls public/results_*.json 2>/dev/null | head -n 1 || true)
@@ -145,6 +196,11 @@ jobs:
           TOP_RSS_COUNT=$(grep -c "<item>" public/tennis.xml || true)
           echo "TOP_RSS_COUNT=$TOP_RSS_COUNT"
 
+          if [ "$TOP_RSS_COUNT" -eq 0 ]; then
+            echo "ERROR: TOP RSS has 0 items. Refusing to deploy empty RSS."
+            exit 1
+          fi
+
           if [ "$TOP_RSS_COUNT" -gt 7 ]; then
             echo "ERROR: TOP RSS has more than 7 items"
             exit 1
@@ -164,6 +220,11 @@ jobs:
 
           ALL_RSS_COUNT=$(grep -c "<item>" public/tennis_all.xml || true)
           echo "ALL_RSS_COUNT=$ALL_RSS_COUNT"
+
+          if [ "$ALL_RSS_COUNT" -eq 0 ]; then
+            echo "ERROR: ALL RSS has 0 items. Refusing to deploy empty ALL RSS."
+            exit 1
+          fi
 
           echo "===== CHECK RESULTS PAGE ====="
           if [ ! -f public/results/index.html ]; then
@@ -202,13 +263,16 @@ jobs:
           head -n 80 public/results.xml
 
       - name: Setup Pages
+        if: steps.gate.outputs.run_predictions == 'true'
         uses: actions/configure-pages@v4
 
       - name: Upload Pages artifact
+        if: steps.gate.outputs.run_predictions == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
 
       - name: Deploy to GitHub Pages
+        if: steps.gate.outputs.run_predictions == 'true'
         id: deployment
         uses: actions/deploy-pages@v4
