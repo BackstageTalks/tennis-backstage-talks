@@ -11,6 +11,16 @@ def esc(value):
     return html.escape(str(value if value is not None else ""))
 
 
+def tag_open(tag, attrs=""):
+    if attrs:
+        return f"{chr(60)}{tag} {attrs}{chr(62)}"
+    return f"{chr(60)}{tag}{chr(62)}"
+
+
+def tag_close(tag):
+    return f"{chr(60)}/{tag}{chr(62)}"
+
+
 def safe_slug(value):
     value = str(value).lower()
     value = re.sub(r"[^a-z0-9]+", "-", value)
@@ -531,6 +541,12 @@ def create_pick_page(index, prediction, label, page_filename):
     )
     stats_rows += create_data_row("Historical sample", f"{sample} matches")
 
+    back_link = (
+        tag_open("a", 'class="back-link" href="../index.html"')
+        + "←"
+        + tag_close("a")
+    )
+
     page = (
         "<!DOCTYPE html>\n"
         "<html lang='en'>\n"
@@ -542,7 +558,7 @@ def create_pick_page(index, prediction, label, page_filename):
         "</head>\n"
         "<body>\n"
         "<div class='container'>\n"
-        "../index.html←</a>\n"
+        f"{back_link}\n"
         "<div class='card'>\n"
         f"<div class='badge'>#{index} {esc(label)}</div>\n"
         f"<h1>{esc(pick)} to win</h1>\n"
@@ -614,7 +630,11 @@ def create_index_page(predictions):
         page_url = prediction.get("_page_url", "#")
         match_time = format_match_time(prediction.get("match_start", ""))
 
-        pick_link = f'">{esc(pick)} to win</a>'
+        pick_link = (
+            tag_open("a", f'href="{esc(page_url)}"')
+            + f"{esc(pick)} to win"
+            + tag_close("a")
+        )
 
         rows += (
             "<tr>"
