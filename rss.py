@@ -21,6 +21,35 @@ def pct(value):
         return 0
 
 
+def format_match_time(value):
+    if not value:
+        return ""
+
+    try:
+        dt = datetime.datetime.fromisoformat(str(value))
+        return dt.strftime("%d.%m.%Y %H:%M Bratislava time")
+    except Exception:
+        return str(value)
+
+
+def clean_tournament_name(value):
+    value = str(value or "").strip()
+
+    hidden_values = [
+        "",
+        "SportScore Tennis",
+        "Tennis",
+        "Unknown",
+        "None",
+        "null"
+    ]
+
+    if value in hidden_values:
+        return ""
+
+    return value
+
+
 def latest_predictions():
     os.makedirs("public", exist_ok=True)
 
@@ -59,9 +88,6 @@ def label_for_pick(probability, signals=None, index=1, market_agrees=False, valu
     if "🎯 Strong over 0.5 set signal" in signals:
         return "🎯 SET SAFETY PICK"
 
-    if "💣 Ace edge vs opponent" in signals:
-        return "💣 ACE EDGE WATCH"
-
     if probability >= 0.58:
         return "✅ SAFE PICK"
 
@@ -78,6 +104,48 @@ def risk_for_pick(probability, market_agrees=False):
     return "HIGH"
 
 
+def signal_summary(signals):
+    if not signals:
+        return "No extra signal"
+
+    return ", ".join(str(s) for s in signals)
+
+
+def create_alt_cards(alt_bets):
+    if not alt_bets:
+        return """
+        <div class="mini-card">
+            <div class="mini-title">Alternative signal</div>
+            <div>No qualified alternative signal.</div>
+        </div>
+        """
+
+    cards = ""
+
+    for alt in alt_bets:
+        market = html.escape(str(alt.get("market", "")))
+        alt_pick = html.escape(str(alt.get("pick", "")))
+        alt_probability = alt.get("probability")
+        alt_confidence = html.escape(str(alt.get("confidence", "")))
+        alt_sample = html.escape(str(alt.get("sample", "")))
+        note = html.escape(str(alt.get("note", "")))
+
+        probability_text = f"{pct(alt_probability)}%" if alt_probability is not None else "N/A"
+
+        cards += f"""
+        <div class="mini-card">
+            <div class="mini-title">{market}</div>
+            <div><span>Pick</span><strong>{alt_pick}</strong></div>
+            <div><span>Probability</span><strong>{probability_text}</strong></div>
+            <div><span>Confidence</span><strong>{alt_confidence}</strong></div>
+            <div><span>Sample</span><strong>{alt_sample}</strong></div>
+            <p class="muted">{note}</p>
+        </div>
+        """
+
+    return cards
+
+
 def create_pick_page(index, prediction, label, risk, page_filename):
     os.makedirs("public/picks", exist_ok=True)
 
@@ -86,530 +154,7 @@ def create_pick_page(index, prediction, label, risk, page_filename):
 
     player1 = str(prediction.get("player1", "Unknown"))
     player2 = str(prediction.get("player2", "Unknown"))
-    tournament = str(prediction.get("tournament", "Tennis"))
+
+    tournament = clean_tournament_name(prediction.get("tournament", ""))
 
     probability = float(prediction.get("probability", 0))
-    confidence = float(prediction.get("confidence", 0))
-
-    odds = prediction.get("odds", "")
-    odds_player1 = prediction.get("odds_player1", "")
-    odds_player2 = prediction.get("odds_player2", "")
-    odds_source = prediction.get("odds_source", "")
-
-    market_probability = prediction.get("market_probability")
-    implied_probability = prediction.get("implied_probability")
-    market_agrees = prediction.get("market_agrees", False)
-    value_edge = prediction.get("bookie_value_edge")
-    bookie_signal = prediction.get("bookie_signal", "")
-    overround = prediction.get("overround")
-
-    match_start = prediction.get("match_start", "")
-    surface = prediction.get("surface", "Unknown")
-
-    signals = prediction.get("extra_signals", [])
-    alt_bets = prediction.get("alternative_bets", [])
-
-    pick_metrics = prediction.get("pick_metrics", {})
-
-    avg_aces = pick_metrics.get("avg_aces")
-    ace_rate = pick_metrics.get("ace_rate")
-    at_least_one_set_rate = pick_metrics.get("at_least_one_set_rate")
-    form_win_rate = pick_metrics.get("win_rate")
-    sample = pick_metrics.get("sample", 0)
-
-    signal_items = ""
-
-    if signals:
-        for signal in signals:
-            signal_items += f"<li>{html.escape(str(signal))}</li>"
-    else:
-        signal_items = "<li>No extra signal</li>"
-
-    alt_rows = ""
-
-    if alt_bets:
-        for alt in alt_bets:
-            market = html.escape(str(alt.get("market", "")))
-            alt_pick = html.escape(str(alt.get("pick", "")))
-            alt_probability = alt.get("probability")
-            alt_confidence = html.escape(str(alt.get("confidence", "")))
-            alt_sample = html.escape(str(alt.get("sample", "")))
-            note = html.escape(str(alt.get("note", "")))
-
-            probability_text = f"{pct(alt_probability)}%" if alt_probability is not None else "N/A"
-
-            alt_rows += f"""
-            <tr>
-                <td>{market}</td>
-                <td>{alt_pick}</td>
-                <td>{probability_text}</td>
-                <td>{alt_confidence}</td>
-                <td>{alt_sample}</td>
-                <td>{note}</td>
-            </tr>
-            """
-    else:
-        alt_rows = """
-        <tr>
-            <td colspan="6">No qualified alternative signal</td>
-        </tr>
-        """
-
-    page = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{html.escape(label)}: {html.escape(pick)} to win</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <style>
-        body {{
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: #f4f4f4;
-            margin: 0;
-            padding: 24px;
-        }}
-
-        .container {{
-            max-width: 900px;
-            margin: 0 auto;
-        }}
-
-        .card {{
-            background: #1f1f1f;
-            border-radius: 16px;
-            padding: 24px;
-        }}
-
-        h1 {{
-            margin-top: 0;
-            font-size: 28px;
-        }}
-
-        h2 {{
-            margin-top: 28px;
-            font-size: 20px;
-            color: #ddd;
-        }}
-
-        .badge {{
-            display: inline-block;
-            padding: 8px 12px;
-            border-radius: 999px;
-            background: #2d6cdf;
-            color: white;
-            font-weight: bold;
-            margin-bottom: 16px;
-        }}
-
-        .grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 12px;
-            margin-top: 16px;
-        }}
-
-        .box {{
-            background: #2a2a2a;
-            padding: 14px;
-            border-radius: 12px;
-        }}
-
-        .box small {{
-            display: block;
-            color: #aaa;
-            margin-bottom: 6px;
-        }}
-
-        .box strong {{
-            font-size: 18px;
-        }}
-
-        table {{
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 12px;
-            font-size: 14px;
-        }}
-
-        th, td {{
-            border-bottom: 1px solid #333;
-            padding: 10px;
-            text-align: left;
-            vertical-align: top;
-        }}
-
-        th {{
-            color: #bbb;
-        }}
-
-        a {{
-            color: #7ab7ff;
-        }}
-
-        .disclaimer {{
-            background: #332b14;
-            color: #ffe9a6;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 14px;
-        }}
-    </style>
-</head>
-
-<body>
-<div class="container">
-    <div class="card">
-        <div class="badge">#{index} {html.escape(label)}</div>
-
-        <h1>{html.escape(pick)} to win</h1>
-
-        <p>
-            <strong>Pick:</strong> {html.escape(pick)}<br>
-            <strong>Opponent:</strong> {html.escape(opponent)}<br>
-            <strong>Match:</strong> {html.escape(player1)} vs {html.escape(player2)}<br>
-            <strong>Tournament:</strong> {html.escape(tournament)}<br>
-            <strong>Match start:</strong> {html.escape(str(match_start))}<br>
-            <strong>Surface:</strong> {html.escape(str(surface))}
-        </p>
-
-        <h2>Main data</h2>
-
-        <div class="grid">
-            <div class="box">
-                <small>Win probability</small>
-                <strong>{pct(probability)}%</strong>
-            </div>
-
-            <div class="box">
-                <small>Confidence</small>
-                <strong>{pct(confidence)}%</strong>
-            </div>
-
-            <div class="box">
-                <small>Risk</small>
-                <strong>{html.escape(risk)}</strong>
-            </div>
-
-            <div class="box">
-                <small>Pick odds</small>
-                <strong>{html.escape(str(odds))}</strong>
-            </div>
-        </div>
-
-        <h2>Bookmaker data</h2>
-
-        <div class="grid">
-            <div class="box">
-                <small>Odds player1 / player2</small>
-                <strong>{html.escape(str(odds_player1))} / {html.escape(str(odds_player2))}</strong>
-            </div>
-
-            <div class="box">
-                <small>Odds source</small>
-                <strong>{html.escape(str(odds_source))}</strong>
-            </div>
-
-            <div class="box">
-                <small>Raw implied probability</small>
-                <strong>{pct(implied_probability) if implied_probability is not None else "N/A"}%</strong>
-            </div>
-
-            <div class="box">
-                <small>Fair market probability</small>
-                <strong>{pct(market_probability) if market_probability is not None else "N/A"}%</strong>
-            </div>
-
-            <div class="box">
-                <small>Bookie value edge</small>
-                <strong>{pct(value_edge) if value_edge is not None else "N/A"}%</strong>
-            </div>
-
-            <div class="box">
-                <small>Market agrees</small>
-                <strong>{html.escape(str(market_agrees))}</strong>
-            </div>
-
-            <div class="box">
-                <small>Bookie signal</small>
-                <strong>{html.escape(str(bookie_signal))}</strong>
-            </div>
-
-            <div class="box">
-                <small>Overround</small>
-                <strong>{html.escape(str(overround))}</strong>
-            </div>
-        </div>
-
-        <h2>Form and stats</h2>
-
-        <div class="grid">
-            <div class="box">
-                <small>Recent / surface form</small>
-                <strong>{pct(form_win_rate) if form_win_rate is not None else "N/A"}%</strong>
-            </div>
-
-            <div class="box">
-                <small>Over 0.5 set rate</small>
-                <strong>{pct(at_least_one_set_rate) if at_least_one_set_rate is not None else "N/A"}%</strong>
-            </div>
-
-            <div class="box">
-                <small>Avg aces</small>
-                <strong>{html.escape(str(avg_aces)) if avg_aces is not None else "N/A"}</strong>
-            </div>
-
-            <div class="box">
-                <small>Ace rate</small>
-                <strong>{pct(ace_rate) if ace_rate is not None else "N/A"}%</strong>
-            </div>
-
-            <div class="box">
-                <small>Historical sample</small>
-                <strong>{html.escape(str(sample))} matches</strong>
-            </div>
-        </div>
-
-        <h2>Signals</h2>
-        <ul>
-            {signal_items}
-        </ul>
-
-        <h2>Alternative markets / signals</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Market / Signal</th>
-                    <th>Pick</th>
-                    <th>Probability</th>
-                    <th>Confidence</th>
-                    <th>Sample</th>
-                    <th>Note</th>
-                </tr>
-            </thead>
-            <tbody>
-                {alt_rows}
-            </tbody>
-        </table>
-
-        <div class="disclaimer">
-            This is a model-based data signal, not financial advice.
-        </div>
-
-        <p>
-            ../index.htmlBack to all picks</a>
-        </p>
-    </div>
-</div>
-</body>
-</html>
-"""
-
-    path = os.path.join("public", "picks", page_filename)
-
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(page)
-
-    return f"picks/{page_filename}"
-
-
-def create_index_page(predictions):
-    rows = ""
-
-    for i, prediction in enumerate(predictions, start=1):
-        pick = str(prediction.get("pick", prediction.get("player1", "Unknown")))
-        opponent = str(prediction.get("opponent", prediction.get("player2", "Unknown")))
-        tournament = str(prediction.get("tournament", "Tennis"))
-        probability = float(prediction.get("probability", 0))
-        odds = prediction.get("odds", "")
-        page_url = prediction.get("_page_url", "#")
-
-        rows += f"""
-        <tr>
-            <td>#{i}</td>
-            <td>">{html.escape(pick)} to win</a></td>
-            <td>{html.escape(opponent)}</td>
-            <td>{html.escape(tournament)}</td>
-            <td>{pct(probability)}%</td>
-            <td>{html.escape(str(odds))}</td>
-        </tr>
-        """
-
-    page = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Backstage Talks Tennis Picks</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <style>
-        body {{
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: #f4f4f4;
-            margin: 0;
-            padding: 24px;
-        }}
-
-        .container {{
-            max-width: 1000px;
-            margin: 0 auto;
-        }}
-
-        table {{
-            width: 100%;
-            border-collapse: collapse;
-            background: #1f1f1f;
-            border-radius: 12px;
-            overflow: hidden;
-        }}
-
-        th, td {{
-            padding: 12px;
-            border-bottom: 1px solid #333;
-            text-align: left;
-        }}
-
-        th {{
-            color: #bbb;
-        }}
-
-        a {{
-            color: #7ab7ff;
-        }}
-
-        .note {{
-            color: #aaa;
-            margin-top: 16px;
-            font-size: 14px;
-        }}
-    </style>
-</head>
-
-<body>
-<div class="container">
-    <h1>Backstage Talks Tennis Picks</h1>
-    <p>Daily model picks based on real match data, market odds and historical player stats.</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Pick</th>
-                <th>Opponent</th>
-                <th>Tournament</th>
-                <th>Win probability</th>
-                <th>Odds</th>
-            </tr>
-        </thead>
-        <tbody>
-            {rows}
-        </tbody>
-    </table>
-
-    <p class="note">Model-based data signals only. Not financial advice.</p>
-</div>
-</body>
-</html>
-"""
-
-    with open("public/index.html", "w", encoding="utf-8") as f:
-        f.write(page)
-
-
-def generate_rss():
-    predictions = latest_predictions()
-
-    os.makedirs("public/picks", exist_ok=True)
-
-    items = ""
-
-    for i, prediction in enumerate(predictions, start=1):
-        pick = str(prediction.get("pick", prediction.get("player1", "Unknown")))
-        opponent = str(prediction.get("opponent", prediction.get("player2", "Unknown")))
-        tournament = str(prediction.get("tournament", "Tennis"))
-
-        probability = float(prediction.get("probability", 0))
-        confidence = float(prediction.get("confidence", 0))
-
-        odds = prediction.get("odds", "")
-
-        market_agrees = prediction.get("market_agrees", False)
-        value_edge = prediction.get("bookie_value_edge")
-        signals = prediction.get("extra_signals", [])
-
-        label = label_for_pick(
-            probability=probability,
-            signals=signals,
-            index=i,
-            market_agrees=market_agrees,
-            value_edge=value_edge
-        )
-
-        risk = risk_for_pick(probability, market_agrees)
-
-        slug = safe_slug(f"{i}-{pick}-vs-{opponent}")
-        page_filename = f"{datetime.date.today().isoformat()}-{slug}.html"
-
-        relative_page = create_pick_page(
-            index=i,
-            prediction=prediction,
-            label=label,
-            risk=risk,
-            page_filename=page_filename
-        )
-
-        full_link = BASE + relative_page
-
-        prediction["_page_url"] = relative_page
-
-        title = f"#{i} {label}: {pick} to win"
-
-        desc = (
-            f"Pick: {pick} | "
-            f"Opponent: {opponent} | "
-            f"Tournament: {tournament} | "
-            f"Win probability: {pct(probability)}% | "
-            f"Confidence: {pct(confidence)}% | "
-            f"Odds: {odds} | "
-            f"Risk: {risk}"
-        )
-
-        guid = f"{pick}-{opponent}-{datetime.date.today().isoformat()}-{i}"
-
-        items += f"""
-<item>
-<title>{html.escape(title)}</title>
-<link>{html.escape(full_link)}</link>
-<guid isPermaLink="false">{html.escape(guid)}</guid>
-<pubDate>{datetime.datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')}</pubDate>
-<description>{html.escape(desc)}</description>
-</item>
-"""
-
-    create_index_page(predictions)
-
-    rss = f"""<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-<channel>
-<title>Backstage Talks Tennis Picks</title>
-<link>{BASE}</link>
-<description>Daily tennis picks - short feed with detailed pick pages</description>
-{items}
-</channel>
-</rss>
-"""
-
-    with open("public/tennis.xml", "w", encoding="utf-8") as f:
-        f.write(rss)
-
-    print("RSS GENERATED:", len(predictions), "items")
-    print("RSS PREVIEW:")
-    print(rss[:2500])
-
-
-if __name__ == "__main__":
-    generate_rss()
