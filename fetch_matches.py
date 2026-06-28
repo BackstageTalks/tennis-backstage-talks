@@ -1,60 +1,37 @@
 import requests
 
 def get_today_matches():
-    url = "https://d.flashscore.com/x/feed/f_2_0_3_en_1"
-
-    headers = {
-        "User-Agent": "Mozilla/5.0",
-        "X-Fsign": "SW9D1eZo"
-    }
+    url = "https://site.web.api.espn.com/apis/v2/sports/tennis/atp/scoreboard"
 
     try:
-        response = requests.get(url, headers=headers)
-        data = response.text.split("\n")
+        response = requests.get(url, timeout=10)
+        data = response.json()
 
         matches = []
 
-        for line in data:
-            # riadky so zápasmi
-            if "~" not in line:
-                continue
+        events = data.get("events", [])
 
-            parts = line.split("~")
+        for event in events:
+            comps = event.get("competitions", [])
 
-            try:
-                player1 = parts[2]
-                player2 = parts[3]
-            except:
-                continue
+            for comp in comps:
+                competitors = comp.get("competitors", [])
 
-            if not player1 or not player2:
-                continue
+                if len(competitors) < 2:
+                    continue
 
-            # cleanup
-            if len(player1) < 3 or len(player2) < 3:
-                continue
+                p1 = competitors[0]["athlete"]["displayName"]
+                p2 = competitors[1]["athlete"]["displayName"]
 
-            matches.append((player1, player2, "Live"))
+                matches.append((p1, p2, "ATP"))
 
-        # sanity filter
-        unique = []
-        seen = set()
+        print("✅ ESPN matches:", len(matches))
 
-        for p1, p2, t in matches:
-            key = f"{p1}-{p2}"
-            if key in seen:
-                continue
-            seen.add(key)
-            unique.append((p1, p2, t))
-
-        print("✅ REAL matches fetched:", len(unique))
-
-        return unique[:10]
+        return matches
 
     except Exception as e:
-        print("❌ fetch error:", e)
+        print("❌ ESPN error:", e)
 
-        # fallback (len ak všetko padne)
         return [
             ("Djokovic", "Sinner", "Fallback"),
             ("Alcaraz", "Medvedev", "Fallback"),
