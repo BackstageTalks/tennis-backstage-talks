@@ -1,0 +1,40 @@
+name: Tennis Stats Probe
+
+on:
+  workflow_dispatch:
+
+jobs:
+  stats-probe:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run predictions first
+        run: python update.py
+
+      - name: Run stats probe
+        run: python stats_probe.py
+
+      - name: Print stats summary
+        run: |
+          echo "===== STATS SUMMARY ====="
+          cat public/stats_probe_summary.json || true
+          echo ""
+          echo "===== STATS FULL HEAD ====="
+          head -200 public/stats_probe_full.json || true
+
+      - name: Upload stats probe output
+        uses: actions/upload-artifact@v4
+        with:
+          name: tennis-stats-probe-output
+          path: public/
