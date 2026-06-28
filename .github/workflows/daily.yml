@@ -85,6 +85,12 @@ jobs:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python results_checker.py
 
+      - name: Generate ALL results from previous ALL predictions
+        if: steps.gate.outputs.run_predictions == 'true'
+        env:
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python results_checker_all.py
+
       - name: Run predictions
         if: steps.gate.outputs.run_predictions == 'true'
         env:
@@ -111,25 +117,33 @@ jobs:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python rss_results.py
 
+      - name: Generate ALL results page and RSS
+        if: steps.gate.outputs.run_predictions == 'true'
+        env:
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python rss_results_all.py
+
+      - name: Publish private aliases
+        if: steps.gate.outputs.run_predictions == 'true'
+        run: python publish_private_aliases.py
+
       - name: Verify generated files
         if: steps.gate.outputs.run_predictions == 'true'
         run: |
           echo "===== PUBLIC FILES ====="
           ls -R public
 
-          echo "===== CHECK SOURCE AUDIT ====="
+          echo "===== CHECK SOURCE AUDIT ORIGINALS ====="
           if [ ! -f public/source_audit.json ]; then
-            echo "ERROR: public/source_audit.json missing"
-            exit 1
+            echo "WARNING: public/source_audit.json missing after alias publish. This may be expected if neutralized later."
           fi
 
           if [ ! -f public/source_manifest.json ]; then
-            echo "ERROR: public/source_manifest.json missing"
-            exit 1
+            echo "WARNING: public/source_manifest.json missing after alias publish. This may be expected if neutralized later."
           fi
 
           echo "===== CHECK TOP JSON ====="
-          TOP_JSON=$(ls public/predictions_*.json | head -n 1)
+          TOP_JSON=$(ls public/predictions_*.json 2>/dev/null | head -n 1 || true)
 
           if [ -z "$TOP_JSON" ]; then
             echo "ERROR: TOP predictions JSON missing"
@@ -151,7 +165,7 @@ jobs:
           fi
 
           echo "===== CHECK ALL JSON ====="
-          ALL_JSON=$(ls public/all_predictions_*.json | head -n 1)
+          ALL_JSON=$(ls public/all_predictions_*.json 2>/dev/null | head -n 1 || true)
 
           if [ -z "$ALL_JSON" ]; then
             echo "ERROR: ALL predictions JSON missing"
@@ -176,91 +190,91 @@ jobs:
             echo "RESULTS_JSON=$RESULTS_JSON"
           fi
 
-          echo "===== CHECK TOP PAGE ====="
-          if [ ! -f public/index.html ]; then
-            echo "ERROR: public/index.html missing"
+          echo "===== CHECK ALL RESULTS JSON OPTIONAL ====="
+          ALL_RESULTS_JSON=$(ls public/all_results_*.json 2>/dev/null | head -n 1 || true)
+
+          if [ -z "$ALL_RESULTS_JSON" ]; then
+            echo "WARNING: all_results_*.json missing. This is OK on first run or when previous ALL predictions were not available."
+          else
+            echo "ALL_RESULTS_JSON=$ALL_RESULTS_JSON"
+          fi
+
+          echo "===== CHECK PRIVATE ALIASES ====="
+          for f in \
+            H4V34N1C3D4Y170 \
+            H4V34N1C3D4Y171 \
+            H4V34N1C3D4Y180 \
+            H4V34N1C3D4Y181 \
+            H4V34N1C3D4Y182 \
+            H4V34N1C3D4Y183 \
+            H4V34N1C3D4Y184 \
+            H4V34N1C3D4Y185 \
+            H4V34N1C3D4Y186 \
+            H4V34N1C3D4Y187
+          do
+            if [ ! -f "public/$f" ]; then
+              echo "ERROR: private alias public/$f missing"
+              exit 1
+            fi
+          done
+
+          echo "===== CHECK PRIVATE TOP RSS ====="
+          TOP_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y181 || true)
+          echo "TOP_PRIVATE_RSS_COUNT=$TOP_PRIVATE_RSS_COUNT"
+
+          if [ "$TOP_PRIVATE_RSS_COUNT" -eq 0 ]; then
+            echo "ERROR: private TOP RSS has 0 items. Refusing to deploy empty TOP RSS."
             exit 1
           fi
 
-          if grep -q "RSS ALL" public/index.html; then
-            echo "ERROR: TOP root page contains RSS ALL"
+          if [ "$TOP_PRIVATE_RSS_COUNT" -gt 7 ]; then
+            echo "ERROR: private TOP RSS has more than 7 items"
             exit 1
           fi
 
-          echo "===== CHECK TOP RSS ====="
-          if [ ! -f public/tennis.xml ]; then
-            echo "ERROR: public/tennis.xml missing"
+          echo "===== CHECK PRIVATE ALL RSS ====="
+          ALL_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y185 || true)
+          echo "ALL_PRIVATE_RSS_COUNT=$ALL_PRIVATE_RSS_COUNT"
+
+          if [ "$ALL_PRIVATE_RSS_COUNT" -eq 0 ]; then
+            echo "ERROR: private ALL RSS has 0 items. Refusing to deploy empty ALL RSS."
             exit 1
           fi
 
-          TOP_RSS_COUNT=$(grep -c "<item>" public/tennis.xml || true)
-          echo "TOP_RSS_COUNT=$TOP_RSS_COUNT"
+          echo "===== CHECK PRIVATE RESULTS RSS ====="
+          RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y183 || true)
+          echo "RESULTS_PRIVATE_RSS_COUNT=$RESULTS_PRIVATE_RSS_COUNT"
 
-          if [ "$TOP_RSS_COUNT" -eq 0 ]; then
-            echo "ERROR: TOP RSS has 0 items. Refusing to deploy empty RSS."
+          echo "===== CHECK PRIVATE ALL RESULTS RSS ====="
+          ALL_RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y187 || true)
+          echo "ALL_RESULTS_PRIVATE_RSS_COUNT=$ALL_RESULTS_PRIVATE_RSS_COUNT"
+
+          echo "===== ROBOTS CHECK ====="
+          if [ ! -f public/robots.txt ]; then
+            echo "ERROR: public/robots.txt missing"
             exit 1
           fi
 
-          if [ "$TOP_RSS_COUNT" -gt 7 ]; then
-            echo "ERROR: TOP RSS has more than 7 items"
-            exit 1
-          fi
+          echo "===== PRIVATE SOURCE MANIFEST PREVIEW ====="
+          head -n 40 public/H4V34N1C3D4Y170
 
-          echo "===== CHECK ALL PAGE ====="
-          if [ ! -f public/all/index.html ]; then
-            echo "ERROR: public/all/index.html missing"
-            exit 1
-          fi
+          echo "===== PRIVATE SOURCE AUDIT PREVIEW ====="
+          head -n 40 public/H4V34N1C3D4Y171
 
-          echo "===== CHECK ALL RSS ====="
-          if [ ! -f public/tennis_all.xml ]; then
-            echo "ERROR: public/tennis_all.xml missing"
-            exit 1
-          fi
+          echo "===== PRIVATE TOP PAGE PREVIEW ====="
+          head -n 40 public/H4V34N1C3D4Y180
 
-          ALL_RSS_COUNT=$(grep -c "<item>" public/tennis_all.xml || true)
-          echo "ALL_RSS_COUNT=$ALL_RSS_COUNT"
+          echo "===== PRIVATE ALL PAGE PREVIEW ====="
+          head -n 40 public/H4V34N1C3D4Y184
 
-          if [ "$ALL_RSS_COUNT" -eq 0 ]; then
-            echo "ERROR: ALL RSS has 0 items. Refusing to deploy empty ALL RSS."
-            exit 1
-          fi
+          echo "===== PRIVATE TOP RESULTS PAGE PREVIEW ====="
+          head -n 40 public/H4V34N1C3D4Y182
 
-          echo "===== CHECK RESULTS PAGE ====="
-          if [ ! -f public/results/index.html ]; then
-            echo "ERROR: public/results/index.html missing"
-            exit 1
-          fi
+          echo "===== PRIVATE ALL RESULTS PAGE PREVIEW ====="
+          head -n 40 public/H4V34N1C3D4Y186
 
-          echo "===== CHECK RESULTS RSS ====="
-          if [ ! -f public/results.xml ]; then
-            echo "ERROR: public/results.xml missing"
-            exit 1
-          fi
-
-          RESULTS_RSS_COUNT=$(grep -c "<item>" public/results.xml || true)
-          echo "RESULTS_RSS_COUNT=$RESULTS_RSS_COUNT"
-
-          echo "===== SOURCE AUDIT PREVIEW ====="
-          head -n 60 public/source_audit.json
-
-          echo "===== TOP INDEX PREVIEW ====="
+          echo "===== PUBLIC ROOT PREVIEW SHOULD BE NEUTRAL ====="
           head -n 40 public/index.html
-
-          echo "===== ALL INDEX PREVIEW ====="
-          head -n 40 public/all/index.html
-
-          echo "===== RESULTS INDEX PREVIEW ====="
-          head -n 40 public/results/index.html
-
-          echo "===== TOP RSS PREVIEW ====="
-          head -n 80 public/tennis.xml
-
-          echo "===== ALL RSS PREVIEW ====="
-          head -n 80 public/tennis_all.xml
-
-          echo "===== RESULTS RSS PREVIEW ====="
-          head -n 80 public/results.xml
 
       - name: Setup Pages
         if: steps.gate.outputs.run_predictions == 'true'
