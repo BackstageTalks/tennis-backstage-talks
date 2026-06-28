@@ -6,7 +6,6 @@ def generate_rss():
     today = datetime.date.today().isoformat()
     path = f"data/predictions_{today}.json"
 
-    # Ak predikcie neexistujú, RSS aj tak vytvoríme (prázdny feed)
     predictions = []
     if os.path.exists(path):
         with open(path, "r", encoding="utf-8") as f:
@@ -30,7 +29,7 @@ def generate_rss():
     <rss version="2.0">
         <channel>
             <title>Backstage Talks Tennis Predictions</title>
-            <link>https://backstagetalks.github.io/BackstageTalks/</link>
+            <link>https://backstagetalks.github.io/tennis-backstage-talks/</link>
             <description>Daily tennis predictions and value bets</description>
             {items}
         </channel>
