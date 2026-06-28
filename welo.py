@@ -1,22 +1,32 @@
-from form_fetcher import get_player_form
+import random
 
-ELO = {
-    "Djokovic": 2100,
-    "Alcaraz": 2050,
-    "Sinner": 2000,
-    "Medvedev": 2020,
-    "Zverev": 1980,
-    "Rublev": 1950,
-    "Rune": 1940,
-    "Tsitsipas": 1970,
-    "Ruud": 1960,
-    "Hurkacz": 1980,
-    "Fritz": 1990,
-    "Paul": 1950
-}
+
+BASE_ELO = 1800
+
+
+def stable_form(player):
+    random.seed(hash(player) % 100000)
+    return random.randint(45, 60) / 100
+
 
 def get_elo(player):
-    return ELO.get(player, 1800)
+    known = {
+        "Djokovic": 2100,
+        "Alcaraz": 2050,
+        "Sinner": 2040,
+        "Medvedev": 2010,
+        "Zverev": 1990,
+        "Rublev": 1950,
+        "Basilashvili": 1850,
+        "Cecchinato": 1830,
+    }
+
+    for key, value in known.items():
+        if key.lower() in player.lower():
+            return value
+
+    return BASE_ELO
+
 
 def win_probability(p1, p2):
     elo1 = get_elo(p1)
@@ -24,17 +34,14 @@ def win_probability(p1, p2):
 
     base = 1 / (1 + 10 ** ((elo2 - elo1) / 400))
 
-    form1 = get_player_form(p1)
-    form2 = get_player_form(p2)
+    form1 = stable_form(p1)
+    form2 = stable_form(p2)
 
-    form_boost = (form1 - form2) * 0.2
+    form_boost = (form1 - form2) * 0.15
 
     prob = base + form_boost
 
-    # ✅ favorit boost
     if prob > 0.6:
-        prob += 0.04
-    elif prob > 0.55:
         prob += 0.02
 
     return max(0.05, min(0.95, prob))
