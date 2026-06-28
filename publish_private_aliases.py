@@ -47,8 +47,8 @@ def copy_file(src, dst):
 
 def rewrite_rss_links(xml_text, target_url):
     """
-    RSS zostane validný, ale všetky <link>...</link> budú smerovať
-    na skrytý alias namiesto verejných starých URL.
+    Prepíše všetky <link>...</link> v RSS na skrytý web alias.
+    RSS zostane validné, ale nebude odkazovať na verejné staré URL.
     """
     return re.sub(
         r"<link>.*?</link>",
@@ -56,6 +56,33 @@ def rewrite_rss_links(xml_text, target_url):
         xml_text,
         flags=re.DOTALL,
     )
+
+
+def publish_rss_alias(src_xml, alias, linked_page_alias):
+    """
+    Vytvorí 2 RSS aliasy:
+    - public/H4...
+    - public/H4....xml
+
+    RSS čítačkám odporúčame .xml variant.
+    """
+    if not os.path.exists(src_xml):
+        print("RSS ALIAS SKIP missing:", src_xml)
+        return False
+
+    xml = read_text(src_xml)
+    xml = rewrite_rss_links(xml, BASE + linked_page_alias)
+
+    no_ext_path = f"public/{alias}"
+    xml_path = f"public/{alias}.xml"
+
+    write_text(no_ext_path, xml)
+    write_text(xml_path, xml)
+
+    print("RSS ALIAS WRITE:", no_ext_path)
+    print("RSS ALIAS WRITE:", xml_path)
+
+    return True
 
 
 def neutral_html():
@@ -120,37 +147,41 @@ def publish_aliases():
     copy_file("public/index.html", f"public/{ALIASES['top_page']}")
 
     # TOP RSS
-    if os.path.exists("public/tennis.xml"):
-        xml = read_text("public/tennis.xml")
-        xml = rewrite_rss_links(xml, BASE + ALIASES["top_page"])
-        write_text(f"public/{ALIASES['top_rss']}", xml)
+    publish_rss_alias(
+        src_xml="public/tennis.xml",
+        alias=ALIASES["top_rss"],
+        linked_page_alias=ALIASES["top_page"],
+    )
 
     # TOP results page
     copy_file("public/results/index.html", f"public/{ALIASES['top_results_page']}")
 
     # TOP results RSS
-    if os.path.exists("public/results.xml"):
-        xml = read_text("public/results.xml")
-        xml = rewrite_rss_links(xml, BASE + ALIASES["top_results_page"])
-        write_text(f"public/{ALIASES['top_results_rss']}", xml)
+    publish_rss_alias(
+        src_xml="public/results.xml",
+        alias=ALIASES["top_results_rss"],
+        linked_page_alias=ALIASES["top_results_page"],
+    )
 
     # ALL page
     copy_file("public/all/index.html", f"public/{ALIASES['all_page']}")
 
     # ALL RSS
-    if os.path.exists("public/tennis_all.xml"):
-        xml = read_text("public/tennis_all.xml")
-        xml = rewrite_rss_links(xml, BASE + ALIASES["all_page"])
-        write_text(f"public/{ALIASES['all_rss']}", xml)
+    publish_rss_alias(
+        src_xml="public/tennis_all.xml",
+        alias=ALIASES["all_rss"],
+        linked_page_alias=ALIASES["all_page"],
+    )
 
     # ALL results page
     copy_file("public/all_results/index.html", f"public/{ALIASES['all_results_page']}")
 
     # ALL results RSS
-    if os.path.exists("public/all_results.xml"):
-        xml = read_text("public/all_results.xml")
-        xml = rewrite_rss_links(xml, BASE + ALIASES["all_results_page"])
-        write_text(f"public/{ALIASES['all_results_rss']}", xml)
+    publish_rss_alias(
+        src_xml="public/all_results.xml",
+        alias=ALIASES["all_results_rss"],
+        linked_page_alias=ALIASES["all_results_page"],
+    )
 
     # robots.txt
     write_text(
@@ -176,6 +207,9 @@ def publish_aliases():
     print("PRIVATE ALIASES GENERATED")
     for key, alias in ALIASES.items():
         print(key, "=>", BASE + alias)
+
+        if key.endswith("_rss"):
+            print(key + "_xml", "=>", BASE + alias + ".xml")
 
 
 if __name__ == "__main__":
