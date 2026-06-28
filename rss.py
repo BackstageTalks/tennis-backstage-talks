@@ -81,7 +81,7 @@ def generate_rss():
 <channel>
 <title>Backstage Talks Tennis Predictions</title>
 <link>{BASE}</link>
-<description>Daily tennis predictions from real match data</description>
+<description>REAL DATA v3 - Daily tennis predictions from SportScore matches</description>
 {items}
 </channel>
 </rss>
@@ -92,7 +92,7 @@ def generate_rss():
 
     print("RSS GENERATED:", len(predictions), "items")
     print("RSS PREVIEW:")
-    print(rss[:1500])
+    print(rss[:2000])
 
 
 if __name__ == "__main__":
