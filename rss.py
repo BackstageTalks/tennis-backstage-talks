@@ -43,7 +43,10 @@ def latest_predictions():
         return json.load(f)
 
 
-def label_for_pick(probability, index, market_agrees=False, value_edge=None):
+def label_for_pick(probability, signals=None, index=1, market_agrees=False, value_edge=None):
+    if signals is None:
+        signals = []
+
     if index == 1:
         return "🔥 TOP PICK"
 
@@ -52,6 +55,12 @@ def label_for_pick(probability, index, market_agrees=False, value_edge=None):
 
     if value_edge is not None and value_edge >= 0.04:
         return "💎 VALUE PICK"
+
+    if "🎯 Strong over 0.5 set signal" in signals:
+        return "🎯 SET SAFETY PICK"
+
+    if "💣 Ace edge vs opponent" in signals:
+        return "💣 ACE EDGE WATCH"
 
     if probability >= 0.58:
         return "✅ SAFE PICK"
@@ -123,8 +132,8 @@ def create_pick_page(index, prediction, label, risk, page_filename):
             market = html.escape(str(alt.get("market", "")))
             alt_pick = html.escape(str(alt.get("pick", "")))
             alt_probability = alt.get("probability")
-            confidence_alt = html.escape(str(alt.get("confidence", "")))
-            sample_alt = html.escape(str(alt.get("sample", "")))
+            alt_confidence = html.escape(str(alt.get("confidence", "")))
+            alt_sample = html.escape(str(alt.get("sample", "")))
             note = html.escape(str(alt.get("note", "")))
 
             probability_text = f"{pct(alt_probability)}%" if alt_probability is not None else "N/A"
@@ -134,8 +143,8 @@ def create_pick_page(index, prediction, label, risk, page_filename):
                 <td>{market}</td>
                 <td>{alt_pick}</td>
                 <td>{probability_text}</td>
-                <td>{confidence_alt}</td>
-                <td>{sample_alt}</td>
+                <td>{alt_confidence}</td>
+                <td>{alt_sample}</td>
                 <td>{note}</td>
             </tr>
             """
@@ -524,8 +533,9 @@ def generate_rss():
         tournament = str(prediction.get("tournament", "Tennis"))
 
         probability = float(prediction.get("probability", 0))
-        odds = prediction.get("odds", "")
         confidence = float(prediction.get("confidence", 0))
+
+        odds = prediction.get("odds", "")
 
         market_agrees = prediction.get("market_agrees", False)
         value_edge = prediction.get("bookie_value_edge")
@@ -543,7 +553,15 @@ def generate_rss():
 
         slug = safe_slug(f"{i}-{pick}-vs-{opponent}")
         page_filename = f"{datetime.date.today().isoformat()}-{slug}.html"
-        relative_page = create_pick_page(i, prediction, label, risk, page_filename)
+
+        relative_page = create_pick_page(
+            index=i,
+            prediction=prediction,
+            label=label,
+            risk=risk,
+            page_filename=page_filename
+        )
+
         full_link = BASE + relative_page
 
         prediction["_page_url"] = relative_page
