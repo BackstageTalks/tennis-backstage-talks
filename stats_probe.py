@@ -8,16 +8,7 @@ from io import StringIO
 
 TODAY = datetime.date.today().isoformat()
 
-# Jeff Sackmann / mirrors - testujeme viac URL možností
-DATA_URLS = [
-    "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_matches_2026.csv",
-    "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_matches_2025.csv",
-    "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_matches_2024.csv",
-
-    "https://raw.githubusercontent.com/JeffSackmann/tennis_wta/master/wta_matches_2026.csv",
-    "https://raw.githubusercontent.com/JeffSackmann/tennis_wta/master/wta_matches_2025.csv",
-    "https://raw.githubusercontent.com/JeffSackmann/tennis_wta/master/wta_matches_2024.csv",
-]
+DATA_FILES_ENDPOINT = "https://stats.tennismylife.org/api/data-files"
 
 
 def normalize_name(name):
@@ -25,7 +16,7 @@ def normalize_name(name):
         return ""
 
     name = str(name).lower().strip()
-    name = re.sub(r"[^a-z\s\-]", "", name)
+    name = re.sub(r"[^a-zA-ZÀ-ž\s\-']", "", name)
     name = re.sub(r"\s+", " ", name)
 
     parts = name.split()
@@ -33,7 +24,7 @@ def normalize_name(name):
     if not parts:
         return ""
 
-    # používame priezvisko ako rough matching
+    # rough matching podľa priezviska
     return parts[-1]
 
 
@@ -59,53 +50,144 @@ def load_latest_predictions():
         return json.load(f)
 
 
-def fetch_csv(url):
-    try:
-        r = requests.get(url, timeout=25)
+def get_data_files():
+    print("FETCH DATA FILE LIST:", DATA_FILES_ENDPOINT)
 
-        print("FETCH:", url)
-        print("HTTP:", r.status_code)
+    try:
+        r = requests.get(DATA_FILES_ENDPOINT, timeout=30)
+        print("DATA FILES HTTP:", r.status_code)
 
         if r.status_code != 200:
+            print("RAW ERROR:", r.text[:1000])
             return []
 
-        text = r.text
+        data = r.json()
 
-        if len(text) < 100:
-            return []
+        files = data.get("files", [])
 
-        reader = csv.DictReader(StringIO(text))
-        rows = list(reader)
+        print("DATA FILES FOUND:", len(files))
 
-        print("ROWS:", len(rows))
-        print("COLUMNS SAMPLE:", reader.fieldnames[:20] if reader.fieldnames else [])
+        for f in files[:20]:
+            print("FILE SAMPLE:", f)
 
-        return rows
+        return files
 
     except Exception as e:
-        print("FETCH ERROR:", url, str(e))
+        print("DATA FILE LIST ERROR:", str(e))
         return []
 
 
+def choose_relevant_files(files):
+    selected = []
+
+    priority_keywords = [
+        "ongoing",
+        "2026",
+        "2025",
+        "2024",
+        "challenger",
+        "quali"
+    ]
+
+    for f in files:
+        name = str(f.get("name", "")).lower()
+        url = f.get("url")
+
+        if not url:
+            continue
+
+        if not name.endswith(".csv"):
+            continue
+
+        if any(k in name for k in priority_keywords):
+            selected.append(f)
+
+    # limit, aby workflow neťahal úplne všetko
+    selected = selected[:20]
+
+    print("SELECTED FILES:", len(selected))
+
+    for f in selected:
+        print("SELECTED:", f.get("name"), f.get("url"))
+
+    return selected
+
+
+def fetch_csv_file(file_info):
+    url = file_info.get("url")
+    name = file_info.get("name", "unknown.csv")
+
+    try:
+        print("\nFETCH CSV:", name)
+        print("URL:", url)
+
+        r = requests.get(url, timeout=45)
+
+        print("HTTP:", r.status_code)
+
+        if r.status_code != 200:
+            print("RAW ERROR:", r.text[:500])
+            return [], []
+
+        text = r.text
+
+        if len(text) < 50:
+            print("CSV too small")
+            return [], []
+
+        reader = csv.DictReader(StringIO(text))
+
+        rows = list(reader)
+        columns = reader.fieldnames or []
+
+        print("ROWS:", len(rows))
+        print("COLUMNS:", columns[:80])
+
+        return rows, columns
+
+    except Exception as e:
+        print("CSV FETCH ERROR:", str(e))
+        return [], []
+
+
+def find_col(columns, candidates):
+    lower_map = {c.lower(): c for c in columns}
+
+    for cand in candidates:
+        if cand.lower() in lower_map:
+            return lower_map[cand.lower()]
+
+    # fuzzy fallback
+    for col in columns:
+        low = col.lower()
+        for cand in candidates:
+            if cand.lower() in low:
+                return col
+
+    return None
+
+
 def parse_sets_from_score(score):
-    """
-    Very simple parser:
-    score like: 6-4 3-6 7-6(5)
-    returns approximate sets won by first-listed winner and loser.
-    In Sackmann match files, winner_name is winner, loser_name is loser.
-    """
     if not score:
-        return {"winner_sets": 0, "loser_sets": 0, "sets_total": 0}
+        return {
+            "p1_sets": None,
+            "p2_sets": None,
+            "sets_total": None
+        }
 
     score = str(score)
 
-    # odstráň retirement / walkover flags
-    if "RET" in score.upper() or "W/O" in score.upper() or "DEF" in score.upper():
-        return {"winner_sets": None, "loser_sets": None, "sets_total": None}
+    if any(x in score.upper() for x in ["RET", "W/O", "WO", "DEF", "ABN"]):
+        return {
+            "p1_sets": None,
+            "p2_sets": None,
+            "sets_total": None
+        }
 
     chunks = score.split()
-    winner_sets = 0
-    loser_sets = 0
+
+    p1_sets = 0
+    p2_sets = 0
 
     for chunk in chunks:
         m = re.match(r"(\d+)-(\d+)", chunk)
@@ -117,105 +199,230 @@ def parse_sets_from_score(score):
         b = int(m.group(2))
 
         if a > b:
-            winner_sets += 1
+            p1_sets += 1
         elif b > a:
-            loser_sets += 1
+            p2_sets += 1
+
+    total = p1_sets + p2_sets
+
+    if total == 0:
+        return {
+            "p1_sets": None,
+            "p2_sets": None,
+            "sets_total": None
+        }
 
     return {
-        "winner_sets": winner_sets,
-        "loser_sets": loser_sets,
-        "sets_total": winner_sets + loser_sets
+        "p1_sets": p1_sets,
+        "p2_sets": p2_sets,
+        "sets_total": total
     }
 
 
-def collect_player_stats(rows, player_name):
-    target = normalize_name(player_name)
+def collect_stats_from_rows(rows, columns, player):
+    player_norm = normalize_name(player)
 
     stats = {
-        "player": player_name,
-        "normalized": target,
+        "player": player,
+        "normalized": player_norm,
         "matches_found": 0,
-        "ace_values": [],
+        "matches_with_score": 0,
         "sets_won": 0,
         "sets_lost": 0,
-        "matches_with_set_score": 0,
         "won_at_least_one_set_matches": 0,
-        "completed_rows_checked": 0
+        "aces_values": [],
+        "ace_columns_used": []
     }
 
-    if not target:
+    if not player_norm:
         return stats
 
+    # možné názvy stĺpcov
+    p1_col = find_col(columns, [
+        "Player_1", "player_1", "player1", "player1_name",
+        "winner_name", "Winner", "winner"
+    ])
+
+    p2_col = find_col(columns, [
+        "Player_2", "player_2", "player2", "player2_name",
+        "loser_name", "Loser", "loser"
+    ])
+
+    winner_col = find_col(columns, [
+        "Winner", "winner", "winner_name"
+    ])
+
+    score_col = find_col(columns, [
+        "Score", "score"
+    ])
+
+    # ace stĺpce - viac možností
+    p1_ace_col = find_col(columns, [
+        "w_ace", "player1_aces", "p1_aces", "Player_1_Aces",
+        "player_1_aces", "aces_1", "Ace1", "Aces1"
+    ])
+
+    p2_ace_col = find_col(columns, [
+        "l_ace", "player2_aces", "p2_aces", "Player_2_Aces",
+        "player_2_aces", "aces_2", "Ace2", "Aces2"
+    ])
+
     for row in rows:
-        winner = row.get("winner_name", "")
-        loser = row.get("loser_name", "")
+        p1 = row.get(p1_col, "") if p1_col else ""
+        p2 = row.get(p2_col, "") if p2_col else ""
+        winner = row.get(winner_col, "") if winner_col else ""
 
+        p1_norm = normalize_name(p1)
+        p2_norm = normalize_name(p2)
         winner_norm = normalize_name(winner)
-        loser_norm = normalize_name(loser)
 
-        if target not in [winner_norm, loser_norm]:
+        if player_norm not in [p1_norm, p2_norm]:
             continue
 
         stats["matches_found"] += 1
 
-        # Aces
-        if target == winner_norm:
-            ace = row.get("w_ace")
-        else:
-            ace = row.get("l_ace")
+        # setové dáta
+        if score_col:
+            parsed = parse_sets_from_score(row.get(score_col))
 
+            if parsed["sets_total"] is not None:
+                stats["matches_with_score"] += 1
+
+                # ak formát je Winner/Loser dataset:
+                # p1 môže byť winner_name, p2 loser_name
+                if winner_col and winner_norm == player_norm:
+                    player_sets = max(parsed["p1_sets"], parsed["p2_sets"])
+                    opp_sets = min(parsed["p1_sets"], parsed["p2_sets"])
+                elif winner_col and winner_norm != player_norm:
+                    player_sets = min(parsed["p1_sets"], parsed["p2_sets"])
+                    opp_sets = max(parsed["p1_sets"], parsed["p2_sets"])
+                else:
+                    # ak je Player_1 / Player_2 dataset
+                    if player_norm == p1_norm:
+                        player_sets = parsed["p1_sets"]
+                        opp_sets = parsed["p2_sets"]
+                    else:
+                        player_sets = parsed["p2_sets"]
+                        opp_sets = parsed["p1_sets"]
+
+                stats["sets_won"] += player_sets
+                stats["sets_lost"] += opp_sets
+
+                if player_sets >= 1:
+                    stats["won_at_least_one_set_matches"] += 1
+
+        # ace dáta
         try:
-            if ace not in [None, "", "NA"]:
-                stats["ace_values"].append(float(ace))
+            if player_norm == p1_norm and p1_ace_col:
+                value = row.get(p1_ace_col)
+                if value not in [None, "", "NA", "NaN"]:
+                    stats["aces_values"].append(float(value))
+                    stats["ace_columns_used"].append(p1_ace_col)
+
+            elif player_norm == p2_norm and p2_ace_col:
+                value = row.get(p2_ace_col)
+                if value not in [None, "", "NA", "NaN"]:
+                    stats["aces_values"].append(float(value))
+                    stats["ace_columns_used"].append(p2_ace_col)
         except Exception:
             pass
 
-        # Sets
-        score = row.get("score", "")
-        parsed = parse_sets_from_score(score)
+    aces_count = len(stats["aces_values"])
 
-        if parsed["sets_total"] is not None and parsed["sets_total"] > 0:
-            stats["matches_with_set_score"] += 1
-
-            if target == winner_norm:
-                player_sets = parsed["winner_sets"]
-                opponent_sets = parsed["loser_sets"]
-            else:
-                player_sets = parsed["loser_sets"]
-                opponent_sets = parsed["winner_sets"]
-
-            stats["sets_won"] += player_sets
-            stats["sets_lost"] += opponent_sets
-
-            if player_sets >= 1:
-                stats["won_at_least_one_set_matches"] += 1
-
-    ace_count = len(stats["ace_values"])
-
-    if ace_count > 0:
-        stats["avg_aces"] = round(sum(stats["ace_values"]) / ace_count, 2)
-        stats["aces_sample"] = ace_count
+    if aces_count > 0:
+        stats["avg_aces"] = round(sum(stats["aces_values"]) / aces_count, 2)
+        stats["aces_sample"] = aces_count
     else:
         stats["avg_aces"] = None
         stats["aces_sample"] = 0
 
-    if stats["matches_with_set_score"] > 0:
-        stats["set_win_rate"] = round(
-            stats["sets_won"] / max(1, stats["sets_won"] + stats["sets_lost"]),
-            3
-        )
+    if stats["matches_with_score"] > 0:
+        total_sets = stats["sets_won"] + stats["sets_lost"]
+
+        stats["set_win_rate"] = round(stats["sets_won"] / max(1, total_sets), 3)
+
         stats["at_least_one_set_rate"] = round(
-            stats["won_at_least_one_set_matches"] / stats["matches_with_set_score"],
+            stats["won_at_least_one_set_matches"] / stats["matches_with_score"],
             3
         )
     else:
         stats["set_win_rate"] = None
         stats["at_least_one_set_rate"] = None
 
-    # aby JSON nebol obrovský
-    stats.pop("ace_values", None)
+    # cleanup
+    stats["ace_columns_used"] = sorted(list(set(stats["ace_columns_used"])))
+    stats.pop("aces_values", None)
 
     return stats
+
+
+def merge_player_stats(stats_list):
+    merged = {}
+
+    for s in stats_list:
+        player = s["player"]
+
+        if player not in merged:
+            merged[player] = {
+                "player": player,
+                "normalized": s["normalized"],
+                "matches_found": 0,
+                "matches_with_score": 0,
+                "sets_won": 0,
+                "sets_lost": 0,
+                "won_at_least_one_set_matches": 0,
+                "aces_total": 0,
+                "aces_sample": 0,
+                "ace_columns_used": set()
+            }
+
+        m = merged[player]
+
+        m["matches_found"] += s.get("matches_found", 0)
+        m["matches_with_score"] += s.get("matches_with_score", 0)
+        m["sets_won"] += s.get("sets_won", 0)
+        m["sets_lost"] += s.get("sets_lost", 0)
+        m["won_at_least_one_set_matches"] += s.get("won_at_least_one_set_matches", 0)
+
+        if s.get("avg_aces") is not None and s.get("aces_sample", 0) > 0:
+            m["aces_total"] += s["avg_aces"] * s["aces_sample"]
+            m["aces_sample"] += s["aces_sample"]
+
+        for col in s.get("ace_columns_used", []):
+            m["ace_columns_used"].add(col)
+
+    output = []
+
+    for player, m in merged.items():
+        if m["aces_sample"] > 0:
+            avg_aces = round(m["aces_total"] / m["aces_sample"], 2)
+        else:
+            avg_aces = None
+
+        if m["matches_with_score"] > 0:
+            total_sets = m["sets_won"] + m["sets_lost"]
+            set_win_rate = round(m["sets_won"] / max(1, total_sets), 3)
+            at_least_one_set_rate = round(
+                m["won_at_least_one_set_matches"] / m["matches_with_score"],
+                3
+            )
+        else:
+            set_win_rate = None
+            at_least_one_set_rate = None
+
+        output.append({
+            "player": player,
+            "normalized": m["normalized"],
+            "matches_found": m["matches_found"],
+            "matches_with_score": m["matches_with_score"],
+            "avg_aces": avg_aces,
+            "aces_sample": m["aces_sample"],
+            "ace_columns_used": sorted(list(m["ace_columns_used"])),
+            "set_win_rate": set_win_rate,
+            "at_least_one_set_rate": at_least_one_set_rate,
+        })
+
+    return output
 
 
 def main():
@@ -234,50 +441,71 @@ def main():
 
     print("PLAYERS TO TEST:", players)
 
-    all_rows = []
-    source_report = []
+    data_files = get_data_files()
+    selected_files = choose_relevant_files(data_files)
 
-    for url in DATA_URLS:
-        rows = fetch_csv(url)
+    source_reports = []
+    all_player_stats = []
 
-        source_report.append({
-            "url": url,
+    for file_info in selected_files:
+        rows, columns = fetch_csv_file(file_info)
+
+        if not rows:
+            source_reports.append({
+                "name": file_info.get("name"),
+                "url": file_info.get("url"),
+                "rows": 0,
+                "columns": [],
+                "has_score": False,
+                "has_aces_candidate": False
+            })
+            continue
+
+        has_score = any("score" in c.lower() for c in columns)
+        has_aces_candidate = any(
+            "ace" in c.lower() or "aces" in c.lower()
+            for c in columns
+        )
+
+        source_reports.append({
+            "name": file_info.get("name"),
+            "url": file_info.get("url"),
             "rows": len(rows),
-            "has_w_ace": bool(rows and "w_ace" in rows[0]),
-            "has_l_ace": bool(rows and "l_ace" in rows[0]),
-            "has_score": bool(rows and "score" in rows[0])
+            "columns": columns,
+            "has_score": has_score,
+            "has_aces_candidate": has_aces_candidate
         })
 
-        all_rows.extend(rows)
+        for player in players:
+            s = collect_stats_from_rows(rows, columns, player)
+            s["source_file"] = file_info.get("name")
+            all_player_stats.append(s)
 
-    print("TOTAL HISTORICAL ROWS:", len(all_rows))
-
-    player_stats = []
-
-    for player in players:
-        stats = collect_player_stats(all_rows, player)
-        player_stats.append(stats)
+    merged_stats = merge_player_stats(all_player_stats)
 
     summary = {
         "date": TODAY,
         "predictions_loaded": len(predictions),
         "players_tested": len(players),
-        "historical_rows_loaded": len(all_rows),
-        "sources": source_report,
-        "players_with_aces": sum(1 for p in player_stats if p.get("aces_sample", 0) > 0),
-        "players_with_set_data": sum(1 for p in player_stats if p.get("matches_with_set_score", 0) > 0),
+        "files_found": len(data_files),
+        "files_selected": len(selected_files),
+        "players_with_matches": sum(1 for p in merged_stats if p["matches_found"] > 0),
+        "players_with_aces": sum(1 for p in merged_stats if p["aces_sample"] > 0),
+        "players_with_set_data": sum(1 for p in merged_stats if p["matches_with_score"] > 0),
     }
 
     output = {
         "summary": summary,
-        "player_stats": player_stats
+        "sources": source_reports,
+        "player_stats": merged_stats,
+        "raw_player_stats_by_file": all_player_stats
     }
 
     print("===== STATS PROBE SUMMARY =====")
     print(json.dumps(summary, indent=2, ensure_ascii=False))
 
-    print("===== PLAYER STATS SAMPLE =====")
-    print(json.dumps(player_stats[:20], indent=2, ensure_ascii=False))
+    print("===== PLAYER STATS =====")
+    print(json.dumps(merged_stats, indent=2, ensure_ascii=False))
 
     with open("public/stats_probe_summary.json", "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2, ensure_ascii=False)
