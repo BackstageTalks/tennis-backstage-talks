@@ -1,15 +1,24 @@
 import random
 
-def compute_probabilities(player1, player2, tournament):
-    # Zjednodušený model – nech to generuje čísla
-    p1 = random.uniform(0.45, 0.65)
-    p2 = 1 - p1
-    return p1, p2
+def get_daily_predictions():
+    players = [
+        ("Djokovic", "Alcaraz"),
+        ("Sinner", "Medvedev"),
+        ("Zverev", "Rublev")
+    ]
 
-def compute_value_bet(prob, odds):
-    fair_odds = 1 / prob
-    value = odds - fair_odds
-    return {
-        "value": value,
-        "is_value_bet": value > 0
-    }
+    predictions = []
+
+    for p1, p2 in players:
+        v1 = random.random()
+        v2 = 1 - v1
+
+        predictions.append({
+            "player1": p1,
+            "player2": p2,
+            "tournament": "ATP Example",
+            "value_player1": {"value": round(v1, 3)},
+            "value_player2": {"value": round(v2, 3)}
+        })
+
+    return predictions
