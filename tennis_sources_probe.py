@@ -17,7 +17,7 @@ def header(title):
 def clean_text(value):
     if not value:
         return ""
-    return re.sub(r"\s+", " ", value).strip()
+    return re.sub(r"\s+", " ", str(value)).strip()
 
 
 def save_output(summary, full):
@@ -31,7 +31,78 @@ def save_output(summary, full):
 
 
 # ============================================================
-# 1) ESPN NO-KEY TEST
+# 1) SOFASCORE NO-KEY TEST
+# ============================================================
+
+def fetch_sofascore():
+    header("SOFASCORE NO-KEY TEST")
+
+    url = f"https://api.sofascore.com/api/v1/sport/tennis/scheduled-events/{TODAY}"
+
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json",
+        "Referer": "https://www.sofascore.com/tennis"
+    }
+
+    try:
+        r = requests.get(url, headers=headers, timeout=20)
+
+        print("URL:", url)
+        print("HTTP:", r.status_code)
+
+        if r.status_code != 200:
+            print("RAW ERROR:", r.text[:700])
+            return []
+
+        data = r.json()
+        events = data.get("events", [])
+
+        matches = []
+
+        for event in events:
+            home = event.get("homeTeam", {})
+            away = event.get("awayTeam", {})
+            tournament = event.get("tournament", {})
+            category = tournament.get("category", {})
+
+            p1 = home.get("name")
+            p2 = away.get("name")
+
+            tournament_name = tournament.get("name") or category.get("name") or "SofaScore Tennis"
+
+            status = event.get("status", {})
+            status_type = status.get("type")
+            status_desc = status.get("description")
+
+            start_ts = event.get("startTimestamp")
+
+            if not p1 or not p2:
+                continue
+
+            matches.append({
+                "source": "sofascore",
+                "player1": clean_text(p1),
+                "player2": clean_text(p2),
+                "tournament": clean_text(tournament_name),
+                "status_type": status_type,
+                "status": status_desc,
+                "startTimestamp": start_ts,
+                "event_id": event.get("id")
+            })
+
+        print("SOFASCORE MATCHES:", len(matches))
+        print(json.dumps(matches[:10], indent=2, ensure_ascii=False))
+
+        return matches
+
+    except Exception as e:
+        print("SOFASCORE ERROR:", str(e))
+        return []
+
+
+# ============================================================
+# 2) ESPN NO-KEY TEST
 # ============================================================
 
 def fetch_espn():
@@ -86,7 +157,7 @@ def fetch_espn():
 
 
 # ============================================================
-# 2) TIPERO PUBLIC JSON TEST
+# 3) TIPERO PUBLIC JSON TEST
 # ============================================================
 
 def fetch_tipero():
@@ -142,7 +213,7 @@ def fetch_tipero():
 
 
 # ============================================================
-# 3) ATP TOUR CURRENT PAGE SCRAPE TEST
+# 4) ATP TOUR CURRENT PAGE TEST
 # ============================================================
 
 def possible_player_name(text):
@@ -168,11 +239,9 @@ def possible_player_name(text):
     if any(b in lower for b in blacklist):
         return False
 
-    # aspoň jedno písmeno
     if not re.search(r"[A-Za-z]", text):
         return False
 
-    # príliš veľa čísiel = score, nie meno
     digit_count = len(re.findall(r"\d", text))
     if digit_count > 2:
         return False
@@ -199,7 +268,6 @@ def fetch_atp_page():
 
         soup = BeautifulSoup(r.text, "html.parser")
 
-        # najprv všeobecná extrakcia textových blokov
         texts = []
 
         for tag in soup.find_all(["a", "span", "div", "td"]):
@@ -207,7 +275,6 @@ def fetch_atp_page():
             if possible_player_name(txt):
                 texts.append(txt)
 
-        # dedup
         deduped = []
         seen = set()
 
@@ -217,7 +284,6 @@ def fetch_atp_page():
                 seen.add(key)
                 deduped.append(t)
 
-        # heuristika: skúsi párovať susedné mená
         matches = []
 
         for i in range(0, min(len(deduped) - 1, 40), 2):
@@ -244,12 +310,13 @@ def fetch_atp_page():
 
 
 # ============================================================
-# 4) BEST SOURCE DECISION
+# 5) BEST SOURCE DECISION
 # ============================================================
 
-def choose_best_source(espn, tipero, atp):
-    # Najčistejšie reálne schedule dáta by boli ESPN/ATP.
-    # TIPERO je JSON a najstabilnejšie no-key, ale sú to cudzie picks.
+def choose_best_source(sofascore, espn, tipero, atp):
+    if len(sofascore) > 0:
+        return "sofascore"
+
     if len(espn) > 0:
         return "espn"
 
@@ -263,14 +330,16 @@ def choose_best_source(espn, tipero, atp):
 
 
 def main():
+    sofascore = fetch_sofascore()
     espn = fetch_espn()
     tipero = fetch_tipero()
     atp = fetch_atp_page()
 
-    best = choose_best_source(espn, tipero, atp)
+    best = choose_best_source(sofascore, espn, tipero, atp)
 
     summary = {
         "date": TODAY,
+        "sofascore_count": len(sofascore),
         "espn_count": len(espn),
         "tipero_count": len(tipero),
         "atp_page_count": len(atp),
@@ -279,6 +348,7 @@ def main():
 
     full = {
         "summary": summary,
+        "sofascore": sofascore,
         "espn": espn,
         "tipero": tipero,
         "atp_page_scrape": atp,
