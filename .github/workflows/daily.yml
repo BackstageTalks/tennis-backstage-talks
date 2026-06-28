@@ -43,10 +43,17 @@ jobs:
       - name: Generate RSS
         run: python rss.py
 
-      - name: Debug public files
+      - name: Verify RSS exists
         run: |
           echo "===== PUBLIC FILES ====="
           ls -R public
+
+          echo "===== CHECK tennis.xml ====="
+          if [ ! -f public/tennis.xml ]; then
+            echo "ERROR: public/tennis.xml was not generated"
+            exit 1
+          fi
+
           echo "===== TENNIS XML ====="
           cat public/tennis.xml
 
