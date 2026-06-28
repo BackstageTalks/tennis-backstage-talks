@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy Pages
 
 on:
   workflow_run:
@@ -13,7 +13,8 @@ jobs:
     permissions:
       pages: write
       id-token: write
+      contents: read
 
     steps:
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
