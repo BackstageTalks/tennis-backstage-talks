@@ -1,5 +1,6 @@
 import os
 import re
+import json
 import shutil
 
 BASE = "https://backstagetalks.github.io/tennis-backstage-talks/"
@@ -34,6 +35,13 @@ def write_text(path, content):
         f.write(content)
 
 
+def write_json(path, payload):
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=4, ensure_ascii=False)
+
+
 def copy_file(src, dst):
     if not os.path.exists(src):
         print("ALIAS SKIP missing:", src)
@@ -58,23 +66,41 @@ def rewrite_rss_links(xml_text, target_url):
     )
 
 
-def publish_rss_alias(src_xml, alias, linked_page_alias):
+def placeholder_rss(title, linked_page_alias, description="No content available yet"):
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+<title>{title}</title>
+<link>{BASE + linked_page_alias}</link>
+<description>{description}</description>
+</channel>
+</rss>
+"""
+
+
+def publish_rss_alias(src_xml, alias, linked_page_alias, title):
     """
-    Vytvorí 2 RSS aliasy:
+    Vytvorí RSS aliasy:
     - public/H4...
     - public/H4....xml
 
-    RSS čítačkám odporúčame .xml variant.
+    Ak zdrojový RSS ešte neexistuje, vytvorí validný placeholder RSS,
+    aby link nikdy nekončil 404.
     """
-    if not os.path.exists(src_xml):
-        print("RSS ALIAS SKIP missing:", src_xml)
-        return False
-
-    xml = read_text(src_xml)
-    xml = rewrite_rss_links(xml, BASE + linked_page_alias)
-
     no_ext_path = f"public/{alias}"
     xml_path = f"public/{alias}.xml"
+
+    if os.path.exists(src_xml):
+        xml = read_text(src_xml)
+        xml = rewrite_rss_links(xml, BASE + linked_page_alias)
+        print("RSS ALIAS SOURCE FOUND:", src_xml)
+    else:
+        print("RSS ALIAS SOURCE MISSING, writing placeholder:", src_xml)
+        xml = placeholder_rss(
+            title=title,
+            linked_page_alias=linked_page_alias,
+            description="No content available yet"
+        )
 
     write_text(no_ext_path, xml)
     write_text(xml_path, xml)
@@ -136,6 +162,35 @@ def neutral_rss(title="BackstageTalks"):
 """
 
 
+def neutral_json():
+    return {
+        "status": "NO_PUBLIC_CONTENT",
+        "message": "No public content available."
+    }
+
+
+def write_robots_txt():
+    """
+    Nezakazujeme celé /, lebo niektoré RSS čítačky rešpektujú robots.txt.
+    Namiesto toho neutralizujeme verejné stránky a nechávame skryté aliasy dostupné.
+    """
+    content = "\n".join([
+        "User-agent: *",
+        "Disallow: /tennis.xml",
+        "Disallow: /tennis_all.xml",
+        "Disallow: /results.xml",
+        "Disallow: /all_results.xml",
+        "Disallow: /all/",
+        "Disallow: /results/",
+        "Disallow: /all_results/",
+        "Disallow: /source_manifest.json",
+        "Disallow: /source_audit.json",
+        ""
+    ])
+
+    write_text("public/robots.txt", content)
+
+
 def publish_aliases():
     os.makedirs("public", exist_ok=True)
 
@@ -151,6 +206,7 @@ def publish_aliases():
         src_xml="public/tennis.xml",
         alias=ALIASES["top_rss"],
         linked_page_alias=ALIASES["top_page"],
+        title="BackstageTalks Tennis TOP 7 RSS",
     )
 
     # TOP results page
@@ -161,6 +217,7 @@ def publish_aliases():
         src_xml="public/results.xml",
         alias=ALIASES["top_results_rss"],
         linked_page_alias=ALIASES["top_results_page"],
+        title="BackstageTalks Tennis TOP 7 Results RSS",
     )
 
     # ALL page
@@ -171,6 +228,7 @@ def publish_aliases():
         src_xml="public/tennis_all.xml",
         alias=ALIASES["all_rss"],
         linked_page_alias=ALIASES["all_page"],
+        title="BackstageTalks Tennis ALL RSS",
     )
 
     # ALL results page
@@ -181,13 +239,11 @@ def publish_aliases():
         src_xml="public/all_results.xml",
         alias=ALIASES["all_results_rss"],
         linked_page_alias=ALIASES["all_results_page"],
+        title="BackstageTalks Tennis ALL Results RSS",
     )
 
     # robots.txt
-    write_text(
-        "public/robots.txt",
-        "User-agent: *\nDisallow: /\n"
-    )
+    write_robots_txt()
 
     # Neutralize old public pages and feeds.
     write_text("public/index.html", neutral_html())
@@ -203,6 +259,10 @@ def publish_aliases():
     write_text("public/all/index.html", neutral_html())
     write_text("public/results/index.html", neutral_html())
     write_text("public/all_results/index.html", neutral_html())
+
+    # Neutralize public technical JSON files after aliases are created.
+    write_json("public/source_manifest.json", neutral_json())
+    write_json("public/source_audit.json", neutral_json())
 
     print("PRIVATE ALIASES GENERATED")
     for key, alias in ALIASES.items():
