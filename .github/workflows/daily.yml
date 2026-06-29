@@ -133,15 +133,6 @@ jobs:
           echo "===== PUBLIC FILES ====="
           ls -R public
 
-          echo "===== CHECK SOURCE AUDIT ORIGINALS ====="
-          if [ ! -f public/source_audit.json ]; then
-            echo "WARNING: public/source_audit.json missing after alias publish. This may be expected if neutralized later."
-          fi
-
-          if [ ! -f public/source_manifest.json ]; then
-            echo "WARNING: public/source_manifest.json missing after alias publish. This may be expected if neutralized later."
-          fi
-
           echo "===== CHECK TOP JSON ====="
           TOP_JSON=$(ls public/predictions_*.json 2>/dev/null | head -n 1 || true)
 
@@ -160,7 +151,7 @@ jobs:
           fi
 
           if [ "$TOP_COUNT" -gt 7 ]; then
-            echo "ERROR: TOP predictions has more than 7 items"
+            echo "ERROR: TOP predictions has more than 7 items."
             exit 1
           fi
 
@@ -199,18 +190,14 @@ jobs:
             echo "ALL_RESULTS_JSON=$ALL_RESULTS_JSON"
           fi
 
-          echo "===== CHECK PRIVATE ALIASES ====="
+          echo "===== CHECK PRIVATE WEB/JSON ALIASES ====="
           for f in \
             H4V34N1C3D4Y170 \
             H4V34N1C3D4Y171 \
             H4V34N1C3D4Y180 \
-            H4V34N1C3D4Y181 \
             H4V34N1C3D4Y182 \
-            H4V34N1C3D4Y183 \
             H4V34N1C3D4Y184 \
-            H4V34N1C3D4Y185 \
-            H4V34N1C3D4Y186 \
-            H4V34N1C3D4Y187
+            H4V34N1C3D4Y186
           do
             if [ ! -f "public/$f" ]; then
               echo "ERROR: private alias public/$f missing"
@@ -218,35 +205,61 @@ jobs:
             fi
           done
 
-          echo "===== CHECK PRIVATE TOP RSS ====="
-          TOP_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y181 || true)
+          echo "===== CHECK PRIVATE RSS ALIASES WITHOUT EXT ====="
+          for f in \
+            H4V34N1C3D4Y181 \
+            H4V34N1C3D4Y183 \
+            H4V34N1C3D4Y185 \
+            H4V34N1C3D4Y187
+          do
+            if [ ! -f "public/$f" ]; then
+              echo "ERROR: private RSS alias public/$f missing"
+              exit 1
+            fi
+          done
+
+          echo "===== CHECK PRIVATE RSS XML ALIASES ====="
+          for f in \
+            H4V34N1C3D4Y181.xml \
+            H4V34N1C3D4Y183.xml \
+            H4V34N1C3D4Y185.xml \
+            H4V34N1C3D4Y187.xml
+          do
+            if [ ! -f "public/$f" ]; then
+              echo "ERROR: private RSS XML alias public/$f missing"
+              exit 1
+            fi
+          done
+
+          echo "===== CHECK PRIVATE TOP RSS XML ====="
+          TOP_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y181.xml || true)
           echo "TOP_PRIVATE_RSS_COUNT=$TOP_PRIVATE_RSS_COUNT"
 
           if [ "$TOP_PRIVATE_RSS_COUNT" -eq 0 ]; then
-            echo "ERROR: private TOP RSS has 0 items. Refusing to deploy empty TOP RSS."
+            echo "ERROR: private TOP RSS XML has 0 items. Refusing to deploy empty TOP RSS."
             exit 1
           fi
 
           if [ "$TOP_PRIVATE_RSS_COUNT" -gt 7 ]; then
-            echo "ERROR: private TOP RSS has more than 7 items"
+            echo "ERROR: private TOP RSS XML has more than 7 items."
             exit 1
           fi
 
-          echo "===== CHECK PRIVATE ALL RSS ====="
-          ALL_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y185 || true)
+          echo "===== CHECK PRIVATE ALL RSS XML ====="
+          ALL_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y185.xml || true)
           echo "ALL_PRIVATE_RSS_COUNT=$ALL_PRIVATE_RSS_COUNT"
 
           if [ "$ALL_PRIVATE_RSS_COUNT" -eq 0 ]; then
-            echo "ERROR: private ALL RSS has 0 items. Refusing to deploy empty ALL RSS."
+            echo "ERROR: private ALL RSS XML has 0 items. Refusing to deploy empty ALL RSS."
             exit 1
           fi
 
-          echo "===== CHECK PRIVATE RESULTS RSS ====="
-          RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y183 || true)
+          echo "===== CHECK PRIVATE RESULTS RSS XML ====="
+          RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y183.xml || true)
           echo "RESULTS_PRIVATE_RSS_COUNT=$RESULTS_PRIVATE_RSS_COUNT"
 
-          echo "===== CHECK PRIVATE ALL RESULTS RSS ====="
-          ALL_RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y187 || true)
+          echo "===== CHECK PRIVATE ALL RESULTS RSS XML ====="
+          ALL_RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y187.xml || true)
           echo "ALL_RESULTS_PRIVATE_RSS_COUNT=$ALL_RESULTS_PRIVATE_RSS_COUNT"
 
           echo "===== ROBOTS CHECK ====="
@@ -254,12 +267,6 @@ jobs:
             echo "ERROR: public/robots.txt missing"
             exit 1
           fi
-
-          echo "===== PRIVATE SOURCE MANIFEST PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y170
-
-          echo "===== PRIVATE SOURCE AUDIT PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y171
 
           echo "===== PRIVATE TOP PAGE PREVIEW ====="
           head -n 40 public/H4V34N1C3D4Y180
@@ -272,6 +279,12 @@ jobs:
 
           echo "===== PRIVATE ALL RESULTS PAGE PREVIEW ====="
           head -n 40 public/H4V34N1C3D4Y186
+
+          echo "===== PRIVATE TOP RSS XML PREVIEW ====="
+          head -n 80 public/H4V34N1C3D4Y181.xml
+
+          echo "===== PRIVATE ALL RSS XML PREVIEW ====="
+          head -n 80 public/H4V34N1C3D4Y185.xml
 
           echo "===== PUBLIC ROOT PREVIEW SHOULD BE NEUTRAL ====="
           head -n 40 public/index.html
