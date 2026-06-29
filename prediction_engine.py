@@ -28,6 +28,10 @@ def fair_market_probs(odds1, odds2):
 
 
 def calculate_ev(probability, odds):
+    """
+    EV je iba informačné číslo.
+    EV = Win % * odds - 1
+    """
     if odds is None:
         return None
 
@@ -38,6 +42,10 @@ def calculate_ev(probability, odds):
 
 
 def classify_bookie_signal(pick, p1, p2, model_prob, odds1, odds2):
+    """
+    Kurz / bookmaker / market sú iba informačné údaje.
+    Nepoužívajú sa na TOP winner poradie.
+    """
     fair1, fair2, overround = fair_market_probs(odds1, odds2)
 
     if fair1 is None or fair2 is None:
@@ -91,6 +99,10 @@ def classify_bookie_signal(pick, p1, p2, model_prob, odds1, odds2):
 
 
 def metric_for_surface(player_stats, surface):
+    """
+    Stats nechávame ako info.
+    Nepoužívame ich na zmenu TOP winner poradia.
+    """
     if not player_stats:
         return {}
 
@@ -111,6 +123,10 @@ def metric_for_surface(player_stats, surface):
 
 
 def classify_extra_signal(pick_metrics, opponent_metrics):
+    """
+    Signály sú iba info.
+    Neovplyvňujú TOP winner poradie.
+    """
     signals = []
 
     avg_aces = pick_metrics.get("avg_aces")
@@ -150,6 +166,10 @@ def classify_extra_signal(pick_metrics, opponent_metrics):
 
 
 def build_alternative_bets(pick, pick_metrics):
+    """
+    Alternatívne trhy ostávajú iba ako info.
+    Neovplyvňujú winner pick.
+    """
     alt_bets = []
 
     set_rate = pick_metrics.get("at_least_one_set_rate")
@@ -209,12 +229,16 @@ def data_quality_from_metrics(pick_metrics, opponent_metrics):
 def win_tier(probability):
     if probability >= 0.65:
         return "A+"
+
     if probability >= 0.60:
         return "A"
+
     if probability >= 0.57:
         return "B"
+
     if probability >= 0.54:
         return "C"
+
     if probability >= 0.52:
         return "D"
 
@@ -274,6 +298,12 @@ def build_model_flags(probability, odds_info, data_quality, ev_score):
 
 
 def build_bet_tag(probability, odds, ev_score, model_flags):
+    """
+    Praktické odporúčanie čo hrať.
+
+    TOP poradie = čisto podľa Win %
+    bet_tag = pomáha rozhodnúť, či bet dáva praktický zmysel
+    """
     if probability < 0.52:
         return "❌ NO BET"
 
@@ -354,6 +384,29 @@ def build_short_reason(probability, odds, ev_score, bet_tag, model_flags):
     return "; ".join(reasons)
 
 
+def is_recommended_bet(pred):
+    """
+    TOP/TG výstup má obsahovať iba reálne hrateľné tipy.
+
+    Povolené:
+    ✅ PLAY
+    ⚠️ PLAY SMALL
+
+    Nepovolené:
+    👀 WATCH
+    ❌ NO BET
+    """
+    bet_tag = str(pred.get("bet_tag", ""))
+
+    if bet_tag.startswith("✅ PLAY"):
+        return True
+
+    if bet_tag.startswith("⚠️ PLAY SMALL"):
+        return True
+
+    return False
+
+
 def get_match_fields(match):
     if isinstance(match, dict):
         return {
@@ -411,6 +464,7 @@ def get_daily_predictions():
         odds2 = m.get("odds_player2")
 
         base_prob1 = win_probability(p1, p2)
+
         prob1 = max(0.05, min(0.95, base_prob1))
         prob2 = 1 - prob1
 
@@ -482,7 +536,9 @@ def get_daily_predictions():
 
         tier = win_tier(pick_probability)
 
-        # TOP ranking = čisté Win %
+        # Kľúčové:
+        # score = čisté Win %
+        # Žiadne odds / EV / market / ace / set bonusy.
         score = pick_probability
 
         pred = {
@@ -540,11 +596,25 @@ def get_daily_predictions():
 
         all_predictions.append(pred)
 
-    # TOP výber iba podľa Win %
+    # ALL predictions sú všetky modelové kandidáty.
+    # TOP/TG predictions sú iba hrateľné bety:
+    # ✅ PLAY alebo ⚠️ PLAY SMALL.
     all_predictions.sort(key=lambda x: x["probability"], reverse=True)
-    final = all_predictions[:TOP_N]
 
-    print("FINAL PICKS:", len(final))
+    recommended = [
+        p for p in all_predictions
+        if is_recommended_bet(p)
+    ]
+
+    # TOP stránka / RSS / TG bot číta iba recommended shortlist.
+    # Ak dnes nie je žiadny hrateľný bet, TOP bude prázdny.
+    # Je lepšie nemať bet ako poslať coinflip.
+    final = recommended[:TOP_N]
+
+    print("FINAL RECOMMENDED PICKS:", len(final))
+
+    if not final:
+        print("NO RECOMMENDED PLAY BETS TODAY")
 
     for p in final:
         print(
