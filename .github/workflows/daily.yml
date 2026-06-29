@@ -3,13 +3,13 @@ name: Daily Tennis Predictions
 on:
   schedule:
     # GitHub Actions cron beží v UTC.
-    # 04:45 UTC = 06:45 Bratislava time počas CEST / UTC+2.
-    - cron: "45 4 * * *"
+    # 05:00 UTC = 07:00 Bratislava time počas CEST / UTC+2.
+    - cron: "0 5 * * *"
 
   workflow_dispatch:
     inputs:
       force_predict:
-        description: "Force prediction generation even outside the normal 06:45 Bratislava run"
+        description: "Force prediction generation even outside the normal 07:00 Bratislava run"
         required: false
         default: false
         type: boolean
@@ -190,17 +190,13 @@ jobs:
             echo "ALL_RESULTS_JSON=$ALL_RESULTS_JSON"
           fi
 
-          echo "===== CHECK PRIVATE WEB/JSON ALIASES ====="
+          echo "===== CHECK PRIVATE JSON ALIASES ====="
           for f in \
             H4V34N1C3D4Y170 \
-            H4V34N1C3D4Y171 \
-            H4V34N1C3D4Y180 \
-            H4V34N1C3D4Y182 \
-            H4V34N1C3D4Y184 \
-            H4V34N1C3D4Y186
+            H4V34N1C3D4Y171
           do
             if [ ! -f "public/$f" ]; then
-              echo "ERROR: private alias public/$f missing"
+              echo "ERROR: private JSON alias public/$f missing"
               exit 1
             fi
           done
