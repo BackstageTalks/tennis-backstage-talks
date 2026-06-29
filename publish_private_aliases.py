@@ -260,7 +260,7 @@ def link_item(label, url, note=""):
     return (
         "<div class='link-card'>\n"
         "  <div class='label'>" + safe_label + "</div>\n"
-        "  " + safe_url + "" + safe_url + "</a>\n"
+        "  <a href='" + safe_url + "' target='_blank' rel='noopener noreferrer'>" + safe_url + "</a>\n"
         "  " + note_html + "\n"
         "</div>\n"
     )
@@ -275,11 +275,7 @@ def create_links_page():
     """
     alias = ALIASES["links_page"]
     direct_path = "public/" + alias
-    index_path = "public/" + alias + "/index.html"
-
-    remove_file_if_exists(direct_path)
-
-    links = [
+    index_path = "public/" + alias + "/index.nks = [
         ("Source manifest:", BASE + ALIASES["source_manifest"], "Interná mapa zdrojov"),
         ("Source audit:", BASE + ALIASES["source_audit"], "Interný audit zdrojov"),
 
