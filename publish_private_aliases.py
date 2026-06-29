@@ -169,7 +169,7 @@ def copy_or_placeholder_json(src, alias_file, name):
 
 def copy_or_placeholder_html(src, alias_dir, title, message):
     """
-    Web alias vytvárame iba ako adresár s index.html.
+    Web alias vytvárame ako adresár s index.html.
 
     Správna URL:
     /H4.../
@@ -260,7 +260,7 @@ def link_item(label, url, note=""):
     return (
         "<div class='link-card'>\n"
         "  <div class='label'>" + safe_label + "</div>\n"
-        "  <a href='" + safe_url + "' target='_blank' rel='noopener noreferrer'>" + safe_url + "</a>\n"
+        "  " + safe_url + "" + safe_url + "</a>\n"
         "  " + note_html + "\n"
         "</div>\n"
     )
@@ -280,7 +280,8 @@ def create_links_page():
     remove_file_if_exists(direct_path)
 
     links = [
-        ("Source manifest:", BASE + ALIASES ("Source audit:", BASE + ALIASES["source_audit"], "Interný audit zdrojov"),
+        ("Source manifest:", BASE + ALIASES["source_manifest"], "Interná mapa zdrojov"),
+        ("Source audit:", BASE + ALIASES["source_audit"], "Interný audit zdrojov"),
 
         ("TOP 7 web:", BASE + ALIASES["top_page"] + "/", "Denný TOP 7 výber"),
         ("TOP 7 RSS:", BASE + ALIASES["top_rss"] + ".xml", "RSS feed pre TOP 7"),
