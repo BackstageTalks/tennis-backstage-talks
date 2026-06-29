@@ -8,52 +8,49 @@ on:
 
   workflow_dispatch:
 
-permissions:
+permissio*s:
   contents: read
-  pages: write
-  id-token: write
+  pages: write*  id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  *roup: pages
+  cancel-in-progress: *alse
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+  * runs-on: ubuntu-latest
 
-    environment:
+    envir*nment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  *   url: ${{ steps.deployment.outpu*s.page_url }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - *ame: Checkout repository
+        u*es: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - n*me: Setup Python
+        uses: act*ons/setup-python@v4
         with:
-          python-version: "3.10"
+*         python-version: "3.10"
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
+ *    - name: Install dependencies
+ *      run: |
+          python -m p*p install --upgrade pip
+          *ip install requests beautifulsoup4*
+      - name: Clean public folder*        run: |
+          echo "===*= CLEAN PUBLIC FOLDER ====="
+     *    rm -rf public
+          mkdir *p public
 
-      - name: Clean public folder
-        run: |
-          echo "===== CLEAN PUBLIC FOLDER ====="
-          rm -rf public
-          mkdir -p public
-
-      - name: Run predictions
+      - name: Run predic*ions
         env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-          BET_WINDOW_START_HOUR: 6
-          BET_WINDOW_END_NEXT_DAY_HOUR: 6
-        run: python update.py
+          LOCAL_*Z_OFFSET_HOURS: 2
+          BET_WI*DOW_START_HOUR: 6
+          BET_WI*DOW_END_NEXT_DAY_HOUR: 6
+        r*n: python update.py
 
-      - name: Apply TOP odds filter
-        continue-on-error: true
+      - name:*Apply TOP odds filter
+        cont*nue-on-error: true
         env:
           MIN_TOP_ODDS: 1.50
           MAX_TOP_ITEMS: 7
@@ -88,8 +85,8 @@ jobs:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python rss_results_all.py
 
-      - name: Publish private aliases
-        run: python publish_private_aliases.py
+      - name: Publish links and feeds
+        run: bash publish_links.sh
 
       - name: Verify generated files
         run: |
@@ -130,6 +127,7 @@ jobs:
               data = json.load(open(path, encoding="utf-8"))
 
               bad = []
+
               for item in data:
                   try:
                       odds = float(item.get("odds", 0))
@@ -258,7 +256,7 @@ jobs:
           fi
 
           echo "===== PRIVATE LINK HUB PREVIEW ====="
-          head -n 60 public/H4V34N1C3D4Y177/index.html
+          head -n 80 public/H4V34N1C3D4Y177/index.html
 
           echo "===== PRIVATE TOP PAGE PREVIEW ====="
           head -n 40 public/H4V34N1C3D4Y180/index.html
@@ -278,3 +276,17 @@ jobs:
           echo "===== PRIVATE ALL RSS XML PREVIEW ====="
           head -n 80 public/H4V34N1C3D4Y185.xml
 
+          echo "===== PUBLIC ROOT PREVIEW SHOULD BE NEUTRAL ====="
+          head -n 40 public/index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
