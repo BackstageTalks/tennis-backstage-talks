@@ -275,7 +275,11 @@ def create_links_page():
     """
     alias = ALIASES["links_page"]
     direct_path = "public/" + alias
-    index_path = "public/" + alias + "/index.nks = [
+    index_path = "public/" + alias + "/index.html"
+
+    remove_file_if_exists(direct_path)
+
+    links = [
         ("Source manifest:", BASE + ALIASES["source_manifest"], "Interná mapa zdrojov"),
         ("Source audit:", BASE + ALIASES["source_audit"], "Interný audit zdrojov"),
 
@@ -297,9 +301,7 @@ def create_links_page():
     page = """<!DOCTYPE html>
 <html lang="sk">
 <head>
-<meta charset="UTF-8">
-<title>BackstageTalks Tennis Links</title>
-<meta name="robots" content="noindex,nofollow,noarchive">
+<meta charset="UTF name="robots" content="noindex,nofollow,noarchive">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 * {
