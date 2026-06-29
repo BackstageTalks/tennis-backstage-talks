@@ -1,49 +1,46 @@
-name: Bootstrap Private RSS Feeds
+name: Bootstrap Priv*te RSS Feeds
 
 on:
-  workflow_dispatch:
+  workflow_dispa*ch:
 
 permissions:
-  contents: read
-  pages: write
+  contents: read*  pages: write
   id-token: write
 
-concurrency:
+*oncurrency:
   group: pages
-  cancel-in-progress: false
+  cance*-in-progress: false
 
 jobs:
-  bootstrap-feeds:
-    runs-on: ubuntu-latest
+  boots*rap-feeds:
+    runs-on: ubuntu-lat*st
 
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: g*thub-pages
+      url: ${{ steps.de*loyment.outputs.page_url }}
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    s*eps:
+      - name: Checkout reposi*ory
+        uses: actions/checkout*v3
 
-      - name: Create placeholder private feeds
+      - name: Create placehold*r private feeds
         run: |
-          echo "===== CREATE PLACEHOLDER PRIVATE FEEDS ====="
+   *      echo "===== CREATE PLACEHOLD*R PRIVATE FEEDS ====="
 
-          rm -rf public
-          mkdir -p public
+          *m -rf public
+          mkdir -p pu*lic
 
-          cat > public/index.html <<'EOF'
-          <!DOCTYPE html>
+          cat > public/index.*tml <<'EOF'
+          <!DOCTYPE ht*l>
           <html lang="en">
-          <head>
-          <meta charset="UTF-8">
-          <title>BackstageTalks</title>
-          <meta name="robots" content="noindex,nofollow,noarchive">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <style>
+    *     <head>
+          <meta charse*="UTF-8">
+          <title>Backsta*eTalks</title>
+          <meta nam*="robots" content="noindex,nofollo*,noarchive">
+          <meta name=*viewport" content="width=device-wi*th, initial-scale=1.0">
+          *style>
           body {
-              font-family: Arial, sans-serif;
-              background: #160f0f;
-              color: #f4f4f4;
+          *   font-family: Arial, sans-serif;*              background: #160f0f;*              color: #f4f4f4;
               margin: 0;
               padding: 40px;
           }
@@ -83,10 +80,12 @@ jobs:
           EOF
 
           create_page () {
-            FILE="$1"
+            DIR="$1"
             TITLE="$2"
 
-            cat > "public/$FILE" <<EOF
+            mkdir -p "public/$DIR"
+
+            cat > "public/$DIR/index.html" <<EOF
           <!DOCTYPE html>
           <html lang="en">
           <head>
@@ -151,8 +150,6 @@ jobs:
 
           BASE="https://backstagetalks.github.io/tennis-backstage-talks"
 
-          echo "===== SOURCE PLACEHOLDERS ====="
-
           cat > public/H4V34N1C3D4Y170 <<'EOF'
           {
             "status": "PLACEHOLDER",
@@ -169,21 +166,15 @@ jobs:
           }
           EOF
 
-          echo "===== WEB PLACEHOLDERS ====="
-
           create_page "H4V34N1C3D4Y180" "BackstageTalks Tennis TOP 7"
           create_page "H4V34N1C3D4Y182" "BackstageTalks Tennis TOP 7 Results"
           create_page "H4V34N1C3D4Y184" "BackstageTalks Tennis ALL"
           create_page "H4V34N1C3D4Y186" "BackstageTalks Tennis ALL Results"
 
-          echo "===== RSS PLACEHOLDERS WITH .xml ====="
-
-          create_feed "H4V34N1C3D4Y181.xml" "BackstageTalks Tennis TOP 7 RSS" "$BASE/H4V34N1C3D4Y180"
-          create_feed "H4V34N1C3D4Y183.xml" "BackstageTalks Tennis TOP 7 Results RSS" "$BASE/H4V34N1C3D4Y182"
-          create_feed "H4V34N1C3D4Y185.xml" "BackstageTalks Tennis ALL RSS" "$BASE/H4V34N1C3D4Y184"
-          create_feed "H4V34N1C3D4Y187.xml" "BackstageTalks Tennis ALL Results RSS" "$BASE/H4V34N1C3D4Y186"
-
-          echo "===== RSS PLACEHOLDERS WITHOUT EXTENSION ====="
+          create_feed "H4V34N1C3D4Y181.xml" "BackstageTalks Tennis TOP 7 RSS" "$BASE/H4V34N1C3D4Y180/"
+          create_feed "H4V34N1C3D4Y183.xml" "BackstageTalks Tennis TOP 7 Results RSS" "$BASE/H4V34N1C3D4Y182/"
+          create_feed "H4V34N1C3D4Y185.xml" "BackstageTalks Tennis ALL RSS" "$BASE/H4V34N1C3D4Y184/"
+          create_feed "H4V34N1C3D4Y187.xml" "BackstageTalks Tennis ALL Results RSS" "$BASE/H4V34N1C3D4Y186/"
 
           cp public/H4V34N1C3D4Y181.xml public/H4V34N1C3D4Y181
           cp public/H4V34N1C3D4Y183.xml public/H4V34N1C3D4Y183
@@ -222,10 +213,10 @@ jobs:
           echo "===== VERIFY WEB PLACEHOLDERS ====="
 
           for f in \
-            H4V34N1C3D4Y180 \
-            H4V34N1C3D4Y182 \
-            H4V34N1C3D4Y184 \
-            H4V34N1C3D4Y186
+            H4V34N1C3D4Y180/index.html \
+            H4V34N1C3D4Y182/index.html \
+            H4V34N1C3D4Y184/index.html \
+            H4V34N1C3D4Y186/index.html
           do
             if [ ! -f "public/$f" ]; then
               echo "ERROR: public/$f missing"
