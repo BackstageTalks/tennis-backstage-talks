@@ -7,86 +7,89 @@ on:
     - cron: "0 5 * * *"
 
   workflow_dispatch:
-    inputs*
+    inputs:
       force_predict:
-        desc*iption: "Force prediction generati*n even outside the normal 07:00 Br*tislava run"
-        required: fal*e
+        description: "Force prediction generation even outside the normal 07:00 Bratislava run"
+        required: false
         default: false
-        t*pe: boolean
+        type: boolean
 
 permissions:
-  conten*s: read
+  contents: read
   pages: write
-  id-token:*write
+  id-token: write
 
 concurrency:
-  group: pages*  cancel-in-progress: false
+  group: pages
+  cancel-in-progress: false
 
-jobs:*  build-and-deploy:
-    runs-on: u*untu-latest
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
     environment:
-    * name: github-pages
-      url: ${{*steps.deployment.outputs.page_url *}
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Checko*t repository
-        uses: actions*checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Decide *hether to run predictions
-        *d: gate
+      - name: Decide whether to run predictions
+        id: gate
         run: |
-          e*ho "===== PREDICTION RUN GATE ====*"
-          echo "EVENT_NAME=${{ g*thub.event_name }}"
-          echo*"FORCE_PREDICT=${{ inputs.force_pr*dict }}"
+          echo "===== PREDICTION RUN GATE ====="
+          echo "EVENT_NAME=${{ github.event_name }}"
+          echo "FORCE_PREDICT=${{ inputs.force_predict }}"
 
-          if [ "${{ github.event_name }}" = "schedule" ]; t*en
-            echo "Scheduled run*detected. Predictions allowed."
-  *         echo "run_predictions=tru*" >> "$GITHUB_OUTPUT"
-          el*f [ "${{ inputs.force_predict }}" = "true" ]; then
-            echo "*anual forced run detected. Predict*ons allowed."
-            echo "ru*_predictions=true" >> "$GITHUB_OUT*UT"
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "Scheduled run detected. Predictions allowed."
+            echo "run_predictions=true" >> "$GITHUB_OUTPUT"
+          elif [ "${{ inputs.force_predict }}" = "true" ]; then
+            echo "Manual forced run detected. Predictions allowed."
+            echo "run_predictions=true" >> "$GITHUB_OUTPUT"
           else
-            ech* "Manual run without force_predict* Skipping prediction deploy to avo*d overwriting TOP7 with empty data*"
-            echo "run_prediction*=false" >> "$GITHUB_OUTPUT"
-      *   fi
+            echo "Manual run without force_predict. Skipping prediction deploy to avoid overwriting TOP7 with empty data."
+            echo "run_predictions=false" >> "$GITHUB_OUTPUT"
+          fi
 
-      - name: Stop if predi*tions are not allowed
-        if: *teps.gate.outputs.run_predictions *= 'true'
+      - name: Stop if predictions are not allowed
+        if: steps.gate.outputs.run_predictions != 'true'
         run: |
-          *cho "Predictions were skipped inte*tionally."
-          echo "Existin* GitHub Pages outputs remain uncha*ged."
-          echo "If you reall* want to regenerate predictions ma*ually, run workflow_dispatch with *orce_predict=true."
+          echo "Predictions were skipped intentionally."
+          echo "Existing GitHub Pages outputs remain unchanged."
+          echo "If you really want to regenerate predictions manually, run workflow_dispatch with force_predict=true."
 
-      - name:*Setup Python
-        if: steps.gat*.outputs.run_predictions == 'true'*        uses: actions/setup-python*v4
+      - name: Setup Python
+        if: steps.gate.outputs.run_predictions == 'true'
+        uses: actions/setup-python@v4
         with:
-          python-*ersion: "3.10"
+          python-version: "3.10"
 
-      - name: Inst*ll dependencies
-        if: steps.*ate.outputs.run_predictions == 'tr*e'
+      - name: Install dependencies
+        if: steps.gate.outputs.run_predictions == 'true'
         run: |
-          python*-m pip install --upgrade pip
-     *    pip install requests beautiful*oup4
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
 
-      - name: Clean public f*lder
-        if: steps.gate.output*.run_predictions == 'true'
-       *run: |
-          echo "===== CLEAN*PUBLIC FOLDER ====="
-          rm *rf public
-          mkdir -p publi*
+      - name: Clean public folder
+        if: steps.gate.outputs.run_predictions == 'true'
+        run: |
+          echo "===== CLEAN PUBLIC FOLDER ====="
+          rm -rf public
+          mkdir -p public
 
-      - name: Generate TOP7 resu*ts from previous predictions
-     *  if: steps.gate.outputs.run_predi*tions == 'true'
+      - name: Generate TOP7 results from previous predictions
+        if: steps.gate.outputs.run_predictions == 'true'
         env:
-     *    LOCAL_TZ_OFFSET_HOURS: 2
-     *  run: python results_checker.py
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python results_checker.py
 
-*     - name: Generate ALL results *rom previous ALL predictions
-     *  if: steps.gate.outputs.run_predi*tions == 'true'
+      - name: Generate ALL results from previous ALL predictions
+        if: steps.gate.outputs.run_predictions == 'true'
         env:
-     *    LOCAL_TZ_OFFSET_HOURS: 2
-     *  run: python results_checker_all.py
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python results_checker_all.py
 
       - name: Run predictions
         if: steps.gate.outputs.run_predictions == 'true'
