@@ -153,8 +153,6 @@ jobs:
 
           BASE="https://backstagetalks.github.io/tennis-backstage-talks"
 
-          echo "===== SOURCE PLACEHOLDERS ====="
-
           cat > public/H4V34N1C3D4Y170 <<'EOF'
           {
             "status": "PLACEHOLDER",
@@ -171,21 +169,16 @@ jobs:
           }
           EOF
 
-          echo "===== WEB PLACEHOLDERS ====="
-
+          create_page "H4V34N1C3D4Y177" "BackstageTalks Tennis Links"
           create_page "H4V34N1C3D4Y180" "BackstageTalks Tennis TOP 7"
           create_page "H4V34N1C3D4Y182" "BackstageTalks Tennis TOP 7 Results"
           create_page "H4V34N1C3D4Y184" "BackstageTalks Tennis ALL"
           create_page "H4V34N1C3D4Y186" "BackstageTalks Tennis ALL Results"
 
-          echo "===== RSS PLACEHOLDERS WITH .xml ====="
-
           create_feed "H4V34N1C3D4Y181.xml" "BackstageTalks Tennis TOP 7 RSS" "$BASE/H4V34N1C3D4Y180/"
           create_feed "H4V34N1C3D4Y183.xml" "BackstageTalks Tennis TOP 7 Results RSS" "$BASE/H4V34N1C3D4Y182/"
           create_feed "H4V34N1C3D4Y185.xml" "BackstageTalks Tennis ALL RSS" "$BASE/H4V34N1C3D4Y184/"
           create_feed "H4V34N1C3D4Y187.xml" "BackstageTalks Tennis ALL Results RSS" "$BASE/H4V34N1C3D4Y186/"
-
-          echo "===== RSS PLACEHOLDERS WITHOUT EXTENSION ====="
 
           cp public/H4V34N1C3D4Y181.xml public/H4V34N1C3D4Y181
           cp public/H4V34N1C3D4Y183.xml public/H4V34N1C3D4Y183
@@ -224,6 +217,7 @@ jobs:
           echo "===== VERIFY WEB PLACEHOLDERS ====="
 
           for f in \
+            H4V34N1C3D4Y177/index.html \
             H4V34N1C3D4Y180/index.html \
             H4V34N1C3D4Y182/index.html \
             H4V34N1C3D4Y184/index.html \
