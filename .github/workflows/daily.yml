@@ -1,5 +1,7 @@
 name: Daily Tennis Predictions
 
+run-name: Daily Tennis Predictions - ${{ github.event_name }} - ${{ github.run_number }}
+
 on:
   schedule:
     # GitHub Actions cron beží v UTC.
@@ -8,49 +10,52 @@ on:
 
   workflow_dispatch:
 
-permissio*s:
+permissions:
   contents: read
-  pages: write*  id-token: write
+  pages: write
+  id-token: write
 
 concurrency:
-  *roup: pages
-  cancel-in-progress: *alse
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
-  * runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-    envir*nment:
+    environment:
       name: github-pages
-  *   url: ${{ steps.deployment.outpu*s.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - *ame: Checkout repository
-        u*es: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - n*me: Setup Python
-        uses: act*ons/setup-python@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-*         python-version: "3.10"
+          python-version: "3.10"
 
- *    - name: Install dependencies
- *      run: |
-          python -m p*p install --upgrade pip
-          *ip install requests beautifulsoup4*
-      - name: Clean public folder*        run: |
-          echo "===*= CLEAN PUBLIC FOLDER ====="
-     *    rm -rf public
-          mkdir *p public
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
 
-      - name: Run predic*ions
+      - name: Clean public folder
+        run: |
+          echo "===== CLEAN PUBLIC FOLDER ====="
+          rm -rf public
+          mkdir -p public
+
+      - name: Run predictions
         env:
-          LOCAL_*Z_OFFSET_HOURS: 2
-          BET_WI*DOW_START_HOUR: 6
-          BET_WI*DOW_END_NEXT_DAY_HOUR: 6
-        r*n: python update.py
+          LOCAL_TZ_OFFSET_HOURS: 2
+          BET_WINDOW_START_HOUR: 6
+          BET_WINDOW_END_NEXT_DAY_HOUR: 6
+        run: python update.py
 
-      - name:*Apply TOP odds filter
-        cont*nue-on-error: true
+      - name: Apply TOP odds filter
+        continue-on-error: true
         env:
           MIN_TOP_ODDS: 1.50
           MAX_TOP_ITEMS: 7
@@ -256,7 +261,7 @@ jobs:
           fi
 
           echo "===== PRIVATE LINK HUB PREVIEW ====="
-          head -n 80 public/H4V34N1C3D4Y177/index.html
+          head -n 100 public/H4V34N1C3D4Y177/index.html
 
           echo "===== PRIVATE TOP PAGE PREVIEW ====="
           head -n 40 public/H4V34N1C3D4Y180/index.html
