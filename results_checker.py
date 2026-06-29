@@ -32,13 +32,6 @@ def normalize_name(value):
     return clean_text(value)
 
 
-def pct(value):
-    try:
-        return round(float(value) * 100, 1)
-    except Exception:
-        return 0
-
-
 def odds_to_float(value):
     try:
         if value in [None, "", "-", "None"]:
@@ -62,12 +55,57 @@ def units_for_result(status, odds):
     return 0.0
 
 
-def candidate_prediction_dates(days_back=7):
-    now = datetime.datetime.now(LOCAL_TZ).date()
+def pct(value):
+    try:
+        return round(float(value) * 100, 1)
+    except Exception:
+        return 0
+
+
+def local_prediction_files(prefix):
+    if not os.path.exists("public"):
+        return []
+
+    return sorted([
+        os.path.join("public", f)
+        for f in os.listdir("public")
+        if f.startswith(prefix) and f.endswith(".json")
+    ])
+
+
+def load_latest_local_predictions(prefix="predictions_"):
+    files = local_prediction_files(prefix)
+
+    if not files:
+        return None, []
+
+    latest = files[-1]
+
+    try:
+        with open(latest, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        if isinstance(data, list):
+            date_match = re.search(r"(\d{4}-\d{2}-\d{2})", latest)
+            prediction_date = date_match.group(1) if date_match else None
+
+            print("LOCAL PREDICTIONS FOUND:", latest, len(data))
+            return prediction_date, data
+
+    except Exception as e:
+        print("LOCAL PREDICTIONS LOAD ERROR:", latest, str(e))
+
+    return None, []
+
+
+def candidate_prediction_dates(days_back=7, include_today=True):
+    today = datetime.datetime.now(LOCAL_TZ).date()
+
+    start = 0 if include_today else 1
 
     return [
-        (now - datetime.timedelta(days=i)).isoformat()
-        for i in range(1, days_back + 1)
+        (today - datetime.timedelta(days=i)).isoformat()
+        for i in range(start, days_back + 1)
     ]
 
 
@@ -87,24 +125,33 @@ def fetch_json_url(url):
         return None
 
 
-def load_previous_predictions():
-    """
-    Workflow maže public folder, preto berieme predchádzajúce TOP7 predikcie
-    z už publikovanej GitHub Pages URL.
-
-    Hľadáme posledný dostupný predictions_YYYY-MM-DD.json.
-    """
-    for date_value in candidate_prediction_dates():
-        url = f"{BASE}predictions_{date_value}.json?v=results-check"
+def load_remote_predictions(prefix="predictions_"):
+    for date_value in candidate_prediction_dates(include_today=True):
+        url = f"{BASE}{prefix}{date_value}.json?v=results-check"
 
         data = fetch_json_url(url)
 
         if isinstance(data, list):
-            print("PREVIOUS PREDICTIONS FOUND:", date_value, len(data))
+            print("REMOTE PREDICTIONS FOUND:", date_value, len(data))
             return date_value, data
 
-    print("NO PREVIOUS PREDICTIONS FOUND")
+    print("NO REMOTE PREDICTIONS FOUND:", prefix)
     return None, []
+
+
+def load_predictions(prefix="predictions_"):
+    """
+    Priority:
+    1. local public/predictions_*.json from current workflow run
+    2. remote current/today predictions from GitHub Pages
+    3. remote recent previous predictions
+    """
+    prediction_date, data = load_latest_local_predictions(prefix)
+
+    if isinstance(data, list) and len(data) > 0:
+        return prediction_date, data
+
+    return load_remote_predictions(prefix)
 
 
 def fetch_sportscore_text():
@@ -127,7 +174,6 @@ def fetch_sportscore_text():
 
 def finished_text_only(text):
     text = clean_text(text)
-
     lower = text.lower()
 
     markers = [
@@ -152,13 +198,6 @@ def finished_text_only(text):
 
 
 def score_from_tokens(tokens):
-    """
-    SportScore finished text býva napríklad:
-    Player A 6 3 1 6 6 3 Player B
-
-    Interpretácia:
-    6-3, 1-6, 6-3
-    """
     numbers = []
 
     for token in tokens:
@@ -224,12 +263,6 @@ def build_result(status, pick, winner, result_score, note=""):
 
 
 def find_match_result(prediction, finished_text):
-    """
-    Konzervatívne párovanie:
-    - hľadáme len vo finished sekcii
-    - musia sedieť obe mená hráčov
-    - cancelled / walkover / retired dávame ako VOID
-    """
     player1 = str(prediction.get("player1", ""))
     player2 = str(prediction.get("player2", ""))
     pick = str(prediction.get("pick", player1))
@@ -369,18 +402,21 @@ def summarize(results):
     return summary
 
 
-def run():
+def build_results_payload(prefix="predictions_", result_prefix="results_", result_type="TOP7_RESULTS", max_items=7):
     os.makedirs("public", exist_ok=True)
 
-    prediction_date, predictions = load_previous_predictions()
+    prediction_date, predictions = load_predictions(prefix)
 
     finished_text = finished_text_only(fetch_sportscore_text())
 
     generated_at = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
+    if max_items is not None:
+        predictions = predictions[:max_items]
+
     results = []
 
-    for prediction in predictions[:7]:
+    for prediction in predictions:
         match_result = find_match_result(prediction, finished_text)
 
         pick = str(prediction.get("pick", prediction.get("player1", "Unknown")))
@@ -414,3 +450,37 @@ def run():
 
         results.append(output)
 
+    summary = summarize(results)
+
+    payload = {
+        "type": result_type,
+        "prediction_date": prediction_date,
+        "generated_at_utc": generated_at,
+        "summary": summary,
+        "results": results,
+    }
+
+    result_date = prediction_date or datetime.datetime.now(LOCAL_TZ).date().isoformat()
+    path = f"public/{result_prefix}{result_date}.json"
+
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=4, ensure_ascii=False)
+
+    print(result_type, "GENERATED:", path)
+    print("SUMMARY:", summary)
+    print("RESULTS SAMPLE:", results[:3])
+
+    return payload
+
+
+def run():
+    build_results_payload(
+        prefix="predictions_",
+        result_prefix="results_",
+        result_type="TOP7_RESULTS",
+        max_items=7,
+    )
+
+
+if __name__ == "__main__":
+    run()
