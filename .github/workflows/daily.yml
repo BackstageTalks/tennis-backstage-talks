@@ -54,13 +54,6 @@ jobs:
           BET_WINDOW_END_NEXT_DAY_HOUR: 6
         run: python update.py
 
-      - name: Apply TOP odds filter
-        continue-on-error: true
-        env:
-          MIN_TOP_ODDS: 1.50
-          MAX_TOP_ITEMS: 7
-        run: python top_filter.py
-
       - name: Generate TOP7 results from current predictions
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
@@ -144,6 +137,24 @@ jobs:
             echo "ALL_COUNT=$ALL_COUNT"
           fi
 
+          echo "===== CHECK RESULTS JSON OPTIONAL ====="
+          RESULTS_JSON=$(ls public/results_*.json 2>/dev/null | head -n 1 || true)
+
+          if [ -z "$RESULTS_JSON" ]; then
+            echo "WARNING: results_*.json missing."
+          else
+            echo "RESULTS_JSON=$RESULTS_JSON"
+          fi
+
+          echo "===== CHECK ALL RESULTS JSON OPTIONAL ====="
+          ALL_RESULTS_JSON=$(ls public/all_results_*.json 2>/dev/null | head -n 1 || true)
+
+          if [ -z "$ALL_RESULTS_JSON" ]; then
+            echo "WARNING: all_results_*.json missing."
+          else
+            echo "ALL_RESULTS_JSON=$ALL_RESULTS_JSON"
+          fi
+
           echo "===== LINK HUB PREVIEW ====="
           head -n 120 public/H4V34N1C3D4Y177/index.html
 
@@ -152,6 +163,12 @@ jobs:
 
           echo "===== ALL PAGE PREVIEW ====="
           head -n 40 public/all/index.html
+
+          echo "===== TOP RSS PREVIEW ====="
+          head -n 80 public/tennis.xml
+
+          echo "===== ALL RSS PREVIEW ====="
+          head -n 80 public/tennis_all.xml
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
