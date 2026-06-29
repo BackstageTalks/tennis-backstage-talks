@@ -53,16 +53,6 @@ def normalize_name(value):
 
 
 def get_pick_odds(item):
-    """
-    Best effort odds resolver.
-
-    Preferred field:
-    - odds
-
-    Fallback:
-    - if pick == player1 -> odds_player1
-    - if pick == player2 -> odds_player2
-    """
     odds = to_float(item.get("odds"))
 
     if odds is not None:
