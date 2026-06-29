@@ -90,13 +90,32 @@ jobs:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python rss_results_all.py
 
-      - name: Publish links and feeds
+      - name: Generate link hub
         run: bash publish_links.sh
 
       - name: Verify generated files
         run: |
           echo "===== PUBLIC FILES ====="
           ls -R public
+
+          echo "===== CHECK CORE PAGES ====="
+
+          for f in \
+            index.html \
+            tennis.xml \
+            tennis_all.xml \
+            results.xml \
+            all_results.xml \
+            all/index.html \
+            results/index.html \
+            all_results/index.html \
+            H4V34N1C3D4Y177/index.html
+          do
+            if [ ! -f "public/$f" ]; then
+              echo "ERROR: public/$f missing"
+              exit 1
+            fi
+          done
 
           echo "===== CHECK TOP JSON ====="
           TOP_JSON=$(ls public/predictions_*.json 2>/dev/null | head -n 1 || true)
@@ -108,46 +127,11 @@ jobs:
             echo "TOP_JSON=$TOP_JSON"
             echo "TOP_COUNT=$TOP_COUNT"
 
-            if [ "$TOP_COUNT" -eq 0 ]; then
-              echo "WARNING: TOP predictions has 0 items. Deploy allowed for testing."
-            fi
-
             if [ "$TOP_COUNT" -gt 7 ]; then
               echo "ERROR: TOP predictions has more than 7 items."
               exit 1
             fi
           fi
-
-          echo "===== CHECK TOP ODDS FILTER ====="
-          python - <<'PY'
-          import json
-          import glob
-
-          files = sorted(glob.glob("public/predictions_*.json"))
-
-          if not files:
-              print("WARNING: no TOP prediction file found")
-          else:
-              path = files[-1]
-              data = json.load(open(path, encoding="utf-8"))
-
-              bad = []
-
-              for item in data:
-                  try:
-                      odds = float(item.get("odds", 0))
-                  except Exception:
-                      odds = 0
-
-                  if odds < 1.50:
-                      bad.append((item.get("pick"), item.get("odds")))
-
-              print("TOP odds check file:", path)
-              print("TOP odds below 1.50:", bad)
-
-              if bad:
-                  print("WARNING: TOP contains odds below 1.50. Deploy allowed for testing.")
-          PY
 
           echo "===== CHECK ALL JSON ====="
           ALL_JSON=$(ls public/all_predictions_*.json 2>/dev/null | head -n 1 || true)
@@ -158,131 +142,16 @@ jobs:
             ALL_COUNT=$(python -c "import json; print(len(json.load(open('$ALL_JSON', encoding='utf-8'))))")
             echo "ALL_JSON=$ALL_JSON"
             echo "ALL_COUNT=$ALL_COUNT"
-
-            if [ "$ALL_COUNT" -eq 0 ]; then
-              echo "WARNING: ALL predictions has 0 items. Deploy allowed for testing."
-            fi
           fi
 
-          echo "===== CHECK RESULTS JSON OPTIONAL ====="
-          RESULTS_JSON=$(ls public/results_*.json 2>/dev/null | head -n 1 || true)
+          echo "===== LINK HUB PREVIEW ====="
+          head -n 120 public/H4V34N1C3D4Y177/index.html
 
-          if [ -z "$RESULTS_JSON" ]; then
-            echo "WARNING: results_*.json missing."
-          else
-            echo "RESULTS_JSON=$RESULTS_JSON"
-          fi
-
-          echo "===== CHECK ALL RESULTS JSON OPTIONAL ====="
-          ALL_RESULTS_JSON=$(ls public/all_results_*.json 2>/dev/null | head -n 1 || true)
-
-          if [ -z "$ALL_RESULTS_JSON" ]; then
-            echo "WARNING: all_results_*.json missing."
-          else
-            echo "ALL_RESULTS_JSON=$ALL_RESULTS_JSON"
-          fi
-
-          echo "===== CHECK PRIVATE JSON ALIASES ====="
-          for f in \
-            H4V34N1C3D4Y170 \
-            H4V34N1C3D4Y171
-          do
-            if [ ! -f "public/$f" ]; then
-              echo "ERROR: private JSON alias public/$f missing"
-              exit 1
-            fi
-          done
-
-          echo "===== CHECK PRIVATE WEB DIRECTORY ALIASES ====="
-          for f in \
-            H4V34N1C3D4Y177/index.html \
-            H4V34N1C3D4Y180/index.html \
-            H4V34N1C3D4Y182/index.html \
-            H4V34N1C3D4Y184/index.html \
-            H4V34N1C3D4Y186/index.html
-          do
-            if [ ! -f "public/$f" ]; then
-              echo "ERROR: private web directory alias public/$f missing"
-              exit 1
-            fi
-          done
-
-          echo "===== CHECK PRIVATE RSS ALIASES WITHOUT EXT ====="
-          for f in \
-            H4V34N1C3D4Y181 \
-            H4V34N1C3D4Y183 \
-            H4V34N1C3D4Y185 \
-            H4V34N1C3D4Y187
-          do
-            if [ ! -f "public/$f" ]; then
-              echo "ERROR: private RSS alias public/$f missing"
-              exit 1
-            fi
-          done
-
-          echo "===== CHECK PRIVATE RSS XML ALIASES ====="
-          for f in \
-            H4V34N1C3D4Y181.xml \
-            H4V34N1C3D4Y183.xml \
-            H4V34N1C3D4Y185.xml \
-            H4V34N1C3D4Y187.xml
-          do
-            if [ ! -f "public/$f" ]; then
-              echo "ERROR: private RSS XML alias public/$f missing"
-              exit 1
-            fi
-          done
-
-          echo "===== CHECK PRIVATE TOP RSS XML ====="
-          TOP_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y181.xml || true)
-          echo "TOP_PRIVATE_RSS_COUNT=$TOP_PRIVATE_RSS_COUNT"
-
-          if [ "$TOP_PRIVATE_RSS_COUNT" -gt 7 ]; then
-            echo "ERROR: private TOP RSS XML has more than 7 items."
-            exit 1
-          fi
-
-          echo "===== CHECK PRIVATE ALL RSS XML ====="
-          ALL_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y185.xml || true)
-          echo "ALL_PRIVATE_RSS_COUNT=$ALL_PRIVATE_RSS_COUNT"
-
-          echo "===== CHECK PRIVATE RESULTS RSS XML ====="
-          RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y183.xml || true)
-          echo "RESULTS_PRIVATE_RSS_COUNT=$RESULTS_PRIVATE_RSS_COUNT"
-
-          echo "===== CHECK PRIVATE ALL RESULTS RSS XML ====="
-          ALL_RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y187.xml || true)
-          echo "ALL_RESULTS_PRIVATE_RSS_COUNT=$ALL_RESULTS_PRIVATE_RSS_COUNT"
-
-          echo "===== ROBOTS CHECK ====="
-          if [ ! -f public/robots.txt ]; then
-            echo "ERROR: public/robots.txt missing"
-            exit 1
-          fi
-
-          echo "===== PRIVATE LINK HUB PREVIEW ====="
-          head -n 100 public/H4V34N1C3D4Y177/index.html
-
-          echo "===== PRIVATE TOP PAGE PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y180/index.html
-
-          echo "===== PRIVATE ALL PAGE PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y184/index.html
-
-          echo "===== PRIVATE TOP RESULTS PAGE PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y182/index.html
-
-          echo "===== PRIVATE ALL RESULTS PAGE PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y186/index.html
-
-          echo "===== PRIVATE TOP RSS XML PREVIEW ====="
-          head -n 80 public/H4V34N1C3D4Y181.xml
-
-          echo "===== PRIVATE ALL RSS XML PREVIEW ====="
-          head -n 80 public/H4V34N1C3D4Y185.xml
-
-          echo "===== PUBLIC ROOT PREVIEW SHOULD BE NEUTRAL ====="
+          echo "===== TOP PAGE PREVIEW ====="
           head -n 40 public/index.html
+
+          echo "===== ALL PAGE PREVIEW ====="
+          head -n 40 public/all/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
