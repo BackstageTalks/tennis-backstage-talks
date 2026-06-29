@@ -141,7 +141,7 @@ jobs:
           <title>Feed initialized</title>
           <link>$LINK</link>
           <guid isPermaLink="false">$FILE-bootstrap</guid>
-          <pubDate>Mon, 29 Jun 2026 03:10:00 GMT</pubDate>
+          <pubDate>Mon, 29 Jun 2026 03:30:00 GMT</pubDate>
           <description>This RSS feed is initialized. Real tennis picks will be published by the next daily run.</description>
           </item>
           </channel>
@@ -151,7 +151,8 @@ jobs:
 
           BASE="https://backstagetalks.github.io/tennis-backstage-talks"
 
-          # Source placeholders
+          echo "===== SOURCE PLACEHOLDERS ====="
+
           cat > public/H4V34N1C3D4Y170 <<'EOF'
           {
             "status": "PLACEHOLDER",
@@ -168,19 +169,22 @@ jobs:
           }
           EOF
 
-          # Web pages
+          echo "===== WEB PLACEHOLDERS ====="
+
           create_page "H4V34N1C3D4Y180" "BackstageTalks Tennis TOP 7"
           create_page "H4V34N1C3D4Y182" "BackstageTalks Tennis TOP 7 Results"
           create_page "H4V34N1C3D4Y184" "BackstageTalks Tennis ALL"
           create_page "H4V34N1C3D4Y186" "BackstageTalks Tennis ALL Results"
 
-          # RSS feeds with .xml
+          echo "===== RSS PLACEHOLDERS WITH .xml ====="
+
           create_feed "H4V34N1C3D4Y181.xml" "BackstageTalks Tennis TOP 7 RSS" "$BASE/H4V34N1C3D4Y180"
           create_feed "H4V34N1C3D4Y183.xml" "BackstageTalks Tennis TOP 7 Results RSS" "$BASE/H4V34N1C3D4Y182"
           create_feed "H4V34N1C3D4Y185.xml" "BackstageTalks Tennis ALL RSS" "$BASE/H4V34N1C3D4Y184"
           create_feed "H4V34N1C3D4Y187.xml" "BackstageTalks Tennis ALL Results RSS" "$BASE/H4V34N1C3D4Y186"
 
-          # Also create no-extension aliases for compatibility
+          echo "===== RSS PLACEHOLDERS WITHOUT EXTENSION ====="
+
           cp public/H4V34N1C3D4Y181.xml public/H4V34N1C3D4Y181
           cp public/H4V34N1C3D4Y183.xml public/H4V34N1C3D4Y183
           cp public/H4V34N1C3D4Y185.xml public/H4V34N1C3D4Y185
@@ -215,8 +219,25 @@ jobs:
             fi
           done
 
+          echo "===== VERIFY WEB PLACEHOLDERS ====="
+
+          for f in \
+            H4V34N1C3D4Y180 \
+            H4V34N1C3D4Y182 \
+            H4V34N1C3D4Y184 \
+            H4V34N1C3D4Y186
+          do
+            if [ ! -f "public/$f" ]; then
+              echo "ERROR: public/$f missing"
+              exit 1
+            fi
+          done
+
           echo "===== TOP RSS PREVIEW ====="
           head -n 40 public/H4V34N1C3D4Y181.xml
+
+          echo "===== ALL RSS PREVIEW ====="
+          head -n 40 public/H4V34N1C3D4Y185.xml
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
