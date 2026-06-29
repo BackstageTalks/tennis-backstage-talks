@@ -3,13 +3,13 @@ name: Daily Tennis Predictions
 on:
   schedule:
     # GitHub Actions cron beží v UTC.
-    # 04:00 UTC pri LOCAL_TZ_OFFSET_HOURS=2 = cca 06:00 CET podľa nášho systémového labelu.
-    - cron: "0 4 * * *"
+    # 05:00 UTC = 07:00 Bratislava time počas CEST / UTC+2.
+    - cron: "0 5 * * *"
 
   workflow_dispatch:
     inputs:
       force_predict:
-        description: "Force prediction generation even outside the normal 06:00 CET run"
+        description: "Force prediction generation even outside the normal 07:00 Bratislava run"
         required: false
         default: false
         type: boolean
@@ -205,6 +205,19 @@ jobs:
             fi
           done
 
+          echo "===== CHECK PRIVATE WEB DIRECTORY ALIASES ====="
+          for f in \
+            H4V34N1C3D4Y180/index.html \
+            H4V34N1C3D4Y182/index.html \
+            H4V34N1C3D4Y184/index.html \
+            H4V34N1C3D4Y186/index.html
+          do
+            if [ ! -f "public/$f" ]; then
+              echo "ERROR: private web directory alias public/$f missing"
+              exit 1
+            fi
+          done
+
           echo "===== CHECK PRIVATE RSS ALIASES WITHOUT EXT ====="
           for f in \
             H4V34N1C3D4Y181 \
@@ -269,16 +282,16 @@ jobs:
           fi
 
           echo "===== PRIVATE TOP PAGE PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y180
+          head -n 40 public/H4V34N1C3D4Y180/index.html
 
           echo "===== PRIVATE ALL PAGE PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y184
+          head -n 40 public/H4V34N1C3D4Y184/index.html
 
           echo "===== PRIVATE TOP RESULTS PAGE PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y182
+          head -n 40 public/H4V34N1C3D4Y182/index.html
 
           echo "===== PRIVATE ALL RESULTS PAGE PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y186
+          head -n 40 public/H4V34N1C3D4Y186/index.html
 
           echo "===== PRIVATE TOP RSS XML PREVIEW ====="
           head -n 80 public/H4V34N1C3D4Y181.xml
