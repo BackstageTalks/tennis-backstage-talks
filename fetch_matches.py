@@ -12,12 +12,15 @@ HEADERS = {
 }
 
 # Pre naše výstupy labelujeme čas ako CET.
-# Technicky v lete môže byť offset +2, preto nechávame nastaviteľné cez env.
+# Technicky v lete používame offset +2, preto je nastaviteľné cez env.
 LOCAL_TZ_OFFSET_HOURS = int(os.getenv("LOCAL_TZ_OFFSET_HOURS", "2"))
 LOCAL_TZ = timezone(timedelta(hours=LOCAL_TZ_OFFSET_HOURS))
 
+# SportScore raw time považujeme za UTC.
+SPORTSCORE_TZ = timezone.utc
+
 # Denné okno:
-# dnes 06:00 CET -> zajtra 06:00 CET
+# dnes 06:00 lokálny čas -> zajtra 06:00 lokálny čas
 BET_WINDOW_START_HOUR = int(os.getenv("BET_WINDOW_START_HOUR", "6"))
 BET_WINDOW_END_NEXT_DAY_HOUR = int(os.getenv("BET_WINDOW_END_NEXT_DAY_HOUR", "6"))
 
@@ -108,9 +111,9 @@ def is_valid_player(name):
 
 def bet_window_start():
     """
-    Začiatok okna = 06:00 CET.
+    Začiatok okna = 06:00 lokálny čas.
 
-    Ak workflow beží pred 06:00, stále berieme okno začaté včera 06:00,
+    Ak workflow beží pred 06:00, berieme okno začaté včera 06:00,
     aby ranné zápasy do 06:00 ešte patrili do predchádzajúceho okna.
     """
     now = datetime.now(LOCAL_TZ)
@@ -132,71 +135,83 @@ def bet_window_end():
     Koniec okna = začiatok okna + 24h.
 
     Prakticky:
-    dnes 06:00 CET -> zajtra 06:00 CET
+    dnes 06:00 lokálny čas -> zajtra 06:00 lokálny čas
     """
     return bet_window_start() + timedelta(days=1)
 
 
-def parse_match_time(time_text):
+def parse_time_text_to_time(time_text):
     """
-    Prevedie čas zo SportScore ako '1:00 AM' alebo '13:30'
-    na lokálny datetime.
-
-    Dôležitá logika:
-    - SportScore často nedáva dátum, iba čas.
-    - Ak je čas dnes ešte v budúcnosti a patrí do okna, použijeme dnešok.
-    - Ak je čas dnes už v minulosti, skúšame zajtrajšok.
-    - Ak zajtrajší čas presahuje aktuálne okno 06:00 -> 06:00,
-      funkcia vráti None a zápas sa vyhodí.
+    Prevedie text ako '1:00 AM' alebo '13:30' na time().
     """
     time_text = clean_text(time_text)
 
-    parsed_time = None
-
     for fmt in ["%I:%M %p", "%H:%M"]:
         try:
-            parsed_time = datetime.strptime(time_text.upper(), fmt).time()
-            break
+            return datetime.strptime(time_text.upper(), fmt).time()
         except Exception:
             continue
+
+    return None
+
+
+def parse_match_time(time_text):
+    """
+    Prevedie čas zo SportScore na lokálny datetime.
+
+    Dôležitá oprava:
+    - SportScore raw čas berieme ako UTC.
+    - Potom ho konvertujeme do LOCAL_TZ, teda Bratislava offset +2.
+    - Príklad:
+        raw 21:00 UTC -> 23:00 LOCAL_TZ
+    - Vyberáme najbližší kandidát, ktorý je:
+        1. v budúcnosti oproti aktuálnemu runu
+        2. v bet okne 06:00 -> 06:00
+    """
+    parsed_time = parse_time_text_to_time(time_text)
 
     if parsed_time is None:
         return None
 
-    now = datetime.now(LOCAL_TZ)
+    now_local = datetime.now(LOCAL_TZ)
+    now_utc = now_local.astimezone(timezone.utc)
+
     start = bet_window_start()
     end = bet_window_end()
 
-    today_candidate = datetime.combine(
-        now.date(),
-        parsed_time,
-        tzinfo=LOCAL_TZ
-    )
+    candidates = []
 
-    tomorrow_candidate = today_candidate + timedelta(days=1)
+    # Skúšame viac UTC dátumov kvôli prechodu cez polnoc.
+    # Napr. lokálne okno 06:00 -> 06:00 znamená UTC okno cca 04:00 -> 04:00.
+    for day_offset in [-1, 0, 1, 2]:
+        candidate_utc_date = (now_utc.date() + timedelta(days=day_offset))
 
-    # 1. Ak dnešný čas ešte len príde a patrí do aktuálneho okna, použijeme dnešok.
-    if today_candidate >= now and start <= today_candidate <= end:
-        return today_candidate
+        candidate_utc = datetime.combine(
+            candidate_utc_date,
+            parsed_time,
+            tzinfo=SPORTSCORE_TZ
+        )
 
-    # 2. Ak dnešný čas už prešiel, skúsime zajtrajší dátum.
-    # Ak je zajtrajší čas mimo 06:00 -> 06:00 okna, vrátime None.
-    if tomorrow_candidate >= now and start <= tomorrow_candidate <= end:
-        return tomorrow_candidate
+        candidate_local = candidate_utc.astimezone(LOCAL_TZ)
 
-    # 3. Inak zápas nepatrí do aktuálneho okna.
-    return None
+        if now_local <= candidate_local <= end and start <= candidate_local <= end:
+            candidates.append(candidate_local)
+
+    if not candidates:
+        return None
+
+    # Najbližší budúci čas v aktuálnom okne.
+    return sorted(candidates)[0]
 
 
 def is_within_bet_window(match_start):
     """
     Povolené okno:
-    06:00 CET aktuálny deň -> 06:00 CET nasledujúci deň
+    06:00 lokálny čas aktuálny deň -> 06:00 lokálny čas nasledujúci deň
 
     Navyše:
     - zápas musí byť v budúcnosti vzhľadom na aktuálny run,
-      aby sa pri opakovanom rune o 09:00 / 12:00 / 15:00 / 18:00
-      nezobrazovali už ranné zápasy ako stále scheduled.
+      aby sa pri opakovanom rune nezobrazovali už začaté/staré zápasy.
     """
     if match_start is None:
         return False
@@ -214,7 +229,6 @@ def scheduled_text_only(text):
     Ak marker nenájde, fallback je celý text.
     """
     text = clean_text(text)
-
     lower = text.lower()
 
     start_markers = [
@@ -235,7 +249,6 @@ def scheduled_text_only(text):
         return text
 
     sliced = text[start_index:]
-
     lower_sliced = sliced.lower()
 
     end_markers = [
@@ -282,9 +295,11 @@ def extract_matches_from_text(text):
     start = bet_window_start()
     end = bet_window_end()
 
-    print("NOW CET:", now.isoformat())
-    print("BET WINDOW START CET:", start.isoformat())
-    print("BET WINDOW END CET:", end.isoformat())
+    print("NOW LOCAL:", now.isoformat())
+    print("BET WINDOW START LOCAL:", start.isoformat())
+    print("BET WINDOW END LOCAL:", end.isoformat())
+    print("SPORTSCORE RAW TIME ASSUMPTION: UTC")
+    print("LOCAL_TZ_OFFSET_HOURS:", LOCAL_TZ_OFFSET_HOURS)
 
     for match in pattern.finditer(text):
         time_text = clean_text(match.group("time"))
@@ -304,7 +319,7 @@ def extract_matches_from_text(text):
                 p1,
                 "vs",
                 p2,
-                "parsed:",
+                "parsed_local:",
                 match_start.isoformat() if match_start else None
             )
             continue
@@ -337,6 +352,7 @@ def extract_matches_from_text(text):
             "odds_source": "SportScore" if odds1 and odds2 else "missing",
 
             "match_time_raw": time_text,
+            "match_time_raw_timezone_assumption": "UTC",
             "match_start": match_start.isoformat(),
 
             "bet_window_start": start.isoformat(),
@@ -363,7 +379,7 @@ def get_today_matches():
 
         matches = extract_matches_from_text(text)
 
-        print("REAL TENNIS MATCHES IN 06-06 CET WINDOW:", len(matches))
+        print("REAL TENNIS MATCHES IN 06-06 LOCAL WINDOW:", len(matches))
         print("MATCH SAMPLE:", matches[:10])
 
         return matches[:40]
