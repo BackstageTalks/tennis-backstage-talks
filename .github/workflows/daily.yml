@@ -1,183 +1,175 @@
-name: Daily Tennis Predictions
+from fetch_matches import get_today_matches
+from welo import win_probability
+from stats_engine import get_stats_context
 
-run-name: Daily Tennis Predictions - ${{ github.event_name }} - ${{ github.run_number }}
 
-on:
-  schedule:
-    # GitHub Actions cron beží v UTC.
-    # 05:00 UTC = 07:00 Bratislava time počas CEST / UTC+2.
-    - cron: "0 5 * * *"
+TOP_N = 7
 
-  workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+def fair_market_probs(odds1, odds2):
+    if not odds1 or not odds2:
+        return None, None, None
 
-concurrency:
-  group: pages
-  cancel-in-progress: false
+    try:
+        raw1 = 1 / float(odds1)
+        raw2 = 1 / float(odds2)
+    except Exception:
+        return None, None, None
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+    overround = raw1 + raw2
 
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    if overround <= 0:
+        return None, None, None
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    fair1 = raw1 / overround
+    fair2 = raw2 / overround
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
+    return fair1, fair2, overround
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
 
-      - name: Clean public folder
-        run: |
-          echo "===== CLEAN PUBLIC FOLDER ====="
-          rm -rf public
-          mkdir -p public
+def calculate_ev(probability, odds):
+    """
+    EV je iba informačné číslo.
+    EV = Win % * odds - 1
+    """
+    if odds is None:
+        return None
 
-      - name: Run predictions
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-          BET_WINDOW_START_HOUR: 6
-          BET_WINDOW_END_NEXT_DAY_HOUR: 6
-        run: python update.py
+    try:
+        return round((float(probability) * float(odds)) - 1, 3)
+    except Exception:
+        return None
 
-      - name: Generate TOP7 results from current predictions
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python results_checker.py
 
-      - name: Generate ALL results from current ALL predictions
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python results_checker_all.py
+def classify_bookie_signal(pick, p1, p2, model_prob, odds1, odds2):
+    """
+    Kurz / bookmaker / market sú iba informačné údaje.
+    Nepoužívajú sa na TOP winner poradie.
+    """
+    fair1, fair2, overround = fair_market_probs(odds1, odds2)
 
-      - name: Generate source audit
-        run: python audit_sources.py
+    if fair1 is None or fair2 is None:
+        return {
+            "pick_odds": None,
+            "market_probability": None,
+            "market_agrees": False,
+            "bookie_value_edge": None,
+            "overround": None,
+            "bookie_signal": "NO_ODDS",
+            "market_warning": "NO_ODDS"
+        }
 
-      - name: Generate TOP page and TOP RSS
-        run: python rss.py
+    if pick == p1:
+        pick_odds = odds1
+        market_probability = fair1
+        opponent_market_probability = fair2
+    else:
+        pick_odds = odds2
+        market_probability = fair2
+        opponent_market_probability = fair1
 
-      - name: Generate ALL page and ALL RSS
-        run: python rss_all.py
+    market_agrees = market_probability >= opponent_market_probability
+    value_edge = model_prob - market_probability
 
-      - name: Generate TOP7 results page and RSS
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python rss_results.py
+    market_warning = None
 
-      - name: Generate ALL results page and RSS
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python rss_results_all.py
+    if value_edge >= 0.25:
+        market_warning = "EXTREME_MODEL_MARKET_GAP"
+    elif value_edge >= 0.15:
+        market_warning = "HIGH_MODEL_MARKET_GAP"
+    elif not market_agrees:
+        market_warning = "MODEL_AGAINST_MARKET"
 
-      - name: Generate link hub
-        run: bash publish_links.sh
+    if market_agrees and model_prob >= 0.57:
+        signal = "MARKET_AND_MODEL_AGREE"
+    elif not market_agrees:
+        signal = "MODEL_AGAINST_MARKET"
+    else:
+        signal = "NEUTRAL_MARKET"
 
-      - name: Verify generated files
-        run: |
-          echo "===== PUBLIC FILES ====="
-          ls -R public
+    return {
+        "pick_odds": round(float(pick_odds), 3),
+        "market_probability": round(market_probability, 3),
+        "market_agrees": market_agrees,
+        "bookie_value_edge": round(value_edge, 3),
+        "overround": round(overround, 3),
+        "bookie_signal": signal,
+        "market_warning": market_warning
+    }
 
-          echo "===== CHECK CORE PAGES ====="
 
-          for f in \
-            index.html \
-            tennis.xml \
-            tennis_all.xml \
-            results.xml \
-            all_results.xml \
-            all/index.html \
-            results/index.html \
-            all_results/index.html \
-            H4V34N1C3D4Y177/index.html
-          do
-            if [ ! -f "public/$f" ]; then
-              echo "ERROR: public/$f missing"
-              exit 1
-            fi
-          done
+def metric_for_surface(player_stats, surface):
+    """
+    Stats nechávame ako info.
+    Nepoužívame ich na zmenu TOP winner poradia.
+    """
+    if not player_stats:
+        return {}
 
-          echo "===== CHECK TOP JSON ====="
-          TOP_JSON=$(ls public/predictions_*.json 2>/dev/null | head -n 1 || true)
+    surface_stats = player_stats.get("surface", {})
 
-          if [ -z "$TOP_JSON" ]; then
-            echo "WARNING: TOP predictions JSON missing"
-          else
-            TOP_COUNT=$(python -c "import json; print(len(json.load(open('$TOP_JSON', encoding='utf-8'))))")
-            echo "TOP_JSON=$TOP_JSON"
-            echo "TOP_COUNT=$TOP_COUNT"
+    if surface and surface != "Unknown":
+        s = surface_stats.get(surface)
 
-            if [ "$TOP_COUNT" -gt 7 ]; then
-              echo "ERROR: TOP predictions has more than 7 items."
-              exit 1
-            fi
-          fi
+        if s and s.get("sample", 0) >= 3:
+            return s
 
-          echo "===== CHECK ALL JSON ====="
-          ALL_JSON=$(ls public/all_predictions_*.json 2>/dev/null | head -n 1 || true)
+    last10 = player_stats.get("last10", {})
 
-          if [ -z "$ALL_JSON" ]; then
-            echo "WARNING: ALL predictions JSON missing"
-          else
-            ALL_COUNT=$(python -c "import json; print(len(json.load(open('$ALL_JSON', encoding='utf-8'))))")
-            echo "ALL_JSON=$ALL_JSON"
-            echo "ALL_COUNT=$ALL_COUNT"
-          fi
+    if last10 and last10.get("sample", 0) >= 3:
+        return last10
 
-          echo "===== CHECK RESULTS JSON OPTIONAL ====="
-          RESULTS_JSON=$(ls public/results_*.json 2>/dev/null | head -n 1 || true)
+    return player_stats.get("career", {})
 
-          if [ -z "$RESULTS_JSON" ]; then
-            echo "WARNING: results_*.json missing."
-          else
-            echo "RESULTS_JSON=$RESULTS_JSON"
-          fi
 
-          echo "===== CHECK ALL RESULTS JSON OPTIONAL ====="
-          ALL_RESULTS_JSON=$(ls public/all_results_*.json 2>/dev/null | head -n 1 || true)
+def classify_extra_signal(pick_metrics, opponent_metrics):
+    """
+    Signály sú iba info.
+    Neovplyvňujú TOP winner poradie.
+    """
+    signals = []
 
-          if [ -z "$ALL_RESULTS_JSON" ]; then
-            echo "WARNING: all_results_*.json missing."
-          else
-            echo "ALL_RESULTS_JSON=$ALL_RESULTS_JSON"
-          fi
+    avg_aces = pick_metrics.get("avg_aces")
+    ace_rate = pick_metrics.get("ace_rate")
+    opp_avg_aces = opponent_metrics.get("avg_aces")
 
-          echo "===== LINK HUB PREVIEW ====="
-          head -n 120 public/H4V34N1C3D4Y177/index.html
+    set_rate = pick_metrics.get("at_least_one_set_rate")
+    sample = pick_metrics.get("sample", 0)
+    win_rate = pick_metrics.get("win_rate")
 
-          echo "===== TOP PAGE PREVIEW ====="
-          head -n 40 public/index.html
+    if win_rate is not None and sample >= 5 and win_rate >= 0.65:
+        signals.append("✅ Strong recent form")
 
-          echo "===== ALL PAGE PREVIEW ====="
-          head -n 40 public/all/index.html
+    if set_rate is not None and sample >= 5 and set_rate >= 0.75:
+        signals.append("🎯 Strong over 0.5 set signal")
+    elif set_rate is not None and sample >= 5 and set_rate >= 0.60:
+        signals.append("✅ Medium over 0.5 set signal")
 
-          echo "===== TOP RSS PREVIEW ====="
-          head -n 80 public/tennis.xml
+    if avg_aces is not None and sample >= 5 and avg_aces >= 5:
+        signals.append("💣 High ace profile")
 
-          echo "===== ALL RSS PREVIEW ====="
-          head -n 80 public/tennis_all.xml
+    if ace_rate is not None and sample >= 5 and ace_rate >= 0.07:
+        signals.append("💣 High ace rate")
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+    if (
+        avg_aces is not None
+        and opp_avg_aces is not None
+        and sample >= 5
+        and avg_aces - opp_avg_aces >= 1.5
+    ):
+        signals.append("💣 Ace edge vs opponent")
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
+    if not signals:
+        signals.append("Model winner pick only")
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+    return signals
+
+
+def build_alternative_bets(pick, pick_metrics):
+    """
+    Alternatívne trhy ostávajú iba ako info.
+    Neovplyvňujú winner pick.
+    """
+    alt_bets = []
+
+    set_rate = pick_metrics.get("at_least_one_set_rate")
