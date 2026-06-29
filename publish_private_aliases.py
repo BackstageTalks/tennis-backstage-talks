@@ -2,10 +2,13 @@ import os
 import re
 import json
 import shutil
+import html
 
 BASE = "https://backstagetalks.github.io/tennis-backstage-talks/"
 
 ALIASES = {
+    "links_page": "H4V34N1C3D4Y177",
+
     "source_manifest": "H4V34N1C3D4Y170",
     "source_audit": "H4V34N1C3D4Y171",
 
@@ -53,6 +56,12 @@ def copy_file(src, dst):
     return True
 
 
+def remove_file_if_exists(path):
+    if os.path.isfile(path):
+        print("REMOVE FILE BEFORE DIRECTORY ALIAS:", path)
+        os.remove(path)
+
+
 def placeholder_html(title="BackstageTalks", message="Content is not available yet."):
     template = """<!DOCTYPE html>
 <html lang="en">
@@ -70,7 +79,7 @@ body {
     padding: 40px;
 }
 .container {
-    max-width: 720px;
+    max-width: 760px;
     margin: 0 auto;
 }
 h1 {
@@ -157,12 +166,6 @@ def copy_or_placeholder_json(src, alias_file, name):
     return True
 
 
-def remove_file_if_exists(path):
-    if os.path.isfile(path):
-        print("REMOVE FILE BEFORE DIRECTORY ALIAS:", path)
-        os.remove(path)
-
-
 def copy_or_placeholder_html(src, alias_dir, title, message):
     """
     Web alias vytvárame iba ako adresár s index.html:
@@ -171,9 +174,6 @@ def copy_or_placeholder_html(src, alias_dir, title, message):
 
     Správna URL:
     /H4.../
-
-    Nevytvárame zároveň public/H4... ako súbor, lebo súbor a adresár
-    nemôžu mať rovnaký názov.
     """
     direct_path = "public/" + alias_dir
     index_dst = "public/" + alias_dir + "/index.html"
@@ -194,11 +194,6 @@ def copy_or_placeholder_html(src, alias_dir, title, message):
 
 
 def rewrite_rss_links(xml_text, target_url):
-    """
-    Prepíše všetky <link>...</link> v RSS na skrytý web alias.
-    Nepoužívame f-string, aby nevznikala chyba:
-    SyntaxError: f-string: single '}' is not allowed
-    """
     replacement = "<link>" + target_url + "</link>"
 
     return re.sub(
@@ -210,13 +205,6 @@ def rewrite_rss_links(xml_text, target_url):
 
 
 def publish_rss_alias(src_xml, alias, linked_page_alias, title):
-    """
-    Vytvorí RSS aliasy:
-    - public/H4...
-    - public/H4....xml
-
-    RSS linky používame hlavne s .xml.
-    """
     no_ext_path = "public/" + alias
     xml_path = "public/" + alias + ".xml"
 
@@ -244,10 +232,6 @@ def publish_rss_alias(src_xml, alias, linked_page_alias, title):
 
 
 def write_robots_txt():
-    """
-    Nezakazujeme celé /, lebo niektoré RSS čítačky rešpektujú robots.txt.
-    Verejné stránky neutralizujeme a skryté RSS aliasy nechávame dostupné.
-    """
     content = "\n".join([
         "User-agent: *",
         "Disallow: /tennis.xml",
@@ -263,6 +247,162 @@ def write_robots_txt():
     ])
 
     write_text("public/robots.txt", content)
+
+
+def link_item(label, url, note=""):
+    safe_label = html.escape(label)
+    safe_url = html.escape(url)
+    safe_note = html.escape(note)
+
+    note_html = ""
+    if note:
+        note_html = f"<div class='note'>{safe_note}</div>"
+
+    return f"""
+<div class="link-card">
+  <div class="label">{safe_label}</div>
+  <a href="{safe_url}" target="_blank" rel="noopener noreferrer">{safe_url}</a>
+  {note_html}
+</div>
+"""
+
+
+def create_links_page():
+    """
+    Central private link hub.
+    URL:
+    /H4V34N1C3D4Y177/
+    """
+    alias = ALIASES["links_page"]
+    direct_path = "public/" + alias
+    index_path = "public/" + alias + "/index.html"
+
+    remove_file_if_exists(direct_path)
+
+    links = []
+
+    links.append(("Source manifest:", BASE + ALIASES["source_manifest"], "Interná mapa zdrojov"))
+    links.append(("Source audit:", BASE + ALIASES["source_audit"], "Interný audit zdrojov"))
+
+    links.append(("TOP 7 web:", BASE + ALIASES["top_page"] + "/", "Denný TOP 7 výber"))
+    links.append(("TOP 7 RSS:", BASE + ALIASES["top_rss"] + ".xml", "RSS feed pre TOP 7"))
+
+    links.append(("TOP 7 výsledky web:", BASE + ALIASES["top_results_page"] + "/", "Vyhodnotenie TOP 7"))
+    links.append(("TOP 7 výsledky RSS:", BASE + ALIASES["top_results_rss"] + ".xml", "RSS výsledkov TOP 7"))
+
+    links.append(("ALL web:", BASE + ALIASES["all_page"] + "/", "Všetky dostupné pick-y"))
+    links.append(("ALL RSS:", BASE + ALIASES["all_rss"] + ".xml", "RSS všetkých dostupných pickov"))
+
+    links.append(("ALL výsledky web:", BASE + ALIASES["all_results_page"] + "/", "Vyhodnotenie ALL"))
+    links.append(("ALL výsledky RSS:", BASE + ALIASES["all_results_rss"] + ".xml", "RSS výsledkov ALL"))
+
+    cards = "\n".join(link_item(label, url, note) for label, url, note in links)
+
+    page = f"""<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<title>BackstageTalks Tennis Links</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {{
+    box-sizing: border-box;
+}}
+
+body {{
+    font-family: Arial, sans-serif;
+    background: #160f0f;
+    color: #f4f4f4;
+    margin: 0;
+    padding: 22px;
+}}
+
+.container {{
+    max-width: 1000px;
+    margin: 0 auto;
+}}
+
+h1 {{
+    font-size: 42px;
+    line-height: 1.1;
+    margin: 26px 0 10px;
+}}
+
+.subtitle {{
+    color: #cfcfcf;
+    font-size: 18px;
+    margin-bottom: 24px;
+}}
+
+.grid {{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}}
+
+.link-card {{
+    background: #211818;
+    border: 1px solid #352727;
+    border-radius: 16px;
+    padding: 16px;
+}}
+
+.label {{
+    tom: 8px;
+    color: #ffffff;
+}}
+
+a {{
+    color: #8db7ff;
+    word-break: break-all;
+    font-size: 16px;
+    text-decoration: none;
+}}
+
+a:hover {{
+    text-decoration: underline;
+}}
+
+.note {{
+    margin-top: 8px;
+    color: #aaa;
+    font-size: 14px;
+}}
+
+.footer {{
+    color: #888;
+    margin-top: 26px;
+    font-size: 14px;
+}}
+
+@media (min-width: 760px) {{
+    .grid {{
+        grid-template-columns: 1fr 1fr;
+    }}
+}}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>BackstageTalks Tennis Links</h1>
+<div class="subtitle">Rýchly rozcestník pre weby, RSS feedy, výsledky a audity.</div>
+
+<div class="grid">
+{cards}
+</div>
+
+<div class="footer">
+Generated by BackstageTalks Tennis workflow. Private alias link hub.
+</div>
+</div>
+</body>
+</html>
+"""
+
+    write_text(index_path, page)
+    print("LINK HUB WRITE:", index_path)
+    print("LINK HUB URL:", BASE + alias + "/")
 
 
 def publish_aliases():
@@ -345,6 +485,9 @@ def publish_aliases():
         title="BackstageTalks Tennis ALL Results RSS",
     )
 
+    # Link hub
+    create_links_page()
+
     # robots.txt
     write_robots_txt()
 
@@ -368,6 +511,7 @@ def publish_aliases():
     write_json("public/source_audit.json", neutral_json())
 
     print("PRIVATE ALIASES GENERATED")
+    print("links_page =>", BASE + ALIASES["links_page"] + "/")
     print("source_manifest =>", BASE + ALIASES["source_manifest"])
     print("source_audit =>", BASE + ALIASES["source_audit"])
     print("top_page =>", BASE + ALIASES["top_page"] + "/")
