@@ -1,10 +1,30 @@
-write_link_hub () {
-  remove_file_if_exists "public/$LINKS"
-  mkdir -p "public/$LINKS"
+#!/usr/bin/env bash
+set -euo pipefail
 
-  local HUB_FILE="public/$LINKS/index.html"
+BASE="https://backstagetalks.github.io/tennis-backstage-talks"
+LINKS="H4V34N1C3D4Y177"
 
-  cat > "$HUB_FILE" <<EOF
+mkdir -p "public/$LINKS"
+
+latest_file () {
+  PATTERN="$1"
+  FOUND=$(ls public/$PATTERN 2>/dev/null | sort | tail -n 1 || true)
+
+  if [ -n "$FOUND" ]; then
+    basename "$FOUND"
+  else
+    echo ""
+  fi
+}
+
+TOP_JSON=$(latest_file "predictions_*.json")
+ALL_JSON=$(latest_file "all_predictions_*.json")
+RESULTS_JSON=$(latest_file "results_*.json")
+ALL_RESULTS_JSON=$(latest_file "all_results_*.json")
+
+HUB_FILE="public/$LINKS/index.html"
+
+cat > "$HUB_FILE" <<EOF
 <!DOCTYPE html>
 <html lang="sk">
 <head>
@@ -36,6 +56,14 @@ h1 {
   margin: 26px 0 24px;
 }
 
+.section-title {
+  color: #cfcfcf;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 28px 0 10px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -59,7 +87,7 @@ h1 {
   color: #ffffff;
 }
 
-.open-icon {
+.icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -73,7 +101,7 @@ h1 {
   flex: 0 0 auto;
 }
 
-.open-icon:hover {
+.icon:hover {
   background: #4162a3;
   text-decoration: none;
 }
@@ -95,49 +123,121 @@ h1 {
 <div class="container">
 <h1>BackstageTalks Tennis Links</h1>
 
+<div class="section-title">Main</div>
 <div class="grid">
 
 <div class="card">
-  <div class="label">TOP 7 web:</div>
-  $BASE/$TOP_WEB/🔗</a>
+  <div class="label">TOP 7 web</div>
+  <a class="icon" href="$BASE/" target="_blank" rel="noopener noreferrer">🔗</a>
 </div>
 
 <div class="card">
-  <div class="label">TOP 7 RSS:</div>
-  $BASE/$TOP_RSS.xml🔗</a>
+  <div class="label">TOP 7 RSS</div>
+  <a class="icon" href="$BASE/tennis.xml" target="_blank" rel="noopener noreferrer">🔗</a>
 </div>
 
 <div class="card">
-  <div class="label">TOP 7 výsledky web:</div>
-  $BASE/$TOP_RESULTS_WEB/🔗</a>
+  <div class="label">ALL web</div>
+  <a class="icon" href="$BASE/all/" target="_blank" rel="noopener noreferrer">🔗</a>
 </div>
 
 <div class="card">
-  <div class="label">TOP 7 výsledky RSS:</div>
-  $BASE/$TOP_RESULTS_RSS.xml🔗</a>
+  <div class="label">ALL RSS</div>
+  <a class="icon" href="$BASE/tennis_all.xml" target="_blank" rel="noopener noreferrer">🔗</a>
+</div>
+
+</div>
+
+<div class="section-title">Results</div>
+<div class="grid">
+
+<div class="card">
+  <div class="label">TOP 7 výsledky web</div>
+  <a class="icon" href="$BASE/results/" target="_blank" rel="noopener noreferrer">🔗</a>
 </div>
 
 <div class="card">
-  <div class="label">ALL web:</div>
-  $BASE/$ALL_WEB/🔗</a>
+  <div class="label">TOP 7 výsledky RSS</div>
+  <a class="icon" href="$BASE/results.xml" target="_blank" rel="noopener noreferrer">🔗</a>
 </div>
 
 <div class="card">
-  <div class="label">ALL RSS:</div>
-  $BASE/$ALL_RSS.xml🔗</a>
+  <div class="label">ALL výsledky web</div>
+  <a class="icon" href="$BASE/all_results/" target="_blank" rel="noopener noreferrer">🔗</a>
 </div>
 
 <div class="card">
-  <div class="label">ALL výsledky web:</div>
-  $BASE/$ALL_RESULTS_WEB/🔗</a>
+  <div class="label">ALL výsledky RSS</div>
+  <a class="icon" href="$BASE/all_results.xml" target="_blank" rel="noopener noreferrer">🔗</a>
+</div>
+
+</div>
+
+<div class="section-title">Audit</div>
+<div class="grid">
+
+<div class="card">
+  <div class="label">Source manifest</div>
+  <a class="icon" href="$BASE/source_manifest.json" target="_blank" rel="noopener noreferrer">🔗</a>
 </div>
 
 <div class="card">
-  <div class="label">ALL výsledky RSS:</div>
-  $BASE/$ALL_RESULTS_RSS.xml🔗</a>
+  <div class="label">Source audit</div>
+  <a class="icon" href="$BASE/source_audit.json" target="_blank" rel="noopener noreferrer">🔗</a>
 </div>
 
 </div>
+EOF
+
+if [ -n "$TOP_JSON" ] || [ -n "$ALL_JSON" ] || [ -n "$RESULTS_JSON" ] || [ -n "$ALL_RESULTS_JSON" ]; then
+cat >> "$HUB_FILE" <<EOF
+
+<div class="section-title">Latest JSON</div>
+<div class="grid">
+EOF
+
+if [ -n "$TOP_JSON" ]; then
+cat >> "$HUB_FILE" <<EOF
+<div class="card">
+  <div class="label">Latest TOP JSON</div>
+  <a class="icon" href="$BASE/$TOP_JSON" target="_blank" rel="noopener noreferrer">🔗</a>
+</div>
+EOF
+fi
+
+if [ -n "$ALL_JSON" ]; then
+cat >> "$HUB_FILE" <<EOF
+<div class="card">
+  <div class="label">Latest ALL JSON</div>
+  <a class="icon" href="$BASE/$ALL_JSON" target="_blank" rel="noopener noreferrer">🔗</a>
+</div>
+EOF
+fi
+
+if [ -n "$RESULTS_JSON" ]; then
+cat >> "$HUB_FILE" <<EOF
+<div class="card">
+  <div class="label">Latest TOP results JSON</div>
+  <a class="icon" href="$BASE/$RESULTS_JSON" target="_blank" rel="noopener noreferrer">🔗</a>
+</div>
+EOF
+fi
+
+if [ -n "$ALL_RESULTS_JSON" ]; then
+cat >> "$HUB_FILE" <<EOF
+<div class="card">
+  <div class="label">Latest ALL results JSON</div>
+  <a class="icon" href="$BASE/$ALL_RESULTS_JSON" target="_blank" rel="noopener noreferrer">🔗</a>
+</div>
+EOF
+fi
+
+cat >> "$HUB_FILE" <<EOF
+</div>
+EOF
+fi
+
+cat >> "$HUB_FILE" <<EOF
 
 <div class="footer">Generated by BackstageTalks Tennis workflow.</div>
 </div>
@@ -145,5 +245,7 @@ h1 {
 </html>
 EOF
 
-  echo "LINK HUB: public/$LINKS/index.html"
-}
+echo "LINK HUB CREATED: $HUB_FILE"
+
+echo "===== LINK HUB PREVIEW ====="
+head -n 80 "$HUB_FILE"
