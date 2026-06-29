@@ -4,14 +4,20 @@ from stats_engine import get_stats_context
 
 
 TOP_N = 7
+MIN_DAILY_PICKS = 3
+ABSOLUTE_MIN_WIN_PROB = 0.52
 
 
 def fair_market_probs(odds1, odds2):
     if not odds1 or not odds2:
         return None, None, None
 
-    raw1 = 1 / odds1
-    raw2 = 1 / odds2
+    try:
+        raw1 = 1 / float(odds1)
+        raw2 = 1 / float(odds2)
+    except Exception:
+        return None, None, None
+
     overround = raw1 + raw2
 
     if overround <= 0:
@@ -23,17 +29,36 @@ def fair_market_probs(odds1, odds2):
     return fair1, fair2, overround
 
 
+def calculate_ev(probability, odds):
+    """
+    EV je iba informačný údaj:
+    EV = Win % * odds - 1
+    """
+    if odds is None:
+        return None
+
+    try:
+        return round((float(probability) * float(odds)) - 1, 3)
+    except Exception:
+        return None
+
+
 def classify_bookie_signal(pick, p1, p2, model_prob, odds1, odds2):
+    """
+    Kurz / market údaje sú iba informačné.
+    Nepoužívajú sa na zoradenie TOP výberu.
+    """
     fair1, fair2, overround = fair_market_probs(odds1, odds2)
 
     if fair1 is None or fair2 is None:
         return {
-            "pick_odds": 1.90,
+            "pick_odds": None,
             "market_probability": None,
             "market_agrees": False,
             "bookie_value_edge": None,
             "overround": None,
-            "bookie_signal": "NO_ODDS"
+            "bookie_signal": "NO_ODDS",
+            "market_warning": "NO_ODDS"
         }
 
     if pick == p1:
@@ -48,26 +73,38 @@ def classify_bookie_signal(pick, p1, p2, model_prob, odds1, odds2):
     market_agrees = market_probability >= opponent_market_probability
     value_edge = model_prob - market_probability
 
-    if market_agrees and model_prob >= 0.58:
-        signal = "BOOKIE_AND_MODEL_AGREE"
-    elif value_edge >= 0.04:
-        signal = "VALUE_EDGE"
+    market_warning = None
+
+    if value_edge >= 0.25:
+        market_warning = "EXTREME_MODEL_MARKET_GAP"
+    elif value_edge >= 0.15:
+        market_warning = "HIGH_MODEL_MARKET_GAP"
     elif not market_agrees:
-        signal = "MODEL_DISAGREES_WITH_MARKET"
+        market_warning = "MODEL_AGAINST_MARKET"
+
+    if market_agrees and model_prob >= 0.57:
+        signal = "MARKET_AND_MODEL_AGREE"
+    elif not market_agrees:
+        signal = "MODEL_AGAINST_MARKET"
     else:
         signal = "NEUTRAL_MARKET"
 
     return {
-        "pick_odds": round(pick_odds, 3),
+        "pick_odds": round(float(pick_odds), 3),
         "market_probability": round(market_probability, 3),
         "market_agrees": market_agrees,
         "bookie_value_edge": round(value_edge, 3),
         "overround": round(overround, 3),
-        "bookie_signal": signal
+        "bookie_signal": signal,
+        "market_warning": market_warning
     }
 
 
 def metric_for_surface(player_stats, surface):
+    """
+    Stats nechávame iba informačne.
+    Nepoužívame ich na hlavné TOP zoradenie.
+    """
     if not player_stats:
         return {}
 
@@ -88,6 +125,10 @@ def metric_for_surface(player_stats, surface):
 
 
 def classify_extra_signal(pick_metrics, opponent_metrics):
+    """
+    Signály nechávame vo výstupe iba ako info.
+    Nepoužívajú sa na TOP winner výber.
+    """
     signals = []
 
     avg_aces = pick_metrics.get("avg_aces")
@@ -96,7 +137,6 @@ def classify_extra_signal(pick_metrics, opponent_metrics):
 
     set_rate = pick_metrics.get("at_least_one_set_rate")
     sample = pick_metrics.get("sample", 0)
-
     win_rate = pick_metrics.get("win_rate")
 
     if win_rate is not None and sample >= 5 and win_rate >= 0.65:
@@ -104,7 +144,6 @@ def classify_extra_signal(pick_metrics, opponent_metrics):
 
     if set_rate is not None and sample >= 5 and set_rate >= 0.75:
         signals.append("🎯 Strong over 0.5 set signal")
-
     elif set_rate is not None and sample >= 5 and set_rate >= 0.60:
         signals.append("✅ Medium over 0.5 set signal")
 
@@ -129,11 +168,14 @@ def classify_extra_signal(pick_metrics, opponent_metrics):
 
 
 def build_alternative_bets(pick, pick_metrics):
+    """
+    Alternatívne trhy sú iba info.
+    Neovplyvňujú winner pick.
+    """
     alt_bets = []
 
     set_rate = pick_metrics.get("at_least_one_set_rate")
     sample = pick_metrics.get("sample", 0)
-
     avg_aces = pick_metrics.get("avg_aces")
 
     if set_rate is not None and sample >= 5:
@@ -169,34 +211,134 @@ def build_alternative_bets(pick, pick_metrics):
     return alt_bets
 
 
-def passes_quality_gate(pred):
-    prob = pred.get("probability", 0)
-    market_agrees = pred.get("market_agrees", False)
-    value_edge = pred.get("bookie_value_edge")
-    market_prob = pred.get("market_probability")
-    signals = pred.get("extra_signals", [])
+def data_quality_from_metrics(pick_metrics, opponent_metrics):
+    pick_sample = pick_metrics.get("sample", 0) or 0
+    opponent_sample = opponent_metrics.get("sample", 0) or 0
+    total_sample = pick_sample + opponent_sample
 
-    strong_set = "🎯 Strong over 0.5 set signal" in signals
-    medium_set = "✅ Medium over 0.5 set signal" in signals
-    ace_edge = "💣 Ace edge vs opponent" in signals
-    strong_form = "✅ Strong recent form" in signals
+    if pick_sample >= 8 and opponent_sample >= 8:
+        return "HIGH"
 
-    if prob >= 0.56 and market_agrees:
-        return True
+    if pick_sample >= 4 and opponent_sample >= 4:
+        return "MEDIUM"
 
-    if market_prob is not None and market_prob >= 0.54 and prob >= 0.55:
-        return True
+    if total_sample >= 5:
+        return "LOW"
 
-    if value_edge is not None and value_edge >= 0.04 and prob >= 0.54:
-        return True
+    return "VERY_LOW"
 
-    if prob >= 0.53 and (strong_set or ace_edge or strong_form):
-        return True
 
-    if prob >= 0.55 and medium_set:
-        return True
+def win_tier(probability):
+    if probability >= 0.65:
+        return "A+"
+    if probability >= 0.60:
+        return "A"
+    if probability >= 0.57:
+        return "B"
+    if probability >= 0.54:
+        return "C"
+    if probability >= 0.52:
+        return "D"
 
-    return False
+    return "RISK"
+
+
+def build_model_flags(probability, odds_info, data_quality, ev_score):
+    flags = []
+
+    odds = odds_info.get("pick_odds")
+    market_warning = odds_info.get("market_warning")
+
+    if probability >= 0.65:
+        flags.append("A_PLUS_WIN_PROB")
+    elif probability >= 0.60:
+        flags.append("A_WIN_PROB")
+    elif probability >= 0.57:
+        flags.append("B_WIN_PROB")
+    elif probability >= 0.54:
+        flags.append("C_WIN_PROB")
+    elif probability >= 0.52:
+        flags.append("D_WIN_PROB")
+    else:
+        flags.append("LOW_WIN_EDGE")
+
+    if data_quality == "HIGH":
+        flags.append("HIGH_DATA")
+    elif data_quality == "MEDIUM":
+        flags.append("MEDIUM_DATA")
+    elif data_quality == "LOW":
+        flags.append("LOW_DATA")
+    else:
+        flags.append("VERY_LOW_DATA")
+
+    if odds is None:
+        flags.append("NO_ODDS")
+    elif odds < 1.25:
+        flags.append("VERY_LOW_ODDS")
+    elif odds < 1.35:
+        flags.append("LOW_ODDS")
+    elif odds >= 4.0:
+        flags.append("LONGSHOT_ODDS")
+
+    if ev_score is None:
+        flags.append("NO_EV")
+    elif ev_score >= 0.25:
+        flags.append("EXTREME_EV_TRACK_ONLY")
+    elif ev_score >= 0.05:
+        flags.append("POSITIVE_EV_TRACK_ONLY")
+    elif ev_score < 0:
+        flags.append("NEGATIVE_EV_TRACK_ONLY")
+
+    if market_warning:
+        flags.append(market_warning)
+
+    return flags
+
+
+def build_bet_tag(probability, odds, ev_score, model_flags):
+    """
+    Toto je praktický verdikt pre hranie.
+
+    Dôležité:
+    - TOP poradie je stále podľa Win %.
+    - Bet tag len povie, či bet dáva zmysel hrať.
+    """
+    if probability < 0.52:
+        return "❌ NO BET"
+
+    if odds is None:
+        if probability >= 0.60:
+            return "👀 WATCH ONLY / NO ODDS"
+        return "❌ NO BET / NO ODDS"
+
+    if odds < 1.20:
+        return "👀 WATCH ONLY / VERY LOW VALUE"
+
+    if odds < 1.30:
+        if probability >= 0.65:
+            return "⚠️ PLAY SMALL / LOW VALUE"
+        return "👀 WATCH ONLY / LOW VALUE"
+
+    if "EXTREME_MODEL_MARKET_GAP" in model_flags and probability < 0.60:
+        return "👀 WATCH ONLY / MODEL WARNING"
+
+    if odds >= 4.0 and probability < 0.60:
+        return "👀 WATCH ONLY / LONGSHOT"
+
+    if probability >= 0.57:
+        if ev_score is not None and ev_score < -0.10:
+            return "⚠️ PLAY SMALL / NEGATIVE EV"
+        return "✅ PLAY"
+
+    if probability >= 0.54:
+        if ev_score is not None and ev_score >= -0.05 and odds >= 1.35:
+            return "⚠️ PLAY SMALL"
+        return "👀 WATCH ONLY"
+
+    if probability >= 0.52:
+        return "👀 WATCH ONLY"
+
+    return "❌ NO BET"
 
 
 def get_match_fields(match):
@@ -256,6 +398,8 @@ def get_daily_predictions():
         odds2 = m.get("odds_player2")
 
         base_prob1 = win_probability(p1, p2)
+        prob1 = max(0.05, min(0.95, base_prob1))
+        prob2 = 1 - prob1
 
         match_key = f"{p1}::{p2}"
         surface = surface_map.get(match_key, "Unknown")
@@ -265,25 +409,6 @@ def get_daily_predictions():
 
         p1_metrics = metric_for_surface(p1_stats, surface)
         p2_metrics = metric_for_surface(p2_stats, surface)
-
-        p1_win = p1_metrics.get("win_rate")
-        p2_win = p2_metrics.get("win_rate")
-
-        p1_set = p1_metrics.get("at_least_one_set_rate")
-        p2_set = p2_metrics.get("at_least_one_set_rate")
-
-        boost = 0
-
-        if p1_win is not None and p2_win is not None:
-            boost += (p1_win - p2_win) * 0.10
-
-        if p1_set is not None and p2_set is not None:
-            boost += (p1_set - p2_set) * 0.04
-
-        boost = max(-0.08, min(0.08, boost))
-
-        prob1 = max(0.05, min(0.95, base_prob1 + boost))
-        prob2 = 1 - prob1
 
         if prob1 >= prob2:
             pick = p1
@@ -313,32 +438,33 @@ def get_daily_predictions():
 
         pick_odds = odds_info["pick_odds"]
         implied_probability = round(1 / pick_odds, 3) if pick_odds else None
+        ev_score = calculate_ev(pick_probability, pick_odds)
 
         extra_signals = classify_extra_signal(pick_metrics, opponent_metrics)
         alternative_bets = build_alternative_bets(pick, pick_metrics)
 
-        score = (pick_probability * 0.60) + (confidence * 0.10)
+        data_quality = data_quality_from_metrics(pick_metrics, opponent_metrics)
 
-        if odds_info["market_agrees"]:
-            score += 0.06
+        model_flags = build_model_flags(
+            probability=pick_probability,
+            odds_info=odds_info,
+            data_quality=data_quality,
+            ev_score=ev_score
+        )
 
-        if odds_info["bookie_value_edge"] is not None and odds_info["bookie_value_edge"] > 0.03:
-            score += 0.05
+        bet_tag = build_bet_tag(
+            probability=pick_probability,
+            odds=pick_odds,
+            ev_score=ev_score,
+            model_flags=model_flags
+        )
 
-        if "🎯 Strong over 0.5 set signal" in extra_signals:
-            score += 0.08
+        tier = win_tier(pick_probability)
 
-        if "✅ Medium over 0.5 set signal" in extra_signals:
-            score += 0.04
-
-        if "✅ Strong recent form" in extra_signals:
-            score += 0.05
-
-        if "💣 Ace edge vs opponent" in extra_signals:
-            score += 0.04
-
-        if "💣 High ace profile" in extra_signals:
-            score += 0.02
+        # Dôležité:
+        # score = čisté Win %
+        # Žiadne odds, EV, market, ace/set bonusy.
+        score = pick_probability
 
         pred = {
             "player1": p1,
@@ -353,21 +479,36 @@ def get_daily_predictions():
             "opponent_probability": round(opponent_probability, 3),
             "confidence": round(confidence, 3),
 
+            "score": round(score, 3),
+            "winner_rank_score": round(score, 3),
+
             "odds": pick_odds,
             "odds_player1": odds1,
             "odds_player2": odds2,
             "odds_source": m.get("odds_source"),
             "implied_probability": implied_probability,
+
             "market_probability": odds_info["market_probability"],
             "market_agrees": odds_info["market_agrees"],
             "bookie_value_edge": odds_info["bookie_value_edge"],
             "overround": odds_info["overround"],
             "bookie_signal": odds_info["bookie_signal"],
+            "market_warning": odds_info["market_warning"],
+
+            "ev_score": ev_score,
+            "ev_percent": round(ev_score * 100, 1) if ev_score is not None else None,
+
+            "bet_tag": bet_tag,
+            "win_tier": tier,
+            "data_quality": data_quality,
+            "model_flags": model_flags,
+
+            "model_source": "WELO_ONLY_CLEAN_WIN_PERCENT",
+            "base_probability_player1": round(base_prob1, 3),
+            "stats_boost_player1": 0.0,
 
             "match_start": m.get("match_start"),
             "match_time_raw": m.get("match_time_raw"),
-
-            "score": round(score, 3),
 
             "pick_stats": stats_map.get(pick, {}),
             "opponent_stats": stats_map.get(opponent, {}),
@@ -379,15 +520,21 @@ def get_daily_predictions():
 
         all_predictions.append(pred)
 
-    qualified = [p for p in all_predictions if passes_quality_gate(p)]
-    qualified.sort(key=lambda x: x["score"], reverse=True)
+    # TOP výber:
+    # 1. zoradiť iba podľa Win %
+    # 2. zobraziť max 7
+    # 3. snažiť sa mať aspoň 3, ak existujú zápasy
+    all_predictions.sort(key=lambda x: x["probability"], reverse=True)
 
-    if len(qualified) >= TOP_N:
-        final = qualified[:TOP_N]
+    preferred = [
+        p for p in all_predictions
+        if p.get("probability", 0) >= ABSOLUTE_MIN_WIN_PROB
+    ]
+
+    if len(preferred) >= MIN_DAILY_PICKS:
+        final = preferred[:TOP_N]
     else:
-        remaining = [p for p in all_predictions if p not in qualified]
-        remaining.sort(key=lambda x: x["score"], reverse=True)
-        final = (qualified + remaining)[:TOP_N]
+        final = all_predictions[:min(TOP_N, max(MIN_DAILY_PICKS, len(all_predictions)))]
 
     print("FINAL PICKS:", len(final))
 
@@ -399,16 +546,20 @@ def get_daily_predictions():
             p["opponent"],
             "| prob:",
             p["probability"],
+            "| tier:",
+            p["win_tier"],
+            "| score:",
+            p["score"],
             "| odds:",
             p["odds"],
-            "| market_prob:",
-            p["market_probability"],
-            "| value_edge:",
-            p["bookie_value_edge"],
-            "| market_agrees:",
-            p["market_agrees"],
-            "| signals:",
-            p["extra_signals"]
+            "| ev:",
+            p["ev_score"],
+            "| bet_tag:",
+            p["bet_tag"],
+            "| data_quality:",
+            p["data_quality"],
+            "| flags:",
+            p["model_flags"]
         )
 
     return final
