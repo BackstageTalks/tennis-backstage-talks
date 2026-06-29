@@ -45,16 +45,6 @@ jobs:
           rm -rf public
           mkdir -p public
 
-      - name: Generate TOP7 results from previous predictions
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python results_checker.py
-
-      - name: Generate ALL results from previous ALL predictions
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python results_checker_all.py
-
       - name: Run predictions
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
@@ -68,6 +58,16 @@ jobs:
           MIN_TOP_ODDS: 1.50
           MAX_TOP_ITEMS: 7
         run: python top_filter.py
+
+      - name: Generate TOP7 results from current predictions
+        env:
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python results_checker.py
+
+      - name: Generate ALL results from current ALL predictions
+        env:
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python results_checker_all.py
 
       - name: Generate source audit
         run: python audit_sources.py
@@ -107,7 +107,7 @@ jobs:
             echo "TOP_COUNT=$TOP_COUNT"
 
             if [ "$TOP_COUNT" -eq 0 ]; then
-              echo "WARNING: TOP predictions has 0 items. Deploy is allowed for testing."
+              echo "WARNING: TOP predictions has 0 items. Deploy allowed for testing."
             fi
 
             if [ "$TOP_COUNT" -gt 7 ]; then
@@ -143,7 +143,7 @@ jobs:
               print("TOP odds below 1.50:", bad)
 
               if bad:
-                  print("WARNING: TOP contains odds below 1.50. Deploy is allowed for testing.")
+                  print("WARNING: TOP contains odds below 1.50. Deploy allowed for testing.")
           PY
 
           echo "===== CHECK ALL JSON ====="
@@ -157,7 +157,7 @@ jobs:
             echo "ALL_COUNT=$ALL_COUNT"
 
             if [ "$ALL_COUNT" -eq 0 ]; then
-              echo "WARNING: ALL predictions has 0 items. Deploy is allowed for testing."
+              echo "WARNING: ALL predictions has 0 items. Deploy allowed for testing."
             fi
           fi
 
@@ -165,7 +165,7 @@ jobs:
           RESULTS_JSON=$(ls public/results_*.json 2>/dev/null | head -n 1 || true)
 
           if [ -z "$RESULTS_JSON" ]; then
-            echo "WARNING: results_*.json missing. This is OK on first run or when previous predictions were not available."
+            echo "WARNING: results_*.json missing."
           else
             echo "RESULTS_JSON=$RESULTS_JSON"
           fi
@@ -174,7 +174,7 @@ jobs:
           ALL_RESULTS_JSON=$(ls public/all_results_*.json 2>/dev/null | head -n 1 || true)
 
           if [ -z "$ALL_RESULTS_JSON" ]; then
-            echo "WARNING: all_results_*.json missing. This is OK on first run or when previous ALL predictions were not available."
+            echo "WARNING: all_results_*.json missing."
           else
             echo "ALL_RESULTS_JSON=$ALL_RESULTS_JSON"
           fi
@@ -192,6 +192,7 @@ jobs:
 
           echo "===== CHECK PRIVATE WEB DIRECTORY ALIASES ====="
           for f in \
+            H4V34N1C3D4Y177/index.html \
             H4V34N1C3D4Y180/index.html \
             H4V34N1C3D4Y182/index.html \
             H4V34N1C3D4Y184/index.html \
@@ -233,10 +234,6 @@ jobs:
           TOP_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y181.xml || true)
           echo "TOP_PRIVATE_RSS_COUNT=$TOP_PRIVATE_RSS_COUNT"
 
-          if [ "$TOP_PRIVATE_RSS_COUNT" -eq 0 ]; then
-            echo "WARNING: private TOP RSS XML has 0 items. Deploy is allowed for testing."
-          fi
-
           if [ "$TOP_PRIVATE_RSS_COUNT" -gt 7 ]; then
             echo "ERROR: private TOP RSS XML has more than 7 items."
             exit 1
@@ -245,10 +242,6 @@ jobs:
           echo "===== CHECK PRIVATE ALL RSS XML ====="
           ALL_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y185.xml || true)
           echo "ALL_PRIVATE_RSS_COUNT=$ALL_PRIVATE_RSS_COUNT"
-
-          if [ "$ALL_PRIVATE_RSS_COUNT" -eq 0 ]; then
-            echo "WARNING: private ALL RSS XML has 0 items. Deploy is allowed for testing."
-          fi
 
           echo "===== CHECK PRIVATE RESULTS RSS XML ====="
           RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y183.xml || true)
@@ -263,6 +256,9 @@ jobs:
             echo "ERROR: public/robots.txt missing"
             exit 1
           fi
+
+          echo "===== PRIVATE LINK HUB PREVIEW ====="
+          head -n 60 public/H4V34N1C3D4Y177/index.html
 
           echo "===== PRIVATE TOP PAGE PREVIEW ====="
           head -n 40 public/H4V34N1C3D4Y180/index.html
@@ -282,17 +278,3 @@ jobs:
           echo "===== PRIVATE ALL RSS XML PREVIEW ====="
           head -n 80 public/H4V34N1C3D4Y185.xml
 
-          echo "===== PUBLIC ROOT PREVIEW SHOULD BE NEUTRAL ====="
-          head -n 40 public/index.html
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
