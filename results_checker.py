@@ -55,13 +55,6 @@ def units_for_result(status, odds):
     return 0.0
 
 
-def pct(value):
-    try:
-        return round(float(value) * 100, 1)
-    except Exception:
-        return 0
-
-
 def local_prediction_files(prefix):
     if not os.path.exists("public"):
         return []
@@ -140,12 +133,6 @@ def load_remote_predictions(prefix="predictions_"):
 
 
 def load_predictions(prefix="predictions_"):
-    """
-    Priority:
-    1. local public/predictions_*.json from current workflow run
-    2. remote current/today predictions from GitHub Pages
-    3. remote recent previous predictions
-    """
     prediction_date, data = load_latest_local_predictions(prefix)
 
     if isinstance(data, list) and len(data) > 0:
