@@ -86,3 +86,265 @@ jobs:*  build-and-deploy:
      *  if: steps.gate.outputs.run_predi*tions == 'true'
         env:
      *    LOCAL_TZ_OFFSET_HOURS: 2
+     *  run: python results_checker_all.py
+
+      - name: Run predictions
+        if: steps.gate.outputs.run_predictions == 'true'
+        env:
+          LOCAL_TZ_OFFSET_HOURS: 2
+          BET_WINDOW_START_HOUR: 6
+          BET_WINDOW_END_NEXT_DAY_HOUR: 6
+        run: python update.py
+
+      - name: Apply TOP odds filter
+        if: steps.gate.outputs.run_predictions == 'true'
+        env:
+          MIN_TOP_ODDS: 1.50
+          MAX_TOP_ITEMS: 7
+        run: python top_filter.py
+
+      - name: Generate source audit
+        if: steps.gate.outputs.run_predictions == 'true'
+        run: python audit_sources.py
+
+      - name: Generate TOP page and TOP RSS
+        if: steps.gate.outputs.run_predictions == 'true'
+        run: python rss.py
+
+      - name: Generate ALL page and ALL RSS
+        if: steps.gate.outputs.run_predictions == 'true'
+        run: python rss_all.py
+
+      - name: Generate TOP7 results page and RSS
+        if: steps.gate.outputs.run_predictions == 'true'
+        env:
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python rss_results.py
+
+      - name: Generate ALL results page and RSS
+        if: steps.gate.outputs.run_predictions == 'true'
+        env:
+          LOCAL_TZ_OFFSET_HOURS: 2
+        run: python rss_results_all.py
+
+      - name: Publish private aliases
+        if: steps.gate.outputs.run_predictions == 'true'
+        run: python publish_private_aliases.py
+
+      - name: Verify generated files
+        if: steps.gate.outputs.run_predictions == 'true'
+        run: |
+          echo "===== PUBLIC FILES ====="
+          ls -R public
+
+          echo "===== CHECK TOP JSON ====="
+          TOP_JSON=$(ls public/predictions_*.json 2>/dev/null | head -n 1 || true)
+
+          if [ -z "$TOP_JSON" ]; then
+            echo "ERROR: TOP predictions JSON missing"
+            exit 1
+          fi
+
+          TOP_COUNT=$(python -c "import json; print(len(json.load(open('$TOP_JSON', encoding='utf-8'))))")
+          echo "TOP_JSON=$TOP_JSON"
+          echo "TOP_COUNT=$TOP_COUNT"
+
+          if [ "$TOP_COUNT" -eq 0 ]; then
+            echo "ERROR: TOP predictions has 0 items. Refusing to deploy empty TOP page."
+            exit 1
+          fi
+
+          if [ "$TOP_COUNT" -gt 7 ]; then
+            echo "ERROR: TOP predictions has more than 7 items."
+            exit 1
+          fi
+
+          echo "===== CHECK TOP ODDS FILTER ====="
+          python - <<'PY'
+          import json
+          import glob
+          import sys
+
+          files = sorted(glob.glob("public/predictions_*.json"))
+          if not files:
+              print("ERROR: no TOP prediction file found")
+              sys.exit(1)
+
+          path = files[-1]
+          data = json.load(open(path, encoding="utf-8"))
+
+          bad = []
+          for item in data:
+              try:
+                  odds = float(item.get("odds", 0))
+              except Exception:
+                  odds = 0
+
+              if odds < 1.50:
+                  bad.append((item.get("pick"), item.get("odds")))
+
+          print("TOP odds check file:", path)
+          print("TOP odds bad items:", bad)
+
+          if bad:
+              print("ERROR: TOP contains odds below 1.50")
+              sys.exit(1)
+          PY
+
+          echo "===== CHECK ALL JSON ====="
+          ALL_JSON=$(ls public/all_predictions_*.json 2>/dev/null | head -n 1 || true)
+
+          if [ -z "$ALL_JSON" ]; then
+            echo "ERROR: ALL predictions JSON missing"
+            exit 1
+          fi
+
+          ALL_COUNT=$(python -c "import json; print(len(json.load(open('$ALL_JSON', encoding='utf-8'))))")
+          echo "ALL_JSON=$ALL_JSON"
+          echo "ALL_COUNT=$ALL_COUNT"
+
+          if [ "$ALL_COUNT" -eq 0 ]; then
+            echo "ERROR: ALL predictions has 0 items. Refusing to deploy empty ALL page."
+            exit 1
+          fi
+
+          echo "===== CHECK RESULTS JSON OPTIONAL ====="
+          RESULTS_JSON=$(ls public/results_*.json 2>/dev/null | head -n 1 || true)
+
+          if [ -z "$RESULTS_JSON" ]; then
+            echo "WARNING: results_*.json missing. This is OK on first run or when previous predictions were not available."
+          else
+            echo "RESULTS_JSON=$RESULTS_JSON"
+          fi
+
+          echo "===== CHECK ALL RESULTS JSON OPTIONAL ====="
+          ALL_RESULTS_JSON=$(ls public/all_results_*.json 2>/dev/null | head -n 1 || true)
+
+          if [ -z "$ALL_RESULTS_JSON" ]; then
+            echo "WARNING: all_results_*.json missing. This is OK on first run or when previous ALL predictions were not available."
+          else
+            echo "ALL_RESULTS_JSON=$ALL_RESULTS_JSON"
+          fi
+
+          echo "===== CHECK PRIVATE JSON ALIASES ====="
+          for f in \
+            H4V34N1C3D4Y170 \
+            H4V34N1C3D4Y171
+          do
+            if [ ! -f "public/$f" ]; then
+              echo "ERROR: private JSON alias public/$f missing"
+              exit 1
+            fi
+          done
+
+          echo "===== CHECK PRIVATE WEB DIRECTORY ALIASES ====="
+          for f in \
+            H4V34N1C3D4Y180/index.html \
+            H4V34N1C3D4Y182/index.html \
+            H4V34N1C3D4Y184/index.html \
+            H4V34N1C3D4Y186/index.html
+          do
+            if [ ! -f "public/$f" ]; then
+              echo "ERROR: private web directory alias public/$f missing"
+              exit 1
+            fi
+          done
+
+          echo "===== CHECK PRIVATE RSS ALIASES WITHOUT EXT ====="
+          for f in \
+            H4V34N1C3D4Y181 \
+            H4V34N1C3D4Y183 \
+            H4V34N1C3D4Y185 \
+            H4V34N1C3D4Y187
+          do
+            if [ ! -f "public/$f" ]; then
+              echo "ERROR: private RSS alias public/$f missing"
+              exit 1
+            fi
+          done
+
+          echo "===== CHECK PRIVATE RSS XML ALIASES ====="
+          for f in \
+            H4V34N1C3D4Y181.xml \
+            H4V34N1C3D4Y183.xml \
+            H4V34N1C3D4Y185.xml \
+            H4V34N1C3D4Y187.xml
+          do
+            if [ ! -f "public/$f" ]; then
+              echo "ERROR: private RSS XML alias public/$f missing"
+              exit 1
+            fi
+          done
+
+          echo "===== CHECK PRIVATE TOP RSS XML ====="
+          TOP_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y181.xml || true)
+          echo "TOP_PRIVATE_RSS_COUNT=$TOP_PRIVATE_RSS_COUNT"
+
+          if [ "$TOP_PRIVATE_RSS_COUNT" -eq 0 ]; then
+            echo "ERROR: private TOP RSS XML has 0 items. Refusing to deploy empty TOP RSS."
+            exit 1
+          fi
+
+          if [ "$TOP_PRIVATE_RSS_COUNT" -gt 7 ]; then
+            echo "ERROR: private TOP RSS XML has more than 7 items."
+            exit 1
+          fi
+
+          echo "===== CHECK PRIVATE ALL RSS XML ====="
+          ALL_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y185.xml || true)
+          echo "ALL_PRIVATE_RSS_COUNT=$ALL_PRIVATE_RSS_COUNT"
+
+          if [ "$ALL_PRIVATE_RSS_COUNT" -eq 0 ]; then
+            echo "ERROR: private ALL RSS XML has 0 items. Refusing to deploy empty ALL RSS."
+            exit 1
+          fi
+
+          echo "===== CHECK PRIVATE RESULTS RSS XML ====="
+          RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y183.xml || true)
+          echo "RESULTS_PRIVATE_RSS_COUNT=$RESULTS_PRIVATE_RSS_COUNT"
+
+          echo "===== CHECK PRIVATE ALL RESULTS RSS XML ====="
+          ALL_RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y187.xml || true)
+          echo "ALL_RESULTS_PRIVATE_RSS_COUNT=$ALL_RESULTS_PRIVATE_RSS_COUNT"
+
+          echo "===== ROBOTS CHECK ====="
+          if [ ! -f public/robots.txt ]; then
+            echo "ERROR: public/robots.txt missing"
+            exit 1
+          fi
+
+          echo "===== PRIVATE TOP PAGE PREVIEW ====="
+          head -n 40 public/H4V34N1C3D4Y180/index.html
+
+          echo "===== PRIVATE ALL PAGE PREVIEW ====="
+          head -n 40 public/H4V34N1C3D4Y184/index.html
+
+          echo "===== PRIVATE TOP RESULTS PAGE PREVIEW ====="
+          head -n 40 public/H4V34N1C3D4Y182/index.html
+
+          echo "===== PRIVATE ALL RESULTS PAGE PREVIEW ====="
+          head -n 40 public/H4V34N1C3D4Y186/index.html
+
+          echo "===== PRIVATE TOP RSS XML PREVIEW ====="
+          head -n 80 public/H4V34N1C3D4Y181.xml
+
+          echo "===== PRIVATE ALL RSS XML PREVIEW ====="
+          head -n 80 public/H4V34N1C3D4Y185.xml
+
+          echo "===== PUBLIC ROOT PREVIEW SHOULD BE NEUTRAL ====="
+          head -n 40 public/index.html
+
+      - name: Setup Pages
+        if: steps.gate.outputs.run_predictions == 'true'
+        uses: actions/configure-pages@v4
+
+      - name: Upload Pages artifact
+        if: steps.gate.outputs.run_predictions == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        if: steps.gate.outputs.run_predictions == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v4
