@@ -63,11 +63,14 @@ def remove_file_if_exists(path):
 
 
 def placeholder_html(title="BackstageTalks", message="Content is not available yet."):
-    template = """<!DOCTYPE html>
+    safe_title = html.escape(str(title))
+    safe_message = html.escape(str(message))
+
+    return """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>__TITLE__</title>
+<title>""" + safe_title + """</title>
 <meta name="robots" content="noindex,nofollow,noarchive">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
@@ -93,18 +96,12 @@ p {
 </head>
 <body>
 <div class="container">
-<h1>__TITLE__</h1>
-<p>__MESSAGE__</p>
+<h1>""" + safe_title + """</h1>
+<p>""" + safe_message + """</p>
 </div>
 </body>
 </html>
 """
-
-    return (
-        template
-        .replace("__TITLE__", str(title))
-        .replace("__MESSAGE__", str(message))
-    )
 
 
 def neutral_html():
@@ -115,10 +112,12 @@ def neutral_html():
 
 
 def neutral_rss(title="BackstageTalks"):
+    safe_title = html.escape(str(title))
+
     return """<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 <channel>
-<title>""" + str(title) + """</title>
+<title>""" + safe_title + """</title>
 <link>""" + BASE + """</link>
 <description>No public content available</description>
 </channel>
@@ -127,14 +126,16 @@ def neutral_rss(title="BackstageTalks"):
 
 
 def placeholder_rss(title, linked_page_alias, description="No content available yet"):
+    safe_title = html.escape(str(title))
+    safe_description = html.escape(str(description))
     linked_page_url = BASE + linked_page_alias + "/"
 
     return """<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 <channel>
-<title>""" + str(title) + """</title>
+<title>""" + safe_title + """</title>
 <link>""" + linked_page_url + """</link>
-<description>""" + str(description) + """</description>
+<description>""" + safe_description + """</description>
 </channel>
 </rss>
 """
@@ -257,11 +258,11 @@ def link_item(label, url, note=""):
         note_html = "<div class='note'>" + safe_note + "</div>"
 
     return (
-        '<div class="link-card">\n'
-        '  <div class="label">' + safe_label + '</div>\n'
-        '  <a href="' + safe_url + '" target="_blank" rel="noopener noreferrer">' + safe_url + '</a>\n'
-        '  ' + note_html + '\n'
-        '</div>\n'
+        "<div class='link-card'>\n"
+        "  <div class='label'>" + safe_label + "</div>\n"
+        "  " + safe_url + "" + safe_url + "</a>\n"
+        "  " + note_html + "\n"
+        "</div>\n"
     )
 
 
@@ -278,22 +279,22 @@ def create_links_page():
 
     remove_file_if_exists(direct_path)
 
-    links = []
+    links = [
+        ("Source manifest:", BASE + ALIASES["source_manifest"], "Interná mapa zdrojov"),
+        ("Source audit:", BASE + ALIASES["source_audit"], "Interný audit zdrojov"),
 
-    rce_manifest"], "Interná mapa zdrojov"))
-    links.append(("Source audit:", BASE + ALIASES["source_audit"], "Interný audit zdrojov"))
+        ("TOP 7 web:", BASE + ALIASES["top_page"] + "/", "Denný TOP 7 výber"),
+        ("TOP 7 RSS:", BASE + ALIASES["top_rss"] + ".xml", "RSS feed pre TOP 7"),
 
-    links.append(("TOP 7 web:", BASE + ALIASES["top_page"] + "/", "Denný TOP 7 výber"))
-    links.append(("TOP 7 RSS:", BASE + ALIASES["top_rss"] + ".xml", "RSS feed pre TOP 7"))
+        ("TOP 7 výsledky web:", BASE + ALIASES["top_results_page"] + "/", "Vyhodnotenie TOP 7"),
+        ("TOP 7 výsledky RSS:", BASE + ALIASES["top_results_rss"] + ".xml", "RSS výsledkov TOP 7"),
 
-    links.append(("TOP 7 výsledky web:", BASE + ALIASES["top_results_page"] + "/", "Vyhodnotenie TOP 7"))
-    links.append(("TOP 7 výsledky RSS:", BASE + ALIASES["top_results_rss"] + ".xml", "RSS výsledkov TOP 7"))
+        ("ALL web:", BASE + ALIASES["all_page"] + "/", "Všetky dostupné pick-y"),
+        ("ALL RSS:", BASE + ALIASES["all_rss"] + ".xml", "RSS všetkých dostupných pickov"),
 
-    links.append(("ALL web:", BASE + ALIASES["all_page"] + "/", "Všetky dostupné pick-y"))
-    links.append(("ALL RSS:", BASE + ALIASES["all_rss"] + ".xml", "RSS všetkých dostupných pickov"))
-
-    links.append(("ALL výsledky web:", BASE + ALIASES["all_results_page"] + "/", "Vyhodnotenie ALL"))
-    links.append(("ALL výsledky RSS:", BASE + ALIASES["all_results_rss"] + ".xml", "RSS výsledkov ALL"))
+        ("ALL výsledky web:", BASE + ALIASES["all_results_page"] + "/", "Vyhodnotenie ALL"),
+        ("ALL výsledky RSS:", BASE + ALIASES["all_results_rss"] + ".xml", "RSS výsledkov ALL"),
+    ]
 
     cards = "\n".join(link_item(label, url, note) for label, url, note in links)
 
