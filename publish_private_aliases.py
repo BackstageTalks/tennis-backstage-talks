@@ -8,19 +8,14 @@ BASE = "https://backstagetalks.github.io/tennis-backstage-talks/"
 
 ALIASES = {
     "links_page": "H4V34N1C3D4Y177",
-
     "source_manifest": "H4V34N1C3D4Y170",
     "source_audit": "H4V34N1C3D4Y171",
-
     "top_page": "H4V34N1C3D4Y180",
     "top_rss": "H4V34N1C3D4Y181",
-
     "top_results_page": "H4V34N1C3D4Y182",
     "top_results_rss": "H4V34N1C3D4Y183",
-
     "all_page": "H4V34N1C3D4Y184",
     "all_rss": "H4V34N1C3D4Y185",
-
     "all_results_page": "H4V34N1C3D4Y186",
     "all_results_rss": "H4V34N1C3D4Y187",
 }
@@ -51,252 +46,33 @@ def write_json(path, payload):
 
 def remove_file_if_exists(path):
     if os.path.isfile(path):
-        print("REMOVE FILE:", path)
         os.remove(path)
+        print("REMOVED FILE:", path)
 
 
-def copy_file(src, dst):
+def safe_copy(src, dst):
     if not os.path.exists(src):
-        print("COPY SKIP MISSING:", src)
+        print("MISSING SOURCE:", src)
         return False
 
     ensure_parent(dst)
     shutil.copyfile(src, dst)
-    print("COPY:", src, "->", dst)
+    print("COPIED:", src, "->", dst)
     return True
 
 
-def basic_html(title, message):
-    title = html.escape(str(title))
-    message = html.escape(str(message))
+def html_page(title, body_html):
+    safe_title = html.escape(str(title))
 
     return """<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>""" + title + """</title>
-<meta name="robots" content="noindex,nofollow,noarchive">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background: #160f0f;
-    color: #f4f4f4;
-    margin: 0;
-    padding: 40px;
-}
-.container {
-    max-width: 760px;
-    margin: 0 auto;
-}
-h1 {
-    font-size: 34px;
-}
-p {
-    color: #cfcfcf;
-    font-size: 18px;
-}
-</style>
-</head>
-<body>
-<div class="container">
-<h1>""" + title + """</h1>
-<p>""" + message + """</p>
-</div>
-</body>
-</html>
-"""
-
-
-def neutral_html():
-    return basic_html("BackstageTalks", "No public content available.")
-
-
-def neutral_json():
-    return {
-        "status": "NO_PUBLIC_CONTENT",
-        "message": "No public content available."
-    }
-
-
-def placeholder_json(name):
-    return {
-        "status": "PLACEHOLDER",
-        "name": name,
-        "message": "Content is not available yet."
-    }
-
-
-def neutral_rss(title):
-    title = html.escape(str(title))
-
-    return """<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-<channel>
-<title>""" + title + """</title>
-<link>""" + BASE + """</link>
-<description>No public content available</description>
-</channel>
-</rss>
-"""
-
-
-def placeholder_rss(title, linked_page_alias):
-    title = html.escape(str(title))
-    link = BASE + linked_page_alias + "/"
-
-    return """<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-<channel>
-<title>""" + title + """</title>
-<link>""" + link + """</link>
-<description>No content available yet</description>
-</channel>
-</rss>
-"""
-
-
-def copy_or_placeholder_json(src, alias, name):
-    dst = "public/" + alias
-
-    if os.path.exists(src):
-        return copy_file(src, dst)
-
-    print("JSON PLACEHOLDER:", dst)
-    write_json(dst, placeholder_json(name))
-    return True
-
-
-def copy_or_placeholder_html(src, alias, title, message):
-    """
-    Web alias is always directory/index.html.
-    Correct URL: /ALIAS/
-    """
-    direct_path = "public/" + alias
-    index_path = "public/" + alias + "/index.html"
-
-    remove_file_if_exists(direct_path)
-
-    if os.path.exists(src):
-        content = read_text(src)
-        print("HTML SOURCE FOUND:", src)
-    else:
-        content = basic_html(title, message)
-        print("HTML PLACEHOLDER:", index_path)
-
-    write_text(index_path, content)
-    print("HTML ALIAS WRITE:", index_path)
-
-    return True
-
-
-def rewrite_rss_links(xml_text, target_url):
-    replacement = "<link>" + target_url + "</link>"
-    return re.sub(
-        r"<link>.*?</link>",
-        replacement,
-        xml_text,
-        flags=re.DOTALL,
-    )
-
-
-def publish_rss_alias(src_xml, alias, linked_page_alias, title):
-    no_ext_path = "public/" + alias
-    xml_path = "public/" + alias + ".xml"
-    linked_page_url = BASE + linked_page_alias + "/"
-
-    if os.path.exists(src_xml):
-        xml = read_text(src_xml)
-        xml = rewrite_rss_links(xml, linked_page_url)
-        print("RSS SOURCE FOUND:", src_xml)
-    else:
-        xml = placeholder_rss(title, linked_page_alias)
-        print("RSS PLACEHOLDER:", src_xml)
-
-    write_text(no_ext_path, xml)
-    write_text(xml_path, xml)
-
-    print("RSS ALIAS WRITE:", no_ext_path)
-    print("RSS ALIAS WRITE:", xml_path)
-
-    return True
-
-
-def write_robots_txt():
-    content = "\n".join([
-        "User-agent: *",
-        "Disallow: /tennis.xml",
-        "Disallow: /tennis_all.xml",
-        "Disallow: /results.xml",
-        "Disallow: /all_results.xml",
-        "Disallow: /all/",
-        "Disallow: /results/",
-        "Disallow: /all_results/",
-        "Disallow: /source_manifest.json",
-        "Disallow: /source_audit.json",
-        ""
-    ])
-
-    write_text("public/robots.txt", content)
-
-
-def make_link_card(label, url, note):
-    label = html.escape(str(label))
-    url = html.escape(str(url))
-    note = html.escape(str(note))
-
-    note_html = ""
-    if note:
-        note_html = "<div class='note'>" + note + "</div>"
-
-    return (
-        "<div class='link-card'>\n"
-        "  <div class='label'>" + label + "</div>\n"
-        "  <a href='" + url + "' target='_blank' rel='noopener'>" + url + "</a>\n"
-        "  " + note_html + "\n"
-        "</div>\n"
-    )
-
-
-def create_links_page():
-    alias = ALIASES["links_page"]
-    direct_path = "public/" + alias
-    index_path = "public/" + alias + "/index.html"
-
-    remove_file_if_exists(direct_path)
-
-    links = [
-        ("Source manifest:", BASE + ALIASES["source_manifest"], "Interná mapa zdrojov"),
-        ("Source audit:", BASE + ALIASES["source_audit"], "Interný audit zdrojov"),
-
-        ("TOP 7 web:", BASE + ALIASES["top_page"] + "/", "Denný TOP 7 výber"),
-        ("TOP 7 RSS:", BASE + ALIASES["top_rss"] + ".xml", "RSS feed pre TOP 7"),
-
-        ("TOP 7 výsledky web:", BASE + ALIASES["top_results_page"] + "/", "Vyhodnotenie TOP 7"),
-        ("TOP 7 výsledky RSS:", BASE + ALIASES["top_results_rss"] + ".xml", "RSS výsledkov TOP 7"),
-
-        ("ALL web:", BASE + ALIASES["all_page"] + "/", "Všetky dostupné pick-y"),
-        ("ALL RSS:", BASE + ALIASES["all_rss"] + ".xml", "RSS všetkých dostupných pickov"),
-
-        ("ALL výsledky web:", BASE + ALIASES["all_results_page"] + "/", "Vyhodnotenie ALL"),
-        ("ALL výsledky RSS:", BASE + ALIASES["all_results_rss"] + ".xml", "RSS výsledkov ALL"),
-    ]
-
-    cards = ""
-    for label, url, note in links:
-        cards += make_link_card(label, url, note)
-
-    page = """<!DOCTYPE html>
 <html lang="sk">
 <head>
 <meta charset="UTF-8">
-<title>BackstageTalks Tennis Links</title>
+<title>""" + safe_title + """</title>
 <meta name="robots" content="noindex,nofollow,noarchive">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     font-family: Arial, sans-serif;
@@ -307,9 +83,19 @@ body {
 }
 
 .container {
-    max-widthfont-size: 42px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 42px;
     line-height: 1.1;
     margin: 26px 0 24px;
+}
+
+p {
+    color: #cfcfcf;
+    font-size: 18px;
 }
 
 .grid {
@@ -364,41 +150,213 @@ a:hover {
 </head>
 <body>
 <div class="container">
-<h1>BackstageTalks Tennis Links</h1>
-
-<div class="grid">
-""" + cards + """
-</div>
-
-<div class="footer">
-Generated by BackstageTalks Tennis workflow.
-</div>
+<h1>""" + safe_title + """</h1>
+""" + body_html + """
 </div>
 </body>
 </html>
 """
 
-    write_text(index_path, page)
-    print("LINK HUB WRITE:", index_path)
-    print("LINK HUB URL:", BASE + alias + "/")
+
+def neutral_html():
+    return html_page(
+        "BackstageTalks",
+        "<p>No public content available.</p>"
+    )
+
+
+def placeholder_html(title, message):
+    return html_page(
+        title,
+        "<p>" + html.escape(str(message)) + "</p>"
+    )
+
+
+def neutral_rss(title):
+    safe_title = html.escape(str(title))
+
+    return """<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+<title>""" + safe_title + """</title>
+<link>""" + BASE + """</link>
+<description>No public content available</description>
+</channel>
+</rss>
+"""
+
+
+def placeholder_rss(title, linked_page_alias):
+    safe_title = html.escape(str(title))
+    linked_page_url = BASE + linked_page_alias + "/"
+
+    return """<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+<title>""" + safe_title + """</title>
+<link>""" + linked_page_url + """</link>
+<description>No content available yet</description>
+</channel>
+</rss>
+"""
+
+
+def neutral_json():
+    return {
+        "status": "NO_PUBLIC_CONTENT",
+        "message": "No public content available."
+    }
+
+
+def placeholder_json(name):
+    return {
+        "status": "PLACEHOLDER",
+        "name": name,
+        "message": "Content is not available yet."
+    }
+
+
+def publish_json_alias(src, alias, name):
+    dst = "public/" + alias
+
+    if not safe_copy(src, dst):
+        write_json(dst, placeholder_json(name))
+        print("WROTE JSON PLACEHOLDER:", dst)
+
+
+def publish_html_alias(src, alias, title, message):
+    remove_file_if_exists("public/" + alias)
+
+    dst = "public/" + alias + "/index.html"
+
+    if os.path.exists(src):
+        write_text(dst, read_text(src))
+        print("WROTE HTML ALIAS:", dst)
+    else:
+        write_text(dst, placeholder_html(title, message))
+        print("WROTE HTML PLACEHOLDER:", dst)
+
+
+def rewrite_rss_links(xml_text, target_url):
+    return re.sub(
+        r"<link>.*?</link>",
+        "<link>" + target_url + "</link>",
+        xml_text,
+        flags=re.DOTALL
+    )
+
+
+def publish_rss_alias(src_xml, alias, linked_page_alias, title):
+    xml_target = "public/" + alias + ".xml"
+    no_ext_target = "public/" + alias
+    linked_page_url = BASE + linked_page_alias + "/"
+
+    if os.path.exists(src_xml):
+        xml = rewrite_rss_links(read_text(src_xml), linked_page_url)
+        print("RSS SOURCE FOUND:", src_xml)
+    else:
+        xml = placeholder_rss(title, linked_page_alias)
+        print("RSS SOURCE MISSING, PLACEHOLDER:", src_xml)
+
+    write_text(xml_target, xml)
+    write_text(no_ext_target, xml)
+
+    print("WROTE RSS ALIAS:", xml_target)
+    print("WROTE RSS ALIAS:", no_ext_target)
+
+
+def write_robots_txt():
+    content = "\n".join([
+        "User-agent: *",
+        "Disallow: /tennis.xml",
+        "Disallow: /tennis_all.xml",
+        "Disallow: /results.xml",
+        "Disallow: /all_results.xml",
+        "Disallow: /all/",
+        "Disallow: /results/",
+        "Disallow: /all_results/",
+        "Disallow: /source_manifest.json",
+        "Disallow: /source_audit.json",
+        ""
+    ])
+
+    write_text("public/robots.txt", content)
+
+
+def link_card(label, url, note):
+    safe_label = html.escape(str(label))
+    safe_url = html.escape(str(url))
+    safe_note = html.escape(str(note))
+
+    note_html = ""
+
+    if safe_note:
+        note_html = "<div class=\"note\">" + safe_note + "</div>"
+
+    return (
+        "<div class=\"link-card\">\n"
+        "<div class=\"label\">" + safe_label + "</div>\n"
+        "\""" + safe_url + "</a>\n"
+        + note_html + "\n"
+        "</div>\n"
+    )
+
+
+def create_links_page():
+    alias = ALIASES["links_page"]
+    remove_file_if_exists("public/" + alias)
+
+    dst = "public/" + alias + "/index.html"
+
+    links = [
+        ("Source manifest:", BASE + ALIASES["source_manifest"], "Interná mapa zdrojov"),
+        ("Source audit:", BASE + ALIASES["source_audit"], "Interný audit zdrojov"),
+
+        ("TOP 7 web:", BASE + ALIASES["top_page"] + "/", "Denný TOP 7 výber"),
+        ("TOP 7 RSS:", BASE + ALIASES["top_rss"] + ".xml", "RSS feed pre TOP 7"),
+
+        ("TOP 7 výsledky web:", BASE + ALIASES["top_results_page"] + "/", "Vyhodnotenie TOP 7"),
+        ("TOP 7 výsledky RSS:", BASE + ALIASES["top_results_rss"] + ".xml", "RSS výsledkov TOP 7"),
+
+        ("ALL web:", BASE + ALIASES["all_page"] + "/", "Všetky dostupné pick-y"),
+        ("ALL RSS:", BASE + ALIASES["all_rss"] + ".xml", "RSS všetkých dostupných pickov"),
+
+        ("ALL výsledky web:", BASE + ALIASES["all_results_page"] + "/", "Vyhodnotenie ALL"),
+        ("ALL výsledky RSS:", BASE + ALIASES["all_results_rss"] + ".xml", "RSS výsledkov ALL"),
+    ]
+
+    cards = ""
+
+    for label, url, note in links:
+        cards += link_card(label, url, note)
+
+    body = (
+        "<div class=\"grid\">\n"
+        + cards
+        + "\n</div>\n"
+        + "<div class=\"footer\">Generated by BackstageTalks Tennis workflow.</div>"
+    )
+
+    write_text(dst, html_page("BackstageTalks Tennis Links", body))
+    print("WROTE LINK HUB:", dst)
 
 
 def publish_aliases():
     os.makedirs("public", exist_ok=True)
 
-    copy_or_placeholder_json(
+    publish_json_alias(
         "public/source_manifest.json",
         ALIASES["source_manifest"],
         "source_manifest"
     )
 
-    copy_or_placeholder_json(
+    publish_json_alias(
         "public/source_audit.json",
         ALIASES["source_audit"],
         "source_audit"
     )
 
-    copy_or_placeholder_html(
+    publish_html_alias(
         "public/index.html",
         ALIASES["top_page"],
         "BackstageTalks Tennis TOP 7",
@@ -406,13 +364,13 @@ def publish_aliases():
     )
 
     publish_rss_alias(
-        src_xml="public/tennis.xml",
-        alias=ALIASES["top_rss"],
-        linked_page_alias=ALIASES["top_page"],
-        title="BackstageTalks Tennis TOP 7 RSS",
+        "public/tennis.xml",
+        ALIASES["top_rss"],
+        ALIASES["top_page"],
+        "BackstageTalks Tennis TOP 7 RSS"
     )
 
-    copy_or_placeholder_html(
+    publish_html_alias(
         "public/results/index.html",
         ALIASES["top_results_page"],
         "BackstageTalks Tennis TOP 7 Results",
@@ -420,13 +378,13 @@ def publish_aliases():
     )
 
     publish_rss_alias(
-        src_xml="public/results.xml",
-        alias=ALIASES["top_results_rss"],
-        linked_page_alias=ALIASES["top_results_page"],
-        title="BackstageTalks Tennis TOP 7 Results RSS",
+        "public/results.xml",
+        ALIASES["top_results_rss"],
+        ALIASES["top_results_page"],
+        "BackstageTalks Tennis TOP 7 Results RSS"
     )
 
-    copy_or_placeholder_html(
+    publish_html_alias(
         "public/all/index.html",
         ALIASES["all_page"],
         "BackstageTalks Tennis ALL",
@@ -434,13 +392,13 @@ def publish_aliases():
     )
 
     publish_rss_alias(
-        src_xml="public/tennis_all.xml",
-        alias=ALIASES["all_rss"],
-        linked_page_alias=ALIASES["all_page"],
-        title="BackstageTalks Tennis ALL RSS",
+        "public/tennis_all.xml",
+        ALIASES["all_rss"],
+        ALIASES["all_page"],
+        "BackstageTalks Tennis ALL RSS"
     )
 
-    copy_or_placeholder_html(
+    publish_html_alias(
         "public/all_results/index.html",
         ALIASES["all_results_page"],
         "BackstageTalks Tennis ALL Results",
@@ -448,16 +406,16 @@ def publish_aliases():
     )
 
     publish_rss_alias(
-        src_xml="public/all_results.xml",
-        alias=ALIASES["all_results_rss"],
-        linked_page_alias=ALIASES["all_results_page"],
-        title="BackstageTalks Tennis ALL Results RSS",
+        "public/all_results.xml",
+        ALIASES["all_results_rss"],
+        ALIASES["all_results_page"],
+        "BackstageTalks Tennis ALL Results RSS"
     )
 
     create_links_page()
+
     write_robots_txt()
 
-    # Neutralize old public outputs after aliases are created.
     write_text("public/index.html", neutral_html())
     write_text("public/tennis.xml", neutral_rss("BackstageTalks Tennis"))
     write_text("public/tennis_all.xml", neutral_rss("BackstageTalks Tennis ALL"))
@@ -476,17 +434,14 @@ def publish_aliases():
     write_json("public/source_audit.json", neutral_json())
 
     print("PRIVATE ALIASES GENERATED")
-    print("links_page =>", BASE + ALIASES["links_page"] + "/")
-    print("source_manifest =>", BASE + ALIASES["source_manifest"])
-    print("source_audit =>", BASE + ALIASES["source_audit"])
-    print("top_page =>", BASE + ALIASES["top_page"] + "/")
-    print("top_rss =>", BASE + ALIASES["top_rss"] + ".xml")
-    print("top_results_page =>", BASE + ALIASES["top_results_page"] + "/")
-    print("top_results_rss =>", BASE + ALIASES["top_results_rss"] + ".xml")
-    print("all_page =>", BASE + ALIASES["all_page"] + "/")
-    print("all_rss =>", BASE + ALIASES["all_rss"] + ".xml")
-    print("all_results_page =>", BASE + ALIASES["all_results_page"] + "/")
-    print("all_results_rss =>", BASE + ALIASES["all_results_rss"] + ".xml")
+
+    for key, alias in ALIASES.items():
+        if key.endswith("_rss"):
+            print(key, "=>", BASE + alias + ".xml")
+        elif key.endswith("_page") or key == "links_page":
+            print(key, "=>", BASE + alias + "/")
+        else:
+            print(key, "=>", BASE + alias)
 
 
 if __name__ == "__main__":
