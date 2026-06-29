@@ -4,50 +4,45 @@ run-name: Daily Tennis Predictions - ${{ github.event_name }} - ${{ github.run_n
 
 on:
   schedule:
-    # GitHub Actions cron beží v UTC.
-    # 05:00 UTC = 07:00 Bratislava time počas CEST / UTC+2.
     - cron: "0 5 * * *"
 
   workflow_dispatch:
 
-permissions:
+permissio*s:
   contents: read
-  pages: write
-  id-token: write
+  pages: write*  id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  *roup: pages
+  cancel-in-progress: *alse
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+  * runs-on: ubuntu-latest
 
-    environment:
+    envir*nment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  *   url: ${{ steps.deployment.outpu*s.page_url }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - *ame: Checkout repository
+        u*es: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - n*me: Setup Python
+        uses: act*ons/setup-python@v4
         with:
-          python-version: "3.10"
+*         python-version: "3.10"
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
+ *    - name: Install dependencies
+ *      run: |
+          python -m p*p install --upgrade pip
+          *ip install requests beautifulsoup4*
+      - name: Clean public folder*        run: |
+          echo "===*= CLEAN PUBLIC FOLDER ====="
+     *    rm -rf public
+          mkdir *p public
 
-      - name: Clean public folder
-        run: |
-          echo "===== CLEAN PUBLIC FOLDER ====="
-          rm -rf public
-          mkdir -p public
-
-      - name: Run predictions
+      - name: Run predic*ions
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
           BET_WINDOW_START_HOUR: 6
@@ -130,41 +125,7 @@ jobs:
             fi
 
             echo "===== TOP JSON BET TAG PREVIEW ====="
-            python - <<'PY'
-            import json
-            import glob
-
-            files = sorted(glob.glob("public/predictions_*.json"))
-
-            if not files:
-                print("No TOP JSON found.")
-            else:
-                path = files[-1]
-                data = json.load(open(path, encoding="utf-8"))
-
-                print("File:", path)
-                print("Count:", len(data))
-
-                for i, item in enumerate(data, start=1):
-                    print(
-                        "#",
-                        i,
-                        "| pick:",
-                        item.get("pick"),
-                        "| opponent:",
-                        item.get("opponent"),
-                        "| probability:",
-                        item.get("probability"),
-                        "| odds:",
-                        item.get("odds"),
-                        "| ev:",
-                        item.get("ev_score"),
-                        "| bet_tag:",
-                        item.get("bet_tag"),
-                        "| reason:",
-                        item.get("short_reason")
-                    )
-            PY
+            python -c "import json, glob; files=sorted(glob.glob('public/predictions_*.json')); print('No TOP JSON found.') if not files else None; path=files[-1] if files else None; data=json.load(open(path, encoding='utf-8')) if path else []; print('File:', path) if path else None; print('Count:', len(data)); [print('#', i, '| pick:', item.get('pick'), '| opponent:', item.get('opponent'), '| probability:', item.get('probability'), '| odds:', item.get('odds'), '| ev:', item.get('ev_score'), '| bet_tag:', item.get('bet_tag'), '| reason:', item.get('short_reason')) for i, item in enumerate(data, start=1)]"
           fi
 
           echo "===== CHECK ALL JSON ====="
