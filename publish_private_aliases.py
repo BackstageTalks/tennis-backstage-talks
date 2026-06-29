@@ -167,6 +167,12 @@ def copy_or_placeholder_json(src, alias_file, name):
 
 
 def copy_or_placeholder_html(src, alias_dir, title, message):
+    """
+    Web alias vytvárame ako adresár s index.html.
+
+    Správna URL:
+    /H4.../
+    """
     direct_path = "public/" + alias_dir
     index_dst = "public/" + alias_dir + "/index.html"
 
@@ -242,24 +248,30 @@ def write_robots_txt():
 
 
 def link_item(label, url, note=""):
-    safe_label = html.escape(label)
-    safe_url = html.escape(url)
-    safe_note = html.escape(note)
+    safe_label = html.escape(str(label))
+    safe_url = html.escape(str(url))
+    safe_note = html.escape(str(note))
 
     note_html = ""
     if note:
         note_html = "<div class='note'>" + safe_note + "</div>"
 
-    return """
-<div class="link-card">
-  <div class="label">""" + safe_label + """</div>
-  \""""""" + safe_url + """</a>
-  """ + note_html + """
-</div>
-"""
+    return (
+        '<div class="link-card">\n'
+        '  <div class="label">' + safe_label + '</div>\n'
+        '  <a href="' + safe_url + '" target="_blank" rel="noopener noreferrer">' + safe_url + '</a>\n'
+        '  ' + note_html + '\n'
+        '</div>\n'
+    )
 
 
 def create_links_page():
+    """
+    Central private link hub.
+
+    URL:
+    /H4V34N1C3D4Y177/
+    """
     alias = ALIASES["links_page"]
     direct_path = "public/" + alias
     index_path = "public/" + alias + "/index.html"
@@ -268,7 +280,7 @@ def create_links_page():
 
     links = []
 
-    links.append(("Source manifest:", BASE + ALIASES["source_manifest"], "Interná mapa zdrojov"))
+    rce_manifest"], "Interná mapa zdrojov"))
     links.append(("Source audit:", BASE + ALIASES["source_audit"], "Interný audit zdrojov"))
 
     links.append(("TOP 7 web:", BASE + ALIASES["top_page"] + "/", "Denný TOP 7 výber"))
@@ -313,13 +325,7 @@ body {
 h1 {
     font-size: 42px;
     line-height: 1.1;
-    margin: 26px 0 10px;
-}
-
-.subtitle {
-    color: #cfcfcf;
-    font-size: 18px;
-    margin-bottom: 24px;
+    margin: 26px 0 24px;
 }
 
 .grid {
@@ -375,7 +381,6 @@ a:hover {
 <body>
 <div class="container">
 <h1>BackstageTalks Tennis Links</h1>
-<div class="subtitle">Rýchly rozcestník pre weby, RSS feedy, výsledky a audity.</div>
 
 <div class="grid">
 """ + cards + """
