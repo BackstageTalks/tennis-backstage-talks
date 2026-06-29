@@ -157,17 +157,28 @@ def copy_or_placeholder_json(src, alias_file, name):
     return True
 
 
+def remove_file_if_exists(path):
+    if os.path.isfile(path):
+        print("REMOVE FILE BEFORE DIRECTORY ALIAS:", path)
+        os.remove(path)
+
+
 def copy_or_placeholder_html(src, alias_dir, title, message):
     """
-    Vytvorí web alias dvoma spôsobmi:
-    1. public/H4...               → kvôli spätnej kompatibilite
-    2. public/H4.../index.html    → správna GitHub Pages web stránka
+    Web alias vytvárame iba ako adresár s index.html:
 
-    Web link odporúčame používať s lomkou:
+    public/H4.../index.html
+
+    Správna URL:
     /H4.../
+
+    Nevytvárame zároveň public/H4... ako súbor, lebo súbor a adresár
+    nemôžu mať rovnaký názov.
     """
-    direct_dst = "public/" + alias_dir
+    direct_path = "public/" + alias_dir
     index_dst = "public/" + alias_dir + "/index.html"
+
+    remove_file_if_exists(direct_path)
 
     if os.path.exists(src):
         content = read_text(src)
@@ -175,10 +186,8 @@ def copy_or_placeholder_html(src, alias_dir, title, message):
         print("HTML ALIAS SOURCE MISSING, writing placeholder:", src)
         content = placeholder_html(title=title, message=message)
 
-    write_text(direct_dst, content)
     write_text(index_dst, content)
 
-    print("HTML ALIAS WRITE:", direct_dst)
     print("HTML ALIAS WRITE:", index_dst)
 
     return True
@@ -206,8 +215,7 @@ def publish_rss_alias(src_xml, alias, linked_page_alias, title):
     - public/H4...
     - public/H4....xml
 
-    Ak zdrojový RSS ešte neexistuje, vytvorí validný placeholder RSS,
-    aby link nikdy nekončil 404.
+    RSS linky používame hlavne s .xml.
     """
     no_ext_path = "public/" + alias
     xml_path = "public/" + alias + ".xml"
