@@ -7,308 +7,82 @@ on:
     - cron: "0 5 * * *"
 
   workflow_dispatch:
-    inputs:
+    inputs*
       force_predict:
-        description: "Force prediction generation even outside the normal 07:00 Bratislava run"
-        required: false
+        desc*iption: "Force prediction generati*n even outside the normal 07:00 Br*tislava run"
+        required: fal*e
         default: false
-        type: boolean
+        t*pe: boolean
 
 permissions:
-  contents: read
+  conten*s: read
   pages: write
-  id-token: write
+  id-token:*write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: pages*  cancel-in-progress: false
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+jobs:*  build-and-deploy:
+    runs-on: u*untu-latest
 
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    * name: github-pages
+      url: ${{*steps.deployment.outputs.page_url *}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checko*t repository
+        uses: actions*checkout@v3
 
-      - name: Decide whether to run predictions
-        id: gate
+      - name: Decide *hether to run predictions
+        *d: gate
         run: |
-          echo "===== PREDICTION RUN GATE ====="
-          echo "EVENT_NAME=${{ github.event_name }}"
-          echo "FORCE_PREDICT=${{ inputs.force_predict }}"
+          e*ho "===== PREDICTION RUN GATE ====*"
+          echo "EVENT_NAME=${{ g*thub.event_name }}"
+          echo*"FORCE_PREDICT=${{ inputs.force_pr*dict }}"
 
-          if [ "${{ github.event_name }}" = "schedule" ]; then
-            echo "Scheduled run detected. Predictions allowed."
-            echo "run_predictions=true" >> "$GITHUB_OUTPUT"
-          elif [ "${{ inputs.force_predict }}" = "true" ]; then
-            echo "Manual forced run detected. Predictions allowed."
-            echo "run_predictions=true" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" = "schedule" ]; t*en
+            echo "Scheduled run*detected. Predictions allowed."
+  *         echo "run_predictions=tru*" >> "$GITHUB_OUTPUT"
+          el*f [ "${{ inputs.force_predict }}" = "true" ]; then
+            echo "*anual forced run detected. Predict*ons allowed."
+            echo "ru*_predictions=true" >> "$GITHUB_OUT*UT"
           else
-            echo "Manual run without force_predict. Skipping prediction deploy to avoid overwriting TOP7 with empty data."
-            echo "run_predictions=false" >> "$GITHUB_OUTPUT"
-          fi
+            ech* "Manual run without force_predict* Skipping prediction deploy to avo*d overwriting TOP7 with empty data*"
+            echo "run_prediction*=false" >> "$GITHUB_OUTPUT"
+      *   fi
 
-      - name: Stop if predictions are not allowed
-        if: steps.gate.outputs.run_predictions != 'true'
+      - name: Stop if predi*tions are not allowed
+        if: *teps.gate.outputs.run_predictions *= 'true'
         run: |
-          echo "Predictions were skipped intentionally."
-          echo "Existing GitHub Pages outputs remain unchanged."
-          echo "If you really want to regenerate predictions manually, run workflow_dispatch with force_predict=true."
+          *cho "Predictions were skipped inte*tionally."
+          echo "Existin* GitHub Pages outputs remain uncha*ged."
+          echo "If you reall* want to regenerate predictions ma*ually, run workflow_dispatch with *orce_predict=true."
 
-      - name: Setup Python
-        if: steps.gate.outputs.run_predictions == 'true'
-        uses: actions/setup-python@v4
+      - name:*Setup Python
+        if: steps.gat*.outputs.run_predictions == 'true'*        uses: actions/setup-python*v4
         with:
-          python-version: "3.10"
+          python-*ersion: "3.10"
 
-      - name: Install dependencies
-        if: steps.gate.outputs.run_predictions == 'true'
+      - name: Inst*ll dependencies
+        if: steps.*ate.outputs.run_predictions == 'tr*e'
         run: |
-          python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
+          python*-m pip install --upgrade pip
+     *    pip install requests beautiful*oup4
 
-      - name: Clean public folder
-        if: steps.gate.outputs.run_predictions == 'true'
-        run: |
-          echo "===== CLEAN PUBLIC FOLDER ====="
-          rm -rf public
-          mkdir -p public
+      - name: Clean public f*lder
+        if: steps.gate.output*.run_predictions == 'true'
+       *run: |
+          echo "===== CLEAN*PUBLIC FOLDER ====="
+          rm *rf public
+          mkdir -p publi*
 
-      - name: Generate TOP7 results from previous predictions
-        if: steps.gate.outputs.run_predictions == 'true'
+      - name: Generate TOP7 resu*ts from previous predictions
+     *  if: steps.gate.outputs.run_predi*tions == 'true'
         env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python results_checker.py
+     *    LOCAL_TZ_OFFSET_HOURS: 2
+     *  run: python results_checker.py
 
-      - name: Generate ALL results from previous ALL predictions
-        if: steps.gate.outputs.run_predictions == 'true'
+*     - name: Generate ALL results *rom previous ALL predictions
+     *  if: steps.gate.outputs.run_predi*tions == 'true'
         env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python results_checker_all.py
-
-      - name: Run predictions
-        if: steps.gate.outputs.run_predictions == 'true'
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-          BET_WINDOW_START_HOUR: 6
-          BET_WINDOW_END_NEXT_DAY_HOUR: 6
-        run: python update.py
-
-      - name: Generate source audit
-        if: steps.gate.outputs.run_predictions == 'true'
-        run: python audit_sources.py
-
-      - name: Generate TOP page and TOP RSS
-        if: steps.gate.outputs.run_predictions == 'true'
-        run: python rss.py
-
-      - name: Generate ALL page and ALL RSS
-        if: steps.gate.outputs.run_predictions == 'true'
-        run: python rss_all.py
-
-      - name: Generate TOP7 results page and RSS
-        if: steps.gate.outputs.run_predictions == 'true'
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python rss_results.py
-
-      - name: Generate ALL results page and RSS
-        if: steps.gate.outputs.run_predictions == 'true'
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python rss_results_all.py
-
-      - name: Publish private aliases
-        if: steps.gate.outputs.run_predictions == 'true'
-        run: python publish_private_aliases.py
-
-      - name: Verify generated files
-        if: steps.gate.outputs.run_predictions == 'true'
-        run: |
-          echo "===== PUBLIC FILES ====="
-          ls -R public
-
-          echo "===== CHECK TOP JSON ====="
-          TOP_JSON=$(ls public/predictions_*.json 2>/dev/null | head -n 1 || true)
-
-          if [ -z "$TOP_JSON" ]; then
-            echo "ERROR: TOP predictions JSON missing"
-            exit 1
-          fi
-
-          TOP_COUNT=$(python -c "import json; print(len(json.load(open('$TOP_JSON', encoding='utf-8'))))")
-          echo "TOP_JSON=$TOP_JSON"
-          echo "TOP_COUNT=$TOP_COUNT"
-
-          if [ "$TOP_COUNT" -eq 0 ]; then
-            echo "ERROR: TOP predictions has 0 items. Refusing to deploy empty TOP page."
-            exit 1
-          fi
-
-          if [ "$TOP_COUNT" -gt 7 ]; then
-            echo "ERROR: TOP predictions has more than 7 items."
-            exit 1
-          fi
-
-          echo "===== CHECK ALL JSON ====="
-          ALL_JSON=$(ls public/all_predictions_*.json 2>/dev/null | head -n 1 || true)
-
-          if [ -z "$ALL_JSON" ]; then
-            echo "ERROR: ALL predictions JSON missing"
-            exit 1
-          fi
-
-          ALL_COUNT=$(python -c "import json; print(len(json.load(open('$ALL_JSON', encoding='utf-8'))))")
-          echo "ALL_JSON=$ALL_JSON"
-          echo "ALL_COUNT=$ALL_COUNT"
-
-          if [ "$ALL_COUNT" -eq 0 ]; then
-            echo "ERROR: ALL predictions has 0 items. Refusing to deploy empty ALL page."
-            exit 1
-          fi
-
-          echo "===== CHECK RESULTS JSON OPTIONAL ====="
-          RESULTS_JSON=$(ls public/results_*.json 2>/dev/null | head -n 1 || true)
-
-          if [ -z "$RESULTS_JSON" ]; then
-            echo "WARNING: results_*.json missing. This is OK on first run or when previous predictions were not available."
-          else
-            echo "RESULTS_JSON=$RESULTS_JSON"
-          fi
-
-          echo "===== CHECK ALL RESULTS JSON OPTIONAL ====="
-          ALL_RESULTS_JSON=$(ls public/all_results_*.json 2>/dev/null | head -n 1 || true)
-
-          if [ -z "$ALL_RESULTS_JSON" ]; then
-            echo "WARNING: all_results_*.json missing. This is OK on first run or when previous ALL predictions were not available."
-          else
-            echo "ALL_RESULTS_JSON=$ALL_RESULTS_JSON"
-          fi
-
-          echo "===== CHECK PRIVATE JSON ALIASES ====="
-          for f in \
-            H4V34N1C3D4Y170 \
-            H4V34N1C3D4Y171
-          do
-            if [ ! -f "public/$f" ]; then
-              echo "ERROR: private JSON alias public/$f missing"
-              exit 1
-            fi
-          done
-
-          echo "===== CHECK PRIVATE WEB DIRECTORY ALIASES ====="
-          for f in \
-            H4V34N1C3D4Y180/index.html \
-            H4V34N1C3D4Y182/index.html \
-            H4V34N1C3D4Y184/index.html \
-            H4V34N1C3D4Y186/index.html
-          do
-            if [ ! -f "public/$f" ]; then
-              echo "ERROR: private web directory alias public/$f missing"
-              exit 1
-            fi
-          done
-
-          echo "===== CHECK PRIVATE RSS ALIASES WITHOUT EXT ====="
-          for f in \
-            H4V34N1C3D4Y181 \
-            H4V34N1C3D4Y183 \
-            H4V34N1C3D4Y185 \
-            H4V34N1C3D4Y187
-          do
-            if [ ! -f "public/$f" ]; then
-              echo "ERROR: private RSS alias public/$f missing"
-              exit 1
-            fi
-          done
-
-          echo "===== CHECK PRIVATE RSS XML ALIASES ====="
-          for f in \
-            H4V34N1C3D4Y181.xml \
-            H4V34N1C3D4Y183.xml \
-            H4V34N1C3D4Y185.xml \
-            H4V34N1C3D4Y187.xml
-          do
-            if [ ! -f "public/$f" ]; then
-              echo "ERROR: private RSS XML alias public/$f missing"
-              exit 1
-            fi
-          done
-
-          echo "===== CHECK PRIVATE TOP RSS XML ====="
-          TOP_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y181.xml || true)
-          echo "TOP_PRIVATE_RSS_COUNT=$TOP_PRIVATE_RSS_COUNT"
-
-          if [ "$TOP_PRIVATE_RSS_COUNT" -eq 0 ]; then
-            echo "ERROR: private TOP RSS XML has 0 items. Refusing to deploy empty TOP RSS."
-            exit 1
-          fi
-
-          if [ "$TOP_PRIVATE_RSS_COUNT" -gt 7 ]; then
-            echo "ERROR: private TOP RSS XML has more than 7 items."
-            exit 1
-          fi
-
-          echo "===== CHECK PRIVATE ALL RSS XML ====="
-          ALL_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y185.xml || true)
-          echo "ALL_PRIVATE_RSS_COUNT=$ALL_PRIVATE_RSS_COUNT"
-
-          if [ "$ALL_PRIVATE_RSS_COUNT" -eq 0 ]; then
-            echo "ERROR: private ALL RSS XML has 0 items. Refusing to deploy empty ALL RSS."
-            exit 1
-          fi
-
-          echo "===== CHECK PRIVATE RESULTS RSS XML ====="
-          RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y183.xml || true)
-          echo "RESULTS_PRIVATE_RSS_COUNT=$RESULTS_PRIVATE_RSS_COUNT"
-
-          echo "===== CHECK PRIVATE ALL RESULTS RSS XML ====="
-          ALL_RESULTS_PRIVATE_RSS_COUNT=$(grep -c "<item>" public/H4V34N1C3D4Y187.xml || true)
-          echo "ALL_RESULTS_PRIVATE_RSS_COUNT=$ALL_RESULTS_PRIVATE_RSS_COUNT"
-
-          echo "===== ROBOTS CHECK ====="
-          if [ ! -f public/robots.txt ]; then
-            echo "ERROR: public/robots.txt missing"
-            exit 1
-          fi
-
-          echo "===== PRIVATE TOP PAGE PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y180/index.html
-
-          echo "===== PRIVATE ALL PAGE PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y184/index.html
-
-          echo "===== PRIVATE TOP RESULTS PAGE PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y182/index.html
-
-          echo "===== PRIVATE ALL RESULTS PAGE PREVIEW ====="
-          head -n 40 public/H4V34N1C3D4Y186/index.html
-
-          echo "===== PRIVATE TOP RSS XML PREVIEW ====="
-          head -n 80 public/H4V34N1C3D4Y181.xml
-
-          echo "===== PRIVATE ALL RSS XML PREVIEW ====="
-          head -n 80 public/H4V34N1C3D4Y185.xml
-
-          echo "===== PUBLIC ROOT PREVIEW SHOULD BE NEUTRAL ====="
-          head -n 40 public/index.html
-
-      - name: Setup Pages
-        if: steps.gate.outputs.run_predictions == 'true'
-        uses: actions/configure-pages@v4
-
-      - name: Upload Pages artifact
-        if: steps.gate.outputs.run_predictions == 'true'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-      - name: Deploy to GitHub Pages
-        if: steps.gate.outputs.run_predictions == 'true'
-        id: deployment
-        uses: actions/deploy-pages@v4
+     *    LOCAL_TZ_OFFSET_HOURS: 2
