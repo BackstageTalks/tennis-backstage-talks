@@ -1,5 +1,4 @@
 from fetch_matches import get_today_matches
-from stats_engine import get_stats_context
 from elo_engine import load, predict
 from odds_api import fetch_odds
 
@@ -7,98 +6,68 @@ TOP_N = 5
 MIN_ODDS = 1.50
 
 
-def normalize(name):
-    return name.lower().strip()
+def norm(name):
+    return name.lower().strip().split()[-1]
 
 
-def last(name):
-    return normalize(name).split()[-1]
-
-
-def match_players(a1, a2, b1, b2):
+def match(p1, p2, o1, o2):
     return (
-        (last(a1) == last(b1) and last(a2) == last(b2)) or
-        (last(a1) == last(b2) and last(a2) == last(b1))
+        (norm(p1) == norm(o1) and norm(p2) == norm(o2)) or
+        (norm(p1) == norm(o2) and norm(p2) == norm(o1))
     )
 
 
-def find_odds(p1, p2, odds_matches):
-    for m in odds_matches:
-        if match_players(p1, p2, m["p1"], m["p2"]):
+def find_odds(p1, p2, odds):
+    for m in odds:
+        if match(p1, p2, m["p1"], m["p2"]):
             return m
     return None
 
 
-def normalize_match(m):
-    return {
-        "player1": m.get("player1") or m[0],
-        "player2": m.get("player2") or m[1],
-        "match_time": m.get("time") or m.get("start_time") or "TBD"
-    }
-
-
 def build_all_predictions():
-    raw = get_today_matches()
-    matches = [normalize_match(x) for x in raw]
+    matches = get_today_matches()
+    odds = fetch_odds()
+    elo = load()
 
-    odds_matches = fetch_odds()
-
-    players = list(set([m["player1"] for m in matches] +
-                       [m["player2"] for m in matches]))
-
-    stats_map, surface_map = get_stats_context(players, matches)
-    elo_store = load()
-
-    all_preds = []
+    out = []
 
     for m in matches:
         p1 = m["player1"]
         p2 = m["player2"]
-        time = m["match_time"]
+        t = m.get("time", "")
 
-        pred = predict(p1, p2, "hard", elo_store)
+        pred = predict(p1, p2, "hard", elo)
 
-        prob1 = pred["probability_player1"]
-        prob2 = pred["probability_player2"]
+        o = find_odds(p1, p2, odds)
 
-        odds_data = find_odds(p1, p2, odds_matches)
+        odds1 = o["odds1"] if o else None
+        odds2 = o["odds2"] if o else None
 
-        odds1 = odds2 = None
-        if odds_data:
-            odds1 = odds_data["odds1"]
-            odds2 = odds_data["odds2"]
-
-        if prob1 >= prob2:
+        if pred["probability_player1"] >= pred["probability_player2"]:
             pick = p1
-            prob = prob1
-            odds = odds1
+            prob = pred["probability_player1"]
+            od = odds1
         else:
             pick = p2
-            prob = prob2
-            odds = odds2
+            prob = pred["probability_player2"]
+            od = odds2
 
-        all_preds.append({
+        out.append({
             "player1": p1,
             "player2": p2,
             "pick": pick,
             "probability": round(prob, 3),
-            "odds": odds,
-            "time": time
+            "odds": od,
+            "time": t
         })
 
-    all_preds.sort(key=lambda x: x["probability"], reverse=True)
-
-    print("TOTAL MATCHES:", len(all_preds))
-
-    return all_preds
+    return sorted(out, key=lambda x: x["probability"], reverse=True)
 
 
 def get_top_predictions(all_preds):
     valid = [
-        p for p in all_preds
-        if p["odds"] is not None and p["odds"] >= MIN_ODDS
+        x for x in all_preds
+        if x["odds"] and x["odds"] >= MIN_ODDS
     ]
-
-    print("VALID ODDS:", len(valid))
 
     return valid[:TOP_N]
