@@ -9,6 +9,12 @@ DATA_DIR = "data"
 PUBLIC_DIR = "public"
 HISTORY_PATH = os.path.join(DATA_DIR, "bet_history.jsonl")
 
+MODEL_VERSION = "ELO_PLUS_TOP5_ODDS_GT_150_V1"
+
+
+def utc_now():
+    return datetime.now(timezone.utc).isoformat()
+
 
 def ensure_dirs():
     os.makedirs(DATA_DIR, exist_ok=True)
@@ -71,6 +77,16 @@ def safe(value, default=""):
     return str(value)
 
 
+def safe_float(value):
+    try:
+        if value is None:
+            return None
+
+        return float(value)
+    except Exception:
+        return None
+
+
 def normalize_name(value):
     return safe(value).strip().lower()
 
@@ -87,7 +103,16 @@ def normalize_status(value):
     if text in ["LOST", "LOSS", "LOSE", "FAILED", "MISS", "❌ LOST"]:
         return "LOST"
 
-    if text in ["VOID", "CANCELLED", "CANCELED", "WALKOVER", "RET", "RETIRED"]:
+    if text in [
+        "VOID",
+        "CANCELLED",
+        "CANCELED",
+        "WALKOVER",
+        "RET",
+        "RETIRED",
+        "ABANDONED",
+        "WITHDRAWN",
+    ]:
         return "VOID"
 
     if text in ["PENDING", "OPEN", "SCHEDULED", "NOT_STARTED", "LIVE"]:
@@ -102,7 +127,7 @@ def normalize_status(value):
 def detect_status(item):
     """
     Robustné čítanie výsledkov z rôznych možných štruktúr results_checker.py.
-    Ak výsledok nevieme zistiť, dáme PENDING.
+    Ak výsledok nevieme zistiť, použijeme PENDING.
     """
     for key in [
         "pick_result",
@@ -114,6 +139,7 @@ def detect_status(item):
         "prediction_result",
     ]:
         status = normalize_status(item.get(key))
+
         if status:
             return status
 
@@ -156,6 +182,7 @@ def extract_score(item):
         "sets_score",
     ]:
         value = item.get(key)
+
         if value:
             return safe(value)
 
@@ -164,7 +191,8 @@ def extract_score(item):
 
 def make_bet_id(date, feed, item):
     """
-    Stabilný identifikátor zápasu, aby sme sa vyhli duplicitám.
+    Stabilný identifikátor jedného picku.
+    Cieľ: zabrániť duplicitám aj pri opakovanom results refresh.
     """
     pick = safe(item.get("pick")).strip()
     opponent = safe(item.get("opponent")).strip()
@@ -185,41 +213,136 @@ def make_bet_id(date, feed, item):
     return raw
 
 
+def get_model_version(item):
+    return (
+        item.get("model_version")
+        or item.get("model_source_version")
+        or MODEL_VERSION
+    )
+
+
 def base_record(date, feed, item):
     alt = item.get("alternative_market_info") or {}
 
     status = detect_status(item)
 
-    return {
+    probability = safe_float(item.get("probability"))
+    odds = safe_float(item.get("odds"))
+
+    record = {
         "bet_id": make_bet_id(date, feed, item),
+
+        # identity
         "date": date,
         "feed": feed,
+        "model_version": get_model_version(item),
+        "model_source": item.get("model_source"),
 
+        # match
         "pick": item.get("pick"),
         "opponent": item.get("opponent"),
         "player1": item.get("player1"),
         "player2": item.get("player2"),
         "tournament": item.get("tournament"),
+        "surface": item.get("surface"),
 
-        "probability": item.get("probability"),
-        "odds": item.get("odds"),
+        # prediction snapshot
+        "probability": probability,
+        "opponent_probability": safe_float(item.get("opponent_probability")),
+        "confidence": safe_float(item.get("confidence")),
+        "winner_rank_score": safe_float(item.get("winner_rank_score") or item.get("score")),
+        "base_elo_probability": safe_float(item.get("base_elo_probability")),
+        "elo_stats_adjustment": safe_float(item.get("elo_stats_adjustment")),
 
+        # odds snapshot
+        "odds": odds,
+        "odds_player1": safe_float(item.get("odds_player1")),
+        "odds_player2": safe_float(item.get("odds_player2")),
+        "odds_source": item.get("odds_source"),
+
+        # timing
         "match_start": item.get("match_start"),
         "match_time_raw": item.get("match_time_raw"),
 
+        # result
         "result": status,
         "score": extract_score(item),
 
-        "model_source": item.get("model_source"),
+        # classification
         "bet_tag": item.get("bet_tag"),
+        "short_reason": item.get("short_reason"),
 
+        # INFO ONLY markets
         "sets_most_likely": alt.get("most_likely_sets"),
-        "sets_probability": alt.get("sets_probability"),
-        "expected_games": alt.get("expected_games"),
+        "sets_probability": safe_float(alt.get("sets_probability")),
+        "sets_fair_odds": safe_float(alt.get("sets_fair_odds")),
+        "over_2_5_sets_probability": safe_float(alt.get("over_2_5_sets_probability")),
+        "under_2_5_sets_probability": safe_float(alt.get("under_2_5_sets_probability")),
+        "over_3_5_sets_probability": safe_float(alt.get("over_3_5_sets_probability")),
+        "under_3_5_sets_probability": safe_float(alt.get("under_3_5_sets_probability")),
+        "over_4_5_sets_probability": safe_float(alt.get("over_4_5_sets_probability")),
+        "under_4_5_sets_probability": safe_float(alt.get("under_4_5_sets_probability")),
+        "expected_games": safe_float(alt.get("expected_games")),
         "games_lean": alt.get("games_lean"),
 
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        # future learning fields
+        "learning_bucket_probability": probability_bucket(probability),
+        "learning_bucket_odds": odds_bucket(odds),
+        "is_top_feed": feed == "TOP",
+
+        # timestamps
+        "created_at": utc_now(),
+        "updated_at": utc_now(),
     }
+
+    return record
+
+
+def probability_bucket(probability):
+    if probability is None:
+        return "unknown"
+
+    if probability < 0.50:
+        return "<50"
+
+    if probability < 0.55:
+        return "50-55"
+
+    if probability < 0.60:
+        return "55-60"
+
+    if probability < 0.65:
+        return "60-65"
+
+    if probability < 0.70:
+        return "65-70"
+
+    if probability < 0.75:
+        return "70-75"
+
+    return "75+"
+
+
+def odds_bucket(odds):
+    if odds is None:
+        return "unknown"
+
+    if odds < 1.30:
+        return "<1.30"
+
+    if odds < 1.50:
+        return "1.30-1.50"
+
+    if odds < 1.80:
+        return "1.50-1.80"
+
+    if odds < 2.20:
+        return "1.80-2.20"
+
+    if odds < 3.00:
+        return "2.20-3.00"
+
+    return "3.00+"
 
 
 def load_history():
@@ -276,10 +399,16 @@ def merge_record(records, new_record):
     old_status = old_record.get("result")
     new_status = new_record.get("result")
 
-    # Ak už starý záznam má definitívny výsledok, neprepíšeme ho späť na PENDING.
+    # Ak už máme definitívny výsledok, neprepíšeme ho späť na PENDING.
     if old_status in ["WON", "LOST", "VOID"] and new_status == "PENDING":
         new_record["result"] = old_status
         new_record["score"] = old_record.get("score", new_record.get("score"))
+
+    # Zachovaj pôvodný created_at.
+    if old_record.get("created_at"):
+        new_record["created_at"] = old_record.get("created_at")
+
+    new_record["updated_at"] = utc_now()
 
     merged = old_record.copy()
     merged.update(new_record)
@@ -299,20 +428,42 @@ def import_feed(records, feed, predictions_path, results_path):
     print("Prediction items:", len(prediction_items))
     print("Result items:", len(result_items))
 
-    # Najprv vložíme predikcie ako PENDING.
+    # 1. Najprv uložíme predikcie ako historický snapshot.
     for item in prediction_items:
         record = base_record(date, feed, item)
 
-        # Predikčné JSONy väčšinou výsledok ešte nemajú.
         if record["result"] not in ["WON", "LOST", "VOID", "UNKNOWN"]:
             record["result"] = "PENDING"
 
         merge_record(records, record)
 
-    # Potom prelepíme výsledkami, ak už existujú.
+    # 2. Potom prelepíme výsledkami, ak už existujú.
     for item in result_items:
         record = base_record(date, feed, item)
         merge_record(records, record)
+
+
+def export_learning_snapshot(records):
+    """
+    Exportuje kompletný JSON vhodný pre budúce učenie.
+    JSONL ostáva hlavná DB, toto je pohodlný full export.
+    """
+    path = os.path.join(DATA_DIR, "bet_history_learning_snapshot.json")
+
+    ordered = sorted(
+        records.values(),
+        key=lambda x: (
+            x.get("date", ""),
+            x.get("feed", ""),
+            x.get("pick", "") or "",
+            x.get("opponent", "") or "",
+        )
+    )
+
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(ordered, f, ensure_ascii=False, indent=2)
+
+    print("Learning snapshot saved:", path)
 
 
 def main():
@@ -341,6 +492,7 @@ def main():
     )
 
     save_history(records)
+    export_learning_snapshot(records)
 
     print("History saved:", HISTORY_PATH)
     print("Total history records:", len(records))
