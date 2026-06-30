@@ -11,40 +11,9 @@ def fetch_csv(url):
         r = requests.get(url, timeout=20)
         if r.status_code != 200:
             return None
-
         return list(csv.DictReader(StringIO(r.text)))
     except:
         return None
-
-
-def load_all_matches(start_year=2000, end_year=2030):
-    """
-    dynamicky načíta všetky existujúce roky
-    """
-
-    all_matches = []
-
-    for year in range(start_year, end_year + 1):
-
-        # ATP
-        atp_url = BASE_ATP_URL.format(year)
-        atp_data = fetch_csv(atp_url)
-
-        if atp_data:
-            print(f"ATP {year} loaded:", len(atp_data))
-            all_matches.extend(parse_matches(atp_data))
-
-        # WTA
-        wta_url = BASE_WTA_URL.format(year)
-        wta_data = fetch_csv(wta_url)
-
-        if wta_data:
-            print(f"WTA {year} loaded:", len(wta_data))
-            all_matches.extend(parse_matches(wta_data))
-
-    print("TOTAL MATCHES:", len(all_matches))
-
-    return all_matches
 
 
 def parse_matches(rows):
@@ -52,23 +21,41 @@ def parse_matches(rows):
 
     for r in rows:
         try:
-            p1 = r.get("winner_name")
-            p2 = r.get("loser_name")
+            winner = r.get("winner_name")
+            loser = r.get("loser_name")
 
-            if not p1 or not p2:
+            if not winner or not loser:
                 continue
 
             surface = r.get("surface") or "Hard"
 
             parsed.append({
-                "player1": p1.strip(),
-                "player2": p2.strip(),
-                "winner": p1.strip(),
+                "player1": winner.strip(),
+                "player2": loser.strip(),
+                "winner": winner.strip(),
                 "surface": surface,
                 "date": r.get("tourney_date")
             })
-
         except:
             continue
 
     return parsed
+
+
+def load_all_matches(start_year=2010, end_year=2030):
+    all_matches = []
+
+    for year in range(start_year, end_year + 1):
+        atp = fetch_csv(BASE_ATP_URL.format(year))
+        if atp:
+            print(f"ATP {year}: {len(atp)}")
+            all_matches += parse_matches(atp)
+
+        wta = fetch_csv(BASE_WTA_URL.format(year))
+        if wta:
+            print(f"WTA {year}: {len(wta)}")
+            all_matches += parse_matches(wta)
+
+    print("TOTAL MATCHES:", len(all_matches))
+    return sorted(all_matches, key=lambda x: x["date"] or "0")
+``
