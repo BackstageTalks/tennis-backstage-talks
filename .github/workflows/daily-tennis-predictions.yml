@@ -4,44 +4,30 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write   # ✅ kľúčové (bez toho push nefunguje)
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt
 
-      - name: Build Elo Ratings
-        run: python build_elo.py
+      - run: python build_elo.py
 
-      - name: Run predictions
-        run: python update.py
+      - run: python update.py
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
 
-      # ✅ DEBUG – uvidíš či public vznikol
-      - name: List files
-        run: ls -R
-
-      # ✅ COMMIT PUBLIC
-      - name: Commit results
-        run: |
+      - run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-
-          git add public
-
-          git commit -m "Update predictions" || echo "No changes"
-
+          git add .
+          git commit -m "update site" || echo "no changes"
           git push
