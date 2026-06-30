@@ -11,25 +11,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ checkout
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ✅ python setup
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      # ✅ install dependencies
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
 
-      # ✅ BUILD ELO
       - name: Build Elo Ratings
         run: python build_elo.py
 
-      # ✅ RUN UPDATE
       - name: Run predictions
         run: python update.py
+``
