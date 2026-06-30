@@ -4,12 +4,16 @@ from elo_engine import build_and_save
 
 def run():
     print("LOADING MATCHES...")
-    matches = load_all_matches(2015, 2030)
+    
+    # načítame posledné roky (rýchlejšie)
+    matches = load_all_matches(2018, 2030)
 
     print("BUILDING ELO...")
+    
     build_and_save(matches)
+
+    print("ELO BUILD DONE ✅")
 
 
 if __name__ == "__main__":
     run()
-``
