@@ -4,6 +4,12 @@ from stats_engine import get_stats_context
 
 
 TOP_N = 7
+TARGET_DAILY_BETS = 5
+MAX_LOW_CONFIDENCE_FILL = 2
+
+
+def clamp(value, low, high):
+    return max(low, min(high, value))
 
 
 def fair_market_probs(odds1, odds2):
@@ -29,8 +35,8 @@ def fair_market_probs(odds1, odds2):
 
 def calculate_ev(probability, odds):
     """
-    EV je iba informačné číslo.
-    EV = Win % * odds - 1
+    EV je iba kontrola hodnoty kurzu.
+    EV = Win probability * decimal odds - 1
     """
     if odds is None:
         return None
@@ -41,11 +47,37 @@ def calculate_ev(probability, odds):
         return None
 
 
+def consensus_probability(our_prob, market_prob):
+    """
+    Cieľ:
+    - ak je náš model plochý okolo 50 %, viac rešpektovať market
+    - ak má náš model jasný názor, stále ho zohľadniť
+    - pravdepodobnosť používame na winner výber
+    """
+    if market_prob is None:
+        return clamp(our_prob, 0.05, 0.95), "WELO_FALLBACK"
+
+    edge = abs(our_prob - 0.5)
+
+    if edge < 0.03:
+        our_weight = 0.25
+        market_weight = 0.75
+        source = "CONSENSUS_MARKET_HEAVY"
+    elif edge < 0.06:
+        our_weight = 0.40
+        market_weight = 0.60
+        source = "CONSENSUS_BALANCED"
+    else:
+        our_weight = 0.60
+        market_weight = 0.40
+        source = "CONSENSUS_WELO_LEAN"
+
+    final_prob = (our_prob * our_weight) + (market_prob * market_weight)
+
+    return clamp(final_prob, 0.05, 0.95), source
+
+
 def classify_bookie_signal(pick, p1, p2, model_prob, odds1, odds2):
-    """
-    Kurz / bookmaker / market sú iba informačné údaje.
-    Nepoužívajú sa na TOP winner poradie.
-    """
     fair1, fair2, overround = fair_market_probs(odds1, odds2)
 
     if fair1 is None or fair2 is None:
@@ -56,7 +88,9 @@ def classify_bookie_signal(pick, p1, p2, model_prob, odds1, odds2):
             "bookie_value_edge": None,
             "overround": None,
             "bookie_signal": "NO_ODDS",
-            "market_warning": "NO_ODDS"
+            "market_warning": "NO_ODDS",
+            "fair1": None,
+            "fair2": None,
         }
 
     if pick == p1:
@@ -94,15 +128,13 @@ def classify_bookie_signal(pick, p1, p2, model_prob, odds1, odds2):
         "bookie_value_edge": round(value_edge, 3),
         "overround": round(overround, 3),
         "bookie_signal": signal,
-        "market_warning": market_warning
+        "market_warning": market_warning,
+        "fair1": fair1,
+        "fair2": fair2,
     }
 
 
 def metric_for_surface(player_stats, surface):
-    """
-    Stats nechávame ako info.
-    Nepoužívame ich na zmenu TOP winner poradia.
-    """
     if not player_stats:
         return {}
 
@@ -124,8 +156,8 @@ def metric_for_surface(player_stats, surface):
 
 def classify_extra_signal(pick_metrics, opponent_metrics):
     """
-    Signály sú iba info.
-    Neovplyvňujú TOP winner poradie.
+    Iba informačné signály.
+    Nepoužívajú sa na TOP výber.
     """
     signals = []
 
@@ -167,8 +199,8 @@ def classify_extra_signal(pick_metrics, opponent_metrics):
 
 def build_alternative_bets(pick, pick_metrics):
     """
-    Alternatívne trhy ostávajú iba ako info.
-    Neovplyvňujú winner pick.
+    Staršie alternatívne info.
+    Stále iba info.
     """
     alt_bets = []
 
@@ -209,6 +241,77 @@ def build_alternative_bets(pick, pick_metrics):
     return alt_bets
 
 
+def build_alternative_market_info(probability, bo_format="BO3"):
+    """
+    Informačný blok pre sety/gemy.
+    Nepoužíva sa v TOP výbere ani v bet_tag logike.
+    """
+    fav_edge = abs(probability - 0.5)
+
+    if bo_format == "BO5":
+        over_3_5 = clamp(0.78 - (fav_edge * 0.85), 0.35, 0.82)
+        over_4_5 = clamp(0.48 - (fav_edge * 0.70), 0.18, 0.52)
+
+        expected_games = round(clamp(39.5 - (fav_edge * 22.0), 30.0, 45.0), 1)
+
+        games_line = 38.5
+        games_prob = clamp(0.50 + ((expected_games - games_line) * 0.035), 0.35, 0.72)
+
+        if games_prob >= 0.5:
+            games_lean = "Over 38.5"
+            games_fair_odds = round(1 / games_prob, 2)
+        else:
+            games_lean = "Under 38.5"
+            games_fair_odds = round(1 / (1 - games_prob), 2)
+
+        return {
+            "bo_format": "BO5",
+            "over_2_5_sets_probability": None,
+            "under_2_5_sets_probability": None,
+            "over_3_5_sets_probability": round(over_3_5, 3),
+            "under_3_5_sets_probability": round(1 - over_3_5, 3),
+            "over_4_5_sets_probability": round(over_4_5, 3),
+            "expected_games": expected_games,
+            "games_lean": games_lean,
+            "games_fair_odds": games_fair_odds,
+            "note": "INFO ONLY - not used in winner selection"
+        }
+
+    over_2_5 = clamp(0.62 - (fav_edge * 0.95), 0.32, 0.62)
+    under_2_5 = 1 - over_2_5
+
+    expected_games = round(clamp(23.2 - (fav_edge * 12.0), 18.0, 24.5), 1)
+
+    if expected_games >= 22.0:
+        games_line = 21.5
+    elif expected_games >= 21.0:
+        games_line = 20.5
+    else:
+        games_line = 19.5
+
+    games_prob = clamp(0.50 + ((expected_games - games_line) * 0.055), 0.35, 0.72)
+
+    if games_prob >= 0.5:
+        games_lean = f"Over {games_line}"
+        games_fair_odds = round(1 / games_prob, 2)
+    else:
+        games_lean = f"Under {games_line}"
+        games_fair_odds = round(1 / (1 - games_prob), 2)
+
+    return {
+        "bo_format": "BO3",
+        "over_2_5_sets_probability": round(over_2_5, 3),
+        "under_2_5_sets_probability": round(under_2_5, 3),
+        "over_3_5_sets_probability": None,
+        "under_3_5_sets_probability": None,
+        "over_4_5_sets_probability": None,
+        "expected_games": expected_games,
+        "games_lean": games_lean,
+        "games_fair_odds": games_fair_odds,
+        "note": "INFO ONLY - not used in winner selection"
+    }
+
+
 def data_quality_from_metrics(pick_metrics, opponent_metrics):
     pick_sample = pick_metrics.get("sample", 0) or 0
     opponent_sample = opponent_metrics.get("sample", 0) or 0
@@ -227,6 +330,9 @@ def data_quality_from_metrics(pick_metrics, opponent_metrics):
 
 
 def win_tier(probability):
+    if probability >= 0.70:
+        return "A++"
+
     if probability >= 0.65:
         return "A+"
 
@@ -236,7 +342,10 @@ def win_tier(probability):
     if probability >= 0.57:
         return "B"
 
-    if probability >= 0.54:
+    if probability >= 0.55:
+        return "C+"
+
+    if probability >= 0.535:
         return "C"
 
     if probability >= 0.52:
@@ -251,13 +360,17 @@ def build_model_flags(probability, odds_info, data_quality, ev_score):
     odds = odds_info.get("pick_odds")
     market_warning = odds_info.get("market_warning")
 
-    if probability >= 0.65:
+    if probability >= 0.70:
+        flags.append("A_PLUS_PLUS_WIN_PROB")
+    elif probability >= 0.65:
         flags.append("A_PLUS_WIN_PROB")
     elif probability >= 0.60:
         flags.append("A_WIN_PROB")
     elif probability >= 0.57:
         flags.append("B_WIN_PROB")
-    elif probability >= 0.54:
+    elif probability >= 0.55:
+        flags.append("C_PLUS_WIN_PROB")
+    elif probability >= 0.535:
         flags.append("C_WIN_PROB")
     elif probability >= 0.52:
         flags.append("D_WIN_PROB")
@@ -277,17 +390,19 @@ def build_model_flags(probability, odds_info, data_quality, ev_score):
         flags.append("NO_ODDS")
     elif odds < 1.20:
         flags.append("VERY_LOW_ODDS")
-    elif odds < 1.30:
+    elif odds < 1.35:
         flags.append("LOW_ODDS")
+    elif 1.45 <= odds <= 2.30:
+        flags.append("IDEAL_ODDS_RANGE")
     elif odds >= 4.0:
         flags.append("LONGSHOT_ODDS")
 
     if ev_score is None:
         flags.append("NO_EV")
-    elif ev_score >= 0.25:
-        flags.append("EXTREME_EV_TRACK_ONLY")
     elif ev_score >= 0.05:
         flags.append("POSITIVE_EV_TRACK_ONLY")
+    elif ev_score < -0.15:
+        flags.append("BAD_NEGATIVE_EV")
     elif ev_score < 0:
         flags.append("NEGATIVE_EV_TRACK_ONLY")
 
@@ -299,82 +414,123 @@ def build_model_flags(probability, odds_info, data_quality, ev_score):
 
 def build_bet_tag(probability, odds, ev_score, model_flags):
     """
-    Praktické odporúčanie čo hrať.
+    Praktické odporúčanie.
 
-    TOP poradie = čisto podľa Win %
-    bet_tag = pomáha rozhodnúť, či bet dáva praktický zmysel
+    Zásada:
+    - hlavná pracovná kurzová zóna je 1.45–2.30
+    - nízke kurzy <1.35 väčšinou nejdú do PLAY
+    - EV je brzda proti zlému kurzu
     """
-    if probability < 0.52:
+
+    if probability < 0.535:
         return "❌ NO BET"
 
     if odds is None:
-        if probability >= 0.60:
+        if probability >= 0.65:
             return "👀 WATCH / NO ODDS"
         return "❌ NO BET / NO ODDS"
 
-    if odds < 1.15:
+    # tvrdé stopky
+    if odds < 1.20:
         return "👀 WATCH / VERY LOW VALUE"
 
-    if odds < 1.25:
-        if probability >= 0.70:
-            return "⚠️ PLAY SMALL / LOW VALUE"
-        return "👀 WATCH / LOW VALUE"
-
-    if odds < 1.30:
-        if probability >= 0.65:
-            return "⚠️ PLAY SMALL / LOW VALUE"
-        return "👀 WATCH / LOW VALUE"
+    if odds >= 4.0 and probability < 0.65:
+        return "👀 WATCH / LONGSHOT"
 
     if "EXTREME_MODEL_MARKET_GAP" in model_flags and probability < 0.60:
         return "👀 WATCH / MODEL WARNING"
 
-    if odds >= 4.0 and probability < 0.60:
-        return "👀 WATCH / LONGSHOT"
+    # nízke kurzy: nie hlavné bety
+    if odds < 1.35:
+        if probability >= 0.78 and ev_score is not None and ev_score >= -0.05:
+            return "⚠️ PLAY SMALL / LOW ODDS"
+        return "👀 WATCH / LOW VALUE"
 
-    if probability >= 0.57:
-        if ev_score is not None and ev_score < -0.10:
-            return "⚠️ PLAY SMALL / NEGATIVE EV"
-        return "✅ PLAY"
+    # hranično nízke, ale použiteľné len pri silnej šanci
+    if 1.35 <= odds < 1.45:
+        if probability >= 0.70 and (ev_score is None or ev_score >= -0.10):
+            return "⚠️ PLAY SMALL / LOW ODDS"
+        if probability >= 0.65 and (ev_score is None or ev_score >= -0.06):
+            return "⚠️ PLAY SMALL / LOW ODDS"
+        return "👀 WATCH / LOW VALUE"
 
-    if probability >= 0.54:
-        if odds >= 1.35 and (ev_score is None or ev_score >= -0.12):
+    # ideálna zóna
+    if 1.45 <= odds <= 2.30:
+        if probability >= 0.65 and (ev_score is None or ev_score >= -0.08):
+            return "🔥 HOT PLAY"
+
+        if probability >= 0.60 and (ev_score is None or ev_score >= -0.10):
+            return "✅ STANDARD PLAY"
+
+        if probability >= 0.57 and (ev_score is None or ev_score >= -0.12):
             return "⚠️ PLAY SMALL"
+
+        if probability >= 0.55 and (ev_score is None or ev_score >= -0.15):
+            return "⚠️ LOW CONFIDENCE FILL"
+
         return "👀 WATCH"
 
-    if probability >= 0.52:
-        return "👀 WATCH"
+    # vyššie kurzy
+    if 2.30 < odds <= 3.50:
+        if probability >= 0.65 and (ev_score is None or ev_score >= -0.05):
+            return "✅ STANDARD PLAY / HIGHER ODDS"
+
+        if probability >= 0.60 and (ev_score is None or ev_score >= -0.10):
+            return "⚠️ PLAY SMALL / HIGHER ODDS"
+
+        if probability >= 0.57 and (ev_score is None or ev_score >= -0.05):
+            return "⚠️ PLAY SMALL / HIGHER ODDS"
+
+        return "👀 WATCH / HIGHER RISK"
+
+    # longshot safety
+    if odds > 3.50:
+        if probability >= 0.70 and (ev_score is None or ev_score >= 0):
+            return "⚠️ PLAY SMALL / LONGSHOT"
+        return "👀 WATCH / LONGSHOT"
 
     return "❌ NO BET"
 
 
-def build_short_reason(probability, odds, ev_score, bet_tag, model_flags):
+def build_short_reason(probability, odds, ev_score, bet_tag, model_flags, probability_source):
     reasons = []
 
-    if probability >= 0.65:
+    if probability >= 0.70:
         reasons.append("very strong Win %")
-    elif probability >= 0.60:
+    elif probability >= 0.65:
         reasons.append("strong Win %")
-    elif probability >= 0.57:
+    elif probability >= 0.60:
         reasons.append("good Win %")
-    elif probability >= 0.54:
-        reasons.append("borderline Win %")
-    elif probability >= 0.52:
-        reasons.append("low edge / watch only")
+    elif probability >= 0.57:
+        reasons.append("acceptable Win %")
+    elif probability >= 0.55:
+        reasons.append("play small range")
+    elif probability >= 0.535:
+        reasons.append("low confidence fill range")
     else:
         reasons.append("too close to coinflip")
 
     if odds is None:
         reasons.append("no odds available")
-    elif odds < 1.25:
+    elif odds < 1.20:
+        reasons.append("very low odds")
+    elif odds < 1.35:
         reasons.append("low odds / low value")
-    elif odds >= 4.0:
+    elif 1.45 <= odds <= 2.30:
+        reasons.append("ideal odds range")
+    elif odds > 3.50:
         reasons.append("longshot odds")
 
     if ev_score is not None:
         if ev_score >= 0.05:
             reasons.append("positive EV tracking")
+        elif ev_score < -0.15:
+            reasons.append("bad negative EV warning")
         elif ev_score < -0.10:
             reasons.append("negative EV warning")
+
+    if probability_source:
+        reasons.append(f"probability source: {probability_source}")
 
     if "EXTREME_MODEL_MARKET_GAP" in model_flags:
         reasons.append("extreme model-market gap")
@@ -384,27 +540,42 @@ def build_short_reason(probability, odds, ev_score, bet_tag, model_flags):
     return "; ".join(reasons)
 
 
-def is_recommended_bet(pred):
-    """
-    TOP/TG výstup má obsahovať iba reálne hrateľné tipy.
+def bet_priority(pred):
+    tag = str(pred.get("bet_tag", ""))
 
-    Povolené:
-    ✅ PLAY
-    ⚠️ PLAY SMALL
+    if tag.startswith("🔥 HOT PLAY"):
+        return 1
 
-    Nepovolené:
-    👀 WATCH
-    ❌ NO BET
-    """
-    bet_tag = str(pred.get("bet_tag", ""))
+    if tag.startswith("✅ STANDARD PLAY"):
+        return 2
 
-    if bet_tag.startswith("✅ PLAY"):
-        return True
+    if tag.startswith("⚠️ PLAY SMALL"):
+        return 3
 
-    if bet_tag.startswith("⚠️ PLAY SMALL"):
-        return True
+    if tag.startswith("⚠️ LOW CONFIDENCE FILL"):
+        return 4
 
-    return False
+    return 99
+
+
+def is_fill_candidate(pred):
+    tag = str(pred.get("bet_tag", ""))
+    probability = pred.get("probability", 0)
+    odds = pred.get("odds")
+
+    if odds is None:
+        return False
+
+    if not tag.startswith("⚠️ LOW CONFIDENCE FILL"):
+        return False
+
+    if probability < 0.55:
+        return False
+
+    if odds < 1.45 or odds > 2.80:
+        return False
+
+    return True
 
 
 def get_match_fields(match):
@@ -463,10 +634,11 @@ def get_daily_predictions():
         odds1 = m.get("odds_player1")
         odds2 = m.get("odds_player2")
 
-        base_prob1 = win_probability(p1, p2)
+        our_prob1 = clamp(win_probability(p1, p2), 0.05, 0.95)
+        fair1, fair2, _ = fair_market_probs(odds1, odds2)
 
-        prob1 = max(0.05, min(0.95, base_prob1))
-        prob2 = 1 - prob1
+        consensus_prob1, probability_source = consensus_probability(our_prob1, fair1)
+        consensus_prob2 = 1 - consensus_prob1
 
         match_key = f"{p1}::{p2}"
         surface = surface_map.get(match_key, "Unknown")
@@ -477,20 +649,24 @@ def get_daily_predictions():
         p1_metrics = metric_for_surface(p1_stats, surface)
         p2_metrics = metric_for_surface(p2_stats, surface)
 
-        if prob1 >= prob2:
+        if consensus_prob1 >= consensus_prob2:
             pick = p1
             opponent = p2
-            pick_probability = prob1
-            opponent_probability = prob2
+            pick_probability = consensus_prob1
+            opponent_probability = consensus_prob2
             pick_metrics = p1_metrics
             opponent_metrics = p2_metrics
+            pick_our_probability = our_prob1
+            pick_market_probability_raw = fair1
         else:
             pick = p2
             opponent = p1
-            pick_probability = prob2
-            opponent_probability = prob1
+            pick_probability = consensus_prob2
+            opponent_probability = consensus_prob1
             pick_metrics = p2_metrics
             opponent_metrics = p1_metrics
+            pick_our_probability = 1 - our_prob1
+            pick_market_probability_raw = fair2
 
         confidence = abs(pick_probability - 0.5)
 
@@ -509,6 +685,7 @@ def get_daily_predictions():
 
         extra_signals = classify_extra_signal(pick_metrics, opponent_metrics)
         alternative_bets = build_alternative_bets(pick, pick_metrics)
+        alternative_market_info = build_alternative_market_info(pick_probability, bo_format="BO3")
 
         data_quality = data_quality_from_metrics(pick_metrics, opponent_metrics)
 
@@ -531,14 +708,12 @@ def get_daily_predictions():
             odds=pick_odds,
             ev_score=ev_score,
             bet_tag=bet_tag,
-            model_flags=model_flags
+            model_flags=model_flags,
+            probability_source=probability_source
         )
 
         tier = win_tier(pick_probability)
 
-        # Kľúčové:
-        # score = čisté Win %
-        # Žiadne odds / EV / market / ace / set bonusy.
         score = pick_probability
 
         pred = {
@@ -579,8 +754,12 @@ def get_daily_predictions():
             "data_quality": data_quality,
             "model_flags": model_flags,
 
-            "model_source": "CLEAN_WIN_PERCENT_ONLY",
-            "base_probability_player1": round(base_prob1, 3),
+            "model_source": probability_source,
+            "our_model_probability": round(pick_our_probability, 3),
+            "market_probability_raw": round(pick_market_probability_raw, 3) if pick_market_probability_raw is not None else None,
+
+            "base_probability_player1": round(our_prob1, 3),
+            "consensus_probability_player1": round(consensus_prob1, 3),
             "stats_boost_player1": 0.0,
 
             "match_start": m.get("match_start"),
@@ -592,24 +771,77 @@ def get_daily_predictions():
             "opponent_metrics": opponent_metrics,
             "extra_signals": extra_signals,
             "alternative_bets": alternative_bets,
+            "alternative_market_info": alternative_market_info,
         }
 
         all_predictions.append(pred)
 
-    # ALL predictions sú všetky modelové kandidáty.
-    # TOP/TG predictions sú iba hrateľné bety:
-    # ✅ PLAY alebo ⚠️ PLAY SMALL.
-    all_predictions.sort(key=lambda x: x["probability"], reverse=True)
+    # Sort pre TOP/TG logiku:
+    # 1. HOT
+    # 2. STANDARD
+    # 3. PLAY SMALL
+    # 4. LOW CONFIDENCE FILL
+    all_predictions.sort(
+        key=lambda x: (
+            bet_priority(x),
+            -x.get("probability", 0)
+        )
+    )
 
-    recommended = [
+    hot = [
         p for p in all_predictions
-        if is_recommended_bet(p)
+        if str(p.get("bet_tag", "")).startswith("🔥 HOT PLAY")
     ]
 
-    # TOP stránka / RSS / TG bot číta iba recommended shortlist.
-    # Ak dnes nie je žiadny hrateľný bet, TOP bude prázdny.
-    # Je lepšie nemať bet ako poslať coinflip.
-    final = recommended[:TOP_N]
+    standard = [
+        p for p in all_predictions
+        if str(p.get("bet_tag", "")).startswith("✅ STANDARD PLAY")
+    ]
+
+    small = [
+        p for p in all_predictions
+        if str(p.get("bet_tag", "")).startswith("⚠️ PLAY SMALL")
+    ]
+
+    fill = [
+        p for p in all_predictions
+        if is_fill_candidate(p)
+    ]
+
+    final = []
+
+    # 1. HOT PLAY
+    for p in hot:
+        if len(final) < TOP_N:
+            final.append(p)
+
+    # 2. STANDARD PLAY
+    for p in standard:
+        if len(final) < TOP_N:
+            final.append(p)
+
+    # 3. PLAY SMALL len do targetu
+    for p in small:
+        if len(final) < TARGET_DAILY_BETS:
+            final.append(p)
+
+    # 4. LOW CONFIDENCE FILL max 1–2 denne
+    low_confidence_added = 0
+
+    for p in fill:
+        if len(final) >= TARGET_DAILY_BETS:
+            break
+
+        if low_confidence_added >= MAX_LOW_CONFIDENCE_FILL:
+            break
+
+        p["bet_tag"] = "⚠️ PLAY SMALL / LOW CONFIDENCE FILL"
+        p["short_reason"] = str(p.get("short_reason", "")) + "; selected to reach daily target"
+
+        final.append(p)
+        low_confidence_added += 1
+
+    final = final[:TOP_N]
 
     print("FINAL RECOMMENDED PICKS:", len(final))
 
@@ -624,6 +856,12 @@ def get_daily_predictions():
             p["opponent"],
             "| prob:",
             p["probability"],
+            "| our_prob:",
+            p.get("our_model_probability"),
+            "| market_prob:",
+            p.get("market_probability_raw"),
+            "| source:",
+            p["model_source"],
             "| tier:",
             p["win_tier"],
             "| odds:",
