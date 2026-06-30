@@ -8,19 +8,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ✅ Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # ✅ Setup Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
+      # ✅ Install deps
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
 
+      # ✅ Build Elo
       - name: Build Elo Ratings
         run: python build_elo.py
 
+      # ✅ Run predictions + ODDS API KEY
       - name: Run predictions
         run: python update.py
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
