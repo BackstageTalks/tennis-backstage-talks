@@ -1,12 +1,13 @@
 from prediction_engine import build_all_predictions
 
 
-def get_all_predictions():
+def get_all_daily_predictions():
     """
     ALL stránka:
     - všetky zápasy
     - každý zápas má ELO+ predikciu víťaza
     - žiadny filter podľa kurzu
+    - kompatibilné s update.py, ktorý importuje get_all_daily_predictions
     """
     predictions = build_all_predictions()
 
@@ -39,8 +40,15 @@ def get_all_predictions():
     return predictions
 
 
+def get_all_predictions():
+    """
+    Alias pre prípad, že niektorý iný súbor volá get_all_predictions().
+    """
+    return get_all_daily_predictions()
+
+
 def get_daily_predictions():
     """
-    Compatibility alias.
+    Compatibility alias pre staršie volania.
     """
-    return get_all_predictions()
+    return get_all_daily_predictions()
