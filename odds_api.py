@@ -36,4 +36,3 @@ def fetch_odds():
 
     print("ODDS LOADED:", len(out))
     return out
-``
