@@ -1,251 +1,384 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BASE="https://backstagetalks.github.io/tennis-backstage-talks"
-LINKS="H4V34N1C3D4Y177"
+echo "===== GENERATE RANDOM-LOOKING LINK HUB 177 ====="
 
-mkdir -p "public/$LINKS"
+BASE_URL="https://backstagetalks.github.io/tennis-backstage-talks"
+PUBLIC_DIR="public"
+HUB_DIR="${PUBLIC_DIR}/H4V34N1C3D4Y177"
 
-latest_file () {
-  PATTERN="$1"
-  FOUND=$(ls public/$PATTERN 2>/dev/null | sort | tail -n 1 || true)
+# Stable random-looking aliases.
+# They look random to humans, but stay fixed for you and for the bot.
+ALIAS_TOP_PAGE="a7Kp4VzQ9Lm2R8xYa6Td0Hs3BcQw9F"
+ALIAS_ALL_PAGE="b8Lm5QaR0Xn3V7tYp2Ks6Hd9CzW4EJ"
+ALIAS_TOP_RESULTS="c9Nq6WrS1Yp4K8vLa3Td7Hx0BzF2MQ"
+ALIAS_ALL_RESULTS="d0Pr7XsT2Zq5L9vMb4Yh8Kc1WnF6AR"
 
-  if [ -n "$FOUND" ]; then
-    basename "$FOUND"
+ALIAS_TOP_RSS="e1Qs8XtU3Ar6M0vNc5Zp9Ld2YhW7KR"
+ALIAS_ALL_RSS="f2Rt9YuV4Bs7N1wOd6Aq0Me3ZiX8LS"
+ALIAS_TOP_RESULTS_RSS="g3Sv0ZwW5Ct8O2xPe7Br1Nf4AjY9MT"
+ALIAS_ALL_RESULTS_RSS="h4Tw1AxX6Du9P3yQf8Cs2Og5BkZ0NU"
+
+mkdir -p "$HUB_DIR"
+
+GENERATED_AT="$(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+
+
+copy_page_alias() {
+  local source_file="$1"
+  local alias_dir="$2"
+  local title="$3"
+
+  local target_dir="${PUBLIC_DIR}/${alias_dir}"
+
+  mkdir -p "$target_dir"
+
+  if [ -f "$source_file" ]; then
+    cp "$source_file" "${target_dir}/index.html"
+    echo "Alias page created: ${target_dir}/index.html from ${source_file}"
   else
-    echo ""
+    cat > "${target_dir}/index.html" <<EOF
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>${title}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background: #130d0d;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 18px;
+    }
+
+    a {
+      color: #ffd29b;
+      font-weight: 700;
+    }
+
+    .muted {
+      color: #c9b8ad;
+    }
+  </style>
+</head>
+<body>
+  <h1>${title}</h1>
+  <p class="muted">This output is not available yet.</p>
+  <p>${BASE_URL}/H4V34N1C3D4Y177/Back to Hub 177</a></p>
+</body>
+</html>
+EOF
+    echo "Alias placeholder created: ${target_dir}/index.html"
   fi
 }
 
-TOP_JSON=$(latest_file "predictions_*.json")
-ALL_JSON=$(latest_file "all_predictions_*.json")
-RESULTS_JSON=$(latest_file "results_*.json")
-ALL_RESULTS_JSON=$(latest_file "all_results_*.json")
 
-HUB_FILE="public/$LINKS/index.html"
+copy_xml_alias() {
+  local source_file="$1"
+  local alias_file="$2"
 
-cat > "$HUB_FILE" <<EOF
-<!DOCTYPE html>
-<html lang="sk">
+  local target_file="${PUBLIC_DIR}/${alias_file}.xml"
+
+  if [ -f "$source_file" ]; then
+    cp "$source_file" "$target_file"
+    echo "Alias XML created: ${target_file} from ${source_file}"
+  else
+    cat > "$target_file" <<EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+  <title>Backstage Talks Tennis Feed</title>
+  <link>${BASE_URL}/H4V34N1C3D4Y177/</link>
+  <description>Feed not available yet.</description>
+  <item>
+    <title>Feed not available yet</title>
+    <description>This feed has not been generated yet.</description>
+  </item>
+</channel>
+</rss>
+EOF
+    echo "Alias XML placeholder created: ${target_file}"
+  fi
+}
+
+
+# Page aliases – copied pages, not redirects.
+# This keeps the random-looking URL visible in the browser.
+copy_page_alias "${PUBLIC_DIR}/index.html" "${ALIAS_TOP_PAGE}" "TOP5 Tennis Picks"
+copy_page_alias "${PUBLIC_DIR}/all/index.html" "${ALIAS_ALL_PAGE}" "All Tennis Predictions"
+copy_page_alias "${PUBLIC_DIR}/results/index.html" "${ALIAS_TOP_RESULTS}" "TOP5 Tennis Results"
+copy_page_alias "${PUBLIC_DIR}/all_results/index.html" "${ALIAS_ALL_RESULTS}" "All Tennis Results"
+
+# RSS aliases – copied XML feeds.
+copy_xml_alias "${PUBLIC_DIR}/tennis.xml" "${ALIAS_TOP_RSS}"
+copy_xml_alias "${PUBLIC_DIR}/tennis_all.xml" "${ALIAS_ALL_RSS}"
+copy_xml_alias "${PUBLIC_DIR}/results.xml" "${ALIAS_TOP_RESULTS_RSS}"
+copy_xml_alias "${PUBLIC_DIR}/all_results.xml" "${ALIAS_ALL_RESULTS_RSS}"
+
+
+cat > "${HUB_DIR}/index.html" <<EOF
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>BackstageTalks Tennis Links</title>
-<meta name="robots" content="noindex,nofollow,noarchive">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-* {
-  box-sizing: border-box;
-}
+  <meta charset="utf-8">
+  <title>Backstage Talks Tennis Hub 177</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-body {
-  font-family: Arial, sans-serif;
-  background: #160f0f;
-  color: #f4f4f4;
-  margin: 0;
-  padding: 22px;
-}
+  <style>
+    body {
+      margin: 0;
+      padding: 18px;
+      background: #130d0d;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-}
+    h1 {
+      font-size: 42px;
+      line-height: 1.05;
+      margin: 0 0 10px 0;
+    }
 
-h1 {
-  font-size: 42px;
-  line-height: 1.1;
-  margin: 26px 0 24px;
-}
+    .disclaimer {
+      color: #c9b8ad;
+      font-size: 14px;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
 
-.section-title {
-  color: #cfcfcf;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 28px 0 10px;
-}
+    .section {
+      background: #211717;
+      border: 1px solid #3a2929;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-}
+    .section h2 {
+      margin: 0 0 14px 0;
+      font-size: 25px;
+      color: #fff3e8;
+    }
 
-.card {
-  background: #211818;
-  border: 1px solid #352727;
-  border-radius: 16px;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 14px;
+    }
 
-.label {
-  font-weight: 700;
-  font-size: 18px;
-  color: #ffffff;
-}
+    .card {
+      background: #2a1e1e;
+      border: 1px solid #463232;
+      border-radius: 16px;
+      padding: 16px;
+      min-height: 128px;
+    }
 
-.icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 999px;
-  background: #2d3f66;
-  color: #ffffff;
-  font-size: 20px;
-  text-decoration: none;
-  flex: 0 0 auto;
-}
+    .card h3 {
+      margin: 0 0 8px 0;
+      font-size: 19px;
+      color: #ffffff;
+    }
 
-.icon:hover {
-  background: #4162a3;
-  text-decoration: none;
-}
+    .card p {
+      margin: 0 0 12px 0;
+      color: #cbb8ae;
+      font-size: 14px;
+      line-height: 1.4;
+    }
 
-.footer {
-  color: #888;
-  margin-top: 26px;
-  font-size: 14px;
-}
+    .icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
 
-@media (min-width: 760px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-</style>
+    a {
+      color: #ffd29b;
+      text-decoration: none;
+      font-weight: 700;
+      word-break: break-all;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #573a24;
+      color: #ffd29b;
+      border: 1px solid #805a36;
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .note {
+      color: #a99790;
+      font-size: 13px;
+      margin-top: 22px;
+      line-height: 1.5;
+    }
+
+    .small {
+      color: #c9b8ad;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+  </style>
 </head>
+
 <body>
-<div class="container">
-<h1>BackstageTalks Tennis Links</h1>
+  <h1>🎾 Backstage Talks Tennis Hub 177</h1>
 
-<div class="section-title">Main</div>
-<div class="grid">
+  <div class="disclaimer">
+    The data generated by the Backstage Talks STAT model is for statistical and informational purposes only.
+  </div>
 
-<div class="card">
-  <div class="label">TOP 7 web</div>
-  <a class="icon" href="$BASE/" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
+  <div class="section">
+    <h2>⭐ Main Picks</h2>
 
-<div class="card">
-  <div class="label">TOP 7 RSS</div>
-  <a class="icon" href="$BASE/tennis.xml" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
+    <div class="grid">
+      <div class="card">
+        <div class="icon">⭐</div>
+        <div class="badge">TOP5</div>
+        <h3>TOP5 Tennis Picks</h3>
+        <p>Five highest ELO+ winner predictions where selected player odds are above 1.50.</p>
+        ${BASE_URL}/${ALIAS_TOP_PAGE}/Open TOP5 Picks</a>
+      </div>
 
-<div class="card">
-  <div class="label">ALL web</div>
-  <a class="icon" href="$BASE/all/" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
+      <div class="card">
+        <div class="icon">📡</div>
+        <div class="badge">RSS</div>
+        <h3>TOP5 Picks RSS</h3>
+        <p>RSS feed for the selected TOP5 picks. Future Telegram bot input.</p>
+        ${BASE_URL}/${ALIAS_TOP_RSS}.xmlOpen TOP5 RSS</a>
+      </div>
+    </div>
+  </div>
 
-<div class="card">
-  <div class="label">ALL RSS</div>
-  <a class="icon" href="$BASE/tennis_all.xml" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
+  <div class="section">
+    <h2>📋 All Predictions</h2>
 
-</div>
+    <div class="grid">
+      <div class="card">
+        <div class="icon">📋</div>
+        <div class="badge">ALL</div>
+        <h3>All Tennis Predictions</h3>
+        <p>All matches from the daily window. Every match gets an ELO+ winner prediction.</p>
+        ${BASE_URL}/${ALIAS_ALL_PAGE}/Open All Predictions</a>
+      </div>
 
-<div class="section-title">Results</div>
-<div class="grid">
+      <div class="card">
+        <div class="icon">🛰️</div>
+        <div class="badge">RSS</div>
+        <h3>All Predictions RSS</h3>
+        <p>RSS feed containing all ELO+ predictions, not only TOP5.</p>
+        ${BASE_URL}/${ALIAS_ALL_RSS}.xmlOpen All RSS</a>
+      </div>
+    </div>
+  </div>
 
-<div class="card">
-  <div class="label">TOP 7 výsledky web</div>
-  <a class="icon" href="$BASE/results/" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
+  <div class="section">
+    <h2>📊 Results</h2>
 
-<div class="card">
-  <div class="label">TOP 7 výsledky RSS</div>
-  <a class="icon" href="$BASE/results.xml" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
+    <div class="grid">
+      <div class="card">
+        <div class="icon">🏁</div>
+        <div class="badge">TOP5 Results</div>
+        <h3>TOP5 Results</h3>
+        <p>Results tracking for the selected TOP5 picks.</p>
+        ${BASE_URL}/${ALIAS_TOP_RESULTS}/Open TOP5 Results</a>
+      </div>
 
-<div class="card">
-  <div class="label">ALL výsledky web</div>
-  <a class="icon" href="$BASE/all_results/" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
+      <div class="card">
+        <div class="icon">✅</div>
+        <div class="badge">RSS</div>
+        <h3>TOP5 Results RSS</h3>
+        <p>RSS feed for TOP5 results.</p>
+        ${BASE_URL}/${ALIAS_TOP_RESULTS_RSS}.xmlOpen TOP5 Results RSS</a>
+      </div>
 
-<div class="card">
-  <div class="label">ALL výsledky RSS</div>
-  <a class="icon" href="$BASE/all_results.xml" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
+      <div class="card">
+        <div class="icon">📊</div>
+        <div class="badge">ALL Results</div>
+        <h3>All Results</h3>
+        <p>Results tracking for all predicted matches.</p>
+        ${BASE_URL}/${ALIAS_ALL_RESULTS}/Open All Results</a>
+      </div>
 
-</div>
+      <div class="card">
+        <div class="icon">🧾</div>
+        <div class="badge">RSS</div>
+        <h3>All Results RSS</h3>
+        <p>RSS feed for all prediction results.</p>
+        ${BASE_URL}/${ALIAS_ALL_RESULTS_RSS}.xmlOpen All Results RSS</a>
+      </div>
+    </div>
+  </div>
 
-<div class="section-title">Audit</div>
-<div class="grid">
+  <div class="section">
+    <h2>🧭 Model Logic</h2>
 
-<div class="card">
-  <div class="label">Source manifest</div>
-  <a class="icon" href="$BASE/source_manifest.json" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
+    <div class="grid">
+      <div class="card">
+        <div class="icon">🎯</div>
+        <h3>TOP5 Selection</h3>
+        <p>
+          TOP5 contains the five highest ELO+ win probabilities where selected player odds are above 1.50.
+        </p>
+      </div>
 
-<div class="card">
-  <div class="label">Source audit</div>
-  <a class="icon" href="$BASE/source_audit.json" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
+      <div class="card">
+        <div class="icon">📋</div>
+        <h3>All Predictions</h3>
+        <p>
+          All available daily matches receive an ELO+ predicted winner.
+        </p>
+      </div>
 
-</div>
-EOF
+      <div class="card">
+        <div class="icon">ℹ️</div>
+        <h3>Sets / Games</h3>
+        <p>
+          Sets and games estimates are informational only and do not affect winner selection.
+        </p>
+      </div>
 
-if [ -n "$TOP_JSON" ] || [ -n "$ALL_JSON" ] || [ -n "$RESULTS_JSON" ] || [ -n "$ALL_RESULTS_JSON" ]; then
-cat >> "$HUB_FILE" <<EOF
+      <div class="card">
+        <div class="icon">🚫</div>
+        <h3>Not Used</h3>
+        <p>
+          EV, edge and market consensus are not used in the current TOP5 selection.
+        </p>
+      </div>
+    </div>
+  </div>
 
-<div class="section-title">Latest JSON</div>
-<div class="grid">
-EOF
+  <div class="section">
+    <h2>🔗 Alias Map</h2>
 
-if [ -n "$TOP_JSON" ]; then
-cat >> "$HUB_FILE" <<EOF
-<div class="card">
-  <div class="label">Latest TOP JSON</div>
-  <a class="icon" href="$BASE/$TOP_JSON" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
-EOF
-fi
+    <div class="small">
+      TOP5 Picks: ${BASE_URL}/${ALIAS_TOP_PAGE}/<br>
+      All Predictions: ${BASE_URL}/${ALIAS_ALL_PAGE}/<br>
+      TOP5 Results: ${BASE_URL}/${ALIAS_TOP_RESULTS}/<br>
+      All Results: ${BASE_URL}/${ALIAS_ALL_RESULTS}/<br>
+      TOP5 RSS: ${BASE_URL}/${ALIAS_TOP_RSS}.xml<br>
+      All RSS: ${BASE_URL}/${ALIAS_ALL_RSS}.xml<br>
+      TOP5 Results RSS: ${BASE_URL}/${ALIAS_TOP_RESULTS_RSS}.xml<br>
+      All Results RSS: ${BASE_URL}/${ALIAS_ALL_RESULTS_RSS}.xml
+    </div>
+  </div>
 
-if [ -n "$ALL_JSON" ]; then
-cat >> "$HUB_FILE" <<EOF
-<div class="card">
-  <div class="label">Latest ALL JSON</div>
-  <a class="icon" href="$BASE/$ALL_JSON" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
-EOF
-fi
-
-if [ -n "$RESULTS_JSON" ]; then
-cat >> "$HUB_FILE" <<EOF
-<div class="card">
-  <div class="label">Latest TOP results JSON</div>
-  <a class="icon" href="$BASE/$RESULTS_JSON" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
-EOF
-fi
-
-if [ -n "$ALL_RESULTS_JSON" ]; then
-cat >> "$HUB_FILE" <<EOF
-<div class="card">
-  <div class="label">Latest ALL results JSON</div>
-  <a class="icon" href="$BASE/$ALL_RESULTS_JSON" target="_blank" rel="noopener noreferrer">🔗</a>
-</div>
-EOF
-fi
-
-cat >> "$HUB_FILE" <<EOF
-</div>
-EOF
-fi
-
-cat >> "$HUB_FILE" <<EOF
-
-<div class="footer">Generated by BackstageTalks Tennis workflow.</div>
-</div>
+  <div class="note">
+    Generated: ${GENERATED_AT}<br>
+    Hub URL: ${BASE_URL}/H4V34N1C3D4Y177/
+  </div>
 </body>
 </html>
 EOF
 
-echo "LINK HUB CREATED: $HUB_FILE"
-
-echo "===== LINK HUB PREVIEW ====="
-head -n 80 "$HUB_FILE"
+echo "Generated ${HUB_DIR}/index.html"
+echo "===== RANDOM-LOOKING LINK HUB 177 DONE ====="
