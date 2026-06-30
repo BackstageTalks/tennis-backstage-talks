@@ -60,4 +60,3 @@ def load_all_matches(start_year=2018, end_year=2030):
     all_matches.sort(key=lambda x: x["date"])
 
     return all_matches
-``
