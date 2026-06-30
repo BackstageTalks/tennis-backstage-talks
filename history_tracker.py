@@ -19,9 +19,18 @@ def save_today_bets(bets):
                 "pick": b["pick"],
                 "probability": b["probability"],
                 "odds": b["odds"],
-                "result": None
+                "result": None,
+                "profit": None
             }
 
             f.write(json.dumps(record) + "\n")
 
     print("SAVED BETS:", len(bets))
+
+
+def load_history():
+    if not os.path.exists(FILE):
+        return []
+
+    with open(FILE, encoding="utf-8") as f:
+        return [json.loads(x) for x in f if x.strip()]
