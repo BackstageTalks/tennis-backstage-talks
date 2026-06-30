@@ -4,6 +4,7 @@ run-name: Refresh Tennis Results - ${{ github.event_name }} - ${{ github.run_num
 
 on:
   schedule:
+    # Refresh results every 2 hours.
     - cron: "0 */2 * * *"
 
   workflow_dispatch:
@@ -54,7 +55,7 @@ jobs:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python results_checker_all.py
 
-      - name: Update history database
+      - name: Update long-term history database
         run: python history_tracker.py
 
       - name: Generate model stats page
@@ -80,7 +81,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add data/bet_history.jsonl || true
+          git add data/ || true
 
           if git diff --cached --quiet; then
             echo "No history changes to commit."
@@ -94,20 +95,45 @@ jobs:
           echo "===== PUBLIC FILES ====="
           ls -R public
 
+          echo "===== CHECK HISTORY DB ====="
+
           if [ ! -f "data/bet_history.jsonl" ]; then
             echo "ERROR: data/bet_history.jsonl missing"
             exit 1
           fi
+
+          if [ ! -f "data/bet_history_learning_snapshot.json" ]; then
+            echo "ERROR: data/bet_history_learning_snapshot.json missing"
+            exit 1
+          fi
+
+          echo "===== CHECK STATS PAGE ====="
 
           if [ ! -f "public/stats/index.html" ]; then
             echo "ERROR: public/stats/index.html missing"
             exit 1
           fi
 
+          if [ ! -f "public/stats.json" ]; then
+            echo "ERROR: public/stats.json missing"
+            exit 1
+          fi
+
+          echo "===== CHECK HUB 177 ====="
+
           if [ ! -f "public/H4V34N1C3D4Y177/index.html" ]; then
             echo "ERROR: public/H4V34N1C3D4Y177/index.html missing"
             exit 1
           fi
+
+          echo "===== HISTORY DB PREVIEW ====="
+          head -n 20 data/bet_history.jsonl || true
+
+          echo "===== STATS PAGE PREVIEW ====="
+          head -n 100 public/stats/index.html
+
+          echo "===== HUB 177 PREVIEW ====="
+          head -n 120 public/H4V34N1C3D4Y177/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
