@@ -6,8 +6,20 @@ def normalize(name):
     return name.lower().strip()
 
 
-def key(p1, p2):
-    return normalize(p1) + "::" + normalize(p2)
+def name_variants(name):
+    parts = normalize(name).split()
+
+    variants = set()
+
+    variants.add(parts[-1])  # priezvisko
+
+    if len(parts) > 1:
+        variants.add(parts[0])  # meno
+        variants.add(parts[0] + " " + parts[-1])  # full short
+
+    variants.add(" ".join(parts))  # full name
+
+    return variants
 
 
 def fetch_odds():
@@ -52,7 +64,6 @@ def fetch_odds():
 
             bookmakers = match.get("bookmakers", [])
 
-            # vezmeme prvý bookmaker (stačí)
             for b in bookmakers:
                 markets = b.get("markets", [])
 
@@ -64,7 +75,10 @@ def fetch_odds():
                             odds1 = outcomes[0]["price"]
                             odds2 = outcomes[1]["price"]
 
-                            odds_map[key(p1, p2)] = (odds1, odds2)
+                            v1 = name_variants(p1)
+                            v2 = name_variants(p2)
+
+                            odds_map[frozenset(v1 | v2)] = (odds1, odds2)
 
                         break
                 break
