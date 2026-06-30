@@ -1,11 +1,11 @@
-name: Daily Tennis Predictions
+name: Refresh Tennis Results
 
-run-name: Daily Tennis Predictions - ${{ github.event_name }} - ${{ github.run_number }}
+run-name: Refresh Tennis Results - ${{ github.event_name }} - ${{ github.run_number }}
 
 on:
   schedule:
-    # 04:00 UTC = 06:00 Europe/Bratislava during CEST.
-    - cron: "0 4 * * *"
+    # Refresh results every 2 hours.
+    - cron: "0 */2 * * *"
 
   workflow_dispatch:
 
@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  refresh-results:
     runs-on: ubuntu-latest
 
     environment:
@@ -40,25 +40,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4
 
-      - name: Clean public folder
+      - name: Prepare public folder
         run: |
-          echo "===== CLEAN PUBLIC FOLDER ====="
-          rm -rf public
+          echo "===== PREPARE PUBLIC FOLDER ====="
           mkdir -p public
 
-      - name: Run predictions
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-          BET_WINDOW_START_HOUR: 6
-          BET_WINDOW_END_NEXT_DAY_HOUR: 6
-        run: python update.py
-
-      - name: Generate TOP5 results from current predictions
+      - name: Generate TOP5 results from existing predictions
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python results_checker.py
 
-      - name: Generate ALL results from current ALL predictions
+      - name: Generate ALL results from existing ALL predictions
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python results_checker_all.py
@@ -68,15 +60,6 @@ jobs:
 
       - name: Generate model stats page
         run: python stats_page.py
-
-      - name: Generate source audit
-        run: python audit_sources.py
-
-      - name: Generate TOP page and TOP RSS
-        run: python rss.py
-
-      - name: Generate ALL page and ALL RSS
-        run: python rss_all.py
 
       - name: Generate TOP5 results page and RSS
         env:
@@ -112,27 +95,6 @@ jobs:
           echo "===== PUBLIC FILES ====="
           ls -R public
 
-          echo "===== CHECK CORE PAGES ====="
-
-          for f in \
-            index.html \
-            tennis.xml \
-            tennis_all.xml \
-            results.xml \
-            all_results.xml \
-            all/index.html \
-            results/index.html \
-            all_results/index.html \
-            stats/index.html \
-            stats.json \
-            H4V34N1C3D4Y177/index.html
-          do
-            if [ ! -f "public/$f" ]; then
-              echo "ERROR: public/$f missing"
-              exit 1
-            fi
-          done
-
           echo "===== CHECK HISTORY DB ====="
 
           if [ ! -f "data/bet_history.jsonl" ]; then
@@ -145,26 +107,33 @@ jobs:
             exit 1
           fi
 
+          echo "===== CHECK STATS PAGE ====="
+
+          if [ ! -f "public/stats/index.html" ]; then
+            echo "ERROR: public/stats/index.html missing"
+            exit 1
+          fi
+
+          if [ ! -f "public/stats.json" ]; then
+            echo "ERROR: public/stats.json missing"
+            exit 1
+          fi
+
+          echo "===== CHECK HUB 177 ====="
+
+          if [ ! -f "public/H4V34N1C3D4Y177/index.html" ]; then
+            echo "ERROR: public/H4V34N1C3D4Y177/index.html missing"
+            exit 1
+          fi
+
           echo "===== HISTORY DB PREVIEW ====="
           head -n 20 data/bet_history.jsonl || true
-
-          echo "===== TOP PAGE PREVIEW ====="
-          head -n 80 public/index.html
-
-          echo "===== ALL PAGE PREVIEW ====="
-          head -n 80 public/all/index.html
-
-          echo "===== TOP RESULTS PAGE PREVIEW ====="
-          head -n 80 public/results/index.html
-
-          echo "===== ALL RESULTS PAGE PREVIEW ====="
-          head -n 80 public/all_results/index.html
 
           echo "===== STATS PAGE PREVIEW ====="
           head -n 100 public/stats/index.html
 
           echo "===== HUB 177 PREVIEW ====="
-          head -n 140 public/H4V34N1C3D4Y177/index.html
+          head -n 120 public/H4V34N1C3D4Y177/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
