@@ -37,13 +37,17 @@ def pct(value):
         return safe(value)
 
 
-def build_sets_games_text(item):
+def build_sets_games_html(item):
+    """
+    HTML verzia pre stránku.
+    BO3/BO5 sa nezobrazuje.
+    INFO ONLY je zobrazené hnedou/muted farbou.
+    """
     alt = item.get("alternative_market_info") or {}
 
     if not alt:
-        return "No sets/games info"
+        return '<span class="muted">No sets/games info</span>'
 
-    bo_format = alt.get("bo_format")
     most_likely_sets = alt.get("most_likely_sets")
     sets_probability = alt.get("sets_probability")
     sets_fair_odds = alt.get("sets_fair_odds")
@@ -52,20 +56,57 @@ def build_sets_games_text(item):
 
     parts = []
 
-    if bo_format:
-        parts.append(f"Format: {bo_format}")
+    if most_likely_sets:
+        parts.append(
+            "Sets: "
+            + html.escape(safe(most_likely_sets))
+            + " ("
+            + html.escape(pct(sets_probability))
+            + ", fair odds "
+            + html.escape(safe(sets_fair_odds, "n/a"))
+            + ")"
+        )
+
+    if expected_games is not None:
+        parts.append("Expected games: " + html.escape(safe(expected_games)))
+
+    if games_lean:
+        parts.append("Games: " + html.escape(safe(games_lean)))
+
+    if not parts:
+        parts.append("No clear sets/games info")
+
+    return "<br>".join(parts) + '<br><span class="muted">INFO ONLY</span>'
+
+
+def build_sets_games_text(item):
+    """
+    Text verzia pre RSS.
+    """
+    alt = item.get("alternative_market_info") or {}
+
+    if not alt:
+        return "No sets/games info"
+
+    most_likely_sets = alt.get("most_likely_sets")
+    sets_probability = alt.get("sets_probability")
+    sets_fair_odds = alt.get("sets_fair_odds")
+    expected_games = alt.get("expected_games")
+    games_lean = alt.get("games_lean")
+
+    parts = []
 
     if most_likely_sets:
         parts.append(
-            f"Sets: {most_likely_sets}"
-            f" ({pct(sets_probability)}, fair odds {safe(sets_fair_odds, 'n/a')})"
+            f"Sets: {safe(most_likely_sets)} "
+            f"({pct(sets_probability)}, fair odds {safe(sets_fair_odds, 'n/a')})"
         )
 
     if expected_games is not None:
         parts.append(f"Expected games: {expected_games}")
 
     if games_lean:
-        parts.append(f"Games lean: {games_lean}")
+        parts.append(f"Games: {games_lean}")
 
     parts.append("INFO ONLY")
 
@@ -93,8 +134,8 @@ def generate_html(predictions, source_path):
         rows.append(
             """
             <tr>
-              <td colspan="9" class="empty">
-                No TOP5 ELO+ picks available. No player with odds above 1.50 passed the current ELO+ selection.
+              <td colspan="7" class="empty">
+                No TOP5 picks available.
               </td>
             </tr>
             """
@@ -106,11 +147,7 @@ def generate_html(predictions, source_path):
             match_time = html.escape(safe(item.get("match_time_raw") or item.get("match_start")))
             probability = html.escape(pct(item.get("probability")))
             odds = html.escape(safe(item.get("odds"), ""))
-            tag = html.escape(safe(item.get("bet_tag"), ""))
-            base_elo = html.escape(pct(item.get("base_elo_probability")))
-            adjustment = html.escape(safe(item.get("elo_stats_adjustment"), ""))
-            sets_games = html.escape(build_sets_games_text(item))
-            reason = html.escape(safe(item.get("short_reason"), ""))
+            sets_games = build_sets_games_html(item)
 
             rows.append(
                 f"""
@@ -121,15 +158,10 @@ def generate_html(predictions, source_path):
                   <td>{match_time}</td>
                   <td>{probability}</td>
                   <td>{odds}</td>
-                  <td>{tag}</td>
                   <td>{sets_games}</td>
-                  <td>{reason}<br><span class="small">Base ELO: {base_elo} | Adj: {adjustment}</span></td>
                 </tr>
                 """
             )
-
-    generated_at = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
-    source_note = html.escape(source_path or "no predictions json")
 
     content = f"""<!doctype html>
 <html lang="en">
@@ -148,20 +180,14 @@ def generate_html(predictions, source_path):
 
     h1 {{
       font-size: 44px;
-      margin: 0 0 22px 0;
+      margin: 0 0 8px 0;
       line-height: 1.05;
     }}
 
-    .subtitle {{
-      font-size: 20px;
-      margin-bottom: 28px;
-      color: #f2e8dd;
-    }}
-
-    .note {{
+    .disclaimer {{
       color: #c9b8ad;
       font-size: 14px;
-      margin-bottom: 18px;
+      margin-bottom: 22px;
       line-height: 1.5;
     }}
 
@@ -198,16 +224,9 @@ def generate_html(predictions, source_path):
       font-size: 18px;
     }}
 
-    .small {{
+    .muted {{
       color: #c9b8ad;
       font-size: 13px;
-    }}
-
-    .footer {{
-      margin-top: 22px;
-      color: #a99790;
-      font-size: 13px;
-      line-height: 1.5;
     }}
 
     @media (max-width: 950px) {{
@@ -238,14 +257,8 @@ def generate_html(predictions, source_path):
 <body>
   <h1>{html.escape(SITE_TITLE)}</h1>
 
-  <div class="subtitle">
-    TOP5 ELO+ winner predictions. Rule: every match gets a prediction, TOP page shows only the 5 highest ELO+ win probabilities where selected player odds are above 1.50.
-  </div>
-
-  <div class="note">
-    Source JSON: {source_note}<br>
-    Generated: {generated_at}<br>
-    EV / edge / market consensus are not used. Sets and games info is INFO ONLY.
+  <div class="disclaimer">
+    Data sú iba pre štatistické a informatívne účely.
   </div>
 
   <table>
@@ -255,21 +268,15 @@ def generate_html(predictions, source_path):
         <th>Pick</th>
         <th>Opponent</th>
         <th>Match time</th>
-        <th>ELO+ Win %</th>
+        <th>Win %</th>
         <th>Odds</th>
-        <th>Tag</th>
         <th>Sets / Games info</th>
-        <th>Reason</th>
       </tr>
     </thead>
     <tbody>
       {''.join(rows)}
     </tbody>
   </table>
-
-  <div class="footer">
-    TOP page = selected TOP5. ALL page = all ELO+ predictions.
-  </div>
 </body>
 </html>
 """
@@ -288,8 +295,8 @@ def generate_rss(predictions):
     if not predictions:
         items.append(f"""
         <item>
-          <title>No TOP5 ELO+ picks available</title>
-          <description>No player with odds above 1.50 passed the current ELO+ ranking selection.</description>
+          <title>No TOP5 picks available</title>
+          <description>No TOP5 picks available.</description>
           <pubDate>{now}</pubDate>
           <guid>{BASE_URL}/no-top5-{datetime.utcnow().strftime('%Y%m%d%H%M%S')}</guid>
         </item>
@@ -300,18 +307,15 @@ def generate_rss(predictions):
             opponent = html.escape(safe(item.get("opponent")))
             probability = html.escape(pct(item.get("probability")))
             odds = html.escape(safe(item.get("odds"), ""))
-            tag = html.escape(safe(item.get("bet_tag"), ""))
-            reason = html.escape(safe(item.get("short_reason"), ""))
             sets_games = html.escape(build_sets_games_text(item))
 
             title = f"#{i} {pick} to win vs {opponent} | {probability} | odds {odds}"
 
             description = (
-                f"Tag: {tag}<br>"
-                f"ELO+ Win: {probability}<br>"
+                f"Win %: {probability}<br>"
                 f"Odds: {odds}<br>"
                 f"Sets/Games: {sets_games}<br>"
-                f"Reason: {reason}"
+                f"Data sú iba pre štatistické a informatívne účely."
             )
 
             items.append(f"""
