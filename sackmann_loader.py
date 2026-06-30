@@ -23,25 +23,21 @@ def parse_matches(rows):
     parsed = []
 
     for r in rows:
-        try:
-            winner = r.get("winner_name")
-            loser = r.get("loser_name")
+        winner = r.get("winner_name")
+        loser = r.get("loser_name")
 
-            if not winner or not loser:
-                continue
-
-            surface = r.get("surface") or "Hard"
-
-            parsed.append({
-                "player1": winner.strip(),
-                "player2": loser.strip(),
-                "winner": winner.strip(),
-                "surface": surface,
-                "date": r.get("tourney_date")
-            })
-
-        except:
+        if not winner or not loser:
             continue
+
+        surface = r.get("surface") or "Hard"
+
+        parsed.append({
+            "player1": winner.strip(),
+            "player2": loser.strip(),
+            "winner": winner.strip(),
+            "surface": surface,
+            "date": r.get("tourney_date") or "0"
+        })
 
     return parsed
 
@@ -66,12 +62,7 @@ def load_all_matches(start_year=2018, end_year=2030):
 
     print("TOTAL MATCHES:", len(all_matches))
 
-    # ✅ NIKDY nevráti None
-    if not all_matches:
-        return []
-
-    # zoradenie
-    all_matches.sort(key=lambda x: x.get("date") or "0")
+    all_matches.sort(key=lambda x: x["date"])
 
     return all_matches
 ``
