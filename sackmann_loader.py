@@ -11,12 +11,12 @@ def fetch_csv(url):
         r = requests.get(url, timeout=20)
 
         if r.status_code != 200:
-            return None
+            return []
 
         return list(csv.DictReader(StringIO(r.text)))
 
     except:
-        return None
+        return []
 
 
 def parse_matches(rows):
@@ -50,13 +50,28 @@ def load_all_matches(start_year=2018, end_year=2030):
     all_matches = []
 
     for year in range(start_year, end_year + 1):
+        print(f"LOADING YEAR: {year}")
 
-        # ✅ ATP
-        atp_url = BASE_ATP_URL.format(year)
-        atp_data = fetch_csv(atp_url)
-
+        # ATP
+        atp_data = fetch_csv(BASE_ATP_URL.format(year))
         if atp_data:
             print(f"ATP {year}: {len(atp_data)}")
             all_matches.extend(parse_matches(atp_data))
 
-        # ✅ WTA
+        # WTA
+        wta_data = fetch_csv(BASE_WTA_URL.format(year))
+        if wta_data:
+            print(f"WTA {year}: {len(wta_data)}")
+            all_matches.extend(parse_matches(wta_data))
+
+    print("TOTAL MATCHES:", len(all_matches))
+
+    # ✅ NIKDY nevráti None
+    if not all_matches:
+        return []
+
+    # zoradenie
+    all_matches.sort(key=lambda x: x.get("date") or "0")
+
+    return all_matches
+``
