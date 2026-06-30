@@ -68,8 +68,7 @@ def build_all_predictions():
             "player2": p2,
             "pick": pick,
             "probability": round(prob, 3),
-            "odds": odds,
-            "model": "CUSTOM_ELO"
+            "odds": odds
         })
 
     all_preds.sort(key=lambda x: x["probability"], reverse=True)
@@ -79,12 +78,16 @@ def build_all_predictions():
     return all_preds
 
 
-def get_daily_predictions():
+def get_top_predictions():
     all_preds = build_all_predictions()
 
     filtered = [
         p for p in all_preds
-        if p["odds"] and p["odds"] > MIN_ODDS
+        if p["odds"] is not None and p["odds"] > MIN_ODDS
     ]
 
-    return filtered[:TOP_N]
+    top = filtered[:TOP_N]
+
+    print("TOP COUNT:", len(top))
+
+    return top
