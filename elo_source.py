@@ -2,8 +2,7 @@ import json
 import os
 import re
 import unicodedata
-from datetime import datetime, timezone, timedelta
-
+from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
@@ -13,60 +12,49 @@ CACHE_PATH = os.path.join(DATA_DIR, "tennis_abstract_elo_cache.json")
 ATP_ELO_URL = "https://tennisabstract.com/reports/atp_elo_ratings.html"
 WTA_ELO_URL = "https://tennisabstract.com/reports/wta_elo_ratings.html"
 
-MODEL_VERSION = "TA_ELO_V3"
-CACHE_MAX_AGE_HOURS = 6
+MODEL_VERSION = "TENNIS_ABSTRACT_ELO_V3"
 
+PLAYER_ALIASES = {
+    "alex de minaur": "alexander de minaur",
+}
 
-# --------------------------
-# HELPERS
-# --------------------------
-
-def safe_float(x):
+def safe_float(value):
     try:
-        return float(str(x).replace(",", "").strip())
+        return float(str(value).replace(",", "").strip())
     except:
         return None
 
-
-def normalize_text(t):
-    if not t:
+def normalize_text(value):
+    if not value:
         return ""
-    t = str(t)
-    t = unicodedata.normalize("NFKD", t)
-    t = "".join(c for c in t if not unicodedata.combining(c))
-    t = t.lower()
-    t = re.sub(r"[^a-z0-9\s\-']", " ", t)
-    return re.sub(r"\s+", " ", t).strip()
+    text = unicodedata.normalize("NFKD", str(value))
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9\s\-']", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
 
+def normalize_player_name(value):
+    key = normalize_text(value)
+    return PLAYER_ALIASES.get(key, key)
 
-def normalize_player_name(n):
-    return normalize_text(n)
+def token_similarity(a, b):
+    a_parts = set(normalize_player_name(a).split())
+    b_parts = set(normalize_player_name(b).split())
 
+    if not a_parts or not b_parts:
+        return 0.0
 
-# 🔥 lepší matching
-def name_variants(name):
-    key = normalize_player_name(name)
-    parts = key.split()
+    overlap = len(a_parts & b_parts)
+    total = max(len(a_parts), len(b_parts))
+    return overlap / total
 
-    variants = {key}
-
-    if len(parts) >= 2:
-        variants.add(" ".join(reversed(parts)))
-        variants.add(parts[0] + " " + parts[-1])
-
-    if len(parts) >= 1:
-        variants.add(parts[-1])
-
-    return variants
-
-
-def elo_probability(a, b):
-    if a is None or b is None:
+def elo_probability(elo_a, elo_b):
+    if elo_a is None or elo_b is None:
         return None
-    return 1 / (1 + 10 ** ((b - a) / 400))
+    return 1 / (1 + 10 ** ((elo_b - elo_a) / 400))
 
-
-def infer_surface(surface):
+def infer_surface_key(surface):
     s = normalize_text(surface)
     if "grass" in s:
         return "gElo"
@@ -76,159 +64,139 @@ def infer_surface(surface):
         return "hElo"
     return "Elo"
 
+def fetch_url(url):
+    return requests.get(url, timeout=30).text
 
-# --------------------------
-# FETCH + PARSE
-# --------------------------
-
-def fetch(url):
-    r = requests.get(url, headers={"User-Agent": "TA Bot"}, timeout=30)
-    r.raise_for_status()
-    return r.text
-
-
-def parse(html, tour):
+def parse_table(html, tour):
     soup = BeautifulSoup(html, "html.parser")
-    out = []
+    records = []
 
     for table in soup.find_all("table"):
         for tr in table.find_all("tr"):
             cells = tr.find_all(["td", "th"])
-            vals = [c.get_text(" ", strip=True) for c in cells]
+            values = [c.get_text(strip=True) for c in cells]
 
-            if len(vals) < 10:
+            if len(values) < 10:
                 continue
 
-            if vals[0].lower() in ["rank", "elo rank"]:
+            rank = safe_float(values[0])
+            if rank is None:
                 continue
 
-            player = vals[1]
+            player = values[1]
+            elo = safe_float(values[3])
+            helo = safe_float(values[5])
+            celo = safe_float(values[7])
+            gelo = safe_float(values[9])
 
-            out.append({
+            records.append({
                 "tour": tour,
                 "player": player,
                 "normalized_name": normalize_player_name(player),
-                "Elo": safe_float(vals[3]),
-                "hElo": safe_float(vals[5]),
-                "cElo": safe_float(vals[7]),
-                "gElo": safe_float(vals[9]),
+                "Elo": elo,
+                "hElo": helo,
+                "cElo": celo,
+                "gElo": gelo,
             })
 
-    print(tour, "records:", len(out))
-    return out
+    return records
 
-
-# --------------------------
-# CACHE
-# --------------------------
+def is_cache_valid(cached, hours=6):
+    try:
+        t = datetime.fromisoformat(cached["fetched_at"])
+        return (datetime.now(timezone.utc) - t).total_seconds() < hours * 3600
+    except:
+        return False
 
 def load_cache():
     if not os.path.exists(CACHE_PATH):
         return None
-    try:
-        return json.load(open(CACHE_PATH))
-    except:
-        return None
+    return json.load(open(CACHE_PATH, encoding="utf-8"))
 
-
-def save_cache(d):
+def save_cache(data):
     os.makedirs(DATA_DIR, exist_ok=True)
-    json.dump(d, open(CACHE_PATH, "w"), indent=2)
+    json.dump(data, open(CACHE_PATH, "w", encoding="utf-8"), indent=2)
 
+def load_tennis_abstract_elo(force_refresh=False):
+    cached = load_cache()
 
-def fresh(c):
-    try:
-        t = datetime.fromisoformat(c["fetched_at"])
-        return (datetime.now(timezone.utc) - t) < timedelta(hours=CACHE_MAX_AGE_HOURS)
-    except:
-        return False
+    if cached and not force_refresh and is_cache_valid(cached):
+        print("Using cached ELO:", len(cached["records"]))
+        return cached
 
+    all_records = []
 
-# --------------------------
-# LOAD
-# --------------------------
-
-def load_tennis_abstract_elo():
-    cache = load_cache()
-
-    if cache and fresh(cache):
-        print("Using cache:", len(cache["records"]))
-        return cache
-
-    records = []
-
-    for tour, url in [("ATP", ATP_ELO_URL), ("WTA", WTA_ELO_URL)]:
+    for label, url in [("ATP", ATP_ELO_URL), ("WTA", WTA_ELO_URL)]:
         try:
-            html = fetch(url)
-            records += parse(html, tour)
+            html = fetch_url(url)
+            parsed = parse_table(html, label)
+            print(f"{label} parsed:", len(parsed))
+            all_records.extend(parsed)
         except Exception as e:
             print("ERROR:", e)
 
-    if not records and cache:
-        print("Fallback cache")
-        return cache
-
     data = {
-        "fetched_at": datetime.now(timezone.utc).isoformat(),
-        "records": records
+        "records": all_records,
+        "fetched_at": datetime.now(timezone.utc).isoformat()
     }
 
     save_cache(data)
+    print("TOTAL ELO:", len(all_records))
+
     return data
 
+def find_player_record(name, elo_data):
+    records = elo_data.get("records", [])
 
-# --------------------------
-# LOOKUP
-# --------------------------
+    key = normalize_player_name(name)
 
-def build_lookup(records):
-    d = {}
     for r in records:
-        d[r["normalized_name"]] = r
-    return d
+        if r["normalized_name"] == key:
+            return r
 
+    best = None
+    best_score = 0
 
-def find_player(name, data):
-    lookup = build_lookup(data["records"])
+    for r in records:
+        score = token_similarity(name, r["player"])
+        if score > best_score:
+            best_score = score
+            best = r
 
-    for v in name_variants(name):
-        if v in lookup:
-            return lookup[v]
+    if best_score >= 0.6:
+        return best
 
     return None
-
 
 def get_elo(record, surface):
     if not record:
         return None
 
-    k = infer_surface(surface)
+    k = infer_surface_key(surface)
     return record.get(k) or record.get("Elo")
 
-
-# --------------------------
-# PREDICT
-# --------------------------
-
-def predict_match_with_tennis_abstract(p1, p2, surface, data):
-    r1 = find_player(p1, data)
-    r2 = find_player(p2, data)
+def predict_match_with_tennis_abstract(p1, p2, surface, elo_data):
+    r1 = find_player_record(p1, elo_data)
+    r2 = find_player_record(p2, elo_data)
 
     if not r1 or not r2:
-        return {"available": False}
+        return {
+            "available": False,
+            "missing_players": [p for p, r in [(p1, r1), (p2, r2)] if r is None]
+        }
 
     e1 = get_elo(r1, surface)
     e2 = get_elo(r2, surface)
 
     if e1 is None or e2 is None:
-        return {"available": False}
+        return {"available": False, "missing_players": []}
 
-    prob = elo_probability(e1, e2)
+    p = elo_probability(e1, e2)
 
     return {
         "available": True,
-        "probability_player1": prob,
-        "probability_player2": 1 - prob,
+        "probability_player1": p,
+        "probability_player2": 1 - p,
         "elo_player1": e1,
         "elo_player2": e2,
     }
