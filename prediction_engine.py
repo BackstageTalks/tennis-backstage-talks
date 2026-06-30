@@ -11,29 +11,21 @@ def normalize(name):
     return name.lower().strip()
 
 
-def name_variants(name):
-    parts = normalize(name).split()
-
-    variants = set()
-    variants.add(parts[-1])
-
-    if len(parts) > 1:
-        variants.add(parts[0])
-        variants.add(parts[0] + " " + parts[-1])
-
-    variants.add(" ".join(parts))
-
-    return variants
+def last(name):
+    return normalize(name).split()[-1]
 
 
-def find_odds(p1, p2, odds_map):
-    v1 = name_variants(p1)
-    v2 = name_variants(p2)
+def match_players(a1, a2, b1, b2):
+    return (
+        (last(a1) == last(b1) and last(a2) == last(b2)) or
+        (last(a1) == last(b2) and last(a2) == last(b1))
+    )
 
-    for k in odds_map:
-        if any(x in k for x in v1) and any(x in k for x in v2):
-            return odds_map[k]
 
+def find_odds(p1, p2, odds_matches):
+    for m in odds_matches:
+        if match_players(p1, p2, m["p1"], m["p2"]):
+            return m
     return None
 
 
@@ -49,7 +41,7 @@ def build_all_predictions():
     raw = get_today_matches()
     matches = [normalize_match(x) for x in raw]
 
-    odds_map = fetch_odds()
+    odds_matches = fetch_odds()
 
     players = list(set([m["player1"] for m in matches] +
                        [m["player2"] for m in matches]))
@@ -62,22 +54,19 @@ def build_all_predictions():
     for m in matches:
         p1 = m["player1"]
         p2 = m["player2"]
-        match_time = m["match_time"]
+        time = m["match_time"]
 
-        surface = surface_map.get(p1 + "::" + p2, "hard")
-
-        pred = predict(p1, p2, surface, elo_store)
+        pred = predict(p1, p2, "hard", elo_store)
 
         prob1 = pred["probability_player1"]
         prob2 = pred["probability_player2"]
 
-        match_odds = find_odds(p1, p2, odds_map)
+        odds_data = find_odds(p1, p2, odds_matches)
 
-        odds1 = None
-        odds2 = None
-
-        if match_odds:
-            odds1, odds2 = match_odds
+        odds1 = odds2 = None
+        if odds_data:
+            odds1 = odds_data["odds1"]
+            odds2 = odds_data["odds2"]
 
         if prob1 >= prob2:
             pick = p1
@@ -94,7 +83,7 @@ def build_all_predictions():
             "pick": pick,
             "probability": round(prob, 3),
             "odds": odds,
-            "time": match_time
+            "time": time
         })
 
     all_preds.sort(key=lambda x: x["probability"], reverse=True)
