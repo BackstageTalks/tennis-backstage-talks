@@ -1,17 +1,15 @@
 name: Refresh Tennis Results
 
+run-name: Refresh Tennis Results - ${{ github.event_name }} - ${{ github.run_number }}
+
 on:
   schedule:
-    # GitHub Actions cron beží v UTC.
-    # Tento workflow refreshuje iba výsledky.
-    # UTC: 07:00, 10:00, 13:00, 16:00, 19:00, 22:00
-    # Bratislava CEST: 09:00, 12:00, 15:00, 18:00, 21:00, 00:00
-    - cron: "0 7-22/3 * * *"
+    - cron: "0 */2 * * *"
 
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -41,141 +39,28 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4
 
-      - name: Rebuild current public snapshot from private aliases
+      - name: Prepare public folder
         run: |
-          echo "===== REBUILD CURRENT PUBLIC SNAPSHOT FROM PRIVATE ALIASES ====="
-          rm -rf public
+          echo "===== PREPARE PUBLIC FOLDER ====="
           mkdir -p public
 
-          python - <<'PY'
-          import os
-          import datetime
-          import requests
-          import shutil
-
-          BASE = "https://backstagetalks.github.io/tennis-backstage-talks/"
-          HEADERS = {
-              "User-Agent": "Mozilla/5.0",
-              "Accept": "text/html,application/xml,application/json,*/*",
-          }
-
-          os.makedirs("public", exist_ok=True)
-          os.makedirs("public/all", exist_ok=True)
-          os.makedirs("public/picks", exist_ok=True)
-          os.makedirs("public/results", exist_ok=True)
-          os.makedirs("public/all_results", exist_ok=True)
-
-          def download(relative_path, required=False):
-              url = BASE + relative_path
-              target = os.path.join("public", relative_path)
-
-              if relative_path.endswith("/"):
-                  target = os.path.join("public", relative_path, "index.html")
-
-              os.makedirs(os.path.dirname(target) or ".", exist_ok=True)
-
-              try:
-                  response = requests.get(url, headers=HEADERS, timeout=25)
-                  print("FETCH", url, response.status_code)
-
-                  if response.status_code != 200:
-                      if required:
-                          raise RuntimeError(f"Required file missing: {url}")
-                      return False
-
-                  with open(target, "wb") as f:
-                      f.write(response.content)
-
-                  return True
-
-              except Exception as e:
-                  print("FETCH ERROR", url, str(e))
-                  if required:
-                      raise
-                  return False
-
-          def copy_if_exists(src, dst):
-              if not os.path.exists(src):
-                  print("RESTORE SKIP missing:", src)
-                  return False
-
-              os.makedirs(os.path.dirname(dst) or ".", exist_ok=True)
-              shutil.copyfile(src, dst)
-              print("RESTORE", src, "->", dst)
-              return True
-
-          private_aliases = [
-              "H4V34N1C3D4Y170",
-              "H4V34N1C3D4Y171",
-              "H4V34N1C3D4Y177/",
-              "H4V34N1C3D4Y180/",
-              "H4V34N1C3D4Y181",
-              "H4V34N1C3D4Y181.xml",
-              "H4V34N1C3D4Y182/",
-              "H4V34N1C3D4Y183",
-              "H4V34N1C3D4Y183.xml",
-              "H4V34N1C3D4Y184/",
-              "H4V34N1C3D4Y185",
-              "H4V34N1C3D4Y185.xml",
-              "H4V34N1C3D4Y186/",
-              "H4V34N1C3D4Y187",
-              "H4V34N1C3D4Y187.xml",
-          ]
-
-          for alias in private_aliases:
-              download(alias, required=False)
-
-          copy_if_exists("public/H4V34N1C3D4Y170", "public/source_manifest.json")
-          copy_if_exists("public/H4V34N1C3D4Y171", "public/source_audit.json")
-
-          copy_if_exists("public/H4V34N1C3D4Y180/index.html", "public/index.html")
-          copy_if_exists("public/H4V34N1C3D4Y181.xml", "public/tennis.xml")
-
-          copy_if_exists("public/H4V34N1C3D4Y184/index.html", "public/all/index.html")
-          copy_if_exists("public/H4V34N1C3D4Y185.xml", "public/tennis_all.xml")
-
-          copy_if_exists("public/H4V34N1C3D4Y182/index.html", "public/results/index.html")
-          copy_if_exists("public/H4V34N1C3D4Y183.xml", "public/results.xml")
-
-          copy_if_exists("public/H4V34N1C3D4Y186/index.html", "public/all_results/index.html")
-          copy_if_exists("public/H4V34N1C3D4Y187.xml", "public/all_results.xml")
-
-          today = datetime.datetime.utcnow().date()
-          candidate_dates = [
-              today - datetime.timedelta(days=i)
-              for i in range(0, 40)
-          ]
-
-          prefixes = [
-              "predictions_",
-              "all_predictions_",
-              "results_",
-              "all_results_",
-          ]
-
-          for date_obj in candidate_dates:
-              date_str = date_obj.isoformat()
-
-              for prefix in prefixes:
-                  download(f"{prefix}{date_str}.json", required=False)
-
-          print("SNAPSHOT FILES:")
-          for root, dirs, files in os.walk("public"):
-              for file_name in files:
-                  print(os.path.join(root, file_name))
-          PY
-
-      - name: Generate TOP7 results from current predictions
+      - name: Generate TOP5 results from existing predictions
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python results_checker.py
 
-      - name: Generate ALL results from current ALL predictions
+      - name: Generate ALL results from existing ALL predictions
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python results_checker_all.py
 
-      - name: Generate TOP7 results page and RSS
+      - name: Update history database
+        run: python history_tracker.py
+
+      - name: Generate model stats page
+        run: python stats_page.py
+
+      - name: Generate TOP5 results page and RSS
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python rss_results.py
@@ -185,62 +70,44 @@ jobs:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python rss_results_all.py
 
-      - name: Publish private aliases
-        run: python publish_private_aliases.py
+      - name: Generate link hub
+        run: bash publish_links.sh
 
-      - name: Verify refreshed results files
+      - name: Commit updated history database
         run: |
-          echo "===== PUBLIC FILES AFTER RESULTS REFRESH ====="
+          echo "===== COMMIT HISTORY DATABASE ====="
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add data/bet_history.jsonl || true
+
+          if git diff --cached --quiet; then
+            echo "No history changes to commit."
+          else
+            git commit -m "Update tennis history database [skip ci]"
+            git push
+          fi
+
+      - name: Verify generated files
+        run: |
+          echo "===== PUBLIC FILES ====="
           ls -R public
 
-          echo "===== CHECK LINK HUB ====="
-          if [ ! -f public/H4V34N1C3D4Y177/index.html ]; then
-            echo "ERROR: private link hub missing"
+          if [ ! -f "data/bet_history.jsonl" ]; then
+            echo "ERROR: data/bet_history.jsonl missing"
             exit 1
           fi
 
-          echo "===== CHECK PRIVATE TOP PAGE ====="
-          if [ ! -f public/H4V34N1C3D4Y180/index.html ]; then
-            echo "ERROR: private TOP page missing"
+          if [ ! -f "public/stats/index.html" ]; then
+            echo "ERROR: public/stats/index.html missing"
             exit 1
           fi
 
-          echo "===== CHECK PRIVATE ALL PAGE ====="
-          if [ ! -f public/H4V34N1C3D4Y184/index.html ]; then
-            echo "ERROR: private ALL page missing"
+          if [ ! -f "public/H4V34N1C3D4Y177/index.html" ]; then
+            echo "ERROR: public/H4V34N1C3D4Y177/index.html missing"
             exit 1
           fi
-
-          echo "===== CHECK PRIVATE TOP RESULTS PAGE ====="
-          if [ ! -f public/H4V34N1C3D4Y182/index.html ]; then
-            echo "ERROR: private TOP results page missing"
-            exit 1
-          fi
-
-          echo "===== CHECK PRIVATE ALL RESULTS PAGE ====="
-          if [ ! -f public/H4V34N1C3D4Y186/index.html ]; then
-            echo "ERROR: private ALL results page missing"
-            exit 1
-          fi
-
-          echo "===== CHECK PRIVATE RSS XML ALIASES ====="
-          for f in \
-            H4V34N1C3D4Y181.xml \
-            H4V34N1C3D4Y183.xml \
-            H4V34N1C3D4Y185.xml \
-            H4V34N1C3D4Y187.xml
-          do
-            if [ ! -f "public/$f" ]; then
-              echo "ERROR: private RSS XML alias public/$f missing"
-              exit 1
-            fi
-          done
-
-          echo "===== PRIVATE RESULTS RSS PREVIEW ====="
-          head -n 80 public/H4V34N1C3D4Y183.xml
-
-          echo "===== PRIVATE ALL RESULTS RSS PREVIEW ====="
-          head -n 80 public/H4V34N1C3D4Y187.xml
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -250,6 +117,6 @@ jobs:
         with:
           path: public
 
-      - name: Deploy refreshed results to GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
