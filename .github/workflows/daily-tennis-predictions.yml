@@ -8,27 +8,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ Checkout repo
+      # ✅ checkout
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ✅ Setup Python
+      # ✅ python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      # ✅ Install deps
+      # ✅ install
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
-      # ✅ Build Elo
+      # ✅ build elo
       - name: Build Elo Ratings
         run: python build_elo.py
 
-      # ✅ Run predictions + ODDS API KEY
+      # ✅ run predictions
       - name: Run predictions
         run: python update.py
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+
+      # ✅ COMMIT GENERATED FILES ❗
+      - name: Commit results
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add public
+          git commit -m "Update predictions" || echo "No changes"
+          git push
