@@ -1,317 +1,405 @@
-import os
 import json
-import datetime
+import glob
+import os
 import html
-import re
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
-BASE = "https://backstagetalks.github.io/tennis-backstage-talks/"
+
+PUBLIC_DIR = "public"
+ALL_DIR = os.path.join(PUBLIC_DIR, "all")
+SITE_TITLE = "Backstage Talks Tennis Picks - All Matches"
+SITE_DESCRIPTION = "All available standard Elo tennis predictions."
+BASE_URL = "https://backstagetalks.github.io/tennis-backstage-talks"
+
+DISPLAY_TZ = ZoneInfo("Europe/Bratislava")
 
 
-def esc(value):
-    return html.escape(str(value if value is not None else ""))
+def latest_json(pattern):
+    files = sorted(glob.glob(pattern))
+
+    if not files:
+        return None
+
+    return files[-1]
+
+
+def safe(value, default=""):
+    if value is None:
+        return default
+
+    return str(value)
 
 
 def pct(value):
-    try:
-        return round(float(value) * 100, 1)
-    except Exception:
-        return 0
-
-
-def format_match_time(value):
-    if not value:
+    if value is None:
         return ""
 
     try:
-        dt = datetime.datetime.fromisoformat(str(value))
-        return dt.strftime("%d.%m.%Y %H:%M CET")
+        return f"{float(value) * 100:.1f}%"
     except Exception:
-        return str(value)
+        return safe(value)
 
 
-def latest_all_predictions():
-    os.makedirs("public", exist_ok=True)
+def parse_datetime(value):
+    if not value:
+        return None
 
-    files = [
-        f for f in os.listdir("public")
-        if f.startswith("all_predictions_") and f.endswith(".json")
-    ]
+    text = str(value).strip()
 
-    print("ALL prediction files found:", files)
+    try:
+        if text.endswith("Z"):
+            text = text.replace("Z", "+00:00")
 
-    if not files:
-        return []
+        return datetime.fromisoformat(text)
+    except Exception:
+        return None
 
-    latest = sorted(files)[-1]
-    path = os.path.join("public", latest)
 
-    print("RSS ALL using prediction file:", path)
+def get_display_time(item):
+    match_start = item.get("match_start")
+    raw_time = item.get("match_time_raw")
+
+    parsed = parse_datetime(match_start)
+
+    if parsed is not None:
+        if parsed.tzinfo is not None:
+            local_dt = parsed.astimezone(DISPLAY_TZ)
+            return local_dt.strftime("%d.%m.%Y %H:%M %Z")
+
+        return parsed.strftime("%d.%m.%Y %H:%M")
+
+    if raw_time:
+        return str(raw_time)
+
+    return "Time unavailable"
+
+
+def load_predictions():
+    path = latest_json(os.path.join(PUBLIC_DIR, "all_predictions_*.json"))
+
+    if not path:
+        return [], None
 
     with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+        data = json.load(f)
 
+    if isinstance(data, list):
+        predictions = data
+    elif isinstance(data, dict):
+        predictions = data.get("predictions", [])
+    else:
+        predictions = []
 
-INDEX_CSS = """
-<style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background: #160f0f;
-    color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
-}
-
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-h1 {
-    font-size: 46px;
-    line-height: 1.1;
-    margin: 30px 0 16px;
-}
-
-p {
-    color: #ddd;
-    font-size: 20px;
-    line-height: 1.35;
-}
-
-.table-wrap {
-    width: 100%;
-    overflow-x: auto;
-    margin-top: 28px;
-    border-radius: 18px;
-    background: #211818;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 860px;
-}
-
-th, td {
-    padding: 15px 16px;
-    border-bottom: 1px solid #372929;
-    text-align: left;
-    font-size: 16px;
-    vertical-align: middle;
-}
-
-th {
-    color: #bbb;
-    font-weight: 700;
-}
-
-td {
-    color: #f4f4f4;
-}
-
-.time-col {
-    white-space: nowrap;
-    color: #d6d6d6;
-}
-
-.note {
-    color: #aaa;
-    margin-top: 24px;
-    font-size: 16px;
-    line-height: 1.35;
-}
-
-.badge {
-    display: inline-block;
-    background: #2d6cdf;
-    color: white;
-    padding: 7px 11px;
-    border-radius: 999px;
-    font-size: 14px;
-    font-weight: bold;
-    margin-top: 8px;
-}
-
-@media (max-width: 640px) {
-    body {
-        padding: 14px;
-    }
-
-    h1 {
-        font-size: 38px;
-        margin-top: 24px;
-    }
-
-    p {
-        font-size: 18px;
-    }
-
-    th, td {
-        padding: 13px 12px;
-        font-size: 15px;
-    }
-
-    .table-wrap {
-        border-radius: 16px;
-    }
-}
-</style>
-"""
-
-
-def create_all_page(predictions):
-    os.makedirs("public/all", exist_ok=True)
-
-    sorted_predictions = sorted(
-        predictions,
-        key=lambda p: (
-            str(p.get("match_start", "")),
-            -float(p.get("probability", 0)),
+    predictions.sort(
+        key=lambda x: (
+            x.get("probability") is not None,
+            x.get("probability") or 0
         ),
+        reverse=True
     )
 
-    rows = ""
+    return predictions, path
 
-    for i, prediction in enumerate(sorted_predictions, start=1):
-        pick = str(prediction.get("pick", "Unknown"))
-        opponent = str(prediction.get("opponent", "Unknown"))
-        probability = float(prediction.get("probability", 0))
-        odds = prediction.get("odds", "")
-        match_time = format_match_time(prediction.get("match_start", ""))
-        player1 = prediction.get("player1", "")
-        player2 = prediction.get("player2", "")
 
-        rows += (
-            "<tr>"
-            f"<td>#{i}</td>"
-            f"<td>{esc(pick)} to win</td>"
-            f"<td>{esc(opponent)}</td>"
-            f"<td>{esc(player1)} vs {esc(player2)}</td>"
-            f"<td>{esc(match_time) if match_time else '-'}</td>"
-            f"<td>{pct(probability)}%</td>"
-            f"<td>{esc(odds)}</td>"
-            "</tr>\n"
+def build_sets_games_html(item):
+    alt = item.get("alternative_market_info") or {}
+
+    if not alt:
+        return '<span class="muted">No sets/games info</span>'
+
+    most_likely_sets = alt.get("most_likely_sets")
+    sets_probability = alt.get("sets_probability")
+    sets_fair_odds = alt.get("sets_fair_odds")
+    expected_games = alt.get("expected_games")
+    games_lean = alt.get("games_lean")
+
+    parts = []
+
+    if most_likely_sets:
+        parts.append(
+            "Sets: "
+            + html.escape(safe(most_likely_sets))
+            + " ("
+            + html.escape(pct(sets_probability))
+            + ", fair odds "
+            + html.escape(safe(sets_fair_odds, "n/a"))
+            + ")"
         )
 
-    page = (
-        "<!DOCTYPE html>\n"
-        "<html lang='en'>\n"
-        "<head>\n"
-        "<meta charset='UTF-8'>\n"
-        "<title>Backstage Talks Tennis Picks - RSS ALL</title>\n"
-        "<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n"
-        f"{INDEX_CSS}\n"
-        "</head>\n"
-        "<body>\n"
-        "<div class='container'>\n"
-        "<span class='badge'>RSS ALL</span>\n"
-        "<h1>Backstage Talks Tennis Picks - All Matches</h1>\n"
-        "<p>All available model picks for the CET window 06:00 → 06:00 next day.</p>\n"
-        "<div class='table-wrap'>\n"
-        "<table>\n"
-        "<thead>\n"
-        "<tr>\n"
-        "<th>#</th>\n"
-        "<th>Pick</th>\n"
-        "<th>Opponent</th>\n"
-        "<th>Match</th>\n"
-        "<th class='time-col'>Match time</th>\n"
-        "<th>Win %</th>\n"
-        "<th>Odds</th>\n"
-        "</tr>\n"
-        "</thead>\n"
-        "<tbody>\n"
-        f"{rows}\n"
-        "</tbody>\n"
-        "</table>\n"
-        "</div>\n"
-        "<p class='note'>Generated by BackstageTalks Stat Model for informational and statistical purposes only</p>\n"
-        "</div>\n"
-        "</body>\n"
-        "</html>\n"
-    )
+    if expected_games is not None:
+        parts.append("Expected games: " + html.escape(safe(expected_games)))
 
-    with open("public/all/index.html", "w", encoding="utf-8") as f:
-        f.write(page)
+    if games_lean:
+        parts.append("Games: " + html.escape(safe(games_lean)))
+
+    if not parts:
+        parts.append("No clear sets/games info")
+
+    return "<br>".join(parts) + '<br><span class="muted">INFO ONLY</span>'
 
 
-def generate_rss_all():
-    predictions = latest_all_predictions()
+def generate_html(predictions, source_path):
+    os.makedirs(ALL_DIR, exist_ok=True)
 
-    os.makedirs("public", exist_ok=True)
+    rows = []
 
-    sorted_predictions = sorted(
-        predictions,
-        key=lambda p: (
-            str(p.get("match_start", "")),
-            -float(p.get("probability", 0)),
-        ),
-    )
+    if not predictions:
+        rows.append(
+            """
+            <tr>
+              <td colspan="7" class="empty">No all predictions available.</td>
+            </tr>
+            """
+        )
+    else:
+        for i, item in enumerate(predictions, start=1):
+            pick_value = item.get("pick")
+            opponent_value = item.get("opponent")
 
-    items = ""
+            if pick_value:
+                pick = html.escape(safe(pick_value) + " to win")
+                opponent = html.escape(safe(opponent_value))
+            else:
+                pick = '<span class="muted">No standard Elo available</span>'
+                opponent = html.escape(safe(item.get("player1"))) + " vs " + html.escape(safe(item.get("player2")))
 
-    for i, prediction in enumerate(sorted_predictions, start=1):
-        pick = str(prediction.get("pick", "Unknown"))
-        opponent = str(prediction.get("opponent", "Unknown"))
+            match = html.escape(
+                safe(item.get("player1"))
+                + " vs "
+                + safe(item.get("player2"))
+            )
 
-        probability = float(prediction.get("probability", 0))
-        odds = prediction.get("odds", "")
-        match_start = format_match_time(prediction.get("match_start", ""))
+            match_time = html.escape(get_display_time(item))
+            probability = html.escape(pct(item.get("probability")))
+            odds = html.escape(safe(item.get("odds"), ""))
+            sets_games = build_sets_games_html(item)
 
-        title = f"#{i} RSS ALL: {pick} to win"
+            rows.append(
+                f"""
+                <tr>
+                  <td>#{i}</td>
+                  <td><strong>{pick}</strong></td>
+                  <td>{opponent}</td>
+                  <td>{match}</td>
+                  <td>{match_time}</td>
+                  <td>{probability}</td>
+                  <td>{odds}</td>
+                  <td>{sets_games}</td>
+                </tr>
+                """
+            )
 
-        desc_parts = [
-            f"Pick: {pick}",
-            f"Opponent: {opponent}",
-        ]
+    content = f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{html.escape(SITE_TITLE)}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        if match_start:
-            desc_parts.append(f"Match time: {match_start}")
+  <style>
+    body {{
+      background: #130d0d;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 12px;
+    }}
 
-        if odds:
-            desc_parts.append(f"Odds: {odds}")
+    h1 {{
+      font-size: 44px;
+      margin: 0 0 8px 0;
+      line-height: 1.05;
+    }}
 
-        desc_parts.append(f"Win probability: {pct(probability)}%")
+    .disclaimer {{
+      color: #c9b8ad;
+      font-size: 14px;
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }}
 
-        desc = " | ".join(desc_parts)
+    table {{
+      width: 100%;
+      border-collapse: collapse;
+      background: #211717;
+      border-radius: 16px;
+      overflow: hidden;
+    }}
 
-        guid_raw = f"rss-all-{pick}-{opponent}-{prediction.get('match_start', '')}-{i}"
-        guid = re.sub(r"\s+", "-", guid_raw)
+    th, td {{
+      border-bottom: 1px solid #3a2929;
+      padding: 14px 16px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 15px;
+      line-height: 1.35;
+    }}
 
-        items += f"""
-<item>
-<title>{esc(title)}</title>
-<link>{esc(BASE + "all/")}</link>
-<guid isPermaLink="false">{esc(guid)}</guid>
-<pubDate>{datetime.datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')}</pubDate>
-<description>{esc(desc)}</description>
-</item>
+    th {{
+      color: #e8e0dc;
+      font-weight: 700;
+      background: #251a1a;
+    }}
+
+    tr:last-child td {{
+      border-bottom: none;
+    }}
+
+    .empty {{
+      padding: 24px;
+      color: #f2e8dd;
+      font-size: 18px;
+    }}
+
+    .muted {{
+      color: #c9b8ad;
+      font-size: 13px;
+    }}
+
+    @media (max-width: 950px) {{
+      h1 {{
+        font-size: 34px;
+      }}
+
+      table, thead, tbody, th, td, tr {{
+        display: block;
+      }}
+
+      thead {{
+        display: none;
+      }}
+
+      tr {{
+        border-bottom: 1px solid #3a2929;
+        padding: 12px 0;
+      }}
+
+      td {{
+        border-bottom: none;
+        padding: 8px 16px;
+      }}
+    }}
+  </style>
+</head>
+
+<body>
+  <h1>{html.escape(SITE_TITLE)}</h1>
+
+  <div class="disclaimer">
+    The data generated by the Backstage Talks STAT model is for statistical and informational purposes only.
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Pick</th>
+        <th>Opponent</th>
+        <th>Match</th>
+        <th>Match time</th>
+        <th>Win %</th>
+        <th>Odds</th>
+        <th>Sets / Games info</th>
+      </tr>
+    </thead>
+    <tbody>
+      {''.join(rows)}
+    </tbody>
+  </table>
+</body>
+</html>
 """
 
-    create_all_page(sorted_predictions)
+    with open(os.path.join(ALL_DIR, "index.html"), "w", encoding="utf-8") as f:
+        f.write(content)
 
-    rss = f"""<?xml version="1.0" encoding="UTF-8"?>
+
+def build_sets_games_text(item):
+    alt = item.get("alternative_market_info") or {}
+
+    if not alt:
+        return "No sets/games info"
+
+    parts = []
+
+    if alt.get("most_likely_sets"):
+        parts.append(
+            f"Sets: {alt.get('most_likely_sets')} "
+            f"({pct(alt.get('sets_probability'))}, fair odds {safe(alt.get('sets_fair_odds'), 'n/a')})"
+        )
+
+    if alt.get("expected_games") is not None:
+        parts.append(f"Expected games: {alt.get('expected_games')}")
+
+    if alt.get("games_lean"):
+        parts.append(f"Games: {alt.get('games_lean')}")
+
+    parts.append("INFO ONLY")
+
+    return " | ".join(parts)
+
+
+def generate_rss(predictions):
+    os.makedirs(PUBLIC_DIR, exist_ok=True)
+
+    now = datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
+
+    items = []
+
+    for i, item in enumerate(predictions, start=1):
+        pick = html.escape(safe(item.get("pick"), "No standard Elo available"))
+        opponent = html.escape(safe(item.get("opponent"), ""))
+        probability = html.escape(pct(item.get("probability")))
+        odds = html.escape(safe(item.get("odds"), ""))
+        sets_games = html.escape(build_sets_games_text(item))
+
+        title = f"#{i} {pick} vs {opponent} | {probability} | odds {odds}"
+
+        description = (
+            f"Win %: {probability}<br>"
+            f"Odds: {odds}<br>"
+            f"Sets/Games: {sets_games}<br>"
+            f"The data generated by the Backstage Talks STAT model is for statistical and informational purposes only."
+        )
+
+        items.append(f"""
+        <item>
+          <title>{title}</title>
+          <description>{description}</description>
+          <pubDate>{now}</pubDate>
+          <guid>{BASE_URL}/all-pick-{i}-{pick}</guid>
+        </item>
+        """)
+
+    rss = f"""<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 <channel>
-<title>Backstage Talks Tennis Picks - RSS ALL</title>
-<link>{BASE}all/</link>
-<description>All available tennis model picks for CET window 06:00 to 06:00 next day</description>
-{items}
+  <title>{html.escape(SITE_TITLE)}</title>
+  <link>{BASE_URL}/all/</link>
+  <description>{html.escape(SITE_DESCRIPTION)}</description>
+  <lastBuildDate>{now}</lastBuildDate>
+  {''.join(items)}
 </channel>
 </rss>
 """
 
-    with open("public/tennis_all.xml", "w", encoding="utf-8") as f:
+    with open(os.path.join(PUBLIC_DIR, "tennis_all.xml"), "w", encoding="utf-8") as f:
         f.write(rss)
 
-    print("RSS ALL GENERATED:", len(sorted_predictions), "items")
-    print("RSS ALL PREVIEW:")
-    print(rss[:2500])
+
+def main():
+    predictions, source_path = load_predictions()
+
+    print("ALL predictions loaded:", len(predictions))
+    print("Source:", source_path)
+
+    generate_html(predictions, source_path)
+    generate_rss(predictions)
+
+    print("Generated public/all/index.html")
+    print("Generated public/tennis_all.xml")
 
 
 if __name__ == "__main__":
-    generate_rss_all()
+    main()
