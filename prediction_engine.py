@@ -13,7 +13,6 @@ def safe_float(x):
         return None
 
 
-# ✅ filter len main tour (dôležité pre coverage)
 def is_main_tour(tournament):
     t = str(tournament).lower()
 
@@ -47,7 +46,6 @@ def get_match_fields(m):
     }
 
 
-# ✅ ALL = iba zápasy kde existuje ELO
 def build_all_predictions():
     raw_matches = get_today_matches()
 
@@ -57,7 +55,7 @@ def build_all_predictions():
 
     matches = [get_match_fields(m) for m in raw_matches]
 
-    # ✅ vyfiltruj len ATP/WTA
+    # filter ATP/WTA
     matches = [m for m in matches if is_main_tour(m["tournament"])]
 
     players = list({
@@ -80,7 +78,7 @@ def build_all_predictions():
             p1, p2, surface, elo_data
         )
 
-        # ✅ SKIP bez ELO
+        # skip without ELO
         if not elo or not elo.get("available"):
             continue
 
@@ -111,15 +109,13 @@ def build_all_predictions():
             "model_source": "TENNIS_ABSTRACT_ELO"
         })
 
-    # ✅ zoradenie ALL
     output.sort(key=lambda x: x["probability"], reverse=True)
 
-    print("TOTAL ALL WITH ELO:", len(output))
+    print("TOTAL MATCHES WITH ELO:", len(output))
 
     return output
 
 
-# ✅ TOP = iba odds > 1.5 + najvyššie win %
 def get_daily_predictions():
     all_predictions = build_all_predictions()
 
@@ -148,4 +144,3 @@ def get_daily_predictions():
         )
 
     return top
-``
