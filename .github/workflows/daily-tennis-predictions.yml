@@ -3,40 +3,45 @@ name: Daily Tennis Predictions
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write   # ✅ kľúčové (bez toho push nefunguje)
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ checkout
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ✅ python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      # ✅ install
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # ✅ build elo
       - name: Build Elo Ratings
         run: python build_elo.py
 
-      # ✅ run predictions
       - name: Run predictions
         run: python update.py
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
 
-      # ✅ COMMIT GENERATED FILES ❗
+      # ✅ DEBUG – uvidíš či public vznikol
+      - name: List files
+        run: ls -R
+
+      # ✅ COMMIT PUBLIC
       - name: Commit results
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
+
           git add public
+
           git commit -m "Update predictions" || echo "No changes"
+
           git push
