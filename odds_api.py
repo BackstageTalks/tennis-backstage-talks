@@ -72,4 +72,3 @@ def fetch_odds():
     print("ODDS LOADED:", len(matches))
 
     return matches
-``
