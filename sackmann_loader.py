@@ -9,9 +9,12 @@ BASE_WTA_URL = "https://raw.githubusercontent.com/JeffSackmann/tennis_wta/master
 def fetch_csv(url):
     try:
         r = requests.get(url, timeout=20)
+
         if r.status_code != 200:
             return None
+
         return list(csv.DictReader(StringIO(r.text)))
+
     except:
         return None
 
@@ -36,26 +39,24 @@ def parse_matches(rows):
                 "surface": surface,
                 "date": r.get("tourney_date")
             })
+
         except:
             continue
 
     return parsed
 
 
-def load_all_matches(start_year=2010, end_year=2030):
+def load_all_matches(start_year=2018, end_year=2030):
     all_matches = []
 
     for year in range(start_year, end_year + 1):
-        atp = fetch_csv(BASE_ATP_URL.format(year))
-        if atp:
-            print(f"ATP {year}: {len(atp)}")
-            all_matches += parse_matches(atp)
 
-        wta = fetch_csv(BASE_WTA_URL.format(year))
-        if wta:
-            print(f"WTA {year}: {len(wta)}")
-            all_matches += parse_matches(wta)
+        # ✅ ATP
+        atp_url = BASE_ATP_URL.format(year)
+        atp_data = fetch_csv(atp_url)
 
-    print("TOTAL MATCHES:", len(all_matches))
-    return sorted(all_matches, key=lambda x: x["date"] or "0")
-``
+        if atp_data:
+            print(f"ATP {year}: {len(atp_data)}")
+            all_matches.extend(parse_matches(atp_data))
+
+        # ✅ WTA
