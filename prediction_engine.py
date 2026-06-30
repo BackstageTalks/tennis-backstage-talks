@@ -1,6 +1,6 @@
 from fetch_matches import get_today_matches
-from welo import win_probability
 from stats_engine import get_stats_context
+from elo_source import load_tennis_abstract_elo, predict_match_with_tennis_abstract
 
 
 TOP_N = 5
@@ -47,73 +47,7 @@ def get_match_fields(match):
     }
 
 
-def metric_for_surface(player_stats, surface):
-    """
-    Použité iba ako malé ELO+ upresnenie.
-    Žiadne odds, EV, edge ani market consensus.
-    """
-    if not player_stats:
-        return {}
-
-    surface_stats = player_stats.get("surface", {})
-
-    if surface and surface != "Unknown":
-        s = surface_stats.get(surface)
-
-        if s and s.get("sample", 0) >= 3:
-            return s
-
-    last10 = player_stats.get("last10", {})
-
-    if last10 and last10.get("sample", 0) >= 3:
-        return last10
-
-    return player_stats.get("career", {})
-
-
-def elo_plus_adjustment(player_metrics, opponent_metrics):
-    """
-    Malé ELO+ upresnenie podľa formy/povrchu.
-    Max ±4 %.
-    Nepoužíva odds, EV ani market.
-    """
-    adjustment = 0.0
-
-    player_win = player_metrics.get("win_rate")
-    opponent_win = opponent_metrics.get("win_rate")
-
-    player_sample = player_metrics.get("sample", 0) or 0
-    opponent_sample = opponent_metrics.get("sample", 0) or 0
-
-    if (
-        player_win is not None
-        and opponent_win is not None
-        and player_sample >= 4
-        and opponent_sample >= 4
-    ):
-        adjustment += (player_win - opponent_win) * 0.05
-
-    player_set = player_metrics.get("at_least_one_set_rate")
-    opponent_set = opponent_metrics.get("at_least_one_set_rate")
-
-    if (
-        player_set is not None
-        and opponent_set is not None
-        and player_sample >= 5
-        and opponent_sample >= 5
-    ):
-        adjustment += (player_set - opponent_set) * 0.015
-
-    return clamp(adjustment, -0.04, 0.04)
-
-
 def is_best_of_five(tournament):
-    """
-    Jednoduchý BO5 odhad.
-    Wimbledon / Grand Slam ATP muži = BO5.
-    WTA / women = BO3.
-    Ostatné = BO3.
-    """
     t = str(tournament or "").lower()
 
     if "wta" in t or "women" in t or "women's" in t:
@@ -129,13 +63,16 @@ def is_best_of_five(tournament):
 
 
 def build_sets_games_info(probability, bo_format):
-    """
-    Doplnkové info.
-    Nepoužíva sa:
-    - na výber víťaza
-    - na TOP poradie
-    - na filter kurzov
-    """
+    if probability is None:
+        return {
+            "most_likely_sets": None,
+            "sets_probability": None,
+            "sets_fair_odds": None,
+            "expected_games": None,
+            "games_lean": None,
+            "note": "INFO ONLY - not used for winner selection"
+        }
+
     p = clamp(probability, 0.05, 0.95)
     edge = abs(p - 0.5)
 
@@ -168,12 +105,9 @@ def build_sets_games_info(probability, bo_format):
             games_lean = "No clear games lean"
 
         return {
-            "bo_format": "BO5",
             "most_likely_sets": most_likely_sets,
             "sets_probability": round(sets_probability, 3),
             "sets_fair_odds": sets_fair_odds,
-            "over_2_5_sets_probability": None,
-            "under_2_5_sets_probability": None,
             "over_3_5_sets_probability": round(over_3_5, 3),
             "under_3_5_sets_probability": round(under_3_5, 3),
             "over_4_5_sets_probability": round(over_4_5, 3),
@@ -205,70 +139,74 @@ def build_sets_games_info(probability, bo_format):
         games_lean = "No clear games lean"
 
     return {
-        "bo_format": "BO3",
         "most_likely_sets": most_likely_sets,
         "sets_probability": round(sets_probability, 3),
         "sets_fair_odds": sets_fair_odds,
         "over_2_5_sets_probability": round(over_2_5, 3),
         "under_2_5_sets_probability": round(under_2_5, 3),
-        "over_3_5_sets_probability": None,
-        "under_3_5_sets_probability": None,
-        "over_4_5_sets_probability": None,
-        "under_4_5_sets_probability": None,
         "expected_games": expected_games,
         "games_lean": games_lean,
         "note": "INFO ONLY - not used for winner selection"
     }
 
 
-def build_reason(probability, odds, model_source, elo_adjustment):
-    parts = []
+def build_no_elo_prediction(m, surface):
+    p1 = m["player1"]
+    p2 = m["player2"]
 
-    parts.append(f"Model: {model_source}")
+    return {
+        "player1": p1,
+        "player2": p2,
+        "tournament": m["tournament"],
+        "surface": surface,
 
-    if probability >= 0.70:
-        parts.append("very strong ELO+ win probability")
-    elif probability >= 0.65:
-        parts.append("strong ELO+ win probability")
-    elif probability >= 0.60:
-        parts.append("good ELO+ win probability")
-    elif probability >= 0.55:
-        parts.append("moderate ELO+ win probability")
-    else:
-        parts.append("low ELO+ edge")
+        "pick": None,
+        "opponent": None,
 
-    if odds is None:
-        parts.append("no odds available")
-    elif odds > MIN_TOP_ODDS:
-        parts.append("odds above 1.50 requirement")
-    else:
-        parts.append("odds <= 1.50, excluded from TOP5")
+        "probability": None,
+        "opponent_probability": None,
+        "confidence": None,
 
-    if elo_adjustment != 0:
-        parts.append(f"ELO+ stats adjustment {elo_adjustment:+.3f}")
+        "score": None,
+        "winner_rank_score": None,
 
-    return "; ".join(parts)
+        "odds": None,
+        "odds_player1": safe_float(m.get("odds_player1")),
+        "odds_player2": safe_float(m.get("odds_player2")),
+        "odds_source": m.get("odds_source"),
 
+        "model_source": "NO_STANDARD_ELO_AVAILABLE",
+        "model_version": "TENNIS_ABSTRACT_ELO_V1",
 
-def build_tag(is_top_candidate, odds):
-    if is_top_candidate:
-        return "⭐ TOP5 ELO+ PICK"
+        "elo_player1": None,
+        "elo_player2": None,
+        "elo_type": None,
 
-    if odds is None:
-        return "ALL ELO+ PREDICTION / NO ODDS"
+        "bet_tag": "NO STANDARD ELO AVAILABLE",
+        "short_reason": "No Tennis Abstract Elo available for one or both players.",
 
-    if odds <= MIN_TOP_ODDS:
-        return "ALL ELO+ PREDICTION / ODDS TOO LOW"
+        "ev_score": None,
+        "ev_percent": None,
+        "market_probability": None,
+        "bookie_value_edge": None,
+        "market_agrees": None,
+        "bookie_signal": "NOT_USED",
+        "market_warning": "NOT_USED",
+        "overround": None,
 
-    return "ALL ELO+ PREDICTION"
+        "match_start": m.get("match_start"),
+        "match_time_raw": m.get("match_time_raw"),
+
+        "alternative_market_info": build_sets_games_info(None, "BO3"),
+        "extra_signals": [
+            "No standard Elo prediction available",
+            "WELO disabled"
+        ],
+        "alternative_bets": []
+    }
 
 
 def build_all_predictions():
-    """
-    ALL:
-    - každý zápas dostane ELO+ predikciu víťaza
-    - nič sa nefiltruje
-    """
     raw_matches = get_today_matches()
 
     if not raw_matches:
@@ -288,6 +226,8 @@ def build_all_predictions():
 
     stats_map, surface_map = get_stats_context(players, matches)
 
+    elo_data = load_tennis_abstract_elo(force_refresh=False)
+
     all_predictions = []
 
     for m in matches:
@@ -298,41 +238,41 @@ def build_all_predictions():
         odds1 = safe_float(m.get("odds_player1"))
         odds2 = safe_float(m.get("odds_player2"))
 
-        base_prob1 = clamp(win_probability(p1, p2), 0.05, 0.95)
-
         match_key = f"{p1}::{p2}"
         surface = surface_map.get(match_key, "Unknown")
 
-        p1_stats = stats_map.get(p1, {})
-        p2_stats = stats_map.get(p2, {})
+        elo_prediction = predict_match_with_tennis_abstract(
+            player1=p1,
+            player2=p2,
+            surface=surface,
+            elo_data=elo_data
+        )
 
-        p1_metrics = metric_for_surface(p1_stats, surface)
-        p2_metrics = metric_for_surface(p2_stats, surface)
+        if not elo_prediction:
+            all_predictions.append(build_no_elo_prediction(m, surface))
+            continue
 
-        p1_adjustment = elo_plus_adjustment(p1_metrics, p2_metrics)
-        adjusted_prob1 = clamp(base_prob1 + p1_adjustment, 0.05, 0.95)
-        adjusted_prob2 = 1 - adjusted_prob1
+        prob1 = elo_prediction["probability_player1"]
+        prob2 = elo_prediction["probability_player2"]
 
-        if adjusted_prob1 >= adjusted_prob2:
+        if prob1 >= prob2:
             pick = p1
             opponent = p2
-            pick_probability = adjusted_prob1
-            opponent_probability = adjusted_prob2
+            pick_probability = prob1
+            opponent_probability = prob2
             pick_odds = odds1
-            pick_metrics = p1_metrics
-            opponent_metrics = p2_metrics
-            base_pick_probability = base_prob1
-            applied_adjustment = p1_adjustment
+            pick_elo = elo_prediction["elo_player1"]
+            opponent_elo = elo_prediction["elo_player2"]
+            elo_type = elo_prediction["elo_type_player1"]
         else:
             pick = p2
             opponent = p1
-            pick_probability = adjusted_prob2
-            opponent_probability = adjusted_prob1
+            pick_probability = prob2
+            opponent_probability = prob1
             pick_odds = odds2
-            pick_metrics = p2_metrics
-            opponent_metrics = p1_metrics
-            base_pick_probability = 1 - base_prob1
-            applied_adjustment = -p1_adjustment
+            pick_elo = elo_prediction["elo_player2"]
+            opponent_elo = elo_prediction["elo_player1"]
+            elo_type = elo_prediction["elo_type_player2"]
 
         bo_format = "BO5" if is_best_of_five(tournament) else "BO3"
 
@@ -362,14 +302,15 @@ def build_all_predictions():
             "odds_player2": odds2,
             "odds_source": m.get("odds_source"),
 
-            "model_source": "ELO_PLUS",
-            "base_elo_probability": round(base_pick_probability, 3),
-            "elo_stats_adjustment": round(applied_adjustment, 3),
+            "model_source": "TENNIS_ABSTRACT_ELO",
+            "model_version": elo_prediction.get("model_version"),
 
-            "bet_tag": "ALL ELO+ PREDICTION",
-            "short_reason": "",
-            "win_tier": "",
-            "model_flags": [],
+            "elo_player": round(pick_elo, 1) if pick_elo is not None else None,
+            "elo_opponent": round(opponent_elo, 1) if opponent_elo is not None else None,
+            "elo_type": elo_type,
+
+            "bet_tag": "STANDARD ELO PREDICTION",
+            "short_reason": "Tennis Abstract Elo prediction. WELO disabled.",
 
             "ev_score": None,
             "ev_percent": None,
@@ -383,15 +324,11 @@ def build_all_predictions():
             "match_start": m.get("match_start"),
             "match_time_raw": m.get("match_time_raw"),
 
-            "pick_stats": stats_map.get(pick, {}),
-            "opponent_stats": stats_map.get(opponent, {}),
-            "pick_metrics": pick_metrics,
-            "opponent_metrics": opponent_metrics,
-
             "alternative_market_info": alternative_market_info,
 
             "extra_signals": [
-                "ELO+ winner prediction only",
+                "Tennis Abstract Elo winner prediction only",
+                "WELO disabled",
                 "No EV used",
                 "No edge used",
                 "No market consensus used",
@@ -403,7 +340,10 @@ def build_all_predictions():
         all_predictions.append(pred)
 
     all_predictions.sort(
-        key=lambda x: x.get("probability", 0),
+        key=lambda x: (
+            x.get("probability") is not None,
+            x.get("probability") or 0
+        ),
         reverse=True
     )
 
@@ -411,18 +351,14 @@ def build_all_predictions():
 
 
 def get_daily_predictions():
-    """
-    TOP:
-    - 5 najlepších ELO+ predikcií
-    - kurz na vybraného hráča musí byť > 1.50
-    - výber podľa najvyššej pravdepodobnosti uhádnutia víťaza
-    """
     all_predictions = build_all_predictions()
 
     eligible = [
         p for p in all_predictions
-        if p.get("odds") is not None
+        if p.get("model_source") == "TENNIS_ABSTRACT_ELO"
+        and p.get("odds") is not None
         and float(p.get("odds")) > MIN_TOP_ODDS
+        and p.get("probability") is not None
     ]
 
     eligible.sort(
@@ -432,33 +368,11 @@ def get_daily_predictions():
 
     final = eligible[:TOP_N]
 
-    for p in all_predictions:
-        is_top = p in final
-        odds = p.get("odds")
-
-        p["bet_tag"] = build_tag(
-            is_top_candidate=is_top,
-            odds=odds
-        )
-
-        p["short_reason"] = build_reason(
-            probability=p.get("probability", 0),
-            odds=odds,
-            model_source=p.get("model_source"),
-            elo_adjustment=p.get("elo_stats_adjustment", 0)
-        )
-
     for p in final:
-        p["bet_tag"] = "⭐ TOP5 ELO+ PICK"
+        p["bet_tag"] = "TOP5 STANDARD ELO PICK"
+        p["short_reason"] = "Top 5 Tennis Abstract Elo pick with odds above 1.50. WELO disabled."
 
-        p["short_reason"] = build_reason(
-            probability=p.get("probability", 0),
-            odds=p.get("odds"),
-            model_source=p.get("model_source"),
-            elo_adjustment=p.get("elo_stats_adjustment", 0)
-        )
-
-    print("FINAL TOP5 ELO+ PICKS:", len(final))
+    print("FINAL TOP5 STANDARD ELO PICKS:", len(final))
 
     for p in final:
         alt = p.get("alternative_market_info", {})
@@ -472,18 +386,16 @@ def get_daily_predictions():
             p["probability"],
             "| odds:",
             p["odds"],
-            "| base_elo:",
-            p.get("base_elo_probability"),
-            "| adj:",
-            p.get("elo_stats_adjustment"),
+            "| elo:",
+            p.get("elo_player"),
+            "vs",
+            p.get("elo_opponent"),
+            "| elo_type:",
+            p.get("elo_type"),
             "| sets:",
             alt.get("most_likely_sets"),
             "| expected_games:",
-            alt.get("expected_games"),
-            "| games_lean:",
-            alt.get("games_lean"),
-            "| reason:",
-            p["short_reason"]
+            alt.get("expected_games")
         )
 
     return final
