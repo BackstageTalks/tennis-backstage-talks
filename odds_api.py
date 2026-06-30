@@ -6,14 +6,8 @@ def normalize(name):
     return name.lower().strip()
 
 
-def split_name(name):
-    parts = normalize(name).split()
-    return parts
-
-
-def extract_last(name):
-    parts = split_name(name)
-    return parts[-1]
+def last(name):
+    return normalize(name).split()[-1]
 
 
 def fetch_odds():
@@ -63,17 +57,12 @@ def fetch_odds():
                     if market.get("key") == "h2h":
                         outcomes = market.get("outcomes", [])
                         if len(outcomes) >= 2:
-
-                            odds1 = outcomes[0]["price"]
-                            odds2 = outcomes[1]["price"]
-
                             matches.append({
                                 "p1": p1,
                                 "p2": p2,
-                                "odds1": odds1,
-                                "odds2": odds2
+                                "odds1": outcomes[0]["price"],
+                                "odds2": outcomes[1]["price"]
                             })
-
                         break
                 break
 
@@ -83,3 +72,4 @@ def fetch_odds():
     print("ODDS LOADED:", len(matches))
 
     return matches
+``
