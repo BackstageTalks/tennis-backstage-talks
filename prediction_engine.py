@@ -93,4 +93,3 @@ def get_top_predictions():
     print("VALID ODDS:", len(valid))
 
     return valid[:TOP_N]
-``
