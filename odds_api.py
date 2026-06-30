@@ -6,20 +6,14 @@ def normalize(name):
     return name.lower().strip()
 
 
-def name_variants(name):
+def split_name(name):
     parts = normalize(name).split()
+    return parts
 
-    variants = set()
 
-    variants.add(parts[-1])  # priezvisko
-
-    if len(parts) > 1:
-        variants.add(parts[0])  # meno
-        variants.add(parts[0] + " " + parts[-1])  # full short
-
-    variants.add(" ".join(parts))  # full name
-
-    return variants
+def extract_last(name):
+    parts = split_name(name)
+    return parts[-1]
 
 
 def fetch_odds():
@@ -27,7 +21,7 @@ def fetch_odds():
 
     if not API_KEY:
         print("NO API KEY ❌")
-        return {}
+        return []
 
     url = "https://api.the-odds-api.com/v4/sports/tennis_atp/odds/"
 
@@ -43,42 +37,42 @@ def fetch_odds():
 
         if r.status_code != 200:
             print("ODDS API ERROR:", r.status_code)
-            return {}
+            return []
 
         data = r.json()
 
     except Exception as e:
         print("ODDS FETCH FAIL:", e)
-        return {}
+        return []
 
-    odds_map = {}
+    matches = []
 
-    for match in data:
+    for m in data:
         try:
-            teams = match.get("teams", [])
+            teams = m.get("teams", [])
             if len(teams) != 2:
                 continue
 
             p1 = teams[0]
             p2 = teams[1]
 
-            bookmakers = match.get("bookmakers", [])
+            bookmakers = m.get("bookmakers", [])
 
             for b in bookmakers:
-                markets = b.get("markets", [])
-
-                for m in markets:
-                    if m.get("key") == "h2h":
-                        outcomes = m.get("outcomes", [])
-
+                for market in b.get("markets", []):
+                    if market.get("key") == "h2h":
+                        outcomes = market.get("outcomes", [])
                         if len(outcomes) >= 2:
+
                             odds1 = outcomes[0]["price"]
                             odds2 = outcomes[1]["price"]
 
-                            v1 = name_variants(p1)
-                            v2 = name_variants(p2)
-
-                            odds_map[frozenset(v1 | v2)] = (odds1, odds2)
+                            matches.append({
+                                "p1": p1,
+                                "p2": p2,
+                                "odds1": odds1,
+                                "odds2": odds2
+                            })
 
                         break
                 break
@@ -86,6 +80,6 @@ def fetch_odds():
         except:
             continue
 
-    print("ODDS LOADED:", len(odds_map))
+    print("ODDS LOADED:", len(matches))
 
-    return odds_map
+    return matches
