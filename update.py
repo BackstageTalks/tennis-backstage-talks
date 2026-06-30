@@ -1,5 +1,6 @@
 import os
 from prediction_engine import build_all_predictions, get_top_predictions
+from history_tracker import save_today_bets
 
 
 # ✅ create folders safely
@@ -9,8 +10,7 @@ def ensure_path(path):
 
 # ✅ HEADER
 def html_header(title):
-    return f"""
-<!DOCTYPE html>
+    return f"""<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -95,11 +95,13 @@ def render_table(title, predictions):
 </div>
 """
 
+    # ✅ EMPTY CASE
     if not predictions:
         html += "<div class='row'><div class='col'>No picks available</div></div>"
         html += "</body></html>"
         return html
 
+    # ✅ ROWS
     for i, p in enumerate(predictions, 1):
         p1 = p["player1"]
         p2 = p["player2"]
@@ -108,7 +110,7 @@ def render_table(title, predictions):
         opponent = p2 if pick == p1 else p1
         prob = round(p["probability"] * 100, 1)
         odds = p["odds"] if p["odds"] else "-"
-        time = p.get("time", "TBD")
+        match_time = p.get("time", "TBD")
 
         html += f"""
 <div class="row">
@@ -123,7 +125,7 @@ def render_table(title, predictions):
     </div>
 
     <div class="col small">
-        {time}
+        {match_time}
     </div>
 
     <div class="col">
@@ -145,7 +147,7 @@ def render_table(title, predictions):
     return html
 
 
-# ✅ MAIN
+# ✅ MAIN RUN
 def run():
     print("BUILDING ALL...")
     all_preds = build_all_predictions()
@@ -153,9 +155,12 @@ def run():
     print("BUILDING TOP...")
     top_preds = get_top_predictions()
 
-    # ✅ ensure folders exist
-    ensure_path("public/839201239012")
-    ensure_path("public/777123987111")
+    # ✅ SAVE HISTORY (important!)
+    save_today_bets(top_preds)
+
+    # ✅ ensure folders
+    ensure_path("public/839201239012")  # ALL
+    ensure_path("public/777123987111")  # TOP
 
     # ✅ save ALL
     with open("public/839201239012/index.html", "w", encoding="utf-8") as f:
@@ -170,3 +175,4 @@ def run():
 
 if __name__ == "__main__":
     run()
+``
