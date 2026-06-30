@@ -11,12 +11,33 @@ def normalize(name):
     return name.lower().strip()
 
 
-def key(p1, p2):
-    return normalize(p1) + "::" + normalize(p2)
+def name_variants(name):
+    parts = normalize(name).split()
+
+    variants = set()
+    variants.add(parts[-1])
+
+    if len(parts) > 1:
+        variants.add(parts[0])
+        variants.add(parts[0] + " " + parts[-1])
+
+    variants.add(" ".join(parts))
+
+    return variants
+
+
+def find_odds(p1, p2, odds_map):
+    v1 = name_variants(p1)
+    v2 = name_variants(p2)
+
+    for k in odds_map:
+        if any(x in k for x in v1) and any(x in k for x in v2):
+            return odds_map[k]
+
+    return None
 
 
 def normalize_match(m):
-    # ✅ musí obsahovať time
     return {
         "player1": m.get("player1") or m[0],
         "player2": m.get("player2") or m[1],
@@ -50,12 +71,13 @@ def build_all_predictions():
         prob1 = pred["probability_player1"]
         prob2 = pred["probability_player2"]
 
+        match_odds = find_odds(p1, p2, odds_map)
+
         odds1 = None
         odds2 = None
 
-        k = key(p1, p2)
-        if k in odds_map:
-            odds1, odds2 = odds_map[k]
+        if match_odds:
+            odds1, odds2 = match_odds
 
         if prob1 >= prob2:
             pick = p1
@@ -82,9 +104,7 @@ def build_all_predictions():
     return all_preds
 
 
-def get_top_predictions():
-    all_preds = build_all_predictions()
-
+def get_top_predictions(all_preds):
     valid = [
         p for p in all_preds
         if p["odds"] is not None and p["odds"] >= MIN_ODDS
