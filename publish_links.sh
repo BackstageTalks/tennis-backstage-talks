@@ -7,12 +7,11 @@ BASE_URL="https://backstagetalks.github.io/tennis-backstage-talks"
 PUBLIC_DIR="public"
 HUB_DIR="${PUBLIC_DIR}/H4V34N1C3D4Y177"
 
-# Stable random-looking aliases.
-# They look random to humans, but stay fixed for you and for the bot.
 ALIAS_TOP_PAGE="a7Kp4VzQ9Lm2R8xYa6Td0Hs3BcQw9F"
 ALIAS_ALL_PAGE="b8Lm5QaR0Xn3V7tYp2Ks6Hd9CzW4EJ"
 ALIAS_TOP_RESULTS="c9Nq6WrS1Yp4K8vLa3Td7Hx0BzF2MQ"
 ALIAS_ALL_RESULTS="d0Pr7XsT2Zq5L9vMb4Yh8Kc1WnF6AR"
+ALIAS_STATS="k9Mx2Qa7BpL4Vz0TcY8Rn3Hd6Ws1Ef"
 
 ALIAS_TOP_RSS="e1Qs8XtU3Ar6M0vNc5Zp9Ld2YhW7KR"
 ALIAS_ALL_RSS="f2Rt9YuV4Bs7N1wOd6Aq0Me3ZiX8LS"
@@ -65,7 +64,7 @@ copy_page_alias() {
 <body>
   <h1>${title}</h1>
   <p class="muted">This output is not available yet.</p>
-  <p>${BASE_URL}/H4V34N1C3D4Y177/Back to Hub 177</a></p>
+  <p><a href="${BASE_URL}/H4V34N1C3D4Y177/">Back to Hub 177</a></p>
 </body>
 </html>
 EOF
@@ -103,14 +102,12 @@ EOF
 }
 
 
-# Page aliases – copied pages, not redirects.
-# This keeps the random-looking URL visible in the browser.
 copy_page_alias "${PUBLIC_DIR}/index.html" "${ALIAS_TOP_PAGE}" "TOP5 Tennis Picks"
 copy_page_alias "${PUBLIC_DIR}/all/index.html" "${ALIAS_ALL_PAGE}" "All Tennis Predictions"
 copy_page_alias "${PUBLIC_DIR}/results/index.html" "${ALIAS_TOP_RESULTS}" "TOP5 Tennis Results"
 copy_page_alias "${PUBLIC_DIR}/all_results/index.html" "${ALIAS_ALL_RESULTS}" "All Tennis Results"
+copy_page_alias "${PUBLIC_DIR}/stats/index.html" "${ALIAS_STATS}" "Model Stats"
 
-# RSS aliases – copied XML feeds.
 copy_xml_alias "${PUBLIC_DIR}/tennis.xml" "${ALIAS_TOP_RSS}"
 copy_xml_alias "${PUBLIC_DIR}/tennis_all.xml" "${ALIAS_ALL_RSS}"
 copy_xml_alias "${PUBLIC_DIR}/results.xml" "${ALIAS_TOP_RESULTS_RSS}"
@@ -246,7 +243,7 @@ cat > "${HUB_DIR}/index.html" <<EOF
         <div class="badge">TOP5</div>
         <h3>TOP5 Tennis Picks</h3>
         <p>Five highest ELO+ winner predictions where selected player odds are above 1.50.</p>
-        ${BASE_URL}/${ALIAS_TOP_PAGE}/Open TOP5 Picks</a>
+        <a href="${BASE_URL}/${ALIAS_TOP_PAGE}/">Open TOP5 Picks</a>
       </div>
 
       <div class="card">
@@ -254,7 +251,7 @@ cat > "${HUB_DIR}/index.html" <<EOF
         <div class="badge">RSS</div>
         <h3>TOP5 Picks RSS</h3>
         <p>RSS feed for the selected TOP5 picks. Future Telegram bot input.</p>
-        ${BASE_URL}/${ALIAS_TOP_RSS}.xmlOpen TOP5 RSS</a>
+        <a href="${BASE_URL}/${ALIAS_TOP_RSS}.xml">Open TOP5 RSS</a>
       </div>
     </div>
   </div>
@@ -268,7 +265,7 @@ cat > "${HUB_DIR}/index.html" <<EOF
         <div class="badge">ALL</div>
         <h3>All Tennis Predictions</h3>
         <p>All matches from the daily window. Every match gets an ELO+ winner prediction.</p>
-        ${BASE_URL}/${ALIAS_ALL_PAGE}/Open All Predictions</a>
+        <a href="${BASE_URL}/${ALIAS_ALL_PAGE}/">Open All Predictions</a>
       </div>
 
       <div class="card">
@@ -276,7 +273,7 @@ cat > "${HUB_DIR}/index.html" <<EOF
         <div class="badge">RSS</div>
         <h3>All Predictions RSS</h3>
         <p>RSS feed containing all ELO+ predictions, not only TOP5.</p>
-        ${BASE_URL}/${ALIAS_ALL_RSS}.xmlOpen All RSS</a>
+        <a href="${BASE_URL}/${ALIAS_ALL_RSS}.xml">Open All RSS</a>
       </div>
     </div>
   </div>
@@ -290,7 +287,7 @@ cat > "${HUB_DIR}/index.html" <<EOF
         <div class="badge">TOP5 Results</div>
         <h3>TOP5 Results</h3>
         <p>Results tracking for the selected TOP5 picks.</p>
-        ${BASE_URL}/${ALIAS_TOP_RESULTS}/Open TOP5 Results</a>
+        <a href="${BASE_URL}/${ALIAS_TOP_RESULTS}/">Open TOP5 Results</a>
       </div>
 
       <div class="card">
@@ -298,7 +295,7 @@ cat > "${HUB_DIR}/index.html" <<EOF
         <div class="badge">RSS</div>
         <h3>TOP5 Results RSS</h3>
         <p>RSS feed for TOP5 results.</p>
-        ${BASE_URL}/${ALIAS_TOP_RESULTS_RSS}.xmlOpen TOP5 Results RSS</a>
+        <a href="${BASE_URL}/${ALIAS_TOP_RESULTS_RSS}.xml">Open TOP5 Results RSS</a>
       </div>
 
       <div class="card">
@@ -306,15 +303,35 @@ cat > "${HUB_DIR}/index.html" <<EOF
         <div class="badge">ALL Results</div>
         <h3>All Results</h3>
         <p>Results tracking for all predicted matches.</p>
-        ${BASE_URL}/${ALIAS_ALL_RESULTS}/Open All Results</a>
+        <a href="${BASE_URL}/${ALIAS_ALL_RESULTS}/">Open All Results</a>
       </div>
 
       <div class="card">
         <div class="icon">🧾</div>
         <div class="badge">RSS</div>
-        <h3>All Results RSS</h3>
-        <p>RSS feed for all prediction results.</p>
-        ${BASE_URL}/${ALIAS_ALL_RESULTS_RSS}.xmlOpen All Results RSS</a>
+     ${BASE_URL}/${ALIAS_ALL_RESULTS_RSS}.xmlOpen All Results RSS</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📈 Model Stats</h2>
+
+    <div class="grid">
+      <div class="card">
+        <div class="icon">📈</div>
+        <div class="badge">STATS</div>
+        <h3>Model Statistics</h3>
+        <p>Last 7 days, current month, previous month and all-time performance.</p>
+        ${BASE_URL}/${ALIAS_STATS}/Open Model Stats</a>
+      </div>
+
+      <div class="card">
+        <div class="icon">🗂️</div>
+        <div class="badge">JSON</div>
+        <h3>Stats JSON</h3>
+        <p>Machine-readable statistics output.</p>
+        ${BASE_URL}/stats.jsonOpen Stats JSON</a>
       </div>
     </div>
   </div>
@@ -354,21 +371,6 @@ cat > "${HUB_DIR}/index.html" <<EOF
           EV, edge and market consensus are not used in the current TOP5 selection.
         </p>
       </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>🔗 Alias Map</h2>
-
-    <div class="small">
-      TOP5 Picks: ${BASE_URL}/${ALIAS_TOP_PAGE}/<br>
-      All Predictions: ${BASE_URL}/${ALIAS_ALL_PAGE}/<br>
-      TOP5 Results: ${BASE_URL}/${ALIAS_TOP_RESULTS}/<br>
-      All Results: ${BASE_URL}/${ALIAS_ALL_RESULTS}/<br>
-      TOP5 RSS: ${BASE_URL}/${ALIAS_TOP_RSS}.xml<br>
-      All RSS: ${BASE_URL}/${ALIAS_ALL_RSS}.xml<br>
-      TOP5 Results RSS: ${BASE_URL}/${ALIAS_TOP_RESULTS_RSS}.xml<br>
-      All Results RSS: ${BASE_URL}/${ALIAS_ALL_RESULTS_RSS}.xml
     </div>
   </div>
 
