@@ -1,179 +1,36 @@
 name: Daily Tennis Predictions
 
-run-name: Daily Tennis Predictions - ${{ github.event_name }} - ${{ github.run_number }}
-
 on:
-  schedule:
-    # 04:00 UTC = 06:00 Europe/Bratislava during CEST.
-    - cron: "0 4 * * *"
-
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
+  schedule:
+    - cron: "0 6 * * *"   # 06:00 UTC = 08:00 SK (CEST)
 
 jobs:
-  build-and-deploy:
+  build-and-run:
     runs-on: ubuntu-latest
 
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
+      # ✅ checkout repo
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      # ✅ Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
+      # ✅ install dependencies
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
+          pip install -r requirements.txt
 
-      - name: Clean public folder
-        run: |
-          echo "===== CLEAN PUBLIC FOLDER ====="
-          rm -rf public
-          mkdir -p public
+      # ✅ BUILD ELO (KRITICKÉ)
+      - name: Build Elo Ratings
+        run: python build_elo.py
 
+      # ✅ RUN PREDICTIONS
       - name: Run predictions
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-          BET_WINDOW_START_HOUR: 6
-          BET_WINDOW_END_NEXT_DAY_HOUR: 6
         run: python update.py
-
-      - name: Generate TOP5 results from current predictions
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python results_checker.py
-
-      - name: Generate ALL results from current ALL predictions
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python results_checker_all.py
-
-      - name: Update long-term history database
-        run: python history_tracker.py
-
-      - name: Generate model stats page
-        run: python stats_page.py
-
-      - name: Generate source audit
-        run: python audit_sources.py
-
-      - name: Generate TOP page and TOP RSS
-        run: python rss.py
-
-      - name: Generate ALL page and ALL RSS
-        run: python rss_all.py
-
-      - name: Generate TOP5 results page and RSS
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python rss_results.py
-
-      - name: Generate ALL results page and RSS
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python rss_results_all.py
-
-      - name: Generate link hub
-        run: bash publish_links.sh
-
-      - name: Commit updated history database
-        run: |
-          echo "===== COMMIT HISTORY DATABASE ====="
-
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git add data/ || true
-
-          if git diff --cached --quiet; then
-            echo "No history changes to commit."
-          else
-            git commit -m "Update tennis history database [skip ci]"
-            git push
-          fi
-
-      - name: Verify generated files
-        run: |
-          echo "===== PUBLIC FILES ====="
-          ls -R public
-
-          echo "===== CHECK CORE PAGES ====="
-
-          for f in \
-            index.html \
-            tennis.xml \
-            tennis_all.xml \
-            results.xml \
-            all_results.xml \
-            all/index.html \
-            results/index.html \
-            all_results/index.html \
-            stats/index.html \
-            stats.json \
-            H4V34N1C3D4Y177/index.html
-          do
-            if [ ! -f "public/$f" ]; then
-              echo "ERROR: public/$f missing"
-              exit 1
-            fi
-          done
-
-          echo "===== CHECK HISTORY DB ====="
-
-          if [ ! -f "data/bet_history.jsonl" ]; then
-            echo "ERROR: data/bet_history.jsonl missing"
-            exit 1
-          fi
-
-          if [ ! -f "data/bet_history_learning_snapshot.json" ]; then
-            echo "ERROR: data/bet_history_learning_snapshot.json missing"
-            exit 1
-          fi
-
-          echo "===== HISTORY DB PREVIEW ====="
-          head -n 20 data/bet_history.jsonl || true
-
-          echo "===== TOP PAGE PREVIEW ====="
-          head -n 80 public/index.html
-
-          echo "===== ALL PAGE PREVIEW ====="
-          head -n 80 public/all/index.html
-
-          echo "===== TOP RESULTS PAGE PREVIEW ====="
-          head -n 80 public/results/index.html
-
-          echo "===== ALL RESULTS PAGE PREVIEW ====="
-          head -n 80 public/all_results/index.html
-
-          echo "===== STATS PAGE PREVIEW ====="
-          head -n 100 public/stats/index.html
-
-          echo "===== HUB 177 PREVIEW ====="
-          head -n 140 public/H4V34N1C3D4Y177/index.html
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+``
