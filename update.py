@@ -4,50 +4,79 @@ from history_tracker import save_today_bets
 from rss_generator import generate_rss
 
 
-def ensure_path(path):
+def ensure(path):
     os.makedirs(path, exist_ok=True)
 
 
-def html_header(title):
-    return f"""<!DOCTYPE html><html>
-<head><meta charset="UTF-8"><title>{title}</title></head>
-<body style="background:#1a0f0f;color:white;font-family:Arial;padding:20px;">
-<h1>Backstage Talks Tennis Picks</h1>
+def html(title, data):
+    out = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{title}</title>
+</head>
+<body style="background:#111;color:white;font-family:Arial;padding:20px;">
+<h1>{title}</h1>
+<hr>
 """
 
-
-def render_table(title, data):
-    html = html_header(title)
-    html += f"<h2>{title}</h2>"
-
     if not data:
-        return html + "<p>No picks</p></body></html>"
+        return out + "<h2>No data</h2></body></html>"
+
+    out += f"<p>Total: {len(data)}</p>"
 
     for i, p in enumerate(data, 1):
-        html += f"<p>#{i} {p['pick']} vs {p['player2'] if p['pick']==p['player1'] else p['player1']} | {p['probability']} | {p['odds']}</p>"
+        opp = p["player2"] if p["pick"] == p["player1"] else p["player1"]
 
-    return html + "</body></html>"
+        out += f"""
+<div style="margin-bottom:10px;padding:10px;border:1px solid #333;">
+<b>#{i}</b><br>
+Pick: {p['pick']}<br>
+Opponent: {opp}<br>
+Win%: {p['probability']}<br>
+Odds: {p['odds']}<br>
+Time: {p.get('time','')}
+</div>
+"""
+
+    return out + "</body></html>"
 
 
 def run():
+    print("BUILDING ALL...")
     all_preds = build_all_predictions()
+    print("ALL:", len(all_preds))
+
+    print("BUILDING TOP...")
     top_preds = get_top_predictions(all_preds)
+    print("TOP:", len(top_preds))
 
     save_today_bets(top_preds)
 
-    ensure_path("public/839201239012")
-    ensure_path("public/777123987111")
+    # ✅ vytvor foldery v ROOT
+    ensure("839201239012")
+    ensure("777123987111")
 
-    with open("public/839201239012/index.html", "w") as f:
-        f.write(render_table("ALL MATCHES", all_preds))
+    # ✅ ROOT redirect
+    with open("index.html", "w") as f:
+        f.write("""<html><head>
+<meta http-equiv="refresh" content="0; url=777123987111/">
+</head></html>""")
 
-    with open("public/777123987111/index.html", "w") as f:
-        f.write(render_table("TOP 5 PICKS", top_preds))
+    # ✅ ALL
+    with open("839201239012/index.html", "w") as f:
+        f.write(html("ALL MATCHES", all_preds))
 
+    # ✅ TOP
+    with open("777123987111/index.html", "w") as f:
+        f.write(html("TOP PICKS", top_preds))
+
+    # ✅ RSS
     rss = generate_rss(top_preds)
-
-    with open("public/999333111777.xml", "w") as f:
+    with open("999333111777.xml", "w") as f:
         f.write(rss)
+
+    print("DONE ✅")
 
 
 if __name__ == "__main__":
