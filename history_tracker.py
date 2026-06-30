@@ -102,6 +102,7 @@ def normalize_status(value):
 def detect_status(item):
     """
     Robustné čítanie výsledkov z rôznych možných štruktúr results_checker.py.
+    Ak výsledok nevieme zistiť, dáme PENDING.
     """
     for key in [
         "pick_result",
@@ -162,6 +163,9 @@ def extract_score(item):
 
 
 def make_bet_id(date, feed, item):
+    """
+    Stabilný identifikátor zápasu, aby sme sa vyhli duplicitám.
+    """
     pick = safe(item.get("pick")).strip()
     opponent = safe(item.get("opponent")).strip()
     tournament = safe(item.get("tournament")).strip()
@@ -250,8 +254,8 @@ def save_history(records):
         key=lambda x: (
             x.get("date", ""),
             x.get("feed", ""),
-            x.get("pick", ""),
-            x.get("opponent", ""),
+            x.get("pick", "") or "",
+            x.get("opponent", "") or "",
         )
     )
 
@@ -272,8 +276,7 @@ def merge_record(records, new_record):
     old_status = old_record.get("result")
     new_status = new_record.get("result")
 
-    # PENDING môže byť prepísaný WON/LOST/VOID/UNKNOWN.
-    # WON/LOST neprepíšeme späť na PENDING.
+    # Ak už starý záznam má definitívny výsledok, neprepíšeme ho späť na PENDING.
     if old_status in ["WON", "LOST", "VOID"] and new_status == "PENDING":
         new_record["result"] = old_status
         new_record["score"] = old_record.get("score", new_record.get("score"))
@@ -300,13 +303,13 @@ def import_feed(records, feed, predictions_path, results_path):
     for item in prediction_items:
         record = base_record(date, feed, item)
 
-        # Ak predikčný JSON nemá výsledok, nech je PENDING.
+        # Predikčné JSONy väčšinou výsledok ešte nemajú.
         if record["result"] not in ["WON", "LOST", "VOID", "UNKNOWN"]:
             record["result"] = "PENDING"
 
         merge_record(records, record)
 
-    # Potom overlayneme výsledky, ak už existujú.
+    # Potom prelepíme výsledkami, ak už existujú.
     for item in result_items:
         record = base_record(date, feed, item)
         merge_record(records, record)
