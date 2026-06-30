@@ -8,38 +8,30 @@ def generate_rss(top_preds):
 <rss version="2.0">
 <channel>
 <title>Backstage Talks Tennis Picks</title>
-<description>Daily TOP tennis betting picks</description>
 <link>https://backstagetalks.github.io/tennis-backstage-talks/</link>
+<description>Daily picks</description>
 <lastBuildDate>{now}</lastBuildDate>
 """
 
     for p in top_preds:
         pick = p["pick"]
-        opponent = p["player2"] if p["pick"] == p["player1"] else p["player1"]
+        opp = p["player2"] if pick == p["player1"] else p["player1"]
         prob = round(p["probability"] * 100, 1)
         odds = p["odds"] if p["odds"] else "-"
         time = p.get("time", "TBD")
 
-        title = f"{pick} vs {opponent}"
-        description = f"""
-Pick: {pick} to win
-Opponent: {opponent}
-Win probability: {prob}%
-Odds: {odds}
-Time: {time}
-"""
-
         rss += f"""
 <item>
-<title>{title}</title>
-<description>{description}</description>
+<title>{pick} vs {opp}</title>
+<description>
+Pick: {pick}
+Win%: {prob}
+Odds: {odds}
+Time: {time}
+</description>
 <pubDate>{now}</pubDate>
 </item>
 """
 
-    rss += """
-</channel>
-</rss>
-"""
-
+    rss += "</channel></rss>"
     return rss
