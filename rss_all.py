@@ -33,10 +33,6 @@ def load_predictions():
     return data
 
 
-def load_debug():
-    return load_json("public/debug_counts.json", {})
-
-
 def percent(value):
     try:
         return f"{float(value) * 100:.1f}%"
@@ -55,120 +51,177 @@ def opponent_of(prediction):
         return prediction.get("opponent")
 
     pick = prediction.get("pick")
-    p1 = prediction.get("player1")
-    p2 = prediction.get("player2")
+    player1 = prediction.get("player1")
+    player2 = prediction.get("player2")
 
-    if pick == p1:
-        return p2
+    if pick == player1:
+        return player2
 
-    return p1
-
-
-def render_debug(debug):
-    if not debug:
-        return """
-<div class="debug">
-<strong>Debug:</strong><br>
-No debug data available.
-</div>
-"""
-
-    return f"""
-<div class="debug">
-<strong>Debug:</strong><br>
-ALL matches: {debug.get("all_count", 0)}<br>
-TOP picks: {debug.get("top_count", 0)}<br>
-Matches with odds: {debug.get("with_odds_count", 0)}<br>
-Eligible odds &gt;= 1.50: {debug.get("eligible_odds_1_50_count", 0)}<br>
-Max probability: {debug.get("max_probability", 0)}
-</div>
-"""
+    return player1
 
 
-def render_html(predictions, debug):
+def match_time_of(prediction):
+    return (
+        prediction.get("time")
+        or prediction.get("match_time")
+        or prediction.get("match_time_raw")
+        or "TBD"
+    )
+
+
+def match_of(prediction):
+    return (
+        prediction.get("match")
+        or f"{prediction.get('player1', '-')} vs {prediction.get('player2', '-')}"
+    )
+
+
+def render_html(predictions):
     rows = ""
 
     if not predictions:
         rows = """
 <tr>
-<td colspan="8">No matches available. If this is empty, check fetch_matches.py.</td>
+<td colspan="7">No matches available.</td>
 </tr>
 """
     else:
-        for i, p in enumerate(predictions, 1):
-            pick = html.escape(str(p.get("pick", "-")))
-            opponent = html.escape(str(opponent_of(p) or "-"))
-            match = html.escape(str(p.get("match") or f"{p.get('player1', '-')} vs {p.get('player2', '-')}"))
-            match_time = html.escape(str(p.get("time") or p.get("match_time_raw") or "TBD"))
-            win = percent(p.get("probability"))
-            odds = fmt(p.get("odds"))
-            source = html.escape(str(p.get("odds_source") or "-"))
+        for i, prediction in enumerate(predictions, 1):
+            pick = html.escape(str(prediction.get("pick", "-")))
+            opponent = html.escape(str(opponent_of(prediction) or "-"))
+            match = html.escape(str(match_of(prediction)))
+            match_time = html.escape(str(match_time_of(prediction)))
+            win = percent(prediction.get("probability"))
+            odds = fmt(prediction.get("odds"))
 
             rows += f"""
 <tr>
-<td>{i}</td>
-<td><strong>{pick} to win</strong></td>
+<td class="rank">#{i}</td>
+<td class="pick">{pick} to<br>win</td>
 <td>{opponent}</td>
 <td>{match}</td>
 <td>{match_time}</td>
 <td>{win}</td>
 <td>{odds}</td>
-<td>{source}</td>
 </tr>
 """
-
-    debug_html = render_debug(debug)
 
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Backstage Talks Tennis - All Matches</title>
+<title>Backstage Talks Tennis Picks - All Matches</title>
 <style>
+* {{
+    box-sizing: border-box;
+}}
+
 body {{
-    background: #1a0f0f;
+    margin: 0;
+    background: #160b0b;
     color: #ffffff;
-    font-family: Arial, sans-serif;
-    padding: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px 8px 40px 8px;
 }}
+
+a {{
+    color: inherit;
+}}
+
+.rss-pill {{
+    display: inline-block;
+    background: #2563eb;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 8px 13px;
+    border-radius: 999px;
+    margin-bottom: 26px;
+}}
+
 h1 {{
-    margin-bottom: 6px;
+    font-size: 42px;
+    line-height: 1.1;
+    margin: 0 0 10px 0;
+    font-weight: 800;
 }}
+
 .disclaimer {{
-    color: #b8b8b8;
+    color: #c7c7c7;
     font-size: 12px;
     margin-bottom: 22px;
 }}
-.debug {{
-    background: #2a1616;
-    padding: 12px;
-    margin-bottom: 18px;
-    border-radius: 8px;
-    color: #dddddd;
+
+.subtitle {{
+    font-size: 18px;
+    color: #eeeeee;
+    margin-bottom: 28px;
 }}
-table {{
-    border-collapse: collapse;
+
+.table-wrap {{
     width: 100%;
+    overflow-x: auto;
 }}
-th, td {{
-    border-bottom: 1px solid #3a2828;
-    padding: 10px;
-    text-align: left;
+
+table {{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #201313;
+    border-radius: 10px;
+    overflow: hidden;
 }}
+
 th {{
-    color: #cccccc;
+    font-size: 15px;
+    color: #f3f3f3;
+    text-align: left;
+    padding: 14px 16px;
+    border-bottom: 1px solid #3a2525;
 }}
-tr:hover {{
-    background: #2a1616;
+
+td {{
+    font-size: 15px;
+    vertical-align: top;
+    padding: 14px 16px;
+    border-bottom: 1px solid #332020;
+}}
+
+tr:last-child td {{
+    border-bottom: none;
+}}
+
+.rank {{
+    width: 45px;
+    white-space: nowrap;
+}}
+
+.pick {{
+    width: 210px;
+}}
+
+@media (max-width: 800px) {{
+    h1 {{
+        font-size: 30px;
+    }}
+
+    th, td {{
+        font-size: 14px;
+        padding: 12px 10px;
+    }}
 }}
 </style>
 </head>
 <body>
-<h1>Backstage Talks Tennis - All Matches</h1>
+
+../tennis_all.xmlRSS ALL</a>
+
+<h1>Backstage Talks Tennis Picks - All Matches</h1>
 <div class="disclaimer">{DISCLAIMER}</div>
+<div class="subtitle">All available model picks for the CET window 06:00 → 06:00 next day.</div>
 
-{debug_html}
-
+<div class="table-wrap">
 <table>
 <thead>
 <tr>
@@ -177,15 +230,16 @@ tr:hover {{
 <th>Opponent</th>
 <th>Match</th>
 <th>Match time</th>
-<th>Win %</th>
+<th>Win<br>%</th>
 <th>Odds</th>
-<th>Odds source</th>
 </tr>
 </thead>
 <tbody>
 {rows}
 </tbody>
 </table>
+</div>
+
 </body>
 </html>
 """
@@ -196,12 +250,12 @@ def render_rss(predictions):
 
     items = ""
 
-    for p in predictions:
-        pick = str(p.get("pick", "-"))
-        opponent = str(opponent_of(p) or "-")
-        match_time = str(p.get("time") or p.get("match_time_raw") or "TBD")
-        odds = fmt(p.get("odds"))
-        win = percent(p.get("probability"))
+    for prediction in predictions:
+        pick = str(prediction.get("pick", "-"))
+        opponent = str(opponent_of(prediction) or "-")
+        match_time = str(match_time_of(prediction))
+        odds = fmt(prediction.get("odds"))
+        win = percent(prediction.get("probability"))
 
         title = html.escape(f"{pick} to win vs {opponent}")
         description = html.escape(
@@ -233,10 +287,9 @@ def run():
     os.makedirs("public/all", exist_ok=True)
 
     predictions = load_predictions()
-    debug = load_debug()
 
     with open("public/all/index.html", "w", encoding="utf-8") as f:
-        f.write(render_html(predictions, debug))
+        f.write(render_html(predictions))
 
     with open("public/tennis_all.xml", "w", encoding="utf-8") as f:
         f.write(render_rss(predictions))
