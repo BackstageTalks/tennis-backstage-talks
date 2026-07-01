@@ -177,6 +177,20 @@ def make_elo_form_prediction(match, elo_store, form_store):
     }
 
 
+def summarize_light(rows):
+    total = len(rows)
+    won = len([r for r in rows if r["status"] == "WON"])
+    lost = len([r for r in rows if r["status"] == "LOST"])
+    hit_rate = round(won / total, 3) if total else 0
+
+    return {
+        "total": total,
+        "won": won,
+        "lost": lost,
+        "hit_rate": hit_rate,
+    }
+
+
 def summarize(rows):
     total = len(rows)
     won = len([r for r in rows if r["status"] == "WON"])
@@ -217,20 +231,6 @@ def summarize(rows):
         "top1": summarize_light(top1),
         "top3": summarize_light(top3),
         "top5": summarize_light(top5),
-    }
-
-
-def summarize_light(rows):
-    total = len(rows)
-    won = len([r for r in rows if r["status"] == "WON"])
-    lost = len([r for r in rows if r["status"] == "LOST"])
-    hit_rate = round(won / total, 3) if total else 0
-
-    return {
-        "total": total,
-        "won": won,
-        "lost": lost,
-        "hit_rate": hit_rate,
     }
 
 
@@ -387,7 +387,7 @@ tr:hover {{
 <div class="disclaimer">{DISCLAIMER}</div>
 
 <div class="note">
-Backtest period: {start_date} → {end_date}. This evaluates match-winner accuracy using historical completed matches. 
+Backtest period: {start_date} → {end_date}. This evaluates match-winner accuracy using historical completed matches.
 Odds-based PLAY profitability requires stored daily odds snapshots.
 </div>
 
