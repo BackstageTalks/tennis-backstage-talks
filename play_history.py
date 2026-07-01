@@ -9,7 +9,11 @@ except Exception:
 
 
 MIN_ODDS = 1.50
-MIN_PLAY_PROBABILITY = 0.60
+
+# Bootstrap threshold.
+# Start lower to collect enough real candidates.
+# We will tighten this after 100-300 settled PLAY candidates.
+MIN_PLAY_PROBABILITY = 0.57
 
 DATA_HISTORY_PATH = "data/play_candidates_history.jsonl"
 PUBLIC_HISTORY_PATH = "public/play_candidates_history.jsonl"
@@ -50,6 +54,8 @@ def compact_candidate(prediction, date, rank):
         "date": date,
         "rank": rank,
 
+        "selection_threshold": MIN_PLAY_PROBABILITY,
+
         "pick": prediction.get("pick"),
         "opponent": prediction.get("opponent"),
         "match": prediction.get("match"),
@@ -72,6 +78,8 @@ def compact_candidate(prediction, date, rank):
         "odds_player1": prediction.get("odds_player1"),
         "odds_player2": prediction.get("odds_player2"),
         "odds_source": prediction.get("odds_source"),
+        "bookmaker": prediction.get("bookmaker"),
+        "odds_event_id": prediction.get("odds_event_id"),
 
         "market_probability": prediction.get("market_probability"),
 
@@ -80,12 +88,21 @@ def compact_candidate(prediction, date, rank):
         "elo_player1": prediction.get("elo_player1"),
         "elo_player2": prediction.get("elo_player2"),
 
+        "overall_elo_player1": prediction.get("overall_elo_player1"),
+        "overall_elo_player2": prediction.get("overall_elo_player2"),
+        "surface_elo_player1": prediction.get("surface_elo_player1"),
+        "surface_elo_player2": prediction.get("surface_elo_player2"),
+
         "elo_found_player1": prediction.get("elo_found_player1"),
         "elo_found_player2": prediction.get("elo_found_player2"),
         "elo_reliability_player1": prediction.get("elo_reliability_player1"),
         "elo_reliability_player2": prediction.get("elo_reliability_player2"),
+        "surface_reliability_player1": prediction.get("surface_reliability_player1"),
+        "surface_reliability_player2": prediction.get("surface_reliability_player2"),
         "elo_matches_player1": prediction.get("elo_matches_player1"),
         "elo_matches_player2": prediction.get("elo_matches_player2"),
+        "surface_matches_player1": prediction.get("surface_matches_player1"),
+        "surface_matches_player2": prediction.get("surface_matches_player2"),
 
         "model_source": prediction.get("model_source"),
         "model_version": prediction.get("model_version"),
