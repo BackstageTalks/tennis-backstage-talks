@@ -430,7 +430,7 @@ def run():
         elo_store = build_elo(training_matches)
         form_store = build_form_store(training_matches)
 
-        for match in grouped[date]:
+      for match in grouped[date]:
     elo_rows.append(
         make_elo_only_prediction(match, elo_store)
     )
