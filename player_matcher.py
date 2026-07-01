@@ -79,7 +79,6 @@ def initial_match_score(a, b):
     if a_first == b_first:
         return 1.0
 
-    # ✅ FIXED LINE
     if a_first[0] == b_first[0]:
         return 0.65
 
@@ -96,8 +95,8 @@ def compact_name_score(a, b):
     if last_name(a) != last_name(b):
         return 0.0
 
-    a_initials = "".join(t[0] for t in a_tokens[:-1])
-    b_initials = "".join(t[0] for t in b_tokens[:-1])
+    a_initials = "".join(t[0] for t in a_tokens[:-1] if t)
+    b_initials = "".join(t[0] for t in b_tokens[:-1] if t)
 
     if not a_initials or not b_initials:
         return 0.0
@@ -162,7 +161,7 @@ def best_player_match(query_name, candidate_names, auto_threshold=0.60):
 
     candidate_last = last_name(best_key)
 
-    # ✅ bezpečný filter
+    # HARD FILTER – surname musí sedieť
     if query_last != candidate_last:
         return None, best_score, "rejected_lastname"
 
