@@ -1,73 +1,228 @@
 from fetch_matches import get_today_matches
+from stats_engine import get_stats_context
 from elo_engine import load, predict
-from odds_api import fetch_odds
+from odds_api import fetch_odds, find_match_odds
 
 TOP_N = 5
 MIN_ODDS = 1.50
 
 
-def norm(name):
-    return name.lower().strip().split()[-1]
+def safe_float(value):
+    try:
+        if value is None:
+            return None
+        return float(value)
+    except Exception:
+        return None
 
 
-def match(p1, p2, o1, o2):
-    return (
-        (norm(p1) == norm(o1) and norm(p2) == norm(o2)) or
-        (norm(p1) == norm(o2) and norm(p2) == norm(o1))
-    )
+def normalize_match(match):
+    if isinstance(match, dict):
+        return {
+            "player1": match.get("player1"),
+            "player2": match.get("player2"),
+            "tournament": match.get("tournament", "Tennis"),
+            "odds_player1": safe_float(match.get("odds_player1")),
+            "odds_player2": safe_float(match.get("odds_player2")),
+            "odds_source": match.get("odds_source"),
+            "match_start": match.get("match_start"),
+            "match_time_raw": match.get("match_time_raw"),
+            "time": match.get("time") or match.get("match_time") or match.get("match_time_raw") or "TBD",
+        }
+
+    return {
+        "player1": match[0],
+        "player2": match[1],
+        "tournament": match[2] if len(match) > 2 else "Tennis",
+        "odds_player1": None,
+        "odds_player2": None,
+        "odds_source": None,
+        "match_start": None,
+        "match_time_raw": None,
+        "time": "TBD",
+    }
 
 
-def find_odds(p1, p2, odds):
-    for m in odds:
-        if match(p1, p2, m["p1"], m["p2"]):
-            return m
-    return None
+def infer_surface(surface_map, player1, player2):
+    key = f"{player1}::{player2}"
+    return surface_map.get(key, "Hard")
+
+
+def build_prediction_record(match, surface, elo_prediction, odds_data):
+    player1 = match["player1"]
+    player2 = match["player2"]
+
+    prob1 = elo_prediction["probability_player1"]
+    prob2 = elo_prediction["probability_player2"]
+
+    odds1 = safe_float(match.get("odds_player1"))
+    odds2 = safe_float(match.get("odds_player2"))
+
+    if odds1 is None:
+        odds1 = safe_float(odds_data.get("odds_player1"))
+
+    if odds2 is None:
+        odds2 = safe_float(odds_data.get("odds_player2"))
+
+    odds_source = match.get("odds_source") or odds_data.get("odds_source")
+
+    if prob1 >= prob2:
+        pick = player1
+        opponent = player2
+        probability = prob1
+        opponent_probability = prob2
+        odds = odds1
+        elo_player = elo_prediction.get("elo_player1")
+        elo_opponent = elo_prediction.get("elo_player2")
+    else:
+        pick = player2
+        opponent = player1
+        probability = prob2
+        opponent_probability = prob1
+        odds = odds2
+        elo_player = elo_prediction.get("elo_player2")
+        elo_opponent = elo_prediction.get("elo_player1")
+
+    return {
+        "player1": player1,
+        "player2": player2,
+        "match": f"{player1} vs {player2}",
+        "pick": pick,
+        "opponent": opponent,
+        "tournament": match.get("tournament", "Tennis"),
+        "surface": surface,
+
+        "probability": round(probability, 3),
+        "opponent_probability": round(opponent_probability, 3),
+        "confidence": round(abs(probability - 0.5), 3),
+        "score": round(probability, 3),
+        "winner_rank_score": round(probability, 3),
+
+        "odds": odds,
+        "odds_player1": odds1,
+        "odds_player2": odds2,
+        "odds_source": odds_source,
+        "odds_match_score": odds_data.get("match_score"),
+
+        "market_probability": round(1 / odds, 3) if odds else None,
+        "bookie_value_edge": None,
+        "ev_score": None,
+        "ev_percent": None,
+        "market_agrees": None,
+        "bookie_signal": "NOT_USED",
+        "market_warning": "NOT_USED",
+        "overround": None,
+
+        "elo_player": round(elo_player, 1) if elo_player is not None else None,
+        "elo_opponent": round(elo_opponent, 1) if elo_opponent is not None else None,
+        "elo_player1": round(elo_prediction.get("elo_player1"), 1) if elo_prediction.get("elo_player1") is not None else None,
+        "elo_player2": round(elo_prediction.get("elo_player2"), 1) if elo_prediction.get("elo_player2") is not None else None,
+
+        "model_source": "CUSTOM_ELO",
+        "model_version": elo_prediction.get("model", "CUSTOM_ELO"),
+        "bet_tag": None,
+
+        "match_start": match.get("match_start"),
+        "match_time_raw": match.get("match_time_raw"),
+        "time": match.get("time", "TBD"),
+
+        "short_reason": "Custom Elo probability. Real odds used only as TOP filter.",
+        "extra_signals": [
+            "Custom Elo model",
+            "Odds used only as strict filter",
+            "No EV",
+            "No market edge",
+            "No WELO",
+        ],
+        "alternative_market_info": {
+            "note": "INFO ONLY - not used for TOP selection"
+        },
+        "alternative_bets": [],
+    }
 
 
 def build_all_predictions():
-    matches = get_today_matches()
-    odds = fetch_odds()
-    elo = load()
+    raw_matches = get_today_matches()
 
-    out = []
+    if not raw_matches:
+        print("NO MATCHES FOUND")
+        return []
 
-    for m in matches:
-        p1 = m["player1"]
-        p2 = m["player2"]
-        t = m.get("time", "")
+    matches = [normalize_match(m) for m in raw_matches]
+    matches = [m for m in matches if m.get("player1") and m.get("player2")]
 
-        pred = predict(p1, p2, "hard", elo)
+    players = []
 
-        o = find_odds(p1, p2, odds)
+    for match in matches:
+        if match["player1"] not in players:
+            players.append(match["player1"])
+        if match["player2"] not in players:
+            players.append(match["player2"])
 
-        odds1 = o["odds1"] if o else None
-        odds2 = o["odds2"] if o else None
+    stats_map, surface_map = get_stats_context(players, matches)
 
-        if pred["probability_player1"] >= pred["probability_player2"]:
-            pick = p1
-            prob = pred["probability_player1"]
-            od = odds1
-        else:
-            pick = p2
-            prob = pred["probability_player2"]
-            od = odds2
+    elo_store = load()
+    odds_matches = fetch_odds()
 
-        out.append({
-            "player1": p1,
-            "player2": p2,
-            "pick": pick,
-            "probability": round(prob, 3),
-            "odds": od,
-            "time": t
-        })
+    all_predictions = []
 
-    return sorted(out, key=lambda x: x["probability"], reverse=True)
+    for match in matches:
+        player1 = match["player1"]
+        player2 = match["player2"]
+
+        surface = infer_surface(surface_map, player1, player2)
+
+        elo_prediction = predict(
+            player1,
+            player2,
+            surface,
+            elo_store
+        )
+
+        odds_data = find_match_odds(player1, player2, odds_matches)
+
+        prediction = build_prediction_record(
+            match=match,
+            surface=surface,
+            elo_prediction=elo_prediction,
+            odds_data=odds_data,
+        )
+
+        all_predictions.append(prediction)
+
+    all_predictions.sort(
+        key=lambda x: x.get("probability") or 0,
+        reverse=True
+    )
+
+    print("ALL MATCHES:", len(all_predictions))
+    print("WITH ODDS:", sum(1 for p in all_predictions if p.get("odds") is not None))
+
+    return all_predictions
 
 
-def get_top_predictions(all_preds):
-    valid = [
-        x for x in all_preds
-        if x["odds"] and x["odds"] >= MIN_ODDS
+def get_top_predictions(all_predictions=None):
+    if all_predictions is None:
+        all_predictions = build_all_predictions()
+
+    eligible = [
+        prediction for prediction in all_predictions
+        if prediction.get("odds") is not None
+        and prediction.get("odds") >= MIN_ODDS
     ]
 
-    return valid[:TOP_N]
+    eligible.sort(
+        key=lambda x: x.get("probability") or 0,
+        reverse=True
+    )
+
+    top_predictions = eligible[:TOP_N]
+
+    print("TOP ELIGIBLE:", len(eligible))
+    print("TOP COUNT:", len(top_predictions))
+
+    return top_predictions
+
+
+def get_daily_predictions():
+    return get_top_predictions()
