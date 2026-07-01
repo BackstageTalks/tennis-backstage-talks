@@ -430,24 +430,25 @@ def run():
         elo_store = build_elo(training_matches)
         form_store = build_form_store(training_matches)
 
-       
-    for match in grouped```
+        for match in groupedelo_rows.append(
+                make_elo_only_prediction(match, elo_store)
+            )
 
-    Nie:
-
-    ```python
-    for match in grouped```
-
+            form_rows.append(
+                make_elo_form_prediction(match, elo_store, form_store)
+            )
 
     elo_rows.sort(key=lambda x: x["probability"], reverse=True)
     form_rows.sort(key=lambda x: x["probability"], reverse=True)
 
-    elo_summary = summarize(elo_rows)
-    form_summary = summarize(form_rows)
+for match in grouped[date]:
+            elo_rows.append(
+                make_elo_only_prediction(match, elo_store)
+            )
 
-    output = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
-        "period_start": start_date,
+            form_rows.append(
+                make_elo_form_prediction(rm_store)
+            )
         "period_end": end_date,
         "mode": "rolling_last_7_completed_days_retro_lab",
         "note": "Odds-based PLAY profitability requires stored daily odds snapshots.",
