@@ -48,19 +48,15 @@ def name_tokens(name):
 
 def last_name(name):
     tokens = name_tokens(name)
-
     if not tokens:
         return ""
-
     return tokens[-1]
 
 
 def first_name(name):
     tokens = name_tokens(name)
-
     if not tokens:
         return ""
-
     return tokens[0]
 
 
@@ -94,12 +90,6 @@ def initial_match_score(a, b):
 
 
 def compact_name_score(a, b):
-    """
-    Helps with cases like:
-    J L Struff vs Jan Lennard Struff
-    Jan-Lennard Struff vs J-L Struff
-    """
-
     a_tokens = name_tokens(a)
     b_tokens = name_tokens(b)
 
@@ -125,11 +115,6 @@ def compact_name_score(a, b):
 
 
 def player_name_match_score(query_name, candidate_name):
-    """
-    Returns score 0.00 - 1d.
-    Higher is better.
-    """
-
     q = normalize_name(query_name)
     c = normalize_name(candidate_name)
 
@@ -158,44 +143,3 @@ def player_name_match_score(query_name, candidate_name):
         score *= 0.45
 
     score = max(0.0, min(1.0, score))
-
-    if score >= 0.98:
-        method = "near_exact"
-    elif q_last and c_last and q_last == c_last and token_score >= 0.50:
-        method = "surname_token"
-    elif compact_score > 0:
-        method = "surname_initials"
-    else:
-        method = "fuzzy"
-
-    return round(score, 3), method
-
-
-def best_player_match(query_name, candidate_names, auto_threshold=0.60):
-    """
-    Loose name matching for ELO lookup.
-
-    If best score >= 0.60, we accept the match.
-    This is intentionally looser to improve ELO coverage.
-    Debug fields will show match score and method.
-    """
-
-    best_key = None
-    best_score = 0.0
-    best_method = "none"
-
-    for candidate in candidate_names:
-        score, method = player_name_match_score(query_name, candidate)
-
-        if score > best_score:
-            best_key = candidate
-            best_score = score
-            best_method = method
-
-    if best_key is None:
-        return None, 0.0, "none"
-
-    if best_score >= auto_threshold:
-        return best_key, best_score, best_method
-
-    return None, best_score, best_method
