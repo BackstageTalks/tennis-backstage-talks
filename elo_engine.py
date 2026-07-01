@@ -24,8 +24,10 @@ def normalize(name):
 
 def name_tokens(name):
     key = normalize(name)
+
     if not key:
         return []
+
     return key.split()
 
 
@@ -50,6 +52,7 @@ def name_variants(name):
         variants.add(parts[-2] + " " + parts[-1])
         variants.add(parts[0] + " " + parts[-2] + " " + parts[-1])
         variants.add(parts[-1] + " " + parts[-2] + " " + parts[0])
+        variants.add(parts[0] + " " + parts[1])
 
     return variants
 
@@ -110,11 +113,11 @@ def ensure(store, player):
 def update_match(store, player1, player2, winner, surface, date=None):
     p1 = ensure(store, player1)
     p2 = ensure(store, player2)
-    w = normalize(winner)
+    winner_key = normalize(winner)
 
     s_key = surface_key(surface)
 
-    score1 = 1 if w == p1 else 0
+    score1 = 1 if winner_key == p1 else 0
     score2 = 1 - score1
 
     k1 = dynamic_k(store[p1]["matches"])
@@ -122,7 +125,7 @@ def update_match(store, player1, player2, winner, surface, date=None):
 
     weight = get_recency_weight(date)
 
-    # surface Elo update
+    # Surface Elo
     r1 = store[p1][s_key]
     r2 = store[p2][s_key]
 
@@ -132,7 +135,7 @@ def update_match(store, player1, player2, winner, surface, date=None):
     store[p1][s_key] = r1 + k1 * weight * (score1 - exp1)
     store[p2][s_key] = r2 + k2 * weight * (score2 - exp2)
 
-    # overall Elo update
+    # Overall Elo
     o1 = store[p1]["Elo"]
     o2 = store[p2]["Elo"]
 
@@ -207,13 +210,20 @@ def candidate_score(player_name, candidate_key):
 
     score = overlap / total
 
-    # surname bonus
     if player_parts[-1] == candidate_parts[-1]:
-        score += 0.25
+        score += 0.30
 
-    # reversed name bonus
-    if len(player_parts) >= 2 and " ".join(reversed(player_parts)) == candidate_key:
-        score += 0.25
+    if len(player_parts) >= 2:
+        reversed_player = " ".join(reversed(player_parts))
+        if reversed_player == candidate_key:
+            score += 0.30
+
+    # handle cases like "Daniel Merida Aguilar" vs "Merida Aguilar Daniel"
+    if len(player_parts) >= 3 and len(candidate_parts) >= 3:
+        if player_parts[-1] == candidate_parts[-1]:
+            score += 0.15
+        if player_parts[-2] == candidate_parts[-2]:
+            score += 0.10
 
     return min(score, 1.0)
 
@@ -222,16 +232,23 @@ def find_player_key(store, player):
     if not player:
         return None
 
-    key = normalize(player)
+    direct_key = normalize(player)
 
-    if key in store:
-        return key
+    if direct_key in store:
+        return direct_key
 
-    variants = name_variants(player)
+    player_variants = name_variants(player)
 
-    for variant in variants:
+    for variant in player_variants:
         if variant in store:
             return variant
+
+    # Candidate variants intersection
+    for candidate_key in store.keys():
+        candidate_variants = name_variants(candidate_key)
+
+        if player_variants.intersection(candidate_variants):
+            return candidate_key
 
     best_key = None
     best_score = 0.0
@@ -243,7 +260,7 @@ def find_player_key(store, player):
             best_score = score
             best_key = candidate_key
 
-    if best_score >= 0.55:
+    if best_score >= 0.50:
         return best_key
 
     return None
@@ -268,7 +285,6 @@ def get_raw_elo(store, player, surface):
     if overall_elo is None:
         overall_elo = DEFAULT_ELO
 
-    # hybrid Elo: surface + overall
     final_elo = 0.7 * surface_elo + 0.3 * overall_elo
 
     return final_elo, True, player_key
