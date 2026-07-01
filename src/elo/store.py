@@ -2,111 +2,94 @@ import pandas as pd
 from pathlib import Path
 from datetime import datetime
 
-BASE = Path("data/elo")
-BASE.mkdir(parents=True, exist_ok=True)
+BASE_DIR = Path("data/elo")
+BASE_DIR.mkdir(parents=True, exist_ok=True)
 
-LATEST = {
-    "atp_elo": BASE / "atp_elo_latest.csv",
-    "wta_elo": BASE / "wta_elo_latest.csv",
-    "atp_yelo": BASE / "atp_yelo_latest.csv",
-    "wta_yelo": BASE / "wta_yelo_latest.csv",
+LATEST_FILES = {
+    "atp_elo": BASE_DIR / "atp_elo_latest.csv",
+    "wta_elo": BASE_DIR / "wta_elo_latest.csv",
+    "atp_yelo": BASE_DIR / "atp_yelo_latest.csv",
+    "wta_yelo": BASE_DIR / "wta_yelo_latest.csv",
 }
 
-HISTORY = BASE / "elo_history.csv"
+HISTORY_FILE = BASE_DIR / "elo_history.csv"
 
 
 def save_latest(name, df):
-    df.to_csv(LATEST[name], index=False)
+    """
+    Save newest snapshot.
+    """
+    df.to_csv(LATEST_FILES[name], index=False)
 
 
 def load_latest(name):
-    return pd.read_csv(LATEST[name])
+    """
+    Load latest snapshot.
+    """
+    path = LATEST_FILES[name]
+
+    if not path.exists():
+        return pd.DataFrame()
+
+    return pd.read_csv(path)
 
 
 def load_history():
-    if HISTORY.exists():
-        return pd.read_csv(HISTORY)
+    """
+    Load historical Elo database.
+    """
+    if not HISTORY_FILE.exists():
+        return pd.DataFrame()
 
-    return pd.DataFrame()
+    return pd.read_csv(HISTORY_FILE)
 
 
 def append_history(name, df):
-    df = df.copy()
+    """
+    Store weekly historical snapshots.
+    """
 
     today = datetime.utcnow().strftime("%Y-%m-%d")
 
-    tour = "ATP" if "atp" in name else "WTA"
-    typ = "yelo" if "yelo" in name else "elo"
+    tour = "ATP" if name.startswith("atp") else "WTA"
+    rating_type = "yelo" if "yelo" in name else "elo"
 
-    rows = []
+    snapshot_rows = []
 
-    for _, r in df.iterrows():
+    for _, row in df.iterrows():
 
-        player = r["Player"]
+        snapshot_rows.append({
+            "snapshot_date": today,
+            "tour": tour,
+            "rating_type": rating_type,
+            "player": row.get("Player", ""),
 
-        if typ == "elo":
+            "elo": row.get("elo", 0),
+            "yelo": row.get("yelo", 0),
 
-            rows.append({
-                "date": today,
-                "tour": tour,
-                "type": "elo",
-                "player": player,
-                "elo": r.get("elo", 0),
-                "surface": "hard",
-                "surface_elo": r.get("hard_elo", 0),
-                "yelo": 0
-            })
+            "hard_elo": row.get("hard_elo", 0),
+            "clay_elo": row.get("clay_elo", 0),
+            "grass_elo": row.get("grass_elo", 0)
+        })
 
-            rows.append({
-                "date": today,
-                "tour": tour,
-                "type": "elo",
-                "player": player,
-                "elo": r.get("elo", 0),
-                "surface": "clay",
-                "surface_elo": r.get("clay_elo", 0),
-                "yelo": 0
-            })
+    new_df = pd.DataFrame(snapshot_rows)
 
-            rows.append({
-                "date": today,
-                "tour": tour,
-                "type": "elo",
-                "player": player,
-                "elo": r.get("elo", 0),
-                "surface": "grass",
-                "surface_elo": r.get("grass_elo", 0),
-                "yelo": 0
-            })
+    if HISTORY_FILE.exists():
 
-        else:
+        history = pd.read_csv(HISTORY_FILE)
 
-            rows.append({
-                "date": today,
-                "tour": tour,
-                "type": "yelo",
-                "player": player,
-                "elo": 0,
-                "surface": "",
-                "surface_elo": 0,
-                "yelo": r.get("yelo", 0)
-            })
-
-    new_df = pd.DataFrame(rows)
-
-    if HISTORY.exists():
-
-        old = pd.read_csv(HISTORY)
-
-        exists = (
-            (old["date"] == today)
-            & (old["tour"] == tour)
-            & (old["type"] == typ)
+        already_exists = (
+            (history["snapshot_date"] == today)
+            & (history["tour"] == tour)
+            & (history["rating_type"] == rating_type)
         ).any()
 
-        if exists:
+        if already_exists:
             return
 
-        new_df = pd.concat([old, new_df], ignore_index=True)
+        new_df = pd.concat(
+            [history, new_df],
+            ignore_index=True
+        )
 
-    new_df.to_csv(HISTORY, index=False)
+    new_df.to_csv(HISTORY_FILE, index=False)
