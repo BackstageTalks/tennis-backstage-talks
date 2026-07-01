@@ -1,15 +1,14 @@
 from fetch_matches import get_today_matches
+from stats_engine import get_stats_context
 from elo_engine import load, predict
 from odds_api import fetch_odds, find_match_odds
 
-try:
-    from stats_engine import get_stats_context
-except Exception:
-    get_stats_context = None
-
-
 TOP_N = 5
 MIN_ODDS = 1.50
+
+
+def clamp(value, low, high):
+    return max(low, min(high, value))
 
 
 def safe_float(value):
@@ -53,26 +52,135 @@ def normalize_match(match):
     }
 
 
-def get_surface_map(players, matches):
-    if get_stats_context is None:
-        return {}
-
-    try:
-        stats_map, surface_map = get_stats_context(players, matches)
-        return surface_map or {}
-    except Exception as e:
-        print("SURFACE MAP ERROR:", e)
-        return {}
-
-
 def infer_surface(surface_map, player1, player2):
     key = f"{player1}::{player2}"
     return surface_map.get(key, "Hard")
 
 
+def is_best_of_five(tournament):
+    text = str(tournament or "").lower()
+
+    if "wta" in text or "women" in text or "women's" in text:
+        return False
+
+    if "wimbledon" in text:
+        return True
+
+    if "grand slam" in text and ("atp" in text or "men" in text):
+        return True
+
+    return False
+
+
+def build_sets_games_info(probability, tournament):
+    if probability is None:
+        return {
+            "bo_format": None,
+            "most_likely_sets": None,
+            "sets_probability": None,
+            "sets_fair_odds": None,
+            "over_2_5_sets_probability": None,
+            "under_2_5_sets_probability": None,
+            "over_3_5_sets_probability": None,
+            "under_3_5_sets_probability": None,
+            "over_4_5_sets_probability": None,
+            "under_4_5_sets_probability": None,
+            "expected_games": None,
+            "games_lean": None,
+            "note": "INFO ONLY - not used for TOP selection",
+        }
+
+    p = clamp(probability, 0.05, 0.95)
+    edge = abs(p - 0.5)
+
+    bo_format = "BO5" if is_best_of_five(tournament) else "BO3"
+
+    if bo_format == "BO5":
+        over_3_5 = clamp(0.76 - edge * 0.90, 0.34, 0.82)
+        under_3_5 = 1 - over_3_5
+
+        over_4_5 = clamp(0.45 - edge * 0.70, 0.15, 0.50)
+        under_4_5 = 1 - over_4_5
+
+        expected_games = round(clamp(39.5 - edge * 22.0, 29.0, 46.0), 1)
+
+        if over_4_5 >= 0.43:
+            most_likely_sets = "5 sets"
+            sets_probability = over_4_5
+        elif over_3_5 >= 0.55:
+            most_likely_sets = "4+ sets"
+            sets_probability = over_3_5
+        else:
+            most_likely_sets = "3 sets"
+            sets_probability = under_3_5
+
+        sets_fair_odds = round(1 / sets_probability, 2)
+
+        if expected_games >= 39.0:
+            games_lean = "Over 38.5"
+        elif expected_games <= 36.5:
+            games_lean = "Under 37.5"
+        else:
+            games_lean = "No clear games lean"
+
+        return {
+            "bo_format": "BO5",
+            "most_likely_sets": most_likely_sets,
+            "sets_probability": round(sets_probability, 3),
+            "sets_fair_odds": sets_fair_odds,
+            "over_2_5_sets_probability": None,
+            "under_2_5_sets_probability": None,
+            "over_3_5_sets_probability": round(over_3_5, 3),
+            "under_3_5_sets_probability": round(under_3_5, 3),
+            "over_4_5_sets_probability": round(over_4_5, 3),
+            "under_4_5_sets_probability": round(under_4_5, 3),
+            "expected_games": expected_games,
+            "games_lean": games_lean,
+            "note": "INFO ONLY - not used for TOP selection",
+        }
+
+    over_2_5 = clamp(0.62 - edge * 1.00, 0.32, 0.62)
+    under_2_5 = 1 - over_2_5
+
+    expected_games = round(clamp(23.0 - edge * 11.0, 18.0, 24.5), 1)
+
+    if over_2_5 >= under_2_5:
+        most_likely_sets = "3 sets"
+        sets_probability = over_2_5
+    else:
+        most_likely_sets = "2 sets"
+        sets_probability = under_2_5
+
+    sets_fair_odds = round(1 / sets_probability, 2)
+
+    if expected_games >= 22.2:
+        games_lean = "Over 21.5"
+    elif expected_games <= 20.8:
+        games_lean = "Under 21.5"
+    else:
+        games_lean = "No clear games lean"
+
+    return {
+        "bo_format": "BO3",
+        "most_likely_sets": most_likely_sets,
+        "sets_probability": round(sets_probability, 3),
+        "sets_fair_odds": sets_fair_odds,
+        "over_2_5_sets_probability": round(over_2_5, 3),
+        "under_2_5_sets_probability": round(under_2_5, 3),
+        "over_3_5_sets_probability": None,
+        "under_3_5_sets_probability": None,
+        "over_4_5_sets_probability": None,
+        "under_4_5_sets_probability": None,
+        "expected_games": expected_games,
+        "games_lean": games_lean,
+        "note": "INFO ONLY - not used for TOP selection",
+    }
+
+
 def build_prediction_record(match, surface, elo_prediction, odds_data):
     player1 = match["player1"]
     player2 = match["player2"]
+    tournament = match.get("tournament", "Tennis")
 
     prob1 = elo_prediction["probability_player1"]
     prob2 = elo_prediction["probability_player2"]
@@ -105,13 +213,18 @@ def build_prediction_record(match, surface, elo_prediction, odds_data):
         elo_player = elo_prediction.get("elo_player2")
         elo_opponent = elo_prediction.get("elo_player1")
 
+    alternative_market_info = build_sets_games_info(
+        probability=probability,
+        tournament=tournament,
+    )
+
     return {
         "player1": player1,
         "player2": player2,
         "match": f"{player1} vs {player2}",
         "pick": pick,
         "opponent": opponent,
-        "tournament": match.get("tournament", "Tennis"),
+        "tournament": tournament,
         "surface": surface,
 
         "probability": round(probability, 3),
@@ -140,6 +253,11 @@ def build_prediction_record(match, surface, elo_prediction, odds_data):
         "elo_player1": round(elo_prediction.get("elo_player1"), 1) if elo_prediction.get("elo_player1") is not None else None,
         "elo_player2": round(elo_prediction.get("elo_player2"), 1) if elo_prediction.get("elo_player2") is not None else None,
 
+        "elo_found_player1": elo_prediction.get("elo_found_player1"),
+        "elo_found_player2": elo_prediction.get("elo_found_player2"),
+        "elo_matched_key_player1": elo_prediction.get("elo_matched_key_player1"),
+        "elo_matched_key_player2": elo_prediction.get("elo_matched_key_player2"),
+
         "model_source": "CUSTOM_ELO",
         "model_version": elo_prediction.get("model", "CUSTOM_ELO"),
         "bet_tag": None,
@@ -155,10 +273,9 @@ def build_prediction_record(match, surface, elo_prediction, odds_data):
             "No EV",
             "No market edge",
             "No WELO",
+            "Sets/games are INFO ONLY",
         ],
-        "alternative_market_info": {
-            "note": "INFO ONLY - not used for TOP selection"
-        },
+        "alternative_market_info": alternative_market_info,
         "alternative_bets": [],
     }
 
@@ -185,11 +302,16 @@ def build_all_predictions():
         if match["player2"] not in players:
             players.append(match["player2"])
 
-    surface_map = get_surface_map(players, matches)
+    try:
+        stats_map, surface_map = get_stats_context(players, matches)
+    except Exception as e:
+        print("STATS CONTEXT ERROR:", e)
+        surface_map = {}
 
     elo_store = load()
     odds_matches = fetch_odds()
 
+    print("ELO STORE PLAYERS:", len(elo_store))
     print("ODDS MATCHES RAW:", len(odds_matches))
 
     all_predictions = []
@@ -225,6 +347,8 @@ def build_all_predictions():
 
     print("ALL MATCHES:", len(all_predictions))
     print("WITH ODDS:", sum(1 for p in all_predictions if p.get("odds") is not None))
+    print("ELO FOUND BOTH:", sum(1 for p in all_predictions if p.get("elo_found_player1") and p.get("elo_found_player2")))
+    print("ELO MISSING:", sum(1 for p in all_predictions if not (p.get("elo_found_player1") and p.get("elo_found_player2"))))
 
     return all_predictions
 
@@ -234,9 +358,9 @@ def get_top_predictions(all_predictions=None):
         all_predictions = build_all_predictions()
 
     eligible = [
-        p for p in all_predictions
-        if p.get("odds") is not None
-        and p.get("odds") >= MIN_ODDS
+        prediction for prediction in all_predictions
+        if prediction.get("odds") is not None
+        and prediction.get("odds") >= MIN_ODDS
     ]
 
     eligible.sort(
