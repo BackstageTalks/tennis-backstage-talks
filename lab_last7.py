@@ -430,13 +430,14 @@ def run():
         elo_store = build_elo(training_matches)
         form_store = build_form_store(training_matches)
 
-        for match in groupedelo_rows.append(
-                make_elo_only_prediction(match, elo_store)
-            )
+       
+    for match in grouped```
 
-            form_rows.append(
-                make_elo_form_prediction(match, elo_store, form_store)
-            )
+    Nie:
+
+    ```python
+    for match in grouped```
+
 
     elo_rows.sort(key=lambda x: x["probability"], reverse=True)
     form_rows.sort(key=lambda x: x["probability"], reverse=True)
