@@ -47,18 +47,15 @@ def extract_match_odds(event):
         away = event.get("away_team")
 
         bookmakers = event.get("bookmakers", [])
-
         if not bookmakers:
             return None
 
         bookmaker = bookmakers[0]
         markets = bookmaker.get("markets", [])
-
         if not markets:
             return None
 
         outcomes = markets[0].get("outcomes", [])
-
         if len(outcomes) < 2:
             return None
 
@@ -89,16 +86,13 @@ def fetch_odds():
 
         for event in events:
             record = extract_match_odds(event)
-
             if record:
                 all_matches.append(record)
 
     print("TOTAL ODDS MATCHES:", len(all_matches))
-
     return all_matches
 
 
-# SIMPLE STRING MATCH (same logic as before)
 def normalize_name(name):
     return str(name or "").lower().replace("-", " ").strip()
 
@@ -133,7 +127,7 @@ def find_match_odds(player1, player2, odds_matches):
             best = m
             best_score = score
 
-        # skús aj opačné poradie
+        # reverse
         score1_rev = match_score(player1, m["player2"])
         score2_rev = match_score(player2, m["player1"])
 
@@ -147,13 +141,3 @@ def find_match_odds(player1, player2, odds_matches):
                 "odds_player2": m["odds_player1"],
                 "bookmaker": m["bookmaker"],
                 "event_id": m["event_id"],
-                "odds_source": m["odds_source"],
-            }
-            best_score = score_rev
-
-    if not best:
-        return {}
-
-    best["match_score"] = round(best_score, 3)
-
-    return best
