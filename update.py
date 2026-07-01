@@ -1,82 +1,71 @@
+import json
 import os
+from datetime import datetime, timezone
+
 from prediction_engine import build_all_predictions, get_top_predictions
-from history_tracker import save_today_bets
-from rss_generator import generate_rss
 
 
-def ensure(path):
-    os.makedirs(path, exist_ok=True)
+def save_json(path, data):
+    directory = os.path.dirname(path)
+
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-def html(title, data):
-    out = f"""<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>{title}</title>
-</head>
-<body style="background:#111;color:white;font-family:Arial;padding:20px;">
-<h1>{title}</h1>
-<hr>
-"""
+def build_debug(all_predictions, top_predictions):
+    with_odds = [
+        p for p in all_predictions
+        if p.get("odds") is not None
+    ]
 
-    if not data:
-        return out + "<h2>No data</h2></body></html>"
+    eligible = [
+        p for p in all_predictions
+        if p.get("odds") is not None and p.get("odds") >= 1.50
+    ]
 
-    out += f"<p>Total: {len(data)}</p>"
-
-    for i, p in enumerate(data, 1):
-        opp = p["player2"] if p["pick"] == p["player1"] else p["player1"]
-
-        out += f"""
-<div style="margin-bottom:10px;padding:10px;border:1px solid #333;">
-<b>#{i}</b><br>
-Pick: {p['pick']}<br>
-Opponent: {opp}<br>
-Win%: {p['probability']}<br>
-Odds: {p['odds']}<br>
-Time: {p.get('time','')}
-</div>
-"""
-
-    return out + "</body></html>"
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "all_count": len(all_predictions),
+        "top_count": len(top_predictions),
+        "with_odds_count": len(with_odds),
+        "eligible_odds_1_50_count": len(eligible),
+        "max_probability": max(
+            [p.get("probability") or 0 for p in all_predictions],
+            default=0
+        ),
+        "sample_all": all_predictions[:5],
+        "sample_top": top_predictions[:5],
+    }
 
 
 def run():
-    print("BUILDING ALL...")
-    all_preds = build_all_predictions()
-    print("ALL:", len(all_preds))
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
-    print("BUILDING TOP...")
-    top_preds = get_top_predictions(all_preds)
-    print("TOP:", len(top_preds))
+    print("BUILDING ALL PREDICTIONS...")
+    all_predictions = build_all_predictions()
 
-    save_today_bets(top_preds)
+    print("BUILDING TOP PREDICTIONS...")
+    top_predictions = get_top_predictions(all_predictions)
 
-    # ✅ vytvor foldery v ROOT
-    ensure("839201239012")
-    ensure("777123987111")
+    os.makedirs("public", exist_ok=True)
 
-    # ✅ ROOT redirect
-    with open("index.html", "w") as f:
-        f.write("""<html><head>
-<meta http-equiv="refresh" content="0; url=777123987111/">
-</head></html>""")
+    top_path = f"public/predictions_{today}.json"
+    all_path = f"public/all_predictions_{today}.json"
+    debug_path = "public/debug_counts.json"
 
-    # ✅ ALL
-    with open("839201239012/index.html", "w") as f:
-        f.write(html("ALL MATCHES", all_preds))
+    debug_data = build_debug(all_predictions, top_predictions)
 
-    # ✅ TOP
-    with open("777123987111/index.html", "w") as f:
-        f.write(html("TOP PICKS", top_preds))
+    save_json(top_path, top_predictions)
+    save_json(all_path, all_predictions)
+    save_json(debug_path, debug_data)
 
-    # ✅ RSS
-    rss = generate_rss(top_preds)
-    with open("999333111777.xml", "w") as f:
-        f.write(rss)
-
-    print("DONE ✅")
+    print("SAVED TOP:", top_path, len(top_predictions))
+    print("SAVED ALL:", all_path, len(all_predictions))
+    print("SAVED DEBUG:", debug_path)
+    print("DEBUG:", debug_data)
 
 
 if __name__ == "__main__":
