@@ -1,3 +1,10 @@
+for match in grouped```
+
+Nižšie je **celý čistý opravený `lab_last7.py`**.
+
+---
+
+```python
 import json
 import os
 from datetime import datetime, timedelta, timezone
