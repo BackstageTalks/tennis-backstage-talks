@@ -31,7 +31,7 @@ def filter_matches_before_today(matches):
 
 
 def run():
-    print("LOADING MATCHES FOR ELO + FORM...")
+    print("LOADING MATCHES FOR ADVANCED ELO + FORM...")
 
     matches = load_all_matches(2018, 2030)
 
@@ -47,7 +47,7 @@ def run():
             f"TOO FEW HISTORICAL MATCHES LOADED: {len(historical_matches)}"
         )
 
-    print("BUILDING ELO STORE...")
+    print("BUILDING ADVANCED ELO STORE...")
     elo_store = build_and_save(historical_matches)
 
     print("ELO STORE PLAYERS:", len(elo_store))
@@ -63,7 +63,7 @@ def run():
     if len(form_store) < 200:
         raise Exception(f"TOO FEW FORM PLAYERS: {len(form_store)}")
 
-    print("ELO + FORM BUILD DONE")
+    print("ADVANCED ELO + FORM BUILD DONE")
 
 
 if __name__ == "__main__":
