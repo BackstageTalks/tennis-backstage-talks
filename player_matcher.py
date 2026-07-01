@@ -79,8 +79,7 @@ def initial_match_score(a, b):
     if a_first == b_first:
         return 1.0
 
-    if a_first[0] == b_first[0]:
-        return 0.65
+    if a_first[0] == b_firstreturn 0.65
 
     return 0.0
 
