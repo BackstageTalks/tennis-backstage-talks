@@ -1,6 +1,4 @@
 from src.elo.fetch import fetch_all
-from src.elo.clean import clean_elo
-from src.elo.store import save_latest, append_history
 
 
 def run():
@@ -9,19 +7,13 @@ def run():
 
     for name, df in data.items():
 
-        cleaned = clean_elo(df)
+        print("\n====================")
+        print(name)
+        print("====================")
 
-        save_latest(
-            name=name,
-            df=cleaned
-        )
+        print(df.columns.tolist())
 
-        append_history(
-            name=name,
-            df=cleaned
-        )
-
-    print("ELO update completed")
+    print("DONE")
 
 
 if __name__ == "__main__":
