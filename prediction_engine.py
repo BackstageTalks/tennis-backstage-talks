@@ -11,6 +11,7 @@ from form_engine import (
     calculate_form_adjustment,
 )
 
+
 TOP_N = 5
 MIN_ODDS = 1.50
 
@@ -30,6 +31,7 @@ def safe_float(value):
     try:
         if value is None:
             return None
+
         return float(value)
     except Exception:
         return None
@@ -90,6 +92,7 @@ def normalize_match(match):
             "player1": match.get("player1"),
             "player2": match.get("player2"),
             "tournament": match.get("tournament", "Tennis"),
+            "surface": match.get("surface"),
             "odds_player1": safe_float(match.get("odds_player1")),
             "odds_player2": safe_float(match.get("odds_player2")),
             "odds_source": match.get("odds_source"),
@@ -102,6 +105,7 @@ def normalize_match(match):
         "player1": match[0] if len(match) > 0 else None,
         "player2": match[1] if len(match) > 1 else None,
         "tournament": match[2] if len(match) > 2 else "Tennis",
+        "surface": None,
         "odds_player1": None,
         "odds_player2": None,
         "odds_source": None,
@@ -111,9 +115,18 @@ def normalize_match(match):
     }
 
 
-def infer_surface(surface_map, player1, player2):
+def infer_surface(surface_map, player1, player2, match=None):
+    if match and match.get("surface"):
+        return match.get("surface")
+
     key = f"{player1}::{player2}"
-    return surface_map.get(key, "Hard")
+    reverse_key = f"{player2}::{player1}"
+
+    return (
+        surface_map.get(key)
+        or surface_map.get(reverse_key)
+        or "Hard"
+    )
 
 
 def is_best_of_five(tournament):
@@ -218,7 +231,11 @@ def build_sets_games_info(probability, tournament):
 
 
 def infer_odds_source(match, odds_data, odds1, odds2):
-    odds_source = match.get("odds_source") or odds_data.get("odds_source")
+    odds_source = (
+        match.get("odds_source")
+        or odds_data.get("odds_source")
+        or odds_data.get("provider")
+    )
 
     if odds_source:
         return odds_source
@@ -323,8 +340,11 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
 
         "elo_player": round(elo_player, 1) if elo_player is not None else None,
         "elo_opponent": round(elo_opponent, 1) if elo_opponent is not None else None,
-        "elo_player1": round(elo_prediction.get("elo_player1"), 1) if elo_prediction.get("elo_player1") is not None else None,
-        "elo_player2": round(elo_prediction.get("elo_player2"), 1) if elo_prediction.get("elo_player2") is not None else None,
+
+        "elo_player1": round(elo_prediction.get("elo_player1"), 1)
+        if elo_prediction.get("elo_player1") is not None else None,
+        "elo_player2": round(elo_prediction.get("elo_player2"), 1)
+        if elo_prediction.get("elo_player2") is not None else None,
 
         "overall_elo_player1": elo_prediction.get("overall_elo_player1"),
         "overall_elo_player2": elo_prediction.get("overall_elo_player2"),
@@ -333,12 +353,21 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
 
         "elo_found_player1": elo_prediction.get("elo_found_player1"),
         "elo_found_player2": elo_prediction.get("elo_found_player2"),
+
         "elo_matched_key_player1": elo_prediction.get("elo_matched_key_player1"),
         "elo_matched_key_player2": elo_prediction.get("elo_matched_key_player2"),
+
+        "elo_match_score_player1": elo_prediction.get("elo_match_score_player1"),
+        "elo_match_score_player2": elo_prediction.get("elo_match_score_player2"),
+        "elo_match_method_player1": elo_prediction.get("elo_match_method_player1"),
+        "elo_match_method_player2": elo_prediction.get("elo_match_method_player2"),
+
         "elo_matches_player1": elo_prediction.get("elo_matches_player1"),
         "elo_matches_player2": elo_prediction.get("elo_matches_player2"),
+
         "surface_matches_player1": elo_prediction.get("surface_matches_player1"),
         "surface_matches_player2": elo_prediction.get("surface_matches_player2"),
+
         "elo_reliability_player1": elo_prediction.get("elo_reliability_player1"),
         "elo_reliability_player2": elo_prediction.get("elo_reliability_player2"),
         "surface_reliability_player1": elo_prediction.get("surface_reliability_player1"),
@@ -358,7 +387,10 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         "match_time_raw": match.get("match_time_raw"),
         "time": match.get("time", "TBD"),
 
-        "short_reason": "Surface-aware calibrated Elo with recent/surface form adjustment. Odds used only as strict TOP filter.",
+        "short_reason": (
+            "Surface-aware calibrated Elo with recent/surface form adjustment. "
+            "Odds used only as strict TOP filter."
+        ),
         "extra_signals": [
             "Custom calibrated Elo",
             "Surface-aware Elo",
@@ -418,7 +450,7 @@ def build_all_predictions():
         player1 = match["player1"]
         player2 = match["player2"]
 
-        surface = infer_surface(surface_map, player1, player2)
+        surface = infer_surface(surface_map, player1, player2, match)
 
         elo_prediction = predict(
             player1,
@@ -445,10 +477,31 @@ def build_all_predictions():
     )
 
     print("ALL MATCHES:", len(all_predictions))
-    print("WITH ODDS:", sum(1 for p in all_predictions if p.get("odds") is not None))
-    print("ELO FOUND BOTH:", sum(1 for p in all_predictions if p.get("elo_found_player1") and p.get("elo_found_player2")))
-    print("ELO MISSING:", sum(1 for p in all_predictions if not (p.get("elo_found_player1") and p.get("elo_found_player2"))))
-    print("WITH FORM ADJUSTMENT:", sum(1 for p in all_predictions if p.get("form_adjustment")))
+    print(
+        "WITH ODDS:",
+        sum(1 for p in all_predictions if p.get("odds") is not None)
+    )
+    print(
+        "ELO FOUND BOTH:",
+        sum(
+            1 for p in all_predictions
+            if p.get("elo_found_player1") and p.get("elo_found_player2")
+        )
+    )
+    print(
+        "ELO MISSING:",
+        sum(
+            1 for p in all_predictions
+            if not (
+                p.get("elo_found_player1")
+                and p.get("elo_found_player2")
+            )
+        )
+    )
+    print(
+        "WITH FORM ADJUSTMENT:",
+        sum(1 for p in all_predictions if p.get("form_adjustment"))
+    )
 
     return all_predictions
 
