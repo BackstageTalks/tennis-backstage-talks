@@ -1,4 +1,6 @@
 import pandas as pd
+import requests
+
 
 URLS = {
     "atp_elo": "https://tennisabstract.com/reports/atp_elo_ratings.html",
@@ -7,11 +9,43 @@ URLS = {
     "wta_yelo": "https://tennisabstract.com/reports/wta_season_yelo_ratings.html",
 }
 
+
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 "
+        "(Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 "
+        "(KHTML, like Gecko) "
+        "Chrome/126.0 Safari/537.36"
+    )
+}
+
+
+def fetch_table(url):
+
+    response = requests.get(
+        url,
+        headers=HEADERS,
+        timeout=30
+    )
+
+    response.raise_for_status()
+
+    tables = pd.read_html(response.text)
+
+    if not tables:
+        raise RuntimeError(
+            f"No table found: {url}"
+        )
+
+    return tables[0]
+
+
 def fetch_all():
+
     data = {}
 
     for name, url in URLS.items():
-        tables = pd.read_html(url)
-        data[name] = tables[0]
+        data[name] = fetch_table(url)
 
     return data
