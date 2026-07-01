@@ -1,52 +1,35 @@
 import pandas as pd
-import requests
+from pathlib import Path
 
 
-URLS = {
-    "atp_elo": "https://tennisabstract.com/reports/atp_elo_ratings.html",
-    "wta_elo": "https://tennisabstract.com/reports/wta_elo_ratings.html",
-    "atp_yelo": "https://tennisabstract.com/reports/atp_season_yelo_ratings.html",
-    "wta_yelo": "https://tennisabstract.com/reports/wta_season_yelo_ratings.html",
+RAW_DIR = Path("data/elo/raw")
+
+FILES = {
+    "atp_elo": RAW_DIR / "atp_elo.html",
+    "wta_elo": RAW_DIR / "wta_elo.html",
+    "atp_yelo": RAW_DIR / "atp_yelo.html",
+    "wta_yelo": RAW_DIR / "wta_yelo.html",
 }
-
-
-HEADERS = {
-    "User-Agent": "Mozilla/5.0",
-    "Referer": "https://tennisabstract.com/",
-    "Accept": "text/html,application/xhtml+xml"
-}
-
-
-def fetch_table(url):
-
-    session = requests.Session()
-
-    session.headers.update(HEADERS)
-
-    response = session.get(
-        url,
-        timeout=60
-    )
-
-    print("STATUS:", response.status_code)
-
-    response.raise_for_status()
-
-    tables = pd.read_html(response.text)
-
-    if not tables:
-        raise RuntimeError(
-            f"No table found: {url}"
-        )
-
-    return tables[0]
 
 
 def fetch_all():
 
     data = {}
 
-    for name, url in URLS.items():
-        data[name] = fetch_table(url)
+    for name, file_path in FILES.items():
+
+        if not file_path.exists():
+            raise FileNotFoundError(
+                f"Missing file: {file_path}"
+            )
+
+        tables = pd.read_html(file_path)
+
+        if not tables:
+            raise RuntimeError(
+                f"No tables found in: {file_path}"
+            )
+
+        data[name] = tables[0]
 
     return data
