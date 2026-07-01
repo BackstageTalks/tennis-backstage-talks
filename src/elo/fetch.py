@@ -11,17 +11,24 @@ URLS = {
 
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0"
+    "User-Agent": "Mozilla/5.0",
+    "Referer": "https://tennisabstract.com/",
+    "Accept": "text/html,application/xhtml+xml"
 }
 
 
 def fetch_table(url):
 
-    response = requests.get(
+    session = requests.Session()
+
+    session.headers.update(HEADERS)
+
+    response = session.get(
         url,
-        headers=HEADERS,
-        timeout=30
+        timeout=60
     )
+
+    print("STATUS:", response.status_code)
 
     response.raise_for_status()
 
