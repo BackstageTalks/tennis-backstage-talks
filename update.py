@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 
 from elo_engine import load as load_elo_store
 from form_engine import load_form_store
+from play_history import save_play_candidates
 from prediction_engine import build_all_predictions, get_top_predictions
 
 
@@ -134,7 +135,7 @@ def compact_rows(predictions, limit=10):
     return [compact_row(p) for p in predictions[:limit]]
 
 
-def build_debug(all_predictions, top_predictions):
+def build_debug(all_predictions, top_predictions, play_info):
     with_odds = [
         p for p in all_predictions
         if p.get("odds") is not None
@@ -174,6 +175,9 @@ def build_debug(all_predictions, top_predictions):
         "all_count": len(all_predictions),
         "top_count": len(top_predictions),
 
+        "play_candidates_count": play_info.get("daily_count", 0),
+        "play_history_total_candidates": play_info.get("history_count", 0),
+
         "with_odds_count": len(with_odds),
         "eligible_odds_1_50_count": len(eligible_odds),
         "eligible_strict_elo_odds_prob_count": len(eligible_strict),
@@ -192,6 +196,7 @@ def build_debug(all_predictions, top_predictions):
 
         "sample_all_compact": compact_rows(all_predictions, 10),
         "sample_top_compact": compact_rows(top_predictions, 10),
+        "sample_play_candidates": play_info.get("daily_candidates", [])[:10],
 
         "sample_all": all_predictions[:5],
         "sample_top": top_predictions[:5],
@@ -211,11 +216,14 @@ def run():
 
     os.makedirs("public", exist_ok=True)
 
+    print("SAVING PLAY CANDIDATES...")
+    play_info = save_play_candidates(today, all_predictions)
+
     top_path = f"public/predictions_{today}.json"
     all_path = f"public/all_predictions_{today}.json"
     debug_path = "public/debug_counts.json"
 
-    debug_data = build_debug(all_predictions, top_predictions)
+    debug_data = build_debug(all_predictions, top_predictions, play_info)
 
     save_json(top_path, top_predictions)
     save_json(all_path, all_predictions)
