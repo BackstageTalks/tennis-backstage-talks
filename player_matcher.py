@@ -79,7 +79,9 @@ def initial_match_score(a, b):
     if a_first == b_first:
         return 1.0
 
-    if a_first[0] == b_firstreturn 0.65
+    # ✅ FIXED LINE
+    if a_first[0] == b_first[0]:
+        return 0.65
 
     return 0.0
 
@@ -160,7 +162,7 @@ def best_player_match(query_name, candidate_names, auto_threshold=0.60):
 
     candidate_last = last_name(best_key)
 
-    # ✅ bezpečnostná podmienka
+    # ✅ bezpečný filter
     if query_last != candidate_last:
         return None, best_score, "rejected_lastname"
 
