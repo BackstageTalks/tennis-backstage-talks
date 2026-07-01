@@ -1,76 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Tennis Model – Links</title>
-<style>
+  <meta charset="UTF-8">
+  <title>Links</title>
+
+  <style>
     body {
-        background-color: #0f172a;
-        color: white;
-        font-family: Arial, sans-serif;
-        padding: 30px;
+      background: #140b0b;
+      color: white;
+      font-family: Arial;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
     }
 
     h1 {
-        margin-bottom: 20px;
-    }
-
-    .card {
-        background: #1e293b;
-        padding: 20px;
-        margin-bottom: 15px;
-        border-radius: 10px;
+      margin-bottom: 20px;
     }
 
     a {
-        color: #38bdf8;
-        font-size: 18px;
-        text-decoration: none;
-        font-weight: bold;
+      display: block;
+      margin: 10px 0;
+      font-size: 18px;
+      color: #4ea3ff;
+      text-decoration: none;
     }
 
-    p {
-        margin-top: 5px;
-        color: #cbd5f5;
+    a:hover {
+      text-decoration: underline;
     }
-</style>
+
+    .section {
+      margin-top: 30px;
+    }
+
+  </style>
 </head>
+
 <body>
 
-<h1>🎾 Tennis Prediction Hub</h1>
+<h1>Backstage Talks - Links</h1>
 
-<div class="card">
-    <a href="/">🏆 TOP 5 Predictions</a>
-    <p>
-        Top 5 matches selected by highest win probability.
-        Only bets with odds above 1.50 are included.
-        This feed is also used for RSS distribution.
-    </p>
+<div class="section">
+  <h2>Main Pages</h2>
+  top.htmlTOP 5 Picks</a>
+  all.htmlAll Matches</a>
 </div>
 
-<div class="card">
-    <a href="/all/">📊 All Matches</a>
-    <p>
-        Complete list of all matches for the day.
-        Sorted by win probability from highest to lowest.
-        Used for full overview and model diagnostics.
-    </p>
-</div>
-
-<div class="card">
-    <a href="/results/">✅ Results</a>
-    <p>
-        All evaluated bets with outcomes (win/loss).
-        Used to track performance and model accuracy.
-    </p>
-</div>
-
-<div class="card">
-    <a href="/rss/">📡 RSS Feed</a>
-    <p>
-        RSS feed containing today's TOP 5 picks.
-        Can be used in Telegram bots or feed readers.
-    </p>
+<div class="section">
+  <h2>Data</h2>
+  predictions.jsonTOP JSON</a>
+  all_predictions.jsonALL JSON</a>
+  debug_counts.jsonDEBUG</a>
 </div>
 
 </body>
