@@ -87,7 +87,8 @@ def initial_match_score(a, b):
     if a_first == b_first:
         return 1.0
 
-    if a_first[0] == b_firstreturn 0.65
+    if a_first[0] == b_first[0]:
+        return 0.65
 
     return 0.0
 
@@ -125,7 +126,7 @@ def compact_name_score(a, b):
 
 def player_name_match_score(query_name, candidate_name):
     """
-    Returns score 0.00 - 1.00 and method.
+    Returns score 0.00 - 1d.
     Higher is better.
     """
 
