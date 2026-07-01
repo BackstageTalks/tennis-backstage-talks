@@ -4,30 +4,65 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      - run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
 
-      - run: python build_elo.py
+      - name: Build Elo Ratings
+        run: python build_elo.py
 
-      - run: python update.py
+      - name: Run predictions
+        run: python update.py
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
 
-      - run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add .
-          git commit -m "update site" || echo "no changes"
-          git push
+      - name: Generate TOP page and RSS
+        run: python rss.py
+
+      - name: Generate ALL page and RSS
+        run: python rss_all.py
+
+      - name: Verify outputs
+        run: |
+          test -f public/index.html
+          test -f public/tennis.xml
+          test -f public/all/index.html
+          test -f public/tennis_all.xml
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
