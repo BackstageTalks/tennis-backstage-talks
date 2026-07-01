@@ -9,12 +9,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      pages: write
+      id-token: write
+
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -34,9 +38,9 @@ jobs:
           cp -r *.json public/ || true
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: public
 
       - name: Deploy Pages
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
