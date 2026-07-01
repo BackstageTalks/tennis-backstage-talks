@@ -13,7 +13,11 @@ from form_engine import (
 
 TOP_N = 5
 MIN_ODDS = 1.50
-MIN_TOP_PROBABILITY = 0.60
+
+# Bootstrap threshold.
+# Start lower to collect enough real candidates.
+# We will tighten this after 100-300 settled PLAY candidates.
+MIN_TOP_PROBABILITY = 0.57
 
 LOCAL_TZ = ZoneInfo("Europe/Bratislava")
 
@@ -213,6 +217,18 @@ def build_sets_games_info(probability, tournament):
     }
 
 
+def infer_odds_source(match, odds_data, odds1, odds2):
+    odds_source = match.get("odds_source") or odds_data.get("odds_source")
+
+    if odds_source:
+        return odds_source
+
+    if odds1 is not None or odds2 is not None:
+        return "embedded_match_odds"
+
+    return None
+
+
 def build_prediction_record(match, surface, elo_prediction, odds_data, form_store):
     player1 = match["player1"]
     player2 = match["player2"]
@@ -230,7 +246,7 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
     if odds2 is None:
         odds2 = safe_float(odds_data.get("odds_player2"))
 
-    odds_source = match.get("odds_source") or odds_data.get("odds_source")
+    odds_source = infer_odds_source(match, odds_data, odds1, odds2)
 
     form1 = get_player_form(form_store, player1, surface)
     form2 = get_player_form(form_store, player2, surface)
@@ -239,7 +255,6 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         pick = player1
         opponent = player2
         base_probability = prob1
-        opponent_probability = prob2
         odds = odds1
         elo_player = elo_prediction.get("elo_player1")
         elo_opponent = elo_prediction.get("elo_player2")
@@ -249,7 +264,6 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         pick = player2
         opponent = player1
         base_probability = prob2
-        opponent_probability = prob1
         odds = odds2
         elo_player = elo_prediction.get("elo_player2")
         elo_opponent = elo_prediction.get("elo_player1")
@@ -288,11 +302,15 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         "score": round(adjusted_probability, 3),
         "winner_rank_score": round(adjusted_probability, 3),
 
+        "selection_threshold": MIN_TOP_PROBABILITY,
+
         "odds": odds,
         "odds_player1": odds1,
         "odds_player2": odds2,
         "odds_source": odds_source,
         "odds_match_score": odds_data.get("match_score"),
+        "bookmaker": odds_data.get("bookmaker"),
+        "odds_event_id": odds_data.get("event_id"),
 
         "market_probability": round(1 / odds, 3) if odds else None,
         "bookie_value_edge": None,
@@ -308,14 +326,23 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         "elo_player1": round(elo_prediction.get("elo_player1"), 1) if elo_prediction.get("elo_player1") is not None else None,
         "elo_player2": round(elo_prediction.get("elo_player2"), 1) if elo_prediction.get("elo_player2") is not None else None,
 
+        "overall_elo_player1": elo_prediction.get("overall_elo_player1"),
+        "overall_elo_player2": elo_prediction.get("overall_elo_player2"),
+        "surface_elo_player1": elo_prediction.get("surface_elo_player1"),
+        "surface_elo_player2": elo_prediction.get("surface_elo_player2"),
+
         "elo_found_player1": elo_prediction.get("elo_found_player1"),
         "elo_found_player2": elo_prediction.get("elo_found_player2"),
         "elo_matched_key_player1": elo_prediction.get("elo_matched_key_player1"),
         "elo_matched_key_player2": elo_prediction.get("elo_matched_key_player2"),
         "elo_matches_player1": elo_prediction.get("elo_matches_player1"),
         "elo_matches_player2": elo_prediction.get("elo_matches_player2"),
+        "surface_matches_player1": elo_prediction.get("surface_matches_player1"),
+        "surface_matches_player2": elo_prediction.get("surface_matches_player2"),
         "elo_reliability_player1": elo_prediction.get("elo_reliability_player1"),
         "elo_reliability_player2": elo_prediction.get("elo_reliability_player2"),
+        "surface_reliability_player1": elo_prediction.get("surface_reliability_player1"),
+        "surface_reliability_player2": elo_prediction.get("surface_reliability_player2"),
 
         "form_player1": form1,
         "form_player2": form2,
@@ -331,11 +358,13 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         "match_time_raw": match.get("match_time_raw"),
         "time": match.get("time", "TBD"),
 
-        "short_reason": "Calibrated Elo with small recent/surface form adjustment. Odds used as strict TOP filter.",
+        "short_reason": "Surface-aware calibrated Elo with recent/surface form adjustment. Odds used only as strict TOP filter.",
         "extra_signals": [
             "Custom calibrated Elo",
+            "Surface-aware Elo",
             "Recent form adjustment",
             "Surface form adjustment",
+            "Reliability penalty",
             "Odds used only as strict TOP filter",
             "No EV",
             "No market edge",
