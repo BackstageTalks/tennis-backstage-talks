@@ -1,9 +1,9 @@
 import json
 import math
 import os
-import re
-import unicodedata
 from datetime import datetime
+
+from player_matcher import normalize_name, best_player_match
 
 
 DATA_PATH = "data/elo_store.json"
@@ -12,25 +12,14 @@ START_ELO = 1500.0
 BASE_K = 28.0
 
 SURFACE_WEIGHT_BASE = 0.60
-OVERALL_WEIGHT_BASE = 0.40
-
 CALIBRATION_SHRINK = 0.86
-
 MAX_RATING_DIFF_FOR_PROB = 420.0
+
+PLAYER_MATCH_THRESHOLD = 0.78
 
 
 def normalize(name):
-    if not name:
-        return ""
-
-    text = str(name)
-    text = unicodedata.normalize("NFKD", text)
-    text = "".join(ch for ch in text if not unicodedata.combining(ch))
-    text = text.lower().strip()
-    text = text.replace("-", " ")
-    text = re.sub(r"[^a-z0-9\s']", " ", text)
-    text = re.sub(r"\s+", " ", text)
-    return text.strip()
+    return normalize_name(name)
 
 
 def surface_key(surface):
@@ -92,55 +81,36 @@ def ensure_player(store, player):
     return key
 
 
+def find_player_match(store, player, auto_threshold=PLAYER_MATCH_THRESHOLD):
+    query_key = normalize(player)
+
+    if query_key in store:
+        return query_key, 1.0, "exact"
+
+    best_key, best_score, best_method = best_player_match(
+        query_name=player,
+        candidate_names=list(store.keys()),
+        auto_threshold=auto_threshold,
+    )
+
+    return best_key, best_score, best_method
+
+
 def find_player_key(store, player):
-    key = normalize(player)
-
-    if key in store:
-        return key
-
-    parts = key.split()
-
-    if not parts:
-        return None
-
-    last_name = parts[-1]
-
-    candidates = []
-
-    for existing_key in store.keys():
-        e_parts = existing_key.split()
-
-        if not e_parts:
-            continue
-
-        score = 0
-
-        if e_parts[-1] == last_name:
-            score += 3
-
-        overlap = len(set(parts).intersection(set(e_parts)))
-        score += overlap
-
-        if score >= 3:
-            candidates.append((score, existing_key))
-
-    if not candidates:
-        return None
-
-    candidates.sort(reverse=True)
-    return candidates[0][1]
+    key, score, method = find_player_match(store, player)
+    return key
 
 
 def expected_score(rating_a, rating_b):
-    diff = max(-MAX_RATING_DIFF_FOR_PROB, min(MAX_RATING_DIFF_FOR_PROB, rating_a - rating_b))
+    diff = max(
+        -MAX_RATING_DIFF_FOR_PROB,
+        min(MAX_RATING_DIFF_FOR_PROB, rating_a - rating_b)
+    )
+
     return 1.0 / (1.0 + math.pow(10.0, -diff / 400.0))
 
 
 def calibrated_probability(raw_probability):
-    """
-    ELO often becomes overconfident.
-    This shrinks probabilities mildly toward 50%.
-    """
     p = max(0.03, min(0.97, float(raw_probability)))
     calibrated = 0.5 + (p - 0.5) * CALIBRATION_SHRINK
     return max(0.05, min(0.95, calibrated))
@@ -162,10 +132,6 @@ def latest_match_date(matches):
 
 
 def time_decay_multiplier(match_date, reference_date):
-    """
-    Recent matches update ratings more.
-    Old matches still count, but less.
-    """
     if not match_date or not reference_date:
         return 1.0
 
@@ -202,11 +168,6 @@ def surface_reliability_from_matches(matches_count):
 
 
 def dynamic_k_factor(player_matches, opponent_matches, match_date, reference_date):
-    """
-    Higher K for low-sample players.
-    Lower K for stable known players.
-    Time decay reduces impact of old matches.
-    """
     min_matches = min(player_matches, opponent_matches)
 
     if min_matches < 10:
@@ -223,32 +184,9 @@ def dynamic_k_factor(player_matches, opponent_matches, match_date, reference_dat
     return BASE_K * sample_multiplier * decay
 
 
-def surface_weight(surface_matches_1, surface_matches_2, surface):
-    """
-    Grass has fewer matches, so do not overtrust grass ELO too early.
-    """
-    min_surface_matches = min(surface_matches_1, surface_matches_2)
-
-    if surface_key(surface) == "grass":
-        if min_surface_matches < 4:
-            return 0.25
-        if min_surface_matches < 10:
-            return 0.42
-        return 0.55
-
-    if min_surface_matches < 5:
-        return 0.30
-
-    if min_surface_matches < 15:
-        return 0.48
-
-    return SURFACE_WEIGHT_BASE
-
-
 def blended_rating(record, surface):
     s_key = surface_key(surface)
-
-    s_matches = record.get("surface_matches", {}).get(s_key, 0)
+    s_matches = int(record.get("surface_matches", {}).get(s_key, 0))
 
     if s_key == "grass":
         if s_matches < 4:
@@ -291,7 +229,12 @@ def update_pair(store, p1_key, p2_key, surface, winner_key, match_date, referenc
     p1_matches = int(p1.get("overall_matches", 0))
     p2_matches = int(p2.get("overall_matches", 0))
 
-    k = dynamic_k_factor(p1_matches, p2_matches, match_date, reference_date)
+    k = dynamic_k_factor(
+        player_matches=p1_matches,
+        opponent_matches=p2_matches,
+        match_date=match_date,
+        reference_date=reference_date,
+    )
 
     expected_p1_overall = expected_score(p1_overall, p2_overall)
     expected_p2_overall = 1.0 - expected_p1_overall
@@ -364,52 +307,34 @@ def build_elo(matches):
     return store
 
 
+def empty_player_record():
+    return {
+        "overall_elo": START_ELO,
+        "overall_matches": 0,
+        "surface_elo": {
+            "hard": START_ELO,
+            "clay": START_ELO,
+            "grass": START_ELO,
+            "carpet": START_ELO,
+        },
+        "surface_matches": {
+            "hard": 0,
+            "clay": 0,
+            "grass": 0,
+            "carpet": 0,
+        },
+    }
+
+
 def predict(player1, player2, surface, store):
-    p1_key = find_player_key(store, player1)
-    p2_key = find_player_key(store, player2)
+    p1_key, p1_match_score, p1_match_method = find_player_match(store, player1)
+    p2_key, p2_match_score, p2_match_method = find_player_match(store, player2)
 
     p1_found = p1_key is not None
     p2_found = p2_key is not None
 
-    if p1_found:
-        p1_record = store[p1_key]
-    else:
-        p1_record = {
-            "overall_elo": START_ELO,
-            "overall_matches": 0,
-            "surface_elo": {
-                "hard": START_ELO,
-                "clay": START_ELO,
-                "grass": START_ELO,
-                "carpet": START_ELO,
-            },
-            "surface_matches": {
-                "hard": 0,
-                "clay": 0,
-                "grass": 0,
-                "carpet": 0,
-            },
-        }
-
-    if p2_found:
-        p2_record = store[p2_key]
-    else:
-        p2_record = {
-            "overall_elo": START_ELO,
-            "overall_matches": 0,
-            "surface_elo": {
-                "hard": START_ELO,
-                "clay": START_ELO,
-                "grass": START_ELO,
-                "carpet": START_ELO,
-            },
-            "surface_matches": {
-                "hard": 0,
-                "clay": 0,
-                "grass": 0,
-                "carpet": 0,
-            },
-        }
+    p1_record = store[p1_key] if p1_found else empty_player_record()
+    p2_record = store[p2_key] if p2_found else empty_player_record()
 
     s_key = surface_key(surface)
 
@@ -458,6 +383,11 @@ def predict(player1, player2, surface, store):
 
         "elo_matched_key_player1": p1_key,
         "elo_matched_key_player2": p2_key,
+
+        "elo_match_score_player1": p1_match_score,
+        "elo_match_score_player2": p2_match_score,
+        "elo_match_method_player1": p1_match_method,
+        "elo_match_method_player2": p2_match_method,
 
         "elo_matches_player1": p1_matches,
         "elo_matches_player2": p2_matches,
