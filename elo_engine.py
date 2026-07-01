@@ -7,6 +7,27 @@ DATA_PATH = "data/elo_ratings.json"
 
 DEFAULT_ELO = 1500
 
+# Rating update scale nechávame klasický.
+RATING_UPDATE_SCALE = 400
+
+# Prediction scale je jemnejší, aby percentá neboli prehnané.
+PREDICTION_SCALE = 520
+
+# Probability cap - ochrana proti nereálnym extrémom.
+MIN_PROBABILITY = 0.15
+MAX_PROBABILITY = 0.85
+
+# Hybrid váhy.
+SURFACE_WEIGHT = 0.55
+OVERALL_WEIGHT = 0.45
+
+# Čím vyššie číslo, tým viac ťaháme hráčov s malou vzorkou späť k 1500.
+RELIABILITY_MATCHES_DENOMINATOR = 50
+
+
+def clamp(value, low, high):
+    return max(low, min(high, value))
+
 
 def normalize(name):
     if not name:
@@ -72,26 +93,53 @@ def surface_key(surface):
     return "Elo"
 
 
-def expected(r1, r2):
-    return 1 / (1 + 10 ** ((r2 - r1) / 400))
+def expected_rating_update(r1, r2):
+    return 1 / (1 + 10 ** ((r2 - r1) / RATING_UPDATE_SCALE))
+
+
+def expected_prediction(r1, r2):
+    raw_probability = 1 / (1 + 10 ** ((r2 - r1) / PREDICTION_SCALE))
+    return clamp(raw_probability, MIN_PROBABILITY, MAX_PROBABILITY)
 
 
 def dynamic_k(matches):
     if matches < 30:
-        return 40
-
-    if matches < 100:
         return 32
 
-    return 24
+    if matches < 100:
+        return 26
+
+    return 20
 
 
 def get_recency_weight(date):
+    """
+    Jemnejší recency weight.
+    Nechceme, aby novšie zápasy rozstrelili Elo extrémne rýchlo.
+    """
     try:
         year = int(str(date)[:4])
-        return max(0.75, 1.0 + ((year - 2018) * 0.03))
+        return clamp(1.0 + ((year - 2018) * 0.015), 0.85, 1.12)
     except Exception:
         return 1.0
+
+
+def reliability_from_matches(matches):
+    try:
+        m = float(matches or 0)
+    except Exception:
+        m = 0.0
+
+    return clamp(
+        m / (m + RELIABILITY_MATCHES_DENOMINATOR),
+        0.0,
+        1.0
+    )
+
+
+def regress_to_default(raw_elo, matches):
+    reliability = reliability_from_matches(matches)
+    return DEFAULT_ELO + (raw_elo - DEFAULT_ELO) * reliability
 
 
 def ensure(store, player):
@@ -125,22 +173,22 @@ def update_match(store, player1, player2, winner, surface, date=None):
 
     weight = get_recency_weight(date)
 
-    # Surface Elo
+    # Surface Elo update
     r1 = store[p1][s_key]
     r2 = store[p2][s_key]
 
-    exp1 = expected(r1, r2)
-    exp2 = expected(r2, r1)
+    exp1 = expected_rating_update(r1, r2)
+    exp2 = expected_rating_update(r2, r1)
 
     store[p1][s_key] = r1 + k1 * weight * (score1 - exp1)
     store[p2][s_key] = r2 + k2 * weight * (score2 - exp2)
 
-    # Overall Elo
+    # Overall Elo update
     o1 = store[p1]["Elo"]
     o2 = store[p2]["Elo"]
 
-    o_exp1 = expected(o1, o2)
-    o_exp2 = expected(o2, o1)
+    o_exp1 = expected_rating_update(o1, o2)
+    o_exp2 = expected_rating_update(o2, o1)
 
     store[p1]["Elo"] = o1 + k1 * weight * (score1 - o_exp1)
     store[p2]["Elo"] = o2 + k2 * weight * (score2 - o_exp2)
@@ -218,7 +266,6 @@ def candidate_score(player_name, candidate_key):
         if reversed_player == candidate_key:
             score += 0.30
 
-    # handle cases like "Daniel Merida Aguilar" vs "Merida Aguilar Daniel"
     if len(player_parts) >= 3 and len(candidate_parts) >= 3:
         if player_parts[-1] == candidate_parts[-1]:
             score += 0.15
@@ -243,7 +290,6 @@ def find_player_key(store, player):
         if variant in store:
             return variant
 
-    # Candidate variants intersection
     for candidate_key in store.keys():
         candidate_variants = name_variants(candidate_key)
 
@@ -266,47 +312,106 @@ def find_player_key(store, player):
     return None
 
 
-def get_raw_elo(store, player, surface):
+def get_raw_elo_components(store, player, surface):
     player_key = find_player_key(store, player)
 
     if not player_key:
-        return DEFAULT_ELO, False, None
+        return {
+            "found": False,
+            "matched_key": None,
+            "raw_surface_elo": DEFAULT_ELO,
+            "raw_overall_elo": DEFAULT_ELO,
+            "adjusted_surface_elo": DEFAULT_ELO,
+            "adjusted_overall_elo": DEFAULT_ELO,
+            "final_elo": DEFAULT_ELO,
+            "matches": 0,
+            "reliability": 0.0,
+        }
 
     record = store[player_key]
 
     s_key = surface_key(surface)
 
-    surface_elo = record.get(s_key)
-    overall_elo = record.get("Elo")
+    raw_surface_elo = record.get(s_key)
+    raw_overall_elo = record.get("Elo")
+    matches = record.get("matches", 0)
 
-    if surface_elo is None:
-        surface_elo = overall_elo
+    if raw_surface_elo is None:
+        raw_surface_elo = raw_overall_elo
 
-    if overall_elo is None:
-        overall_elo = DEFAULT_ELO
+    if raw_overall_elo is None:
+        raw_overall_elo = DEFAULT_ELO
 
-    final_elo = 0.7 * surface_elo + 0.3 * overall_elo
+    reliability = reliability_from_matches(matches)
 
-    return final_elo, True, player_key
+    adjusted_surface_elo = regress_to_default(raw_surface_elo, matches)
+    adjusted_overall_elo = regress_to_default(raw_overall_elo, matches)
+
+    final_elo = (
+        SURFACE_WEIGHT * adjusted_surface_elo
+        + OVERALL_WEIGHT * adjusted_overall_elo
+    )
+
+    return {
+        "found": True,
+        "matched_key": player_key,
+        "raw_surface_elo": raw_surface_elo,
+        "raw_overall_elo": raw_overall_elo,
+        "adjusted_surface_elo": adjusted_surface_elo,
+        "adjusted_overall_elo": adjusted_overall_elo,
+        "final_elo": final_elo,
+        "matches": matches,
+        "reliability": reliability,
+    }
 
 
 def predict(player1, player2, surface, store):
-    elo1, found1, matched_key1 = get_raw_elo(store, player1, surface)
-    elo2, found2, matched_key2 = get_raw_elo(store, player2, surface)
+    p1 = get_raw_elo_components(store, player1, surface)
+    p2 = get_raw_elo_components(store, player2, surface)
 
-    probability1 = expected(elo1, elo2)
+    probability1 = expected_prediction(
+        p1["final_elo"],
+        p2["final_elo"]
+    )
 
     return {
         "available": True,
         "player1": player1,
         "player2": player2,
+
         "probability_player1": probability1,
         "probability_player2": 1 - probability1,
-        "elo_player1": elo1,
-        "elo_player2": elo2,
-        "elo_found_player1": found1,
-        "elo_found_player2": found2,
-        "elo_matched_key_player1": matched_key1,
-        "elo_matched_key_player2": matched_key2,
-        "model": "CUSTOM_ELO_V3",
+
+        "elo_player1": p1["final_elo"],
+        "elo_player2": p2["final_elo"],
+
+        "elo_raw_surface_player1": p1["raw_surface_elo"],
+        "elo_raw_surface_player2": p2["raw_surface_elo"],
+        "elo_raw_overall_player1": p1["raw_overall_elo"],
+        "elo_raw_overall_player2": p2["raw_overall_elo"],
+
+        "elo_adjusted_surface_player1": p1["adjusted_surface_elo"],
+        "elo_adjusted_surface_player2": p2["adjusted_surface_elo"],
+        "elo_adjusted_overall_player1": p1["adjusted_overall_elo"],
+        "elo_adjusted_overall_player2": p2["adjusted_overall_elo"],
+
+        "elo_found_player1": p1["found"],
+        "elo_found_player2": p2["found"],
+        "elo_matched_key_player1": p1["matched_key"],
+        "elo_matched_key_player2": p2["matched_key"],
+
+        "elo_matches_player1": p1["matches"],
+        "elo_matches_player2": p2["matches"],
+        "elo_reliability_player1": round(p1["reliability"], 3),
+        "elo_reliability_player2": round(p2["reliability"], 3),
+
+        "model": "CUSTOM_ELO_V4_CALIBRATED",
+        "calibration": {
+            "surface_weight": SURFACE_WEIGHT,
+            "overall_weight": OVERALL_WEIGHT,
+            "prediction_scale": PREDICTION_SCALE,
+            "min_probability": MIN_PROBABILITY,
+            "max_probability": MAX_PROBABILITY,
+            "reliability_denominator": RELIABILITY_MATCHES_DENOMINATOR,
+        },
     }
