@@ -15,7 +15,10 @@ SURFACE_WEIGHT_BASE = 0.60
 CALIBRATION_SHRINK = 0.86
 MAX_RATING_DIFF_FOR_PROB = 420.0
 
-PLAYER_MATCH_THRESHOLD = 0.78
+# Loose bootstrap player-name matching.
+# If best name-match score is at least 0.60, ELO player is treated as found.
+# Debug output stores exact match score and method.
+PLAYER_MATCH_THRESHOLD = 0.60
 
 
 def normalize(name):
@@ -104,7 +107,7 @@ def find_player_key(store, player):
 def expected_score(rating_a, rating_b):
     diff = max(
         -MAX_RATING_DIFF_FOR_PROB,
-        min(MAX_RATING_DIFF_FOR_PROB, rating_a - rating_b)
+        min(MAX_RATING_DIFF_FOR_PROB, rating_a - rating_b),
     )
 
     return 1.0 / (1.0 + math.pow(10.0, -diff / 400.0))
@@ -267,7 +270,7 @@ def build_elo(matches):
 
     sorted_matches = sorted(
         matches,
-        key=lambda x: str(x.get("date") or "0")
+        key=lambda x: str(x.get("date") or "0"),
     )
 
     reference_date = latest_match_date(sorted_matches)
