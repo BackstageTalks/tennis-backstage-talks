@@ -46,6 +46,9 @@ jobs:
       - name: Backtest Wimbledon 2026-06-30
         run: python backtest_wimbledon_2026_06_30.py
 
+      - name: Backtest ATP Eastbourne 2026
+        run: python backtest_eastbourne_2026.py
+
       - name: Verify outputs
         run: |
           test -f public/index.html
@@ -55,6 +58,8 @@ jobs:
           test -f public/debug_counts.json
           test -f public/backtest_2026-06-30/index.html
           test -f public/backtest_2026-06-30/index.json
+          test -f public/backtest_eastbourne_2026/index.html
+          test -f public/backtest_eastbourne_2026/index.json
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
