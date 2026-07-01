@@ -1,10 +1,3 @@
-for match in grouped```
-
-Nižšie je **celý čistý opravený `lab_last7.py`**.
-
----
-
-```python
 import json
 import os
 from datetime import datetime, timedelta, timezone
@@ -39,7 +32,6 @@ def date_range_last_7_completed_days():
     today = today_local()
     end = today - timedelta(days=1)
     start = end - timedelta(days=6)
-
     return yyyymmdd(start), yyyymmdd(end)
 
 
