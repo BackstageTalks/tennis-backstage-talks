@@ -11,6 +11,9 @@ from form_engine import (
     calculate_form_adjustment,
 )
 
+# MCP
+from mcp_module import build_mcp_player_stats, mcp_adjustment
+
 
 TOP_N = 5
 MIN_ODDS = 1.45
@@ -37,7 +40,6 @@ def format_match_time(match):
         match.get("match_start")
         or match.get("start_time")
         or match.get("commence_time")
-        or match.get("datetime")
     )
 
     if start_value:
@@ -53,86 +55,41 @@ def format_match_time(match):
                 dt = dt.replace(tzinfo=ZoneInfo("UTC"))
 
             local_dt = dt.astimezone(LOCAL_TZ)
-
-            return local_dt.strftime("%d.%m.%Y %H:%M %Z")
-
+            return local_dt.strftime("%H:%M")
         except Exception:
             pass
-
-    raw = match.get("time")
-
-    if raw:
-        raw_text = str(raw).strip()
-
-        for fmt in ["%I:%M %p", "%H:%M"]:
-            try:
-                parsed = datetime.strptime(raw_text, fmt)
-                adjusted = parsed + timedelta(hours=2)
-                return adjusted.strftime("%H:%M CEST")
-            except Exception:
-                continue
-
-        return raw_text
 
     return "TBD"
 
 
 def normalize_match(match):
-    if isinstance(match, dict):
-        return {
-            "player1": match.get("player1"),
-            "player2": match.get("player2"),
-            "tournament": match.get("tournament", "Tennis"),
-            "surface": match.get("surface"),
-            "odds_player1": safe_float(match.get("odds_player1")),
-            "odds_player2": safe_float(match.get("odds_player2")),
-            "odds_source": match.get("odds_source"),
-            "match_start": match.get("match_start"),
-            "time": format_match_time(match),
-        }
-
     return {
-        "player1": match[0] if len(match) > 0 else None,
-        "player2": match[1] if len(match) > 1 else None,
-        "tournament": "Tennis",
-        "surface": None,
-        "odds_player1": None,
-        "odds_player2": None,
-        "odds_source": None,
-        "match_start": None,
-        "time": "TBD",
+        "player1": match.get("player1"),
+        "player2": match.get("player2"),
+        "surface": match.get("surface"),
+        "tournament": match.get("tournament"),
+        "match_start": match.get("match_start"),
+        "time": format_match_time(match),
     }
 
 
-def infer_surface(surface_map, player1, player2, match=None):
-    if match and match.get("surface"):
+def infer_surface(surface_map, p1, p2, match):
+    if match.get("surface"):
         return match.get("surface")
 
-    key = f"{player1}::{player2}"
-    reverse_key = f"{player2}::{player1}"
-
-    return (
-        surface_map.get(key)
-        or surface_map.get(reverse_key)
-        or "Hard"
-    )
+    key = f"{p1}::{p2}"
+    return surface_map.get(key) or "Hard"
 
 
-def build_prediction_record(match, surface, elo_prediction, odds_data, form_store):
+def build_prediction_record(match, surface, elo_prediction, odds_data, form_store, mcp_stats):
     player1 = match["player1"]
     player2 = match["player2"]
 
     prob1 = elo_prediction["probability_player1"]
     prob2 = elo_prediction["probability_player2"]
 
-    odds1 = safe_float(match.get("odds_player1"))
-    odds2 = safe_float(match.get("odds_player2"))
-
-    if odds1 is None:
-        odds1 = safe_float(odds_data.get("odds_player1"))
-
-    if odds2 is None:
-        odds2 = safe_float(odds_data.get("odds_player2"))
+    odds1 = safe_float(odds_data.get("odds_player1"))
+    odds2 = safe_float(odds_data.get("odds_player2"))
 
     form1 = get_player_form(form_store, player1, surface)
     form2 = get_player_form(form_store, player2, surface)
@@ -150,33 +107,23 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
 
     form_adjustment = calculate_form_adjustment(
         pick_form=form1,
-        opponent_form=form2,
+        opponent_form=form2
     )
 
-    final_probability = clamp(
-        base_probability + form_adjustment["total_adjustment"],
-        0.15,
-        0.85,
-    )
+    final_probability = base_probability + form_adjustment["total_adjustment"]
+
+    # MCP BOOST
+    final_probability += mcp_adjustment(pick, mcp_stats)
+    final_probability -= mcp_adjustment(opponent, mcp_stats)
+
+    final_probability = clamp(final_probability, 0.15, 0.85)
 
     return {
         "match": f"{player1} vs {player2}",
         "pick": pick,
         "opponent": opponent,
-        "surface": surface,
-
-        "base_probability": round(base_probability, 3),
         "probability": round(final_probability, 3),
-
         "odds": odds,
-        "odds_source": odds_data.get("odds_source"),
-
-        "elo_found_player1": elo_prediction.get("elo_found_player1"),
-        "elo_found_player2": elo_prediction.get("elo_found_player2"),
-
-        "elo_match_score_player1": elo_prediction.get("elo_match_score_player1"),
-        "elo_match_score_player2": elo_prediction.get("elo_match_score_player2"),
-
         "time": match.get("time"),
     }
 
@@ -185,7 +132,7 @@ def build_all_predictions():
     raw_matches = get_today_matches()
 
     matches = [normalize_match(m) for m in raw_matches]
-    matches = [m for m in matches if m.get("player1") and m.get("player2")]
+    matches = [m for m in matches if m["player1"] and m["player2"]]
 
     players = []
     for m in matches:
@@ -200,6 +147,9 @@ def build_all_predictions():
     elo_store = load()
     form_store = load_form_store()
     odds_matches = fetch_odds()
+
+    # MCP
+    mcp_stats = build_mcp_player_stats()
 
     all_predictions = []
 
@@ -224,19 +174,20 @@ def build_all_predictions():
             odds_matches
         )
 
-        prediction = build_prediction_record(
+        pred = build_prediction_record(
             match,
             surface,
             elo_prediction,
             odds_data,
             form_store,
+            mcp_stats
         )
 
-        all_predictions.append(prediction)
+        all_predictions.append(pred)
 
     all_predictions.sort(
-        key=lambda x: x.get("probability") or 0,
-        reverse=True,
+        key=lambda x: x.get("probability", 0),
+        reverse=True
     )
 
     return all_predictions
@@ -251,14 +202,7 @@ def get_top_predictions(all_predictions=None):
         if p.get("odds") is not None
         and p.get("odds") >= MIN_ODDS
         and p.get("probability") >= MIN_TOP_PROBABILITY
-        and p.get("elo_found_player1")
-        and p.get("elo_found_player2")
     ]
-
-    eligible.sort(
-        key=lambda x: x.get("probability"),
-        reverse=True
-    )
 
     return eligible[:TOP_N]
 
