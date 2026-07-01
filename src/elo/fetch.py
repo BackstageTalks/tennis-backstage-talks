@@ -25,11 +25,27 @@ def fetch_all():
 
         tables = pd.read_html(file_path)
 
-        if not tables:
+        target_table = None
+
+        for table in tables:
+
+            cols = [str(c) for c in table.columns]
+
+            if (
+                "Player" in cols
+                and (
+                    "Elo" in cols
+                    or "yElo" in cols
+                )
+            ):
+                target_table = table
+                break
+
+        if target_table is None:
             raise RuntimeError(
-                f"No tables found in: {file_path}"
+                f"Could not find Elo table in {file_path}"
             )
 
-        data[name] = tables[0]
+        data[name] = target_table
 
     return data
