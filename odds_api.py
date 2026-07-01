@@ -1,8 +1,6 @@
 import requests
 
-
 API_KEY = "5e5f606542fb15d9717aacae39b757c2"
-
 BASE_URL = "https://api.the-odds-api.com/v4/sports"
 
 REGIONS = "eu"
@@ -24,20 +22,11 @@ def fetch_odds_for_sport(sport):
     }
 
     try:
-        response = requests.get(url, params=params, timeout=20)
-
-        if response.status_code != 200:
-            print("ODDS API ERROR:", sport, response.status_code)
+        r = requests.get(url, params=params, timeout=20)
+        if r.status_code != 200:
             return []
-
-        data = response.json()
-
-        print(f"ODDS RAW {sport}: {len(data)}")
-
-        return data
-
-    except Exception as e:
-        print("ODDS FETCH ERROR:", sport, e)
+        return r.json()
+    except Exception:
         return []
 
 
@@ -50,28 +39,37 @@ def extract_match_odds(event):
         if not bookmakers:
             return None
 
-        bookmaker = bookmakers[0]
-        markets = bookmaker.get("markets", [])
-        if not markets:
-            return None
+        best_odds1 = None
+        best_odds2 = None
 
-        outcomes = markets[0].get("outcomes", [])
-        if len(outcomes) < 2:
-            return None
+        for book in bookmakers:
+            markets = book.get("markets", [])
+            if not markets:
+                continue
 
-        odds_map = {
-            outcomes[0]["name"]: outcomes[0]["price"],
-            outcomes[1]["name"]: outcomes[1]["price"],
-        }
+            outcomes = markets[0].get("outcomes", [])
+            if len(outcomes) < 2:
+                continue
+
+            o1 = outcomes[0]["price"]
+            o2 = outcomes[1]["price"]
+
+            if best_odds1 is None or o1 > best_odds1:
+                best_odds1 = o1
+
+            if best_odds2 is None or o2 > best_odds2:
+                best_odds2 = o2
+
+        if best_odds1 is None or best_odds2 is None:
+            return None
 
         return {
             "player1": home,
             "player2": away,
-            "odds_player1": odds_map.get(home),
-            "odds_player2": odds_map.get(away),
-            "bookmaker": bookmaker.get("title"),
+            "odds_player1": best_odds1,
+            "odds_player2": best_odds2,
             "event_id": event.get("id"),
-            "odds_source": "the_odds_api",
+            "odds_source": "the_odds_api"
         }
 
     except Exception:
@@ -84,12 +82,11 @@ def fetch_odds():
     for sport in SPORTS:
         events = fetch_odds_for_sport(sport)
 
-        for event in events:
-            record = extract_match_odds(event)
-            if record:
-                all_matches.append(record)
+        for e in events:
+            rec = extract_match_odds(e)
+            if rec:
+                all_matches.append(rec)
 
-    print("TOTAL ODDS MATCHES:", len(all_matches))
     return all_matches
 
 
@@ -118,26 +115,31 @@ def find_match_odds(player1, player2, odds_matches):
     best_score = 0
 
     for m in odds_matches:
-        score1 = match_score(player1, m["player1"])
-        score2 = match_score(player2, m["player2"])
 
-        score = (score1 + score2) / 2
+        s1 = match_score(player1, m["player1"])
+        s2 = match_score(player2, m["player2"])
+
+        score = (s1 + s2) / 2
 
         if score > best_score:
             best = m
             best_score = score
 
         # reverse
-        score1_rev = match_score(player1, m["player2"])
-        score2_rev = match_score(player2, m["player1"])
+        sr1 = match_score(player1, m["player2"])
+        sr2 = match_score(player2, m["player1"])
 
-        score_rev = (score1_rev + score2_rev) / 2
+        score_r = (sr1 + sr2) / 2
 
-        if score_rev > best_score:
+        if score_r > best_score:
             best = {
                 "player1": m["player1"],
                 "player2": m["player2"],
                 "odds_player1": m["odds_player2"],
                 "odds_player2": m["odds_player1"],
-                "bookmaker": m["bookmaker"],
                 "event_id": m["event_id"],
+                "odds_source": m["odds_source"]
+            }
+            best_score = score_r
+
+    return best if best else {}
