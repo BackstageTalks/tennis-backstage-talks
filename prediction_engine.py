@@ -1,7 +1,12 @@
 from fetch_matches import get_today_matches
-from stats_engine import get_stats_context
 from elo_engine import load, predict
 from odds_api import fetch_odds, find_match_odds
+
+try:
+    from stats_engine import get_stats_context
+except Exception:
+    get_stats_context = None
+
 
 TOP_N = 5
 MIN_ODDS = 1.50
@@ -27,12 +32,17 @@ def normalize_match(match):
             "odds_source": match.get("odds_source"),
             "match_start": match.get("match_start"),
             "match_time_raw": match.get("match_time_raw"),
-            "time": match.get("time") or match.get("match_time") or match.get("match_time_raw") or "TBD",
+            "time": (
+                match.get("time")
+                or match.get("match_time")
+                or match.get("match_time_raw")
+                or "TBD"
+            ),
         }
 
     return {
-        "player1": match[0],
-        "player2": match[1],
+        "player1": match[0] if len(match) > 0 else None,
+        "player2": match[1] if len(match) > 1 else None,
         "tournament": match[2] if len(match) > 2 else "Tennis",
         "odds_player1": None,
         "odds_player2": None,
@@ -41,6 +51,18 @@ def normalize_match(match):
         "match_time_raw": None,
         "time": "TBD",
     }
+
+
+def get_surface_map(players, matches):
+    if get_stats_context is None:
+        return {}
+
+    try:
+        stats_map, surface_map = get_stats_context(players, matches)
+        return surface_map or {}
+    except Exception as e:
+        print("SURFACE MAP ERROR:", e)
+        return {}
 
 
 def infer_surface(surface_map, player1, player2):
@@ -126,7 +148,7 @@ def build_prediction_record(match, surface, elo_prediction, odds_data):
         "match_time_raw": match.get("match_time_raw"),
         "time": match.get("time", "TBD"),
 
-        "short_reason": "Custom Elo probability. Real odds used only as TOP filter.",
+        "short_reason": "Custom Elo probability. Real odds used only as strict TOP filter.",
         "extra_signals": [
             "Custom Elo model",
             "Odds used only as strict filter",
@@ -144,12 +166,16 @@ def build_prediction_record(match, surface, elo_prediction, odds_data):
 def build_all_predictions():
     raw_matches = get_today_matches()
 
+    print("RAW MATCHES:", len(raw_matches) if raw_matches else 0)
+
     if not raw_matches:
         print("NO MATCHES FOUND")
         return []
 
     matches = [normalize_match(m) for m in raw_matches]
     matches = [m for m in matches if m.get("player1") and m.get("player2")]
+
+    print("NORMALIZED MATCHES:", len(matches))
 
     players = []
 
@@ -159,10 +185,12 @@ def build_all_predictions():
         if match["player2"] not in players:
             players.append(match["player2"])
 
-    stats_map, surface_map = get_stats_context(players, matches)
+    surface_map = get_surface_map(players, matches)
 
     elo_store = load()
     odds_matches = fetch_odds()
+
+    print("ODDS MATCHES RAW:", len(odds_matches))
 
     all_predictions = []
 
@@ -206,9 +234,9 @@ def get_top_predictions(all_predictions=None):
         all_predictions = build_all_predictions()
 
     eligible = [
-        prediction for prediction in all_predictions
-        if prediction.get("odds") is not None
-        and prediction.get("odds") >= MIN_ODDS
+        p for p in all_predictions
+        if p.get("odds") is not None
+        and p.get("odds") >= MIN_ODDS
     ]
 
     eligible.sort(
