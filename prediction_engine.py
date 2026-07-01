@@ -5,9 +5,15 @@ from fetch_matches import get_today_matches
 from stats_engine import get_stats_context
 from elo_engine import load, predict
 from odds_api import fetch_odds, find_match_odds
+from form_engine import (
+    load_form_store,
+    get_player_form,
+    calculate_form_adjustment,
+)
 
 TOP_N = 5
 MIN_ODDS = 1.50
+MIN_TOP_PROBABILITY = 0.60
 
 LOCAL_TZ = ZoneInfo("Europe/Bratislava")
 
@@ -143,7 +149,6 @@ def build_sets_games_info(probability, tournament):
         under_3_5 = 1 - over_3_5
 
         over_4_5 = clamp(0.45 - edge * 0.70, 0.15, 0.50)
-        under_4_5 = 1 - over_4_5
 
         expected_games = round(clamp(39.5 - edge * 22.0, 29.0, 46.0), 1)
 
@@ -208,7 +213,7 @@ def build_sets_games_info(probability, tournament):
     }
 
 
-def build_prediction_record(match, surface, elo_prediction, odds_data):
+def build_prediction_record(match, surface, elo_prediction, odds_data, form_store):
     player1 = match["player1"]
     player2 = match["player2"]
     tournament = match.get("tournament", "Tennis")
@@ -227,25 +232,43 @@ def build_prediction_record(match, surface, elo_prediction, odds_data):
 
     odds_source = match.get("odds_source") or odds_data.get("odds_source")
 
+    form1 = get_player_form(form_store, player1, surface)
+    form2 = get_player_form(form_store, player2, surface)
+
     if prob1 >= prob2:
         pick = player1
         opponent = player2
-        probability = prob1
+        base_probability = prob1
         opponent_probability = prob2
         odds = odds1
         elo_player = elo_prediction.get("elo_player1")
         elo_opponent = elo_prediction.get("elo_player2")
+        pick_form = form1
+        opponent_form = form2
     else:
         pick = player2
         opponent = player1
-        probability = prob2
+        base_probability = prob2
         opponent_probability = prob1
         odds = odds2
         elo_player = elo_prediction.get("elo_player2")
         elo_opponent = elo_prediction.get("elo_player1")
+        pick_form = form2
+        opponent_form = form1
+
+    form_adjustment = calculate_form_adjustment(
+        pick_form=pick_form,
+        opponent_form=opponent_form,
+    )
+
+    adjusted_probability = clamp(
+        base_probability + form_adjustment["total_adjustment"],
+        0.15,
+        0.85,
+    )
 
     alternative_market_info = build_sets_games_info(
-        probability=probability,
+        probability=adjusted_probability,
         tournament=tournament,
     )
 
@@ -258,11 +281,12 @@ def build_prediction_record(match, surface, elo_prediction, odds_data):
         "tournament": tournament,
         "surface": surface,
 
-        "probability": round(probability, 3),
-        "opponent_probability": round(opponent_probability, 3),
-        "confidence": round(abs(probability - 0.5), 3),
-        "score": round(probability, 3),
-        "winner_rank_score": round(probability, 3),
+        "base_probability": round(base_probability, 3),
+        "probability": round(adjusted_probability, 3),
+        "opponent_probability": round(1 - adjusted_probability, 3),
+        "confidence": round(abs(adjusted_probability - 0.5), 3),
+        "score": round(adjusted_probability, 3),
+        "winner_rank_score": round(adjusted_probability, 3),
 
         "odds": odds,
         "odds_player1": odds1,
@@ -293,23 +317,30 @@ def build_prediction_record(match, surface, elo_prediction, odds_data):
         "elo_reliability_player1": elo_prediction.get("elo_reliability_player1"),
         "elo_reliability_player2": elo_prediction.get("elo_reliability_player2"),
 
-        "model_source": "CUSTOM_ELO",
-        "model_version": elo_prediction.get("model", "CUSTOM_ELO"),
+        "form_player1": form1,
+        "form_player2": form2,
+        "form_pick": pick_form,
+        "form_opponent": opponent_form,
+        "form_adjustment": form_adjustment,
+
+        "model_source": "CUSTOM_ELO_FORM",
+        "model_version": f"{elo_prediction.get('model', 'CUSTOM_ELO')}_FORM_V1",
         "bet_tag": None,
 
         "match_start": match.get("match_start"),
         "match_time_raw": match.get("match_time_raw"),
         "time": match.get("time", "TBD"),
 
-        "short_reason": "Custom Elo probability. Real odds used only as strict TOP filter.",
+        "short_reason": "Calibrated Elo with small recent/surface form adjustment. Odds used as strict TOP filter.",
         "extra_signals": [
-            "Custom Elo model",
-            "Odds used only as strict filter",
+            "Custom calibrated Elo",
+            "Recent form adjustment",
+            "Surface form adjustment",
+            "Odds used only as strict TOP filter",
             "No EV",
             "No market edge",
             "No WELO",
             "Sets/games are INFO ONLY",
-            "Match time displayed in Europe/Bratislava time",
         ],
         "alternative_market_info": alternative_market_info,
         "alternative_bets": [],
@@ -345,9 +376,11 @@ def build_all_predictions():
         surface_map = {}
 
     elo_store = load()
+    form_store = load_form_store()
     odds_matches = fetch_odds()
 
     print("ELO STORE PLAYERS:", len(elo_store))
+    print("FORM STORE PLAYERS:", len(form_store))
     print("ODDS MATCHES RAW:", len(odds_matches))
 
     all_predictions = []
@@ -372,6 +405,7 @@ def build_all_predictions():
             surface=surface,
             elo_prediction=elo_prediction,
             odds_data=odds_data,
+            form_store=form_store,
         )
 
         all_predictions.append(prediction)
@@ -385,6 +419,7 @@ def build_all_predictions():
     print("WITH ODDS:", sum(1 for p in all_predictions if p.get("odds") is not None))
     print("ELO FOUND BOTH:", sum(1 for p in all_predictions if p.get("elo_found_player1") and p.get("elo_found_player2")))
     print("ELO MISSING:", sum(1 for p in all_predictions if not (p.get("elo_found_player1") and p.get("elo_found_player2"))))
+    print("WITH FORM ADJUSTMENT:", sum(1 for p in all_predictions if p.get("form_adjustment")))
 
     return all_predictions
 
@@ -397,6 +432,8 @@ def get_top_predictions(all_predictions=None):
         prediction for prediction in all_predictions
         if prediction.get("odds") is not None
         and prediction.get("odds") >= MIN_ODDS
+        and prediction.get("probability") is not None
+        and prediction.get("probability") >= MIN_TOP_PROBABILITY
         and prediction.get("elo_found_player1")
         and prediction.get("elo_found_player2")
     ]
@@ -408,7 +445,6 @@ def get_top_predictions(all_predictions=None):
                 x.get("elo_reliability_player1") or 0,
                 x.get("elo_reliability_player2") or 0,
             ),
-            -float(x.get("odds") or 99),
         ),
         reverse=True
     )
