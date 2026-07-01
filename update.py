@@ -2,6 +2,7 @@ import json
 import os
 from datetime import datetime, timezone
 
+from elo_engine import load as load_elo_store
 from prediction_engine import build_all_predictions, get_top_predictions
 
 
@@ -36,12 +37,15 @@ def build_debug(all_predictions, top_predictions):
         if not (p.get("elo_found_player1") and p.get("elo_found_player2"))
     ]
 
+    elo_store = load_elo_store()
+
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "all_count": len(all_predictions),
         "top_count": len(top_predictions),
         "with_odds_count": len(with_odds),
         "eligible_odds_1_50_count": len(eligible),
+        "elo_store_players": len(elo_store),
         "elo_found_both_count": len(elo_found_both),
         "elo_missing_count": len(elo_missing),
         "max_probability": max(
@@ -50,6 +54,7 @@ def build_debug(all_predictions, top_predictions):
         ),
         "sample_all": all_predictions[:5],
         "sample_top": top_predictions[:5],
+        "sample_elo_found": elo_found_both[:10],
         "sample_elo_missing": elo_missing[:10],
     }
 
