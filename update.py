@@ -26,18 +26,31 @@ def build_debug(all_predictions, top_predictions):
         if p.get("odds") is not None and p.get("odds") >= 1.50
     ]
 
+    elo_found_both = [
+        p for p in all_predictions
+        if p.get("elo_found_player1") and p.get("elo_found_player2")
+    ]
+
+    elo_missing = [
+        p for p in all_predictions
+        if not (p.get("elo_found_player1") and p.get("elo_found_player2"))
+    ]
+
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "all_count": len(all_predictions),
         "top_count": len(top_predictions),
         "with_odds_count": len(with_odds),
         "eligible_odds_1_50_count": len(eligible),
+        "elo_found_both_count": len(elo_found_both),
+        "elo_missing_count": len(elo_missing),
         "max_probability": max(
             [p.get("probability") or 0 for p in all_predictions],
             default=0
         ),
         "sample_all": all_predictions[:5],
         "sample_top": top_predictions[:5],
+        "sample_elo_missing": elo_missing[:10],
     }
 
 
