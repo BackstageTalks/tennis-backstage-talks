@@ -54,7 +54,7 @@ def probability_buckets(all_predictions):
     return buckets
 
 
-def average_probability(all_predictions):
+def stat_values(all_predictions):
     values = [
         p.get("probability")
         for p in all_predictions
@@ -62,35 +62,13 @@ def average_probability(all_predictions):
     ]
 
     if not values:
-        return 0
+        return 0, 0, 0
 
-    return round(sum(values) / len(values), 3)
-
-
-def min_probability(all_predictions):
-    values = [
-        p.get("probability")
-        for p in all_predictions
-        if p.get("probability") is not None
-    ]
-
-    if not values:
-        return 0
-
-    return min(values)
-
-
-def max_probability(all_predictions):
-    values = [
-        p.get("probability")
-        for p in all_predictions
-        if p.get("probability") is not None
-    ]
-
-    if not values:
-        return 0
-
-    return max(values)
+    return (
+        round(min(values), 3),
+        round(sum(values) / len(values), 3),
+        round(max(values), 3),
+    )
 
 
 def build_debug(all_predictions, top_predictions):
@@ -99,9 +77,14 @@ def build_debug(all_predictions, top_predictions):
         if p.get("odds") is not None
     ]
 
-    eligible = [
+    eligible_odds = [
         p for p in all_predictions
         if p.get("odds") is not None and p.get("odds") >= 1.50
+    ]
+
+    eligible_strict = [
+        p for p in eligible_odds
+        if p.get("elo_found_player1") and p.get("elo_found_player2")
     ]
 
     elo_found_both = [
@@ -116,6 +99,8 @@ def build_debug(all_predictions, top_predictions):
 
     elo_store = load_elo_store()
 
+    min_p, avg_p, max_p = stat_values(all_predictions)
+
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
 
@@ -123,15 +108,16 @@ def build_debug(all_predictions, top_predictions):
         "top_count": len(top_predictions),
 
         "with_odds_count": len(with_odds),
-        "eligible_odds_1_50_count": len(eligible),
+        "eligible_odds_1_50_count": len(eligible_odds),
+        "eligible_strict_elo_and_odds_count": len(eligible_strict),
 
         "elo_store_players": len(elo_store),
         "elo_found_both_count": len(elo_found_both),
         "elo_missing_count": len(elo_missing),
 
-        "min_probability": round(min_probability(all_predictions), 3),
-        "avg_probability": average_probability(all_predictions),
-        "max_probability": round(max_probability(all_predictions), 3),
+        "min_probability": min_p,
+        "avg_probability": avg_p,
+        "max_probability": max_p,
         "probability_buckets": probability_buckets(all_predictions),
 
         "sample_all": all_predictions[:5],
