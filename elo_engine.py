@@ -7,21 +7,15 @@ DATA_PATH = "data/elo_ratings.json"
 
 DEFAULT_ELO = 1500
 
-# Rating update scale nechávame klasický.
 RATING_UPDATE_SCALE = 400
-
-# Prediction scale je jemnejší, aby percentá neboli prehnané.
 PREDICTION_SCALE = 520
 
-# Probability cap - ochrana proti nereálnym extrémom.
 MIN_PROBABILITY = 0.15
 MAX_PROBABILITY = 0.85
 
-# Hybrid váhy.
 SURFACE_WEIGHT = 0.55
 OVERALL_WEIGHT = 0.45
 
-# Čím vyššie číslo, tým viac ťaháme hráčov s malou vzorkou späť k 1500.
 RELIABILITY_MATCHES_DENOMINATOR = 50
 
 
@@ -113,10 +107,6 @@ def dynamic_k(matches):
 
 
 def get_recency_weight(date):
-    """
-    Jemnejší recency weight.
-    Nechceme, aby novšie zápasy rozstrelili Elo extrémne rýchlo.
-    """
     try:
         year = int(str(date)[:4])
         return clamp(1.0 + ((year - 2018) * 0.015), 0.85, 1.12)
@@ -173,7 +163,6 @@ def update_match(store, player1, player2, winner, surface, date=None):
 
     weight = get_recency_weight(date)
 
-    # Surface Elo update
     r1 = store[p1][s_key]
     r2 = store[p2][s_key]
 
@@ -183,7 +172,6 @@ def update_match(store, player1, player2, winner, surface, date=None):
     store[p1][s_key] = r1 + k1 * weight * (score1 - exp1)
     store[p2][s_key] = r2 + k2 * weight * (score2 - exp2)
 
-    # Overall Elo update
     o1 = store[p1]["Elo"]
     o2 = store[p2]["Elo"]
 
@@ -329,7 +317,6 @@ def get_raw_elo_components(store, player, surface):
         }
 
     record = store[player_key]
-
     s_key = surface_key(surface)
 
     raw_surface_elo = record.get(s_key)
