@@ -5,7 +5,12 @@ from datetime import datetime, timezone
 from elo_engine import load as load_elo_store
 from form_engine import load_form_store
 from play_history import save_play_candidates
-from prediction_engine import build_all_predictions, get_top_predictions
+from prediction_engine import (
+    build_all_predictions,
+    get_top_predictions,
+    MIN_TOP_PROBABILITY,
+    MIN_ODDS,
+)
 
 
 ODDS_DEBUG_PATH = "public/odds_debug.json"
@@ -35,13 +40,14 @@ def load_optional_json(path, default):
 def probability_buckets(all_predictions):
     buckets = {
         "50_55": 0,
-        "55_60": 0,
-        "60_65": 0,
-        "65_70": 0,
+        "55_57": 0,
+        "57_60": 0,
+        "60_63": 0,
+        "63_66": 0,
+        "66_70": 0,
         "70_75": 0,
         "75_80": 0,
-        "80_85": 0,
-        "85_plus": 0,
+        "80_plus": 0,
     }
 
     for prediction in all_predictions:
@@ -52,20 +58,22 @@ def probability_buckets(all_predictions):
 
         if p < 0.55:
             buckets["50_55"] += 1
+        elif p < 0.57:
+            buckets["55_57"] += 1
         elif p < 0.60:
-            buckets["55_60"] += 1
-        elif p < 0.65:
-            buckets["60_65"] += 1
+            buckets["57_60"] += 1
+        elif p < 0.63:
+            buckets["60_63"] += 1
+        elif p < 0.66:
+            buckets["63_66"] += 1
         elif p < 0.70:
-            buckets["65_70"] += 1
+            buckets["66_70"] += 1
         elif p < 0.75:
             buckets["70_75"] += 1
         elif p < 0.80:
             buckets["75_80"] += 1
-        elif p < 0.85:
-            buckets["80_85"] += 1
         else:
-            buckets["85_plus"] += 1
+            buckets["80_plus"] += 1
 
     return buckets
 
@@ -135,18 +143,101 @@ def compact_row(prediction):
 
         "odds": prediction.get("odds"),
         "odds_source": prediction.get("odds_source"),
+        "bookmaker": prediction.get("bookmaker"),
 
         "elo_found_player1": prediction.get("elo_found_player1"),
         "elo_found_player2": prediction.get("elo_found_player2"),
         "elo_reliability_player1": prediction.get("elo_reliability_player1"),
         "elo_reliability_player2": prediction.get("elo_reliability_player2"),
 
+        "surface": prediction.get("surface"),
+        "overall_elo_player1": prediction.get("overall_elo_player1"),
+        "overall_elo_player2": prediction.get("overall_elo_player2"),
+        "surface_elo_player1": prediction.get("surface_elo_player1"),
+        "surface_elo_player2": prediction.get("surface_elo_player2"),
+
+        "selection_threshold": prediction.get("selection_threshold"),
         "model_version": prediction.get("model_version"),
     }
 
 
 def compact_rows(predictions, limit=10):
     return [compact_row(p) for p in predictions[:limit]]
+
+
+def selection_waterfall(all_predictions, top_predictions):
+    all_count = len(all_predictions)
+
+    elo_found = [
+        p for p in all_predictions
+        if p.get("elo_found_player1") and p.get("elo_found_player2")
+    ]
+
+    with_odds = [
+        p for p in elo_found
+        if p.get("odds") is not None
+    ]
+
+    odds_1_50_plus = [
+        p for p in with_odds
+        if p.get("odds") is not None
+        and p.get("odds") >= MIN_ODDS
+    ]
+
+    prob_57_plus = [
+        p for p in odds_1_50_plus
+        if p.get("probability") is not None
+        and p.get("probability") >= 0.57
+    ]
+
+    prob_60_plus = [
+        p for p in odds_1_50_plus
+        if p.get("probability") is not None
+        and p.get("probability") >= 0.60
+    ]
+
+    return {
+        "all_count": all_count,
+        "elo_found_both": len(elo_found),
+        "with_odds_after_elo": len(with_odds),
+        "odds_1_50_plus_after_elo": len(odds_1_50_plus),
+        "prob_57_plus": len(prob_57_plus),
+        "prob_60_plus": len(prob_60_plus),
+        "top_count": len(top_predictions),
+        "min_top_probability": MIN_TOP_PROBABILITY,
+        "min_odds": MIN_ODDS,
+    }
+
+
+def closest_misses(all_predictions, limit=10):
+    rows = []
+
+    for p in all_predictions:
+        if not (p.get("elo_found_player1") and p.get("elo_found_player2")):
+            continue
+
+        if p.get("odds") is None:
+            continue
+
+        if p.get("odds") < MIN_ODDS:
+            continue
+
+        if p.get("probability") is None:
+            continue
+
+        if p.get("probability") >= MIN_TOP_PROBABILITY:
+            continue
+
+        row = compact_row(p)
+        row["miss_reason"] = "below_probability_threshold"
+        rows.append(row)
+
+    rows.sort(
+        key=lambda x: x.get("final_probability") or 0,
+        reverse=True
+    )
+
+    return rows[:limit]
 
 
 def build_debug(all_predictions, top_predictions, play_info):
@@ -157,7 +248,7 @@ def build_debug(all_predictions, top_predictions, play_info):
 
     eligible_odds = [
         p for p in all_predictions
-        if p.get("odds") is not None and p.get("odds") >= 1.50
+        if p.get("odds") is not None and p.get("odds") >= MIN_ODDS
     ]
 
     eligible_strict = [
@@ -165,7 +256,7 @@ def build_debug(all_predictions, top_predictions, play_info):
         if p.get("elo_found_player1")
         and p.get("elo_found_player2")
         and p.get("probability") is not None
-        and p.get("probability") >= 0.60
+        and p.get("probability") >= MIN_TOP_PROBABILITY
     ]
 
     elo_found_both = [
@@ -190,12 +281,18 @@ def build_debug(all_predictions, top_predictions, play_info):
         "all_count": len(all_predictions),
         "top_count": len(top_predictions),
 
+        "min_top_probability": MIN_TOP_PROBABILITY,
+        "min_odds": MIN_ODDS,
+
         "play_candidates_count": play_info.get("daily_count", 0),
         "play_history_total_candidates": play_info.get("history_count", 0),
 
         "with_odds_count": len(with_odds),
         "eligible_odds_1_50_count": len(eligible_odds),
         "eligible_strict_elo_odds_prob_count": len(eligible_strict),
+
+        "selection_waterfall": selection_waterfall(all_predictions, top_predictions),
+        "closest_misses": closest_misses(all_predictions, 10),
 
         "elo_store_players": len(elo_store),
         "form_store_players": len(form_store),
