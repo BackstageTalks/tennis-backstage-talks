@@ -39,10 +39,8 @@ def normalize_name(name):
 
 def name_tokens(name):
     text = normalize_name(name)
-
     if not text:
         return []
-
     return text.split()
 
 
@@ -68,9 +66,7 @@ def token_overlap_score(a, b):
         return 0.0
 
     overlap = len(a_tokens.intersection(b_tokens))
-    denominator = max(len(a_tokens), len(b_tokens))
-
-    return overlap / denominator
+    return overlap / max(len(a_tokens), len(b_tokens))
 
 
 def initial_match_score(a, b):
@@ -99,8 +95,8 @@ def compact_name_score(a, b):
     if last_name(a) != last_name(b):
         return 0.0
 
-    a_initials = "".join(token[0] for token in a_tokens[:-1] if token)
-    b_initials = "".join(token[0] for token in b_tokens[:-1] if token)
+    a_initials = "".join(t[0] for t in a_tokens[:-1])
+    b_initials = "".join(t[0] for t in b_tokens[:-1])
 
     if not a_initials or not b_initials:
         return 0.0
@@ -133,13 +129,43 @@ def player_name_match_score(query_name, candidate_name):
 
     score = token_score * 0.55
 
-    if q_last and c_last and q_last == c_last:
+    if q_last == c_last:
         score += 0.30
 
     score += initial_score * 0.10
     score += compact_score * 0.05
 
-    if q_last and c_last and q_last != c_last:
+    if q_last != c_last:
         score *= 0.45
 
     score = max(0.0, min(1.0, score))
+
+    return round(score, 3), "fuzzy"
+
+
+def best_player_match(query_name, candidate_names, auto_threshold=0.60):
+    best_key = None
+    best_score = 0.0
+
+    query_last = last_name(query_name)
+
+    for candidate in candidate_names:
+        score, _ = player_name_match_score(query_name, candidate)
+
+        if score > best_score:
+            best_key = candidate
+            best_score = score
+
+    if best_key is None:
+        return None, 0.0, "none"
+
+    candidate_last = last_name(best_key)
+
+    # ✅ bezpečnostná podmienka
+    if query_last != candidate_last:
+        return None, best_score, "rejected_lastname"
+
+    if best_score >= auto_threshold:
+        return best_key, best_score, "accepted"
+
+    return None, best_score, "low_score"
