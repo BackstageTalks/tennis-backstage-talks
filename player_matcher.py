@@ -87,8 +87,7 @@ def initial_match_score(a, b):
     if a_first == b_first:
         return 1.0
 
-    if a_first[0] == b_first[0]:
-        return 0.65
+    if a_first[0] == b_firstreturn 0.65
 
     return 0.0
 
@@ -97,7 +96,9 @@ def compact_name_score(a, b):
     """
     Helps with cases like:
     J L Struff vs Jan Lennard Struff
+    Jan-Lennard Struff vs J-L Struff
     """
+
     a_tokens = name_tokens(a)
     b_tokens = name_tokens(b)
 
@@ -169,10 +170,18 @@ def player_name_match_score(query_name, candidate_name):
     return round(score, 3), method
 
 
-def best_player_match(query_name, candidate_names, auto_threshold=0.78):
+def best_player_match(query_name, candidate_names, auto_threshold=0.60):
+    """
+    Loose name matching for ELO lookup.
+
+    If best score >= 0.60, we accept the match.
+    This is intentionally looser to improve ELO coverage.
+    Debug fields will show match score and method.
+    """
+
     best_key = None
     best_score = 0.0
-    best_method = None
+    best_method = "none"
 
     for candidate in candidate_names:
         score, method = player_name_match_score(query_name, candidate)
@@ -185,7 +194,7 @@ def best_player_match(query_name, candidate_names, auto_threshold=0.78):
     if best_key is None:
         return None, 0.0, "none"
 
-    if best_score < auto_threshold:
-        return None, best_score, best_method
+    if best_score >= auto_threshold:
+        return best_key, best_score, best_method
 
-    return best_key, best_score, best_method
+    return None, best_score, best_method
