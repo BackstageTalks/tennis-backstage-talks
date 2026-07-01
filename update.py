@@ -8,6 +8,9 @@ from play_history import save_play_candidates
 from prediction_engine import build_all_predictions, get_top_predictions
 
 
+ODDS_DEBUG_PATH = "public/odds_debug.json"
+
+
 def save_json(path, data):
     directory = os.path.dirname(path)
 
@@ -16,6 +19,17 @@ def save_json(path, data):
 
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
+
+def load_optional_json(path, default):
+    if not os.path.exists(path):
+        return default
+
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return default
 
 
 def probability_buckets(all_predictions):
@@ -166,6 +180,7 @@ def build_debug(all_predictions, top_predictions, play_info):
 
     elo_store = load_elo_store()
     form_store = load_form_store()
+    odds_debug = load_optional_json(ODDS_DEBUG_PATH, {})
 
     min_p, avg_p, max_p = stat_values(all_predictions)
 
@@ -193,6 +208,8 @@ def build_debug(all_predictions, top_predictions, play_info):
         "probability_buckets": probability_buckets(all_predictions),
 
         "form_adjustment_stats": form_adjustment_stats(all_predictions),
+
+        "odds_debug": odds_debug,
 
         "sample_all_compact": compact_rows(all_predictions, 10),
         "sample_top_compact": compact_rows(top_predictions, 10),
