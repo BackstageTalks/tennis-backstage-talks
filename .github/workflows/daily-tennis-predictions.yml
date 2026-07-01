@@ -49,6 +49,7 @@ jobs:
           test -f public/tennis.xml
           test -f public/all/index.html
           test -f public/tennis_all.xml
+          test -f public/debug_counts.json
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -58,6 +59,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
