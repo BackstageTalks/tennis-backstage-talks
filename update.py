@@ -103,6 +103,37 @@ def form_adjustment_stats(all_predictions):
     }
 
 
+def compact_row(prediction):
+    adjustment = prediction.get("form_adjustment") or {}
+
+    return {
+        "pick": prediction.get("pick"),
+        "opponent": prediction.get("opponent"),
+        "match": prediction.get("match"),
+        "time": prediction.get("time"),
+
+        "base_probability": prediction.get("base_probability"),
+        "final_probability": prediction.get("probability"),
+        "form_adjustment": adjustment.get("total_adjustment"),
+        "recent_adjustment": adjustment.get("recent_adjustment"),
+        "surface_adjustment": adjustment.get("surface_adjustment"),
+
+        "odds": prediction.get("odds"),
+        "odds_source": prediction.get("odds_source"),
+
+        "elo_found_player1": prediction.get("elo_found_player1"),
+        "elo_found_player2": prediction.get("elo_found_player2"),
+        "elo_reliability_player1": prediction.get("elo_reliability_player1"),
+        "elo_reliability_player2": prediction.get("elo_reliability_player2"),
+
+        "model_version": prediction.get("model_version"),
+    }
+
+
+def compact_rows(predictions, limit=10):
+    return [compact_row(p) for p in predictions[:limit]]
+
+
 def build_debug(all_predictions, top_predictions):
     with_odds = [
         p for p in all_predictions
@@ -158,6 +189,9 @@ def build_debug(all_predictions, top_predictions):
         "probability_buckets": probability_buckets(all_predictions),
 
         "form_adjustment_stats": form_adjustment_stats(all_predictions),
+
+        "sample_all_compact": compact_rows(all_predictions, 10),
+        "sample_top_compact": compact_rows(top_predictions, 10),
 
         "sample_all": all_predictions[:5],
         "sample_top": top_predictions[:5],
