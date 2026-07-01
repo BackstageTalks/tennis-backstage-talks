@@ -12,6 +12,7 @@ jobs:
     permissions:
       pages: write
       id-token: write
+      contents: write
 
     steps:
       - name: Checkout repo
@@ -25,17 +26,36 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas requests beautifulsoup4
+          pip install pandas requests beautifulsoup4 lxml html5lib
+
+      - name: Update ELO Database
+        run: |
+          python -m src.elo.update_elo
 
       - name: Run predictions
         run: |
           python update.py
+
+      - name: Commit ELO files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git add data/elo
+
+          if git diff --staged --quiet; then
+            echo "No ELO changes"
+          else
+            git commit -m "Update ELO database"
+            git push
+          fi
 
       - name: Prepare files
         run: |
           mkdir -p public
           cp -r *.html public/ || true
           cp -r *.json public/ || true
+          cp -r *.xml public/ || true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
