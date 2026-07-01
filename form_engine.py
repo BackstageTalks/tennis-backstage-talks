@@ -1,24 +1,26 @@
 import json
 import os
+from datetime import datetime
 
-from elo_engine import normalize, find_player_key
+from elo_engine import normalize, find_player_key, surface_key
+
 
 DATA_PATH = "data/form_stats.json"
 
 
-def surface_key(surface):
-    s = normalize(surface)
+def parse_date(value):
+    text = str(value or "")
 
-    if "grass" in s:
-        return "grass"
+    if not text or text == "0":
+        return None
 
-    if "clay" in s:
-        return "clay"
+    for fmt in ["%Y%m%d", "%Y-%m-%d"]:
+        try:
+            return datetime.strptime(text[:10], fmt)
+        except Exception:
+            continue
 
-    if "hard" in s:
-        return "hard"
-
-    return "unknown"
+    return None
 
 
 def ensure_player(store, player):
@@ -27,44 +29,44 @@ def ensure_player(store, player):
     if key not in store:
         store[key] = {
             "player": player,
-            "overall_results": [],
+            "results": [],
             "surface_results": {
                 "hard": [],
                 "clay": [],
                 "grass": [],
-                "unknown": [],
+                "carpet": [],
             },
-            "matches": 0,
         }
 
     return key
 
 
-def trim_results(results, keep=50):
+def trim_results(results, keep=80):
     if len(results) <= keep:
         return results
 
     return results[-keep:]
 
 
-def add_match(store, player, surface, won):
+def add_match(store, player, surface, won, date):
     key = ensure_player(store, player)
     s_key = surface_key(surface)
 
-    result = 1 if won else 0
+    item = {
+        "date": str(date or "0"),
+        "result": 1 if won else 0,
+    }
 
-    store[key]["overall_results"].append(result)
-    store[key]["overall_results"] = trim_results(store[key]["overall_results"])
+    store[key]["results"].append(item)
+    store[key]["results"] = trim_results(store[key]["results"])
 
     if s_key not in store[key]["surface_results"]:
         store[key]["surface_results"][s_key] = []
 
-    store[key]["surface_results"][s_key].append(result)
+    store[key]["surface_results"][s_key].append(item)
     store[key]["surface_results"][s_key] = trim_results(
         store[key]["surface_results"][s_key]
     )
-
-    store[key]["matches"] += 1
 
 
 def build_form_store(matches):
@@ -77,10 +79,14 @@ def build_form_store(matches):
 
     for match in sorted_matches:
         try:
-            player1 = match["player1"]
-            player2 = match["player2"]
-            winner = match["winner"]
+            player1 = match.get("player1")
+            player2 = match.get("player2")
+            winner = match.get("winner")
             surface = match.get("surface", "Hard")
+            date = str(match.get("date") or "0")
+
+            if not player1 or not player2 or not winner:
+                continue
 
             winner_key = normalize(winner)
             p1_key = normalize(player1)
@@ -91,6 +97,7 @@ def build_form_store(matches):
                 player=player1,
                 surface=surface,
                 won=(winner_key == p1_key),
+                date=date,
             )
 
             add_match(
@@ -98,6 +105,7 @@ def build_form_store(matches):
                 player=player2,
                 surface=surface,
                 won=(winner_key == p2_key),
+                date=date,
             )
 
         except Exception:
@@ -122,27 +130,61 @@ def load_form_store():
 
 
 def build_and_save_form(matches):
-    print("BUILDING FORM STORE...")
-
     store = build_form_store(matches)
-
     save_form_store(store)
-
-    print("FORM PLAYERS:", len(store))
-
     return store
 
 
-def rate(results, n):
-    if not results:
+def latest_date_in_items(items):
+    dates = []
+
+    for item in items:
+        dt = parse_date(item.get("date"))
+
+        if dt:
+            dates.append(dt)
+
+    if not dates:
         return None
 
-    subset = results[-n:]
+    return max(dates)
+
+
+def filter_by_horizon(items, horizon_days):
+    if not items:
+        return []
+
+    reference_date = latest_date_in_items(items)
+
+    if not reference_date:
+        return items
+
+    output = []
+
+    for item in items:
+        dt = parse_date(item.get("date"))
+
+        if not dt:
+            continue
+
+        age = max(0, (reference_date - dt).days)
+
+        if age <= horizon_days:
+            output.append(item)
+
+    return output
+
+
+def rate(items, n):
+    if not items:
+        return None
+
+    subset = items[-n:]
 
     if not subset:
         return None
 
-    return sum(subset) / len(subset)
+    return sum(item.get("result", 0) for item in subset) / len(subset)
 
 
 def safe_rate(value):
@@ -168,23 +210,36 @@ def get_player_form(store, player, surface):
             "surface_last_10": None,
             "matches": 0,
             "surface_matches": 0,
+            "recent_horizon_days": 180,
+            "surface_horizon_days": 730 if surface_key(surface) == "grass" else 365,
         }
 
     record = store[player_key]
     s_key = surface_key(surface)
 
-    overall_results = record.get("overall_results", [])
+    all_results = record.get("results", [])
     surface_results = record.get("surface_results", {}).get(s_key, [])
+
+    recent_results = filter_by_horizon(all_results, 180)
+
+    if s_key == "grass":
+        surface_horizon = 730
+    else:
+        surface_horizon = 365
+
+    recent_surface_results = filter_by_horizon(surface_results, surface_horizon)
 
     return {
         "found": True,
         "matched_key": player_key,
-        "last_5": safe_rate(rate(overall_results, 5)),
-        "last_10": safe_rate(rate(overall_results, 10)),
-        "surface_last_5": safe_rate(rate(surface_results, 5)),
-        "surface_last_10": safe_rate(rate(surface_results, 10)),
-        "matches": len(overall_results),
-        "surface_matches": len(surface_results),
+        "last_5": safe_rate(rate(recent_results, 5)),
+        "last_10": safe_rate(rate(recent_results, 10)),
+        "surface_last_5": safe_rate(rate(recent_surface_results, 5)),
+        "surface_last_10": safe_rate(rate(recent_surface_results, 10)),
+        "matches": len(recent_results),
+        "surface_matches": len(recent_surface_results),
+        "recent_horizon_days": 180,
+        "surface_horizon_days": surface_horizon,
     }
 
 
@@ -209,7 +264,6 @@ def calculate_form_adjustment(pick_form, opponent_form):
 
     Max total adjustment: +/- 3.5 percentage points.
     """
-
     pick_last10 = usable_rate(pick_form.get("last_10"))
     opp_last10 = usable_rate(opponent_form.get("last_10"))
 
@@ -218,7 +272,7 @@ def calculate_form_adjustment(pick_form, opponent_form):
     recent_adjustment = clamp(
         recent_diff * 0.05,
         -0.025,
-        0.025
+        0.025,
     )
 
     surface_adjustment = 0.0
@@ -235,13 +289,13 @@ def calculate_form_adjustment(pick_form, opponent_form):
         surface_adjustment = clamp(
             surface_diff * 0.035,
             -0.015,
-            0.015
+            0.015,
         )
 
     total_adjustment = clamp(
         recent_adjustment + surface_adjustment,
         -0.035,
-        0.035
+        0.035,
     )
 
     return {
