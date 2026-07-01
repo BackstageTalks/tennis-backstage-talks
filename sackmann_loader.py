@@ -1,9 +1,11 @@
 import csv
+import re
 from io import StringIO
+from datetime import datetime
 import requests
 
 
-SOURCES = [
+GITHUB_SOURCES = [
     {
         "label": "ATP_MAIN",
         "url": "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_matches_{}.csv",
@@ -18,99 +20,47 @@ SOURCES = [
     },
 ]
 
+TML_FILES_API = "https://stats.tennismylife.org/api/data-files"
 
-def fetch_csv(url):
+
+def get_text(url, timeout=30):
     try:
-        response = requests.get(url, timeout=30)
-
+        response = requests.get(url, timeout=timeout)
         if response.status_code != 200:
-            return []
-
-        text = response.text
-
-        if not text or "winner_name" not in text or "loser_name" not in text:
-            return []
-
-        return list(csv.DictReader(StringIO(text)))
-
+            return None
+        return response.text
     except Exception as e:
-        print("FETCH CSV ERROR:", url, e)
+        print("GET TEXT ERROR:", url, e)
+        return None
+
+
+def fetch_csv_rows(url):
+    text = get_text(url)
+
+    if not text:
+        return []
+
+    if "," not in text:
+        return []
+
+    try:
+        return list(csv.DictReader(StringIO(text)))
+    except Exception as e:
+        print("CSV READ ERROR:", url, e)
         return []
 
 
-def parse_rows(rows, source_label):
-    parsed = []
+def normalize_col_name(name):
+    if name is None:
+        return ""
 
-    for row in rows:
-        try:
-            winner = row.get("winner_name")
-            loser = row.get("loser_name")
-
-            if not winner or not loser:
-                continue
-
-            if "/" in winner or "/" in loser:
-                continue
-
-            surface = row.get("surface") or "Hard"
-            date = row.get("tourney_date") or "0"
-            tournament = row.get("tourney_name") or ""
-            level = row.get("tourney_level") or ""
-
-            parsed.append({
-                "player1": winner.strip(),
-                "player2": loser.strip(),
-                "winner": winner.strip(),
-                "surface": surface,
-                "date": date,
-                "tournament": tournament,
-                "level": level,
-                "source": source_label,
-            })
-
-        except Exception:
-            continue
-
-    return parsed
+    value = str(name).strip().lower()
+    value = re.sub(r"[^a-z0-9]+", "_", value)
+    value = re.sub(r"_+", "_", value)
+    return value.strip("_")
 
 
-def load_source_year(source, year):
-    url = source["url"].format(year)
-    label = source["label"]
+def build_column_map(row):
+    column_map = {}
 
-    rows = fetch_csv(url)
-
-    if not rows:
-        print(label, year, "rows: 0")
-        return []
-
-    parsed = parse_rows(rows, label)
-
-    print(label, year, "rows:", len(rows), "parsed:", len(parsed))
-
-    return parsed
-
-
-def load_all_matches(start_year=2018, end_year=2030):
-    all_matches = []
-    source_counts = {}
-
-    for year in range(start_year, end_year + 1):
-        print("LOADING YEAR:", year)
-
-        for source in SOURCES:
-            matches = load_source_year(source, year)
-
-            if not matches:
-                continue
-
-            label = source["label"]
-            source_counts[label] = source_counts.get(label, 0) + len(matches)
-            all_matches.extend(matches)
-
-    all_matches.sort(key=lambda x: x.get("date") or "0")
-
-    print("TOTAL MATCHES:", len(all_matches))
-    print("SOURCE COUNTS:", source_counts)
-
-    return all_matches
+    for key in row.keys():
