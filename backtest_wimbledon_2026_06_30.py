@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 
 from sackmann_loader import load_all_matches
 from elo_engine import build_elo, predict
+from form_engine import build_form_store, get_player_form, calculate_form_adjustment
 
 
 DATE = "2026-06-30"
@@ -21,10 +22,7 @@ DISCLAIMER = (
 )
 
 
-# Wimbledon Day 2 / 30 JUN 2026 result seed.
-# Source: Wimbledon official results page.
 RESULTS = [
-    # Gentlemen's Singles
     {"player1": "Taylor Fritz", "player2": "Dusan Lajovic", "winner": "Taylor Fritz", "score": "6-3 6-4 6-3"},
     {"player1": "Alex de Minaur", "player2": "Roman Burruchaga", "winner": "Alex de Minaur", "score": "5-7 7-5 7-6 6-0"},
     {"player1": "Brandon Nakashima", "player2": "Jack Pinnington Jones", "winner": "Brandon Nakashima", "score": "6-3 7-6 7-5"},
@@ -42,7 +40,6 @@ RESULTS = [
     {"player1": "Alex Michelsen", "player2": "Jacob Fearnley", "winner": "Jacob Fearnley", "score": "3-6 4-6 6-2 6-3 6-2"},
     {"player1": "Damir Dzumhur", "player2": "Arthur Fery", "winner": "Arthur Fery", "score": "3-6 6-2 6-2 6-1"},
 
-    # Ladies' Singles
     {"player1": "Taylor Townsend", "player2": "Iga Swiatek", "winner": "Iga Swiatek", "score": "6-1 2-6 6-3"},
     {"player1": "Amanda Anisimova", "player2": "Lina Gjorcheska", "winner": "Amanda Anisimova", "score": "6-3 6-2"},
     {"player1": "Katie Boulter", "player2": "Tyra Caterina Grant", "winner": "Tyra Caterina Grant", "score": "6-4 6-2"},
@@ -87,51 +84,50 @@ def same_player(a, b):
     return normalize_name(a) == normalize_name(b)
 
 
+def clamp(value, low, high):
+    return max(low, min(high, value))
+
+
 def filter_history_before_cutoff(matches):
-    filtered = []
-
-    for match in matches:
-        date = str(match.get("date") or "0")
-
-        if date != "0" and date < CUTOFF_DATE:
-            filtered.append(match)
-
-    return filtered
+    return [
+        match for match in matches
+        if str(match.get("date") or "0") != "0"
+        and str(match.get("date") or "0") < CUTOFF_DATE
+    ]
 
 
-def build_backtest_elo_store():
-    print("LOADING HISTORICAL MATCHES FOR BACKTEST...")
+def build_backtest_stores():
+    print("LOADING HISTORICAL MATCHES FOR WIMBLEDON BACKTEST...")
+
     all_history = load_all_matches(2018, 2030)
-
     print("HISTORICAL MATCHES LOADED:", len(all_history))
 
     cutoff_history = filter_history_before_cutoff(all_history)
-
     print("HISTORICAL MATCHES BEFORE", CUTOFF_DATE, ":", len(cutoff_history))
 
     if not cutoff_history:
         raise Exception("NO CUTOFF HISTORY FOR BACKTEST")
 
-    store = build_elo(cutoff_history)
+    elo_store = build_elo(cutoff_history)
+    form_store = build_form_store(cutoff_history)
 
-    print("BACKTEST ELO STORE PLAYERS:", len(store))
+    print("BACKTEST ELO STORE PLAYERS:", len(elo_store))
+    print("BACKTEST FORM STORE PLAYERS:", len(form_store))
 
-    if len(store) < 200:
+    if len(elo_store) < 200:
         raise Exception("TOO FEW BACKTEST ELO PLAYERS")
 
-    return store
+    if len(form_store) < 200:
+        raise Exception("TOO FEW BACKTEST FORM PLAYERS")
+
+    return elo_store, form_store
 
 
-def make_prediction_for_match(match, elo_store):
+def make_elo_only_prediction(match, elo_store):
     player1 = match["player1"]
     player2 = match["player2"]
 
-    elo_prediction = predict(
-        player1,
-        player2,
-        "Grass",
-        elo_store,
-    )
+    elo_prediction = predict(player1, player2, "Grass", elo_store)
 
     prob1 = elo_prediction["probability_player1"]
     prob2 = elo_prediction["probability_player2"]
@@ -148,6 +144,7 @@ def make_prediction_for_match(match, elo_store):
     status = "WON" if same_player(pick, match["winner"]) else "LOST"
 
     return {
+        "model_type": "ELO_ONLY",
         "player1": player1,
         "player2": player2,
         "match": f"{player1} vs {player2}",
@@ -156,6 +153,8 @@ def make_prediction_for_match(match, elo_store):
         "winner": match["winner"],
         "score": match["score"],
         "probability": round(probability, 3),
+        "base_probability": round(probability, 3),
+        "form_adjustment": 0,
         "status": status,
         "elo_found_player1": elo_prediction.get("elo_found_player1"),
         "elo_found_player2": elo_prediction.get("elo_found_player2"),
@@ -163,7 +162,71 @@ def make_prediction_for_match(match, elo_store):
         "elo_player2": round(elo_prediction.get("elo_player2", 1500), 1),
         "elo_matches_player1": elo_prediction.get("elo_matches_player1"),
         "elo_matches_player2": elo_prediction.get("elo_matches_player2"),
+        "elo_reliability_player1": elo_prediction.get("elo_reliability_player1"),
+        "elo_reliability_player2": elo_prediction.get("elo_reliability_player2"),
         "model": elo_prediction.get("model"),
+    }
+
+
+def make_elo_form_prediction(match, elo_store, form_store):
+    player1 = match["player1"]
+    player2 = match["player2"]
+
+    elo_prediction = predict(player1, player2, "Grass", elo_store)
+
+    prob1 = elo_prediction["probability_player1"]
+
+    form1 = get_player_form(form_store, player1, "Grass")
+    form2 = get_player_form(form_store, player2, "Grass")
+
+    adjustment_for_player1 = calculate_form_adjustment(
+        pick_form=form1,
+        opponent_form=form2,
+    )
+
+    adjusted_prob1 = clamp(
+        prob1 + adjustment_for_player1["total_adjustment"],
+        0.15,
+        0.85,
+    )
+
+    adjusted_prob2 = 1 - adjusted_prob1
+
+    if adjusted_prob1 >= adjusted_prob2:
+        pick = player1
+        opponent = player2
+        probability = adjusted_prob1
+    else:
+        pick = player2
+        opponent = player1
+        probability = adjusted_prob2
+
+    status = "WON" if same_player(pick, match["winner"]) else "LOST"
+
+    return {
+        "model_type": "ELO_FORM",
+        "player1": player1,
+        "player2": player2,
+        "match": f"{player1} vs {player2}",
+        "pick": pick,
+        "opponent": opponent,
+        "winner": match["winner"],
+        "score": match["score"],
+        "probability": round(probability, 3),
+        "base_probability": round(max(prob1, 1 - prob1), 3),
+        "form_adjustment": adjustment_for_player1,
+        "status": status,
+        "elo_found_player1": elo_prediction.get("elo_found_player1"),
+        "elo_found_player2": elo_prediction.get("elo_found_player2"),
+        "elo_player1": round(elo_prediction.get("elo_player1", 1500), 1),
+        "elo_player2": round(elo_prediction.get("elo_player2", 1500), 1),
+        "elo_matches_player1": elo_prediction.get("elo_matches_player1"),
+        "elo_matches_player2": elo_prediction.get("elo_matches_player2"),
+        "elo_reliability_player1": elo_prediction.get("elo_reliability_player1"),
+        "elo_reliability_player2": elo_prediction.get("elo_reliability_player2"),
+        "form_player1": form1,
+        "form_player2": form2,
+        "model": f"{elo_prediction.get('model')}_FORM_BACKTEST",
     }
 
 
@@ -171,28 +234,55 @@ def summarize(rows):
     total = len(rows)
     won = len([r for r in rows if r["status"] == "WON"])
     lost = len([r for r in rows if r["status"] == "LOST"])
-
     hit_rate = round(won / total, 3) if total else 0
 
-    found_both = len([
+    found_rows = [
         r for r in rows
         if r.get("elo_found_player1") and r.get("elo_found_player2")
-    ])
+    ]
 
-    max_probability = max([r["probability"] for r in rows], default=0)
+    found_total = len(found_rows)
+    found_won = len([r for r in found_rows if r["status"] == "WON"])
+    found_hit_rate = round(found_won / found_total, 3) if found_total else 0
+
     avg_probability = round(
         sum([r["probability"] for r in rows]) / total,
         3
     ) if total else 0
+
+    max_probability = max([r["probability"] for r in rows], default=0)
+
+    top1 = rows[:1]
+    top3 = rows[:3]
+    top5 = rows[:5]
 
     return {
         "total": total,
         "won": won,
         "lost": lost,
         "hit_rate": hit_rate,
-        "elo_found_both": found_both,
-        "max_probability": max_probability,
+        "elo_found_both": found_total,
+        "elo_found_both_won": found_won,
+        "elo_found_both_hit_rate": found_hit_rate,
         "avg_probability": avg_probability,
+        "max_probability": max_probability,
+        "top1": summarize_light(top1),
+        "top3": summarize_light(top3),
+        "top5": summarize_light(top5),
+    }
+
+
+def summarize_light(rows):
+    total = len(rows)
+    won = len([r for r in rows if r["status"] == "WON"])
+    lost = len([r for r in rows if r["status"] == "LOST"])
+    hit_rate = round(won / total, 3) if total else 0
+
+    return {
+        "total": total,
+        "won": won,
+        "lost": lost,
+        "hit_rate": hit_rate,
     }
 
 
@@ -203,23 +293,45 @@ def percent(value):
         return "-"
 
 
-def render_html(rows, summary):
+def render_summary(title, summary):
+    return f"""
+<div class="summary">
+<h2>{title}</h2>
+<p>Total: {summary["total"]}</p>
+<p>Won: {summary["won"]}</p>
+<p>Lost: {summary["lost"]}</p>
+<p>Hit rate: {summary["hit_rate"] * 100:.1f}%</p>
+<p>ELO found both: {summary["elo_found_both"]}</p>
+<p>ELO-found-only hit rate: {summary["elo_found_both_hit_rate"] * 100:.1f}%</p>
+<p>Avg probability: {percent(summary["avg_probability"])}</p>
+<p>Max probability: {percent(summary["max_probability"])}</p>
+<p>TOP1: {summary["top1"]["won"]}-{summary["top1"]["lost"]} ({summary["top1"]["hit_rate"] * 100:.1f}%)</p>
+<p>TOP3: {summary["top3"]["won"]}-{summary["top3"]["lost"]} ({summary["top3"]["hit_rate"] * 100:.1f}%)</p>
+<p>TOP5: {summary["top5"]["won"]}-{summary["top5"]["lost"]} ({summary["top5"]["hit_rate"] * 100:.1f}%)</p>
+</div>
+"""
+
+
+def render_table(title, rows):
     body = ""
 
-    if not rows:
-        body = """
-<tr>
-<td colspan="9">No rows available.</td>
-</tr>
-"""
-    else:
-        for i, row in enumerate(rows, 1):
-            body += f"""
+    for i, row in enumerate(rows, 1):
+        form_adjustment = row.get("form_adjustment")
+
+        if isinstance(form_adjustment, dict):
+            form_text = form_adjustment.get("total_adjustment")
+        else:
+            form_text = form_adjustment
+
+        body += f"""
 <tr>
 <td>#{i}</td>
+<td>{row["model_type"]}</td>
 <td>{row["pick"]}</td>
 <td>{row["opponent"]}</td>
 <td>{percent(row["probability"])}</td>
+<td>{percent(row.get("base_probability"))}</td>
+<td>{form_text}</td>
 <td>{row["status"]}</td>
 <td>{row["winner"]}</td>
 <td>{row["score"]}</td>
@@ -228,6 +340,33 @@ def render_html(rows, summary):
 </tr>
 """
 
+    return f"""
+<h2>{title}</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Model</th>
+<th>Pick</th>
+<th>Opponent</th>
+<th>Final Win %</th>
+<th>Base Win %</th>
+<th>Form adj.</th>
+<th>Status</th>
+<th>Winner</th>
+<th>Score</th>
+<th>ELO found</th>
+<th>ELO</th>
+</tr>
+</thead>
+<tbody>
+{body}
+</tbody>
+</table>
+"""
+
+
+def render_html(elo_rows, form_rows, elo_summary, form_summary):
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -249,16 +388,21 @@ h1 {{
     font-size: 12px;
     margin-bottom: 24px;
 }}
+.summary-grid {{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+}}
 .summary {{
     background: #201313;
     padding: 14px 18px;
     border-radius: 10px;
-    max-width: 420px;
-    margin-bottom: 28px;
 }}
 table {{
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 34px;
 }}
 th, td {{
     border-bottom: 1px solid #3a2525;
@@ -279,35 +423,13 @@ tr:hover {{
 <h1>Retro Backtest Wimbledon 2026-06-30</h1>
 <div class="disclaimer">{DISCLAIMER}</div>
 
-<div class="summary">
-<h2>Summary</h2>
-<p>Total: {summary["total"]}</p>
-<p>Won: {summary["won"]}</p>
-<p>Lost: {summary["lost"]}</p>
-<p>Hit rate: {summary["hit_rate"] * 100:.1f}%</p>
-<p>ELO found both: {summary["elo_found_both"]}</p>
-<p>Avg probability: {percent(summary["avg_probability"])}</p>
-<p>Max probability: {percent(summary["max_probability"])}</p>
+<div class="summary-grid">
+{render_summary("ELO only", elo_summary)}
+{render_summary("ELO + form", form_summary)}
 </div>
 
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Pick</th>
-<th>Opponent</th>
-<th>Win %</th>
-<th>Status</th>
-<th>Winner</th>
-<th>Score</th>
-<th>ELO found</th>
-<th>ELO</th>
-</tr>
-</thead>
-<tbody>
-{body}
-</tbody>
-</table>
+{render_table("ELO + form rows", form_rows)}
+{render_table("ELO only rows", elo_rows)}
 
 </body>
 </html>
@@ -317,35 +439,51 @@ tr:hover {{
 def run():
     os.makedirs(OUT_DIR, exist_ok=True)
 
-    elo_store = build_backtest_elo_store()
+    elo_store, form_store = build_backtest_stores()
 
-    rows = [
-        make_prediction_for_match(match, elo_store)
+    elo_rows = [
+        make_elo_only_prediction(match, elo_store)
         for match in RESULTS
     ]
 
-    rows.sort(key=lambda x: x["probability"], reverse=True)
+    form_rows = [
+        make_elo_form_prediction(match, elo_store, form_store)
+        for match in RESULTS
+    ]
 
-    summary = summarize(rows)
+    elo_rows.sort(key=lambda x: x["probability"], reverse=True)
+    form_rows.sort(key=lambda x: x["probability"], reverse=True)
+
+    elo_summary = summarize(elo_rows)
+    form_summary = summarize(form_rows)
 
     output = {
         "date": DATE,
-        "mode": "retro_backtest_with_cutoff",
+        "mode": "retro_backtest_with_cutoff_compare_elo_vs_form",
         "cutoff_date": CUTOFF_DATE,
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "summary": summary,
-        "rows": rows,
+        "elo_only_summary": elo_summary,
+        "elo_form_summary": form_summary,
+        "elo_only_rows": elo_rows,
+        "elo_form_rows": form_rows,
+        "rows": form_rows,
     }
 
     with open(OUT_JSON, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
 
     with open(OUT_HTML, "w", encoding="utf-8") as f:
-        f.write(render_html(rows, summary))
+        f.write(render_html(
+            elo_rows=elo_rows,
+            form_rows=form_rows,
+            elo_summary=elo_summary,
+            form_summary=form_summary,
+        ))
 
     print("WROTE", OUT_JSON)
     print("WROTE", OUT_HTML)
-    print("SUMMARY:", summary)
+    print("ELO SUMMARY:", elo_summary)
+    print("FORM SUMMARY:", form_summary)
 
 
 if __name__ == "__main__":
