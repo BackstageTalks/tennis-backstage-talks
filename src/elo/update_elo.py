@@ -1,6 +1,6 @@
-from .fetch import fetch_all
-from .clean import clean_elo
-from .store import save_latest, append_history
+from src.elo.fetch import fetch_all
+from src.elo.clean import clean_elo
+from src.elo.store import save_latest, append_history
 
 
 def run():
@@ -9,11 +9,19 @@ def run():
 
     for name, df in data.items():
 
-        clean_df = clean_elo(df)
+        cleaned = clean_elo(df)
 
-        save_latest(name, clean_df)
+        save_latest(
+            name=name,
+            df=cleaned
+        )
 
-        append_history(name, clean_df)
+        append_history(
+            name=name,
+            df=cleaned
+        )
+
+    print("ELO update completed")
 
 
 if __name__ == "__main__":
