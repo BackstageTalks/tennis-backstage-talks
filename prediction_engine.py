@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+
 from fetch_matches import get_today_matches
 from stats_engine import get_stats_context
 from elo_engine import load, predict
@@ -5,6 +8,8 @@ from odds_api import fetch_odds, find_match_odds
 
 TOP_N = 5
 MIN_ODDS = 1.50
+
+LOCAL_TZ = ZoneInfo("Europe/Bratislava")
 
 
 def clamp(value, low, high):
@@ -20,6 +25,55 @@ def safe_float(value):
         return None
 
 
+def format_match_time(match):
+    start_value = (
+        match.get("match_start")
+        or match.get("start_time")
+        or match.get("commence_time")
+        or match.get("datetime")
+    )
+
+    if start_value:
+        try:
+            text = str(start_value)
+
+            if text.endswith("Z"):
+                text = text.replace("Z", "+00:00")
+
+            dt = datetime.fromisoformat(text)
+
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+
+            local_dt = dt.astimezone(LOCAL_TZ)
+
+            return local_dt.strftime("%d.%m.%Y %H:%M %Z")
+
+        except Exception:
+            pass
+
+    raw = (
+        match.get("match_time_raw")
+        or match.get("time")
+        or match.get("match_time")
+    )
+
+    if raw:
+        raw_text = str(raw).strip()
+
+        for fmt in ["%I:%M %p", "%H:%M"]:
+            try:
+                parsed = datetime.strptime(raw_text, fmt)
+                adjusted = parsed + timedelta(hours=2)
+                return adjusted.strftime("%H:%M CEST")
+            except Exception:
+                continue
+
+        return raw_text
+
+    return "TBD"
+
+
 def normalize_match(match):
     if isinstance(match, dict):
         return {
@@ -31,12 +85,7 @@ def normalize_match(match):
             "odds_source": match.get("odds_source"),
             "match_start": match.get("match_start"),
             "match_time_raw": match.get("match_time_raw"),
-            "time": (
-                match.get("time")
-                or match.get("match_time")
-                or match.get("match_time_raw")
-                or "TBD"
-            ),
+            "time": format_match_time(match),
         }
 
     return {
@@ -79,12 +128,6 @@ def build_sets_games_info(probability, tournament):
             "most_likely_sets": None,
             "sets_probability": None,
             "sets_fair_odds": None,
-            "over_2_5_sets_probability": None,
-            "under_2_5_sets_probability": None,
-            "over_3_5_sets_probability": None,
-            "under_3_5_sets_probability": None,
-            "over_4_5_sets_probability": None,
-            "under_4_5_sets_probability": None,
             "expected_games": None,
             "games_lean": None,
             "note": "INFO ONLY - not used for TOP selection",
@@ -128,12 +171,6 @@ def build_sets_games_info(probability, tournament):
             "most_likely_sets": most_likely_sets,
             "sets_probability": round(sets_probability, 3),
             "sets_fair_odds": sets_fair_odds,
-            "over_2_5_sets_probability": None,
-            "under_2_5_sets_probability": None,
-            "over_3_5_sets_probability": round(over_3_5, 3),
-            "under_3_5_sets_probability": round(under_3_5, 3),
-            "over_4_5_sets_probability": round(over_4_5, 3),
-            "under_4_5_sets_probability": round(under_4_5, 3),
             "expected_games": expected_games,
             "games_lean": games_lean,
             "note": "INFO ONLY - not used for TOP selection",
@@ -165,12 +202,6 @@ def build_sets_games_info(probability, tournament):
         "most_likely_sets": most_likely_sets,
         "sets_probability": round(sets_probability, 3),
         "sets_fair_odds": sets_fair_odds,
-        "over_2_5_sets_probability": round(over_2_5, 3),
-        "under_2_5_sets_probability": round(under_2_5, 3),
-        "over_3_5_sets_probability": None,
-        "under_3_5_sets_probability": None,
-        "over_4_5_sets_probability": None,
-        "under_4_5_sets_probability": None,
         "expected_games": expected_games,
         "games_lean": games_lean,
         "note": "INFO ONLY - not used for TOP selection",
@@ -257,6 +288,10 @@ def build_prediction_record(match, surface, elo_prediction, odds_data):
         "elo_found_player2": elo_prediction.get("elo_found_player2"),
         "elo_matched_key_player1": elo_prediction.get("elo_matched_key_player1"),
         "elo_matched_key_player2": elo_prediction.get("elo_matched_key_player2"),
+        "elo_matches_player1": elo_prediction.get("elo_matches_player1"),
+        "elo_matches_player2": elo_prediction.get("elo_matches_player2"),
+        "elo_reliability_player1": elo_prediction.get("elo_reliability_player1"),
+        "elo_reliability_player2": elo_prediction.get("elo_reliability_player2"),
 
         "model_source": "CUSTOM_ELO",
         "model_version": elo_prediction.get("model", "CUSTOM_ELO"),
@@ -274,6 +309,7 @@ def build_prediction_record(match, surface, elo_prediction, odds_data):
             "No market edge",
             "No WELO",
             "Sets/games are INFO ONLY",
+            "Match time displayed in Europe/Bratislava time",
         ],
         "alternative_market_info": alternative_market_info,
         "alternative_bets": [],
@@ -361,10 +397,19 @@ def get_top_predictions(all_predictions=None):
         prediction for prediction in all_predictions
         if prediction.get("odds") is not None
         and prediction.get("odds") >= MIN_ODDS
+        and prediction.get("elo_found_player1")
+        and prediction.get("elo_found_player2")
     ]
 
     eligible.sort(
-        key=lambda x: x.get("probability") or 0,
+        key=lambda x: (
+            x.get("probability") or 0,
+            min(
+                x.get("elo_reliability_player1") or 0,
+                x.get("elo_reliability_player2") or 0,
+            ),
+            -float(x.get("odds") or 99),
+        ),
         reverse=True
     )
 
