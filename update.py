@@ -3,6 +3,7 @@ import os
 from datetime import datetime, timezone
 
 from elo_engine import load as load_elo_store
+from form_engine import load_form_store
 from prediction_engine import build_all_predictions, get_top_predictions
 
 
@@ -71,6 +72,37 @@ def stat_values(all_predictions):
     )
 
 
+def form_adjustment_stats(all_predictions):
+    values = []
+
+    for prediction in all_predictions:
+        adjustment = prediction.get("form_adjustment") or {}
+        value = adjustment.get("total_adjustment")
+
+        if value is None:
+            continue
+
+        try:
+            values.append(float(value))
+        except Exception:
+            continue
+
+    if not values:
+        return {
+            "count": 0,
+            "avg": 0,
+            "min": 0,
+            "max": 0,
+        }
+
+    return {
+        "count": len(values),
+        "avg": round(sum(values) / len(values), 3),
+        "min": round(min(values), 3),
+        "max": round(max(values), 3),
+    }
+
+
 def build_debug(all_predictions, top_predictions):
     with_odds = [
         p for p in all_predictions
@@ -84,7 +116,10 @@ def build_debug(all_predictions, top_predictions):
 
     eligible_strict = [
         p for p in eligible_odds
-        if p.get("elo_found_player1") and p.get("elo_found_player2")
+        if p.get("elo_found_player1")
+        and p.get("elo_found_player2")
+        and p.get("probability") is not None
+        and p.get("probability") >= 0.60
     ]
 
     elo_found_both = [
@@ -98,6 +133,7 @@ def build_debug(all_predictions, top_predictions):
     ]
 
     elo_store = load_elo_store()
+    form_store = load_form_store()
 
     min_p, avg_p, max_p = stat_values(all_predictions)
 
@@ -109,9 +145,10 @@ def build_debug(all_predictions, top_predictions):
 
         "with_odds_count": len(with_odds),
         "eligible_odds_1_50_count": len(eligible_odds),
-        "eligible_strict_elo_and_odds_count": len(eligible_strict),
+        "eligible_strict_elo_odds_prob_count": len(eligible_strict),
 
         "elo_store_players": len(elo_store),
+        "form_store_players": len(form_store),
         "elo_found_both_count": len(elo_found_both),
         "elo_missing_count": len(elo_missing),
 
@@ -119,6 +156,8 @@ def build_debug(all_predictions, top_predictions):
         "avg_probability": avg_p,
         "max_probability": max_p,
         "probability_buckets": probability_buckets(all_predictions),
+
+        "form_adjustment_stats": form_adjustment_stats(all_predictions),
 
         "sample_all": all_predictions[:5],
         "sample_top": top_predictions[:5],
