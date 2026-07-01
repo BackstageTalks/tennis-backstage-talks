@@ -15,7 +15,10 @@ def latest_file(pattern):
 
 
 def load_json(path, default):
-    if not path or not os.path.exists(path):
+    if not path:
+        return default
+
+    if not os.path.exists(path):
         return default
 
     with open(path, encoding="utf-8") as f:
@@ -63,7 +66,12 @@ def opponent_of(prediction):
 
 def render_debug(debug):
     if not debug:
-        return "<p>No debug data available.</p>"
+        return """
+<div class="debug">
+<strong>Debug:</strong><br>
+No debug data available.
+</div>
+"""
 
     return f"""
 <div class="debug">
@@ -71,7 +79,7 @@ def render_debug(debug):
 ALL matches: {debug.get("all_count", 0)}<br>
 TOP picks: {debug.get("top_count", 0)}<br>
 Matches with odds: {debug.get("with_odds_count", 0)}<br>
-Eligible odds >= 1.50: {debug.get("eligible_odds_1_50_count", 0)}<br>
+Eligible odds &gt;= 1.50: {debug.get("eligible_odds_1_50_count", 0)}<br>
 Max probability: {debug.get("max_probability", 0)}
 </div>
 """
