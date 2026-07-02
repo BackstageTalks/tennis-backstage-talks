@@ -6,11 +6,10 @@ from datetime import datetime, timezone
 SITE_TITLE = "TBT Tennis Intelligence"
 BASE_URL = "https://backstagetalks.github.io/tennis-backstage-talks"
 
-
-DISCLAIMER = """
-The information presented on this website is for informational and analytical purposes only.
-The predictions do not constitute betting advice.
-"""
+DISCLAIMER = (
+    "The information presented on this website is for informational and analytical purposes only. "
+    "The predictions do not constitute betting advice."
+)
 
 
 def safe(value, default="-"):
@@ -55,33 +54,43 @@ def tag_class(tag):
 def render_summary(predictions):
     count = len(predictions)
 
-    probabilities = [
-        float(p.get("probability"))
-        for p in predictions
-        if p.get("probability") is not None
-    ]
+    probabilities = []
 
-    odds_values = [
-        float(p.get("odds"))
-        for p in predictions
-        if p.get("odds") is not None
-    ]
+    for prediction in predictions:
+        value = prediction.get("probability")
 
-    avg_probability = (
-        f"{sum(probabilities) / len(probabilities) * 100:.1f}%"
-        if probabilities
-        else "-"
-    )
+        if value is None:
+            continue
 
-    avg_odds = (
-        f"{sum(odds_values) / len(odds_values):.2f}"
-        if odds_values
-        else "-"
-    )
+        try:
+            probabilities.append(float(value))
+        except Exception:
+            continue
 
-    updated = datetime.now(
-        timezone.utc
-    ).strftime("%Y-%m-%d %H:%M UTC")
+    odds_values = []
+
+    for prediction in predictions:
+        value = prediction.get("odds")
+
+        if value is None:
+            continue
+
+        try:
+            odds_values.append(float(value))
+        except Exception:
+            continue
+
+    if probabilities:
+        avg_probability = f"{sum(probabilities) / len(probabilities) * 100:.1f}%"
+    else:
+        avg_probability = "-"
+
+    if odds_values:
+        avg_odds = f"{sum(odds_values) / len(odds_values):.2f}"
+    else:
+        avg_odds = "-"
+
+    updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     return f"""
 <div class="summary">
@@ -120,48 +129,23 @@ def render_rows(predictions):
 
     rows = []
 
-    for index, prediction in enumerate(
-        predictions,
-        start=1,
-    ):
+    for index, prediction in enumerate(predictions, start=1):
         pick = safe(prediction.get("pick"))
         opponent = safe(prediction.get("opponent"))
         match = safe(prediction.get("match"))
         time = safe(prediction.get("time"))
 
-        probability = pct(
-            prediction.get("probability")
-        )
+        probability = pct(prediction.get("probability"))
+        odd = odds(prediction.get("odds"))
 
-        odd = odds(
-            prediction.get("odds")
-        )
+        expected_sets = safe(prediction.get("expected_sets"))
+        sets_probability = pct(prediction.get("sets_probability"))
+        expected_games = safe(prediction.get("expected_games"))
+        games_pick = safe(prediction.get("games_pick"))
+        games_line = safe(prediction.get("games_line"))
 
-        expected_sets = safe(
-            prediction.get("expected_sets")
-        )
-
-        sets_probability = pct(
-            prediction.get("sets_probability")
-        )
-
-        expected_games = safe(
-            prediction.get("expected_games")
-        )
-
-        games_pick = safe(
-            prediction.get("games_pick")
-        )
-
-        games_line = safe(
-            prediction.get("games_line")
-        )
-
-        bet_tag = safe(
-            prediction.get("bet_tag", "INFO ONLY")
-        )
-
-        css_tag = tag_class(bet_tag)
+        bet_tag = safe(prediction.get("bet_tag", "INFO ONLY"))
+        css_tag = tag_class(prediction.get("bet_tag", "INFO ONLY"))
 
         rows.append(f"""
 <tr>
@@ -235,11 +219,7 @@ def render_rows(predictions):
     return "\n".join(rows)
 
 
-def render_page(
-    predictions,
-    title,
-    subtitle,
-):
+def render_page(predictions, title, subtitle):
     rows = render_rows(predictions)
     summary = render_summary(predictions)
 
@@ -263,7 +243,6 @@ def render_page(
     --yellow: #facc15;
     --blue: #38bdf8;
     --gray: #64748b;
-    --red: #ef4444;
 }}
 
 * {{
@@ -376,7 +355,7 @@ td {{
 }}
 
 tr:hover {{
-    background: rgba(255,255,255,0.03);
+    background: rgba(255, 255, 255, 0.03);
 }}
 
 .rank {{
@@ -433,27 +412,27 @@ tr:hover {{
 }}
 
 .tag-play {{
-    background: rgba(34,197,94,0.18);
+    background: rgba(34, 197, 94, 0.18);
     color: var(--green);
-    border: 1px solid rgba(34,197,94,0.45);
+    border: 1px solid rgba(34, 197, 94, 0.45);
 }}
 
 .tag-small {{
-    background: rgba(250,204,21,0.16);
+    background: rgba(250, 204, 21, 0.16);
     color: var(--yellow);
-    border: 1px solid rgba(250,204,21,0.45);
+    border: 1px solid rgba(250, 204, 21, 0.45);
 }}
 
 .tag-watch {{
-    background: rgba(56,189,248,0.15);
+    background: rgba(56, 189, 248, 0.15);
     color: var(--blue);
-    border: 1px solid rgba(56,189,248,0.45);
+    border: 1px solid rgba(56, 189, 248, 0.45);
 }}
 
 .tag-info {{
-    background: rgba(100,116,139,0.18);
+    background: rgba(100, 116, 139, 0.18);
     color: var(--muted);
-    border: 1px solid rgba(100,116,139,0.45);
+    border: 1px solid rgba(100, 116, 139, 0.45);
 }}
 
 .empty {{
@@ -517,9 +496,9 @@ tr:hover {{
         </div>
 
         <div class="nav">
-            <a href="{BASE_URL}/">TOP</a>
-            <a href="{BASE_URL}/all/">ALL</a>
-            <a href="{BASE_URL}/results/">RESULTS</a>
+            {BASE_URL}/TOP</a>
+            {BASE_URL}/all/ALL</a>
+            {BASE_URL}/results/RESULTS</a>
         </div>
     </div>
 
@@ -546,7 +525,7 @@ tr:hover {{
     </div>
 
     <div class="footer">
-        {DISCLAIMER}
+        {safe(DISCLAIMER)}
         <br><br>
         Backstage Talks Tennis Intelligence
     </div>
@@ -557,12 +536,7 @@ tr:hover {{
 """
 
 
-def write_page(
-    predictions,
-    title,
-    subtitle,
-    destination,
-):
+def write_page(predictions, title, subtitle, destination):
     html_text = render_page(
         predictions=predictions,
         title=title,
@@ -574,22 +548,12 @@ def write_page(
     if directory:
         os.makedirs(directory, exist_ok=True)
 
-    with open(
-        destination,
-        "w",
-        encoding="utf-8",
-    ) as file:
+    with open(destination, "w", encoding="utf-8") as file:
         file.write(html_text)
 
 
-def render_rss(
-    predictions,
-    title,
-    link,
-):
-    now = datetime.now(
-        timezone.utc
-    ).strftime("%a, %d %b %Y %H:%M:%S GMT")
+def render_rss(predictions, title, link):
+    now = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")
 
     items = []
 
@@ -601,21 +565,21 @@ def render_rss(
         expected_sets = safe(prediction.get("expected_sets"))
         expected_games = safe(prediction.get("expected_games"))
         games_pick = safe(prediction.get("games_pick"))
-        bet_tag = safe(NLY"))
+        bet_tag = safe(prediction.get("bet_tag", "INFO ONLY"))
 
-        description = html.escape(
-            f"""Pick: {pick}
-Opponent: {opponent}
-Win probability: {probability}
-Odds: {odd}
-Expected sets: {expected_sets}
-Expected games: {expected_games}
-Games pick: {games_pick}
-Tag: {bet_tag}
-
-{DISCLAIMER}
-"""
+        description_text = (
+            f"Pick: {pick}\n"
+            f"Opponent: {opponent}\n"
+            f"Win probability: {probability}\n"
+            f"Odds: {odd}\n"
+            f"Expected sets: {expected_sets}\n"
+            f"Expected games: {expected_games}\n"
+            f"Games pick: {games_pick}\n"
+            f"Tag: {bet_tag}\n\n"
+            f"{DISCLAIMER}"
         )
+
+        description = html.escape(description_text)
 
         items.append(f"""
 <item>
@@ -638,12 +602,7 @@ Tag: {bet_tag}
 """
 
 
-def write_rss(
-    predictions,
-    title,
-    link,
-    destination,
-):
+def write_rss(predictions, title, link, destination):
     xml = render_rss(
         predictions=predictions,
         title=title,
@@ -655,9 +614,5 @@ def write_rss(
     if directory:
         os.makedirs(directory, exist_ok=True)
 
-    with open(
-        destination,
-        "w",
-        encoding="utf-8",
-    ) as file:
+    with open(destination, "w", encoding="utf-8") as file:
         file.write(xml)
