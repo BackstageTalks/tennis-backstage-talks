@@ -6,24 +6,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  bu*ld:
+  build:
     runs-on: ubuntu-latest
 
-  * permissions:
-      contents: writ*
+    permissions:
+      contents: write
       pages: write
-      id-token* write
+      id-token: write
 
     env:
-      ODDS_API_KE*: ${{ secrets.ODDS_API_KEY }}
-    * SGOAPI: ${{ secrets.SGOAPI }}
+      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      SGOAPI: ${{ secrets.SGOAPI }}
 
-  * steps:
-      - name: Checkout rep*
-        uses: actions/checkout@v4*
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
       - name: Setup Python
-      * uses: actions/setup-python@v5
-   *    with:
+        uses: actions/setup-python@v5
+        with:
           python-version: "3.11"
 
       - name: Install dependencies
