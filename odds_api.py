@@ -5,37 +5,45 @@ import unicodedata
 from difflib import SequenceMatcher
 
 
-BASE_URL = "https://api.odds-api.io/v3"
+BASE_URL = "https://api.the-odds-api.com/v4"
 
-ODDS_CACHE_PATH = "public/odds_cache.json"
 ODDS_DEBUG_PATH = "public/odds_debug.json"
 
-DEFAULT_BOOKMAKERS = "Bet365,Unibet,SingBet,Betfair"
+DEFAULT_REGIONS = "eu"
+DEFAULT_MARKETS = "h2h"
+DEFAULT_ODDS_FORMAT = "decimal"
 
-
-_EVENT_ODDS_CACHE = {}
 
 _DEBUG = {
-    "provider": "Odds-API.io",
+    "provider": "The Odds API",
+    "sports_found": 0,
+    "tennis_sport_keys": [],
     "events_from_api": 0,
     "fetch_odds_error": None,
+
     "matched": 0,
     "unmatched": 0,
     "odds_found": 0,
     "odds_missing": 0,
-    "examples_unmatched": [],
+
+    "sample_events": [],
     "examples_matched": [],
+    "examples_unmatched": [],
 }
 
 
 def write_debug():
-    os.makedirs("public", exist_ok=True)
+    os.makedirs(
+        "public",
+        exist_ok=True,
+    )
 
     with open(
         ODDS_DEBUG_PATH,
         "w",
         encoding="utf-8",
     ) as file:
+
         json.dump(
             _DEBUG,
             file,
@@ -56,11 +64,13 @@ def normalize(name):
     )
 
     value = "".join(
-        char for char in value
+        char
+        for char in value
         if not unicodedata.combining(char)
     )
 
     value = value.lower()
+
     value = value.replace("-", " ")
     value = value.replace(".", " ")
     value = value.replace(",", " ")
@@ -80,131 +90,191 @@ def similarity(a, b):
 
 
 def get_api_key():
-    api_key = os.getenv("APIIO")
+    api_key = os.getenv("ODDS_API_KEY")
 
     if not api_key:
         raise ValueError(
-            "Missing GitHub Secret APIIO"
+            "Missing GitHub Secret ODDS_API_KEY"
         )
 
     return api_key
 
 
-def fetch_tennis_events(limit=500):
-    api_key = get_api_key()
-
+def request_json(url, params):
     response = requests.get(
-        f"{BASE_URL}/events",
-        params={
-            "apiKey": api_key,
-            "sport": "tennis",
-            "limit": limit,
-        },
+        url,
+        params=params,
         timeout=30,
     )
 
     response.raise_for_status()
 
-    data = response.json()
+    return response.json()
+
+
+def fetch_sports():
+    api_key = get_api_key()
+
+    data = request_json(
+        f"{BASE_URL}/sports/",
+        params={
+            "apiKey": api_key,
+        },
+    )
 
     if not isinstance(data, list):
         raise ValueError(
-            f"Unexpected events response: {data}"
+            f"Unexpected sports response: {data}"
         )
 
+    _DEBUG["sports_found"] = len(data)
+
     return data
 
 
-def fetch_event_odds(event_id):
-    if event_id in _EVENT_ODDS_CACHE:
-        return _EVENT_ODDS_CACHE[event_id]
+def get_tennis_sport_keys():
+    forced = os.getenv("ODDS_SPORT_KEYS")
 
+    if forced:
+        keys = [
+            item.strip()
+            for item in forced.split(",")
+            if item.strip()
+        ]
+
+        _DEBUG["tennis_sport_keys"] = keys
+
+        return keys
+
+    sports = fetch_sports()
+
+    keys = []
+
+    for sport in sports:
+        key = sport.get("key", "")
+        group = sport.get("group", "")
+        title = sport.get("title", "")
+
+        text = f"{key} {group} {title}".lower()
+
+        if "tennis" in text and sport.get("active") is True:
+            keys.append(key)
+
+    _DEBUG["tennis_sport_keys"] = keys
+
+    return keys
+
+
+def fetch_odds_for_sport(sport_key):
     api_key = get_api_key()
 
-    bookmakers = os.getenv(
-        "ODDS_BOOKMAKERS",
-        DEFAULT_BOOKMAKERS,
+    regions = os.getenv(
+        "ODDS_REGIONS",
+        DEFAULT_REGIONS,
     )
 
-    response = requests.get(
-        f"{BASE_URL}/odds",
+    markets = os.getenv(
+        "ODDS_MARKETS",
+        DEFAULT_MARKETS,
+    )
+
+    odds_format = os.getenv(
+        "ODDS_FORMAT",
+        DEFAULT_ODDS_FORMAT,
+    )
+
+    data = request_json(
+        f"{BASE_URL}/sports/{sport_key}/odds",
         params={
             "apiKey": api_key,
-            "eventId": event_id,
-            "bookmakers": bookmakers,
+            "regions": regions,
+            "markets": markets,
+            "oddsFormat": odds_format,
         },
-        timeout=30,
     )
 
-    response.raise_for_status()
+    if not isinstance(data, list):
+        return []
 
-    data = response.json()
-
-    _EVENT_ODDS_CACHE[event_id] = data
+    for item in data:
+        item["_sport_key"] = sport_key
 
     return data
 
 
-def extract_ml_odds(data):
-    bookmakers = data.get(
-        "bookmakers",
-        {},
-    )
+def fetch_odds():
+    """
+    Compatibility function used by prediction_engine_top.py
+    and prediction_engine_all.py.
 
-    if not isinstance(bookmakers, dict):
-        return None
+    Returns list of tennis events with h2h odds.
+    """
 
-    for bookmaker_name, markets in bookmakers.items():
+    try:
+        sport_keys = get_tennis_sport_keys()
 
-        if not isinstance(markets, list):
-            continue
+        all_events = []
 
-        for market in markets:
-
-            market_name = str(
-                market.get("name", "")
-            ).upper()
-
-            if market_name not in [
-                "ML",
-                "MONEYLINE",
-                "MATCH WINNER",
-                "WINNER",
-            ]:
-                continue
-
-            odds_list = market.get(
-                "odds",
-                [],
-            )
-
-            if not odds_list:
-                continue
-
-            item = odds_list[0]
-
-            home = item.get("home")
-            away = item.get("away")
-
-            if home is None or away is None:
-                continue
-
+        for sport_key in sport_keys:
             try:
-                return {
-                    "bookmaker": bookmaker_name,
-                    "home_odds": float(home),
-                    "away_odds": float(away),
-                }
+                events = fetch_odds_for_sport(
+                    sport_key
+                )
 
-            except Exception:
-                continue
+                all_events.extend(events)
 
-    return None
+            except Exception as exc:
+                if len(_DEBUG["examples_unmatched"]) < 20:
+                    _DEBUG["examples_unmatched"].append({
+                        "sport_key": sport_key,
+                        "reason": f"odds_fetch_failed: {exc}",
+                    })
+
+        _DEBUG["events_from_api"] = len(all_events)
+        _DEBUG["fetch_odds_error"] = None
+
+        _DEBUG["sample_events"] = [
+            {
+                "id": event.get("id"),
+                "sport_key": event.get("sport_key") or event.get("_sport_key"),
+                "home_team": event.get("home_team"),
+                "away_team": event.get("away_team"),
+                "commence_time": event.get("commence_time"),
+                "bookmakers_count": len(event.get("bookmakers", [])),
+            }
+            for event in all_events[:20]
+        ]
+
+        write_debug()
+
+        return all_events
+
+    except Exception as exc:
+        _DEBUG["events_from_api"] = 0
+        _DEBUG["fetch_odds_error"] = str(exc)
+
+        write_debug()
+
+        print(
+            "fetch_odds error:",
+            exc,
+        )
+
+        return []
 
 
 def event_match_score(player1, player2, event):
-    home = event.get("home", "")
-    away = event.get("away", "")
+    home = (
+        event.get("home_team")
+        or event.get("home")
+        or ""
+    )
+
+    away = (
+        event.get("away_team")
+        or event.get("away")
+        or ""
+    )
 
     direct_score = (
         similarity(player1, home)
@@ -244,7 +314,6 @@ def find_best_event(
     best_score = 0
 
     for event in events:
-
         meta = event_match_score(
             player1,
             player2,
@@ -264,37 +333,106 @@ def find_best_event(
     return best_event, best_meta
 
 
-def fetch_odds():
-    """
-    Compatibility function used by prediction_engine_top.py
-    and prediction_engine_all.py.
+def extract_h2h_odds(event):
+    home_team = (
+        event.get("home_team")
+        or event.get("home")
+        or ""
+    )
 
-    Returns list of tennis events from Odds-API.io.
-    """
+    away_team = (
+        event.get("away_team")
+        or event.get("away")
+        or ""
+    )
 
-    try:
-        events = fetch_tennis_events()
+    bookmakers = event.get(
+        "bookmakers",
+        [],
+    )
 
-        _DEBUG["events_from_api"] = len(events)
-        _DEBUG["fetch_odds_error"] = None
+    best_home = None
+    best_away = None
 
-        write_debug()
+    best_home_bookmaker = None
+    best_away_bookmaker = None
 
-        return events
+    markets_seen = []
 
-    except Exception as exc:
-
-        _DEBUG["events_from_api"] = 0
-        _DEBUG["fetch_odds_error"] = str(exc)
-
-        write_debug()
-
-        print(
-            "fetch_odds error:",
-            exc,
+    for bookmaker in bookmakers:
+        bookmaker_title = (
+            bookmaker.get("title")
+            or bookmaker.get("key")
+            or "unknown"
         )
 
-        return []
+        markets = bookmaker.get(
+            "markets",
+            [],
+        )
+
+        for market in markets:
+            market_key = market.get("key")
+            markets_seen.append(market_key)
+
+            if market_key != "h2h":
+                continue
+
+            outcomes = market.get(
+                "outcomes",
+                [],
+            )
+
+            for outcome in outcomes:
+                outcome_name = outcome.get("name")
+                price = outcome.get("price")
+
+                if outcome_name is None or price is None:
+                    continue
+
+                try:
+                    price = float(price)
+                except Exception:
+                    continue
+
+                sim_home = similarity(
+                    outcome_name,
+                    home_team,
+                )
+
+                sim_away = similarity(
+                    outcome_name,
+                    away_team,
+                )
+
+                if sim_home >= sim_away:
+                    if best_home is None or price > best_home:
+                        best_home = price
+                        best_home_bookmaker = bookmaker_title
+                else:
+                    if best_away is None or price > best_away:
+                        best_away = price
+                        best_away_bookmaker = bookmaker_title
+
+    if best_home is None or best_away is None:
+        return {
+            "no_h2h": True,
+            "markets_seen": markets_seen[:30],
+        }
+
+    if best_home_bookmaker == best_away_bookmaker:
+        bookmaker = best_home_bookmaker
+    else:
+        bookmaker = "best_available"
+
+    return {
+        "home_odds": best_home,
+        "away_odds": best_away,
+        "bookmaker": bookmaker,
+        "home_bookmaker": best_home_bookmaker,
+        "away_bookmaker": best_away_bookmaker,
+        "market_name": "h2h",
+    }
 
 
 def find_match_odds(
@@ -303,20 +441,17 @@ def find_match_odds(
     odds_data,
 ):
     """
-    Compatibility function used by prediction engines.
+    Existing prediction engines expect this function.
 
     Returns:
     {
         "odds_player1": 1.75,
         "odds_player2": 2.10,
         "bookmaker": "Bet365",
-        "odds_source": "Odds-API.io",
-        "event_home": "...",
-        "event_away": "...",
-        "match_score": 1.82
+        "odds_source": "The Odds API"
     }
 
-    If no odds found, returns empty dict.
+    If not found, returns {}.
     """
 
     if not odds_data:
@@ -341,7 +476,6 @@ def find_match_odds(
     )
 
     if not event or not meta:
-
         _DEBUG["unmatched"] += 1
         _DEBUG["odds_missing"] += 1
 
@@ -356,78 +490,11 @@ def find_match_odds(
 
         return {}
 
-    try:
-        odds_response = fetch_event_odds(
-            event["id"]
-        )
+    odds = extract_h2h_odds(
+        event
+    )
 
-        ml = extract_ml_odds(
-            odds_response
-        )
-
-        if not ml:
-
-            _DEBUG["matched"] += 1
-            _DEBUG["odds_missing"] += 1
-
-            if len(_DEBUG["examples_unmatched"]) < 20:
-                _DEBUG["examples_unmatched"].append({
-                    "player1": player1,
-                    "player2": player2,
-                    "event_home": event.get("home"),
-                    "event_away": event.get("away"),
-                    "reason": "no_ml_odds",
-                })
-
-            write_debug()
-
-            return {}
-
-        if meta["orientation"] == "direct":
-            odds_player1 = ml["home_odds"]
-            odds_player2 = ml["away_odds"]
-
-        else:
-            odds_player1 = ml["away_odds"]
-            odds_player2 = ml["home_odds"]
-
-        result = {
-            "odds_player1": odds_player1,
-            "odds_player2": odds_player2,
-            "bookmaker": ml.get("bookmaker"),
-            "odds_source": "Odds-API.io",
-            "event_home": event.get("home"),
-            "event_away": event.get("away"),
-            "match_score": round(
-                meta["score"],
-                3,
-            ),
-        }
-
-        _DEBUG["matched"] += 1
-        _DEBUG["odds_found"] += 1
-
-        if len(_DEBUG["examples_matched"]) < 20:
-            _DEBUG["examples_matched"].append({
-                "player1": player1,
-                "player2": player2,
-                "event_home": event.get("home"),
-                "event_away": event.get("away"),
-                "odds_player1": odds_player1,
-                "odds_player2": odds_player2,
-                "bookmaker": ml.get("bookmaker"),
-                "score": round(
-                    meta["score"],
-                    3,
-                ),
-            })
-
-        write_debug()
-
-        return result
-
-    except Exception as exc:
-
+    if not odds or odds.get("no_h2h"):
         _DEBUG["matched"] += 1
         _DEBUG["odds_missing"] += 1
 
@@ -435,100 +502,61 @@ def find_match_odds(
             _DEBUG["examples_unmatched"].append({
                 "player1": player1,
                 "player2": player2,
-                "event_home": event.get("home"),
-                "event_away": event.get("away"),
-                "reason": str(exc),
+                "event_home": meta.get("home"),
+                "event_away": meta.get("away"),
+                "event_id": event.get("id"),
+                "reason": "no_h2h_market",
+                "markets_seen": odds.get("markets_seen", []) if isinstance(odds, dict) else [],
             })
 
         write_debug()
 
-        print(
-            f"Odds lookup failed for {player1} vs {player2}:",
-            exc,
-        )
-
         return {}
 
+    if meta["orientation"] == "direct":
+        odds_player1 = odds["home_odds"]
+        odds_player2 = odds["away_odds"]
+    else:
+        odds_player1 = odds["away_odds"]
+        odds_player2 = odds["home_odds"]
 
-def build_odds_cache(matches):
-    """
-    Optional helper.
-    Builds odds cache for list of matches.
-    """
+    result = {
+        "odds_player1": odds_player1,
+        "odds_player2": odds_player2,
+        "bookmaker": odds.get("bookmaker"),
+        "home_bookmaker": odds.get("home_bookmaker"),
+        "away_bookmaker": odds.get("away_bookmaker"),
+        "odds_source": "The Odds API",
+        "event_home": meta.get("home"),
+        "event_away": meta.get("away"),
+        "event_id": event.get("id"),
+        "sport_key": event.get("sport_key") or event.get("_sport_key"),
+        "market_name": "h2h",
+        "match_score": round(
+            meta["score"],
+            3,
+        ),
+    }
 
-    events = fetch_odds()
+    _DEBUG["matched"] += 1
+    _DEBUG["odds_found"] += 1
 
-    cache = {}
-
-    for match in matches:
-
-        player1 = (
-            match.get("player1")
-            or match.get("pick")
-            or ""
-        )
-
-        player2 = (
-            match.get("player2")
-            or match.get("opponent")
-            or ""
-        )
-
-        odds = find_match_odds(
-            player1,
-            player2,
-            events,
-        )
-
-        if odds:
-            cache[
-                f"{player1}|{player2}"
-            ] = odds
-
-    os.makedirs(
-        "public",
-        exist_ok=True,
-    )
-
-    with open(
-        ODDS_CACHE_PATH,
-        "w",
-        encoding="utf-8",
-    ) as file:
-
-        json.dump(
-            cache,
-            file,
-            indent=2,
-            ensure_ascii=False,
-        )
+    if len(_DEBUG["examples_matched"]) < 20:
+        _DEBUG["examples_matched"].append({
+            "player1": player1,
+            "player2": player2,
+            "event_home": meta.get("home"),
+            "event_away": meta.get("away"),
+            "event_id": event.get("id"),
+            "odds_player1": odds_player1,
+            "odds_player2": odds_player2,
+            "bookmaker": odds.get("bookmaker"),
+            "score": round(
+                meta["score"],
+                3,
+            ),
+        })
 
     write_debug()
 
-    return cache
-
-
-def get_odds(
-    player1,
-    player2,
-):
-    """
-    Optional cache reader.
-    """
-
-    if not os.path.exists(
-        ODDS_CACHE_PATH
-    ):
-        return None
-
-    with open(
-        ODDS_CACHE_PATH,
-        "r",
-        encoding="utf-8",
-    ) as file:
-
-        cache = json.load(file)
-
-    return cache.get(
-        f"{player1}|{player2}"
-    )
+    return result
