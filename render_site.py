@@ -1,16 +1,7 @@
-import html
-import json
 import os
+import html
 from datetime import datetime, timezone
 
-
-RESULTS_DATA_PATHS = [
-    "public/results_data.json",
-    "data/play_results.json",
-]
-
-RESULTS_PAGE_PATH = "public/results/index.html"
-RESULTS_RSS_PATH = "public/results.xml"
 
 SITE_TITLE = "Backstagetalks Statistic Model"
 BASE_URL = "https://backstagetalks.github.io/tennis-backstage-talks"
@@ -27,36 +18,14 @@ def safe(value, default="-"):
     if value == "":
         return default
 
-    return html.escape(
-        str(value)
-    )
+    return html.escape(str(value))
 
 
 def pct(value):
     try:
-        if value is None:
-            return "-"
-
         return f"{float(value) * 100:.1f}%"
-
     except Exception:
         return "-"
-
-
-def units(value):
-    try:
-        number = float(value)
-
-        if number > 0:
-            return f"+{number:.2f}u"
-
-        if number < 0:
-            return f"{number:.2f}u"
-
-        return "0.00u"
-
-    except Exception:
-        return "0.00u"
 
 
 def odds(value):
@@ -66,187 +35,216 @@ def odds(value):
         return "-"
 
 
-def load_json(path, default):
+def tag_class(tag):
+    tag = str(tag or "").upper()
+
+    if tag == "PLAY":
+        return "tag-play"
+
+    if tag == "PLAY SMALL":
+        return "tag-small"
+
+    if tag == "WATCH":
+        return "tag-watch"
+
+    return "tag-info"
+
+
+def format_match_meta(prediction):
+    tournament = prediction.get("tournament")
+    surface = prediction.get("surface")
+    best_of = prediction.get("best_of")
+
+    parts = []
+
+    if tournament:
+        parts.append(str(tournament))
+
+    if surface:
+        parts.append(str(surface))
+
+    if best_of:
+        parts.append(f"BO{best_of}")
+
+    if not parts:
+        return ""
+
+    return " • ".join(parts)
+
+
+def resolve_sets_label(prediction):
+    label = prediction.get("sets_probability_label")
+
+    if label:
+        return str(label)
+
+    best_of = prediction.get("best_of")
+
     try:
-        if not os.path.exists(path):
-            return default
-
-        with open(
-            path,
-            "r",
-            encoding="utf-8",
-        ) as file:
-            return json.load(file)
-
+        if int(best_of) == 5:
+            return "5 Sets"
     except Exception:
-        return default
+        pass
+
+    return "3 Sets"
 
 
-def empty_summary():
-    return {
-        "picks": 0,
-        "won": 0,
-        "lost": 0,
-        "void": 0,
-        "pending": 0,
-        "unknown": 0,
-        "units": 0.0,
-        "win_rate": None,
-    }
+def render_summary(predictions):
+    count = len(predictions)
 
+    probabilities = []
 
-def load_results_data():
-    for path in RESULTS_DATA_PATHS:
-        data = load_json(
-            path,
-            None,
-        )
+    for prediction in predictions:
+        value = prediction.get("probability")
 
-        if data:
-            return data
+        if value is None:
+            continue
 
-    return {
-        "generated_at": datetime.now(
-            timezone.utc,
-        ).isoformat(),
-        "today": empty_summary(),
-        "last_7_days": empty_summary(),
-        "current_month": empty_summary(),
-        "all_time": empty_summary(),
-        "items": [],
-    }
+        try:
+            probabilities.append(float(value))
+        except Exception:
+            continue
 
+    odds_values = []
 
-def status_class(status):
-    status = str(
-        status or "PENDING"
-    ).upper()
+    for prediction in predictions:
+        value = prediction.get("odds")
 
-    if status == "WON":
-        return "status-won"
+        if value is None:
+            continue
 
-    if status == "LOST":
-        return "status-lost"
+        try:
+            odds_values.append(float(value))
+        except Exception:
+            continue
 
-    if status == "VOID":
-        return "status-void"
+    avg_probability = "-"
+    avg_odds = "-"
 
-    if status == "UNKNOWN":
-        return "status-unknown"
+    if probabilities:
+        avg_probability = f"{sum(probabilities) / len(probabilities) * 100:.1f}%"
 
-    return "status-pending"
+    if odds_values:
+        avg_odds = f"{sum(odds_values) / len(odds_values):.2f}"
 
+    updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
-def render_summary_card(label, summary):
     return f"""
-<div class="summary-card">
-    <div class="summary-label">{safe(label)}</div>
+<div class="summary">
+    <div class="summary-card">
+        <div class="summary-label">Picks</div>
+        <div class="summary-value">{count}</div>
+    </div>
 
-    <div class="summary-grid">
-        <div>
-            <span>Picks</span>
-            <strong>{safe(summary.get("picks", 0))}</strong>
-        </div>
+    <div class="summary-card">
+        <div class="summary-label">Average Win %</div>
+        <div class="summary-value">{avg_probability}</div>
+    </div>
 
-        <div>
-            <span>W-L</span>
-            <strong>{safe(summary.get("won", 0))}-{safe(summary.get("lost", 0))}</strong>
-        </div>
+    <div class="summary-card">
+        <div class="summary-label">Average Odds</div>
+        <div class="summary-value">{avg_odds}</div>
+    </div>
 
-        <div>
-            <span>Pending</span>
-            <strong>{safe(summary.get("pending", 0))}</strong>
-        </div>
-
-        <div>
-            <span>Units</span>
-            <strong>{units(summary.get("units", 0))}</strong>
-        </div>
-
-        <div>
-            <span>Win rate</span>
-            <strong>{pct(summary.get("win_rate"))}</strong>
-        </div>
+    <div class="summary-card">
+        <div class="summary-label">Updated</div>
+        <div class="summary-value small">{updated}</div>
     </div>
 </div>
 """
 
 
-def render_summary(data):
-    return f"""
-<div class="summary">
-    {render_summary_card("Today", data.get("today", empty_summary()))}
-    {render_summary_card("Last 7 days", data.get("last_7_days", empty_summary()))}
-    {render_summary_card("Current month", data.get("current_month", empty_summary()))}
-    {render_summary_card("All time", data.get("all_time", empty_summary()))}
-</div>
-"""
-
-
-def render_rows(items):
-    if not items:
+def render_rows(predictions):
+    if not predictions:
         return """
 <tr>
-    <td colspan="9" class="empty">
-        No results available yet.
+    <td colspan="7" class="empty">
+        No picks available.
     </td>
 </tr>
 """
 
     rows = []
 
-    for item in items[:300]:
-        status = str(
-            item.get("result_status") or "PENDING"
-        ).upper()
+    for index, prediction in enumerate(predictions, start=1):
+        pick = safe(prediction.get("pick"))
+        opponent = safe(prediction.get("opponent"))
+        match = safe(prediction.get("match"))
+        time = safe(prediction.get("time"))
 
-        css = status_class(status)
+        probability = pct(prediction.get("probability"))
+        odd = odds(prediction.get("odds"))
 
-        tournament = item.get("tournament")
-        surface = item.get("surface")
-        best_of = item.get("best_of")
+        expected_sets = safe(prediction.get("expected_sets"))
+        sets_probability = pct(prediction.get("sets_probability"))
+        sets_probability_label = safe(
+            resolve_sets_label(prediction)
+        )
 
-        meta_parts = []
+        most_likely_score = safe(
+            prediction.get("most_likely_score"),
+            default="",
+        )
 
-        if tournament:
-            meta_parts.append(str(tournament))
+        bet_tag = safe(prediction.get("bet_tag", "INFO ONLY"))
+        css_tag = tag_class(prediction.get("bet_tag", "INFO ONLY"))
 
-        if surface:
-            meta_parts.append(str(surface))
+        match_meta = safe(
+            format_match_meta(prediction),
+            default="",
+        )
 
-        if best_of:
-            meta_parts.append(f"BO{best_of}")
+        if match_meta:
+            match_meta_html = f"""
+        <div class="match-meta">
+            {match_meta}
+        </div>
+"""
+        else:
+            match_meta_html = ""
 
-        meta = " • ".join(meta_parts)
+        if most_likely_score:
+            most_likely_html = f"""
+        <div>
+            <span class="intel-label">Most likely score:</span>
+            {most_likely_score}
+        </div>
+"""
+        else:
+            most_likely_html = ""
 
         rows.append(f"""
 <tr>
-    <td>{safe(item.get("date"))}</td>
+    <td class="rank">#{index}</td>
 
-    <td>
-        <div class="pick">{safe(item.get("pick"))}</div>
-        <div class="match">{safe(item.get("match"))}</div>
-        <div class="meta">{safe(meta, "")}</div>
+    <td class="pick-cell">
+        <div class="pick-name">{pick}</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">{match}</div>
+        {match_meta_html}
     </td>
 
-    <td>{safe(item.get("opponent"))}</td>
+    <td>{opponent}</td>
+    <td>{time}</td>
+    <td class="probability">{probability}</td>
+    <td class="odds">{odd}</td>
 
-    <td>{pct(item.get("probability"))}</td>
+    <td class="intel">
+        <div>
+            <span class="intel-label">Sets:</span>
+            {expected_sets}
+        </div>
 
-    <td>{odds(item.get("odds"))}</td>
+        <div>
+            <span class="intel-label">{sets_probability_label}:</span>
+            {sets_probability}
+        </div>
 
-    <td>
-        <span class="status {css}">
-            {safe(status)}
-        </span>
-    </td>
+        {most_likely_html}
 
-    <td>{safe(item.get("winner"))}</td>
-
-    <td>{safe(item.get("score"))}</td>
-
-    <td class="units">
-        {units(item.get("units"))}
+        <div class="tag {css_tag}">
+            {bet_tag}
+        </div>
     </td>
 </tr>
 """)
@@ -254,14 +252,9 @@ def render_rows(items):
     return "\n".join(rows)
 
 
-def render_page(data):
-    rows = render_rows(
-        data.get("items", []),
-    )
-
-    summary = render_summary(
-        data,
-    )
+def render_page(predictions, title, subtitle):
+    rows = render_rows(predictions)
+    summary = render_summary(predictions)
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -269,7 +262,7 @@ def render_page(data):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>{SITE_TITLE}</title>
+<title>{safe(SITE_TITLE)}</title>
 
 <style>
 :root {{
@@ -280,7 +273,6 @@ def render_page(data):
     --text: #e5e7eb;
     --muted: #94a3b8;
     --green: #22c55e;
-    --red: #ef4444;
     --yellow: #facc15;
     --blue: #38bdf8;
     --gray: #64748b;
@@ -290,15 +282,16 @@ def render_page(data):
     box-sizing: border-box;
 }}
 
-body {{
+html, body {{
     margin: 0;
+    padding: 0;
     background: var(--bg);
     color: var(--text);
     font-family: Arial, Helvetica, sans-serif;
 }}
 
 .wrapper {{
-    max-width: 1320px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 28px;
 }}
@@ -307,14 +300,15 @@ body {{
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 24px;
+    gap: 24px;
+    margin-bottom: 22px;
 }}
 
 .logo {{
     font-size: 28px;
     font-weight: 800;
     line-height: 1.2;
+    color: var(--text);
 }}
 
 .subtitle {{
@@ -322,14 +316,16 @@ body {{
     margin-top: 8px;
     font-size: 14px;
     line-height: 1.45;
+    max-width: 720px;
 }}
 
 .nav {{
     display: flex;
-    gap: 18px;
+    gap: 16px;
     align-items: center;
     flex-wrap: wrap;
     padding-top: 6px;
+    white-space: nowrap;
 }}
 
 .nav a {{
@@ -358,27 +354,18 @@ body {{
 }}
 
 .summary-label {{
-    color: var(--blue);
-    font-weight: 800;
-    margin-bottom: 12px;
-}}
-
-.summary-grid {{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-}}
-
-.summary-grid span {{
-    display: block;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 13px;
+    margin-bottom: 8px;
 }}
 
-.summary-grid strong {{
-    display: block;
-    font-size: 16px;
-    margin-top: 3px;
+.summary-value {{
+    font-size: 22px;
+    font-weight: 800;
+}}
+
+.summary-value.small {{
+    font-size: 14px;
 }}
 
 .table-wrap {{
@@ -391,7 +378,7 @@ body {{
 table {{
     width: 100%;
     border-collapse: collapse;
-    min-width: 1050px;
+    min-width: 920px;
 }}
 
 thead {{
@@ -409,7 +396,7 @@ th {{
 }}
 
 td {{
-    padding: 15px 12px;
+    padding: 16px 12px;
     border-bottom: 1px solid var(--border);
     vertical-align: top;
 }}
@@ -418,64 +405,88 @@ tr:hover {{
     background: rgba(255, 255, 255, 0.03);
 }}
 
-.pick {{
+.rank {{
     font-weight: 800;
-    color: var(--text);
+    color: var(--blue);
 }}
 
-.match {{
+.pick-name {{
+    font-size: 16px;
+    font-weight: 800;
+}}
+
+.pick-sub {{
+    color: var(--green);
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 700;
+}}
+
+.match-name {{
     color: var(--muted);
     font-size: 12px;
-    margin-top: 6px;
+    margin-top: 8px;
 }}
 
-.meta {{
+.match-meta {{
     color: var(--blue);
     font-size: 12px;
     margin-top: 6px;
     font-weight: 700;
 }}
 
-.status {{
+.probability {{
+    font-weight: 800;
+    color: var(--green);
+}}
+
+.odds {{
+    font-weight: 800;
+    color: var(--yellow);
+}}
+
+.intel {{
+    line-height: 1.55;
+    min-width: 220px;
+}}
+
+.intel-label {{
+    color: var(--muted);
+    font-size: 12px;
+    margin-right: 4px;
+}}
+
+.tag {{
     display: inline-block;
+    margin-top: 10px;
     padding: 5px 10px;
     border-radius: 999px;
     font-size: 12px;
     font-weight: 800;
 }}
 
-.status-won {{
+.tag-play {{
     background: rgba(34, 197, 94, 0.18);
     color: var(--green);
     border: 1px solid rgba(34, 197, 94, 0.45);
 }}
 
-.status-lost {{
-    background: rgba(239, 68, 68, 0.18);
-    color: var(--red);
-    border: 1px solid rgba(239, 68, 68, 0.45);
-}}
-
-.status-pending {{
+.tag-small {{
     background: rgba(250, 204, 21, 0.16);
     color: var(--yellow);
     border: 1px solid rgba(250, 204, 21, 0.45);
 }}
 
-.status-void {{
-    background: rgba(100, 116, 139, 0.18);
-    color: var(--muted);
-    border: 1px solid rgba(100, 116, 139, 0.45);
-}}
-
-.status-unknown {{
+.tag-watch {{
     background: rgba(56, 189, 248, 0.15);
     color: var(--blue);
     border: 1px solid rgba(56, 189, 248, 0.45);
 }}
 
-.units {{
-    font-weight: 800;
+.tag-info {{
+    background: rgba(100, 116, 139, 0.18);
+    color: var(--muted);
+    border: 1px solid rgba(100, 116, 139, 0.45);
 }}
 
 .empty {{
@@ -534,11 +545,11 @@ tr:hover {{
             </div>
         </div>
 
-        <div class="nav">
+        <nav class="nav" aria-label="Main navigation">
             {BASE_URL}/TOP5</a>
             {BASE_URL}/all/ALL</a>
             {BASE_URL}/results/RESULTS</a>
-        </div>
+        </nav>
     </div>
 
     {summary}
@@ -547,15 +558,13 @@ tr:hover {{
         <table>
             <thead>
                 <tr>
-                    <th>Date</th>
+                    <th>#</th>
                     <th>Pick</th>
                     <th>Opponent</th>
+                    <th>Time</th>
                     <th>Win %</th>
                     <th>Odds</th>
-                    <th>Status</th>
-                    <th>Winner</th>
-                    <th>Score</th>
-                    <th>Units</th>
+                    <th>Match Intelligence</th>
                 </tr>
             </thead>
 
@@ -575,42 +584,69 @@ tr:hover {{
 """
 
 
-def render_rss(data):
-    now = datetime.now(
-        timezone.utc,
-    ).strftime("%a, %d %b %Y %H:%M:%S GMT")
+def write_page(predictions, title, subtitle, destination):
+    html_text = render_page(
+        predictions=predictions,
+        title=title,
+        subtitle=subtitle,
+    )
+
+    directory = os.path.dirname(destination)
+
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+
+    with open(destination, "w", encoding="utf-8") as file:
+        file.write(html_text)
+
+
+def render_rss(predictions, title, link):
+    now = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")
 
     items = []
 
-    for item in data.get("items", [])[:50]:
-        title = (
-            f"{item.get('pick')} vs {item.get('opponent')} "
-            f"— {item.get('result_status', 'PENDING')}"
+    for prediction in predictions:
+        pick = safe(prediction.get("pick"))
+        opponent = safe(prediction.get("opponent"))
+        probability = pct(prediction.get("probability"))
+        odd = odds(prediction.get("odds"))
+        expected_sets = safe(prediction.get("expected_sets"))
+        bet_tag = safe(prediction.get("bet_tag", "INFO ONLY"))
+
+        tournament = safe(prediction.get("tournament"))
+        surface = safe(prediction.get("surface"))
+        best_of = safe(prediction.get("best_of"))
+        sets_label = safe(resolve_sets_label(prediction))
+        sets_probability = pct(prediction.get("sets_probability"))
+
+        most_likely_score = safe(
+            prediction.get("most_likely_score"),
+            default="-",
         )
 
         description_text = (
-            f"Date: {item.get('date')}\n"
-            f"Match: {item.get('match')}\n"
-            f"Pick: {item.get('pick')}\n"
-            f"Opponent: {item.get('opponent')}\n"
-            f"Odds: {odds(item.get('odds'))}\n"
-            f"Win probability: {pct(item.get('probability'))}\n"
-            f"Tournament: {item.get('tournament')}\n"
-            f"Surface: {item.get('surface')}\n"
-            f"Best of: {item.get('best_of')}\n"
-            f"Status: {item.get('result_status')}\n"
-            f"Winner: {item.get('winner')}\n"
-            f"Score: {item.get('score')}\n"
-            f"Units: {units(item.get('units'))}\n\n"
+            f"Pick: {pick}\n"
+            f"Opponent: {opponent}\n"
+            f"Tournament: {tournament}\n"
+            f"Surface: {surface}\n"
+            f"Best of: {best_of}\n"
+            f"Win probability: {probability}\n"
+            f"Odds: {odd}\n"
+            f"Expected sets: {expected_sets}\n"
+            f"{sets_label}: {sets_probability}\n"
+            f"Most likely score: {most_likely_score}\n"
+            f"Tag: {bet_tag}\n\n"
             f"{HEADER_SUBTITLE}\n"
             f"{FOOTER_TEXT}"
         )
 
+        description = html.escape(description_text)
+
         items.append(f"""
 <item>
-<title>{html.escape(str(title))}</title>
-<link>{BASE_URL}/results/</link>
-<description>{html.escape(description_text)}</description>
+<title>{pick} to win vs {opponent}</title>
+<link>{link}</link>
+<description>{description}</description>
 <pubDate>{now}</pubDate>
 </item>
 """)
@@ -618,8 +654,8 @@ def render_rss(data):
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 <channel>
-<title>{html.escape(SITE_TITLE)}</title>
-<link>{BASE_URL}/results/</link>
+<title>{html.escape(title)}</title>
+<link>{link}</link>
 <description>{html.escape(HEADER_TITLE)}</description>
 {''.join(items)}
 </channel>
@@ -627,54 +663,17 @@ def render_rss(data):
 """
 
 
-def write_file(path, content):
-    directory = os.path.dirname(path)
+def write_rss(predictions, title, link, destination):
+    xml = render_rss(
+        predictions=predictions,
+        title=title,
+        link=link,
+    )
+
+    directory = os.path.dirname(destination)
 
     if directory:
-        os.makedirs(
-            directory,
-            exist_ok=True,
-        )
+        os.makedirs(directory, exist_ok=True)
 
-    with open(
-        path,
-        "w",
-        encoding="utf-8",
-    ) as file:
-        file.write(content)
-
-
-def run():
-    data = load_results_data()
-
-    page = render_page(
-        data,
-    )
-
-    rss = render_rss(
-        data,
-    )
-
-    write_file(
-        RESULTS_PAGE_PATH,
-        page,
-    )
-
-    write_file(
-        RESULTS_RSS_PATH,
-        rss,
-    )
-
-    print(
-        "RESULTS PAGE WRITTEN:",
-        RESULTS_PAGE_PATH,
-    )
-
-    print(
-        "RESULTS RSS WRITTEN:",
-        RESULTS_RSS_PATH,
-    )
-
-
-if __name__ == "__main__":
-    run()
+    with open(destination, "w", encoding="utf-8") as file:
+        file.write(xml)
