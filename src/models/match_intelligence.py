@@ -1,3 +1,6 @@
+import math
+
+
 def clamp(value, low, high):
     return max(low, min(high, value))
 
@@ -60,139 +63,282 @@ def normalize_best_of(best_of, tournament=None):
     return infer_best_of_from_tournament(tournament)
 
 
-def build_match_intelligence(
-    probability,
-    odds=None,
-    consensus_score=None,
-    tournament=None,
-    best_of=None,
-):
-    """
-    probability:
-        0.50 - 0.85
+def bo3_match_win_probability(set_win_probability):
+    p = float(set_win_probability)
+    q = 1.0 - p
 
-    odds:
-        bookmaker odds
-
-    consensus_score:
-        0 - 100
-
-    tournament:
-        e.g. Wimbledon Men Singles
-
-    best_of:
-        3 or 5
-    """
-
-    probability = float(probability)
-
-    best_of = normalize_best_of(
-        best_of,
-        tournament,
+    return (
+        p * p
+        + 2.0 * p * p * q
     )
 
-    #
-    # Best of 5
-    #
+
+def bo5_match_win_probability(set_win_probability):
+    p = float(set_win_probability)
+    q = 1.0 - p
+
+    return (
+        p ** 3
+        + 3.0 * (p ** 3) * q
+        + 6.0 * (p ** 3) * (q ** 2)
+    )
+
+
+def match_win_probability_from_set_probability(set_win_probability, best_of):
+    if best_of == 5:
+        return bo5_match_win_probability(set_win_probability)
+
+    return bo3_match_win_probability(set_win_probability)
+
+
+def estimate_set_win_probability(match_win_probability, best_of):
+    """
+    Converts match win probability into implied set win probability.
+
+    Uses binary search because:
+    - BO3 match probability = p^2 + 2p^2(1-p)
+    - BO5 match probability = p^3 + 3p^3(1-p) + 6p^3(1-p)^2
+
+    The function is monotonic, so binary search is stable.
+    """
+
+    target = clamp(
+        float(match_win_probability),
+        0.01,
+        0.99,
+    )
+
+    low = 0.01
+    high = 0.99
+
+    for _ in range(60):
+        mid = (low + high) / 2.0
+
+        estimate = match_win_probability_from_set_probability(
+            mid,
+            best_of,
+        )
+
+        if estimate < target:
+            low = mid
+        else:
+            high = mid
+
+    return (low + high) / 2.0
+
+
+def score_distribution_bo3(set_win_probability):
+    p = float(set_win_probability)
+    q = 1.0 - p
+
+    distribution = {
+        "2-0": p * p,
+        "2-1": 2.0 * p * p * q,
+        "1-2": 2.0 * p * q * q,
+        "0-2": q * q,
+    }
+
+    return normalize_distribution(distribution)
+
+
+def score_distribution_bo5(set_win_probability):
+    p = float(set_win_probability)
+    q = 1.0 - p
+
+    distribution = {
+        "3-0": p ** 3,
+        "3-1": 3.0 * (p ** 3) * q,
+        "3-2": 6.0 * (p ** 3) * (q ** 2),
+        "2-3": 6.0 * (p ** 2) * (q ** 3),
+        "1-3": 3.0 * p * (q ** 3),
+        "0-3": q ** 3,
+    }
+
+    return normalize_distribution(distribution)
+
+
+def normalize_distribution(distribution):
+    total = sum(distribution.values())
+
+    if total <= 0:
+        return distribution
+
+    return {
+        key: value / total
+        for key, value in distribution.items()
+    }
+
+
+def sets_count_from_score(score):
+    try:
+        left, right = str(score).split("-")
+        return int(left) + int(right)
+    except Exception:
+        return 0
+
+
+def expected_sets_from_distribution(distribution):
+    total = 0.0
+
+    for score, probability in distribution.items():
+        total += sets_count_from_score(score) * probability
+
+    return total
+
+
+def deciding_set_probability(distribution, best_of):
+    if best_of == 5:
+        return (
+            distribution.get("3-2", 0.0)
+            + distribution.get("2-3", 0.0)
+        )
+
+    return (
+        distribution.get("2-1", 0.0)
+        + distribution.get("1-2", 0.0)
+    )
+
+
+def most_likely_score(distribution):
+    if not distribution:
+        return None
+
+    return max(
+        distribution.items(),
+        key=lambda item: item[1],
+    )[0]
+
+
+def rounded_score_probabilities(distribution):
+    return {
+        score: round(probability, 4)
+        for score, probability in distribution.items()
+    }
+
+
+def expected_games_from_sets(expected_sets, deciding_probability, best_of):
+    """
+    Conservative game estimate.
+
+    This is still a simplified model:
+    - BO3 sets are estimated around 9.4 games per set.
+    - BO5 sets are estimated around 9.6 games per set.
+    - Deciding-set probability adds extra game pressure.
+    """
 
     if best_of == 5:
+        base_games_per_set = 9.6
+        deciding_bonus = 2.0
+    else:
+        base_games_per_set = 9.4
+        deciding_bonus = 1.2
 
-        if probability >= 0.75:
-            expected_sets = 3.4
-            sets_probability = 0.25
+    expected_games = (
+        expected_sets * base_games_per_set
+        + deciding_probability * deciding_bonus
+    )
 
-        elif probability >= 0.70:
-            expected_sets = 3.7
-            sets_probability = 0.35
+    return round(
+        expected_games,
+        1,
+    )
 
-        elif probability >= 0.65:
-            expected_sets = 4.0
-            sets_probability = 0.45
 
-        elif probability >= 0.60:
-            expected_sets = 4.2
-            sets_probability = 0.55
+def games_market_pick(expected_games, best_of):
+    if best_of == 5:
+        if expected_games >= 41.5:
+            return {
+                "games_pick": "Over 40.5",
+                "games_line": 40.5,
+            }
 
-        elif probability >= 0.55:
-            expected_sets = 4.4
-            sets_probability = 0.65
+        if expected_games >= 38.5:
+            return {
+                "games_pick": "Over 37.5",
+                "games_line": 37.5,
+            }
 
-        else:
-            expected_sets = 4.6
-            sets_probability = 0.75
+        return {
+            "games_pick": "Under 39.5",
+            "games_line": 39.5,
+        }
+
+    if expected_games >= 23.5:
+        return {
+            "games_pick": "Over 22.5",
+            "games_line": 22.5,
+        }
+
+    if expected_games >= 22.5:
+        return {
+            "games_pick": "Over 21.5",
+            "games_line": 21.5,
+        }
+
+    return {
+        "games_pick": "Under 22.5",
+        "games_line": 22.5,
+    }
+
+
+def build_score_model(probability, best_of):
+    set_win_probability = estimate_set_win_probability(
+        probability,
+        best_of,
+    )
+
+    if best_of == 5:
+        distribution = score_distribution_bo5(
+            set_win_probability,
+        )
 
         sets_probability_label = "5 Sets"
 
-        expected_games = round(
-            31.0 + (sets_probability * 10.0),
-            1,
-        )
-
-        if expected_games >= 40.5:
-            games_pick = "Over 39.5"
-            games_line = 39.5
-
-        elif expected_games >= 37.5:
-            games_pick = "Over 36.5"
-            games_line = 36.5
-
-        else:
-            games_pick = "Under 39.5"
-            games_line = 39.5
-
-    #
-    # Best of 3
-    #
-
     else:
-
-        if probability >= 0.75:
-            expected_sets = 2.2
-            sets_probability = 0.30
-
-        elif probability >= 0.70:
-            expected_sets = 2.4
-            sets_probability = 0.40
-
-        elif probability >= 0.65:
-            expected_sets = 2.5
-            sets_probability = 0.48
-
-        elif probability >= 0.60:
-            expected_sets = 2.6
-            sets_probability = 0.54
-
-        elif probability >= 0.55:
-            expected_sets = 2.7
-            sets_probability = 0.60
-
-        else:
-            expected_sets = 2.8
-            sets_probability = 0.65
+        distribution = score_distribution_bo3(
+            set_win_probability,
+        )
 
         sets_probability_label = "3 Sets"
 
-        expected_games = round(
-            21.0 + (sets_probability * 4.0),
-            1,
-        )
+    expected_sets = expected_sets_from_distribution(
+        distribution,
+    )
 
-        if expected_games >= 23.5:
-            games_pick = "Over 22.5"
-            games_line = 22.5
+    sets_probability = deciding_set_probability(
+        distribution,
+        best_of,
+    )
 
-        elif expected_games >= 22.5:
-            games_pick = "Over 21.5"
-            games_line = 21.5
+    likely_score = most_likely_score(
+        distribution,
+    )
 
-        else:
-            games_pick = "Under 22.5"
-            games_line = 22.5
+    expected_games = expected_games_from_sets(
+        expected_sets,
+        sets_probability,
+        best_of,
+    )
 
-    #
-    # Consensus tag
-    #
+    market = games_market_pick(
+        expected_games,
+        best_of,
+    )
 
+    return {
+        "set_win_probability": set_win_probability,
+        "score_probabilities": distribution,
+        "expected_sets": expected_sets,
+        "sets_probability": sets_probability,
+        "sets_probability_label": sets_probability_label,
+        "most_likely_score": likely_score,
+        "expected_games": expected_games,
+        "games_pick": market["games_pick"],
+        "games_line": market["games_line"],
+    }
+
+
+def build_consensus_tag(consensus_score):
     tag = "INFO ONLY"
 
     if consensus_score is not None:
@@ -206,26 +352,99 @@ def build_match_intelligence(
         elif consensus_score >= 55:
             tag = "WATCH"
 
+    return tag
+
+
+def build_match_intelligence(
+    probability,
+    odds=None,
+    consensus_score=None,
+    tournament=None,
+    best_of=None,
+):
+    """
+    Match Intelligence v2.
+
+    Inputs:
+    - probability:
+        final match win probability of selected pick, e.g. 0.747
+
+    - tournament:
+        e.g. Wimbledon Men Singles
+
+    - best_of:
+        3 or 5
+
+    Output:
+    - expected_sets
+    - deciding set probability:
+        BO3 -> 3 Sets probability
+        BO5 -> 5 Sets probability
+    - score probabilities
+    - most likely score
+    - expected games
+    - games pick
+    """
+
+    probability = clamp(
+        float(probability),
+        0.01,
+        0.99,
+    )
+
+    best_of = normalize_best_of(
+        best_of,
+        tournament,
+    )
+
+    score_model = build_score_model(
+        probability,
+        best_of,
+    )
+
+    tag = build_consensus_tag(
+        consensus_score,
+    )
+
     return {
         "expected_sets": round(
-            expected_sets,
+            score_model["expected_sets"],
             1,
         ),
 
         "sets_probability": round(
-            sets_probability,
+            score_model["sets_probability"],
             3,
         ),
 
-        "sets_probability_label": sets_probability_label,
+        "sets_probability_label":
+            score_model["sets_probability_label"],
 
-        "expected_games": expected_games,
+        "expected_games":
+            score_model["expected_games"],
 
-        "games_pick": games_pick,
+        "games_pick":
+            score_model["games_pick"],
 
-        "games_line": games_line,
+        "games_line":
+            score_model["games_line"],
 
-        "best_of": best_of,
+        "best_of":
+            best_of,
 
-        "tag": tag,
+        "set_win_probability": round(
+            score_model["set_win_probability"],
+            4,
+        ),
+
+        "most_likely_score":
+            score_model["most_likely_score"],
+
+        "score_probabilities":
+            rounded_score_probabilities(
+                score_model["score_probabilities"],
+            ),
+
+        "tag":
+            tag,
     }
