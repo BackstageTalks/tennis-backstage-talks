@@ -7,18 +7,18 @@ on:
     - cron: "0 4-22/3 * * *"
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
 concurrency:
   group: tennis-pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 10
 
     environment:
       name: github-pages
@@ -68,73 +68,38 @@ jobs:
         run: |
           python build_pages.py
 
-      - name: Run results checker
-        run: |
-          python results_checker.py
-
-      - name: Force results public data files
+      - name: Build lightweight results page
         run: |
           mkdir -p public
           mkdir -p public/results
-          mkdir -p data
 
-          if [ -f public/results_data.json ]; then
-            echo "public/results_data.json already exists"
-          elif [ -f data/play_results.json ]; then
-            echo "Copying data/play_results.json to public/results_data.json"
-            cp data/play_results.json public/results_data.json
-          else
-            echo "Creating fallback public/results_data.json"
+          if [ ! -f public/results_data.json ]; then
             python - <<'PY'
           import json
           import os
+          from datetime import datetime, timezone
 
           os.makedirs("public", exist_ok=True)
 
+          empty_summary = {
+              "picks": 0,
+              "won": 0,
+              "lost": 0,
+              "void": 0,
+              "pending": 0,
+              "unknown": 0,
+              "units": 0.0,
+              "win_rate": None
+          }
+
           payload = {
-              "generated_at": None,
-              "today": {
-                  "picks": 0,
-                  "won": 0,
-                  "lost": 0,
-                  "void": 0,
-                  "pending": 0,
-                  "unknown": 0,
-                  "units": 0.0,
-                  "win_rate": None
-              },
-              "last_7_days": {
-                  "picks": 0,
-                  "won": 0,
-                  "lost": 0,
-                  "void": 0,
-                  "pending": 0,
-                  "unknown": 0,
-                  "units": 0.0,
-                  "win_rate": None
-              },
-              "current_month": {
-                  "picks": 0,
-                  "won": 0,
-                  "lost": 0,
-                  "void": 0,
-                  "pending": 0,
-                  "unknown": 0,
-                  "units": 0.0,
-                  "win_rate": None
-              },
-              "all_time": {
-                  "picks": 0,
-                  "won": 0,
-                  "lost": 0,
-                  "void": 0,
-                  "pending": 0,
-                  "unknown": 0,
-                  "units": 0.0,
-                  "win_rate": None
-              },
+              "generated_at": datetime.now(timezone.utc).isoformat(),
+              "today": empty_summary,
+              "last_7_days": empty_summary,
+              "current_month": empty_summary,
+              "all_time": empty_summary,
               "items": [],
-              "error": "fallback results_data.json created by workflow"
+              "note": "Lightweight results page. Full results checker is not executed in fast deploy."
           }
 
           with open("public/results_data.json", "w", encoding="utf-8") as file:
@@ -142,36 +107,17 @@ jobs:
           PY
           fi
 
-          if [ -f public/results_debug.json ]; then
-            echo "public/results_debug.json already exists"
-          else
-            echo "Creating fallback public/results_debug.json"
-            python - <<'PY'
-          import json
-          import os
-
-          os.makedirs("public", exist_ok=True)
-
-          payload = {
-              "provider": "workflow_fallback",
-              "finished_results_found": 0,
-              "resolved_count": 0,
-              "pending_count": 0,
-              "unknown_count": 0,
-              "examples_results": [],
-              "examples_resolved": [],
-              "examples_unresolved": [],
-              "error": "fallback results_debug.json created by workflow"
-          }
-
-          with open("public/results_debug.json", "w", encoding="utf-8") as file:
-              json.dump(payload, file, indent=2, ensure_ascii=False)
-          PY
-          fi
-
-      - name: Build results page
-        run: |
           python rss_results.py
+
+      - name: Remove production debug artifacts
+        run: |
+          rm -f public/elo_debug.json || true
+          rm -f public/odds_debug.json || true
+          rm -f public/sportscore_debug.json || true
+          rm -f public/match_debug.json || true
+          rm -f public/results_debug.json || true
+          rm -f public/source_audit.json || true
+          rm -f public/source_manifest.json || true
 
       - name: Verify generated public files
         run: |
@@ -188,7 +134,6 @@ jobs:
           test -f public/results/index.html
           test -f public/results.xml
           test -f public/results_data.json
-          test -f public/results_debug.json
 
           echo "All required public files exist."
 
@@ -203,18 +148,3 @@ jobs:
       - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-      - name: Persist play history data
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git add data/play_history/*.json || true
-          git add data/play_results.json || true
-
-          if git diff --cached --quiet; then
-            echo "No play history changes to commit."
-          else
-            git commit -m "Update tennis play history [skip ci]"
-            git push
-          fi
