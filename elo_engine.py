@@ -1,431 +1,874 @@
-import json
-import math
 import os
-from datetime import datetime
-
-from player_matcher import normalize_name, best_player_match
-
-
-DATA_PATH = "data/elo_store.json"
-
-START_ELO = 1500.0
-BASE_K = 28.0
-
-SURFACE_WEIGHT_BASE = 0.60
-CALIBRATION_SHRINK = 0.86
-MAX_RATING_DIFF_FOR_PROB = 420.0
-
-# Loose bootstrap player-name matching.
-# If best name-match score is at least 0.60, ELO player is treated as found.
-# Debug output stores exact match score and method.
-PLAYER_MATCH_THRESHOLD = 0.60
+import csv
+import json
+import unicodedata
+from difflib import SequenceMatcher
 
 
-def normalize(name):
-    return normalize_name(name)
+DEFAULT_ELO = 1500.0
+
+ALIASES_PATH = "data/player_aliases.json"
+ELO_DEBUG_PATH = "public/elo_debug.json"
 
 
-def surface_key(surface):
-    s = normalize(surface)
-
-    if "grass" in s:
-        return "grass"
-
-    if "clay" in s:
-        return "clay"
-
-    if "carpet" in s:
-        return "carpet"
-
-    if "hard" in s:
-        return "hard"
-
-    return "hard"
+ELO_CANDIDATE_FILES = [
+    "data/elo/elo_store.json",
+    "data/elo/elo.json",
+    "data/elo/atp_elo_latest.csv",
+    "data/elo/wta_elo_latest.csv",
+    "data/elo/latest_elo.csv",
+    "data/elo/elo_latest.csv",
+    "data/elo/elo_history.csv",
+    "elo_store.json",
+    "elo.json",
+]
 
 
-def parse_date(value):
-    text = str(value or "")
+_DEBUG = {
+    "provider": "elo_engine_v2_safe_matcher",
+    "loaded_files": [],
+    "players_loaded": 0,
 
-    if not text or text == "0":
-        return None
+    "lookup_count": 0,
+    "found_count": 0,
+    "missing_count": 0,
 
-    for fmt in ["%Y%m%d", "%Y-%m-%d"]:
-        try:
-            return datetime.strptime(text[:10], fmt)
-        except Exception:
-            continue
+    "examples_found": [],
+    "examples_missing": [],
+}
+
+
+def write_debug():
+    os.makedirs(
+        "public",
+        exist_ok=True,
+    )
+
+    with open(
+        ELO_DEBUG_PATH,
+        "w",
+        encoding="utf-8",
+    ) as file:
+        json.dump(
+            _DEBUG,
+            file,
+            indent=2,
+            ensure_ascii=False,
+        )
+
+
+def normalize_name(name):
+    if not name:
+        return ""
+
+    value = str(name)
+
+    value = unicodedata.normalize(
+        "NFKD",
+        value,
+    )
+
+    value = "".join(
+        char
+        for char in value
+        if not unicodedata.combining(char)
+    )
+
+    value = value.lower()
+
+    value = value.replace("-", " ")
+    value = value.replace(".", " ")
+    value = value.replace(",", " ")
+    value = value.replace("'", "")
+    value = value.replace("’", "")
+    value = value.replace("`", "")
+
+    return " ".join(value.split())
+
+
+def similarity(a, b):
+    return SequenceMatcher(
+        None,
+        normalize_name(a),
+        normalize_name(b),
+    ).ratio()
+
+
+def last_name(name):
+    normalized = normalize_name(name)
+
+    if not normalized:
+        return ""
+
+    parts = normalized.split()
+
+    return parts[-1]
+
+
+def first_token(name):
+    normalized = normalize_name(name)
+
+    if not normalized:
+        return ""
+
+    parts = normalized.split()
+
+    return parts[0]
+
+
+def load_aliases():
+    if not os.path.exists(ALIASES_PATH):
+        return {}
+
+    try:
+        with open(
+            ALIASES_PATH,
+            "r",
+            encoding="utf-8",
+        ) as file:
+            raw_aliases = json.load(file)
+
+    except Exception:
+        return {}
+
+    aliases = {}
+
+    for alias, canonical in raw_aliases.items():
+        aliases[
+            normalize_name(alias)
+        ] = canonical
+
+    return aliases
+
+
+def safe_float(value, default=None):
+    try:
+        if value is None:
+            return default
+
+        if value == "":
+            return default
+
+        return float(value)
+
+    except Exception:
+        return default
+
+
+def detect_name(row):
+    for key in [
+        "player",
+        "Player",
+        "name",
+        "Name",
+        "player_name",
+        "Player Name",
+        "winner_name",
+        "loser_name",
+    ]:
+        if key in row and row.get(key):
+            return row.get(key)
 
     return None
 
 
-def ensure_player(store, player):
-    key = normalize(player)
+def detect_elo(row):
+    for key in [
+        "elo",
+        "Elo",
+        "ELO",
+        "rating",
+        "Rating",
+        "overall_elo",
+        "overall",
+        "Overall",
+        "current_elo",
+        "elo_rating",
+    ]:
+        if key in row:
+            value = safe_float(row.get(key))
 
-    if key not in store:
-        store[key] = {
-            "player": player,
-            "overall_elo": START_ELO,
-            "overall_matches": 0,
-            "surface_elo": {
-                "hard": START_ELO,
-                "clay": START_ELO,
-                "grass": START_ELO,
-                "carpet": START_ELO,
-            },
-            "surface_matches": {
-                "hard": 0,
-                "clay": 0,
-                "grass": 0,
-                "carpet": 0,
-            },
-            "last_match_date": None,
-        }
+            if value is not None:
+                return value
 
-    return key
+    return None
 
 
-def find_player_match(store, player, auto_threshold=PLAYER_MATCH_THRESHOLD):
-    query_key = normalize(player)
+def detect_yelo(row):
+    for key in [
+        "yelo",
+        "Yelo",
+        "YELO",
+        "year_elo",
+        "season_elo",
+        "seasonal_elo",
+    ]:
+        if key in row:
+            value = safe_float(row.get(key))
 
-    if query_key in store:
-        return query_key, 1.0, "exact"
+            if value is not None:
+                return value
 
-    best_key, best_score, best_method = best_player_match(
-        query_name=player,
-        candidate_names=list(store.keys()),
-        auto_threshold=auto_threshold,
-    )
-
-    return best_key, best_score, best_method
-
-
-def find_player_key(store, player):
-    key, score, method = find_player_match(store, player)
-    return key
+    return None
 
 
-def expected_score(rating_a, rating_b):
-    diff = max(
-        -MAX_RATING_DIFF_FOR_PROB,
-        min(MAX_RATING_DIFF_FOR_PROB, rating_a - rating_b),
-    )
+def detect_surface_elos(row):
+    surfaces = {}
 
-    return 1.0 / (1.0 + math.pow(10.0, -diff / 400.0))
+    mapping = {
+        "hard": [
+            "hard_elo",
+            "Hard Elo",
+            "hard",
+            "Hard",
+        ],
+        "clay": [
+            "clay_elo",
+            "Clay Elo",
+            "clay",
+            "Clay",
+        ],
+        "grass": [
+            "grass_elo",
+            "Grass Elo",
+            "grass",
+            "Grass",
+        ],
+        "indoor": [
+            "indoor_elo",
+            "Indoor Elo",
+            "indoor",
+            "Indoor",
+        ],
+    }
 
+    for surface, keys in mapping.items():
+        for key in keys:
+            if key in row:
+                value = safe_float(row.get(key))
 
-def calibrated_probability(raw_probability):
-    p = max(0.03, min(0.97, float(raw_probability)))
-    calibrated = 0.5 + (p - 0.5) * CALIBRATION_SHRINK
-    return max(0.05, min(0.95, calibrated))
+                if value is not None:
+                    surfaces[surface] = value
+                    break
 
-
-def latest_match_date(matches):
-    dates = []
-
-    for match in matches:
-        dt = parse_date(match.get("date"))
-
-        if dt:
-            dates.append(dt)
-
-    if not dates:
-        return None
-
-    return max(dates)
-
-
-def time_decay_multiplier(match_date, reference_date):
-    if not match_date or not reference_date:
-        return 1.0
-
-    age_days = max(0, (reference_date - match_date).days)
-
-    if age_days <= 180:
-        return 1.00
-
-    if age_days <= 365:
-        return 0.82
-
-    if age_days <= 730:
-        return 0.62
-
-    return 0.45
+    return surfaces
 
 
-def reliability_from_matches(matches_count):
-    try:
-        n = max(0, float(matches_count))
-    except Exception:
-        n = 0
+def add_record(store, name, record):
+    if not name:
+        return
 
-    return round(1.0 - math.exp(-n / 45.0), 3)
+    normalized = normalize_name(name)
 
+    if not normalized:
+        return
 
-def surface_reliability_from_matches(matches_count):
-    try:
-        n = max(0, float(matches_count))
-    except Exception:
-        n = 0
+    record["name"] = name
+    record["normalized_name"] = normalized
 
-    return round(1.0 - math.exp(-n / 18.0), 3)
+    store[normalized] = record
 
 
-def dynamic_k_factor(player_matches, opponent_matches, match_date, reference_date):
-    min_matches = min(player_matches, opponent_matches)
-
-    if min_matches < 10:
-        sample_multiplier = 1.35
-    elif min_matches < 25:
-        sample_multiplier = 1.18
-    elif min_matches < 60:
-        sample_multiplier = 1.00
-    else:
-        sample_multiplier = 0.82
-
-    decay = time_decay_multiplier(match_date, reference_date)
-
-    return BASE_K * sample_multiplier * decay
-
-
-def blended_rating(record, surface):
-    s_key = surface_key(surface)
-    s_matches = int(record.get("surface_matches", {}).get(s_key, 0))
-
-    if s_key == "grass":
-        if s_matches < 4:
-            w_surface = 0.25
-        elif s_matches < 10:
-            w_surface = 0.42
-        else:
-            w_surface = 0.55
-    else:
-        if s_matches < 5:
-            w_surface = 0.30
-        elif s_matches < 15:
-            w_surface = 0.48
-        else:
-            w_surface = SURFACE_WEIGHT_BASE
-
-    w_overall = 1.0 - w_surface
-
-    overall = float(record.get("overall_elo", START_ELO))
-    surface_elo = float(record.get("surface_elo", {}).get(s_key, START_ELO))
-
-    return overall * w_overall + surface_elo * w_surface
-
-
-def update_pair(store, p1_key, p2_key, surface, winner_key, match_date, reference_date):
-    s_key = surface_key(surface)
-
-    p1 = store[p1_key]
-    p2 = store[p2_key]
-
-    p1_overall = float(p1.get("overall_elo", START_ELO))
-    p2_overall = float(p2.get("overall_elo", START_ELO))
-
-    p1_surface = float(p1.get("surface_elo", {}).get(s_key, START_ELO))
-    p2_surface = float(p2.get("surface_elo", {}).get(s_key, START_ELO))
-
-    p1_result = 1.0 if p1_key == winner_key else 0.0
-    p2_result = 1.0 - p1_result
-
-    p1_matches = int(p1.get("overall_matches", 0))
-    p2_matches = int(p2.get("overall_matches", 0))
-
-    k = dynamic_k_factor(
-        player_matches=p1_matches,
-        opponent_matches=p2_matches,
-        match_date=match_date,
-        reference_date=reference_date,
-    )
-
-    expected_p1_overall = expected_score(p1_overall, p2_overall)
-    expected_p2_overall = 1.0 - expected_p1_overall
-
-    p1["overall_elo"] = p1_overall + k * (p1_result - expected_p1_overall)
-    p2["overall_elo"] = p2_overall + k * (p2_result - expected_p2_overall)
-
-    surface_k = k * 0.92
-
-    expected_p1_surface = expected_score(p1_surface, p2_surface)
-    expected_p2_surface = 1.0 - expected_p1_surface
-
-    p1["surface_elo"][s_key] = p1_surface + surface_k * (p1_result - expected_p1_surface)
-    p2["surface_elo"][s_key] = p2_surface + surface_k * (p2_result - expected_p2_surface)
-
-    p1["overall_matches"] = p1_matches + 1
-    p2["overall_matches"] = p2_matches + 1
-
-    p1["surface_matches"][s_key] = int(p1["surface_matches"].get(s_key, 0)) + 1
-    p2["surface_matches"][s_key] = int(p2["surface_matches"].get(s_key, 0)) + 1
-
-    if match_date:
-        date_text = match_date.strftime("%Y%m%d")
-        p1["last_match_date"] = date_text
-        p2["last_match_date"] = date_text
-
-
-def build_elo(matches):
+def load_json_file(path):
     store = {}
 
-    sorted_matches = sorted(
-        matches,
-        key=lambda x: str(x.get("date") or "0"),
-    )
+    with open(
+        path,
+        "r",
+        encoding="utf-8",
+    ) as file:
+        data = json.load(file)
 
-    reference_date = latest_match_date(sorted_matches)
+    if isinstance(data, dict):
 
-    for match in sorted_matches:
-        try:
-            player1 = match.get("player1")
-            player2 = match.get("player2")
-            winner = match.get("winner")
-            surface = match.get("surface", "Hard")
-            match_date = parse_date(match.get("date"))
+        if "players" in data:
+            players = data.get("players")
 
-            if not player1 or not player2 or not winner:
+            if isinstance(players, dict):
+                for name, value in players.items():
+                    if not isinstance(value, dict):
+                        continue
+
+                    elo = safe_float(
+                        value.get("elo")
+                        or value.get("rating")
+                        or value.get("overall_elo"),
+                        DEFAULT_ELO,
+                    )
+
+                    yelo = safe_float(
+                        value.get("yelo")
+                        or value.get("year_elo")
+                        or value.get("season_elo"),
+                        elo,
+                    )
+
+                    record = {
+                        "elo": elo,
+                        "yelo": yelo,
+                        "surfaces": value.get("surfaces") or {},
+                        "source": path,
+                        "raw": value,
+                    }
+
+                    add_record(
+                        store,
+                        name,
+                        record,
+                    )
+
+            elif isinstance(players, list):
+                for value in players:
+                    if not isinstance(value, dict):
+                        continue
+
+                    name = detect_name(value)
+
+                    if not name:
+                        continue
+
+                    elo = detect_elo(value)
+
+                    if elo is None:
+                        elo = DEFAULT_ELO
+
+                    yelo = detect_yelo(value)
+
+                    if yelo is None:
+                        yelo = elo
+
+                    record = {
+                        "elo": elo,
+                        "yelo": yelo,
+                        "surfaces": detect_surface_elos(value),
+                        "source": path,
+                        "raw": value,
+                    }
+
+                    add_record(
+                        store,
+                        name,
+                        record,
+                    )
+
+        else:
+            for name, value in data.items():
+                if isinstance(value, dict):
+                    elo = safe_float(
+                        value.get("elo")
+                        or value.get("rating")
+                        or value.get("overall_elo"),
+                        DEFAULT_ELO,
+                    )
+
+                    yelo = safe_float(
+                        value.get("yelo")
+                        or value.get("year_elo")
+                        or value.get("season_elo"),
+                        elo,
+                    )
+
+                    record = {
+                        "elo": elo,
+                        "yelo": yelo,
+                        "surfaces": value.get("surfaces") or {},
+                        "source": path,
+                        "raw": value,
+                    }
+
+                    add_record(
+                        store,
+                        name,
+                        record,
+                    )
+
+                else:
+                    elo = safe_float(value)
+
+                    if elo is not None:
+                        record = {
+                            "elo": elo,
+                            "yelo": elo,
+                            "surfaces": {},
+                            "source": path,
+                            "raw": value,
+                        }
+
+                        add_record(
+                            store,
+                            name,
+                            record,
+                        )
+
+    elif isinstance(data, list):
+        for value in data:
+            if not isinstance(value, dict):
                 continue
 
-            p1_key = ensure_player(store, player1)
-            p2_key = ensure_player(store, player2)
+            name = detect_name(value)
 
-            winner_key = normalize(winner)
-
-            if winner_key not in [p1_key, p2_key]:
+            if not name:
                 continue
 
-            update_pair(
-                store=store,
-                p1_key=p1_key,
-                p2_key=p2_key,
-                surface=surface,
-                winner_key=winner_key,
-                match_date=match_date,
-                reference_date=reference_date,
+            elo = detect_elo(value)
+
+            if elo is None:
+                elo = DEFAULT_ELO
+
+            yelo = detect_yelo(value)
+
+            if yelo is None:
+                yelo = elo
+
+            record = {
+                "elo": elo,
+                "yelo": yelo,
+                "surfaces": detect_surface_elos(value),
+                "source": path,
+                "raw": value,
+            }
+
+            add_record(
+                store,
+                name,
+                record,
             )
-
-        except Exception:
-            continue
 
     return store
 
 
-def empty_player_record():
-    return {
-        "overall_elo": START_ELO,
-        "overall_matches": 0,
-        "surface_elo": {
-            "hard": START_ELO,
-            "clay": START_ELO,
-            "grass": START_ELO,
-            "carpet": START_ELO,
-        },
-        "surface_matches": {
-            "hard": 0,
-            "clay": 0,
-            "grass": 0,
-            "carpet": 0,
-        },
-    }
+def load_csv_file(path):
+    store = {}
 
+    with open(
+        path,
+        "r",
+        encoding="utf-8",
+        newline="",
+    ) as file:
+        reader = csv.DictReader(file)
 
-def predict(player1, player2, surface, store):
-    p1_key, p1_match_score, p1_match_method = find_player_match(store, player1)
-    p2_key, p2_match_score, p2_match_method = find_player_match(store, player2)
+        for row in reader:
+            name = detect_name(row)
 
-    p1_found = p1_key is not None
-    p2_found = p2_key is not None
+            if not name:
+                continue
 
-    p1_record = store[p1_key] if p1_found else empty_player_record()
-    p2_record = store[p2_key] if p2_found else empty_player_record()
+            elo = detect_elo(row)
 
-    s_key = surface_key(surface)
+            if elo is None:
+                elo = DEFAULT_ELO
 
-    p1_rating = blended_rating(p1_record, surface)
-    p2_rating = blended_rating(p2_record, surface)
+            yelo = detect_yelo(row)
 
-    raw_p1 = expected_score(p1_rating, p2_rating)
-    calibrated_p1 = calibrated_probability(raw_p1)
+            if yelo is None:
+                yelo = elo
 
-    p1_matches = int(p1_record.get("overall_matches", 0))
-    p2_matches = int(p2_record.get("overall_matches", 0))
+            record = {
+                "elo": elo,
+                "yelo": yelo,
+                "surfaces": detect_surface_elos(row),
+                "source": path,
+                "raw": row,
+            }
 
-    p1_surface_matches = int(p1_record.get("surface_matches", {}).get(s_key, 0))
-    p2_surface_matches = int(p2_record.get("surface_matches", {}).get(s_key, 0))
+            add_record(
+                store,
+                name,
+                record,
+            )
 
-    p1_rel = reliability_from_matches(p1_matches)
-    p2_rel = reliability_from_matches(p2_matches)
-
-    p1_surface_rel = surface_reliability_from_matches(p1_surface_matches)
-    p2_surface_rel = surface_reliability_from_matches(p2_surface_matches)
-
-    min_rel = min(p1_rel, p2_rel)
-
-    if min_rel < 0.25:
-        calibrated_p1 = 0.5 + (calibrated_p1 - 0.5) * 0.80
-    elif min_rel < 0.40:
-        calibrated_p1 = 0.5 + (calibrated_p1 - 0.5) * 0.90
-
-    calibrated_p1 = max(0.05, min(0.95, calibrated_p1))
-
-    return {
-        "probability_player1": round(calibrated_p1, 4),
-        "probability_player2": round(1.0 - calibrated_p1, 4),
-
-        "elo_player1": round(p1_rating, 2),
-        "elo_player2": round(p2_rating, 2),
-
-        "overall_elo_player1": round(float(p1_record.get("overall_elo", START_ELO)), 2),
-        "overall_elo_player2": round(float(p2_record.get("overall_elo", START_ELO)), 2),
-
-        "surface_elo_player1": round(float(p1_record.get("surface_elo", {}).get(s_key, START_ELO)), 2),
-        "surface_elo_player2": round(float(p2_record.get("surface_elo", {}).get(s_key, START_ELO)), 2),
-
-        "elo_found_player1": p1_found,
-        "elo_found_player2": p2_found,
-
-        "elo_matched_key_player1": p1_key,
-        "elo_matched_key_player2": p2_key,
-
-        "elo_match_score_player1": p1_match_score,
-        "elo_match_score_player2": p2_match_score,
-        "elo_match_method_player1": p1_match_method,
-        "elo_match_method_player2": p2_match_method,
-
-        "elo_matches_player1": p1_matches,
-        "elo_matches_player2": p2_matches,
-
-        "surface_matches_player1": p1_surface_matches,
-        "surface_matches_player2": p2_surface_matches,
-
-        "elo_reliability_player1": p1_rel,
-        "elo_reliability_player2": p2_rel,
-
-        "surface_reliability_player1": p1_surface_rel,
-        "surface_reliability_player2": p2_surface_rel,
-
-        "surface": s_key,
-        "raw_probability_player1": round(raw_p1, 4),
-        "model": "SURFACE_ELO_DECAY_DYNAMIC_K_CALIBRATED_V1",
-    }
-
-
-def save(store):
-    os.makedirs("data", exist_ok=True)
-
-    with open(DATA_PATH, "w", encoding="utf-8") as f:
-        json.dump(store, f, ensure_ascii=False, indent=2)
+    return store
 
 
 def load():
-    if not os.path.exists(DATA_PATH):
-        return {}
+    """
+    Existing prediction engines call this function.
 
-    with open(DATA_PATH, encoding="utf-8") as f:
-        return json.load(f)
+    Returns:
+        dict normalized_name -> player ELO record
+    """
 
+    store = {}
 
-def build_and_save(matches):
-    store = build_elo(matches)
-    save(store)
+    _DEBUG["loaded_files"] = []
+    _DEBUG["players_loaded"] = 0
+
+    for path in ELO_CANDIDATE_FILES:
+        if not os.path.exists(path):
+            continue
+
+        try:
+            if path.endswith(".json"):
+                loaded = load_json_file(path)
+
+            elif path.endswith(".csv"):
+                loaded = load_csv_file(path)
+
+            else:
+                loaded = {}
+
+            if loaded:
+                store.update(loaded)
+
+                _DEBUG["loaded_files"].append({
+                    "path": path,
+                    "players": len(loaded),
+                })
+
+        except Exception as exc:
+            _DEBUG["loaded_files"].append({
+                "path": path,
+                "error": str(exc),
+            })
+
+    _DEBUG["players_loaded"] = len(store)
+
+    write_debug()
+
     return store
+
+
+def candidate_matches_by_initial(player_name, store):
+    normalized = normalize_name(player_name)
+    parts = normalized.split()
+
+    if len(parts) < 2:
+        return []
+
+    first = parts[0]
+    last = parts[-1]
+
+    if len(first) != 1:
+        return []
+
+    matches = []
+
+    for key, record in store.items():
+        record_name = record.get("name", key)
+        record_first = first_token(record_name)
+        record_last = last_name(record_name)
+
+        if record_last == last and record_first.startswith(first):
+            matches.append(
+                (key, record, 1.0)
+            )
+
+    return matches
+
+
+def find_player_record(player_name, store):
+    """
+    Safe player lookup.
+
+    Order:
+    1. exact normalized match
+    2. alias match
+    3. initial + last name match
+    4. conservative fuzzy match
+    """
+
+    _DEBUG["lookup_count"] += 1
+
+    aliases = load_aliases()
+    normalized = normalize_name(player_name)
+
+    if not normalized:
+        _DEBUG["missing_count"] += 1
+
+        return {
+            "found": False,
+            "record": None,
+            "matched_name": None,
+            "match_method": "empty",
+            "match_score": 0.0,
+        }
+
+    if normalized in store:
+        record = store[normalized]
+
+        _DEBUG["found_count"] += 1
+
+        if len(_DEBUG["examples_found"]) < 30:
+            _DEBUG["examples_found"].append({
+                "input": player_name,
+                "matched": record.get("name"),
+                "method": "exact",
+                "score": 1.0,
+            })
+
+        return {
+            "found": True,
+            "record": record,
+            "matched_name": record.get("name"),
+            "match_method": "exact",
+            "match_score": 1.0,
+        }
+
+    alias_target = aliases.get(normalized)
+
+    if alias_target:
+        alias_normalized = normalize_name(alias_target)
+
+        if alias_normalized in store:
+            record = store[alias_normalized]
+
+            _DEBUG["found_count"] += 1
+
+            if len(_DEBUG["examples_found"]) < 30:
+                _DEBUG["examples_found"].append({
+                    "input": player_name,
+                    "matched": record.get("name"),
+                    "method": "alias",
+                    "score": 1.0,
+                })
+
+            return {
+                "found": True,
+                "record": record,
+                "matched_name": record.get("name"),
+                "match_method": "alias",
+                "match_score": 1.0,
+            }
+
+    initial_matches = candidate_matches_by_initial(
+        player_name,
+        store,
+    )
+
+    if len(initial_matches) == 1:
+        key, record, score = initial_matches[0]
+
+        _DEBUG["found_count"] += 1
+
+        if len(_DEBUG["examples_found"]) < 30:
+            _DEBUG["examples_found"].append({
+                "input": player_name,
+                "matched": record.get("name"),
+                "method": "initial_last_name",
+                "score": score,
+            })
+
+        return {
+            "found": True,
+            "record": record,
+            "matched_name": record.get("name"),
+            "match_method": "initial_last_name",
+            "match_score": score,
+        }
+
+    input_last = last_name(player_name)
+
+    candidates = []
+
+    for key, record in store.items():
+        record_name = record.get("name", key)
+        record_last = last_name(record_name)
+
+        last_score = similarity(
+            input_last,
+            record_last,
+        )
+
+        if last_score < 0.92:
+            continue
+
+        full_score = similarity(
+            player_name,
+            record_name,
+        )
+
+        if full_score >= 0.90:
+            candidates.append({
+                "key": key,
+                "record": record,
+                "score": full_score,
+                "last_score": last_score,
+            })
+
+    candidates.sort(
+        key=lambda item: item["score"],
+        reverse=True,
+    )
+
+    if candidates:
+        best = candidates[0]
+        ambiguous = False
+
+        if len(candidates) > 1:
+            second = candidates[1]
+
+            if (
+                best["score"]
+                - second["score"]
+            ) < 0.03:
+                ambiguous = True
+
+        if not ambiguous:
+            record = best["record"]
+
+            _DEBUG["found_count"] += 1
+
+            if len(_DEBUG["examples_found"]) < 30:
+                _DEBUG["examples_found"].append({
+                    "input": player_name,
+                    "matched": record.get("name"),
+                    "method": "fuzzy_safe",
+                    "score": round(
+                        best["score"],
+                        3,
+                    ),
+                })
+
+            return {
+                "found": True,
+                "record": record,
+                "matched_name": record.get("name"),
+                "match_method": "fuzzy_safe",
+                "match_score": round(
+                    best["score"],
+                    3,
+                ),
+            }
+
+    _DEBUG["missing_count"] += 1
+
+    if len(_DEBUG["examples_missing"]) < 50:
+        _DEBUG["examples_missing"].append({
+            "input": player_name,
+            "normalized": normalized,
+            "reason": "no_safe_match",
+        })
+
+    return {
+        "found": False,
+        "record": None,
+        "matched_name": None,
+        "match_method": "missing",
+        "match_score": 0.0,
+    }
+
+
+def get_rating_from_record(record, surface=None):
+    if not record:
+        return DEFAULT_ELO
+
+    if surface:
+        surface_key = normalize_name(surface)
+
+        surfaces = record.get("surfaces") or {}
+
+        if isinstance(surfaces, dict):
+            for key, value in surfaces.items():
+                if normalize_name(key) == surface_key:
+                    detected = safe_float(value)
+
+                    if detected is not None:
+                        return detected
+
+    elo = safe_float(
+        record.get("elo"),
+        DEFAULT_ELO,
+    )
+
+    return elo
+
+
+def get_yelo_from_record(record):
+    if not record:
+        return DEFAULT_ELO
+
+    yelo = safe_float(
+        record.get("yelo"),
+        None,
+    )
+
+    if yelo is not None:
+        return yelo
+
+    return safe_float(
+        record.get("elo"),
+        DEFAULT_ELO,
+    )
+
+
+def win_probability(rating_a, rating_b):
+    return 1 / (
+        1 + 10 ** (
+            (rating_b - rating_a) / 400
+        )
+    )
+
+
+def predict(
+    player1,
+    player2,
+    surface=None,
+    elo_store=None,
+):
+    """
+    Existing prediction engines call this function.
+    """
+
+    if elo_store is None:
+        elo_store = load()
+
+    lookup1 = find_player_record(
+        player1,
+        elo_store,
+    )
+
+    lookup2 = find_player_record(
+        player2,
+        elo_store,
+    )
+
+    rating1 = get_rating_from_record(
+        lookup1.get("record"),
+        surface=surface,
+    )
+
+    rating2 = get_rating_from_record(
+        lookup2.get("record"),
+        surface=surface,
+    )
+
+    yelo1 = get_yelo_from_record(
+        lookup1.get("record"),
+    )
+
+    yelo2 = get_yelo_from_record(
+        lookup2.get("record"),
+    )
+
+    probability1 = win_probability(
+        rating1,
+        rating2,
+    )
+
+    probability2 = 1 - probability1
+
+    write_debug()
+
+    return {
+        "probability_player1": probability1,
+        "probability_player2": probability2,
+
+        "elo_player1": rating1,
+        "elo_player2": rating2,
+
+        "yelo_player1": yelo1,
+        "yelo_player2": yelo2,
+
+        "elo_found_player1": lookup1.get("found"),
+        "elo_found_player2": lookup2.get("found"),
+
+        "elo_match_player1": lookup1.get("matched_name"),
+        "elo_match_player2": lookup2.get("matched_name"),
+
+        "elo_match_method_player1": lookup1.get("match_method"),
+        "elo_match_method_player2": lookup2.get("match_method"),
+
+        "elo_match_score_player1": lookup1.get("match_score"),
+        "elo_match_score_player2": lookup2.get("match_score"),
+    }
