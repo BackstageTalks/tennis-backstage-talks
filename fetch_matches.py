@@ -1,5 +1,6 @@
 import re
 import os
+import json
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta, timezone
@@ -11,6 +12,8 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 }
+
+DEBUG_PATH = "public/sportscore_debug.json"
 
 # Pre naše výstupy labelujeme čas ako CET.
 # Technicky v lete používame offset +2, preto je nastaviteľné cez env.
@@ -66,6 +69,56 @@ TOURNAMENT_MARKERS = [
 ]
 
 
+_DEBUG = {
+    "provider": "SportScore",
+    "url": URL,
+    "http_status": None,
+    "fetch_error": None,
+
+    "local_tz_offset_hours": LOCAL_TZ_OFFSET_HOURS,
+    "bet_window_start_hour": BET_WINDOW_START_HOUR,
+    "bet_window_end_next_day_hour": BET_WINDOW_END_NEXT_DAY_HOUR,
+
+    "now_local": None,
+    "bet_window_start": None,
+    "bet_window_end": None,
+
+    "raw_text_length": 0,
+    "scheduled_text_length": 0,
+
+    "tournament_markers_found": [],
+    "matches_found": 0,
+    "matches_returned": 0,
+
+    "examples_matches": [],
+    "examples_skipped": [],
+    "text_preview": "",
+}
+
+
+def write_debug():
+    try:
+        os.makedirs(
+            "public",
+            exist_ok=True,
+        )
+
+        with open(
+            DEBUG_PATH,
+            "w",
+            encoding="utf-8",
+        ) as file:
+            json.dump(
+                _DEBUG,
+                file,
+                indent=2,
+                ensure_ascii=False,
+            )
+
+    except Exception as exc:
+        print("SPORTSCORE DEBUG WRITE ERROR:", str(exc))
+
+
 def clean_text(value):
     if not value:
         return ""
@@ -79,6 +132,7 @@ def parse_odd(value):
             return None
 
         return float(value)
+
     except Exception:
         return None
 
@@ -212,6 +266,7 @@ def parse_time_text_to_time(time_text):
                 time_text.upper(),
                 fmt,
             ).time()
+
         except Exception:
             continue
 
@@ -248,7 +303,9 @@ def parse_match_time(time_text):
             tzinfo=SPORTSCORE_TZ,
         )
 
-        candidate_local = candidate_utc.astimezone(LOCAL_TZ)
+        candidate_local = candidate_utc.astimezone(
+            LOCAL_TZ,
+        )
 
         if (
             now_local <= candidate_local <= end
@@ -329,12 +386,33 @@ def scheduled_text_only(text):
     return clean_text(sliced)
 
 
+def find_tournament_markers_in_text(text):
+    found = []
+    lower = str(text or "").lower()
+
+    for marker, label in TOURNAMENT_MARKERS:
+        position = lower.find(marker)
+
+        if position != -1:
+            found.append({
+                "marker": marker,
+                "label": label,
+                "position": position,
+            })
+
+    found.sort(
+        key=lambda item: item.get("position", 0),
+    )
+
+    return found
+
+
 def infer_tournament_from_context(text, match_start_index):
     """
     Pokúsi sa nájsť najbližší turnajový header pred zápasom.
 
     Nepoužíva HTML selektory, aby sme neriskovali rozbitie parsera,
-    keďže aktuálny parser už pracuje s textom zo soup.get_text().
+    keďže aktuálny parser pracuje s textom zo soup.get_text().
     """
     if not text:
         return ""
@@ -379,6 +457,13 @@ def infer_tournament_from_context(text, match_start_index):
             return f"{slam.title()} Women Singles"
 
     return ""
+
+
+def get_context_before_match(text, match_start_index):
+    context_start = max(0, match_start_index - 500)
+    context = text[context_start:match_start_index]
+
+    return clean_text(context)[-500:]
 
 
 def infer_gender(tournament):
@@ -427,7 +512,15 @@ def infer_surface_from_tournament(tournament):
 
 
 def extract_matches_from_text(text):
-    text = scheduled_text_only(text)
+    scheduled_text = scheduled_text_only(text)
+
+    _DEBUG["raw_text_length"] = len(text or "")
+    _DEBUG["scheduled_text_length"] = len(scheduled_text or "")
+    _DEBUG["text_preview"] = clean_text(scheduled_text[:3000])
+
+    _DEBUG["tournament_markers_found"] = find_tournament_markers_in_text(
+        scheduled_text,
+    )[:50]
 
     matches = []
     seen = set()
@@ -446,13 +539,17 @@ def extract_matches_from_text(text):
     start = bet_window_start()
     end = bet_window_end()
 
+    _DEBUG["now_local"] = now.isoformat()
+    _DEBUG["bet_window_start"] = start.isoformat()
+    _DEBUG["bet_window_end"] = end.isoformat()
+
     print("NOW LOCAL:", now.isoformat())
     print("BET WINDOW START LOCAL:", start.isoformat())
     print("BET WINDOW END LOCAL:", end.isoformat())
     print("SPORTSCORE RAW TIME ASSUMPTION: UTC")
     print("LOCAL_TZ_OFFSET_HOURS:", LOCAL_TZ_OFFSET_HOURS)
 
-    for match in pattern.finditer(text):
+    for match in pattern.finditer(scheduled_text):
         time_text = clean_text(match.group("time"))
 
         p1 = clean_player_name(match.group("p1"))
@@ -462,6 +559,33 @@ def extract_matches_from_text(text):
         odds2 = parse_odd(match.group("odds2"))
 
         match_start = parse_match_time(time_text)
+
+        tournament = infer_tournament_from_context(
+            scheduled_text,
+            match.start(),
+        )
+
+        gender = infer_gender(tournament)
+        best_of = infer_best_of(tournament)
+        tournament_surface = infer_surface_from_tournament(tournament)
+
+        debug_entry = {
+            "time_raw": time_text,
+            "player1": p1,
+            "player2": p2,
+            "match": f"{p1} vs {p2}",
+            "tournament": tournament,
+            "gender": gender,
+            "best_of": best_of,
+            "surface": tournament_surface,
+            "odds_player1": odds1,
+            "odds_player2": odds2,
+            "parsed_local": match_start.isoformat() if match_start else None,
+            "context_before_match": get_context_before_match(
+                scheduled_text,
+                match.start(),
+            ),
+        }
 
         if not is_within_bet_window(match_start):
             print(
@@ -473,14 +597,32 @@ def extract_matches_from_text(text):
                 "parsed_local:",
                 match_start.isoformat() if match_start else None,
             )
+
+            if len(_DEBUG["examples_skipped"]) < 30:
+                skipped = dict(debug_entry)
+                skipped["reason"] = "outside_bet_window"
+                _DEBUG["examples_skipped"].append(skipped)
+
             continue
 
         if not is_valid_player(p1) or not is_valid_player(p2):
             print("SKIP INVALID PLAYER:", p1, "vs", p2)
+
+            if len(_DEBUG["examples_skipped"]) < 30:
+                skipped = dict(debug_entry)
+                skipped["reason"] = "invalid_player"
+                _DEBUG["examples_skipped"].append(skipped)
+
             continue
 
         if p1.lower() == p2.lower():
             print("SKIP SAME PLAYER:", p1, p2)
+
+            if len(_DEBUG["examples_skipped"]) < 30:
+                skipped = dict(debug_entry)
+                skipped["reason"] = "same_player"
+                _DEBUG["examples_skipped"].append(skipped)
+
             continue
 
         key = f"{p1.lower()}::{p2.lower()}::{match_start.isoformat()}"
@@ -490,16 +632,7 @@ def extract_matches_from_text(text):
 
         seen.add(key)
 
-        tournament = infer_tournament_from_context(
-            text,
-            match.start(),
-        )
-
-        gender = infer_gender(tournament)
-        best_of = infer_best_of(tournament)
-        tournament_surface = infer_surface_from_tournament(tournament)
-
-        matches.append({
+        match_record = {
             "player1": p1,
             "player2": p2,
 
@@ -521,7 +654,14 @@ def extract_matches_from_text(text):
             "bet_window_end": end.isoformat(),
             "bet_window_start_hour": BET_WINDOW_START_HOUR,
             "bet_window_end_next_day_hour": BET_WINDOW_END_NEXT_DAY_HOUR,
-        })
+        }
+
+        matches.append(match_record)
+
+        if len(_DEBUG["examples_matches"]) < 30:
+            _DEBUG["examples_matches"].append(debug_entry)
+
+    _DEBUG["matches_found"] = len(matches)
 
     return matches
 
@@ -534,10 +674,14 @@ def get_today_matches():
             timeout=20,
         )
 
+        _DEBUG["http_status"] = response.status_code
+
         print("SPORTSCORE HTTP:", response.status_code)
 
         if response.status_code != 200:
+            _DEBUG["fetch_error"] = f"HTTP {response.status_code}"
             print("SPORTSCORE RAW ERROR:", response.text[:500])
+            write_debug()
             return []
 
         soup = BeautifulSoup(
@@ -552,6 +696,10 @@ def get_today_matches():
 
         matches = extract_matches_from_text(text)
 
+        limited_matches = matches[:40]
+
+        _DEBUG["matches_returned"] = len(limited_matches)
+
         print(
             "REAL TENNIS MATCHES IN 06-06 LOCAL WINDOW:",
             len(matches),
@@ -559,11 +707,18 @@ def get_today_matches():
 
         print(
             "MATCH SAMPLE:",
-            matches[:10],
+            limited_matches[:10],
         )
 
-        return matches[:40]
+        write_debug()
+
+        return limited_matches
 
     except Exception as e:
+        _DEBUG["fetch_error"] = str(e)
+
         print("SPORTSCORE FETCH ERROR:", str(e))
+
+        write_debug()
+
         return []
