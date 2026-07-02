@@ -1,145 +1,300 @@
+import os
+import json
 import requests
-
-API_KEY = "5e5f606542fb15d9717aacae39b757c2"
-BASE_URL = "https://api.the-odds-api.com/v4/sports"
-
-REGIONS = "eu"
-MARKETS = "h2h"
-
-SPORTS = [
-    "tennis_atp",
-    "tennis_wta",
-]
+from difflib import SequenceMatcher
 
 
-def fetch_odds_for_sport(sport):
-    url = f"{BASE_URL}/{sport}/odds/"
+BASE_URL = "https://api.odds-api.io/v3"
 
-    params = {
-        "apiKey": API_KEY,
-        "regions": REGIONS,
-        "markets": MARKETS,
+
+def normalize(name):
+    if not name:
+        return ""
+
+    replacements = {
+        "á": "a",
+        "ä": "a",
+        "č": "c",
+        "ď": "d",
+        "é": "e",
+        "ě": "e",
+        "í": "i",
+        "ľ": "l",
+        "ĺ": "l",
+        "ň": "n",
+        "ó": "o",
+        "ô": "o",
+        "ö": "o",
+        "ř": "r",
+        "š": "s",
+        "ť": "t",
+        "ú": "u",
+        "ů": "u",
+        "ü": "u",
+        "ý": "y",
+        "ž": "z",
     }
 
-    try:
-        r = requests.get(url, params=params, timeout=20)
-        if r.status_code != 200:
-            return []
-        return r.json()
-    except Exception:
-        return []
+    value = name.lower()
+
+    for src, dst in replacements.items():
+        value = value.replace(src, dst)
+
+    value = value.replace("-", " ")
+    value = value.replace(".", " ")
+
+    return " ".join(value.split())
 
 
-def extract_match_odds(event):
-    try:
-        home = event.get("home_team")
-        away = event.get("away_team")
+def similarity(a, b):
+    return SequenceMatcher(
+        None,
+        normalize(a),
+        normalize(b),
+    ).ratio()
 
-        bookmakers = event.get("bookmakers", [])
-        if not bookmakers:
-            return None
 
-        best_odds1 = None
-        best_odds2 = None
+def get_api_key():
+    api_key = os.getenv("APIIO")
 
-        for book in bookmakers:
-            markets = book.get("markets", [])
-            if not markets:
+    if not api_key:
+        raise ValueError(
+            "Missing GitHub Secret APIIO"
+        )
+
+    return api_key
+
+
+def fetch_tennis_events(limit=500):
+    api_key = get_api_key()
+
+    response = requests.get(
+        f"{BASE_URL}/events",
+        params={
+            "apiKey": api_key,
+            "sport": "tennis",
+            "limit": limit,
+        },
+        timeout=30,
+    )
+
+    response.raise_for_status()
+
+    return response.json()
+
+
+def fetch_event_odds(event_id):
+    api_key = get_api_key()
+
+    response = requests.get(
+        f"{BASE_URL}/odds",
+        params={
+            "apiKey": api_key,
+            "eventId": event_id,
+            "bookmakers": "Bet365",
+        },
+        timeout=30,
+    )
+
+    response.raise_for_status()
+
+    return response.json()
+
+
+def extract_ml_odds(data):
+    bookmakers = data.get(
+        "bookmakers",
+        {}
+    )
+
+    for bookmaker in bookmakers.values():
+
+        for market in bookmaker:
+
+            if market.get("name") != "ML":
                 continue
 
-            outcomes = markets[0].get("outcomes", [])
-            if len(outcomes) < 2:
+            odds = market.get(
+                "odds",
+                []
+            )
+
+            if not odds:
                 continue
 
-            o1 = outcomes[0]["price"]
-            o2 = outcomes[1]["price"]
+            item = odds[0]
 
-            if best_odds1 is None or o1 > best_odds1:
-                best_odds1 = o1
+            return {
+                "home_odds": float(
+                    item.get("home")
+                ),
+                "away_odds": float(
+                    item.get("away")
+                ),
+            }
 
-            if best_odds2 is None or o2 > best_odds2:
-                best_odds2 = o2
-
-        if best_odds1 is None or best_odds2 is None:
-            return None
-
-        return {
-            "player1": home,
-            "player2": away,
-            "odds_player1": best_odds1,
-            "odds_player2": best_odds2,
-            "event_id": event.get("id"),
-            "odds_source": "the_odds_api"
-        }
-
-    except Exception:
-        return None
+    return None
 
 
-def fetch_odds():
-    all_matches = []
-
-    for sport in SPORTS:
-        events = fetch_odds_for_sport(sport)
-
-        for e in events:
-            rec = extract_match_odds(e)
-            if rec:
-                all_matches.append(rec)
-
-    return all_matches
-
-
-def normalize_name(name):
-    return str(name or "").lower().replace("-", " ").strip()
-
-
-def match_score(a, b):
-    a = normalize_name(a)
-    b = normalize_name(b)
-
-    if not a or not b:
-        return 0
-
-    if a == b:
-        return 1.0
-
-    if a in b or b in a:
-        return 0.75
-
-    return 0
-
-
-def find_match_odds(player1, player2, odds_matches):
-    best = None
+def find_best_event(
+    player1,
+    player2,
+    events,
+):
+    best_event = None
     best_score = 0
 
-    for m in odds_matches:
+    for event in events:
 
-        s1 = match_score(player1, m["player1"])
-        s2 = match_score(player2, m["player2"])
+        home = event.get("home", "")
+        away = event.get("away", "")
 
-        score = (s1 + s2) / 2
+        score1 = (
+            similarity(player1, home)
+            +
+            similarity(player2, away)
+        )
+
+        score2 = (
+            similarity(player1, away)
+            +
+            similarity(player2, home)
+        )
+
+        score = max(score1, score2)
 
         if score > best_score:
-            best = m
             best_score = score
+            best_event = event
 
-        # reverse
-        sr1 = match_score(player1, m["player2"])
-        sr2 = match_score(player2, m["player1"])
+    if best_score < 1.5:
+        return None
 
-        score_r = (sr1 + sr2) / 2
+    return best_event
 
-        if score_r > best_score:
-            best = {
-                "player1": m["player1"],
-                "player2": m["player2"],
-                "odds_player1": m["odds_player2"],
-                "odds_player2": m["odds_player1"],
-                "event_id": m["event_id"],
-                "odds_source": m["odds_source"]
-            }
-            best_score = score_r
 
-    return best if best else {}
+def build_odds_cache(matches):
+
+    events = fetch_tennis_events()
+
+    cache = {}
+    matched = 0
+
+    unmatched = []
+
+    for match in matches:
+
+        player1 = (
+            match.get("player1")
+            or match.get("pick")
+            or ""
+        )
+
+        player2 = (
+            match.get("player2")
+            or match.get("opponent")
+            or ""
+        )
+
+        event = find_best_event(
+            player1,
+            player2,
+            events,
+        )
+
+        if not event:
+            unmatched.append(
+                f"{player1} vs {player2}"
+            )
+            continue
+
+        try:
+
+            odds_data = fetch_event_odds(
+                event["id"]
+            )
+
+            ml = extract_ml_odds(
+                odds_data
+            )
+
+            if not ml:
+                unmatched.append(
+                    f"{player1} vs {player2}"
+                )
+                continue
+
+            cache[
+                f"{player1}|{player2}"
+            ] = ml
+
+            matched += 1
+
+        except Exception as exc:
+
+            unmatched.append(
+                f"{player1} vs {player2}: {exc}"
+            )
+
+    debug = {
+        "events_from_api": len(events),
+        "matches_requested": len(matches),
+        "matched": matched,
+        "unmatched": len(unmatched),
+        "examples": unmatched[:20],
+    }
+
+    os.makedirs(
+        "public",
+        exist_ok=True,
+    )
+
+    with open(
+        "public/odds_cache.json",
+        "w",
+        encoding="utf-8",
+    ) as f:
+
+        json.dump(
+            cache,
+            f,
+            indent=2,
+            ensure_ascii=False,
+        )
+
+    with open(
+        "public/odds_debug.json",
+        "w",
+        encoding="utf-8",
+    ) as f:
+
+        json.dump(
+            debug,
+            f,
+            indent=2,
+            ensure_ascii=False,
+        )
+
+    return cache
+
+
+def get_odds(
+    player1,
+    player2,
+):
+    path = "public/odds_cache.json"
+
+    if not os.path.exists(path):
+        return None
+
+    with open(
+        path,
+        "r",
+        encoding="utf-8",
+    ) as f:
+
+        cache = json.load(f)
+
+    key = f"{player1}|{player2}"
+
+    return cache.get(key)
