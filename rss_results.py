@@ -12,13 +12,12 @@ RESULTS_DATA_PATHS = [
 RESULTS_PAGE_PATH = "public/results/index.html"
 RESULTS_RSS_PATH = "public/results.xml"
 
-SITE_TITLE = "TBT Tennis Results"
+SITE_TITLE = "Backstagetalks Statistic Model"
 BASE_URL = "https://backstagetalks.github.io/tennis-backstage-talks"
 
-DISCLAIMER = (
-    "The information presented on this website is for informational and analytical purposes only. "
-    "The predictions do not constitute betting advice."
-)
+HEADER_TITLE = "Backstagetalks Statistic Model"
+HEADER_SUBTITLE = "This data is provided for informational and analytical purposes only."
+FOOTER_TEXT = "Powered by Backstagetalks Statistic Model"
 
 
 def safe(value, default="-"):
@@ -63,6 +62,7 @@ def units(value):
 def odds(value):
     try:
         return f"{float(value):.2f}"
+
     except Exception:
         return "-"
 
@@ -81,6 +81,19 @@ def load_json(path, default):
 
     except Exception:
         return default
+
+
+def empty_summary():
+    return {
+        "picks": 0,
+        "won": 0,
+        "lost": 0,
+        "void": 0,
+        "pending": 0,
+        "unknown": 0,
+        "units": 0.0,
+        "win_rate": None,
+    }
 
 
 def load_results_data():
@@ -102,19 +115,6 @@ def load_results_data():
         "current_month": empty_summary(),
         "all_time": empty_summary(),
         "items": [],
-    }
-
-
-def empty_summary():
-    return {
-        "picks": 0,
-        "won": 0,
-        "lost": 0,
-        "void": 0,
-        "pending": 0,
-        "unknown": 0,
-        "units": 0.0,
-        "win_rate": None,
     }
 
 
@@ -256,10 +256,6 @@ def render_rows(items):
 
 
 def render_page(data):
-    generated_at = safe(
-        data.get("generated_at")
-    )
-
     rows = render_rows(
         data.get("items", []),
     )
@@ -274,7 +270,7 @@ def render_page(data):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>{SITE_TITLE}</title>
+<title>{safe(SITE_TITLE)}</title>
 
 <style>
 :root {{
@@ -295,8 +291,9 @@ def render_page(data):
     box-sizing: border-box;
 }}
 
-body {{
+html, body {{
     margin: 0;
+    padding: 0;
     background: var(--bg);
     color: var(--text);
     font-family: Arial, Helvetica, sans-serif;
@@ -311,26 +308,40 @@ body {{
 .header {{
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 24px;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 22px;
 }}
 
 .logo {{
     font-size: 28px;
     font-weight: 800;
+    line-height: 1.2;
+    color: var(--text);
 }}
 
 .subtitle {{
     color: var(--muted);
-    margin-top: 6px;
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.45;
+    max-width: 720px;
+}}
+
+.nav {{
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-top: 6px;
+    white-space: nowrap;
 }}
 
 .nav a {{
     color: var(--text);
     text-decoration: none;
-    margin-left: 18px;
-    font-weight: 700;
+    font-weight: 800;
+    font-size: 14px;
 }}
 
 .nav a:hover {{
@@ -494,11 +505,7 @@ tr:hover {{
 
     .nav {{
         margin-top: 16px;
-    }}
-
-    .nav a {{
-        margin-left: 0;
-        margin-right: 14px;
+        padding-top: 0;
     }}
 
     .summary {{
@@ -524,19 +531,19 @@ tr:hover {{
     <div class="header">
         <div>
             <div class="logo">
-                TBT Tennis Results
+                {safe(HEADER_TITLE)}
             </div>
 
             <div class="subtitle">
-                Daily pick evaluation · Generated {generated_at}
+                {safe(HEADER_SUBTITLE)}
             </div>
         </div>
 
-        <div class="nav">
-            {BASE_URL}/TOP</a>
+        <nav class="nav" aria-label="Main navigation">
+            {BASE_URL}/TOP5</a>
             {BASE_URL}/all/ALL</a>
             {BASE_URL}/results/RESULTS</a>
-        </div>
+        </nav>
     </div>
 
     {summary}
@@ -564,9 +571,7 @@ tr:hover {{
     </div>
 
     <div class="footer">
-        {safe(DISCLAIMER)}
-        <br><br>
-        Backstage Talks Tennis Intelligence
+        {safe(FOOTER_TEXT)}
     </div>
 
 </div>
@@ -602,7 +607,8 @@ def render_rss(data):
             f"Winner: {item.get('winner')}\n"
             f"Score: {item.get('score')}\n"
             f"Units: {units(item.get('units'))}\n\n"
-            f"{DISCLAIMER}"
+            f"{HEADER_SUBTITLE}\n"
+            f"{FOOTER_TEXT}"
         )
 
         items.append(f"""
@@ -617,9 +623,9 @@ def render_rss(data):
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 <channel>
-<title>TBT Tennis Results</title>
+<title>{html.escape(SITE_TITLE)}</title>
 <link>{BASE_URL}/results/</link>
-<description>Backstage Talks Tennis Intelligence Results</description>
+<description>{html.escape(HEADER_TITLE)}</description>
 {''.join(items)}
 </channel>
 </rss>
