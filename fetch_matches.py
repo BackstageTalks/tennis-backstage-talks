@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta, timezone
 
+
 URL = "https://sportscore.com/tennis/"
 
 HEADERS = {
@@ -23,6 +24,46 @@ SPORTSCORE_TZ = timezone.utc
 # dnes 06:00 lokálny čas -> zajtra 06:00 lokálny čas
 BET_WINDOW_START_HOUR = int(os.getenv("BET_WINDOW_START_HOUR", "6"))
 BET_WINDOW_END_NEXT_DAY_HOUR = int(os.getenv("BET_WINDOW_END_NEXT_DAY_HOUR", "6"))
+
+
+GRAND_SLAM_NAMES = [
+    "wimbledon",
+    "australian open",
+    "french open",
+    "roland garros",
+    "us open",
+]
+
+
+TOURNAMENT_MARKERS = [
+    ("wimbledon men singles", "Wimbledon Men Singles"),
+    ("wimbledon women singles", "Wimbledon Women Singles"),
+    ("atp wimbledon", "ATP Wimbledon"),
+    ("wta wimbledon", "WTA Wimbledon"),
+
+    ("australian open men singles", "Australian Open Men Singles"),
+    ("australian open women singles", "Australian Open Women Singles"),
+    ("atp australian open", "ATP Australian Open"),
+    ("wta australian open", "WTA Australian Open"),
+
+    ("french open men singles", "French Open Men Singles"),
+    ("french open women singles", "French Open Women Singles"),
+    ("roland garros men singles", "Roland Garros Men Singles"),
+    ("roland garros women singles", "Roland Garros Women Singles"),
+    ("atp french open", "ATP French Open"),
+    ("wta french open", "WTA French Open"),
+    ("atp roland garros", "ATP Roland Garros"),
+    ("wta roland garros", "WTA Roland Garros"),
+
+    ("us open men singles", "US Open Men Singles"),
+    ("us open women singles", "US Open Women Singles"),
+    ("atp us open", "ATP US Open"),
+    ("wta us open", "WTA US Open"),
+
+    ("atp challenger", "ATP Challenger"),
+    ("wta ", "WTA"),
+    ("atp ", "ATP"),
+]
 
 
 def clean_text(value):
@@ -46,11 +87,27 @@ def clean_player_name(name):
     name = clean_text(name)
 
     # odstráň čas alebo AM/PM na začiatku
-    name = re.sub(r"^\d{1,2}:\d{2}\s*(AM|PM)?\s+", "", name, flags=re.IGNORECASE)
-    name = re.sub(r"^(AM|PM)\s+", "", name, flags=re.IGNORECASE)
+    name = re.sub(
+        r"^\d{1,2}:\d{2}\s*(AM|PM)?\s+",
+        "",
+        name,
+        flags=re.IGNORECASE,
+    )
+
+    name = re.sub(
+        r"^(AM|PM)\s+",
+        "",
+        name,
+        flags=re.IGNORECASE,
+    )
 
     # odstráň TBD pred menom
-    name = re.sub(r"^TBD\s+", "", name, flags=re.IGNORECASE)
+    name = re.sub(
+        r"^TBD\s+",
+        "",
+        name,
+        flags=re.IGNORECASE,
+    )
 
     # odstráň seed/brackets
     name = re.sub(r"\(\d+\)", "", name)
@@ -118,11 +175,14 @@ def bet_window_start():
     """
     now = datetime.now(LOCAL_TZ)
 
-    today_start = datetime.combine(
-        now.date(),
-        datetime.min.time(),
-        tzinfo=LOCAL_TZ
-    ) + timedelta(hours=BET_WINDOW_START_HOUR)
+    today_start = (
+        datetime.combine(
+            now.date(),
+            datetime.min.time(),
+            tzinfo=LOCAL_TZ,
+        )
+        + timedelta(hours=BET_WINDOW_START_HOUR)
+    )
 
     if now < today_start:
         return today_start - timedelta(days=1)
@@ -148,7 +208,10 @@ def parse_time_text_to_time(time_text):
 
     for fmt in ["%I:%M %p", "%H:%M"]:
         try:
-            return datetime.strptime(time_text.upper(), fmt).time()
+            return datetime.strptime(
+                time_text.upper(),
+                fmt,
+            ).time()
         except Exception:
             continue
 
@@ -162,11 +225,6 @@ def parse_match_time(time_text):
     Dôležitá oprava:
     - SportScore raw čas berieme ako UTC.
     - Potom ho konvertujeme do LOCAL_TZ, teda Bratislava offset +2.
-    - Príklad:
-        raw 21:00 UTC -> 23:00 LOCAL_TZ
-    - Vyberáme najbližší kandidát, ktorý je:
-        1. v budúcnosti oproti aktuálnemu runu
-        2. v bet okne 06:00 -> 06:00
     """
     parsed_time = parse_time_text_to_time(time_text)
 
@@ -181,26 +239,26 @@ def parse_match_time(time_text):
 
     candidates = []
 
-    # Skúšame viac UTC dátumov kvôli prechodu cez polnoc.
-    # Napr. lokálne okno 06:00 -> 06:00 znamená UTC okno cca 04:00 -> 04:00.
     for day_offset in [-1, 0, 1, 2]:
-        candidate_utc_date = (now_utc.date() + timedelta(days=day_offset))
+        candidate_utc_date = now_utc.date() + timedelta(days=day_offset)
 
         candidate_utc = datetime.combine(
             candidate_utc_date,
             parsed_time,
-            tzinfo=SPORTSCORE_TZ
+            tzinfo=SPORTSCORE_TZ,
         )
 
         candidate_local = candidate_utc.astimezone(LOCAL_TZ)
 
-        if now_local <= candidate_local <= end and start <= candidate_local <= end:
+        if (
+            now_local <= candidate_local <= end
+            and start <= candidate_local <= end
+        ):
             candidates.append(candidate_local)
 
     if not candidates:
         return None
 
-    # Najbližší budúci čas v aktuálnom okne.
     return sorted(candidates)[0]
 
 
@@ -210,8 +268,7 @@ def is_within_bet_window(match_start):
     06:00 lokálny čas aktuálny deň -> 06:00 lokálny čas nasledujúci deň
 
     Navyše:
-    - zápas musí byť v budúcnosti vzhľadom na aktuálny run,
-      aby sa pri opakovanom rune nezobrazovali už začaté/staré zápasy.
+    - zápas musí byť v budúcnosti vzhľadom na aktuálny run.
     """
     if match_start is None:
         return False
@@ -272,15 +329,109 @@ def scheduled_text_only(text):
     return clean_text(sliced)
 
 
+def infer_tournament_from_context(text, match_start_index):
+    """
+    Pokúsi sa nájsť najbližší turnajový header pred zápasom.
+
+    Nepoužíva HTML selektory, aby sme neriskovali rozbitie parsera,
+    keďže aktuálny parser už pracuje s textom zo soup.get_text().
+    """
+    if not text:
+        return ""
+
+    context_start = max(0, match_start_index - 3000)
+    context = text[context_start:match_start_index]
+    context_lower = context.lower()
+
+    best_position = -1
+    best_label = ""
+
+    for marker, label in TOURNAMENT_MARKERS:
+        position = context_lower.rfind(marker)
+
+        if position > best_position:
+            best_position = position
+            best_label = label
+
+    if best_label:
+        return best_label
+
+    # Fallback pre texty typu:
+    # "Wimbledon ... Men Singles"
+    for slam in GRAND_SLAM_NAMES:
+        slam_position = context_lower.rfind(slam)
+
+        if slam_position == -1:
+            continue
+
+        after_slam = context_lower[slam_position:slam_position + 250]
+
+        if "men singles" in after_slam:
+            if slam == "roland garros":
+                return "Roland Garros Men Singles"
+
+            return f"{slam.title()} Men Singles"
+
+        if "women singles" in after_slam:
+            if slam == "roland garros":
+                return "Roland Garros Women Singles"
+
+            return f"{slam.title()} Women Singles"
+
+    return ""
+
+
+def infer_gender(tournament):
+    text = str(tournament or "").lower()
+
+    if "women" in text or "wta" in text:
+        return "women"
+
+    if "men" in text or "atp" in text:
+        return "men"
+
+    return "unknown"
+
+
+def infer_best_of(tournament):
+    text = str(tournament or "").lower()
+    gender = infer_gender(tournament)
+
+    is_slam = any(
+        slam in text
+        for slam in GRAND_SLAM_NAMES
+    )
+
+    if is_slam and gender == "men":
+        return 5
+
+    return 3
+
+
+def infer_surface_from_tournament(tournament):
+    text = str(tournament or "").lower()
+
+    if "wimbledon" in text:
+        return "Grass"
+
+    if "french open" in text or "roland garros" in text:
+        return "Clay"
+
+    if "us open" in text:
+        return "Hard"
+
+    if "australian open" in text:
+        return "Hard"
+
+    return None
+
+
 def extract_matches_from_text(text):
     text = scheduled_text_only(text)
 
     matches = []
     seen = set()
 
-    # Zachytáva napr:
-    # 1:00 AM Filippo Romano vs Marco Cecchinato 2.20 1.61
-    # 3:10 AM TBD Mili Poljicak vs Alejo Sanchez Quilez 1.61 2.20
     pattern = re.compile(
         r"(?P<time>\d{1,2}:\d{2}\s*(?:AM|PM)?)\s+"
         r"(?:TBD\s+)?"
@@ -288,7 +439,7 @@ def extract_matches_from_text(text):
         r"\s+vs\s+"
         r"(?P<p2>[A-ZÀ-Ž][A-Za-zÀ-ž\.\-'\s]{2,75}?)"
         r"\s+(?P<odds1>\d+\.\d+|-)\s+(?P<odds2>\d+\.\d+|-)",
-        re.IGNORECASE
+        re.IGNORECASE,
     )
 
     now = datetime.now(LOCAL_TZ)
@@ -320,7 +471,7 @@ def extract_matches_from_text(text):
                 "vs",
                 p2,
                 "parsed_local:",
-                match_start.isoformat() if match_start else None
+                match_start.isoformat() if match_start else None,
             )
             continue
 
@@ -339,12 +490,23 @@ def extract_matches_from_text(text):
 
         seen.add(key)
 
+        tournament = infer_tournament_from_context(
+            text,
+            match.start(),
+        )
+
+        gender = infer_gender(tournament)
+        best_of = infer_best_of(tournament)
+        tournament_surface = infer_surface_from_tournament(tournament)
+
         matches.append({
             "player1": p1,
             "player2": p2,
 
-            # Reálny turnaj zatiaľ nepoznáme spoľahlivo, preto prázdne.
-            "tournament": "",
+            "tournament": tournament,
+            "gender": gender,
+            "best_of": best_of,
+            "surface": tournament_surface,
 
             "data_source": "SportScore",
             "odds_player1": odds1,
@@ -366,7 +528,11 @@ def extract_matches_from_text(text):
 
 def get_today_matches():
     try:
-        response = requests.get(URL, headers=HEADERS, timeout=20)
+        response = requests.get(
+            URL,
+            headers=HEADERS,
+            timeout=20,
+        )
 
         print("SPORTSCORE HTTP:", response.status_code)
 
@@ -374,25 +540,27 @@ def get_today_matches():
             print("SPORTSCORE RAW ERROR:", response.text[:500])
             return []
 
+        soup = BeautifulSoup(
+            response.text,
+            "html.parser",
+        )
 
-soup = BeautifulSoup(response.text, "html.parser")
+        text = soup.get_text(
+            " ",
+            strip=True,
+        )
 
-with open(
-    "sportscore_debug.html",
-    "w",
-    encoding="utf-8",
-) as f:
-    f.write(response.text)
+        matches = extract_matches_from_text(text)
 
-print(response.text[:50000])
+        print(
+            "REAL TENNIS MATCHES IN 06-06 LOCAL WINDOW:",
+            len(matches),
+        )
 
-text = soup.get_text(" ", strip=True)
-
-matches = extract_matches_from_text(text)
-
-
-        print("REAL TENNIS MATCHES IN 06-06 LOCAL WINDOW:", len(matches))
-        print("MATCH SAMPLE:", matches[:10])
+        print(
+            "MATCH SAMPLE:",
+            matches[:10],
+        )
 
         return matches[:40]
 
