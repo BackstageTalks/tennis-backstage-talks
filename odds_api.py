@@ -5,24 +5,25 @@ import unicodedata
 from difflib import SequenceMatcher
 
 
-BASE_URL = "https://api.sportsgameodds.com/v2"
+BASE_URL = "https://api.the-odds-api.com/v4"
 
 ODDS_DEBUG_PATH = "public/odds_debug.json"
 
-SPORT_ID = "TENNIS"
-LEAGUE_IDS = "ATP,WTA,ITF"
+DEFAULT_REGIONS = "eu"
+DEFAULT_MARKETS = "h2h"
+DEFAULT_ODDS_FORMAT = "decimal"
 
 
 _DEBUG = {
-    "provider": "SportsGameOdds",
-    "sportID": SPORT_ID,
-    "leagueID": LEAGUE_IDS,
+    "provider": "The Odds API",
+    "secret_name": "ODDS_API_KEY",
+    "strategy": None,
+
+    "sports_found": 0,
+    "tennis_sport_keys": [],
 
     "events_from_api": 0,
     "fetch_error": None,
-    "raw_success": None,
-    "raw_error": None,
-    "request_strategy": None,
 
     "matched": 0,
     "unmatched": 0,
@@ -32,15 +33,11 @@ _DEBUG = {
     "sample_events": [],
     "examples_matched": [],
     "examples_unmatched": [],
-    "examples_parsing_failed": [],
 }
 
 
 def write_debug():
-    os.makedirs(
-        "public",
-        exist_ok=True,
-    )
+    os.makedirs("public", exist_ok=True)
 
     with open(
         ODDS_DEBUG_PATH,
@@ -73,7 +70,6 @@ def normalize(name):
     )
 
     value = value.lower()
-
     value = value.replace("-", " ")
     value = value.replace(".", " ")
     value = value.replace(",", " ")
@@ -93,29 +89,20 @@ def similarity(a, b):
 
 
 def get_api_key():
-    api_key = os.getenv("SGOAPI")
+    api_key = os.getenv("ODDS_API_KEY")
 
     if not api_key:
         raise ValueError(
-            "Missing GitHub Secret SGOAPI"
+            "Missing GitHub Secret ODDS_API_KEY"
         )
 
     return api_key
 
 
-def request_json(url, params=None):
-    api_key = get_api_key()
-
-    final_params = params or {}
-    final_params["apiKey"] = api_key
-
+def request_json(url, params):
     response = requests.get(
         url,
-        params=final_params,
-        headers={
-            "x-api-key": api_key,
-            "accept": "application/json",
-        },
+        params=params,
         timeout=30,
     )
 
@@ -124,180 +111,129 @@ def request_json(url, params=None):
     return response.json()
 
 
-def get_team_name(event, side):
-    teams = event.get("teams") or {}
-    team = teams.get(side) or {}
-    names = team.get("names") or {}
+def fetch_upcoming_odds():
+    """
+    Fetch all upcoming odds and filter tennis events in code.
+    """
 
-    return (
-        names.get("long")
-        or names.get("medium")
-        or names.get("short")
-        or team.get("name")
-        or team.get("teamName")
-        or team.get("displayName")
-        or ""
-    )
-
-
-def summarize_event(event):
-    odds_obj = event.get("odds")
-
-    if isinstance(odds_obj, dict):
-        odds_keys = list(odds_obj.keys())[:50]
-    else:
-        odds_keys = []
-
-    return {
-        "eventID": event.get("eventID"),
-        "sportID": event.get("sportID"),
-        "leagueID": event.get("leagueID"),
-        "home": get_team_name(event, "home"),
-        "away": get_team_name(event, "away"),
-        "startTime": (
-            event.get("startTime")
-            or event.get("startsAt")
-            or event.get("startDate")
-            or event.get("scheduledTime")
-        ),
-        "hasOdds": bool(event.get("odds")),
-        "odds_type": type(odds_obj).__name__,
-        "odds_keys": odds_keys,
-    }
-
-
-def fetch_events_page(params, cursor=None):
-    final_params = dict(params)
-
-    if cursor:
-        final_params["cursor"] = cursor
+    api_key = get_api_key()
 
     data = request_json(
-        f"{BASE_URL}/events",
-        params=final_params,
+        f"{BASE_URL}/sports/upcoming/odds/",
+        params={
+            "apiKey": api_key,
+            "regions": DEFAULT_REGIONS,
+            "markets": DEFAULT_MARKETS,
+            "oddsFormat": DEFAULT_ODDS_FORMAT,
+        },
     )
 
-    if not isinstance(data, dict):
+    if not isinstance(data, list):
         raise ValueError(
-            f"Unexpected SGO response: {data}"
+            f"Unexpected upcoming odds response: {data}"
         )
+
+    tennis_events = []
+
+    for event in data:
+        sport_key = str(
+            event.get("sport_key", "")
+        ).lower()
+
+        sport_title = str(
+            event.get("sport_title", "")
+        ).lower()
+
+        if "tennis" in sport_key or "tennis" in sport_title:
+            event["_provider"] = "the_odds_api"
+            event["_strategy"] = "upcoming"
+            tennis_events.append(event)
+
+    return tennis_events
+
+
+def fetch_sports():
+    api_key = get_api_key()
+
+    data = request_json(
+        f"{BASE_URL}/sports/",
+        params={
+            "apiKey": api_key,
+        },
+    )
+
+    if not isinstance(data, list):
+        raise ValueError(
+            f"Unexpected sports response: {data}"
+        )
+
+    _DEBUG["sports_found"] = len(data)
 
     return data
 
 
-def fetch_events_with_strategy(strategy_name, params, max_pages=3):
+def get_tennis_sport_keys():
+    sports = fetch_sports()
+
+    keys = []
+
+    for sport in sports:
+        key = sport.get("key", "")
+        group = sport.get("group", "")
+        title = sport.get("title", "")
+
+        text = f"{key} {group} {title}".lower()
+
+        if "tennis" in text and sport.get("active") is True:
+            keys.append(key)
+
+    _DEBUG["tennis_sport_keys"] = keys
+
+    return keys
+
+
+def fetch_odds_for_sport(sport_key):
+    api_key = get_api_key()
+
+    data = request_json(
+        f"{BASE_URL}/sports/{sport_key}/odds",
+        params={
+            "apiKey": api_key,
+            "regions": DEFAULT_REGIONS,
+            "markets": DEFAULT_MARKETS,
+            "oddsFormat": DEFAULT_ODDS_FORMAT,
+        },
+    )
+
+    if not isinstance(data, list):
+        return []
+
+    for event in data:
+        event["_provider"] = "the_odds_api"
+        event["_strategy"] = "sport_key"
+        event["_sport_key"] = sport_key
+
+    return data
+
+
+def fetch_by_tennis_sport_keys():
+    keys = get_tennis_sport_keys()
+
     all_events = []
-    cursor = None
 
-    for _ in range(max_pages):
-        page = fetch_events_page(
-            params=params,
-            cursor=cursor,
-        )
-
-        _DEBUG["raw_success"] = page.get("success")
-        _DEBUG["raw_error"] = page.get("error")
-
-        if page.get("success") is not True:
-            raise ValueError(
-                page.get("error")
-                or "SportsGameOdds request failed"
-            )
-
-        data = page.get("data") or []
-
-        if not isinstance(data, list):
-            data = []
-
-        for event in data:
-            event["_provider"] = "sportsgameodds"
-            event["_strategy"] = strategy_name
-
-        all_events.extend(data)
-
-        cursor = page.get("nextCursor")
-
-        if not cursor:
-            break
-
-    return all_events
-
-
-def fetch_sgo_events():
-    """
-    Try several strategies.
-
-    Strategy 1:
-        strict tennis + ATP/WTA/ITF + oddsAvailable
-
-    Strategy 2:
-        tennis + oddsAvailable without league filter
-
-    Strategy 3:
-        ATP/WTA/ITF + oddsAvailable without sport filter
-
-    Strategy 4:
-        tennis + oddsPresent
-    """
-
-    strategies = [
-        (
-            "sport_league_oddsAvailable",
-            {
-                "sportID": SPORT_ID,
-                "leagueID": LEAGUE_IDS,
-                "oddsAvailable": "true",
-                "limit": 100,
-            },
-        ),
-        (
-            "sport_only_oddsAvailable",
-            {
-                "sportID": SPORT_ID,
-                "oddsAvailable": "true",
-                "limit": 100,
-            },
-        ),
-        (
-            "league_only_oddsAvailable",
-            {
-                "leagueID": LEAGUE_IDS,
-                "oddsAvailable": "true",
-                "limit": 100,
-            },
-        ),
-        (
-            "sport_only_oddsPresent",
-            {
-                "sportID": SPORT_ID,
-                "oddsPresent": "true",
-                "limit": 100,
-            },
-        ),
-    ]
-
-    last_error = None
-
-    for strategy_name, params in strategies:
+    for key in keys:
         try:
-            events = fetch_events_with_strategy(
-                strategy_name=strategy_name,
-                params=params,
-            )
-
-            if events:
-                _DEBUG["request_strategy"] = strategy_name
-                return events
+            events = fetch_odds_for_sport(key)
+            all_events.extend(events)
 
         except Exception as exc:
-            last_error = str(exc)
+            if len(_DEBUG["examples_unmatched"]) < 20:
+                _DEBUG["examples_unmatched"].append({
+                    "sport_key": key,
+                    "reason": f"fetch_failed: {exc}",
+                })
 
-    if last_error:
-        raise ValueError(last_error)
-
-    _DEBUG["request_strategy"] = "no_events_from_all_strategies"
-
-    return []
+    return all_events
 
 
 def fetch_odds():
@@ -305,17 +241,32 @@ def fetch_odds():
     Existing prediction engines call this function.
 
     Returns:
-        list of SportsGameOdds tennis events.
+        list of tennis events from The Odds API.
     """
 
     try:
-        events = fetch_sgo_events()
+        events = fetch_upcoming_odds()
+
+        if events:
+            _DEBUG["strategy"] = "upcoming"
+        else:
+            events = fetch_by_tennis_sport_keys()
+            _DEBUG["strategy"] = "sport_keys_fallback"
 
         _DEBUG["events_from_api"] = len(events)
         _DEBUG["fetch_error"] = None
 
         _DEBUG["sample_events"] = [
-            summarize_event(event)
+            {
+                "id": event.get("id"),
+                "sport_key": event.get("sport_key") or event.get("_sport_key"),
+                "sport_title": event.get("sport_title"),
+                "home_team": event.get("home_team"),
+                "away_team": event.get("away_team"),
+                "commence_time": event.get("commence_time"),
+                "bookmakers_count": len(event.get("bookmakers", [])),
+                "strategy": event.get("_strategy"),
+            }
             for event in events[:20]
         ]
 
@@ -338,14 +289,16 @@ def fetch_odds():
 
 
 def event_match_score(player1, player2, event):
-    home = get_team_name(
-        event,
-        "home",
+    home = (
+        event.get("home_team")
+        or event.get("home")
+        or ""
     )
 
-    away = get_team_name(
-        event,
-        "away",
+    away = (
+        event.get("away_team")
+        or event.get("away")
+        or ""
     )
 
     direct_score = (
@@ -401,185 +354,103 @@ def find_best_event(player1, player2, events):
     return best_event, best_meta
 
 
-def american_to_decimal(value):
-    number = float(value)
-
-    if number > 0:
-        return round(
-            1 + number / 100,
-            4,
-        )
-
-    return round(
-        1 + 100 / abs(number),
-        4,
+def extract_h2h_odds(event):
+    home_team = (
+        event.get("home_team")
+        or event.get("home")
+        or ""
     )
 
-
-def decimal_or_american_to_decimal(value):
-    try:
-        number = float(value)
-    except Exception:
-        return None
-
-    if 1.01 <= number <= 100:
-        return number
-
-    if -10000 <= number <= -100:
-        return american_to_decimal(number)
-
-    if 100 <= number <= 10000:
-        return american_to_decimal(number)
-
-    return None
-
-
-def collect_odds_candidates(obj, path=""):
-    """
-    Defensive recursive parser.
-
-    SportsGameOdds odds schema can be nested.
-    We scan for decimal/american odds-like values under paths
-    containing odds, price, decimal, open, close, american.
-    """
-
-    candidates = []
-
-    if isinstance(obj, dict):
-        for key, value in obj.items():
-            key_text = str(key).lower()
-
-            new_path = (
-                f"{path}.{key_text}"
-                if path
-                else key_text
-            )
-
-            if isinstance(value, (int, float, str)):
-                number = decimal_or_american_to_decimal(value)
-
-                if number is not None:
-                    if any(
-                        word in new_path
-                        for word in [
-                            "odds",
-                            "price",
-                            "decimal",
-                            "open",
-                            "close",
-                            "american",
-                        ]
-                    ):
-                        candidates.append({
-                            "path": new_path,
-                            "value": number,
-                            "raw": value,
-                        })
-
-            elif isinstance(value, (dict, list)):
-                candidates.extend(
-                    collect_odds_candidates(
-                        value,
-                        new_path,
-                    )
-                )
-
-    elif isinstance(obj, list):
-        for index, item in enumerate(obj):
-            new_path = f"{path}[{index}]"
-
-            candidates.extend(
-                collect_odds_candidates(
-                    item,
-                    new_path,
-                )
-            )
-
-    return candidates
-
-
-def path_side(path):
-    text = path.lower()
-
-    if "home" in text:
-        return "home"
-
-    if "away" in text:
-        return "away"
-
-    if "opposing" in text:
-        return "away"
-
-    return None
-
-
-def extract_sgo_moneyline_odds(event):
-    odds_obj = event.get("odds")
-
-    if odds_obj is None:
-        return None
-
-    candidates = collect_odds_candidates(
-        odds_obj
+    away_team = (
+        event.get("away_team")
+        or event.get("away")
+        or ""
     )
 
-    if not candidates:
-        return None
+    bookmakers = event.get(
+        "bookmakers",
+        [],
+    )
 
-    home_odds = None
-    away_odds = None
+    best_home = None
+    best_away = None
 
-    home_path = None
-    away_path = None
+    best_home_bookmaker = None
+    best_away_bookmaker = None
 
-    for candidate in candidates:
-        side = path_side(
-            candidate["path"]
+    markets_seen = []
+
+    for bookmaker in bookmakers:
+        bookmaker_title = (
+            bookmaker.get("title")
+            or bookmaker.get("key")
+            or "unknown"
         )
 
-        if side == "home" and home_odds is None:
-            home_odds = candidate["value"]
-            home_path = candidate["path"]
+        markets = bookmaker.get(
+            "markets",
+            [],
+        )
 
-        elif side == "away" and away_odds is None:
-            away_odds = candidate["value"]
-            away_path = candidate["path"]
+        for market in markets:
+            market_key = market.get("key")
+            markets_seen.append(market_key)
 
-    if home_odds is not None and away_odds is not None:
-        return {
-            "home_odds": home_odds,
-            "away_odds": away_odds,
-            "bookmaker": "SportsGameOdds",
-            "home_bookmaker": "SportsGameOdds",
-            "away_bookmaker": "SportsGameOdds",
-            "market_name": "moneyline",
-            "home_path": home_path,
-            "away_path": away_path,
-            "candidates_seen": candidates[:20],
-        }
+            if market_key != "h2h":
+                continue
 
-    unique = []
+            outcomes = market.get(
+                "outcomes",
+                [],
+            )
 
-    for candidate in candidates:
-        value = candidate["value"]
+            for outcome in outcomes:
+                outcome_name = outcome.get("name")
+                price = outcome.get("price")
 
-        if value not in unique:
-            unique.append(value)
+                if outcome_name is None or price is None:
+                    continue
 
-    if len(unique) >= 2:
-        return {
-            "home_odds": unique[0],
-            "away_odds": unique[1],
-            "bookmaker": "SportsGameOdds",
-            "home_bookmaker": "SportsGameOdds",
-            "away_bookmaker": "SportsGameOdds",
-            "market_name": "moneyline_fallback",
-            "home_path": None,
-            "away_path": None,
-            "candidates_seen": candidates[:20],
-        }
+                try:
+                    price = float(price)
+                except Exception:
+                    continue
 
-    return None
+                sim_home = similarity(
+                    outcome_name,
+                    home_team,
+                )
+
+                sim_away = similarity(
+                    outcome_name,
+                    away_team,
+                )
+
+                if sim_home >= sim_away:
+                    if best_home is None or price > best_home:
+                        best_home = price
+                        best_home_bookmaker = bookmaker_title
+                else:
+                    if best_away is None or price > best_away:
+                        best_away = price
+                        best_away_bookmaker = bookmaker_title
+
+    if best_home is None or best_away is None:
+        return None
+
+    if best_home_bookmaker == best_away_bookmaker:
+        bookmaker = best_home_bookmaker
+    else:
+        bookmaker = "best_available"
+
+    return {
+        "home_odds": best_home,
+        "away_odds": best_away,
+        "bookmaker": bookmaker,
+        "home_bookmaker": best_home_bookmaker,
+        "away_bookmaker": best_away_bookmaker,
+        "market_name": "h2h",
+    }
 
 
 def find_match_odds(player1, player2, odds_data):
@@ -590,8 +461,8 @@ def find_match_odds(player1, player2, odds_data):
     {
         "odds_player1": 1.75,
         "odds_player2": 2.10,
-        "bookmaker": "SportsGameOdds",
-        "odds_source": "SportsGameOdds"
+        "bookmaker": "...",
+        "odds_source": "The Odds API"
     }
 
     If not found:
@@ -634,27 +505,20 @@ def find_match_odds(player1, player2, odds_data):
 
         return {}
 
-    odds = extract_sgo_moneyline_odds(
-        event
-    )
+    odds = extract_h2h_odds(event)
 
     if not odds:
         _DEBUG["matched"] += 1
         _DEBUG["odds_missing"] += 1
 
-        if len(_DEBUG["examples_parsing_failed"]) < 30:
-            _DEBUG["examples_parsing_failed"].append({
+        if len(_DEBUG["examples_unmatched"]) < 30:
+            _DEBUG["examples_unmatched"].append({
                 "player1": player1,
                 "player2": player2,
                 "event_home": meta.get("home"),
                 "event_away": meta.get("away"),
-                "eventID": event.get("eventID"),
-                "odds_keys": (
-                    list(event.get("odds", {}).keys())[:50]
-                    if isinstance(event.get("odds"), dict)
-                    else []
-                ),
-                "raw_event_sample": summarize_event(event),
+                "event_id": event.get("id"),
+                "reason": "no_h2h_market",
             })
 
         write_debug()
@@ -674,13 +538,12 @@ def find_match_odds(player1, player2, odds_data):
         "bookmaker": odds.get("bookmaker"),
         "home_bookmaker": odds.get("home_bookmaker"),
         "away_bookmaker": odds.get("away_bookmaker"),
-        "odds_source": "SportsGameOdds",
+        "odds_source": "The Odds API",
         "event_home": meta.get("home"),
         "event_away": meta.get("away"),
-        "event_id": event.get("eventID"),
-        "leagueID": event.get("leagueID"),
-        "sportID": event.get("sportID"),
-        "market_name": odds.get("market_name"),
+        "event_id": event.get("id"),
+        "sport_key": event.get("sport_key") or event.get("_sport_key"),
+        "market_name": "h2h",
         "match_score": round(
             meta["score"],
             3,
@@ -696,13 +559,10 @@ def find_match_odds(player1, player2, odds_data):
             "player2": player2,
             "event_home": meta.get("home"),
             "event_away": meta.get("away"),
-            "eventID": event.get("eventID"),
+            "event_id": event.get("id"),
             "odds_player1": odds_player1,
             "odds_player2": odds_player2,
             "bookmaker": odds.get("bookmaker"),
-            "market_name": odds.get("market_name"),
-            "home_path": odds.get("home_path"),
-            "away_path": odds.get("away_path"),
             "score": round(
                 meta["score"],
                 3,
