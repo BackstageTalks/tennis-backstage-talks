@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from fetch_matches import get_today_matches
@@ -15,12 +15,11 @@ from src.models.match_intelligence import (
     build_match_intelligence,
 )
 
-# MCP
 from mcp_module import build_mcp_player_stats, mcp_adjustment
 
 
 TOP_N = 5
-MIN_ODDS = 1.45
+MIN_ODDS = 1.50
 MIN_TOP_PROBABILITY = 0.57
 
 LOCAL_TZ = ZoneInfo("Europe/Bratislava")
@@ -56,10 +55,14 @@ def format_match_time(match):
             dt = datetime.fromisoformat(text)
 
             if dt.tzinfo is None:
-                dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+                dt = dt.replace(
+                    tzinfo=ZoneInfo("UTC")
+                )
 
             local_dt = dt.astimezone(LOCAL_TZ)
+
             return local_dt.strftime("%H:%M")
+
         except Exception:
             pass
 
@@ -82,6 +85,7 @@ def infer_surface(surface_map, p1, p2, match):
         return match.get("surface")
 
     key = f"{p1}::{p2}"
+
     return surface_map.get(key) or "Hard"
 
 
@@ -95,6 +99,8 @@ def build_prediction_record(
 ):
     player1 = match["player1"]
     player2 = match["player2"]
+
+    odds_data = odds_data or {}
 
     prob1 = elo_prediction["probability_player1"]
     prob2 = elo_prediction["probability_player2"]
@@ -137,11 +143,9 @@ def build_prediction_record(
     )
 
     final_probability = (
-        base_probability +
-        form_adjustment["total_adjustment"]
+        base_probability
+        + form_adjustment["total_adjustment"]
     )
-
-    # MCP BOOST
 
     final_probability += mcp_adjustment(
         pick,
@@ -178,23 +182,15 @@ def build_prediction_record(
 
         "time": match.get("time"),
 
-        "expected_sets":
-            match_info["expected_sets"],
+        "bookmaker": odds_data.get("bookmaker"),
+        "odds_source": odds_data.get("odds_source"),
 
-        "sets_probability":
-            match_info["sets_probability"],
-
-        "expected_games":
-            match_info["expected_games"],
-
-        "games_pick":
-            match_info["games_pick"],
-
-        "games_line":
-            match_info["games_line"],
-
-        "bet_tag":
-            match_info["tag"],
+        "expected_sets": match_info["expected_sets"],
+        "sets_probability": match_info["sets_probability"],
+        "expected_games": match_info["expected_games"],
+        "games_pick": match_info["games_pick"],
+        "games_line": match_info["games_line"],
+        "bet_tag": match_info["tag"],
     }
 
 
@@ -213,9 +209,9 @@ def build_all_predictions():
 
     players = []
 
-    for m in matches:
-        players.append(m["player1"])
-        players.append(m["player2"])
+    for match in matches:
+        players.append(match["player1"])
+        players.append(match["player2"])
 
     try:
         stats_map, surface_map = get_stats_context(
@@ -229,13 +225,11 @@ def build_all_predictions():
     elo_store = load()
     form_store = load_form_store()
     odds_matches = fetch_odds()
-
     mcp_stats = build_mcp_player_stats()
 
     all_predictions = []
 
     for match in matches:
-
         surface = infer_surface(
             surface_map,
             match["player1"],
@@ -256,7 +250,7 @@ def build_all_predictions():
             odds_matches,
         )
 
-        pred = build_prediction_record(
+        prediction = build_prediction_record(
             match,
             surface,
             elo_prediction,
@@ -265,7 +259,7 @@ def build_all_predictions():
             mcp_stats,
         )
 
-        all_predictions.append(pred)
+        all_predictions.append(prediction)
 
     all_predictions.sort(
         key=lambda x: x.get(
@@ -279,16 +273,24 @@ def build_all_predictions():
 
 
 def get_top_predictions(all_predictions=None):
-
     if all_predictions is None:
         all_predictions = build_all_predictions()
 
     eligible = [
-        p for p in all_predictions
-        if p.get("odds") is not None
-        and p.get("odds") >= MIN_ODDS
-        and p.get("probability") >= MIN_TOP_PROBABILITY
+        prediction
+        for prediction in all_predictions
+        if prediction.get("odds") is not None
+        and prediction.get("odds") >= MIN_ODDS
+        and prediction.get("probability") >= MIN_TOP_PROBABILITY
     ]
+
+    eligible.sort(
+        key=lambda x: x.get(
+            "probability",
+            0,
+        ),
+        reverse=True,
+    )
 
     return eligible[:TOP_N]
 
