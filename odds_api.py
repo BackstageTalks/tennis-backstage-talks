@@ -17,12 +17,17 @@ DEFAULT_ODDS_FORMAT = "decimal"
 _DEBUG = {
     "provider": "The Odds API",
     "secret_name": "ODDS_API_KEY",
-    "strategy": None,
+    "strategy": "upcoming_plus_sport_keys",
 
     "sports_found": 0,
     "tennis_sport_keys": [],
 
+    "upcoming_events": 0,
+    "sport_key_events": 0,
+    "events_before_dedup": 0,
+    "duplicates_removed": 0,
     "events_from_api": 0,
+
     "fetch_error": None,
 
     "matched": 0,
@@ -37,7 +42,10 @@ _DEBUG = {
 
 
 def write_debug():
-    os.makedirs("public", exist_ok=True)
+    os.makedirs(
+        "public",
+        exist_ok=True,
+    )
 
     with open(
         ODDS_DEBUG_PATH,
@@ -70,6 +78,7 @@ def normalize(name):
     )
 
     value = value.lower()
+
     value = value.replace("-", " ")
     value = value.replace(".", " ")
     value = value.replace(",", " ")
@@ -113,7 +122,7 @@ def request_json(url, params):
 
 def fetch_upcoming_odds():
     """
-    Fetch all upcoming odds and filter tennis events in code.
+    Fetch all upcoming odds and keep only tennis events.
     """
 
     api_key = get_api_key()
@@ -144,7 +153,10 @@ def fetch_upcoming_odds():
             event.get("sport_title", "")
         ).lower()
 
-        if "tennis" in sport_key or "tennis" in sport_title:
+        if (
+            "tennis" in sport_key
+            or "tennis" in sport_title
+        ):
             event["_provider"] = "the_odds_api"
             event["_strategy"] = "upcoming"
             tennis_events.append(event)
@@ -223,17 +235,46 @@ def fetch_by_tennis_sport_keys():
 
     for key in keys:
         try:
-            events = fetch_odds_for_sport(key)
+            events = fetch_odds_for_sport(
+                key
+            )
+
             all_events.extend(events)
 
         except Exception as exc:
-            if len(_DEBUG["examples_unmatched"]) < 20:
+            if len(_DEBUG["examples_unmatched"]) < 30:
                 _DEBUG["examples_unmatched"].append({
                     "sport_key": key,
                     "reason": f"fetch_failed: {exc}",
                 })
 
     return all_events
+
+
+def deduplicate_events(events):
+    seen = set()
+    unique = []
+
+    for event in events:
+        event_id = event.get("id")
+
+        if not event_id:
+            key = (
+                event.get("sport_key"),
+                event.get("home_team"),
+                event.get("away_team"),
+                event.get("commence_time"),
+            )
+        else:
+            key = event_id
+
+        if key in seen:
+            continue
+
+        seen.add(key)
+        unique.append(event)
+
+    return unique
 
 
 def fetch_odds():
@@ -245,15 +286,40 @@ def fetch_odds():
     """
 
     try:
-        events = fetch_upcoming_odds()
+        upcoming_events = fetch_upcoming_odds()
 
-        if events:
-            _DEBUG["strategy"] = "upcoming"
-        else:
-            events = fetch_by_tennis_sport_keys()
-            _DEBUG["strategy"] = "sport_keys_fallback"
+        sport_key_events = fetch_by_tennis_sport_keys()
 
-        _DEBUG["events_from_api"] = len(events)
+        combined = (
+            upcoming_events
+            + sport_key_events
+        )
+
+        unique_events = deduplicate_events(
+            combined
+        )
+
+        _DEBUG["upcoming_events"] = len(
+            upcoming_events
+        )
+
+        _DEBUG["sport_key_events"] = len(
+            sport_key_events
+        )
+
+        _DEBUG["events_before_dedup"] = len(
+            combined
+        )
+
+        _DEBUG["duplicates_removed"] = (
+            len(combined)
+            - len(unique_events)
+        )
+
+        _DEBUG["events_from_api"] = len(
+            unique_events
+        )
+
         _DEBUG["fetch_error"] = None
 
         _DEBUG["sample_events"] = [
@@ -267,12 +333,12 @@ def fetch_odds():
                 "bookmakers_count": len(event.get("bookmakers", [])),
                 "strategy": event.get("_strategy"),
             }
-            for event in events[:20]
+            for event in unique_events[:30]
         ]
 
         write_debug()
 
-        return events
+        return unique_events
 
     except Exception as exc:
         _DEBUG["events_from_api"] = 0
@@ -473,7 +539,7 @@ def find_match_odds(player1, player2, odds_data):
         _DEBUG["unmatched"] += 1
         _DEBUG["odds_missing"] += 1
 
-        if len(_DEBUG["examples_unmatched"]) < 30:
+        if len(_DEBUG["examples_unmatched"]) < 50:
             _DEBUG["examples_unmatched"].append({
                 "player1": player1,
                 "player2": player2,
@@ -494,7 +560,7 @@ def find_match_odds(player1, player2, odds_data):
         _DEBUG["unmatched"] += 1
         _DEBUG["odds_missing"] += 1
 
-        if len(_DEBUG["examples_unmatched"]) < 30:
+        if len(_DEBUG["examples_unmatched"]) < 50:
             _DEBUG["examples_unmatched"].append({
                 "player1": player1,
                 "player2": player2,
@@ -511,7 +577,7 @@ def find_match_odds(player1, player2, odds_data):
         _DEBUG["matched"] += 1
         _DEBUG["odds_missing"] += 1
 
-        if len(_DEBUG["examples_unmatched"]) < 30:
+        if len(_DEBUG["examples_unmatched"]) < 50:
             _DEBUG["examples_unmatched"].append({
                 "player1": player1,
                 "player2": player2,
@@ -553,7 +619,7 @@ def find_match_odds(player1, player2, odds_data):
     _DEBUG["matched"] += 1
     _DEBUG["odds_found"] += 1
 
-    if len(_DEBUG["examples_matched"]) < 30:
+    if len(_DEBUG["examples_matched"]) < 50:
         _DEBUG["examples_matched"].append({
             "player1": player1,
             "player2": player2,
