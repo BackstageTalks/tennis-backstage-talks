@@ -64,11 +64,11 @@ def format_match_time(match):
 
             if dt.tzinfo is None:
                 dt = dt.replace(
-                    tzinfo=ZoneInfo("UTC")
+                    tzinfo=ZoneInfo("UTC"),
                 )
 
             local_dt = dt.astimezone(
-                LOCAL_TZ
+                LOCAL_TZ,
             )
 
             return local_dt.strftime("%H:%M")
@@ -85,6 +85,8 @@ def normalize_match(match):
         "player2": match.get("player2"),
         "surface": match.get("surface"),
         "tournament": match.get("tournament"),
+        "gender": match.get("gender"),
+        "best_of": match.get("best_of"),
         "match_start": match.get("match_start"),
         "time": format_match_time(match),
     }
@@ -116,11 +118,11 @@ def build_prediction_record(
     prob2 = elo_prediction["probability_player2"]
 
     odds1 = safe_float(
-        odds_data.get("odds_player1")
+        odds_data.get("odds_player1"),
     )
 
     odds2 = safe_float(
-        odds_data.get("odds_player2")
+        odds_data.get("odds_player2"),
     )
 
     form1 = get_player_form(
@@ -176,12 +178,19 @@ def build_prediction_record(
     match_info = build_match_intelligence(
         probability=final_probability,
         odds=odds,
+        tournament=match.get("tournament"),
+        best_of=match.get("best_of"),
     )
 
     return {
         "match": f"{player1} vs {player2}",
         "pick": pick,
         "opponent": opponent,
+
+        "tournament": match.get("tournament"),
+        "gender": match.get("gender"),
+        "best_of": match_info.get("best_of"),
+        "surface": surface,
 
         "probability": round(
             final_probability,
@@ -200,6 +209,9 @@ def build_prediction_record(
 
         "sets_probability":
             match_info["sets_probability"],
+
+        "sets_probability_label":
+            match_info.get("sets_probability_label", "3 Sets"),
 
         "expected_games":
             match_info["expected_games"],
