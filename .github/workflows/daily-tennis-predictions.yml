@@ -54,19 +54,10 @@ jobs:
           print("elo_engine file:", getattr(elo_engine, "__file__", "NO_FILE"))
           print("working directory:", os.getcwd())
 
-          print("")
           print("has load:", hasattr(elo_engine, "load"))
           print("has predict:", hasattr(elo_engine, "predict"))
           print("has write_debug:", hasattr(elo_engine, "write_debug"))
           print("has _DEBUG:", hasattr(elo_engine, "_DEBUG"))
-
-          print("")
-          print("elo_engine source preview:")
-          try:
-              source = inspect.getsource(elo_engine)
-              print(source[:3000])
-          except Exception as exc:
-              print("Could not inspect source:", exc)
 
           print("")
           print("Calling elo_engine.load()...")
@@ -82,6 +73,14 @@ jobs:
           for root, dirs, files in os.walk("public"):
               for file in files:
                   print(os.path.join(root, file))
+
+          print("")
+          print("source preview:")
+          try:
+              source = inspect.getsource(elo_engine)
+              print(source[:2000])
+          except Exception as exc:
+              print("source inspect failed:", exc)
           PY
 
       - name: Run Prediction Pipeline
