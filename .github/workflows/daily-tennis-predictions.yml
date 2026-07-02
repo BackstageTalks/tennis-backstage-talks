@@ -85,72 +85,88 @@ jobs:
             cp data/play_results.json public/results_data.json
           else
             echo "Creating fallback public/results_data.json"
-            cat > public/results_data.json <<'EOF'
-          {
-            "generated_at": null,
-            "today": {
-              "picks": 0,
-              "won": 0,
-              "lost": 0,
-              "void": 0,
-              "pending": 0,
-              "unknown": 0,
-              "units": 0.0,
-              "win_rate": null
-            },
-            "last_7_days": {
-              "picks": 0,
-              "won": 0,
-              "lost": 0,
-              "void": 0,
-              "pending": 0,
-              "unknown": 0,
-              "units": 0.0,
-              "win_rate": null
-            },
-            "current_month": {
-              "picks": 0,
-              "won": 0,
-              "lost": 0,
-              "void": 0,
-              "pending": 0,
-              "unknown": 0,
-              "units": 0.0,
-              "win_rate": null
-            },
-            "all_time": {
-              "picks": 0,
-              "won": 0,
-              "lost": 0,
-              "void": 0,
-              "pending": 0,
-              "unknown": 0,
-              "units": 0.0,
-              "win_rate": null
-            },
-            "items": [],
-            "error": "fallback results_data.json created by workflow"
+            python - <<'PY'
+          import json
+          import os
+
+          os.makedirs("public", exist_ok=True)
+
+          payload = {
+              "generated_at": None,
+              "today": {
+                  "picks": 0,
+                  "won": 0,
+                  "lost": 0,
+                  "void": 0,
+                  "pending": 0,
+                  "unknown": 0,
+                  "units": 0.0,
+                  "win_rate": None
+              },
+              "last_7_days": {
+                  "picks": 0,
+                  "won": 0,
+                  "lost": 0,
+                  "void": 0,
+                  "pending": 0,
+                  "unknown": 0,
+                  "units": 0.0,
+                  "win_rate": None
+              },
+              "current_month": {
+                  "picks": 0,
+                  "won": 0,
+                  "lost": 0,
+                  "void": 0,
+                  "pending": 0,
+                  "unknown": 0,
+                  "units": 0.0,
+                  "win_rate": None
+              },
+              "all_time": {
+                  "picks": 0,
+                  "won": 0,
+                  "lost": 0,
+                  "void": 0,
+                  "pending": 0,
+                  "unknown": 0,
+                  "units": 0.0,
+                  "win_rate": None
+              },
+              "items": [],
+              "error": "fallback results_data.json created by workflow"
           }
-          EOF
+
+          with open("public/results_data.json", "w", encoding="utf-8") as file:
+              json.dump(payload, file, indent=2, ensure_ascii=False)
+          PY
           fi
 
           if [ -f public/results_debug.json ]; then
             echo "public/results_debug.json already exists"
           else
             echo "Creating fallback public/results_debug.json"
-            cat > public/results_debug.json <<'EOF'
-          {
-            "provider": "workflow_fallback",
-            "finished_results_found": 0,
-            "resolved_count": 0,
-            "pending_count": 0,
-            "unknown_count": 0,
-            "examples_results": [],
-            "examples_resolved": [],
-            "examples_unresolved": [],
-            "error": "fallback results_debug.json created by workflow"
+            python - <<'PY'
+          import json
+          import os
+
+          os.makedirs("public", exist_ok=True)
+
+          payload = {
+              "provider": "workflow_fallback",
+              "finished_results_found": 0,
+              "resolved_count": 0,
+              "pending_count": 0,
+              "unknown_count": 0,
+              "examples_results": [],
+              "examples_resolved": [],
+              "examples_unresolved": [],
+              "error": "fallback results_debug.json created by workflow"
           }
-          EOF
+
+          with open("public/results_debug.json", "w", encoding="utf-8") as file:
+              json.dump(payload, file, indent=2, ensure_ascii=False)
+          PY
           fi
 
       - name: Build results page
