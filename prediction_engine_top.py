@@ -11,7 +11,7 @@ from form_engine import (
     calculate_form_adjustment,
 )
 
-from models.match_intelligence import (
+from src.models.match_intelligence import (
     build_match_intelligence,
 )
 
@@ -133,7 +133,7 @@ def build_prediction_record(
 
     form_adjustment = calculate_form_adjustment(
         pick_form=form1,
-        opponent_form=form2
+        opponent_form=form2,
     )
 
     final_probability = (
@@ -159,10 +159,6 @@ def build_prediction_record(
         0.85,
     )
 
-    #
-    # MATCH INTELLIGENCE
-    #
-
     match_info = build_match_intelligence(
         probability=final_probability,
         odds=odds,
@@ -170,7 +166,6 @@ def build_prediction_record(
 
     return {
         "match": f"{player1} vs {player2}",
-
         "pick": pick,
         "opponent": opponent,
 
@@ -182,10 +177,6 @@ def build_prediction_record(
         "odds": odds,
 
         "time": match.get("time"),
-
-        #
-        # Match Intelligence
-        #
 
         "expected_sets":
             match_info["expected_sets"],
@@ -229,7 +220,7 @@ def build_all_predictions():
     try:
         stats_map, surface_map = get_stats_context(
             players,
-            matches
+            matches,
         )
 
     except Exception:
@@ -279,7 +270,7 @@ def build_all_predictions():
     all_predictions.sort(
         key=lambda x: x.get(
             "probability",
-            0
+            0,
         ),
         reverse=True,
     )
