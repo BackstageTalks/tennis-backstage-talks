@@ -27,9 +27,7 @@ def safe(value, default="-"):
     if value == "":
         return default
 
-    return html.escape(
-        str(value)
-    )
+    return html.escape(str(value))
 
 
 def pct(value):
@@ -72,11 +70,7 @@ def load_json(path, default):
         if not os.path.exists(path):
             return default
 
-        with open(
-            path,
-            "r",
-            encoding="utf-8",
-        ) as file:
+        with open(path, "r", encoding="utf-8") as file:
             return json.load(file)
 
     except Exception:
@@ -98,18 +92,13 @@ def empty_summary():
 
 def load_results_data():
     for path in RESULTS_DATA_PATHS:
-        data = load_json(
-            path,
-            None,
-        )
+        data = load_json(path, None)
 
         if data:
             return data
 
     return {
-        "generated_at": datetime.now(
-            timezone.utc,
-        ).isoformat(),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "today": empty_summary(),
         "last_7_days": empty_summary(),
         "current_month": empty_summary(),
@@ -119,9 +108,7 @@ def load_results_data():
 
 
 def status_class(status):
-    status = str(
-        status or "PENDING"
-    ).upper()
+    status = str(status or "PENDING").upper()
 
     if status == "WON":
         return "status-won"
@@ -136,6 +123,16 @@ def status_class(status):
         return "status-unknown"
 
     return "status-pending"
+
+
+def render_nav():
+    return f"""
+<nav class="nav" aria-label="Main navigation">
+    {BASE_URL}/TOP5</a>
+    {BASE_URL}/all/ALL</a>
+    {BASE_URL}/results/RESULTS</a>
+</nav>
+"""
 
 
 def render_summary_card(label, summary):
@@ -197,10 +194,7 @@ def render_rows(items):
     rows = []
 
     for item in items[:300]:
-        status = str(
-            item.get("result_status") or "PENDING"
-        ).upper()
-
+        status = str(item.get("result_status") or "PENDING").upper()
         css = status_class(status)
 
         tournament = item.get("tournament")
@@ -231,9 +225,7 @@ def render_rows(items):
     </td>
 
     <td>{safe(item.get("opponent"))}</td>
-
     <td>{pct(item.get("probability"))}</td>
-
     <td>{odds(item.get("odds"))}</td>
 
     <td>
@@ -243,7 +235,6 @@ def render_rows(items):
     </td>
 
     <td>{safe(item.get("winner"))}</td>
-
     <td>{safe(item.get("score"))}</td>
 
     <td class="units">
@@ -256,13 +247,9 @@ def render_rows(items):
 
 
 def render_page(data):
-    rows = render_rows(
-        data.get("items", []),
-    )
-
-    summary = render_summary(
-        data,
-    )
+    rows = render_rows(data.get("items", []))
+    summary = render_summary(data)
+    nav = render_nav()
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -539,11 +526,7 @@ tr:hover {{
             </div>
         </div>
 
-        <nav class="nav" aria-label="Main navigation">
-            {BASE_URL}/TOP5</a>
-            {BASE_URL}/all/ALL</a>
-            {BASE_URL}/results/RESULTS</a>
-        </nav>
+        {nav}
     </div>
 
     {summary}
@@ -581,9 +564,7 @@ tr:hover {{
 
 
 def render_rss(data):
-    now = datetime.now(
-        timezone.utc,
-    ).strftime("%a, %d %b %Y %H:%M:%S GMT")
+    now = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S GMT")
 
     items = []
 
@@ -636,49 +617,23 @@ def write_file(path, content):
     directory = os.path.dirname(path)
 
     if directory:
-        os.makedirs(
-            directory,
-            exist_ok=True,
-        )
+        os.makedirs(directory, exist_ok=True)
 
-    with open(
-        path,
-        "w",
-        encoding="utf-8",
-    ) as file:
+    with open(path, "w", encoding="utf-8") as file:
         file.write(content)
 
 
 def run():
     data = load_results_data()
 
-    page = render_page(
-        data,
-    )
+    page = render_page(data)
+    rss = render_rss(data)
 
-    rss = render_rss(
-        data,
-    )
+    write_file(RESULTS_PAGE_PATH, page)
+    write_file(RESULTS_RSS_PATH, rss)
 
-    write_file(
-        RESULTS_PAGE_PATH,
-        page,
-    )
-
-    write_file(
-        RESULTS_RSS_PATH,
-        rss,
-    )
-
-    print(
-        "RESULTS PAGE WRITTEN:",
-        RESULTS_PAGE_PATH,
-    )
-
-    print(
-        "RESULTS RSS WRITTEN:",
-        RESULTS_RSS_PATH,
-    )
+    print("RESULTS PAGE WRITTEN:", RESULTS_PAGE_PATH)
+    print("RESULTS RSS WRITTEN:", RESULTS_RSS_PATH)
 
 
 if __name__ == "__main__":
