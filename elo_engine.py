@@ -11,6 +11,12 @@ ALIASES_PATH = "data/player_aliases.json"
 ELO_DEBUG_PATH = "public/elo_debug.json"
 
 
+#
+# IMPORTANT:
+# elo_history.csv is intentionally NOT used here.
+# It is history, not current rating store.
+#
+
 ELO_CANDIDATE_FILES = [
     "data/elo/elo_store.json",
     "data/elo/elo.json",
@@ -18,7 +24,6 @@ ELO_CANDIDATE_FILES = [
     "data/elo/wta_elo_latest.csv",
     "data/elo/latest_elo.csv",
     "data/elo/elo_latest.csv",
-    "data/elo/elo_history.csv",
     "elo_store.json",
     "elo.json",
 ]
@@ -35,11 +40,15 @@ _DEBUG = {
 
     "examples_found": [],
     "examples_missing": [],
+    "rating_samples": [],
 }
 
 
 def write_debug():
-    os.makedirs("public", exist_ok=True)
+    os.makedirs(
+        "public",
+        exist_ok=True,
+    )
 
     with open(
         ELO_DEBUG_PATH,
@@ -142,6 +151,20 @@ def first_token(name):
     return parts[0]
 
 
+def safe_float(value, default=None):
+    try:
+        if value is None:
+            return default
+
+        if value == "":
+            return default
+
+        return float(value)
+
+    except Exception:
+        return default
+
+
 def load_aliases():
     if not os.path.exists(ALIASES_PATH):
         return {}
@@ -165,20 +188,6 @@ def load_aliases():
         ] = canonical
 
     return aliases
-
-
-def safe_float(value, default=None):
-    try:
-        if value is None:
-            return default
-
-        if value == "":
-            return default
-
-        return float(value)
-
-    except Exception:
-        return default
 
 
 def detect_name(row):
@@ -208,6 +217,7 @@ def detect_elo(row):
         "Overall",
         "current_elo",
         "elo_rating",
+        "latest_elo",
     ]:
         if key in row:
             value = safe_float(row.get(key))
@@ -316,7 +326,8 @@ def load_json_file(path):
                     elo = safe_float(
                         value.get("elo")
                         or value.get("rating")
-                        or value.get("overall_elo"),
+                        or value.get("overall_elo")
+                        or value.get("latest_elo"),
                         DEFAULT_ELO,
                     )
 
@@ -381,7 +392,8 @@ def load_json_file(path):
                     elo = safe_float(
                         value.get("elo")
                         or value.get("rating")
-                        or value.get("overall_elo"),
+                        or value.get("overall_elo")
+                        or value.get("latest_elo"),
                         DEFAULT_ELO,
                     )
 
@@ -517,6 +529,7 @@ def load():
 
     _DEBUG["loaded_files"] = []
     _DEBUG["players_loaded"] = 0
+    _DEBUG["rating_samples"] = []
 
     for path in ELO_CANDIDATE_FILES:
         if not os.path.exists(path):
@@ -533,7 +546,9 @@ def load():
                 loaded = {}
 
             if loaded:
-                store.update(loaded)
+                for key, record in loaded.items():
+                    if key not in store:
+                        store[key] = record
 
                 _DEBUG["loaded_files"].append({
                     "path": path,
@@ -547,6 +562,14 @@ def load():
             })
 
     _DEBUG["players_loaded"] = len(store)
+
+    for key, record in list(store.items())[:20]:
+        _DEBUG["rating_samples"].append({
+            "name": record.get("name"),
+            "elo": record.get("elo"),
+            "yelo": record.get("yelo"),
+            "source": record.get("source"),
+        })
 
     write_debug()
 
@@ -582,16 +605,6 @@ def candidate_matches_by_initial(player_name, store):
 
 
 def find_player_record(player_name, store):
-    """
-    Safe player lookup.
-
-    Order:
-    1. exact normalized match
-    2. alias match
-    3. initial + last name match
-    4. conservative fuzzy match
-    """
-
     _DEBUG["lookup_count"] += 1
 
     aliases = load_aliases()
@@ -619,6 +632,8 @@ def find_player_record(player_name, store):
                 "matched": record.get("name"),
                 "method": "exact",
                 "score": 1.0,
+                "elo": record.get("elo"),
+                "source": record.get("source"),
             })
 
         return {
@@ -645,6 +660,8 @@ def find_player_record(player_name, store):
                     "matched": record.get("name"),
                     "method": "alias",
                     "score": 1.0,
+                    "elo": record.get("elo"),
+                    "source": record.get("source"),
                 })
 
             return {
@@ -671,6 +688,8 @@ def find_player_record(player_name, store):
                 "matched": record.get("name"),
                 "method": "initial_last_name",
                 "score": score,
+                "elo": record.get("elo"),
+                "source": record.get("source"),
             })
 
         return {
@@ -742,6 +761,8 @@ def find_player_record(player_name, store):
                         best["score"],
                         3,
                     ),
+                    "elo": record.get("elo"),
+                    "source": record.get("source"),
                 })
 
             return {
@@ -774,17 +795,6 @@ def find_player_record(player_name, store):
 
 
 def find_player_key(*args):
-    """
-    Backward compatible helper for form_engine.py.
-
-    Supports both call styles:
-        find_player_key(store, player_name)
-        find_player_key(player_name, store)
-
-    Returns:
-        key existing in provided store, or None.
-    """
-
     if len(args) != 2:
         return None
 
@@ -918,10 +928,6 @@ def predict(
     surface=None,
     elo_store=None,
 ):
-    """
-    Existing prediction engines call this function.
-    """
-
     if elo_store is None:
         elo_store = load()
 
