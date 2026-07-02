@@ -12,12 +12,12 @@ RESULTS_DATA_PATHS = [
 RESULTS_PAGE_PATH = "public/results/index.html"
 RESULTS_RSS_PATH = "public/results.xml"
 
-SITE_TITLE = "Backstagetalks Statistic Model"
+SITE_TITLE = "BackstageTalks Statistic Model"
 BASE_URL = "https://backstagetalks.github.io/tennis-backstage-talks"
 
-HEADER_TITLE = "Backstagetalks Statistic Model"
-HEADER_SUBTITLE = "This data is provided for informational and analytical purposes only."
-FOOTER_TEXT = "Powered by Backstagetalks Statistic Model"
+HEADER_TITLE = "BackstageTalks Statistic Model"
+HEADER_SUBTITLE = "This data is provided for informational and analytical purposes only"
+FOOTER_TEXT = "Powered by BackstageTalks Statistic Model"
 
 
 def safe(value, default="-"):
@@ -125,12 +125,27 @@ def status_class(status):
     return "status-pending"
 
 
+def html_link(url, label):
+    lt = chr(60)
+    gt = chr(62)
+
+    return (
+        f'{lt}a href="{safe(url)}"{gt}'
+        f'{safe(label)}'
+        f'{lt}/a{gt}'
+    )
+
+
 def render_nav():
+    links = [
+        html_link(f"{BASE_URL}/", "TOP5"),
+        html_link(f"{BASE_URL}/all/", "ALL"),
+        html_link(f"{BASE_URL}/results/", "RESULTS"),
+    ]
+
     return f"""
 <nav class="nav" aria-label="Main navigation">
-    {BASE_URL}/TOP5</a>
-    {BASE_URL}/all/ALL</a>
-    {BASE_URL}/results/RESULTS</a>
+    {" ".join(links)}
 </nav>
 """
 
@@ -225,7 +240,9 @@ def render_rows(items):
     </td>
 
     <td>{safe(item.get("opponent"))}</td>
+
     <td>{pct(item.get("probability"))}</td>
+
     <td>{odds(item.get("odds"))}</td>
 
     <td>
@@ -235,6 +252,7 @@ def render_rows(items):
     </td>
 
     <td>{safe(item.get("winner"))}</td>
+
     <td>{safe(item.get("score"))}</td>
 
     <td class="units">
@@ -287,48 +305,51 @@ html, body {{
 }}
 
 .wrapper {{
-    max-width: 1320px;
+    max-width: 1440px;
     margin: 0 auto;
     padding: 28px;
 }}
 
 .header {{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 24px;
-    margin-bottom: 22px;
+    display: grid;
+    grid-template-columns: minmax(560px, 1fr) auto;
+    gap: 40px;
+    align-items: start;
+    margin-bottom: 24px;
 }}
 
 .logo {{
-    font-size: 28px;
-    font-weight: 800;
-    line-height: 1.2;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.15;
     color: var(--text);
+    letter-spacing: 0.2px;
+    white-space: nowrap;
 }}
 
 .subtitle {{
     color: var(--muted);
-    margin-top: 8px;
+    margin-top: 10px;
     font-size: 14px;
     line-height: 1.45;
-    max-width: 720px;
+    max-width: 800px;
 }}
 
 .nav {{
     display: flex;
-    gap: 16px;
+    gap: 18px;
     align-items: center;
-    flex-wrap: wrap;
-    padding-top: 6px;
+    flex-wrap: nowrap;
+    padding-top: 8px;
     white-space: nowrap;
 }}
 
 .nav a {{
     color: var(--text);
     text-decoration: none;
-    font-weight: 800;
+    font-weight: 900;
     font-size: 14px;
+    letter-spacing: 0.04em;
 }}
 
 .nav a:hover {{
@@ -485,14 +506,19 @@ tr:hover {{
     line-height: 1.7;
 }}
 
-@media (max-width: 900px) {{
+@media (max-width: 1050px) {{
     .header {{
         display: block;
+    }}
+
+    .logo {{
+        white-space: normal;
     }}
 
     .nav {{
         margin-top: 16px;
         padding-top: 0;
+        flex-wrap: wrap;
     }}
 
     .summary {{
