@@ -6,24 +6,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  bu*ld:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
+  * permissions:
+      contents: writ*
       pages: write
-      id-token: write
+      id-token* write
 
     env:
-      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      ODDS_API_KE*: ${{ secrets.ODDS_API_KEY }}
+    * SGOAPI: ${{ secrets.SGOAPI }}
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
+  * steps:
+      - name: Checkout rep*
+        uses: actions/checkout@v4*
       - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
+      * uses: actions/setup-python@v5
+   *    with:
           python-version: "3.11"
 
       - name: Install dependencies
@@ -34,10 +34,6 @@ jobs:
       - name: Build ELO Database
         run: |
           python -m src.elo.update_elo
-
-      - name: SofaScore Sanity Check
-        run: |
-          python -m src.results.sofascore_client
 
       - name: Run Prediction Pipeline
         run: |
