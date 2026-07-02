@@ -18,6 +18,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
 
     environment:
       name: github-pages
@@ -33,12 +34,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
 
       - name: Install dependencies
         run: |
@@ -64,88 +66,96 @@ jobs:
 
       - name: Build TOP and ALL pages
         run: |
-          if [ -f build_pages.py ]; then
-            echo "Running build_pages.py"
-            python build_pages.py
-          elif [ -f rss.py ] && [ -f rss_all.py ]; then
-            echo "Running rss.py"
-            python rss.py
-
-            echo "Running rss_all.py"
-            python rss_all.py
-          elif [ -f build_site.py ]; then
-            echo "Running build_site.py"
-            python build_site.py
-          elif [ -f site_builder.py ]; then
-            echo "Running site_builder.py"
-            python site_builder.py
-          else
-            echo "ERROR: No page builder found."
-            echo "Expected one of:"
-            echo "- build_pages.py"
-            echo "- rss.py + rss_all.py"
-            echo "- build_site.py"
-            echo "- site_builder.py"
-            exit 1
-          fi
+          python build_pages.py
 
       - name: Run results checker
         run: |
-          if [ -f results_checker.py ]; then
-            echo "Running results_checker.py"
-            python results_checker.py
+          python results_checker.py
+
+      - name: Force results public data files
+        run: |
+          mkdir -p public
+          mkdir -p public/results
+          mkdir -p data
+
+          if [ -f public/results_data.json ]; then
+            echo "public/results_data.json already exists"
+          elif [ -f data/play_results.json ]; then
+            echo "Copying data/play_results.json to public/results_data.json"
+            cp data/play_results.json public/results_data.json
           else
-            echo "results_checker.py not found, skipping results checker."
+            echo "Creating fallback public/results_data.json"
+            cat > public/results_data.json <<'EOF'
+          {
+            "generated_at": null,
+            "today": {
+              "picks": 0,
+              "won": 0,
+              "lost": 0,
+              "void": 0,
+              "pending": 0,
+              "unknown": 0,
+              "units": 0.0,
+              "win_rate": null
+            },
+            "last_7_days": {
+              "picks": 0,
+              "won": 0,
+              "lost": 0,
+              "void": 0,
+              "pending": 0,
+              "unknown": 0,
+              "units": 0.0,
+              "win_rate": null
+            },
+            "current_month": {
+              "picks": 0,
+              "won": 0,
+              "lost": 0,
+              "void": 0,
+              "pending": 0,
+              "unknown": 0,
+              "units": 0.0,
+              "win_rate": null
+            },
+            "all_time": {
+              "picks": 0,
+              "won": 0,
+              "lost": 0,
+              "void": 0,
+              "pending": 0,
+              "unknown": 0,
+              "units": 0.0,
+              "win_rate": null
+            },
+            "items": [],
+            "error": "fallback results_data.json created by workflow"
+          }
+          EOF
+          fi
+
+          if [ -f public/results_debug.json ]; then
+            echo "public/results_debug.json already exists"
+          else
+            echo "Creating fallback public/results_debug.json"
+            cat > public/results_debug.json <<'EOF'
+          {
+            "provider": "workflow_fallback",
+            "finished_results_found": 0,
+            "resolved_count": 0,
+            "pending_count": 0,
+            "unknown_count": 0,
+            "examples_results": [],
+            "examples_resolved": [],
+            "examples_unresolved": [],
+            "error": "fallback results_debug.json created by workflow"
+          }
+          EOF
           fi
 
       - name: Build results page
         run: |
-          if [ -f rss_results.py ]; then
-            echo "Running rss_results.py"
-            python rss_results.py
-          else
-            echo "rss_results.py not found, creating fallback results page."
-
-            mkdir -p public/results
-
-            cat > public/results/index.html <<'EOF'
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>TBT Tennis Results</title>
-          </head>
-          <body>
-          <h1>TBT Tennis Results</h1>
-          <p>Results module is not available in this build.</p>
-          </body>
-          </html>
-          EOF
-
-            cat > public/results.xml <<'EOF'
-          <?xml version="1.0" encoding="UTF-8"?>
-          <rss version="2.0">
-          <channel>
-          <title>TBT Tennis Results</title>
-          <description>Results module is not available in this build.</description>
-          </channel>
-          </rss>
-          EOF
-
-            cat > public/results_data.json <<'EOF'
-          {
-            "items": [],
-            "error": "rss_results.py not found"
-          }
-          EOF
-
-            cat > public/results_debug.json <<'EOF'
-          {
-            "error": "rss_results.py not found"
-          }
-          EOF
-          fi
+          python rss_results.py
 
       - name: Verify generated public files
         run: |
@@ -153,20 +163,30 @@ jobs:
           find public -maxdepth 4 -type f | sort
 
           echo "=== REQUIRED TOP / ALL FILES ==="
-
           test -f public/index.html
           test -f public/all/index.html
-
-          echo "TOP and ALL pages exist."
+          test -f public/tennis.xml
+          test -f public/tennis_all.xml
 
           echo "=== REQUIRED RESULTS FILES ==="
-
           test -f public/results/index.html
           test -f public/results.xml
           test -f public/results_data.json
           test -f public/results_debug.json
 
-          echo "Results files exist."
+          echo "All required public files exist."
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Persist play history data
         run: |
@@ -182,15 +202,3 @@ jobs:
             git commit -m "Update tennis play history [skip ci]"
             git push
           fi
-
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-      - name: Deploy GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
