@@ -36,6 +36,14 @@ jobs:
         run: |
           python update.py
 
+      - name: Build TOP page
+        run: |
+          python top.py
+
+      - name: Build ALL page
+        run: |
+          python all.py
+
       - name: Commit ELO files
         run: |
           git config --local user.email "action@github.com"
@@ -49,13 +57,6 @@ jobs:
             git commit -m "Update ELO database"
             git push
           fi
-
-      - name: Prepare files
-        run: |
-          mkdir -p public
-          cp -r *.html public/ || true
-          cp -r *.json public/ || true
-          cp -r *.xml public/ || true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
