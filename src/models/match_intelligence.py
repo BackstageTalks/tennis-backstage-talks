@@ -2,75 +2,104 @@ def clamp(value, low, high):
     return max(low, min(high, value))
 
 
+GRAND_SLAMS = [
+    "wimbledon",
+    "australian open",
+    "us open",
+    "roland garros",
+    "french open",
+]
+
+
+def is_grand_slam(tournament):
+    if not tournament:
+        return False
+
+    tournament = str(tournament).lower()
+
+    return any(gs in tournament for gs in GRAND_SLAMS)
+
+
 def build_match_intelligence(
     probability,
     odds=None,
     consensus_score=None,
+    tournament=None,
 ):
-    """
-    probability:
-        0.50 - 0.85
-
-    odds:
-        bookmaker odds
-
-    consensus_score:
-        0 - 100
-    """
-
     probability = float(probability)
 
+    grand_slam = is_grand_slam(tournament)
+
     #
-    # Expected sets
+    # ATP Grand Slam (BO5)
     #
 
-    if probability >= 0.75:
+    if grand_slam:
 
-        expected_sets = 2.2
-        sets_probability = 0.30
+        if probability >= 0.75:
+            expected_sets = 3.4
+            sets_probability = 0.25
 
-    elif probability >= 0.70:
+        elif probability >= 0.70:
+            expected_sets = 3.7
+            sets_probability = 0.35
 
-        expected_sets = 2.4
-        sets_probability = 0.40
+        elif probability >= 0.65:
+            expected_sets = 4.0
+            sets_probability = 0.45
 
-    elif probability >= 0.65:
+        elif probability >= 0.60:
+            expected_sets = 4.2
+            sets_probability = 0.55
 
-        expected_sets = 2.5
-        sets_probability = 0.48
+        elif probability >= 0.55:
+            expected_sets = 4.4
+            sets_probability = 0.65
 
-    elif probability >= 0.60:
+        else:
+            expected_sets = 4.6
+            sets_probability = 0.75
 
-        expected_sets = 2.6
-        sets_probability = 0.54
-
-    elif probability >= 0.55:
-
-        expected_sets = 2.7
-        sets_probability = 0.60
+    #
+    # Standard ATP/WTA (BO3)
+    #
 
     else:
 
-        expected_sets = 2.8
-        sets_probability = 0.65
+        if probability >= 0.75:
 
-    #
-    # Expected games
-    #
+            expected_sets = 2.2
+            sets_probability = 0.30
 
-    expected_games = (
-        21.0 +
-        (sets_probability * 4.0)
-    )
+        elif probability >= 0.70:
+
+            expected_sets = 2.4
+            sets_probability = 0.40
+
+        elif probability >= 0.65:
+
+            expected_sets = 2.5
+            sets_probability = 0.48
+
+        elif probability >= 0.60:
+
+            expected_sets = 2.6
+            sets_probability = 0.54
+
+        elif probability >= 0.55:
+
+            expected_sets = 2.7
+            sets_probability = 0.60
+
+        else:
+
+            expected_sets = 2.8
+            sets_probability = 0.65
 
     expected_games = round(
-        expected_games,
+        21.0 + (sets_probability * 4.0),
         1,
     )
-
-    #
-    # Games pick
-    #
 
     if expected_games >= 23.5:
 
@@ -86,10 +115,6 @@ def build_match_intelligence(
 
         games_pick = "Under 22.5"
         games_line = 22.5
-
-    #
-    # Consensus tag
-    #
 
     tag = "INFO ONLY"
 
@@ -109,17 +134,12 @@ def build_match_intelligence(
             expected_sets,
             1,
         ),
-
         "sets_probability": round(
             sets_probability,
             3,
         ),
-
         "expected_games": expected_games,
-
         "games_pick": games_pick,
-
         "games_line": games_line,
-
         "tag": tag,
     }
