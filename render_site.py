@@ -1,161 +1,663 @@
 import os
+import html
+from datetime import datetime, timezone
 
 
-def render_predictions_page(
-    predictions,
-    title,
-    destination,
-):
+SITE_TITLE = "TBT Tennis Intelligence"
+BASE_URL = "https://backstagetalks.github.io/tennis-backstage-talks"
+
+
+DISCLAIMER = """
+The information presented on this website is for informational and analytical purposes only.
+The predictions do not constitute betting advice.
+"""
+
+
+def safe(value, default="-"):
+    if value is None:
+        return default
+
+    if value == "":
+        return default
+
+    return html.escape(str(value))
+
+
+def pct(value):
+    try:
+        return f"{float(value) * 100:.1f}%"
+    except Exception:
+        return "-"
+
+
+def odds(value):
+    try:
+        return f"{float(value):.2f}"
+    except Exception:
+        return "-"
+
+
+def tag_class(tag):
+    tag = str(tag or "").upper()
+
+    if tag == "PLAY":
+        return "tag-play"
+
+    if tag == "PLAY SMALL":
+        return "tag-small"
+
+    if tag == "WATCH":
+        return "tag-watch"
+
+    return "tag-info"
+
+
+def render_summary(predictions):
+    count = len(predictions)
+
+    probabilities = [
+        float(p.get("probability"))
+        for p in predictions
+        if p.get("probability") is not None
+    ]
+
+    odds_values = [
+        float(p.get("odds"))
+        for p in predictions
+        if p.get("odds") is not None
+    ]
+
+    avg_probability = (
+        f"{sum(probabilities) / len(probabilities) * 100:.1f}%"
+        if probabilities
+        else "-"
+    )
+
+    avg_odds = (
+        f"{sum(odds_values) / len(odds_values):.2f}"
+        if odds_values
+        else "-"
+    )
+
+    updated = datetime.now(
+        timezone.utc
+    ).strftime("%Y-%m-%d %H:%M UTC")
+
+    return f"""
+<div class="summary">
+    <div class="summary-card">
+        <div class="summary-label">Picks</div>
+        <div class="summary-value">{count}</div>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-label">Average Win %</div>
+        <div class="summary-value">{avg_probability}</div>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-label">Average Odds</div>
+        <div class="summary-value">{avg_odds}</div>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-label">Updated</div>
+        <div class="summary-value small">{updated}</div>
+    </div>
+</div>
+"""
+
+
+def render_rows(predictions):
+    if not predictions:
+        return """
+<tr>
+    <td colspan="7" class="empty">
+        No picks available.
+    </td>
+</tr>
+"""
+
     rows = []
 
-    for i, p in enumerate(predictions, start=1):
+    for index, prediction in enumerate(
+        predictions,
+        start=1,
+    ):
+        pick = safe(prediction.get("pick"))
+        opponent = safe(prediction.get("opponent"))
+        match = safe(prediction.get("match"))
+        time = safe(prediction.get("time"))
 
-        probability = round(
-            p.get("probability", 0) * 100,
-            1
+        probability = pct(
+            prediction.get("probability")
         )
+
+        odd = odds(
+            prediction.get("odds")
+        )
+
+        expected_sets = safe(
+            prediction.get("expected_sets")
+        )
+
+        sets_probability = pct(
+            prediction.get("sets_probability")
+        )
+
+        expected_games = safe(
+            prediction.get("expected_games")
+        )
+
+        games_pick = safe(
+            prediction.get("games_pick")
+        )
+
+        games_line = safe(
+            prediction.get("games_line")
+        )
+
+        bet_tag = safe(
+            prediction.get("bet_tag", "INFO ONLY")
+        )
+
+        css_tag = tag_class(bet_tag)
 
         rows.append(f"""
 <tr>
-<td>{i}</td>
+    <td class="rank">
+        #{index}
+    </td>
 
-<td>
-<b>{p.get('pick', '-')}</b>
-</td>
+    <td class="pick-cell">
+        <div class="pick-name">
+            {pick}
+        </div>
 
-<td>
-{p.get('opponent', '-')}
-</td>
+        <div class="pick-sub">
+            to win
+        </div>
 
-<td>
-{p.get('time', '-')}
-</td>
+        <div class="match-name">
+            {match}
+        </div>
+    </td>
 
-<td>
-{probability}%
-</td>
+    <td>
+        {opponent}
+    </td>
 
-<td>
-{p.get('odds', '-')}
-</td>
+    <td>
+        {time}
+    </td>
 
-<td>
-Sets: {p.get('expected_sets', '-')}
+    <td class="probability">
+        {probability}
+    </td>
 
-<br><br>
+    <td class="odds">
+        {odd}
+    </td>
 
-Games: {p.get('expected_games', '-')}
+    <td class="intel">
+        <div>
+            <span class="intel-label">Sets:</span>
+            {expected_sets}
+        </div>
 
-<br><br>
+        <div>
+            <span class="intel-label">3 Sets:</span>
+            {sets_probability}
+        </div>
 
-Pick: {p.get('games_pick', '-')}
+        <div>
+            <span class="intel-label">Expected games:</span>
+            {expected_games}
+        </div>
 
-<br><br>
+        <div>
+            <span class="intel-label">Games pick:</span>
+            {games_pick}
+        </div>
 
-<b>{p.get('bet_tag', '-')}</b>
-</td>
+        <div>
+            <span class="intel-label">Line:</span>
+            {games_line}
+        </div>
+
+        <div class="tag {css_tag}">
+            {bet_tag}
+        </div>
+    </td>
 </tr>
 """)
 
-    html = f"""
-<!DOCTYPE html>
-<html>
+    return "\n".join(rows)
+
+
+def render_page(
+    predictions,
+    title,
+    subtitle,
+):
+    rows = render_rows(predictions)
+    summary = render_summary(predictions)
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>{title}</title>
+<title>{safe(title)}</title>
 
 <style>
-
-body {{
-    background: #0f172a;
-    color: #e5e7eb;
-    font-family: Arial, sans-serif;
-    margin: 40px;
+:root {{
+    --bg: #0f172a;
+    --panel: #111827;
+    --panel-2: #1e293b;
+    --border: #334155;
+    --text: #e5e7eb;
+    --muted: #94a3b8;
+    --green: #22c55e;
+    --yellow: #facc15;
+    --blue: #38bdf8;
+    --gray: #64748b;
+    --red: #ef4444;
 }}
 
-h1 {{
-    text-align: center;
+* {{
+    box-sizing: border-box;
+}}
+
+body {{
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+}}
+
+.wrapper {{
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 28px;
+}}
+
+.header {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+}}
+
+.logo {{
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}}
+
+.subtitle {{
+    color: var(--muted);
+    margin-top: 6px;
+}}
+
+.nav a {{
+    color: var(--text);
+    text-decoration: none;
+    margin-left: 18px;
+    font-weight: 700;
+}}
+
+.nav a:hover {{
+    color: var(--blue);
+}}
+
+.summary {{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+}}
+
+.summary-card {{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+}}
+
+.summary-label {{
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 8px;
+}}
+
+.summary-value {{
+    font-size: 22px;
+    font-weight: 800;
+}}
+
+.summary-value.small {{
+    font-size: 14px;
+}}
+
+.table-wrap {{
+    overflow-x: auto;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
 }}
 
 table {{
     width: 100%;
     border-collapse: collapse;
+    min-width: 920px;
+}}
+
+thead {{
+    background: var(--panel-2);
 }}
 
 th {{
-    background: #1e293b;
-    padding: 12px;
-    border: 1px solid #334155;
+    padding: 14px 12px;
+    text-align: left;
+    font-size: 13px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }}
 
 td {{
-    padding: 12px;
-    border: 1px solid #334155;
+    padding: 16px 12px;
+    border-bottom: 1px solid var(--border);
     vertical-align: top;
 }}
 
-tr:nth-child(even) {{
-    background: #111827;
+tr:hover {{
+    background: rgba(255,255,255,0.03);
+}}
+
+.rank {{
+    font-weight: 800;
+    color: var(--blue);
+}}
+
+.pick-name {{
+    font-size: 16px;
+    font-weight: 800;
+}}
+
+.pick-sub {{
+    color: var(--green);
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: 700;
+}}
+
+.match-name {{
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 8px;
+}}
+
+.probability {{
+    font-weight: 800;
+    color: var(--green);
+}}
+
+.odds {{
+    font-weight: 800;
+    color: var(--yellow);
+}}
+
+.intel {{
+    line-height: 1.55;
+    min-width: 220px;
+}}
+
+.intel-label {{
+    color: var(--muted);
+    font-size: 12px;
+    margin-right: 4px;
+}}
+
+.tag {{
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+}}
+
+.tag-play {{
+    background: rgba(34,197,94,0.18);
+    color: var(--green);
+    border: 1px solid rgba(34,197,94,0.45);
+}}
+
+.tag-small {{
+    background: rgba(250,204,21,0.16);
+    color: var(--yellow);
+    border: 1px solid rgba(250,204,21,0.45);
+}}
+
+.tag-watch {{
+    background: rgba(56,189,248,0.15);
+    color: var(--blue);
+    border: 1px solid rgba(56,189,248,0.45);
+}}
+
+.tag-info {{
+    background: rgba(100,116,139,0.18);
+    color: var(--muted);
+    border: 1px solid rgba(100,116,139,0.45);
+}}
+
+.empty {{
+    text-align: center;
+    color: var(--muted);
+    padding: 40px;
 }}
 
 .footer {{
-    margin-top: 40px;
-    text-align: center;
-    color: #9ca3af;
+    max-width: 900px;
+    margin: 38px auto 0;
+    color: var(--muted);
     font-size: 12px;
+    text-align: center;
+    line-height: 1.7;
 }}
 
+@media (max-width: 900px) {{
+    .header {{
+        display: block;
+    }}
+
+    .nav {{
+        margin-top: 16px;
+    }}
+
+    .nav a {{
+        margin-left: 0;
+        margin-right: 14px;
+    }}
+
+    .summary {{
+        grid-template-columns: 1fr 1fr;
+    }}
+}}
+
+@media (max-width: 600px) {{
+    .wrapper {{
+        padding: 16px;
+    }}
+
+    .summary {{
+        grid-template-columns: 1fr;
+    }}
+}}
 </style>
 </head>
 
 <body>
+<div class="wrapper">
 
-<h1>{title}</h1>
+    <div class="header">
+        <div>
+            <div class="logo">
+                TBT Tennis Intelligence
+            </div>
 
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Pick</th>
-<th>Opponent</th>
-<th>Time</th>
-<th>Win %</th>
-<th>Odds</th>
-<th>Match Intelligence</th>
-</tr>
-</thead>
+            <div class="subtitle">
+                {safe(subtitle)}
+            </div>
+        </div>
 
-<tbody>
-{''.join(rows)}
-</tbody>
+        <div class="nav">
+            <a href="{BASE_URL}/">TOP</a>
+            <a href="{BASE_URL}/all/">ALL</a>
+            <a href="{BASE_URL}/results/">RESULTS</a>
+        </div>
+    </div>
 
-</table>
+    {summary}
 
-<div class="footer">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Pick</th>
+                    <th>Opponent</th>
+                    <th>Time</th>
+                    <th>Win %</th>
+                    <th>Odds</th>
+                    <th>Match Intelligence</th>
+                </tr>
+            </thead>
 
-The information presented on this website is for informational and analytical purposes only.
+            <tbody>
+                {rows}
+            </tbody>
+        </table>
+    </div>
 
-<br><br>
-
-The predictions do not constitute betting advice.
+    <div class="footer">
+        {DISCLAIMER}
+        <br><br>
+        Backstage Talks Tennis Intelligence
+    </div>
 
 </div>
-
 </body>
 </html>
 """
 
-    os.makedirs(
-        os.path.dirname(destination)
-        or ".",
-        exist_ok=True,
+
+def write_page(
+    predictions,
+    title,
+    subtitle,
+    destination,
+):
+    html_text = render_page(
+        predictions=predictions,
+        title=title,
+        subtitle=subtitle,
     )
+
+    directory = os.path.dirname(destination)
+
+    if directory:
+        os.makedirs(directory, exist_ok=True)
 
     with open(
         destination,
         "w",
         encoding="utf-8",
-    ) as f:
+    ) as file:
+        file.write(html_text)
 
-        f.write(html)
+
+def render_rss(
+    predictions,
+    title,
+    link,
+):
+    now = datetime.now(
+        timezone.utc
+    ).strftime("%a, %d %b %Y %H:%M:%S GMT")
+
+    items = []
+
+    for prediction in predictions:
+        pick = safe(prediction.get("pick"))
+        opponent = safe(prediction.get("opponent"))
+        probability = pct(prediction.get("probability"))
+        odd = odds(prediction.get("odds"))
+        expected_sets = safe(prediction.get("expected_sets"))
+        expected_games = safe(prediction.get("expected_games"))
+        games_pick = safe(prediction.get("games_pick"))
+        bet_tag = safe(NLY"))
+
+        description = html.escape(
+            f"""Pick: {pick}
+Opponent: {opponent}
+Win probability: {probability}
+Odds: {odd}
+Expected sets: {expected_sets}
+Expected games: {expected_games}
+Games pick: {games_pick}
+Tag: {bet_tag}
+
+{DISCLAIMER}
+"""
+        )
+
+        items.append(f"""
+<item>
+<title>{pick} to win vs {opponent}</title>
+<link>{link}</link>
+<description>{description}</description>
+<pubDate>{now}</pubDate>
+</item>
+""")
+
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+<title>{html.escape(title)}</title>
+<link>{link}</link>
+<description>TBT Tennis Intelligence</description>
+{''.join(items)}
+</channel>
+</rss>
+"""
+
+
+def write_rss(
+    predictions,
+    title,
+    link,
+    destination,
+):
+    xml = render_rss(
+        predictions=predictions,
+        title=title,
+        link=link,
+    )
+
+    directory = os.path.dirname(destination)
+
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+
+    with open(
+        destination,
+        "w",
+        encoding="utf-8",
+    ) as file:
+        file.write(xml)
