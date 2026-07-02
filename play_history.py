@@ -1,262 +1,345 @@
 import json
 import os
+import re
 from datetime import datetime, timezone
 
-try:
-    import requests
-except Exception:
-    requests = None
 
-
-MIN_ODDS = 1.50
-
-# Bootstrap threshold.
-# Start lower to collect enough real candidates.
-# We will tighten this after 100-300 settled PLAY candidates.
-MIN_PLAY_PROBABILITY = 0.57
-
-DATA_HISTORY_PATH = "data/play_candidates_history.jsonl"
-PUBLIC_HISTORY_PATH = "public/play_candidates_history.jsonl"
-
-PREVIOUS_PUBLIC_HISTORY_URL = (
-    "https://backstagetalks.github.io/tennis-backstage-talks/"
-    "play_candidates_history.jsonl"
-)
+PLAY_HISTORY_DIR = "data/play_history"
+LATEST_PUBLIC_PATH = "public/play_history_latest.json"
 
 
 def ensure_dirs():
-    os.makedirs("data", exist_ok=True)
-    os.makedirs("public", exist_ok=True)
+    os.makedirs(
+        PLAY_HISTORY_DIR,
+        exist_ok=True,
+    )
+
+    os.makedirs(
+        "public",
+        exist_ok=True,
+    )
 
 
-def play_candidate_filter(prediction):
+def normalize_text(value):
+    if value is None:
+        return ""
+
+    text = str(value).lower().strip()
+    text = re.sub(r"[^a-z0-9à-ž\s\-']", " ", text)
+    text = re.sub(r"\s+", " ", text)
+
+    return text.strip()
+
+
+def make_pick_id(date, prediction):
+    match = normalize_text(
+        prediction.get("match")
+    )
+
+    pick = normalize_text(
+        prediction.get("pick")
+    )
+
+    opponent = normalize_text(
+        prediction.get("opponent")
+    )
+
+    base = f"{date}::{match}::{pick}::{opponent}"
+
+    return re.sub(
+        r"[^a-z0-9]+",
+        "_",
+        base,
+    ).strip("_")
+
+
+def safe_float(value):
     try:
-        odds = prediction.get("odds")
-        probability = prediction.get("probability")
+        if value in [None, "", "NA", "NaN"]:
+            return None
 
-        if odds is None or probability is None:
-            return False
+        return float(value)
 
-        return (
-            float(odds) >= MIN_ODDS
-            and float(probability) >= MIN_PLAY_PROBABILITY
-            and prediction.get("elo_found_player1")
-            and prediction.get("elo_found_player2")
-        )
     except Exception:
-        return False
+        return None
 
 
-def compact_candidate(prediction, date, rank):
-    adjustment = prediction.get("form_adjustment") or {}
+def today_utc():
+    return datetime.now(
+        timezone.utc
+    ).strftime("%Y-%m-%d")
+
+
+def history_path(date):
+    return os.path.join(
+        PLAY_HISTORY_DIR,
+        f"{date}.json",
+    )
+
+
+def load_json(path, default):
+    try:
+        if not os.path.exists(path):
+            return default
+
+        with open(
+            path,
+            "r",
+            encoding="utf-8",
+        ) as file:
+            return json.load(file)
+
+    except Exception:
+        return default
+
+
+def save_json(path, data):
+    directory = os.path.dirname(path)
+
+    if directory:
+        os.makedirs(
+            directory,
+            exist_ok=True,
+        )
+
+    with open(
+        path,
+        "w",
+        encoding="utf-8",
+    ) as file:
+        json.dump(
+            data,
+            file,
+            indent=2,
+            ensure_ascii=False,
+        )
+
+
+def build_snapshot_record(date, prediction, rank):
+    pick_id = make_pick_id(
+        date,
+        prediction,
+    )
+
+    odds = safe_float(
+        prediction.get("odds")
+    )
+
+    probability = safe_float(
+        prediction.get("probability")
+    )
 
     return {
+        "id": pick_id,
         "date": date,
+        "created_at": datetime.now(
+            timezone.utc
+        ).isoformat(),
+
         "rank": rank,
 
-        "selection_threshold": MIN_PLAY_PROBABILITY,
-
+        "match": prediction.get("match"),
         "pick": prediction.get("pick"),
         "opponent": prediction.get("opponent"),
-        "match": prediction.get("match"),
-        "player1": prediction.get("player1"),
-        "player2": prediction.get("player2"),
-        "tournament": prediction.get("tournament"),
-        "surface": prediction.get("surface"),
+
+        "probability": probability,
+        "odds": odds,
+
         "time": prediction.get("time"),
-        "match_start": prediction.get("match_start"),
 
-        "base_probability": prediction.get("base_probability"),
-        "probability": prediction.get("probability"),
-        "confidence": prediction.get("confidence"),
-
-        "form_adjustment": adjustment.get("total_adjustment"),
-        "recent_adjustment": adjustment.get("recent_adjustment"),
-        "surface_adjustment": adjustment.get("surface_adjustment"),
-
-        "odds": prediction.get("odds"),
-        "odds_player1": prediction.get("odds_player1"),
-        "odds_player2": prediction.get("odds_player2"),
-        "odds_source": prediction.get("odds_source"),
         "bookmaker": prediction.get("bookmaker"),
-        "odds_event_id": prediction.get("odds_event_id"),
+        "odds_source": prediction.get("odds_source"),
 
-        "market_probability": prediction.get("market_probability"),
+        "tournament": prediction.get("tournament"),
+        "gender": prediction.get("gender"),
+        "surface": prediction.get("surface"),
+        "best_of": prediction.get("best_of"),
 
-        "elo_player": prediction.get("elo_player"),
-        "elo_opponent": prediction.get("elo_opponent"),
-        "elo_player1": prediction.get("elo_player1"),
-        "elo_player2": prediction.get("elo_player2"),
+        "expected_sets": prediction.get("expected_sets"),
+        "sets_probability": prediction.get("sets_probability"),
+        "sets_probability_label": prediction.get("sets_probability_label"),
+        "most_likely_score": prediction.get("most_likely_score"),
+        "score_probabilities": prediction.get("score_probabilities"),
 
-        "overall_elo_player1": prediction.get("overall_elo_player1"),
-        "overall_elo_player2": prediction.get("overall_elo_player2"),
-        "surface_elo_player1": prediction.get("surface_elo_player1"),
-        "surface_elo_player2": prediction.get("surface_elo_player2"),
+        "bet_tag": prediction.get("bet_tag"),
 
-        "elo_found_player1": prediction.get("elo_found_player1"),
-        "elo_found_player2": prediction.get("elo_found_player2"),
-        "elo_reliability_player1": prediction.get("elo_reliability_player1"),
-        "elo_reliability_player2": prediction.get("elo_reliability_player2"),
-        "surface_reliability_player1": prediction.get("surface_reliability_player1"),
-        "surface_reliability_player2": prediction.get("surface_reliability_player2"),
-        "elo_matches_player1": prediction.get("elo_matches_player1"),
-        "elo_matches_player2": prediction.get("elo_matches_player2"),
-        "surface_matches_player1": prediction.get("surface_matches_player1"),
-        "surface_matches_player2": prediction.get("surface_matches_player2"),
-
-        "model_source": prediction.get("model_source"),
-        "model_version": prediction.get("model_version"),
-
-        "result": "PENDING",
+        "result_status": "PENDING",
         "winner": None,
-        "score_result": None,
-        "profit_1u": None,
-
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "score": None,
+        "units": 0.0,
+        "resolved_at": None,
+        "result_source": None,
+        "result_match_score": None,
     }
 
 
-def build_play_candidates(all_predictions, date):
-    candidates = [
-        p for p in all_predictions
-        if play_candidate_filter(p)
+def merge_existing_record(existing, new_record):
+    """
+    Denný pick je snapshot.
+
+    Pri opakovanom rune nechceme prepísať:
+    - pick
+    - odds
+    - probability
+    - tournament
+    - modelové dáta
+
+    Zachováme však výsledkové polia, ak už existujú.
+    """
+
+    result_fields = [
+        "result_status",
+        "winner",
+        "score",
+        "units",
+        "resolved_at",
+        "result_source",
+        "result_match_score",
     ]
 
-    candidates.sort(
-        key=lambda x: (
-            float(x.get("probability") or 0),
-            min(
-                float(x.get("elo_reliability_player1") or 0),
-                float(x.get("elo_reliability_player2") or 0),
-            ),
-        ),
-        reverse=True,
+    merged = dict(existing)
+
+    for field in result_fields:
+        if field in existing:
+            merged[field] = existing.get(field)
+
+    return merged
+
+
+def save_play_candidates(date=None, predictions=None):
+    """
+    Volané z update.py.
+
+    Očakávané volanie:
+        save_play_candidates(today, all_predictions)
+
+    Funkcia uloží snapshot pickov do:
+        data/play_history/YYYY-MM-DD.json
+
+    Pri ďalšom rune v ten istý deň sa existujúce picky neprepíšu.
+    Nové picky sa doplnia.
+    """
+
+    ensure_dirs()
+
+    if predictions is None:
+        predictions = []
+
+    if date is None:
+        date = today_utc()
+
+    path = history_path(date)
+
+    existing_data = load_json(
+        path,
+        [],
     )
 
-    return [
-        compact_candidate(prediction, date, index + 1)
-        for index, prediction in enumerate(candidates)
-    ]
+    existing_by_id = {
+        item.get("id"): item
+        for item in existing_data
+        if item.get("id")
+    }
 
+    output = []
 
-def load_jsonl(path):
-    rows = []
+    for rank, prediction in enumerate(
+        predictions,
+        start=1,
+    ):
+        if not prediction.get("pick"):
+            continue
 
-    if not os.path.exists(path):
-        return rows
+        if not prediction.get("match"):
+            continue
 
-    with open(path, encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
+        new_record = build_snapshot_record(
+            date,
+            prediction,
+            rank,
+        )
 
-            if not line:
-                continue
+        pick_id = new_record["id"]
 
-            try:
-                rows.append(json.loads(line))
-            except Exception:
-                continue
+        if pick_id in existing_by_id:
+            output.append(
+                merge_existing_record(
+                    existing_by_id[pick_id],
+                    new_record,
+                )
+            )
 
-    return rows
+        else:
+            output.append(new_record)
 
+    existing_ids = {
+        item.get("id")
+        for item in output
+    }
 
-def fetch_previous_public_history():
-    if requests is None:
-        return []
+    for item in existing_data:
+        item_id = item.get("id")
 
-    try:
-        response = requests.get(PREVIOUS_PUBLIC_HISTORY_URL, timeout=20)
-
-        if response.status_code != 200:
-            return []
-
-        rows = []
-
-        for line in response.text.splitlines():
-            line = line.strip()
-
-            if not line:
-                continue
-
-            try:
-                rows.append(json.loads(line))
-            except Exception:
-                continue
-
-        return rows
-
-    except Exception as e:
-        print("PREVIOUS HISTORY FETCH ERROR:", e)
-        return []
-
-
-def row_key(row):
-    return "::".join([
-        str(row.get("date") or ""),
-        str(row.get("match") or ""),
-        str(row.get("pick") or ""),
-        str(row.get("opponent") or ""),
-    ])
-
-
-def merge_history(existing_rows, new_rows):
-    merged = {}
-
-    for row in existing_rows:
-        merged[row_key(row)] = row
-
-    for row in new_rows:
-        merged[row_key(row)] = row
-
-    output = list(merged.values())
+        if item_id and item_id not in existing_ids:
+            output.append(item)
 
     output.sort(
-        key=lambda x: (
-            str(x.get("date") or ""),
-            int(x.get("rank") or 9999),
-            str(x.get("match") or ""),
+        key=lambda item: (
+            item.get("rank") or 9999,
+            item.get("match") or "",
         )
+    )
+
+    save_json(
+        path,
+        output,
+    )
+
+    save_json(
+        LATEST_PUBLIC_PATH,
+        {
+            "date": date,
+            "count": len(output),
+            "items": output,
+        },
+    )
+
+    print(
+        "PLAY HISTORY SAVED:",
+        path,
+        len(output),
     )
 
     return output
 
 
-def write_jsonl(path, rows):
-    with open(path, "w", encoding="utf-8") as f:
-        for row in rows:
-            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+def load_play_history_for_date(date):
+    return load_json(
+        history_path(date),
+        [],
+    )
 
 
-def save_play_candidates(date, all_predictions):
+def load_all_play_history():
     ensure_dirs()
 
-    daily_candidates = build_play_candidates(all_predictions, date)
+    items = []
 
-    daily_path = f"public/play_candidates_{date}.json"
+    for filename in sorted(os.listdir(PLAY_HISTORY_DIR)):
+        if not filename.endswith(".json"):
+            continue
 
-    with open(daily_path, "w", encoding="utf-8") as f:
-        json.dump(daily_candidates, f, ensure_ascii=False, indent=2)
+        path = os.path.join(
+            PLAY_HISTORY_DIR,
+            filename,
+        )
 
-    local_history = load_jsonl(DATA_HISTORY_PATH)
+        data = load_json(
+            path,
+            [],
+        )
 
-    if not local_history:
-        previous_public_history = fetch_previous_public_history()
-    else:
-        previous_public_history = []
+        if isinstance(data, list):
+            items.extend(data)
 
-    existing_history = local_history or previous_public_history
-
-    merged_history = merge_history(existing_history, daily_candidates)
-
-    write_jsonl(DATA_HISTORY_PATH, merged_history)
-    write_jsonl(PUBLIC_HISTORY_PATH, merged_history)
-
-    print("SAVED PLAY CANDIDATES:", daily_path, len(daily_candidates))
-    print("PLAY HISTORY TOTAL:", len(merged_history))
-
-    return {
-        "daily_path": daily_path,
-        "daily_count": len(daily_candidates),
-        "history_count": len(merged_history),
-        "daily_candidates": daily_candidates,
-    }
+    return items
