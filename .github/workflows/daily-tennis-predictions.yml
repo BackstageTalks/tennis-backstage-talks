@@ -29,11 +29,15 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas requests beautifulsoup4 lxml html5lib
+          pip install pandas requests beautifulsoup4 lxml html5lib ScraperFC
 
       - name: Build ELO Database
         run: |
           python -m src.elo.update_elo
+
+      - name: SofaScore Sanity Check
+        run: |
+          python -m src.results.sofascore_client
 
       - name: Run Prediction Pipeline
         run: |
