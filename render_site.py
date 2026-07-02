@@ -7,7 +7,7 @@ SITE_TITLE = "BackstageTalks Statistic Model"
 BASE_URL = "https://backstagetalks.github.io/tennis-backstage-talks"
 
 HEADER_TITLE = "BackstageTalks Statistic Model"
-HEADER_SUBTITLE = "This data is provided for informational and analytical purposes only."
+HEADER_SUBTITLE = "This data is provided for informational and analytical purposes only"
 FOOTER_TEXT = "Powered by BackstageTalks Statistic Model"
 
 
@@ -51,12 +51,6 @@ def tag_class(tag):
 
 
 def html_link(url, label):
-    """
-    Build anchor tags safely without typing raw <a> directly
-    inside navigation strings. This avoids accidental escaping
-    by editors/chat copy-paste.
-    """
-
     lt = chr(60)
     gt = chr(62)
 
@@ -76,7 +70,7 @@ def render_nav():
 
     return f"""
 <nav class="nav" aria-label="Main navigation">
-    {' '.join(links)}
+    {" ".join(links)}
 </nav>
 """
 
@@ -368,8 +362,9 @@ html, body {{
 .nav a {{
     color: var(--text);
     text-decoration: none;
-    font-weight: 800;
+    font-weight: 900;
     font-size: 14px;
+    letter-spacing: 0.04em;
 }}
 
 .nav a:hover {{
