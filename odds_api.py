@@ -12,17 +12,17 @@ ODDS_DEBUG_PATH = "public/odds_debug.json"
 SPORT_ID = "TENNIS"
 LEAGUE_IDS = "ATP,WTA,ITF"
 
-# We try to request moneyline/home market + opposing odds.
-# If SGO schema differs, debug will show what came back.
-ODD_ID = "points-home-game-ml-home"
-
 
 _DEBUG = {
     "provider": "SportsGameOdds",
     "sportID": SPORT_ID,
     "leagueID": LEAGUE_IDS,
+
     "events_from_api": 0,
     "fetch_error": None,
+    "raw_success": None,
+    "raw_error": None,
+    "request_strategy": None,
 
     "matched": 0,
     "unmatched": 0,
@@ -103,11 +103,19 @@ def get_api_key():
     return api_key
 
 
-def request_json(url, params=None, headers=None):
+def request_json(url, params=None):
+    api_key = get_api_key()
+
+    final_params = params or {}
+    final_params["apiKey"] = api_key
+
     response = requests.get(
         url,
-        params=params or {},
-        headers=headers or {},
+        params=final_params,
+        headers={
+            "x-api-key": api_key,
+            "accept": "application/json",
+        },
         timeout=30,
     )
 
@@ -117,12 +125,6 @@ def request_json(url, params=None, headers=None):
 
 
 def get_team_name(event, side):
-    """
-    SportsGameOdds normally stores participants under:
-    event["teams"]["home"]["names"]["long"]
-    event["teams"]["away"]["names"]["long"]
-    """
-
     teams = event.get("teams") or {}
     team = teams.get(side) or {}
     names = team.get("names") or {}
@@ -139,6 +141,13 @@ def get_team_name(event, side):
 
 
 def summarize_event(event):
+    odds_obj = event.get("odds")
+
+    if isinstance(odds_obj, dict):
+        odds_keys = list(odds_obj.keys())[:50]
+    else:
+        odds_keys = []
+
     return {
         "eventID": event.get("eventID"),
         "sportID": event.get("sportID"),
@@ -152,36 +161,20 @@ def summarize_event(event):
             or event.get("scheduledTime")
         ),
         "hasOdds": bool(event.get("odds")),
-        "odds_keys": (
-            list(event.get("odds", {}).keys())[:20]
-            if isinstance(event.get("odds"), dict)
-            else []
-        ),
+        "odds_type": type(odds_obj).__name__,
+        "odds_keys": odds_keys,
     }
 
 
-def fetch_events_page(cursor=None):
-    api_key = get_api_key()
-
-    params = {
-        "apiKey": api_key,
-        "sportID": SPORT_ID,
-        "leagueID": LEAGUE_IDS,
-        "oddsAvailable": "true",
-        "limit": 100,
-
-        # Moneyline candidate + opposing odds.
-        # If this is too restrictive, remove oddID later.
-        "oddID": ODD_ID,
-        "includeOpposingOdds": "true",
-    }
+def fetch_events_page(params, cursor=None):
+    final_params = dict(params)
 
     if cursor:
-        params["cursor"] = cursor
+        final_params["cursor"] = cursor
 
     data = request_json(
         f"{BASE_URL}/events",
-        params=params,
+        params=final_params,
     )
 
     if not isinstance(data, dict):
@@ -192,14 +185,18 @@ def fetch_events_page(cursor=None):
     return data
 
 
-def fetch_sgo_events(max_pages=3):
+def fetch_events_with_strategy(strategy_name, params, max_pages=3):
     all_events = []
     cursor = None
 
     for _ in range(max_pages):
         page = fetch_events_page(
-            cursor=cursor
+            params=params,
+            cursor=cursor,
         )
+
+        _DEBUG["raw_success"] = page.get("success")
+        _DEBUG["raw_error"] = page.get("error")
 
         if page.get("success") is not True:
             raise ValueError(
@@ -214,6 +211,7 @@ def fetch_sgo_events(max_pages=3):
 
         for event in data:
             event["_provider"] = "sportsgameodds"
+            event["_strategy"] = strategy_name
 
         all_events.extend(data)
 
@@ -225,12 +223,89 @@ def fetch_sgo_events(max_pages=3):
     return all_events
 
 
+def fetch_sgo_events():
+    """
+    Try several strategies.
+
+    Strategy 1:
+        strict tennis + ATP/WTA/ITF + oddsAvailable
+
+    Strategy 2:
+        tennis + oddsAvailable without league filter
+
+    Strategy 3:
+        ATP/WTA/ITF + oddsAvailable without sport filter
+
+    Strategy 4:
+        tennis + oddsPresent
+    """
+
+    strategies = [
+        (
+            "sport_league_oddsAvailable",
+            {
+                "sportID": SPORT_ID,
+                "leagueID": LEAGUE_IDS,
+                "oddsAvailable": "true",
+                "limit": 100,
+            },
+        ),
+        (
+            "sport_only_oddsAvailable",
+            {
+                "sportID": SPORT_ID,
+                "oddsAvailable": "true",
+                "limit": 100,
+            },
+        ),
+        (
+            "league_only_oddsAvailable",
+            {
+                "leagueID": LEAGUE_IDS,
+                "oddsAvailable": "true",
+                "limit": 100,
+            },
+        ),
+        (
+            "sport_only_oddsPresent",
+            {
+                "sportID": SPORT_ID,
+                "oddsPresent": "true",
+                "limit": 100,
+            },
+        ),
+    ]
+
+    last_error = None
+
+    for strategy_name, params in strategies:
+        try:
+            events = fetch_events_with_strategy(
+                strategy_name=strategy_name,
+                params=params,
+            )
+
+            if events:
+                _DEBUG["request_strategy"] = strategy_name
+                return events
+
+        except Exception as exc:
+            last_error = str(exc)
+
+    if last_error:
+        raise ValueError(last_error)
+
+    _DEBUG["request_strategy"] = "no_events_from_all_strategies"
+
+    return []
+
+
 def fetch_odds():
     """
     Existing prediction engines call this function.
 
     Returns:
-        list of SportsGameOdds tennis events with available odds.
+        list of SportsGameOdds tennis events.
     """
 
     try:
@@ -320,24 +395,28 @@ def find_best_event(player1, player2, events):
             best_event = event
             best_meta = meta
 
-    # Max score = 2.0.
-    # 1.50 allows small spelling differences.
     if best_score < 1.50:
         return None, None
 
     return best_event, best_meta
 
 
-def is_decimal_odd(value):
-    try:
-        number = float(value)
-    except Exception:
-        return False
+def american_to_decimal(value):
+    number = float(value)
 
-    return 1.01 <= number <= 100
+    if number > 0:
+        return round(
+            1 + number / 100,
+            4,
+        )
+
+    return round(
+        1 + 100 / abs(number),
+        4,
+    )
 
 
-def extract_number(value):
+def decimal_or_american_to_decimal(value):
     try:
         number = float(value)
     except Exception:
@@ -346,6 +425,12 @@ def extract_number(value):
     if 1.01 <= number <= 100:
         return number
 
+    if -10000 <= number <= -100:
+        return american_to_decimal(number)
+
+    if 100 <= number <= 10000:
+        return american_to_decimal(number)
+
     return None
 
 
@@ -353,16 +438,9 @@ def collect_odds_candidates(obj, path=""):
     """
     Defensive recursive parser.
 
-    SGO odds schema can be nested. We scan for decimal odds-like values
-    under keys/paths containing odds, price, decimal, or close/open odds.
-
-    Returns list:
-    [
-        {
-            "path": "...",
-            "value": 1.83
-        }
-    ]
+    SportsGameOdds odds schema can be nested.
+    We scan for decimal/american odds-like values under paths
+    containing odds, price, decimal, open, close, american.
     """
 
     candidates = []
@@ -370,10 +448,15 @@ def collect_odds_candidates(obj, path=""):
     if isinstance(obj, dict):
         for key, value in obj.items():
             key_text = str(key).lower()
-            new_path = f"{path}.{key_text}" if path else key_text
+
+            new_path = (
+                f"{path}.{key_text}"
+                if path
+                else key_text
+            )
 
             if isinstance(value, (int, float, str)):
-                number = extract_number(value)
+                number = decimal_or_american_to_decimal(value)
 
                 if number is not None:
                     if any(
@@ -384,14 +467,16 @@ def collect_odds_candidates(obj, path=""):
                             "decimal",
                             "open",
                             "close",
+                            "american",
                         ]
                     ):
                         candidates.append({
                             "path": new_path,
                             "value": number,
+                            "raw": value,
                         })
 
-            if isinstance(value, (dict, list)):
+            elif isinstance(value, (dict, list)):
                 candidates.extend(
                     collect_odds_candidates(
                         value,
@@ -413,7 +498,7 @@ def collect_odds_candidates(obj, path=""):
     return candidates
 
 
-def side_from_path(path):
+def path_side(path):
     text = path.lower()
 
     if "home" in text:
@@ -429,13 +514,6 @@ def side_from_path(path):
 
 
 def extract_sgo_moneyline_odds(event):
-    """
-    Try to extract home/away moneyline decimal odds from SGO event.
-
-    First tries path-based side detection.
-    If that fails, falls back to first two reasonable odds candidates.
-    """
-
     odds_obj = event.get("odds")
 
     if odds_obj is None:
@@ -455,18 +533,17 @@ def extract_sgo_moneyline_odds(event):
     away_path = None
 
     for candidate in candidates:
-        path = candidate["path"]
-        value = candidate["value"]
-
-        side = side_from_path(path)
+        side = path_side(
+            candidate["path"]
+        )
 
         if side == "home" and home_odds is None:
-            home_odds = value
-            home_path = path
+            home_odds = candidate["value"]
+            home_path = candidate["path"]
 
-        if side == "away" and away_odds is None:
-            away_odds = value
-            away_path = path
+        elif side == "away" and away_odds is None:
+            away_odds = candidate["value"]
+            away_path = candidate["path"]
 
     if home_odds is not None and away_odds is not None:
         return {
@@ -481,7 +558,6 @@ def extract_sgo_moneyline_odds(event):
             "candidates_seen": candidates[:20],
         }
 
-    # Fallback: use first two unique candidate values.
     unique = []
 
     for candidate in candidates:
