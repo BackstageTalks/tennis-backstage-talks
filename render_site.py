@@ -3,13 +3,12 @@ import html
 from datetime import datetime, timezone
 
 
-SITE_TITLE = "TBT Tennis Intelligence"
+SITE_TITLE = "Backstagetalks Statistic Model"
 BASE_URL = "https://backstagetalks.github.io/tennis-backstage-talks"
 
-DISCLAIMER = (
-    "The information presented on this website is for informational and analytical purposes only. "
-    "The predictions do not constitute betting advice."
-)
+HEADER_TITLE = "Backstagetalks Statistic Model"
+HEADER_SUBTITLE = "This data is provided for informational and analytical purposes only."
+FOOTER_TEXT = "Powered by Backstagetalks Statistic Model"
 
 
 def safe(value, default="-"):
@@ -49,6 +48,45 @@ def tag_class(tag):
         return "tag-watch"
 
     return "tag-info"
+
+
+def format_match_meta(prediction):
+    tournament = prediction.get("tournament")
+    surface = prediction.get("surface")
+    best_of = prediction.get("best_of")
+
+    parts = []
+
+    if tournament:
+        parts.append(str(tournament))
+
+    if surface:
+        parts.append(str(surface))
+
+    if best_of:
+        parts.append(f"BO{best_of}")
+
+    if not parts:
+        return ""
+
+    return " • ".join(parts)
+
+
+def resolve_sets_label(prediction):
+    label = prediction.get("sets_probability_label")
+
+    if label:
+        return str(label)
+
+    best_of = prediction.get("best_of")
+
+    try:
+        if int(best_of) == 5:
+            return "5 Sets"
+    except Exception:
+        pass
+
+    return "3 Sets"
 
 
 def render_summary(predictions):
@@ -140,12 +178,30 @@ def render_rows(predictions):
 
         expected_sets = safe(prediction.get("expected_sets"))
         sets_probability = pct(prediction.get("sets_probability"))
+        sets_probability_label = safe(
+            resolve_sets_label(prediction)
+        )
+
         expected_games = safe(prediction.get("expected_games"))
         games_pick = safe(prediction.get("games_pick"))
         games_line = safe(prediction.get("games_line"))
 
         bet_tag = safe(prediction.get("bet_tag", "INFO ONLY"))
         css_tag = tag_class(prediction.get("bet_tag", "INFO ONLY"))
+
+        match_meta = safe(
+            format_match_meta(prediction),
+            default="",
+        )
+
+        if match_meta:
+            match_meta_html = f"""
+        <div class="match-meta">
+            {match_meta}
+        </div>
+"""
+        else:
+            match_meta_html = ""
 
         rows.append(f"""
 <tr>
@@ -165,6 +221,8 @@ def render_rows(predictions):
         <div class="match-name">
             {match}
         </div>
+
+        {match_meta_html}
     </td>
 
     <td>
@@ -190,7 +248,7 @@ def render_rows(predictions):
         </div>
 
         <div>
-            <span class="intel-label">3 Sets:</span>
+            <span class="intel-label">{sets_probability_label}:</span>
             {sets_probability}
         </div>
 
@@ -265,7 +323,7 @@ body {{
 .header {{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: 20px;
     margin-bottom: 24px;
 }}
@@ -274,18 +332,29 @@ body {{
     font-size: 28px;
     font-weight: 800;
     letter-spacing: 0.3px;
+    line-height: 1.2;
 }}
 
 .subtitle {{
     color: var(--muted);
-    margin-top: 6px;
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.45;
+}}
+
+.nav {{
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-top: 6px;
 }}
 
 .nav a {{
     color: var(--text);
     text-decoration: none;
-    margin-left: 18px;
-    font-weight: 700;
+    font-weight: 800;
+    font-size: 14px;
 }}
 
 .nav a:hover {{
@@ -381,6 +450,13 @@ tr:hover {{
     margin-top: 8px;
 }}
 
+.match-meta {{
+    color: var(--blue);
+    font-size: 12px;
+    margin-top: 6px;
+    font-weight: 700;
+}}
+
 .probability {{
     font-weight: 800;
     color: var(--green);
@@ -457,11 +533,7 @@ tr:hover {{
 
     .nav {{
         margin-top: 16px;
-    }}
-
-    .nav a {{
-        margin-left: 0;
-        margin-right: 14px;
+        padding-top: 0;
     }}
 
     .summary {{
@@ -487,16 +559,16 @@ tr:hover {{
     <div class="header">
         <div>
             <div class="logo">
-                TBT Tennis Intelligence
+                {safe(HEADER_TITLE)}
             </div>
 
             <div class="subtitle">
-                {safe(subtitle)}
+                {safe(HEADER_SUBTITLE)}
             </div>
         </div>
 
         <div class="nav">
-            {BASE_URL}/TOP</a>
+            {BASE_URL}/TOP5</a>
             {BASE_URL}/all/ALL</a>
             {BASE_URL}/results/RESULTS</a>
         </div>
@@ -525,9 +597,7 @@ tr:hover {{
     </div>
 
     <div class="footer">
-        {safe(DISCLAIMER)}
-        <br><br>
-        Backstage Talks Tennis Intelligence
+        {safe(FOOTER_TEXT)}
     </div>
 
 </div>
@@ -567,16 +637,27 @@ def render_rss(predictions, title, link):
         games_pick = safe(prediction.get("games_pick"))
         bet_tag = safe(prediction.get("bet_tag", "INFO ONLY"))
 
+        tournament = safe(prediction.get("tournament"))
+        surface = safe(prediction.get("surface"))
+        best_of = safe(prediction.get("best_of"))
+        sets_label = safe(resolve_sets_label(prediction))
+        sets_probability = pct(prediction.get("sets_probability"))
+
         description_text = (
             f"Pick: {pick}\n"
             f"Opponent: {opponent}\n"
+            f"Tournament: {tournament}\n"
+            f"Surface: {surface}\n"
+            f"Best of: {best_of}\n"
             f"Win probability: {probability}\n"
             f"Odds: {odd}\n"
             f"Expected sets: {expected_sets}\n"
+            f"{sets_label}: {sets_probability}\n"
             f"Expected games: {expected_games}\n"
             f"Games pick: {games_pick}\n"
             f"Tag: {bet_tag}\n\n"
-            f"{DISCLAIMER}"
+            f"{HEADER_SUBTITLE}\n"
+            f"{FOOTER_TEXT}"
         )
 
         description = html.escape(description_text)
@@ -595,7 +676,7 @@ def render_rss(predictions, title, link):
 <channel>
 <title>{html.escape(title)}</title>
 <link>{link}</link>
-<description>TBT Tennis Intelligence</description>
+<description>{html.escape(HEADER_TITLE)}</description>
 {''.join(items)}
 </channel>
 </rss>
