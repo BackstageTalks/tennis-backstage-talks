@@ -42,6 +42,48 @@ jobs:
         run: |
           python -m src.elo.update_elo
 
+      - name: Diagnose ELO Engine Import
+        run: |
+          echo "===== ELO ENGINE IMPORT DIAGNOSTICS ====="
+
+          python - <<'PY'
+          import os
+          import inspect
+          import elo_engine
+
+          print("elo_engine file:", getattr(elo_engine, "__file__", "NO_FILE"))
+          print("working directory:", os.getcwd())
+
+          print("")
+          print("has load:", hasattr(elo_engine, "load"))
+          print("has predict:", hasattr(elo_engine, "predict"))
+          print("has write_debug:", hasattr(elo_engine, "write_debug"))
+          print("has _DEBUG:", hasattr(elo_engine, "_DEBUG"))
+
+          print("")
+          print("elo_engine source preview:")
+          try:
+              source = inspect.getsource(elo_engine)
+              print(source[:3000])
+          except Exception as exc:
+              print("Could not inspect source:", exc)
+
+          print("")
+          print("Calling elo_engine.load()...")
+          try:
+              store = elo_engine.load()
+              print("elo store type:", type(store))
+              print("elo store size:", len(store) if hasattr(store, "__len__") else "NO_LEN")
+          except Exception as exc:
+              print("elo_engine.load() failed:", exc)
+
+          print("")
+          print("public files after elo_engine.load():")
+          for root, dirs, files in os.walk("public"):
+              for file in files:
+                  print(os.path.join(root, file))
+          PY
+
       - name: Run Prediction Pipeline
         run: |
           python update.py
