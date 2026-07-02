@@ -50,6 +50,37 @@ def tag_class(tag):
     return "tag-info"
 
 
+def html_link(url, label):
+    """
+    Build anchor tags safely without typing raw <a> directly
+    inside navigation strings. This avoids accidental escaping
+    by editors/chat copy-paste.
+    """
+
+    lt = chr(60)
+    gt = chr(62)
+
+    return (
+        f'{lt}a href="{safe(url)}"{gt}'
+        f'{safe(label)}'
+        f'{lt}/a{gt}'
+    )
+
+
+def render_nav():
+    links = [
+        html_link(f"{BASE_URL}/", "TOP5"),
+        html_link(f"{BASE_URL}/all/", "ALL"),
+        html_link(f"{BASE_URL}/results/", "RESULTS"),
+    ]
+
+    return f"""
+<nav class="nav" aria-label="Main navigation">
+    {' '.join(links)}
+</nav>
+"""
+
+
 def format_match_meta(prediction):
     tournament = prediction.get("tournament")
     surface = prediction.get("surface")
@@ -87,16 +118,6 @@ def resolve_sets_label(prediction):
         pass
 
     return "3 Sets"
-
-
-def render_nav():
-    return f"""
-<nav class="nav" aria-label="Main navigation">
-    <a href="{BASE_URL}/">TOP5</a>
-    <a href="{BASE_URL}/all/">ALL</a>
-    <a href="{BASE_URL}/results/">RESULTS</a>
-</nav>
-"""
 
 
 def render_summary(predictions):
@@ -187,7 +208,9 @@ def render_rows(predictions):
 
         expected_sets = safe(prediction.get("expected_sets"))
         sets_probability = pct(prediction.get("sets_probability"))
-        sets_probability_label = safe(resolve_sets_label(prediction))
+        sets_probability_label = safe(
+            resolve_sets_label(prediction)
+        )
 
         most_likely_score = safe(
             prediction.get("most_likely_score"),
@@ -233,8 +256,11 @@ def render_rows(predictions):
     </td>
 
     <td>{opponent}</td>
+
     <td>{time}</td>
+
     <td class="probability">{probability}</td>
+
     <td class="odds">{odd}</td>
 
     <td class="intel">
@@ -307,8 +333,8 @@ html, body {{
 
 .header {{
     display: grid;
-    grid-template-columns: minmax(520px, 1fr) auto;
-    gap: 32px;
+    grid-template-columns: minmax(560px, 1fr) auto;
+    gap: 40px;
     align-items: start;
     margin-bottom: 24px;
 }}
@@ -327,7 +353,7 @@ html, body {{
     margin-top: 10px;
     font-size: 14px;
     line-height: 1.45;
-    max-width: 760px;
+    max-width: 800px;
 }}
 
 .nav {{
@@ -361,7 +387,11 @@ html, body {{
     background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding:color: var(--muted);
+    padding: 16px;
+}}
+
+.summary-label {{
+    color: var(--muted);
     font-size: 13px;
     margin-bottom: 8px;
 }}
@@ -385,7 +415,7 @@ html, body {{
 table {{
     width: 100%;
     border-collapse: collapse;
-    min-width: 920px;
+    min-width: 940px;
 }}
 
 thead {{
@@ -511,7 +541,7 @@ tr:hover {{
     line-height: 1.7;
 }}
 
-@media (max-width: 950px) {{
+@media (max-width: 1050px) {{
     .header {{
         display: block;
     }}
