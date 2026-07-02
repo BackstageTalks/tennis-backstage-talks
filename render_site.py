@@ -89,6 +89,16 @@ def resolve_sets_label(prediction):
     return "3 Sets"
 
 
+def render_nav():
+    return f"""
+<nav class="nav" aria-label="Main navigation">
+    <a href="{BASE_URL}/">TOP5</a>
+    <a href="{BASE_URL}/all/">ALL</a>
+    <a href="{BASE_URL}/results/">RESULTS</a>
+</nav>
+"""
+
+
 def render_summary(predictions):
     count = len(predictions)
 
@@ -194,14 +204,16 @@ def render_rows(predictions):
             default="",
         )
 
+        match_meta_html = ""
+
         if match_meta:
             match_meta_html = f"""
         <div class="match-meta">
             {match_meta}
         </div>
 """
-        else:
-            match_meta_html = ""
+
+        most_likely_html = ""
 
         if most_likely_score:
             most_likely_html = f"""
@@ -210,8 +222,6 @@ def render_rows(predictions):
             {most_likely_score}
         </div>
 """
-        else:
-            most_likely_html = ""
 
         rows.append(f"""
 <tr>
@@ -255,6 +265,7 @@ def render_rows(predictions):
 def render_page(predictions, title, subtitle):
     rows = render_rows(predictions)
     summary = render_summary(predictions)
+    nav = render_nav()
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -545,11 +556,7 @@ tr:hover {{
             </div>
         </div>
 
-        <nav class="nav" aria-label="Main navigation">
-            {BASE_URL}/TOP5</a>
-            {BASE_URL}/all/ALL</a>
-            {BASE_URL}/results/RESULTS</a>
-        </nav>
+        {nav}
     </div>
 
     {summary}
@@ -616,7 +623,7 @@ def render_rss(predictions, title, link):
         tournament = safe(prediction.get("tournament"))
         surface = safe(prediction.get("surface"))
         best_of = safe(prediction.get("best_of"))
-        sets_label = safe(resolve_sets_label(prediction))
+   ts_label(prediction))
         sets_probability = pct(prediction.get("sets_probability"))
 
         most_likely_score = safe(
