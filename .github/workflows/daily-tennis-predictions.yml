@@ -15,7 +15,7 @@ jobs:
       id-token: write
 
     env:
-      APIIO: ${{ secrets.APIIO }}
+      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
 
     steps:
       - name: Checkout repo
