@@ -14,6 +14,9 @@ jobs:
       pages: write
       id-token: write
 
+    env:
+      APIIO: ${{ secrets.APIIO }}
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -21,7 +24,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
@@ -32,19 +35,19 @@ jobs:
         run: |
           python -m src.elo.update_elo
 
-      - name: Run predictions
+      - name: Run Prediction Pipeline
         run: |
           python update.py
 
-      - name: Build TOP page
+      - name: Build TOP Page
         run: |
           python top.py
 
-      - name: Build ALL page
+      - name: Build ALL Page
         run: |
           python all.py
 
-      - name: Commit ELO files
+      - name: Commit ELO Files
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -58,7 +61,12 @@ jobs:
             git push
           fi
 
-      - name: Upload artifact
+      - name: Verify Public Folder
+        run: |
+          echo "===== PUBLIC CONTENT ====="
+          find public -type f | sort
+
+      - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
