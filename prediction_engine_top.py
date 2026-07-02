@@ -19,8 +19,14 @@ from mcp_module import build_mcp_player_stats, mcp_adjustment
 
 
 TOP_N = 5
+
+# TOP pravidlo:
+# kurz musí byť väčší ako 1.50
 MIN_ODDS = 1.50
-MIN_TOP_PROBABILITY = 0.57
+
+# už nepoužívame ako tvrdý TOP filter
+# nechávame kvôli kompatibilite s update.py
+MIN_TOP_PROBABILITY = 0.0
 
 LOCAL_TZ = ZoneInfo("Europe/Bratislava")
 
@@ -33,7 +39,9 @@ def safe_float(value):
     try:
         if value is None:
             return None
+
         return float(value)
+
     except Exception:
         return None
 
@@ -59,7 +67,9 @@ def format_match_time(match):
                     tzinfo=ZoneInfo("UTC")
                 )
 
-            local_dt = dt.astimezone(LOCAL_TZ)
+            local_dt = dt.astimezone(
+                LOCAL_TZ
+            )
 
             return local_dt.strftime("%H:%M")
 
@@ -185,12 +195,23 @@ def build_prediction_record(
         "bookmaker": odds_data.get("bookmaker"),
         "odds_source": odds_data.get("odds_source"),
 
-        "expected_sets": match_info["expected_sets"],
-        "sets_probability": match_info["sets_probability"],
-        "expected_games": match_info["expected_games"],
-        "games_pick": match_info["games_pick"],
-        "games_line": match_info["games_line"],
-        "bet_tag": match_info["tag"],
+        "expected_sets":
+            match_info["expected_sets"],
+
+        "sets_probability":
+            match_info["sets_probability"],
+
+        "expected_games":
+            match_info["expected_games"],
+
+        "games_pick":
+            match_info["games_pick"],
+
+        "games_line":
+            match_info["games_line"],
+
+        "bet_tag":
+            match_info["tag"],
     }
 
 
@@ -280,8 +301,7 @@ def get_top_predictions(all_predictions=None):
         prediction
         for prediction in all_predictions
         if prediction.get("odds") is not None
-        and prediction.get("odds") >= MIN_ODDS
-        and prediction.get("probability") >= MIN_TOP_PROBABILITY
+        and prediction.get("odds") > MIN_ODDS
     ]
 
     eligible.sort(
