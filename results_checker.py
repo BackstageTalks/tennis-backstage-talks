@@ -1,12 +1,12 @@
+import json
 import os
 import re
-import json
-import datetime
 import requests
+import unicodedata
 from bs4 import BeautifulSoup
-from datetime import timezone, timedelta
+from datetime import datetime, timezone, timedelta
 
-BASE = "https://backstagetalks.github.io/tennis-backstage-talks/"
+
 SPORTSCORE_URL = "https://sportscore.com/tennis/"
 
 HEADERS = {
@@ -14,149 +14,203 @@ HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 }
 
-LOCAL_TZ_OFFSET_HOURS = int(os.getenv("LOCAL_TZ_OFFSET_HOURS", "2"))
-LOCAL_TZ = timezone(timedelta(hours=LOCAL_TZ_OFFSET_HOURS))
+PLAY_HISTORY_DIR = "data/play_history"
+RESULTS_DATA_PATH = "data/play_results.json"
+PUBLIC_RESULTS_DATA_PATH = "public/results_data.json"
+RESULTS_DEBUG_PATH = "public/results_debug.json"
+
+
+_DEBUG = {
+    "provider": "SportScore",
+    "url": SPORTSCORE_URL,
+    "http_status": None,
+    "fetch_error": None,
+    "history_files": [],
+    "history_items_loaded": 0,
+    "finished_results_found": 0,
+    "resolved_count": 0,
+    "pending_count": 0,
+    "unknown_count": 0,
+    "examples_results": [],
+    "examples_resolved": [],
+    "examples_unresolved": [],
+}
+
+
+def ensure_dirs():
+    os.makedirs(
+        "data",
+        exist_ok=True,
+    )
+
+    os.makedirs(
+        PLAY_HISTORY_DIR,
+        exist_ok=True,
+    )
+
+    os.makedirs(
+        "public",
+        exist_ok=True,
+    )
+
+
+def save_json(path, data):
+    directory = os.path.dirname(path)
+
+    if directory:
+        os.makedirs(
+            directory,
+            exist_ok=True,
+        )
+
+    with open(
+        path,
+        "w",
+        encoding="utf-8",
+    ) as file:
+        json.dump(
+            data,
+            file,
+            indent=2,
+            ensure_ascii=False,
+        )
+
+
+def load_json(path, default):
+    try:
+        if not os.path.exists(path):
+            return default
+
+        with open(
+            path,
+            "r",
+            encoding="utf-8",
+        ) as file:
+            return json.load(file)
+
+    except Exception:
+        return default
+
+
+def normalize(value):
+    if value is None:
+        return ""
+
+    text = str(value)
+
+    text = unicodedata.normalize(
+        "NFKD",
+        text,
+    )
+
+    text = "".join(
+        char
+        for char in text
+        if not unicodedata.combining(char)
+    )
+
+    text = text.lower()
+    text = text.replace("-", " ")
+    text = text.replace(".", " ")
+    text = text.replace(",", " ")
+    text = text.replace("'", "")
+    text = text.replace("’", "")
+    text = text.replace("`", "")
+
+    text = re.sub(
+        r"[^a-z0-9\s]",
+        " ",
+        text,
+    )
+
+    return " ".join(
+        text.split()
+    )
+
+
+def loose_name_keys(name):
+    normalized = normalize(name)
+    parts = normalized.split()
+
+    keys = set()
+
+    if normalized:
+        keys.add(normalized)
+
+    if parts:
+        keys.add(parts[-1])
+
+    if len(parts) >= 2:
+        keys.add(
+            " ".join(parts[-2:])
+        )
+
+    return keys
+
+
+def names_match(a, b):
+    a_keys = loose_name_keys(a)
+    b_keys = loose_name_keys(b)
+
+    if not a_keys or not b_keys:
+        return False
+
+    return bool(
+        a_keys.intersection(b_keys)
+    )
 
 
 def clean_text(value):
     if not value:
         return ""
 
-    return re.sub(r"\s+", " ", str(value)).strip()
+    return re.sub(
+        r"\s+",
+        " ",
+        str(value),
+    ).strip()
 
 
-def normalize_name(value):
-    value = clean_text(value)
-    value = value.lower()
-    value = re.sub(r"[^a-zà-ž0-9]+", " ", value)
-    return clean_text(value)
-
-
-def odds_to_float(value):
+def safe_float(value):
     try:
-        if value in [None, "", "-", "None"]:
+        if value in [None, "", "NA", "NaN"]:
             return None
+
         return float(value)
+
     except Exception:
         return None
 
 
-def units_for_result(status, odds):
-    odd_value = odds_to_float(odds)
+def load_all_history_items():
+    ensure_dirs()
 
-    if status == "WON":
-        if odd_value is None:
-            return 0.0
-        return round(odd_value - 1.0, 2)
+    items = []
+    files = []
 
-    if status == "LOST":
-        return -1.0
+    for filename in sorted(os.listdir(PLAY_HISTORY_DIR)):
+        if not filename.endswith(".json"):
+            continue
 
-    return 0.0
+        path = os.path.join(
+            PLAY_HISTORY_DIR,
+            filename,
+        )
 
+        files.append(path)
 
-def local_prediction_files(prefix):
-    if not os.path.exists("public"):
-        return []
-
-    return sorted([
-        os.path.join("public", f)
-        for f in os.listdir("public")
-        if f.startswith(prefix) and f.endswith(".json")
-    ])
-
-
-def load_latest_local_predictions(prefix="predictions_"):
-    files = local_prediction_files(prefix)
-
-    if not files:
-        return None, []
-
-    latest = files[-1]
-
-    try:
-        with open(latest, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        data = load_json(
+            path,
+            [],
+        )
 
         if isinstance(data, list):
-            date_match = re.search(r"(\d{4}-\d{2}-\d{2})", latest)
-            prediction_date = date_match.group(1) if date_match else None
+            items.extend(data)
 
-            print("LOCAL PREDICTIONS FOUND:", latest, len(data))
-            return prediction_date, data
+    _DEBUG["history_files"] = files
+    _DEBUG["history_items_loaded"] = len(items)
 
-    except Exception as e:
-        print("LOCAL PREDICTIONS LOAD ERROR:", latest, str(e))
-
-    return None, []
-
-
-def candidate_prediction_dates(days_back=7, include_today=True):
-    today = datetime.datetime.now(LOCAL_TZ).date()
-
-    start = 0 if include_today else 1
-
-    return [
-        (today - datetime.timedelta(days=i)).isoformat()
-        for i in range(start, days_back + 1)
-    ]
-
-
-def fetch_json_url(url):
-    try:
-        response = requests.get(url, headers=HEADERS, timeout=20)
-
-        print("FETCH JSON:", url, response.status_code)
-
-        if response.status_code != 200:
-            return None
-
-        return response.json()
-
-    except Exception as e:
-        print("FETCH JSON ERROR:", url, str(e))
-        return None
-
-
-def load_remote_predictions(prefix="predictions_"):
-    for date_value in candidate_prediction_dates(include_today=True):
-        url = f"{BASE}{prefix}{date_value}.json?v=results-check"
-
-        data = fetch_json_url(url)
-
-        if isinstance(data, list):
-            print("REMOTE PREDICTIONS FOUND:", date_value, len(data))
-            return date_value, data
-
-    print("NO REMOTE PREDICTIONS FOUND:", prefix)
-    return None, []
-
-
-def load_predictions(prefix="predictions_"):
-    prediction_date, data = load_latest_local_predictions(prefix)
-
-    if isinstance(data, list) and len(data) > 0:
-        return prediction_date, data
-
-    return load_remote_predictions(prefix)
-
-
-def fetch_sportscore_text():
-    try:
-        response = requests.get(SPORTSCORE_URL, headers=HEADERS, timeout=25)
-
-        print("SPORTSCORE RESULTS HTTP:", response.status_code)
-
-        if response.status_code != 200:
-            print("SPORTSCORE RESULTS RAW ERROR:", response.text[:500])
-            return ""
-
-        soup = BeautifulSoup(response.text, "html.parser")
-        return soup.get_text(" ", strip=True)
-
-    except Exception as e:
-        print("SPORTSCORE RESULTS FETCH ERROR:", str(e))
-        return ""
+    return items
 
 
 def finished_text_only(text):
@@ -164,9 +218,10 @@ def finished_text_only(text):
     lower = text.lower()
 
     markers = [
-        "finished results",
         "finished matches",
+        "finished results",
         "finished",
+        "results",
     ]
 
     start_index = -1
@@ -181,292 +236,552 @@ def finished_text_only(text):
     if start_index == -1:
         return text
 
-    return clean_text(text[start_index:])
+    return text[start_index:]
 
 
-def score_from_tokens(tokens):
-    numbers = []
+def parse_score_sets(score_text):
+    """
+    Skúsi určiť sety z textu typu:
+    6-4 4-6 6-3
+    """
 
-    for token in tokens:
-        if token.isdigit():
-            numbers.append(int(token))
-
-    if len(numbers) < 2 or len(numbers) % 2 != 0:
+    if not score_text:
         return None
 
-    sets = []
+    upper = score_text.upper()
 
-    for i in range(0, len(numbers), 2):
-        sets.append((numbers[i], numbers[i + 1]))
+    if any(token in upper for token in ["W/O", "WO", "RET", "ABN", "DEF"]):
+        return {
+            "status": "VOID",
+            "winner_side": None,
+            "score": clean_text(score_text),
+        }
 
-    return sets
+    chunks = re.findall(
+        r"(\d{1,2})-(\d{1,2})",
+        score_text,
+    )
 
-
-def format_sets(sets):
-    if not sets:
-        return ""
-
-    return " ".join(f"{a}-{b}" for a, b in sets)
-
-
-def winner_from_sets(sets, first_player, second_player):
-    if not sets:
+    if not chunks:
         return None
 
-    first_sets = 0
-    second_sets = 0
+    p1_sets = 0
+    p2_sets = 0
 
-    for a, b in sets:
+    for a_text, b_text in chunks:
+        try:
+            a = int(a_text)
+            b = int(b_text)
+        except Exception:
+            continue
+
         if a > b:
-            first_sets += 1
+            p1_sets += 1
+
         elif b > a:
-            second_sets += 1
+            p2_sets += 1
 
-    if first_sets > second_sets:
-        return first_player
+    if p1_sets == p2_sets:
+        return None
 
-    if second_sets > first_sets:
-        return second_player
+    winner_side = "player1" if p1_sets > p2_sets else "player2"
+
+    return {
+        "status": "FINISHED",
+        "winner_side": winner_side,
+        "score": clean_text(score_text),
+        "p1_sets": p1_sets,
+        "p2_sets": p2_sets,
+    }
+
+
+def extract_finished_results(text):
+    """
+    Best-effort parser.
+
+    SportScore text sa môže meniť, preto parser nikdy nesmie zhodiť workflow.
+    Ak výsledok nevie spoľahlivo určiť, pick ostane PENDING alebo UNKNOWN.
+    """
+
+    text = finished_text_only(text)
+
+    results = []
+
+    # Pattern:
+    # Player One vs Player Two 6-4 4-6 6-3
+    pattern_vs_score = re.compile(
+        r"(?P<p1>[A-ZÀ-Ž][A-Za-zÀ-ž\.\-'\s]{2,75}?)"
+        r"\s+vs\s+"
+        r"(?P<p2>[A-ZÀ-Ž][A-Za-zÀ-ž\.\-'\s]{2,75}?)"
+        r"\s+(?P<score>(?:\d{1,2}-\d{1,2}(?:\(\d+\))?\s*){2,5}|W/O|WO|RET|DEF|ABN)",
+        re.IGNORECASE,
+    )
+
+    for match in pattern_vs_score.finditer(text):
+        p1 = clean_text(match.group("p1"))
+        p2 = clean_text(match.group("p2"))
+        score = clean_text(match.group("score"))
+
+        parsed = parse_score_sets(score)
+
+        if not parsed:
+            continue
+
+        if parsed["status"] == "VOID":
+            winner = None
+            status = "VOID"
+
+        elif parsed["winner_side"] == "player1":
+            winner = p1
+            status = "FINISHED"
+
+        else:
+            winner = p2
+            status = "FINISHED"
+
+        result = {
+            "player1": p1,
+            "player2": p2,
+            "match": f"{p1} vs {p2}",
+            "winner": winner,
+            "score": score,
+            "status": status,
+            "source": "SportScore",
+        }
+
+        results.append(result)
+
+        if len(_DEBUG["examples_results"]) < 30:
+            _DEBUG["examples_results"].append(result)
+
+    # Pattern fallback:
+    # Player One Player Two 6-4 6-4
+    # Bez "vs" je menej spoľahlivý, preto ho zatiaľ nepoužívame na WON/LOST.
+
+    _DEBUG["finished_results_found"] = len(results)
+
+    return results
+
+
+def match_pick_to_result(pick, result):
+    pick_match = pick.get("match") or ""
+
+    pick_player = pick.get("pick") or ""
+    opponent = pick.get("opponent") or ""
+
+    r1 = result.get("player1") or ""
+    r2 = result.get("player2") or ""
+
+    direct = (
+        names_match(pick_player, r1)
+        and names_match(opponent, r2)
+    )
+
+    reversed_match = (
+        names_match(pick_player, r2)
+        and names_match(opponent, r1)
+    )
+
+    if direct or reversed_match:
+        return True
+
+    # fallback cez match string
+    return (
+        names_match(pick_player, r1)
+        and names_match(opponent, r2)
+    ) or (
+        names_match(pick_player, r2)
+        and names_match(opponent, r1)
+    ) or (
+        normalize(pick_player) in normalize(pick_match)
+        and normalize(opponent) in normalize(pick_match)
+        and (
+            normalize(r1) in normalize(pick_match)
+            or normalize(r2) in normalize(pick_match)
+        )
+    )
+
+
+def find_matching_result(pick, results):
+    for result in results:
+        if match_pick_to_result(
+            pick,
+            result,
+        ):
+            return result
 
     return None
 
 
-def build_result(status, pick, winner, result_score, note=""):
-    if status == "VOID":
-        final_status = "VOID"
-    elif winner is None:
-        final_status = "UNKNOWN"
-    elif normalize_name(winner) == normalize_name(pick):
-        final_status = "WON"
+def calculate_units(status, odds):
+    odds_value = safe_float(odds)
+
+    if status == "WON":
+        if odds_value is None:
+            return 0.0
+
+        return round(
+            odds_value - 1.0,
+            2,
+        )
+
+    if status == "LOST":
+        return -1.0
+
+    return 0.0
+
+
+def evaluate_pick(pick, results):
+    result = find_matching_result(
+        pick,
+        results,
+    )
+
+    if not result:
+        updated = dict(pick)
+
+        if updated.get("result_status") in ["WON", "LOST", "VOID"]:
+            return updated
+
+        updated["result_status"] = "PENDING"
+        updated["units"] = 0.0
+
+        if len(_DEBUG["examples_unresolved"]) < 30:
+            _DEBUG["examples_unresolved"].append({
+                "match": pick.get("match"),
+                "pick": pick.get("pick"),
+                "reason": "no_matching_finished_result",
+            })
+
+        return updated
+
+    updated = dict(pick)
+
+    if result.get("status") == "VOID":
+        status = "VOID"
+
     else:
-        final_status = "LOST"
+        winner = result.get("winner")
 
-    return {
-        "status": final_status,
-        "winner": winner,
-        "result_score": result_score,
-        "note": note,
-    }
+        if winner and names_match(
+            pick.get("pick"),
+            winner,
+        ):
+            status = "WON"
 
+        elif winner:
+            status = "LOST"
 
-def find_match_result(prediction, finished_text):
-    player1 = str(prediction.get("player1", ""))
-    player2 = str(prediction.get("player2", ""))
-    pick = str(prediction.get("pick", player1))
+        else:
+            status = "UNKNOWN"
 
-    if not player1 or not player2:
-        return {
-            "status": "UNKNOWN",
-            "winner": None,
-            "result_score": "",
-            "note": "Missing player names in prediction",
-        }
+    updated["result_status"] = status
+    updated["winner"] = result.get("winner")
+    updated["score"] = result.get("score")
+    updated["units"] = calculate_units(
+        status,
+        updated.get("odds"),
+    )
+    updated["resolved_at"] = datetime.now(
+        timezone.utc,
+    ).isoformat()
+    updated["result_source"] = result.get("source")
+    updated["result_match_score"] = result.get("match")
 
-    text = finished_text
+    if len(_DEBUG["examples_resolved"]) < 30:
+        _DEBUG["examples_resolved"].append({
+            "match": updated.get("match"),
+            "pick": updated.get("pick"),
+            "status": status,
+            "winner": updated.get("winner"),
+            "score": updated.get("score"),
+            "units": updated.get("units"),
+        })
 
-    status_pattern = r"(?P<status>FT|Canc|Cancelled|RET|Ret|WO|W/O|Walkover)"
-    score_pattern = r"(?P<score>(?:\d+|-)\s+(?:\d+|-)(?:\s+(?:\d+|-)\s+(?:\d+|-)){0,4})"
-
-    patterns = [
-        {
-            "first": player1,
-            "second": player2,
-            "regex": re.compile(
-                status_pattern
-                + r"\s+"
-                + re.escape(player1)
-                + r"\s+"
-                + score_pattern
-                + r"\s+"
-                + re.escape(player2),
-                re.IGNORECASE,
-            ),
-        },
-        {
-            "first": player2,
-            "second": player1,
-            "regex": re.compile(
-                status_pattern
-                + r"\s+"
-                + re.escape(player2)
-                + r"\s+"
-                + score_pattern
-                + r"\s+"
-                + re.escape(player1),
-                re.IGNORECASE,
-            ),
-        },
-    ]
-
-    for item in patterns:
-        match = item["regex"].search(text)
-
-        if not match:
-            continue
-
-        raw_status = clean_text(match.group("status"))
-        score_text = clean_text(match.group("score"))
-
-        if raw_status.lower() in [
-            "canc",
-            "cancelled",
-            "wo",
-            "w/o",
-            "walkover",
-            "ret",
-            "retired",
-        ]:
-            return build_result(
-                status="VOID",
-                pick=pick,
-                winner=None,
-                result_score=score_text,
-                note=f"Match status: {raw_status}",
-            )
-
-        tokens = score_text.split()
-        sets = score_from_tokens(tokens)
-        result_score = format_sets(sets)
-
-        winner = winner_from_sets(
-            sets=sets,
-            first_player=item["first"],
-            second_player=item["second"],
-        )
-
-        return build_result(
-            status="DONE",
-            pick=pick,
-            winner=winner,
-            result_score=result_score,
-            note="Matched from SportScore finished results",
-        )
-
-    return {
-        "status": "PENDING",
-        "winner": None,
-        "result_score": "",
-        "note": "Result not found in current SportScore finished section",
-    }
+    return updated
 
 
-def summarize(results):
+def summarize(items):
     summary = {
-        "total": len(results),
+        "picks": len(items),
         "won": 0,
         "lost": 0,
         "void": 0,
         "pending": 0,
         "unknown": 0,
-        "hit_rate": None,
         "units": 0.0,
     }
 
-    for item in results:
-        status = item.get("status")
-        units = float(item.get("units", 0) or 0)
-
-        summary["units"] += units
+    for item in items:
+        status = str(
+            item.get("result_status") or "PENDING"
+        ).upper()
 
         if status == "WON":
             summary["won"] += 1
+
         elif status == "LOST":
             summary["lost"] += 1
+
         elif status == "VOID":
             summary["void"] += 1
-        elif status == "PENDING":
-            summary["pending"] += 1
-        else:
+
+        elif status == "UNKNOWN":
             summary["unknown"] += 1
 
-    decided = summary["won"] + summary["lost"]
+        else:
+            summary["pending"] += 1
 
-    if decided > 0:
-        summary["hit_rate"] = round(summary["won"] / decided * 100, 1)
+        summary["units"] += safe_float(
+            item.get("units")
+        ) or 0.0
 
-    summary["units"] = round(summary["units"], 2)
+    summary["units"] = round(
+        summary["units"],
+        2,
+    )
+
+    settled = (
+        summary["won"]
+        + summary["lost"]
+    )
+
+    if settled > 0:
+        summary["win_rate"] = round(
+            summary["won"] / settled,
+            3,
+        )
+
+    else:
+        summary["win_rate"] = None
 
     return summary
 
 
-def build_results_payload(prefix="predictions_", result_prefix="results_", result_type="TOP7_RESULTS", max_items=7):
-    os.makedirs("public", exist_ok=True)
+def filter_by_days(items, days):
+    cutoff = datetime.now(
+        timezone.utc,
+    ).date() - timedelta(days=days - 1)
 
-    prediction_date, predictions = load_predictions(prefix)
+    output = []
 
-    finished_text = finished_text_only(fetch_sportscore_text())
+    for item in items:
+        date_text = item.get("date")
 
-    generated_at = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+        try:
+            item_date = datetime.strptime(
+                date_text,
+                "%Y-%m-%d",
+            ).date()
 
-    if max_items is not None:
-        predictions = predictions[:max_items]
+        except Exception:
+            continue
 
-    results = []
+        if item_date >= cutoff:
+            output.append(item)
 
-    for prediction in predictions:
-        match_result = find_match_result(prediction, finished_text)
+    return output
 
-        pick = str(prediction.get("pick", prediction.get("player1", "Unknown")))
-        opponent = str(prediction.get("opponent", prediction.get("player2", "Unknown")))
-        odds = prediction.get("odds")
 
-        status = match_result.get("status")
-        units = units_for_result(status, odds)
+def filter_current_month(items):
+    now = datetime.now(
+        timezone.utc,
+    )
 
-        output = {
-            "prediction_date": prediction_date,
-            "generated_at_utc": generated_at,
+    output = []
 
-            "pick": pick,
-            "opponent": opponent,
-            "player1": prediction.get("player1"),
-            "player2": prediction.get("player2"),
+    for item in items:
+        date_text = item.get("date")
 
-            "match_start": prediction.get("match_start"),
-            "odds": odds,
-            "probability": prediction.get("probability"),
+        try:
+            item_date = datetime.strptime(
+                date_text,
+                "%Y-%m-%d",
+            )
 
-            "status": status,
-            "winner": match_result.get("winner"),
-            "result_score": match_result.get("result_score"),
-            "units": units,
-            "note": match_result.get("note"),
+        except Exception:
+            continue
 
-            "source_results": "SportScore",
-        }
+        if (
+            item_date.year == now.year
+            and item_date.month == now.month
+        ):
+            output.append(item)
 
-        results.append(output)
+    return output
 
-    summary = summarize(results)
+
+def build_results_payload(evaluated_items):
+    today = datetime.now(
+        timezone.utc,
+    ).strftime("%Y-%m-%d")
+
+    today_items = [
+        item
+        for item in evaluated_items
+        if item.get("date") == today
+    ]
+
+    last_7_items = filter_by_days(
+        evaluated_items,
+        7,
+    )
+
+    month_items = filter_current_month(
+        evaluated_items,
+    )
 
     payload = {
-        "type": result_type,
-        "prediction_date": prediction_date,
-        "generated_at_utc": generated_at,
-        "summary": summary,
-        "results": results,
+        "generated_at": datetime.now(
+            timezone.utc,
+        ).isoformat(),
+
+        "today": summarize(today_items),
+        "last_7_days": summarize(last_7_items),
+        "current_month": summarize(month_items),
+        "all_time": summarize(evaluated_items),
+
+        "items": sorted(
+            evaluated_items,
+            key=lambda item: (
+                item.get("date") or "",
+                item.get("rank") or 9999,
+                item.get("match") or "",
+            ),
+            reverse=True,
+        ),
     }
-
-    result_date = prediction_date or datetime.datetime.now(LOCAL_TZ).date().isoformat()
-    path = f"public/{result_prefix}{result_date}.json"
-
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=4, ensure_ascii=False)
-
-    print(result_type, "GENERATED:", path)
-    print("SUMMARY:", summary)
-    print("RESULTS SAMPLE:", results[:3])
 
     return payload
 
 
-def run():
-    build_results_payload(
-        prefix="predictions_",
-        result_prefix="results_",
-        result_type="TOP7_RESULTS",
-        max_items=7,
+def fetch_sportscore_text():
+    response = requests.get(
+        SPORTSCORE_URL,
+        headers=HEADERS,
+        timeout=30,
     )
+
+    _DEBUG["http_status"] = response.status_code
+
+    response.raise_for_status()
+
+    soup = BeautifulSoup(
+        response.text,
+        "html.parser",
+    )
+
+    return soup.get_text(
+        " ",
+        strip=True,
+    )
+
+
+def run():
+    ensure_dirs()
+
+    try:
+        history_items = load_all_history_items()
+
+        text = fetch_sportscore_text()
+
+        finished_results = extract_finished_results(
+            text,
+        )
+
+        evaluated = []
+
+        for item in history_items:
+            evaluated.append(
+                evaluate_pick(
+                    item,
+                    finished_results,
+                )
+            )
+
+        _DEBUG["resolved_count"] = sum(
+            1
+            for item in evaluated
+            if item.get("result_status") in ["WON", "LOST", "VOID"]
+        )
+
+        _DEBUG["pending_count"] = sum(
+            1
+            for item in evaluated
+            if item.get("result_status") == "PENDING"
+        )
+
+        _DEBUG["unknown_count"] = sum(
+            1
+            for item in evaluated
+            if item.get("result_status") == "UNKNOWN"
+        )
+
+        payload = build_results_payload(
+            evaluated,
+        )
+
+        save_json(
+            RESULTS_DATA_PATH,
+            payload,
+        )
+
+        save_json(
+            PUBLIC_RESULTS_DATA_PATH,
+            payload,
+        )
+
+        save_json(
+            RESULTS_DEBUG_PATH,
+            _DEBUG,
+        )
+
+        print(
+            "RESULTS CHECKER DONE:",
+            "items",
+            len(evaluated),
+            "finished_results",
+            len(finished_results),
+        )
+
+        return payload
+
+    except Exception as exc:
+        _DEBUG["fetch_error"] = str(exc)
+
+        save_json(
+            RESULTS_DEBUG_PATH,
+            _DEBUG,
+        )
+
+        print(
+            "RESULTS CHECKER ERROR:",
+            str(exc),
+        )
+
+        fallback = {
+            "generated_at": datetime.now(
+                timezone.utc,
+            ).isoformat(),
+            "today": summarize([]),
+            "last_7_days": summarize([]),
+            "current_month": summarize([]),
+            "all_time": summarize([]),
+            "items": [],
+            "error": str(exc),
+        }
+
+        save_json(
+            RESULTS_DATA_PATH,
+            fallback,
+        )
+
+        save_json(
+            PUBLIC_RESULTS_DATA_PATH,
+            fallback,
+        )
+
+        return fallback
 
 
 if __name__ == "__main__":
