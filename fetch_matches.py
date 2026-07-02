@@ -374,10 +374,22 @@ def get_today_matches():
             print("SPORTSCORE RAW ERROR:", response.text[:500])
             return []
 
-        soup = BeautifulSoup(response.text, "html.parser")
-        text = soup.get_text(" ", strip=True)
 
-        matches = extract_matches_from_text(text)
+soup = BeautifulSoup(response.text, "html.parser")
+
+with open(
+    "sportscore_debug.html",
+    "w",
+    encoding="utf-8",
+) as f:
+    f.write(response.text)
+
+print(response.text[:50000])
+
+text = soup.get_text(" ", strip=True)
+
+matches = extract_matches_from_text(text)
+
 
         print("REAL TENNIS MATCHES IN 06-06 LOCAL WINDOW:", len(matches))
         print("MATCH SAMPLE:", matches[:10])
