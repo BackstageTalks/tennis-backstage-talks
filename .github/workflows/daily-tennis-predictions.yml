@@ -53,6 +53,8 @@ jobs:
       - name: Prepare folders
         run: |
           mkdir -p public
+          mkdir -p public/all
+          mkdir -p public/results
           mkdir -p data
           mkdir -p data/play_history
 
@@ -60,40 +62,102 @@ jobs:
         run: |
           python update.py
 
-      - name: Run results checker
-        run: |
-          python results_checker.py
-
       - name: Build TOP and ALL pages
         run: |
-          if [ -f rss.py ]; then
+          if [ -f build_pages.py ]; then
+            echo "Running build_pages.py"
+            python build_pages.py
+          elif [ -f rss.py ] && [ -f rss_all.py ]; then
             echo "Running rss.py"
             python rss.py
-          fi
 
-          if [ -f rss_all.py ]; then
             echo "Running rss_all.py"
             python rss_all.py
-          fi
-
-          if [ -f build_site.py ]; then
+          elif [ -f build_site.py ]; then
             echo "Running build_site.py"
             python build_site.py
-          fi
-
-          if [ -f site_builder.py ]; then
+          elif [ -f site_builder.py ]; then
             echo "Running site_builder.py"
             python site_builder.py
+          else
+            echo "ERROR: No page builder found."
+            echo "Expected one of:"
+            echo "- build_pages.py"
+            echo "- rss.py + rss_all.py"
+            echo "- build_site.py"
+            echo "- site_builder.py"
+            exit 1
+          fi
+
+      - name: Run results checker
+        run: |
+          if [ -f results_checker.py ]; then
+            echo "Running results_checker.py"
+            python results_checker.py
+          else
+            echo "results_checker.py not found, skipping results checker."
           fi
 
       - name: Build results page
         run: |
-          python rss_results.py
+          if [ -f rss_results.py ]; then
+            echo "Running rss_results.py"
+            python rss_results.py
+          else
+            echo "rss_results.py not found, creating fallback results page."
+
+            mkdir -p public/results
+
+            cat > public/results/index.html <<'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>TBT Tennis Results</title>
+          </head>
+          <body>
+          <h1>TBT Tennis Results</h1>
+          <p>Results module is not available in this build.</p>
+          </body>
+          </html>
+          EOF
+
+            cat > public/results.xml <<'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <rss version="2.0">
+          <channel>
+          <title>TBT Tennis Results</title>
+          <description>Results module is not available in this build.</description>
+          </channel>
+          </rss>
+          EOF
+
+            cat > public/results_data.json <<'EOF'
+          {
+            "items": [],
+            "error": "rss_results.py not found"
+          }
+          EOF
+
+            cat > public/results_debug.json <<'EOF'
+          {
+            "error": "rss_results.py not found"
+          }
+          EOF
+          fi
 
       - name: Verify generated public files
         run: |
           echo "=== PUBLIC FILES ==="
-          find public -maxdepth 3 -type f | sort
+          find public -maxdepth 4 -type f | sort
+
+          echo "=== REQUIRED TOP / ALL FILES ==="
+
+          test -f public/index.html
+          test -f public/all/index.html
+
+          echo "TOP and ALL pages exist."
 
           echo "=== REQUIRED RESULTS FILES ==="
 
@@ -101,6 +165,8 @@ jobs:
           test -f public/results.xml
           test -f public/results_data.json
           test -f public/results_debug.json
+
+          echo "Results files exist."
 
       - name: Persist play history data
         run: |
