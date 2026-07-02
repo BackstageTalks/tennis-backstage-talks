@@ -39,10 +39,7 @@ _DEBUG = {
 
 
 def write_debug():
-    os.makedirs(
-        "public",
-        exist_ok=True,
-    )
+    os.makedirs("public", exist_ok=True)
 
     with open(
         ELO_DEBUG_PATH,
@@ -84,6 +81,35 @@ def normalize_name(name):
     value = value.replace("`", "")
 
     return " ".join(value.split())
+
+
+#
+# Backward compatibility for form_engine.py
+#
+
+def normalize(name):
+    return normalize_name(name)
+
+
+def surface_key(surface):
+    normalized = normalize_name(surface)
+
+    if not normalized:
+        return "hard"
+
+    if "clay" in normalized:
+        return "clay"
+
+    if "grass" in normalized:
+        return "grass"
+
+    if "indoor" in normalized:
+        return "indoor"
+
+    if "hard" in normalized:
+        return "hard"
+
+    return normalized
 
 
 def similarity(a, b):
@@ -163,8 +189,6 @@ def detect_name(row):
         "Name",
         "player_name",
         "Player Name",
-        "winner_name",
-        "loser_name",
     ]:
         if key in row and row.get(key):
             return row.get(key)
@@ -749,18 +773,106 @@ def find_player_record(player_name, store):
     }
 
 
+def find_player_key(*args):
+    """
+    Backward compatible helper for form_engine.py.
+
+    Supports both call styles:
+        find_player_key(store, player_name)
+        find_player_key(player_name, store)
+
+    Returns:
+        key existing in provided store, or None.
+    """
+
+    if len(args) != 2:
+        return None
+
+    first = args[0]
+    second = args[1]
+
+    if isinstance(first, dict):
+        store = first
+        player_name = second
+
+    else:
+        player_name = first
+        store = second
+
+    if not isinstance(store, dict):
+        return None
+
+    normalized = normalize_name(player_name)
+
+    if normalized in store:
+        return normalized
+
+    aliases = load_aliases()
+
+    alias_target = aliases.get(normalized)
+
+    if alias_target:
+        alias_normalized = normalize_name(alias_target)
+
+        if alias_normalized in store:
+            return alias_normalized
+
+    input_last = last_name(player_name)
+
+    candidates = []
+
+    for key in store.keys():
+        key_last = last_name(key)
+
+        last_score = similarity(
+            input_last,
+            key_last,
+        )
+
+        if last_score < 0.92:
+            continue
+
+        full_score = similarity(
+            player_name,
+            key,
+        )
+
+        if full_score >= 0.90:
+            candidates.append({
+                "key": key,
+                "score": full_score,
+            })
+
+    candidates.sort(
+        key=lambda item: item["score"],
+        reverse=True,
+    )
+
+    if candidates:
+        if len(candidates) == 1:
+            return candidates[0]["key"]
+
+        if (
+            candidates[0]["score"]
+            - candidates[1]["score"]
+        ) >= 0.03:
+            return candidates[0]["key"]
+
+    return None
+
+
 def get_rating_from_record(record, surface=None):
     if not record:
         return DEFAULT_ELO
 
     if surface:
-        surface_key = normalize_name(surface)
+        surface_key_value = surface_key(surface)
 
         surfaces = record.get("surfaces") or {}
 
         if isinstance(surfaces, dict):
             for key, value in surfaces.items():
-                if normalize_name(key) == surface_key:
+                if surface_key(key) == surface_key_value:
                     detected = safe_float(value)
 
                     if detected is not None:
