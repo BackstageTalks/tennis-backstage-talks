@@ -17,7 +17,7 @@ on:
     - cron: "30 5 * * *"
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -28,7 +28,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
 
     environment:
       name: github-pages
@@ -124,6 +124,9 @@ jobs:
           mkdir -p public/results
           mkdir -p data
           mkdir -p data/play_history
+          mkdir -p data/pick_history/all
+          mkdir -p data/pick_history/top5
+          mkdir -p data/results
 
       - name: Run predictions
         if: steps.prediction_window.outputs.should_run == 'true'
@@ -135,13 +138,15 @@ jobs:
         run: |
           python build_pages.py
 
-      - name: Build lightweight results page
+      - name: Run results checker
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
-          mkdir -p public
-          mkdir -p public/results
-
-          if [ ! -f public/results_data.json ]; then
+          if [ -f results_checker.py ]; then
+            echo "Running results_checker.py"
+            python results_checker.py
+          else
+            echo "results_checker.py not found."
+            echo "Creating fallback public/results_data.json"
             python - <<'PY'
           import json
           import os
@@ -167,7 +172,7 @@ jobs:
               "current_month": empty_summary,
               "all_time": empty_summary,
               "items": [],
-              "note": "Lightweight results page. Full results checker is handled by a separate workflow."
+              "note": "results_checker.py not found. Results page generated with fallback data."
           }
 
           with open("public/results_data.json", "w", encoding="utf-8") as file:
@@ -175,7 +180,84 @@ jobs:
           PY
           fi
 
+      - name: Ensure results data exists
+        if: steps.prediction_window.outputs.should_run == 'true'
+        run: |
+          mkdir -p public
+          mkdir -p public/results
+
+          if [ -f public/results_data.json ]; then
+            echo "public/results_data.json exists"
+          elif [ -f data/play_results.json ]; then
+            echo "Copying data/play_results.json to public/results_data.json"
+            cp data/play_results.json public/results_data.json
+          else
+            echo "Creating fallback public/results_data.json"
+            python - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+
+          os.makedirs("public", exist_ok=True)
+
+          empty_summary = {
+              "picks": 0,
+              "won": 0,
+              "lost": 0,
+              "void": 0,
+              "pending": 0,
+              "unknown": 0,
+              "units": 0.0,
+              "win_rate": None
+          }
+
+          payload = {
+              "generated_at": datetime.now(timezone.utc).isoformat(),
+              "today": empty_summary,
+              "last_7_days": empty_summary,
+              "current_month": empty_summary,
+              "all_time": empty_summary,
+              "items": [],
+              "note": "Fallback results_data.json created by workflow."
+          }
+
+          with open("public/results_data.json", "w", encoding="utf-8") as file:
+              json.dump(payload, file, indent=2, ensure_ascii=False)
+          PY
+          fi
+
+      - name: Build results page
+        if: steps.prediction_window.outputs.should_run == 'true'
+        run: |
           python rss_results.py
+
+      - name: Ensure results page exists
+        if: steps.prediction_window.outputs.should_run == 'true'
+        run: |
+          mkdir -p public/results
+
+          if [ ! -f public/results/index.html ]; then
+            echo "ERROR: public/results/index.html was not created."
+            echo "Listing public directory:"
+            find public -maxdepth 4 -type f | sort
+            exit 1
+          fi
+
+          if [ ! -f public/results.xml ]; then
+            echo "ERROR: public/results.xml was not created."
+            echo "Listing public directory:"
+            find public -maxdepth 4 -type f | sort
+            exit 1
+          fi
+
+          if [ ! -f public/results_data.json ]; then
+            echo "ERROR: public/results_data.json was not created."
+            echo "Listing public directory:"
+            find public -maxdepth 4 -type f | sort
+            exit 1
+          fi
+
+          echo "Results page files exist."
 
       - name: Remove production debug artifacts
         if: steps.prediction_window.outputs.should_run == 'true'
@@ -187,6 +269,7 @@ jobs:
           rm -f public/results_debug.json || true
           rm -f public/source_audit.json || true
           rm -f public/source_manifest.json || true
+          rm -f public/model_diagnostics.json || true
 
       - name: Verify generated public files
         if: steps.prediction_window.outputs.should_run == 'true'
@@ -221,3 +304,22 @@ jobs:
         if: steps.prediction_window.outputs.should_run == 'true'
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Persist play history and results data
+        if: steps.prediction_window.outputs.should_run == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add data/play_history/*.json || true
+          git add data/pick_history/all/*.json || true
+          git add data/pick_history/top5/*.json || true
+          git add data/play_results.json || true
+          git add data/results/*.json || true
+
+          if git diff --cached --quiet; then
+            echo "No play history or results changes to commit."
+          else
+            git commit -m "Update tennis play history and results [skip ci]"
+            git push
+          fi
