@@ -6,7 +6,6 @@ from datetime import datetime, timezone
 
 RESULTS_DATA_PATHS = [
     "public/results_data.json",
-    "data/play_results.json",
 ]
 
 RESULTS_PAGE_PATH = "public/results/index.html"
@@ -90,20 +89,57 @@ def empty_summary():
     }
 
 
-def load_results_data():
-    for path in RESULTS_DATA_PATHS:
-        data = load_json(path, None)
-
-        if data:
-            return data
-
+def empty_dataset(dataset):
     return {
+        "dataset": dataset,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "today": empty_summary(),
         "last_7_days": empty_summary(),
         "current_month": empty_summary(),
         "all_time": empty_summary(),
         "items": [],
+    }
+
+
+def normalize_results_payload(data):
+    if not isinstance(data, dict):
+        return {
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "top5": empty_dataset("top5"),
+            "all": empty_dataset("all"),
+        }
+
+    if "top5" in data and "all" in data:
+        return data
+
+    legacy = {
+        "dataset": "legacy",
+        "generated_at": data.get("generated_at"),
+        "today": data.get("today", empty_summary()),
+        "last_7_days": data.get("last_7_days", empty_summary()),
+        "current_month": data.get("current_month", empty_summary()),
+        "all_time": data.get("all_time", empty_summary()),
+        "items": data.get("items", []),
+    }
+
+    return {
+        "generated_at": data.get("generated_at") or datetime.now(timezone.utc).isoformat(),
+        "top5": empty_dataset("top5"),
+        "all": legacy,
+    }
+
+
+def load_results_data():
+    for path in RESULTS_DATA_PATHS:
+        data = load_json(path, None)
+
+        if data:
+            return normalize_results_payload(data)
+
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "top5": empty_dataset("top5"),
+        "all": empty_dataset("all"),
     }
 
 
@@ -229,7 +265,8 @@ def render_rows(items):
 
         meta = " • ".join(meta_parts)
 
-        rows.append(f"""
+        rows.append(
+            f"""
 <tr>
     <td>{safe(item.get("date"))}</td>
 
@@ -259,15 +296,72 @@ def render_rows(items):
         {units(item.get("units"))}
     </td>
 </tr>
-""")
+"""
+        )
 
     return "\n".join(rows)
 
 
+def render_table(items):
+    rows = render_rows(items)
+
+    return f"""
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Pick</th>
+                <th>Opponent</th>
+                <th>Win %</th>
+                <th>Odds</th>
+                <th>Status</th>
+                <th>Winner</th>
+                <th>Score</th>
+                <th>Units</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {rows}
+        </tbody>
+    </table>
+</div>
+"""
+
+
+def render_dataset_section(title, subtitle, data):
+    return f"""
+<section class="dataset-section">
+    <div class="section-header">
+        <h2>{safe(title)}</h2>
+        <p>{safe(subtitle)}</p>
+    </div>
+
+    {render_summary(data)}
+
+    {render_table(data.get("items", []))}
+</section>
+"""
+
+
 def render_page(data):
-    rows = render_rows(data.get("items", []))
-    summary = render_summary(data)
     nav = render_nav()
+
+    top5_data = data.get("top5", empty_dataset("top5"))
+    all_data = data.get("all", empty_dataset("all"))
+
+    top5_section = render_dataset_section(
+        "TOP5 Results",
+        "Track record for the daily TOP5 snapshot.",
+        top5_data,
+    )
+
+    all_section = render_dataset_section(
+        "ALL Results",
+        "Track record for all model-quality daily snapshot picks.",
+        all_data,
+    )
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -354,6 +448,27 @@ html, body {{
 
 .nav a:hover {{
     color: var(--blue);
+}}
+
+.dataset-section {{
+    margin-top: 30px;
+}}
+
+.section-header {{
+    margin-bottom: 16px;
+}}
+
+.section-header h2 {{
+    margin: 0;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--text);
+}}
+
+.section-header p {{
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 14px;
 }}
 
 .summary {{
@@ -555,29 +670,9 @@ tr:hover {{
         {nav}
     </div>
 
-    {summary}
+    {top5_section}
 
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Pick</th>
-                    <th>Opponent</th>
-                    <th>Win %</th>
-                    <th>Odds</th>
-                    <th>Status</th>
-                    <th>Winner</th>
-                    <th>Score</th>
-                    <th>Units</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {rows}
-            </tbody>
-        </table>
-    </div>
+    {all_section}
 
     <div class="footer">
         {safe(FOOTER_TEXT)}
@@ -594,13 +689,30 @@ def render_rss(data):
 
     items = []
 
-    for item in data.get("items", [])[:50]:
+    rss_candidates = []
+
+    for dataset_label, dataset_key in [
+        ("TOP5", "top5"),
+        ("ALL", "all"),
+    ]:
+        dataset = data.get(dataset_key, empty_dataset(dataset_key))
+
+        for item in dataset.get("items", [])[:50]:
+            rss_candidates.append(
+                (
+                    dataset_label,
+                    item,
+                )
+            )
+
+    for dataset_label, item in rss_candidates[:100]:
         title = (
-            f"{item.get('pick')} vs {item.get('opponent')} "
+            f"{dataset_label}: {item.get('pick')} vs {item.get('opponent')} "
             f"— {item.get('result_status', 'PENDING')}"
         )
 
         description_text = (
+            f"Dataset: {dataset_label}\n"
             f"Date: {item.get('date')}\n"
             f"Match: {item.get('match')}\n"
             f"Pick: {item.get('pick')}\n"
@@ -618,14 +730,16 @@ def render_rss(data):
             f"{FOOTER_TEXT}"
         )
 
-        items.append(f"""
+        items.append(
+            f"""
 <item>
 <title>{html.escape(str(title))}</title>
 <link>{BASE_URL}/results/</link>
 <description>{html.escape(description_text)}</description>
 <pubDate>{now}</pubDate>
 </item>
-""")
+"""
+        )
 
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
