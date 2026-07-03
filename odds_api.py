@@ -1,640 +1,608 @@
-import os
 import json
-import requests
+import os
+import re
 import unicodedata
+from datetime import datetime, timezone
 from difflib import SequenceMatcher
 
+import requests
 
-BASE_URL = "https://api.the-odds-api.com/v4"
 
-ODDS_DEBUG_PATH = "public/odds_debug.json"
+ODDS_API_BASE_URL = "https://api.the-odds-api.com/v4/sports"
 
-DEFAULT_REGIONS = "eu"
+DEFAULT_SPORT_KEYS = [
+    "tennis_atp_wimbledon",
+    "tennis_wta_wimbledon",
+    "tennis_atp",
+    "tennis_wta",
+]
+
+DEFAULT_REGIONS = "eu,uk,us,au"
 DEFAULT_MARKETS = "h2h"
 DEFAULT_ODDS_FORMAT = "decimal"
 
+REQUEST_TIMEOUT_SECONDS = 25
 
-_DEBUG = {
-    "provider": "The Odds API",
-    "secret_name": "ODDS_API_KEY",
-    "strategy": "upcoming_plus_sport_keys",
+MATCH_SCORE_THRESHOLD = 0.82
+OUTCOME_SCORE_THRESHOLD = 0.84
 
-    "sports_found": 0,
-    "tennis_sport_keys": [],
-
-    "upcoming_events": 0,
-    "sport_key_events": 0,
-    "events_before_dedup": 0,
-    "duplicates_removed": 0,
-    "events_from_api": 0,
-
-    "fetch_error": None,
-
-    "matched": 0,
-    "unmatched": 0,
-    "odds_found": 0,
-    "odds_missing": 0,
-
-    "sample_events": [],
-    "examples_matched": [],
-    "examples_unmatched": [],
-}
-
-
-def write_debug():
-    os.makedirs(
-        "public",
-        exist_ok=True,
-    )
-
-    with open(
-        ODDS_DEBUG_PATH,
-        "w",
-        encoding="utf-8",
-    ) as file:
-        json.dump(
-            _DEBUG,
-            file,
-            indent=2,
-            ensure_ascii=False,
-        )
-
-
-def normalize(name):
-    if not name:
-        return ""
-
-    value = str(name)
-
-    value = unicodedata.normalize(
-        "NFKD",
-        value,
-    )
-
-    value = "".join(
-        char
-        for char in value
-        if not unicodedata.combining(char)
-    )
-
-    value = value.lower()
-
-    value = value.replace("-", " ")
-    value = value.replace(".", " ")
-    value = value.replace(",", " ")
-    value = value.replace("'", "")
-    value = value.replace("’", "")
-    value = value.replace("`", "")
-
-    return " ".join(value.split())
-
-
-def similarity(a, b):
-    return SequenceMatcher(
-        None,
-        normalize(a),
-        normalize(b),
-    ).ratio()
+DEBUG_PATH = "public/odds_debug.json"
 
 
 def get_api_key():
-    api_key = os.getenv("ODDS_API_KEY")
-
-    if not api_key:
-        raise ValueError(
-            "Missing GitHub Secret ODDS_API_KEY"
-        )
-
-    return api_key
+    return os.getenv("ODDS_API_KEY")
 
 
-def request_json(url, params):
-    response = requests.get(
-        url,
-        params=params,
-        timeout=30,
-    )
+def get_sport_keys():
+    value = os.getenv("ODDS_SPORT_KEYS")
 
-    response.raise_for_status()
-
-    return response.json()
-
-
-def fetch_upcoming_odds():
-    """
-    Fetch all upcoming odds and keep only tennis events.
-    """
-
-    api_key = get_api_key()
-
-    data = request_json(
-        f"{BASE_URL}/sports/upcoming/odds/",
-        params={
-            "apiKey": api_key,
-            "regions": DEFAULT_REGIONS,
-            "markets": DEFAULT_MARKETS,
-            "oddsFormat": DEFAULT_ODDS_FORMAT,
-        },
-    )
-
-    if not isinstance(data, list):
-        raise ValueError(
-            f"Unexpected upcoming odds response: {data}"
-        )
-
-    tennis_events = []
-
-    for event in data:
-        sport_key = str(
-            event.get("sport_key", "")
-        ).lower()
-
-        sport_title = str(
-            event.get("sport_title", "")
-        ).lower()
-
-        if (
-            "tennis" in sport_key
-            or "tennis" in sport_title
-        ):
-            event["_provider"] = "the_odds_api"
-            event["_strategy"] = "upcoming"
-            tennis_events.append(event)
-
-    return tennis_events
-
-
-def fetch_sports():
-    api_key = get_api_key()
-
-    data = request_json(
-        f"{BASE_URL}/sports/",
-        params={
-            "apiKey": api_key,
-        },
-    )
-
-    if not isinstance(data, list):
-        raise ValueError(
-            f"Unexpected sports response: {data}"
-        )
-
-    _DEBUG["sports_found"] = len(data)
-
-    return data
-
-
-def get_tennis_sport_keys():
-    sports = fetch_sports()
+    if not value:
+        return DEFAULT_SPORT_KEYS
 
     keys = []
 
-    for sport in sports:
-        key = sport.get("key", "")
-        group = sport.get("group", "")
-        title = sport.get("title", "")
+    for item in value.split(","):
+        item = item.strip()
 
-        text = f"{key} {group} {title}".lower()
+        if item:
+            keys.append(item)
 
-        if "tennis" in text and sport.get("active") is True:
-            keys.append(key)
-
-    _DEBUG["tennis_sport_keys"] = keys
+    if not keys:
+        return DEFAULT_SPORT_KEYS
 
     return keys
 
 
-def fetch_odds_for_sport(sport_key):
-    api_key = get_api_key()
-
-    data = request_json(
-        f"{BASE_URL}/sports/{sport_key}/odds",
-        params={
-            "apiKey": api_key,
-            "regions": DEFAULT_REGIONS,
-            "markets": DEFAULT_MARKETS,
-            "oddsFormat": DEFAULT_ODDS_FORMAT,
-        },
+def get_regions():
+    return os.getenv(
+        "ODDS_REGIONS",
+        DEFAULT_REGIONS,
     )
 
-    if not isinstance(data, list):
+
+def normalize_name(name):
+    if name is None:
+        return ""
+
+    text = str(name).strip().lower()
+
+    text = unicodedata.normalize(
+        "NFKD",
+        text,
+    )
+
+    text = "".join(
+        char
+        for char in text
+        if not unicodedata.combining(char)
+    )
+
+    replacements = {
+        "-": " ",
+        "_": " ",
+        ".": " ",
+        ",": " ",
+        "'": " ",
+        "’": " ",
+        "`": " ",
+        "´": " ",
+        "(": " ",
+        ")": " ",
+        "[": " ",
+        "]": " ",
+        "{": " ",
+        "}": " ",
+        "/": " ",
+    }
+
+    for old, new in replacements.items():
+        text = text.replace(old, new)
+
+    text = re.sub(
+        r"\s+",
+        " ",
+        text,
+    ).strip()
+
+    return text
+
+
+def name_tokens(name):
+    normalized = normalize_name(name)
+
+    if not normalized:
         return []
 
-    for event in data:
-        event["_provider"] = "the_odds_api"
-        event["_strategy"] = "sport_key"
-        event["_sport_key"] = sport_key
+    return [
+        token
+        for token in normalized.split(" ")
+        if token
+    ]
 
-    return data
+
+def sorted_token_key(name):
+    tokens = name_tokens(name)
+
+    return " ".join(
+        sorted(tokens)
+    )
 
 
-def fetch_by_tennis_sport_keys():
-    keys = get_tennis_sport_keys()
+def safe_float(value):
+    try:
+        if value is None:
+            return None
 
-    all_events = []
+        if value == "":
+            return None
 
-    for key in keys:
-        try:
-            events = fetch_odds_for_sport(
-                key
+        return float(value)
+
+    except Exception:
+        return None
+
+
+def sequence_score(left, right):
+    left_normalized = normalize_name(left)
+    right_normalized = normalize_name(right)
+
+    if not left_normalized or not right_normalized:
+        return 0.0
+
+    if left_normalized == right_normalized:
+        return 1.0
+
+    if sorted_token_key(left_normalized) == sorted_token_key(right_normalized):
+        return 0.98
+
+    return SequenceMatcher(
+        None,
+        left_normalized,
+        right_normalized,
+    ).ratio()
+
+
+def token_overlap_score(left, right):
+    left_tokens = set(
+        name_tokens(left)
+    )
+
+    right_tokens = set(
+        name_tokens(right)
+    )
+
+    if not left_tokens or not right_tokens:
+        return 0.0
+
+    intersection = left_tokens.intersection(
+        right_tokens
+    )
+
+    union = left_tokens.union(
+        right_tokens
+    )
+
+    if not union:
+        return 0.0
+
+    return len(intersection) / len(union)
+
+
+def last_name_score(left, right):
+    left_tokens = name_tokens(left)
+    right_tokens = name_tokens(right)
+
+    if not left_tokens or not right_tokens:
+        return 0.0
+
+    left_last = left_tokens[-1]
+    right_last = right_tokens[-1]
+
+    if left_last != right_last:
+        return 0.0
+
+    if len(left_tokens) == 1 or len(right_tokens) == 1:
+        return 0.82
+
+    left_initials = "".join(
+        token[0]
+        for token in left_tokens[:-1]
+        if token
+    )
+
+    right_initials = "".join(
+        token[0]
+        for token in right_tokens[:-1]
+        if token
+    )
+
+    if left_initials and right_initials:
+        if left_initials == right_initials:
+            return 0.95
+
+        if left_initials[0] == right_initialsreturn 0.88
+
+    return 0.86
+
+
+def name_match_score(left, right):
+    scores = [
+        sequence_score(left, right),
+        token_overlap_score(left, right),
+        last_name_score(left, right),
+    ]
+
+    return max(scores)
+
+
+def event_match_score(player1, player2, event):
+    home_team = event.get("home_team")
+    away_team = event.get("away_team")
+
+    if not home_team or not away_team:
+        return 0.0
+
+    direct_score = (
+        name_match_score(player1, home_team)
+        + name_match_score(player2, away_team)
+    ) / 2.0
+
+    reverse_score = (
+        name_match_score(player1, away_team)
+        + name_match_score(player2, home_team)
+    ) / 2.0
+
+    return max(
+        direct_score,
+        reverse_score,
+    )
+
+
+def confidence_label(score):
+    if score >= 0.97:
+        return "exact"
+
+    if score >= 0.90:
+        return "strong"
+
+    if score >= MATCH_SCORE_THRESHOLD:
+        return "fuzzy"
+
+    return "low"
+
+
+def is_h2h_market(market):
+    return market.get("key") == "h2h"
+
+
+def iter_h2h_outcomes(event):
+    for bookmaker in event.get("bookmakers", []):
+        for market in bookmaker.get("markets", []):
+            if not is_h2h_market(market):
+                continue
+
+            for outcome in market.get("outcomes", []):
+                name = outcome.get("name")
+                price = safe_float(
+                    outcome.get("price")
+                )
+
+                if not name:
+                    continue
+
+                if price is None:
+                    continue
+
+                yield {
+                    "name": name,
+                    "price": price,
+                }
+
+
+def best_price_for_player(event, player_name):
+    best_price = None
+    best_score = 0.0
+
+    for outcome in iter_h2h_outcomes(event):
+        score = name_match_score(
+            player_name,
+            outcome.get("name"),
+        )
+
+        if score < OUTCOME_SCORE_THRESHOLD:
+            continue
+
+        price = outcome.get("price")
+
+        if best_price is None or price > best_price:
+            best_price = price
+            best_score = score
+
+    return best_price, best_score
+
+
+def extract_event_odds_for_players(event, player1, player2):
+    odds_player1, score_player1 = best_price_for_player(
+        event,
+        player1,
+    )
+
+    odds_player2, score_player2 = best_price_for_player(
+        event,
+        player2,
+    )
+
+    return {
+        "odds_player1": odds_player1,
+        "odds_player2": odds_player2,
+        "player1_odds_match_score": round(score_player1, 3),
+        "player2_odds_match_score": round(score_player2, 3),
+    }
+
+
+def request_odds_for_sport(sport_key):
+    api_key = get_api_key()
+
+    if not api_key:
+        print(
+            "ODDS API KEY MISSING: ODDS_API_KEY environment variable is not set."
+        )
+
+        return []
+
+    url = f"{ODDS_API_BASE_URL}/{sport_key}/odds"
+
+    params = {
+        "apiKey": api_key,
+        "regions": get_regions(),
+        "markets": DEFAULT_MARKETS,
+        "oddsFormat": DEFAULT_ODDS_FORMAT,
+    }
+
+    try:
+        response = requests.get(
+            url,
+            params=params,
+            timeout=REQUEST_TIMEOUT_SECONDS,
+        )
+
+        if response.status_code == 404:
+            print(
+                "ODDS API SPORT NOT FOUND:",
+                sport_key,
             )
 
-            all_events.extend(events)
+            return []
 
-        except Exception as exc:
-            if len(_DEBUG["examples_unmatched"]) < 30:
-                _DEBUG["examples_unmatched"].append({
-                    "sport_key": key,
-                    "reason": f"fetch_failed: {exc}",
-                })
+        if response.status_code == 422:
+            print(
+                "ODDS API SPORT UNAVAILABLE OR INVALID:",
+                sport_key,
+                response.text[:300],
+            )
 
-    return all_events
+            return []
+
+        response.raise_for_status()
+
+        data = response.json()
+
+        if not isinstance(data, list):
+            print(
+                "ODDS API UNEXPECTED RESPONSE:",
+                sport_key,
+                type(data),
+            )
+
+            return []
+
+        print(
+            "ODDS API FETCHED:",
+            sport_key,
+            "events:",
+            len(data),
+        )
+
+        return data
+
+    except Exception as exc:
+        print(
+            "ODDS API REQUEST ERROR:",
+            sport_key,
+            str(exc),
+        )
+
+        return []
 
 
 def deduplicate_events(events):
     seen = set()
-    unique = []
+    unique_events = []
 
     for event in events:
         event_id = event.get("id")
 
-        if not event_id:
-            key = (
-                event.get("sport_key"),
-                event.get("home_team"),
-                event.get("away_team"),
-                event.get("commence_time"),
-            )
-        else:
+        if event_id:
             key = event_id
+
+        else:
+            key = (
+                normalize_name(event.get("home_team"))
+                + "::"
+                + normalize_name(event.get("away_team"))
+                + "::"
+                + str(event.get("commence_time"))
+            )
 
         if key in seen:
             continue
 
         seen.add(key)
-        unique.append(event)
+        unique_events.append(event)
 
-    return unique
+    return unique_events
+
+
+def save_odds_debug(events):
+    try:
+        os.makedirs(
+            "public",
+            exist_ok=True,
+        )
+
+        payload = {
+            "generated_at": datetime.now(
+                timezone.utc
+            ).isoformat(),
+
+            "events_count": len(events),
+
+            "events": [
+                {
+                    "id": event.get("id"),
+                    "sport_key": event.get("sport_key"),
+                    "sport_title": event.get("sport_title"),
+                    "commence_time": event.get("commence_time"),
+                    "home_team": event.get("home_team"),
+                    "away_team": event.get("away_team"),
+                    "bookmakers_count": len(
+                        event.get("bookmakers", [])
+                    ),
+                }
+                for event in events
+            ],
+        }
+
+        with open(
+            DEBUG_PATH,
+            "w",
+            encoding="utf-8",
+        ) as file:
+            json.dump(
+                payload,
+                file,
+                indent=2,
+                ensure_ascii=False,
+            )
+
+    except Exception as exc:
+        print(
+            "ODDS DEBUG SAVE ERROR:",
+            str(exc),
+        )
 
 
 def fetch_odds():
-    """
-    Existing prediction engines call this function.
+    all_events = []
 
-    Returns:
-        list of tennis events from The Odds API.
-    """
-
-    try:
-        upcoming_events = fetch_upcoming_odds()
-
-        sport_key_events = fetch_by_tennis_sport_keys()
-
-        combined = (
-            upcoming_events
-            + sport_key_events
+    for sport_key in get_sport_keys():
+        events = request_odds_for_sport(
+            sport_key,
         )
 
-        unique_events = deduplicate_events(
-            combined
-        )
+        all_events.extend(events)
 
-        _DEBUG["upcoming_events"] = len(
-            upcoming_events
-        )
-
-        _DEBUG["sport_key_events"] = len(
-            sport_key_events
-        )
-
-        _DEBUG["events_before_dedup"] = len(
-            combined
-        )
-
-        _DEBUG["duplicates_removed"] = (
-            len(combined)
-            - len(unique_events)
-        )
-
-        _DEBUG["events_from_api"] = len(
-            unique_events
-        )
-
-        _DEBUG["fetch_error"] = None
-
-        _DEBUG["sample_events"] = [
-            {
-                "id": event.get("id"),
-                "sport_key": event.get("sport_key") or event.get("_sport_key"),
-                "sport_title": event.get("sport_title"),
-                "home_team": event.get("home_team"),
-                "away_team": event.get("away_team"),
-                "commence_time": event.get("commence_time"),
-                "bookmakers_count": len(event.get("bookmakers", [])),
-                "strategy": event.get("_strategy"),
-            }
-            for event in unique_events[:30]
-        ]
-
-        write_debug()
-
-        return unique_events
-
-    except Exception as exc:
-        _DEBUG["events_from_api"] = 0
-        _DEBUG["fetch_error"] = str(exc)
-
-        write_debug()
-
-        print(
-            "fetch_odds error:",
-            exc,
-        )
-
-        return []
-
-
-def event_match_score(player1, player2, event):
-    home = (
-        event.get("home_team")
-        or event.get("home")
-        or ""
+    unique_events = deduplicate_events(
+        all_events,
     )
 
-    away = (
-        event.get("away_team")
-        or event.get("away")
-        or ""
+    print(
+        "ODDS API TOTAL UNIQUE EVENTS:",
+        len(unique_events),
     )
 
-    direct_score = (
-        similarity(player1, home)
-        +
-        similarity(player2, away)
+    save_odds_debug(
+        unique_events,
     )
 
-    reversed_score = (
-        similarity(player1, away)
-        +
-        similarity(player2, home)
-    )
-
-    if direct_score >= reversed_score:
-        return {
-            "score": direct_score,
-            "orientation": "direct",
-            "home": home,
-            "away": away,
-        }
-
-    return {
-        "score": reversed_score,
-        "orientation": "reversed",
-        "home": home,
-        "away": away,
-    }
+    return unique_events
 
 
-def find_best_event(player1, player2, events):
+def find_best_event(player1, player2, odds_matches):
     best_event = None
-    best_meta = None
-    best_score = 0
+    best_score = 0.0
 
-    for event in events:
-        meta = event_match_score(
+    for event in odds_matches or []:
+        score = event_match_score(
             player1,
             player2,
             event,
         )
 
-        score = meta["score"]
-
         if score > best_score:
             best_score = score
             best_event = event
-            best_meta = meta
 
-    if best_score < 1.50:
-        return None, None
+    if best_score < MATCH_SCORE_THRESHOLD:
+        return None, best_score
 
-    return best_event, best_meta
-
-
-def extract_h2h_odds(event):
-    home_team = (
-        event.get("home_team")
-        or event.get("home")
-        or ""
-    )
-
-    away_team = (
-        event.get("away_team")
-        or event.get("away")
-        or ""
-    )
-
-    bookmakers = event.get(
-        "bookmakers",
-        [],
-    )
-
-    best_home = None
-    best_away = None
-
-    best_home_bookmaker = None
-    best_away_bookmaker = None
-
-    markets_seen = []
-
-    for bookmaker in bookmakers:
-        bookmaker_title = (
-            bookmaker.get("title")
-            or bookmaker.get("key")
-            or "unknown"
-        )
-
-        markets = bookmaker.get(
-            "markets",
-            [],
-        )
-
-        for market in markets:
-            market_key = market.get("key")
-            markets_seen.append(market_key)
-
-            if market_key != "h2h":
-                continue
-
-            outcomes = market.get(
-                "outcomes",
-                [],
-            )
-
-            for outcome in outcomes:
-                outcome_name = outcome.get("name")
-                price = outcome.get("price")
-
-                if outcome_name is None or price is None:
-                    continue
-
-                try:
-                    price = float(price)
-                except Exception:
-                    continue
-
-                sim_home = similarity(
-                    outcome_name,
-                    home_team,
-                )
-
-                sim_away = similarity(
-                    outcome_name,
-                    away_team,
-                )
-
-                if sim_home >= sim_away:
-                    if best_home is None or price > best_home:
-                        best_home = price
-                        best_home_bookmaker = bookmaker_title
-                else:
-                    if best_away is None or price > best_away:
-                        best_away = price
-                        best_away_bookmaker = bookmaker_title
-
-    if best_home is None or best_away is None:
-        return None
-
-    if best_home_bookmaker == best_away_bookmaker:
-        bookmaker = best_home_bookmaker
-    else:
-        bookmaker = "best_available"
-
-    return {
-        "home_odds": best_home,
-        "away_odds": best_away,
-        "bookmaker": bookmaker,
-        "home_bookmaker": best_home_bookmaker,
-        "away_bookmaker": best_away_bookmaker,
-        "market_name": "h2h",
-    }
+    return best_event, best_score
 
 
-def find_match_odds(player1, player2, odds_data):
-    """
-    Existing prediction engines call this function.
-
-    Returns:
-    {
-        "odds_player1": 1.75,
-        "odds_player2": 2.10,
-        "bookmaker": "...",
-        "odds_source": "The Odds API"
-    }
-
-    If not found:
-    {}
-    """
-
-    if not odds_data:
-        _DEBUG["unmatched"] += 1
-        _DEBUG["odds_missing"] += 1
-
-        if len(_DEBUG["examples_unmatched"]) < 50:
-            _DEBUG["examples_unmatched"].append({
-                "player1": player1,
-                "player2": player2,
-                "reason": "no_odds_data",
-            })
-
-        write_debug()
-
-        return {}
-
-    event, meta = find_best_event(
+def find_match_odds(player1, player2, odds_matches):
+    event, event_score = find_best_event(
         player1,
         player2,
-        odds_data,
+        odds_matches,
     )
 
-    if not event or not meta:
-        _DEBUG["unmatched"] += 1
-        _DEBUG["odds_missing"] += 1
+    if not event:
+        return {
+            "odds_player1": None,
+            "odds_player2": None,
+            "odds_source": "the_odds_api",
+            "matched_event": None,
+            "match_confidence": "not_matched",
+        }
 
-        if len(_DEBUG["examples_unmatched"]) < 50:
-            _DEBUG["examples_unmatched"].append({
-                "player1": player1,
-                "player2": player2,
-                "reason": "no_matching_event",
-            })
+    extracted = extract_event_odds_for_players(
+        event,
+        player1,
+        player2,
+    )
 
-        write_debug()
-
-        return {}
-
-    odds = extract_h2h_odds(event)
-
-    if not odds:
-        _DEBUG["matched"] += 1
-        _DEBUG["odds_missing"] += 1
-
-        if len(_DEBUG["examples_unmatched"]) < 50:
-            _DEBUG["examples_unmatched"].append({
-                "player1": player1,
-                "player2": player2,
-                "event_home": meta.get("home"),
-                "event_away": meta.get("away"),
-                "event_id": event.get("id"),
-                "reason": "no_h2h_market",
-            })
-
-        write_debug()
-
-        return {}
-
-    if meta["orientation"] == "direct":
-        odds_player1 = odds["home_odds"]
-        odds_player2 = odds["away_odds"]
-    else:
-        odds_player1 = odds["away_odds"]
-        odds_player2 = odds["home_odds"]
+    matched_event = (
+        f"{event.get('home_team')} vs {event.get('away_team')}"
+    )
 
     result = {
-        "odds_player1": odds_player1,
-        "odds_player2": odds_player2,
-        "bookmaker": odds.get("bookmaker"),
-        "home_bookmaker": odds.get("home_bookmaker"),
-        "away_bookmaker": odds.get("away_bookmaker"),
-        "odds_source": "The Odds API",
-        "event_home": meta.get("home"),
-        "event_away": meta.get("away"),
-        "event_id": event.get("id"),
-        "sport_key": event.get("sport_key") or event.get("_sport_key"),
-        "market_name": "h2h",
-        "match_score": round(
-            meta["score"],
+        "odds_player1": extracted.get("odds_player1"),
+        "odds_player2": extracted.get("odds_player2"),
+        "odds_source": "the_odds_api",
+
+        # Debug / internal fields.
+        # These are useful in JSON/logs, but do not need to be displayed on web.
+        "matched_event": matched_event,
+        "match_confidence": confidence_label(
+            event_score,
+        ),
+        "event_match_score": round(
+            event_score,
             3,
         ),
+        "player1_odds_match_score":
+            extracted.get("player1_odds_match_score"),
+        "player2_odds_match_score":
+            extracted.get("player2_odds_match_score"),
     }
 
-    _DEBUG["matched"] += 1
-    _DEBUG["odds_found"] += 1
-
-    if len(_DEBUG["examples_matched"]) < 50:
-        _DEBUG["examples_matched"].append({
-            "player1": player1,
-            "player2": player2,
-            "event_home": meta.get("home"),
-            "event_away": meta.get("away"),
-            "event_id": event.get("id"),
-            "odds_player1": odds_player1,
-            "odds_player2": odds_player2,
-            "bookmaker": odds.get("bookmaker"),
-            "score": round(
-                meta["score"],
-                3,
-            ),
-        })
-
-    write_debug()
+    if (
+        result["odds_player1"] is None
+        or result["odds_player2"] is None
+    ):
+        print(
+            "ODDS MATCHED EVENT BUT MISSING PLAYER PRICE:",
+            player1,
+            "vs",
+            player2,
+            "matched_event:",
+            matched_event,
+            "event_score:",
+            round(event_score, 3),
+            "odds_player1:",
+            result["odds_player1"],
+            "odds_player2:",
+            result["odds_player2"],
+        )
 
     return result
