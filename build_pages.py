@@ -21,6 +21,8 @@ PRIMARY_MIN_ODDS = 1.50
 SECONDARY_MIN_ODDS = 1.35
 SECONDARY_MIN_PROBABILITY = 0.70
 
+HIGHEST_ODDS_MIN_PROBABILITY = 0.01
+
 
 def extract_date_from_filename(path):
     if not path:
@@ -189,6 +191,27 @@ def prediction_sort_value(prediction):
     return probability
 
 
+def odds_sort_value(prediction):
+    odds = safe_float(
+        prediction.get("odds")
+    )
+
+    probability = safe_float(
+        prediction.get("probability")
+    )
+
+    if odds is None:
+        odds = 0.0
+
+    if probability is None:
+        probability = 0.0
+
+    return (
+        odds,
+        probability,
+    )
+
+
 def clone_prediction(prediction):
     return copy.deepcopy(
         prediction
@@ -203,13 +226,61 @@ def mark_top_mode(prediction, mode, reason):
     updated["top_mode"] = mode
     updated["top_reason"] = reason
 
-    if mode == "MODEL_ONLY":
+    if mode in [
+        "MODEL_ONLY",
+        "HIGHEST_ODDS_FALLBACK",
+    ]:
         updated["bet_tag"] = "INFO ONLY"
 
-        if not updated.get("odds_source"):
+        if not updated.get("odds_source") and mode == "MODEL_ONLY":
             updated["odds_source"] = "missing"
 
     return updated
+
+
+def has_basic_model_data(prediction):
+    if not prediction.get("pick"):
+        return False
+
+    if not prediction.get("opponent"):
+        return False
+
+    if not prediction.get("match"):
+        return False
+
+    probability = safe_float(
+        prediction.get("probability")
+    )
+
+    if probability is None:
+        return False
+
+    if probability < HIGHEST_ODDS_MIN_PROBABILITY:
+        return False
+
+    return True
+
+
+def usable_odds_predictions(all_predictions):
+    usable = []
+
+    for prediction in all_predictions:
+        odds = safe_float(
+            prediction.get("odds")
+        )
+
+        if odds is None:
+            continue
+
+        if odds <= 1.0:
+            continue
+
+        if not has_basic_model_data(prediction):
+            continue
+
+        usable.append(prediction)
+
+    return usable
 
 
 def derive_primary_top(all_predictions):
@@ -293,29 +364,52 @@ def derive_model_only_top(all_predictions):
     eligible = []
 
     for prediction in all_predictions:
-        probability = safe_float(
-            prediction.get("probability")
-        )
-
-        if probability is None:
-            continue
-
-        if not prediction.get("pick"):
-            continue
-
-        if not prediction.get("match"):
+        if not has_basic_model_data(prediction):
             continue
 
         eligible.append(
             mark_top_mode(
                 prediction,
                 "MODEL_ONLY",
-                "no matched odds available; model-only fallback",
+                "no usable matched odds available; model-only fallback",
             )
         )
 
     eligible.sort(
         key=prediction_sort_value,
+        reverse=True,
+    )
+
+    return eligible[:TOP_N]
+
+
+def derive_highest_odds_fallback_top(all_predictions):
+    eligible = []
+
+    for prediction in all_predictions:
+        if not has_basic_model_data(prediction):
+            continue
+
+        odds = safe_float(
+            prediction.get("odds")
+        )
+
+        if odds is None:
+            continue
+
+        if odds <= 1.0:
+            continue
+
+        eligible.append(
+            mark_top_mode(
+                prediction,
+                "HIGHEST_ODDS_FALLBACK",
+                "no primary or secondary picks available; selected by highest available odds",
+            )
+        )
+
+    eligible.sort(
+        key=odds_sort_value,
         reverse=True,
     )
 
@@ -347,12 +441,40 @@ def derive_top_from_all(all_predictions):
 
         return secondary
 
+    odds_available = usable_odds_predictions(
+        all_predictions
+    )
+
+    if not odds_available:
+        model_only = derive_model_only_top(
+            all_predictions
+        )
+
+        print(
+            "TOP5 derived from MODEL_ONLY fallback:",
+            len(model_only),
+        )
+
+        return model_only
+
+    highest_odds = derive_highest_odds_fallback_top(
+        all_predictions
+    )
+
+    print(
+        "TOP5 derived from HIGHEST_ODDS_FALLBACK:",
+        len(highest_odds),
+    )
+
+    if highest_odds:
+        return highest_odds
+
     model_only = derive_model_only_top(
         all_predictions
     )
 
     print(
-        "TOP5 derived from MODEL_ONLY fallback:",
+        "TOP5 derived from FINAL MODEL_ONLY fallback:",
         len(model_only),
     )
 
@@ -376,6 +498,12 @@ def print_prediction_sample(label, predictions):
                     "pick": prediction.get("pick"),
                     "opponent": prediction.get("opponent"),
                     "probability": prediction.get("probability"),
+                    "corq_ai_probability": prediction.get("corq_ai_probability"),
+                    "bst_ai_probability": prediction.get("bst_ai_probability"),
+                    "ai_match": prediction.get("ai_match"),
+                    "ai_lean": prediction.get("ai_lean"),
+                    "ai_match_color": prediction.get("ai_match_color"),
+                    "bst_ai_status": prediction.get("bst_ai_status"),
                     "odds": prediction.get("odds"),
                     "time": prediction.get("time"),
                     "tournament": prediction.get("tournament"),
@@ -418,7 +546,7 @@ def validate_predictions(top_predictions, all_predictions):
 
     if not top_predictions:
         raise ValueError(
-            "TOP predictions are empty even after fallback. Refusing deploy."
+            "TOP predictions are empty even after all fallback tiers. Refusing deploy."
         )
 
 
