@@ -1,0 +1,61 @@
+{
+  "schema": "bst_ai_status_v1",
+  "created_at": "2026-07-03T13:59:28+00:00",
+  "status": "OK",
+  "reports": [
+    {
+      "report_id": "atp_elo",
+      "tour": "ATP",
+      "type": "elo",
+      "source_url": "http://www.tennisabstract.com/reports/atp_elo_ratings.html",
+      "last_update": "2026-06-29",
+      "parsed_at": "2026-07-03T13:59:27+00:00",
+      "status": "OK",
+      "source_status": "LIVE_OK",
+      "record_count": 533,
+      "warnings": []
+    },
+    {
+      "report_id": "atp_yelo",
+      "tour": "ATP",
+      "type": "yelo",
+      "source_url": "http://www.tennisabstract.com/reports/atp_season_yelo_ratings.html",
+      "last_update": "2026-06-29",
+      "parsed_at": "2026-07-03T13:59:27+00:00",
+      "status": "OK",
+      "source_status": "LIVE_OK",
+      "record_count": 469,
+      "warnings": []
+    },
+    {
+      "report_id": "wta_elo",
+      "tour": "WTA",
+      "type": "elo",
+      "source_url": "http://www.tennisabstract.com/reports/wta_elo_ratings.html",
+      "last_update": "2026-06-29",
+      "parsed_at": "2026-07-03T13:59:27+00:00",
+      "status": "OK",
+      "source_status": "LIVE_OK",
+      "record_count": 540,
+      "warnings": []
+    },
+    {
+      "report_id": "wta_yelo",
+      "tour": "WTA",
+      "type": "yelo",
+      "source_url": "http://www.tennisabstract.com/reports/wta_season_yelo_ratings.html",
+      "last_update": "2026-06-29",
+      "parsed_at": "2026-07-03T13:59:28+00:00",
+      "status": "OK",
+      "source_status": "LIVE_OK",
+      "record_count": 437,
+      "warnings": []
+    }
+  ],
+  "player_count": 1113,
+  "rules": {
+    "real_data_only": true,
+    "bst_ai_fallback_50_percent": false,
+    "if_missing_data": "No data"
+  }
+}
