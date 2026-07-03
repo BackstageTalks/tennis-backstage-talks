@@ -171,16 +171,16 @@ def download_html(report: TAReport) -> str:
 
     response.raise_for_status()
 
-    html = response.text
+    html_text = response.text
 
     output_file = OUTPUT_HTML_DIR / report.html_file
 
     output_file.write_text(
-        html,
+        html_text,
         encoding="utf-8",
     )
 
-    return html
+    return html_text
 
 
 def find_main_table(soup: BeautifulSoup) -> Optionaltables = soup.find_all("table")
@@ -290,9 +290,9 @@ def parse_yelo_row(
     }
 
 
-def parse_report(html: str, report: TAReport) -> Dict[str, Any]:
+def parse_report(html_text: str, report: TAReport) -> Dict[str, Any]:
     soup = BeautifulSoup(
-        html,
+        html_text,
         "html.parser",
     )
 
@@ -532,12 +532,12 @@ def main() -> None:
             f"Downloading {report.report_id}: {report.url}"
         )
 
-        html = download_html(
+        html_text = download_html(
             report,
         )
 
         parsed = parse_report(
-            html,
+            html_text,
             report,
         )
 
