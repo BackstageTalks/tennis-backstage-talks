@@ -570,8 +570,8 @@ def find_match_odds(player1, player2, odds_matches):
         "odds_player2": extracted.get("odds_player2"),
         "odds_source": "the_odds_api",
 
-        # Debug / internal fields.
-        # These are useful in JSON/logs, but do not need to be displayed on web.
+        # Internal/debug fields.
+        # These are useful in JSON/logs but do not need to be displayed on web.
         "matched_event": matched_event,
         "match_confidence": confidence_label(
             event_score,
