@@ -21,9 +21,11 @@ permissions:
   pages: write
   id-token: write
 
+
 concurrency:
-  group: tennis-pages
-  cancel-in-progress: true
+  group: tennis-backstage-talks-main-write
+  cancel-in-progress: false
+
 
 jobs:
   build:
