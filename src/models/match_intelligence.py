@@ -11,6 +11,9 @@ GRAND_SLAMS = [
 ]
 
 
+MOST_LIKELY_TIE_TOLERANCE = 0.001
+
+
 def is_grand_slam(tournament):
     if not tournament:
         return False
@@ -220,14 +223,52 @@ def deciding_set_probability(distribution, best_of):
     )
 
 
-def most_likely_score(distribution):
+def most_likely_score(
+    distribution,
+    tie_tolerance=MOST_LIKELY_TIE_TOLERANCE,
+):
+    """
+    Return the most likely score.
+
+    If multiple scores are effectively tied for highest probability,
+    return "Balanced" instead of choosing the first dictionary item.
+
+    Example:
+    BO3 at 50%:
+        2-0, 2-1, 1-2, 0-2 are all 25%
+        -> Balanced
+
+    BO5 at 50%:
+        several outcomes are tied
+        -> Balanced
+    """
+
+    if not distribution:
+        return None
+
+    max_probability = max(
+        distribution.values()
+    )
+
+    top_scores = [
+        score
+        for score, probability in distribution.items()
+        if abs(probability - max_probability) <= tie_tolerance
+    ]
+
+    if len(top_scores) > 1:
+        return "Balanced"
+
+    return top_scores[0]
+
+
+def most_likely_score_probability(distribution):
     if not distribution:
         return None
 
     return max(
-        distribution.items(),
-        key=lambda item: item[1],
-    )[0]
+        distribution.values()
+    )
 
 
 def rounded_score_probabilities(distribution):
@@ -276,12 +317,6 @@ def games_market_placeholder(expected_games, best_of):
     Do not use as betting recommendation.
     """
 
-    if best_of == 5:
-        return {
-            "games_pick": "INFO ONLY",
-            "games_line": None,
-        }
-
     return {
         "games_pick": "INFO ONLY",
         "games_line": None,
@@ -321,6 +356,10 @@ def build_score_model(probability, best_of):
         distribution
     )
 
+    likely_score_probability = most_likely_score_probability(
+        distribution
+    )
+
     expected_games = expected_games_placeholder(
         expected_sets,
         sets_probability,
@@ -339,6 +378,7 @@ def build_score_model(probability, best_of):
         "sets_probability": sets_probability,
         "sets_probability_label": sets_probability_label,
         "most_likely_score": likely_score,
+        "most_likely_score_probability": likely_score_probability,
         "expected_games": expected_games,
         "games_pick": games_market["games_pick"],
         "games_line": games_market["games_line"],
@@ -438,6 +478,11 @@ def build_match_intelligence(
 
         "most_likely_score":
             score_model["most_likely_score"],
+
+        "most_likely_score_probability": round(
+            score_model["most_likely_score_probability"],
+            4,
+        ) if score_model["most_likely_score_probability"] is not None else None,
 
         "score_probabilities":
             rounded_score_probabilities(
