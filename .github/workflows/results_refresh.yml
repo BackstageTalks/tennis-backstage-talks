@@ -28,10 +28,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
@@ -40,20 +40,24 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4
 
-      - name: Prepare public folder
+      - name: Prepare folders
         run: |
-          echo "===== PREPARE PUBLIC FOLDER ====="
+          echo "===== PREPARE FOLDERS ====="
           mkdir -p public
+          mkdir -p public/results
+          mkdir -p data/results
+          mkdir -p data/pick_history/all
+          mkdir -p data/pick_history/top5
 
-      - name: Generate TOP5 results from existing predictions
+      - name: Generate TOP5 and ALL results
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
         run: python results_checker.py
 
-      - name: Generate ALL results from existing ALL predictions
+      - name: Generate results page and RSS
         env:
           LOCAL_TZ_OFFSET_HOURS: 2
-        run: python results_checker_all.py
+        run: python rss_results.py
 
       - name: Update long-term history database
         run: python history_tracker.py
@@ -61,32 +65,24 @@ jobs:
       - name: Generate model stats page
         run: python stats_page.py
 
-      - name: Generate TOP5 results page and RSS
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python rss_results.py
-
-      - name: Generate ALL results page and RSS
-        env:
-          LOCAL_TZ_OFFSET_HOURS: 2
-        run: python rss_results_all.py
-
       - name: Generate link hub
         run: bash publish_links.sh
 
-      - name: Commit updated history database
+      - name: Commit updated results and history data
         run: |
-          echo "===== COMMIT HISTORY DATABASE ====="
+          echo "===== COMMIT UPDATED RESULTS AND HISTORY DATA ====="
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git add data/ || true
+          git add public/results_data.json || true
+          git add public/results_debug.json || true
 
           if git diff --cached --quiet; then
-            echo "No history changes to commit."
+            echo "No data changes to commit."
           else
-            git commit -m "Update tennis history database [skip ci]"
+            git commit -m "Refresh tennis results data [skip ci]"
             git push
           fi
 
@@ -94,6 +90,36 @@ jobs:
         run: |
           echo "===== PUBLIC FILES ====="
           ls -R public
+
+          echo "===== DATA FILES ====="
+          ls -R data || true
+
+          echo "===== CHECK RESULTS DATA ====="
+
+          if [ ! -f "data/results/all_results.json" ]; then
+            echo "ERROR: data/results/all_results.json missing"
+            exit 1
+          fi
+
+          if [ ! -f "data/results/top5_results.json" ]; then
+            echo "ERROR: data/results/top5_results.json missing"
+            exit 1
+          fi
+
+          if [ ! -f "public/results_data.json" ]; then
+            echo "ERROR: public/results_data.json missing"
+            exit 1
+          fi
+
+          if [ ! -f "public/results/index.html" ]; then
+            echo "ERROR: public/results/index.html missing"
+            exit 1
+          fi
+
+          if [ ! -f "public/results.xml" ]; then
+            echo "ERROR: public/results.xml missing"
+            exit 1
+          fi
 
           echo "===== CHECK HISTORY DB ====="
 
@@ -126,14 +152,20 @@ jobs:
             exit 1
           fi
 
+          echo "===== RESULTS DATA PREVIEW ====="
+          head -n 120 public/results_data.json || true
+
+          echo "===== RESULTS PAGE PREVIEW ====="
+          head -n 120 public/results/index.html || true
+
           echo "===== HISTORY DB PREVIEW ====="
           head -n 20 data/bet_history.jsonl || true
 
           echo "===== STATS PAGE PREVIEW ====="
-          head -n 100 public/stats/index.html
+          head -n 100 public/stats/index.html || true
 
           echo "===== HUB 177 PREVIEW ====="
-          head -n 120 public/H4V34N1C3D4Y177/index.html
+          head -n 120 public/H4V34N1C3D4Y177/index.html || true
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
