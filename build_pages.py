@@ -1,3 +1,4 @@
+import copy
 import glob
 import json
 import os
@@ -15,7 +16,10 @@ BASE_URL = "https://backstagetalks.github.io/tennis-backstage-talks"
 SITE_TITLE = "BackstageTalks Statistic Model"
 
 TOP_N = 5
-MIN_ODDS = 1.50
+
+PRIMARY_MIN_ODDS = 1.50
+SECONDARY_MIN_ODDS = 1.35
+SECONDARY_MIN_PROBABILITY = 0.70
 
 
 def extract_date_from_filename(path):
@@ -95,19 +99,93 @@ def safe_float(value):
         if value is None:
             return None
 
+        if value == "":
+            return None
+
         return float(value)
 
     except Exception:
         return None
 
 
-def derive_top_from_all(all_predictions):
-    """
-    Fallback only.
+def prediction_sort_value(prediction):
+    probability = safe_float(
+        prediction.get("probability")
+    )
 
-    If public/predictions_YYYY-MM-DD.json is missing or empty,
-    derive TOP5 from ALL by current production rule:
-    odds > 1.50 + top 5 by Win %.
+    if probability is None:
+        return 0.0
+
+    return probability
+
+
+def clone_prediction(prediction):
+    return copy.deepcopy(
+        prediction
+    )
+
+
+def mark_top_mode(prediction, mode, reason):
+    updated = clone_prediction(
+        prediction
+    )
+
+    updated["top_mode"] = mode
+    updated["top_reason"] = reason
+
+    if mode == "MODEL_ONLY":
+        updated["bet_tag"] = "INFO ONLY"
+
+        if not updated.get("odds_source"):
+            updated["odds_source"] = "missing"
+
+    return updated
+
+
+def derive_primary_top(all_predictions):
+    eligible = []
+
+    for prediction in all_predictions:
+        odds = safe_float(
+            prediction.get("odds")
+        )
+
+        probability = safe_float(
+            prediction.get("probability")
+        )
+
+        if odds is None:
+            continue
+
+        if probability is None:
+            continue
+
+        if odds < PRIMARY_MIN_ODDS:
+            continue
+
+        eligible.append(
+            mark_top_mode(
+                prediction,
+                "ODDS_PRIMARY",
+                "odds >= 1.50",
+            )
+        )
+
+    eligible.sort(
+        key=prediction_sort_value,
+        reverse=True,
+    )
+
+    return eligible[:TOP_N]
+
+
+def derive_secondary_top(all_predictions):
+    """
+    Secondary tier.
+
+    Use only when primary TOP is empty.
+    Allows slightly lower odds only when probability is strong.
+    This avoids taking very low odds like 1.20.
     """
 
     eligible = []
@@ -127,19 +205,113 @@ def derive_top_from_all(all_predictions):
         if probability is None:
             continue
 
-        if odds <= MIN_ODDS:
+        if odds < SECONDARY_MIN_ODDS:
             continue
 
-        eligible.append(prediction)
+        if probability < SECONDARY_MIN_PROBABILITY:
+            continue
+
+        eligible.append(
+            mark_top_mode(
+                prediction,
+                "ODDS_SECONDARY",
+                "odds >= 1.35 and probability >= 70%",
+            )
+        )
 
     eligible.sort(
-        key=lambda item: safe_float(
-            item.get("probability")
-        ) or 0.0,
+        key=prediction_sort_value,
         reverse=True,
     )
 
     return eligible[:TOP_N]
+
+
+def derive_model_only_top(all_predictions):
+    """
+    Last-resort fallback.
+
+    This prevents TOP5 from being empty when odds matching fails.
+    These are not value picks. They are model-only INFO ONLY picks.
+    """
+
+    eligible = []
+
+    for prediction in all_predictions:
+        probability = safe_float(
+            prediction.get("probability")
+        )
+
+        if probability is None:
+            continue
+
+        if not prediction.get("pick"):
+            continue
+
+        if not prediction.get("match"):
+            continue
+
+        eligible.append(
+            mark_top_mode(
+                prediction,
+                "MODEL_ONLY",
+                "no matched odds available; model-only fallback",
+            )
+        )
+
+    eligible.sort(
+        key=prediction_sort_value,
+        reverse=True,
+    )
+
+    return eligible[:TOP_N]
+
+
+def derive_top_from_all(all_predictions):
+    """
+    TOP5 selection strategy:
+
+    1. odds >= 1.50
+    2. if none: odds >= 1.35 and probability >= 70%
+    3. if none: model-only fallback with INFO ONLY tag
+
+    This keeps TOP5 populated without pretending that missing odds are value bets.
+    """
+
+    primary = derive_primary_top(
+        all_predictions
+    )
+
+    if primary:
+        print(
+            "TOP5 derived from PRIMARY odds tier:",
+            len(primary),
+        )
+
+        return primary
+
+    secondary = derive_secondary_top(
+        all_predictions
+    )
+
+    if secondary:
+        print(
+            "TOP5 derived from SECONDARY odds tier:",
+            len(secondary),
+        )
+
+        return secondary
+
+    model_only = derive_model_only_top(
+        all_predictions
+    )
+
+    print(
+        "TOP5 derived from MODEL_ONLY fallback:",
+        len(model_only),
+    )
+
+    return model_only
 
 
 def print_prediction_sample(label, predictions):
@@ -170,6 +342,9 @@ def print_prediction_sample(label, predictions):
                     "sets_probability_label": prediction.get("sets_probability_label"),
                     "most_likely_score": prediction.get("most_likely_score"),
                     "bet_tag": prediction.get("bet_tag"),
+                    "top_mode": prediction.get("top_mode"),
+                    "top_reason": prediction.get("top_reason"),
+                    "odds_source": prediction.get("odds_source"),
                 },
                 ensure_ascii=False,
             )
@@ -197,9 +372,8 @@ def validate_predictions(top_predictions, all_predictions):
         )
 
     if not top_predictions:
-        print(
-            "WARNING: TOP predictions are empty after fallback. "
-            "TOP page will show no picks."
+        raise ValueError(
+            "TOP predictions are empty even after fallback. Refusing deploy."
         )
 
 
