@@ -216,6 +216,7 @@ def last_name_score(left, right):
         if token
     )
 
+
     if left_initials and right_initials:
         if left_initials == right_initials:
             return 0.95
@@ -223,6 +224,7 @@ def last_name_score(left, right):
         if left_initials[0] == right_initialsreturn 0.88
 
     return 0.86
+
 
 
 def name_match_score(left, right):
@@ -570,8 +572,8 @@ def find_match_odds(player1, player2, odds_matches):
         "odds_player2": extracted.get("odds_player2"),
         "odds_source": "the_odds_api",
 
-        # Internal/debug fields.
-        # These are useful in JSON/logs but do not need to be displayed on web.
+        # Internal/debug fields only.
+        # These do not need to be displayed on the website.
         "matched_event": matched_event,
         "match_confidence": confidence_label(
             event_score,
