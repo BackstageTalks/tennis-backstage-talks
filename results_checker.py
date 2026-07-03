@@ -61,6 +61,7 @@ def ensure_dirs():
     os.makedirs(RESULTS_DIR, exist_ok=True)
     os.makedirs(ALL_PICK_HISTORY_DIR, exist_ok=True)
     os.makedirs(TOP5_PICK_HISTORY_DIR, exist_ok=True)
+    os.makedirs(LEGACY_PLAY_HISTORY_DIR, exist_ok=True)
     os.makedirs("public", exist_ok=True)
 
 
@@ -71,6 +72,14 @@ def now_utc_iso():
 def betting_day(date_time=None):
     if date_time is None:
         date_time = datetime.now(BRATISLAVA_TZ)
+
+    if isinstance(date_time, str):
+        try:
+            date_time = datetime.fromisoformat(
+                date_time.replace("Z", "+00:00")
+            )
+        except Exception:
+            date_time = datetime.now(BRATISLAVA_TZ)
 
     if date_time.tzinfo is None:
         date_time = date_time.replace(tzinfo=BRATISLAVA_TZ)
@@ -106,8 +115,22 @@ def load_json(path, default):
         with open(path, "r", encoding="utf-8") as file:
             return json.load(file)
 
-    except Exception:
+    except Exception as exc:
+        print("RESULTS CHECKER JSON LOAD ERROR:", path, str(exc))
         return default
+
+
+def snapshot_items(data):
+    if isinstance(data, list):
+        return data
+
+    if isinstance(data, dict):
+        items = data.get("items")
+
+        if isinstance(items, list):
+            return items
+
+    return []
 
 
 def normalize(value):
@@ -201,12 +224,11 @@ def load_history_items(dataset, directory):
 
         data = load_json(path, [])
 
-        if isinstance(data, list):
-            for item in data:
-                if isinstance(item, dict):
-                    updated = dict(item)
-                    updated["dataset"] = dataset
-                    items.append(updated)
+        for item in snapshot_items(data):
+            if isinstance(item, dict):
+                updated = dict(item)
+                updated["dataset"] = dataset
+                items.append(updated)
 
     _DEBUG["datasets"][dataset]["history_files"] = files
     _DEBUG["datasets"][dataset]["history_items_loaded"] = len(items)
@@ -221,9 +243,7 @@ def load_dataset_history(dataset):
         if items:
             return items
 
-        legacy_items = load_history_items("all", LEGACY_PLAY_HISTORY_DIR)
-
-        return legacy_items
+        return load_history_items("all", LEGACY_PLAY_HISTORY_DIR)
 
     if dataset == "top5":
         return load_history_items("top5", TOP5_PICK_HISTORY_DIR)
@@ -385,12 +405,14 @@ def match_pick_to_result(pick, result):
     if direct or reversed_match:
         return True
 
+    normalized_pick_match = normalize(pick_match)
+
     return (
-        normalize(pick_player) in normalize(pick_match)
-        and normalize(opponent) in normalize(pick_match)
+        normalize(pick_player) in normalized_pick_match
+        and normalize(opponent) in normalized_pick_match
         and (
-            normalize(r1) in normalize(pick_match)
-            or normalize(r2) in normalize(pick_match)
+            normalize(r1) in normalized_pick_match
+            or normalize(r2) in normalized_pick_match
         )
     )
 
@@ -413,6 +435,9 @@ def calculate_units(status, odds):
         return round(odds_value - 1.0, 2)
 
     if status == "LOST":
+        if odds_value is None:
+            return 0.0
+
         return -1.0
 
     return 0.0
@@ -426,10 +451,13 @@ def evaluate_pick(pick, results, dataset):
 
     if not result:
         updated = dict(pick)
+        existing_status = str(updated.get("result_status") or "PENDING").upper()
 
-        if updated.get("result_status") in ["WON", "LOST", "VOID"]:
+        if existing_status in ["WON", "LOST", "VOID"]:
+            updated["dataset"] = dataset
             return updated
 
+        updated["dataset"] = dataset
         updated["result_status"] = "PENDING"
         updated["units"] = 0.0
 
@@ -587,7 +615,7 @@ def sort_items(items):
         items,
         key=lambda item: (
             item.get("date") or "",
-            item.get("rank") or 9999,
+            -(item.get("rank") or 9999),
             item.get("match") or "",
         ),
         reverse=True,
