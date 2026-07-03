@@ -217,6 +217,7 @@ def last_name_score(left, right):
     )
 
 
+
     if left_initials and right_initials:
         if left_initials == right_initials:
             return 0.95
@@ -224,6 +225,7 @@ def last_name_score(left, right):
         if left_initials[0] == right_initialsreturn 0.88
 
     return 0.86
+
 
 
 
