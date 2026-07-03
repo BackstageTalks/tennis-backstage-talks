@@ -3,12 +3,12 @@ import html
 from datetime import datetime, timezone
 
 
-SITE_TITLE = "BackstageTalks Statistical Model"
+SITE_TITLE = "BackstageTalks Statistic Model"
 BASE_URL = "https://backstagetalks.github.io/tennis-backstage-talks"
 
-HEADER_TITLE = "BackstageTalks Statistical Model"
+HEADER_TITLE = "BackstageTalks Statistic Model"
 HEADER_SUBTITLE = "This data is provided for informational and analytical purposes only"
-FOOTER_TEXT = "Powered by BackstageTalks Statistical Model"
+FOOTER_TEXT = "Powered by BackstageTalks Statistic Model"
 
 
 def safe(value, default="-"):
@@ -24,6 +24,29 @@ def safe(value, default="-"):
 def pct(value):
     try:
         return f"{float(value) * 100:.1f}%"
+    except Exception:
+        return "-"
+
+
+def pct_plain(value):
+    try:
+        return f"{float(value):.1f}%"
+    except Exception:
+        return "-"
+
+
+def signed_pct(value):
+    try:
+        number = float(value)
+
+        if number > 0:
+            return f"+{number:.1f}%"
+
+        if number < 0:
+            return f"{number:.1f}%"
+
+        return "0.0%"
+
     except Exception:
         return "-"
 
@@ -114,6 +137,85 @@ def resolve_sets_label(prediction):
     return "3 Sets"
 
 
+def normalize_ai_color(value):
+    text = str(value or "").lower().strip()
+
+    if text in ["green", "orange", "red", "gray"]:
+        return text
+
+    return "gray"
+
+
+def render_ai_match(prediction):
+    status = prediction.get("bst_ai_status")
+    bst_probability = prediction.get("bst_ai_probability")
+    ai_match = prediction.get("ai_match")
+
+    if status != "OK" or bst_probability is None or ai_match is None:
+        reason = prediction.get("bst_ai_reason") or status or "No data"
+
+        return f"""
+        <div class="ai-box ai-match-gray">
+            <div class="ai-main">AI Match: No data</div>
+            <div class="ai-sub">BsT AI: No data</div>
+            <div class="ai-sub">Reason: {safe(reason)}</div>
+        </div>
+"""
+
+    corq_probability = prediction.get("corq_ai_probability")
+
+    if corq_probability is None:
+        corq_probability = prediction.get("probability")
+
+    ai_color = normalize_ai_color(
+        prediction.get("ai_match_color")
+    )
+
+    ai_direction_match = prediction.get("ai_direction_match")
+    ai_signed_gap = prediction.get("ai_signed_gap")
+    ai_lean = str(prediction.get("ai_lean") or "").upper()
+    rating_type = prediction.get("bst_ai_rating_type")
+
+    corq_text = pct(corq_probability)
+    bst_text = pct(bst_probability)
+    match_text = pct_plain(ai_match)
+
+    if ai_direction_match is False:
+        lean_text = "Direction conflict"
+
+    else:
+        try:
+            gap_number = float(ai_signed_gap)
+
+            if ai_lean == "CORQ" and gap_number > 0:
+                lean_text = f"Corq AI {signed_pct(gap_number)}"
+
+            elif ai_lean == "BST" and gap_number < 0:
+                lean_text = f"BsT AI +{abs(gap_number):.1f}%"
+
+            else:
+                lean_text = "Even"
+
+        except Exception:
+            lean_text = "No lean"
+
+    rating_html = ""
+
+    if rating_type:
+        rating_html = f"""
+            <div class="ai-sub">Source: {safe(rating_type)}</div>
+"""
+
+    return f"""
+        <div class="ai-box ai-match-{ai_color}">
+            <div class="ai-main">AI Match: {safe(match_text)}</div>
+            <div class="ai-sub">Corq AI: {safe(corq_text)} · BsT AI: {safe(bst_text)}</div>
+            <div class="ai-sub">Lean: {safe(lean_text)}</div>
+            {rating_html}
+        </div>
+"""
+
+
 def render_summary(predictions):
     count = len(predictions)
 
@@ -143,14 +245,31 @@ def render_summary(predictions):
         except Exception:
             continue
 
+    ai_match_values = []
+
+    for prediction in predictions:
+        value = prediction.get("ai_match")
+
+        if value is None:
+            continue
+
+        try:
+            ai_match_values.append(float(value))
+        except Exception:
+            continue
+
     avg_probability = "-"
     avg_odds = "-"
+    avg_ai_match = "-"
 
     if probabilities:
         avg_probability = f"{sum(probabilities) / len(probabilities) * 100:.1f}%"
 
     if odds_values:
         avg_odds = f"{sum(odds_values) / len(odds_values):.2f}"
+
+    if ai_match_values:
+        avg_ai_match = f"{sum(ai_match_values) / len(ai_match_values):.1f}%"
 
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
@@ -167,8 +286,8 @@ def render_summary(predictions):
     </div>
 
     <div class="summary-card">
-        <div class="summary-label">Average Odds</div>
-        <div class="summary-value">{avg_odds}</div>
+        <div class="summary-label">Average AI Match</div>
+        <div class="summary-value">{avg_ai_match}</div>
     </div>
 
     <div class="summary-card">
@@ -238,6 +357,10 @@ def render_rows(predictions):
         </div>
 """
 
+        ai_match_html = render_ai_match(
+            prediction
+        )
+
         rows.append(f"""
 <tr>
     <td class="rank">#{index}</td>
@@ -269,6 +392,8 @@ def render_rows(predictions):
         </div>
 
         {most_likely_html}
+
+        {ai_match_html}
 
         <div class="tag {css_tag}">
             {bet_tag}
@@ -302,6 +427,8 @@ def render_page(predictions, title, subtitle):
     --text: #e5e7eb;
     --muted: #94a3b8;
     --green: #22c55e;
+    --orange: #fb923c;
+    --red: #ef4444;
     --yellow: #facc15;
     --blue: #38bdf8;
     --gray: #64748b;
@@ -410,7 +537,7 @@ html, body {{
 table {{
     width: 100%;
     border-collapse: collapse;
-    min-width: 940px;
+    min-width: 1040px;
 }}
 
 thead {{
@@ -479,13 +606,67 @@ tr:hover {{
 
 .intel {{
     line-height: 1.55;
-    min-width: 220px;
+    min-width: 260px;
 }}
 
 .intel-label {{
     color: var(--muted);
     font-size: 12px;
     margin-right: 4px;
+}}
+
+.ai-box {{
+    margin-top: 10px;
+    padding: 9px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    line-height: 1.45;
+}}
+
+.ai-main {{
+    font-weight: 900;
+    margin-bottom: 3px;
+}}
+
+.ai-sub {{
+    font-size: 11px;
+    color: var(--muted);
+}}
+
+.ai-match-green {{
+    background: rgba(34, 197, 94, 0.14);
+    border: 1px solid rgba(34, 197, 94, 0.45);
+}}
+
+.ai-match-green .ai-main {{
+    color: var(--green);
+}}
+
+.ai-match-orange {{
+    background: rgba(251, 146, 60, 0.14);
+    border: 1px solid rgba(251, 146, 60, 0.45);
+}}
+
+.ai-match-orange .ai-main {{
+    color: var(--orange);
+}}
+
+.ai-match-red {{
+    background: rgba(239, 68, 68, 0.14);
+    border: 1px solid rgba(239, 68, 68, 0.45);
+}}
+
+.ai-match-red .ai-main {{
+    color: var(--red);
+}}
+
+.ai-match-gray {{
+    background: rgba(100, 116, 139, 0.18);
+    border: 1px solid rgba(100, 116, 139, 0.45);
+}}
+
+.ai-match-gray .ai-main {{
+    color: var(--muted);
 }}
 
 .tag {{
@@ -657,6 +838,32 @@ def render_rss(predictions, title, link):
             default="-",
         )
 
+        bst_status = prediction.get("bst_ai_status")
+
+        if bst_status == "OK":
+            corq_ai = pct(
+                prediction.get("corq_ai_probability")
+                or prediction.get("probability")
+            )
+            bst_ai = pct(prediction.get("bst_ai_probability"))
+            ai_match = pct_plain(prediction.get("ai_match"))
+            ai_lean = safe(prediction.get("ai_lean"), default="-")
+            ai_signed_gap = signed_pct(prediction.get("ai_signed_gap"))
+
+            ai_text = (
+                f"Corq AI: {corq_ai}\n"
+                f"BsT AI: {bst_ai}\n"
+                f"AI Match: {ai_match}\n"
+                f"AI Lean: {ai_lean} {ai_signed_gap}\n"
+            )
+
+        else:
+            ai_text = (
+                "Corq AI: available\n"
+                "BsT AI: No data\n"
+                "AI Match: No data\n"
+            )
+
         description_text = (
             f"Pick: {pick}\n"
             f"Opponent: {opponent}\n"
@@ -665,6 +872,7 @@ def render_rss(predictions, title, link):
             f"Best of: {best_of}\n"
             f"Win probability: {probability}\n"
             f"Odds: {odd}\n"
+            f"{ai_text}"
             f"Expected sets: {expected_sets}\n"
             f"{sets_label}: {sets_probability}\n"
             f"Most likely score: {most_likely_score}\n"
