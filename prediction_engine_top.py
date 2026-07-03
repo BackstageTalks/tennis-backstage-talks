@@ -24,8 +24,8 @@ TOP_N = 5
 # kurz musí byť väčší ako 1.50
 MIN_ODDS = 1.50
 
-# už nepoužívame ako tvrdý TOP filter
-# nechávame kvôli kompatibilite s update.py
+# Už nepoužívame ako tvrdý TOP filter.
+# Nechávame kvôli kompatibilite s update.py.
 MIN_TOP_PROBABILITY = 0.0
 
 LOCAL_TZ = ZoneInfo("Europe/Bratislava")
@@ -38,6 +38,9 @@ def clamp(value, low, high):
 def safe_float(value):
     try:
         if value is None:
+            return None
+
+        if value == "":
             return None
 
         return float(value)
@@ -114,8 +117,19 @@ def build_prediction_record(
 
     odds_data = odds_data or {}
 
-    prob1 = elo_prediction["probability_player1"]
-    prob2 = elo_prediction["probability_player2"]
+    prob1 = safe_float(
+        elo_prediction.get("probability_player1")
+    )
+
+    prob2 = safe_float(
+        elo_prediction.get("probability_player2")
+    )
+
+    if prob1 is None:
+        prob1 = 0.5
+
+    if prob2 is None:
+        prob2 = 0.5
 
     odds1 = safe_float(
         odds_data.get("odds_player1"),
@@ -182,10 +196,19 @@ def build_prediction_record(
         best_of=match.get("best_of"),
     )
 
+    bet_tag = (
+        match_info.get("tag")
+        or match_info.get("bet_tag")
+        or "INFO ONLY"
+    )
+
     return {
         "match": f"{player1} vs {player2}",
         "pick": pick,
         "opponent": opponent,
+
+        "player1": player1,
+        "player2": player2,
 
         "tournament": match.get("tournament"),
         "gender": match.get("gender"),
@@ -197,33 +220,61 @@ def build_prediction_record(
             3,
         ),
 
+        "base_probability": round(
+            base_probability,
+            3,
+        ),
+
         "odds": odds,
 
         "time": match.get("time"),
+        "match_start": match.get("match_start"),
 
         "bookmaker": odds_data.get("bookmaker"),
         "odds_source": odds_data.get("odds_source"),
 
+        # Set model outputs
         "expected_sets":
-            match_info["expected_sets"],
+            match_info.get("expected_sets"),
 
         "sets_probability":
-            match_info["sets_probability"],
+            match_info.get("sets_probability"),
 
         "sets_probability_label":
-            match_info.get("sets_probability_label", "3 Sets"),
+            match_info.get("sets_probability_label"),
 
+        "set_win_probability":
+            match_info.get("set_win_probability"),
+
+        "most_likely_score":
+            match_info.get("most_likely_score"),
+
+        "most_likely_score_probability":
+            match_info.get("most_likely_score_probability"),
+
+        "score_probabilities":
+            match_info.get("score_probabilities"),
+
+        # Compatibility-only game fields.
+        # Web renderer should not display these as recommendations
+        # until serve/game model is implemented.
         "expected_games":
-            match_info["expected_games"],
+            match_info.get("expected_games"),
 
         "games_pick":
-            match_info["games_pick"],
+            match_info.get("games_pick"),
 
         "games_line":
-            match_info["games_line"],
+            match_info.get("games_line"),
 
-        "bet_tag":
-            match_info["tag"],
+        "bet_tag": bet_tag,
+
+        # Useful diagnostics for later learning/calibration
+        "form_adjustment":
+            form_adjustment.get("total_adjustment"),
+
+        "top_mode": None,
+        "top_reason": None,
     }
 
 
@@ -236,7 +287,8 @@ def build_all_predictions():
     ]
 
     matches = [
-        m for m in matches
+        m
+        for m in matches
         if m["player1"] and m["player2"]
     ]
 
@@ -252,7 +304,12 @@ def build_all_predictions():
             matches,
         )
 
-    except Exception:
+    except Exception as exc:
+        print(
+            "STATS CONTEXT ERROR:",
+            str(exc),
+        )
+
         surface_map = {}
 
     elo_store = load()
@@ -295,7 +352,7 @@ def build_all_predictions():
         all_predictions.append(prediction)
 
     all_predictions.sort(
-        key=lambda x: x.get(
+        key=lambda item: item.get(
             "probability",
             0,
         ),
@@ -317,7 +374,7 @@ def get_top_predictions(all_predictions=None):
     ]
 
     eligible.sort(
-        key=lambda x: x.get(
+        key=lambda item: item.get(
             "probability",
             0,
         ),
