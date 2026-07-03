@@ -4,7 +4,8 @@ import re
 import requests
 import unicodedata
 from bs4 import BeautifulSoup
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 
 SPORTSCORE_URL = "https://sportscore.com/tennis/"
@@ -14,8 +15,15 @@ HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 }
 
-PLAY_HISTORY_DIR = "data/play_history"
-RESULTS_DATA_PATH = "data/play_results.json"
+BRATISLAVA_TZ = ZoneInfo("Europe/Bratislava")
+
+ALL_PICK_HISTORY_DIR = "data/pick_history/all"
+TOP5_PICK_HISTORY_DIR = "data/pick_history/top5"
+LEGACY_PLAY_HISTORY_DIR = "data/play_history"
+
+RESULTS_DIR = "data/results"
+ALL_RESULTS_PATH = "data/results/all_results.json"
+TOP5_RESULTS_PATH = "data/results/top5_results.json"
 PUBLIC_RESULTS_DATA_PATH = "public/results_data.json"
 RESULTS_DEBUG_PATH = "public/results_debug.json"
 
@@ -25,12 +33,23 @@ _DEBUG = {
     "url": SPORTSCORE_URL,
     "http_status": None,
     "fetch_error": None,
-    "history_files": [],
-    "history_items_loaded": 0,
+    "datasets": {
+        "all": {
+            "history_files": [],
+            "history_items_loaded": 0,
+            "resolved_count": 0,
+            "pending_count": 0,
+            "unknown_count": 0,
+        },
+        "top5": {
+            "history_files": [],
+            "history_items_loaded": 0,
+            "resolved_count": 0,
+            "pending_count": 0,
+            "unknown_count": 0,
+        },
+    },
     "finished_results_found": 0,
-    "resolved_count": 0,
-    "pending_count": 0,
-    "unknown_count": 0,
     "examples_results": [],
     "examples_resolved": [],
     "examples_unresolved": [],
@@ -38,36 +57,39 @@ _DEBUG = {
 
 
 def ensure_dirs():
-    os.makedirs(
-        "data",
-        exist_ok=True,
-    )
+    os.makedirs("data", exist_ok=True)
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+    os.makedirs(ALL_PICK_HISTORY_DIR, exist_ok=True)
+    os.makedirs(TOP5_PICK_HISTORY_DIR, exist_ok=True)
+    os.makedirs("public", exist_ok=True)
 
-    os.makedirs(
-        PLAY_HISTORY_DIR,
-        exist_ok=True,
-    )
 
-    os.makedirs(
-        "public",
-        exist_ok=True,
-    )
+def now_utc_iso():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def betting_day(date_time=None):
+    if date_time is None:
+        date_time = datetime.now(BRATISLAVA_TZ)
+
+    if date_time.tzinfo is None:
+        date_time = date_time.replace(tzinfo=BRATISLAVA_TZ)
+    else:
+        date_time = date_time.astimezone(BRATISLAVA_TZ)
+
+    if date_time.hour < 6:
+        date_time = date_time - timedelta(days=1)
+
+    return date_time.strftime("%Y-%m-%d")
 
 
 def save_json(path, data):
     directory = os.path.dirname(path)
 
     if directory:
-        os.makedirs(
-            directory,
-            exist_ok=True,
-        )
+        os.makedirs(directory, exist_ok=True)
 
-    with open(
-        path,
-        "w",
-        encoding="utf-8",
-    ) as file:
+    with open(path, "w", encoding="utf-8") as file:
         json.dump(
             data,
             file,
@@ -81,11 +103,7 @@ def load_json(path, default):
         if not os.path.exists(path):
             return default
 
-        with open(
-            path,
-            "r",
-            encoding="utf-8",
-        ) as file:
+        with open(path, "r", encoding="utf-8") as file:
             return json.load(file)
 
     except Exception:
@@ -98,10 +116,7 @@ def normalize(value):
 
     text = str(value)
 
-    text = unicodedata.normalize(
-        "NFKD",
-        text,
-    )
+    text = unicodedata.normalize("NFKD", text)
 
     text = "".join(
         char
@@ -117,15 +132,9 @@ def normalize(value):
     text = text.replace("’", "")
     text = text.replace("`", "")
 
-    text = re.sub(
-        r"[^a-z0-9\s]",
-        " ",
-        text,
-    )
+    text = re.sub(r"[^a-z0-9\s]", " ", text)
 
-    return " ".join(
-        text.split()
-    )
+    return " ".join(text.split())
 
 
 def loose_name_keys(name):
@@ -141,9 +150,7 @@ def loose_name_keys(name):
         keys.add(parts[-1])
 
     if len(parts) >= 2:
-        keys.add(
-            " ".join(parts[-2:])
-        )
+        keys.add(" ".join(parts[-2:]))
 
     return keys
 
@@ -155,20 +162,14 @@ def names_match(a, b):
     if not a_keys or not b_keys:
         return False
 
-    return bool(
-        a_keys.intersection(b_keys)
-    )
+    return bool(a_keys.intersection(b_keys))
 
 
 def clean_text(value):
     if not value:
         return ""
 
-    return re.sub(
-        r"\s+",
-        " ",
-        str(value),
-    ).strip()
+    return re.sub(r"\s+", " ", str(value)).strip()
 
 
 def safe_float(value):
@@ -182,35 +183,52 @@ def safe_float(value):
         return None
 
 
-def load_all_history_items():
+def load_history_items(dataset, directory):
     ensure_dirs()
 
     items = []
     files = []
 
-    for filename in sorted(os.listdir(PLAY_HISTORY_DIR)):
+    if not os.path.exists(directory):
+        return items
+
+    for filename in sorted(os.listdir(directory)):
         if not filename.endswith(".json"):
             continue
 
-        path = os.path.join(
-            PLAY_HISTORY_DIR,
-            filename,
-        )
-
+        path = os.path.join(directory, filename)
         files.append(path)
 
-        data = load_json(
-            path,
-            [],
-        )
+        data = load_json(path, [])
 
         if isinstance(data, list):
-            items.extend(data)
+            for item in data:
+                if isinstance(item, dict):
+                    updated = dict(item)
+                    updated["dataset"] = dataset
+                    items.append(updated)
 
-    _DEBUG["history_files"] = files
-    _DEBUG["history_items_loaded"] = len(items)
+    _DEBUG["datasets"][dataset]["history_files"] = files
+    _DEBUG["datasets"][dataset]["history_items_loaded"] = len(items)
 
     return items
+
+
+def load_dataset_history(dataset):
+    if dataset == "all":
+        items = load_history_items("all", ALL_PICK_HISTORY_DIR)
+
+        if items:
+            return items
+
+        legacy_items = load_history_items("all", LEGACY_PLAY_HISTORY_DIR)
+
+        return legacy_items
+
+    if dataset == "top5":
+        return load_history_items("top5", TOP5_PICK_HISTORY_DIR)
+
+    return []
 
 
 def finished_text_only(text):
@@ -240,11 +258,6 @@ def finished_text_only(text):
 
 
 def parse_score_sets(score_text):
-    """
-    Skúsi určiť sety z textu typu:
-    6-4 4-6 6-3
-    """
-
     if not score_text:
         return None
 
@@ -296,19 +309,10 @@ def parse_score_sets(score_text):
 
 
 def extract_finished_results(text):
-    """
-    Best-effort parser.
-
-    SportScore text sa môže meniť, preto parser nikdy nesmie zhodiť workflow.
-    Ak výsledok nevie spoľahlivo určiť, pick ostane PENDING alebo UNKNOWN.
-    """
-
     text = finished_text_only(text)
 
     results = []
 
-    # Pattern:
-    # Player One vs Player Two 6-4 4-6 6-3
     pattern_vs_score = re.compile(
         r"(?P<p1>[A-ZÀ-Ž][A-Za-zÀ-ž\.\-'\s]{2,75}?)"
         r"\s+vs\s+"
@@ -354,10 +358,6 @@ def extract_finished_results(text):
         if len(_DEBUG["examples_results"]) < 30:
             _DEBUG["examples_results"].append(result)
 
-    # Pattern fallback:
-    # Player One Player Two 6-4 6-4
-    # Bez "vs" je menej spoľahlivý, preto ho zatiaľ nepoužívame na WON/LOST.
-
     _DEBUG["finished_results_found"] = len(results)
 
     return results
@@ -385,14 +385,7 @@ def match_pick_to_result(pick, result):
     if direct or reversed_match:
         return True
 
-    # fallback cez match string
     return (
-        names_match(pick_player, r1)
-        and names_match(opponent, r2)
-    ) or (
-        names_match(pick_player, r2)
-        and names_match(opponent, r1)
-    ) or (
         normalize(pick_player) in normalize(pick_match)
         and normalize(opponent) in normalize(pick_match)
         and (
@@ -404,10 +397,7 @@ def match_pick_to_result(pick, result):
 
 def find_matching_result(pick, results):
     for result in results:
-        if match_pick_to_result(
-            pick,
-            result,
-        ):
+        if match_pick_to_result(pick, result):
             return result
 
     return None
@@ -420,10 +410,7 @@ def calculate_units(status, odds):
         if odds_value is None:
             return 0.0
 
-        return round(
-            odds_value - 1.0,
-            2,
-        )
+        return round(odds_value - 1.0, 2)
 
     if status == "LOST":
         return -1.0
@@ -431,7 +418,7 @@ def calculate_units(status, odds):
     return 0.0
 
 
-def evaluate_pick(pick, results):
+def evaluate_pick(pick, results, dataset):
     result = find_matching_result(
         pick,
         results,
@@ -447,11 +434,14 @@ def evaluate_pick(pick, results):
         updated["units"] = 0.0
 
         if len(_DEBUG["examples_unresolved"]) < 30:
-            _DEBUG["examples_unresolved"].append({
-                "match": pick.get("match"),
-                "pick": pick.get("pick"),
-                "reason": "no_matching_finished_result",
-            })
+            _DEBUG["examples_unresolved"].append(
+                {
+                    "dataset": dataset,
+                    "match": pick.get("match"),
+                    "pick": pick.get("pick"),
+                    "reason": "no_matching_finished_result",
+                }
+            )
 
         return updated
 
@@ -463,10 +453,7 @@ def evaluate_pick(pick, results):
     else:
         winner = result.get("winner")
 
-        if winner and names_match(
-            pick.get("pick"),
-            winner,
-        ):
+        if winner and names_match(pick.get("pick"), winner):
             status = "WON"
 
         elif winner:
@@ -475,6 +462,7 @@ def evaluate_pick(pick, results):
         else:
             status = "UNKNOWN"
 
+    updated["dataset"] = dataset
     updated["result_status"] = status
     updated["winner"] = result.get("winner")
     updated["score"] = result.get("score")
@@ -482,21 +470,22 @@ def evaluate_pick(pick, results):
         status,
         updated.get("odds"),
     )
-    updated["resolved_at"] = datetime.now(
-        timezone.utc,
-    ).isoformat()
+    updated["resolved_at"] = now_utc_iso()
     updated["result_source"] = result.get("source")
     updated["result_match_score"] = result.get("match")
 
     if len(_DEBUG["examples_resolved"]) < 30:
-        _DEBUG["examples_resolved"].append({
-            "match": updated.get("match"),
-            "pick": updated.get("pick"),
-            "status": status,
-            "winner": updated.get("winner"),
-            "score": updated.get("score"),
-            "units": updated.get("units"),
-        })
+        _DEBUG["examples_resolved"].append(
+            {
+                "dataset": dataset,
+                "match": updated.get("match"),
+                "pick": updated.get("pick"),
+                "status": status,
+                "winner": updated.get("winner"),
+                "score": updated.get("score"),
+                "units": updated.get("units"),
+            }
+        )
 
     return updated
 
@@ -532,89 +521,81 @@ def summarize(items):
         else:
             summary["pending"] += 1
 
-        summary["units"] += safe_float(
-            item.get("units")
-        ) or 0.0
+        summary["units"] += safe_float(item.get("units")) or 0.0
 
-    summary["units"] = round(
-        summary["units"],
-        2,
-    )
+    summary["units"] = round(summary["units"], 2)
 
-    settled = (
-        summary["won"]
-        + summary["lost"]
-    )
+    settled = summary["won"] + summary["lost"]
 
     if settled > 0:
-        summary["win_rate"] = round(
-            summary["won"] / settled,
-            3,
-        )
-
+        summary["win_rate"] = round(summary["won"] / settled, 3)
     else:
         summary["win_rate"] = None
 
     return summary
 
 
+def parse_date(value):
+    try:
+        return datetime.strptime(value, "%Y-%m-%d").date()
+    except Exception:
+        return None
+
+
 def filter_by_days(items, days):
-    cutoff = datetime.now(
-        timezone.utc,
-    ).date() - timedelta(days=days - 1)
+    today_date = parse_date(betting_day())
+
+    if today_date is None:
+        today_date = datetime.now(timezone.utc).date()
+
+    cutoff = today_date - timedelta(days=days - 1)
 
     output = []
 
     for item in items:
-        date_text = item.get("date")
+        item_date = parse_date(item.get("date"))
 
-        try:
-            item_date = datetime.strptime(
-                date_text,
-                "%Y-%m-%d",
-            ).date()
-
-        except Exception:
-            continue
-
-        if item_date >= cutoff:
+        if item_date and item_date >= cutoff:
             output.append(item)
 
     return output
 
 
 def filter_current_month(items):
-    now = datetime.now(
-        timezone.utc,
-    )
+    today_date = parse_date(betting_day())
+
+    if today_date is None:
+        today_date = datetime.now(timezone.utc).date()
 
     output = []
 
     for item in items:
-        date_text = item.get("date")
-
-        try:
-            item_date = datetime.strptime(
-                date_text,
-                "%Y-%m-%d",
-            )
-
-        except Exception:
-            continue
+        item_date = parse_date(item.get("date"))
 
         if (
-            item_date.year == now.year
-            and item_date.month == now.month
+            item_date
+            and item_date.year == today_date.year
+            and item_date.month == today_date.month
         ):
             output.append(item)
 
     return output
 
 
-def build_results_payload(evaluated_items):
-    today = datetime.now(
-        timezone.utc,
-    ).strftime("%Y-%m-%d")
+def sort_items(items):
+    return sorted(
+        items,
+        key=lambda item: (
+            item.get("date") or "",
+            item.get("rank") or 9999,
+            item.get("match") or "",
+        ),
+        reverse=True,
+    )
+
+
+def build_dataset_payload(dataset, evaluated_items):
+    today = betting_day()
 
     today_items = [
         item
@@ -631,28 +612,15 @@ def build_results_payload(evaluated_items):
         evaluated_items,
     )
 
-    payload = {
-        "generated_at": datetime.now(
-            timezone.utc,
-        ).isoformat(),
-
+    return {
+        "dataset": dataset,
+        "generated_at": now_utc_iso(),
         "today": summarize(today_items),
         "last_7_days": summarize(last_7_items),
         "current_month": summarize(month_items),
         "all_time": summarize(evaluated_items),
-
-        "items": sorted(
-            evaluated_items,
-            key=lambda item: (
-                item.get("date") or "",
-                item.get("rank") or 9999,
-                item.get("match") or "",
-            ),
-            reverse=True,
-        ),
+        "items": sort_items(evaluated_items),
     }
-
-    return payload
 
 
 def fetch_sportscore_text():
@@ -677,58 +645,113 @@ def fetch_sportscore_text():
     )
 
 
+def evaluate_dataset(dataset, finished_results):
+    history_items = load_dataset_history(dataset)
+
+    evaluated = []
+
+    for item in history_items:
+        evaluated.append(
+            evaluate_pick(
+                pick=item,
+                results=finished_results,
+                dataset=dataset,
+            )
+        )
+
+    _DEBUG["datasets"][dataset]["resolved_count"] = sum(
+        1
+        for item in evaluated
+        if item.get("result_status") in ["WON", "LOST", "VOID"]
+    )
+
+    _DEBUG["datasets"][dataset]["pending_count"] = sum(
+        1
+        for item in evaluated
+        if item.get("result_status") == "PENDING"
+    )
+
+    _DEBUG["datasets"][dataset]["unknown_count"] = sum(
+        1
+        for item in evaluated
+        if item.get("result_status") == "UNKNOWN"
+    )
+
+    return build_dataset_payload(
+        dataset=dataset,
+        evaluated_items=evaluated,
+    )
+
+
+def empty_dataset_payload(dataset, error=None):
+    payload = {
+        "dataset": dataset,
+        "generated_at": now_utc_iso(),
+        "today": summarize([]),
+        "last_7_days": summarize([]),
+        "current_month": summarize([]),
+        "all_time": summarize([]),
+        "items": [],
+    }
+
+    if error:
+        payload["error"] = error
+
+    return payload
+
+
+def build_public_payload(top5_payload, all_payload, error=None):
+    payload = {
+        "generated_at": now_utc_iso(),
+        "betting_day": betting_day(),
+        "top5": top5_payload,
+        "all": all_payload,
+    }
+
+    if error:
+        payload["error"] = error
+
+    return payload
+
+
 def run():
     ensure_dirs()
 
     try:
-        history_items = load_all_history_items()
-
         text = fetch_sportscore_text()
 
         finished_results = extract_finished_results(
             text,
         )
 
-        evaluated = []
-
-        for item in history_items:
-            evaluated.append(
-                evaluate_pick(
-                    item,
-                    finished_results,
-                )
-            )
-
-        _DEBUG["resolved_count"] = sum(
-            1
-            for item in evaluated
-            if item.get("result_status") in ["WON", "LOST", "VOID"]
+        top5_payload = evaluate_dataset(
+            "top5",
+            finished_results,
         )
 
-        _DEBUG["pending_count"] = sum(
-            1
-            for item in evaluated
-            if item.get("result_status") == "PENDING"
+        all_payload = evaluate_dataset(
+            "all",
+            finished_results,
         )
 
-        _DEBUG["unknown_count"] = sum(
-            1
-            for item in evaluated
-            if item.get("result_status") == "UNKNOWN"
-        )
-
-        payload = build_results_payload(
-            evaluated,
+        public_payload = build_public_payload(
+            top5_payload=top5_payload,
+            all_payload=all_payload,
         )
 
         save_json(
-            RESULTS_DATA_PATH,
-            payload,
+            TOP5_RESULTS_PATH,
+            top5_payload,
+        )
+
+        save_json(
+            ALL_RESULTS_PATH,
+            all_payload,
         )
 
         save_json(
             PUBLIC_RESULTS_DATA_PATH,
-            payload,
+            public_payload,
         )
 
         save_json(
@@ -738,16 +761,51 @@ def run():
 
         print(
             "RESULTS CHECKER DONE:",
-            "items",
-            len(evaluated),
+            "top5_items",
+            len(top5_payload.get("items", [])),
+            "all_items",
+            len(all_payload.get("items", [])),
             "finished_results",
             len(finished_results),
         )
 
-        return payload
+        return public_payload
 
     except Exception as exc:
-        _DEBUG["fetch_error"] = str(exc)
+        error_text = str(exc)
+
+        _DEBUG["fetch_error"] = error_text
+
+        top5_payload = empty_dataset_payload(
+            "top5",
+            error=error_text,
+        )
+
+        all_payload = empty_dataset_payload(
+            "all",
+            error=error_text,
+        )
+
+        public_payload = build_public_payload(
+            top5_payload=top5_payload,
+            all_payload=all_payload,
+            error=error_text,
+        )
+
+        save_json(
+            TOP5_RESULTS_PATH,
+            top5_payload,
+        )
+
+        save_json(
+            ALL_RESULTS_PATH,
+            all_payload,
+        )
+
+        save_json(
+            PUBLIC_RESULTS_DATA_PATH,
+            public_payload,
+        )
 
         save_json(
             RESULTS_DEBUG_PATH,
@@ -756,32 +814,10 @@ def run():
 
         print(
             "RESULTS CHECKER ERROR:",
-            str(exc),
+            error_text,
         )
 
-        fallback = {
-            "generated_at": datetime.now(
-                timezone.utc,
-            ).isoformat(),
-            "today": summarize([]),
-            "last_7_days": summarize([]),
-            "current_month": summarize([]),
-            "all_time": summarize([]),
-            "items": [],
-            "error": str(exc),
-        }
-
-        save_json(
-            RESULTS_DATA_PATH,
-            fallback,
-        )
-
-        save_json(
-            PUBLIC_RESULTS_DATA_PATH,
-            fallback,
-        )
-
-        return fallback
+        return public_payload
 
 
 if __name__ == "__main__":
