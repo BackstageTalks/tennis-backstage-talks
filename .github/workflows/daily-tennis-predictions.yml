@@ -39,6 +39,7 @@ jobs:
       LOCAL_TZ_OFFSET_HOURS: "2"
       BET_WINDOW_START_HOUR: "6"
       BET_WINDOW_END_NEXT_DAY_HOUR: "6"
+      PAGES_ARTIFACT_NAME: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
 
     steps:
       - name: Checkout repository
@@ -290,21 +291,6 @@ jobs:
 
           echo "All required public files exist."
 
-      - name: Setup GitHub Pages
-        if: steps.prediction_window.outputs.should_run == 'true'
-        uses: actions/configure-pages@v5
-
-      - name: Upload GitHub Pages artifact
-        if: steps.prediction_window.outputs.should_run == 'true'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-      - name: Deploy GitHub Pages
-        if: steps.prediction_window.outputs.should_run == 'true'
-        id: deployment
-        uses: actions/deploy-pages@v4
-
       - name: Persist play history and results data
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
@@ -316,6 +302,7 @@ jobs:
           git add data/pick_history/top5/*.json || true
           git add data/play_results.json || true
           git add data/results/*.json || true
+          git add public/results_data.json || true
 
           if git diff --cached --quiet; then
             echo "No play history or results changes to commit."
@@ -323,3 +310,21 @@ jobs:
             git commit -m "Update tennis play history and results [skip ci]"
             git push
           fi
+
+      - name: Setup GitHub Pages
+        if: steps.prediction_window.outputs.should_run == 'true'
+        uses: actions/configure-pages@v5
+
+      - name: Upload GitHub Pages artifact
+        if: steps.prediction_window.outputs.should_run == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+          name: ${{ env.PAGES_ARTIFACT_NAME }}
+
+      - name: Deploy GitHub Pages
+        if: steps.prediction_window.outputs.should_run == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: ${{ env.PAGES_ARTIFACT_NAME }}
