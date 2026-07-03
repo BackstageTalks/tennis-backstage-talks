@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime 
 from zoneinfo import ZoneInfo
 
 from fetch_matches import get_today_matches
