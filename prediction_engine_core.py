@@ -15,6 +15,10 @@ from src.models.match_intelligence import (
     build_match_intelligence,
 )
 
+from src.bst_ai.service import (
+    build_bst_ai_comparison,
+)
+
 from mcp_module import build_mcp_player_stats, mcp_adjustment
 
 
@@ -198,6 +202,15 @@ def build_prediction_record(
         or "INFO ONLY"
     )
 
+    bst_ai = build_bst_ai_comparison(
+        player1=player1,
+        player2=player2,
+        pick=pick,
+        surface=surface,
+        corq_probability=final_probability,
+        tour=match.get("gender"),
+    )
+
     return {
         "match": f"{player1} vs {player2}",
         "pick": pick,
@@ -214,6 +227,58 @@ def build_prediction_record(
         "probability": round(
             final_probability,
             3,
+        ),
+
+        "corq_ai_probability": bst_ai.get(
+            "corq_ai_probability"
+        ),
+
+        "bst_ai_probability": bst_ai.get(
+            "bst_ai_probability"
+        ),
+
+        "ai_match": bst_ai.get(
+            "ai_match"
+        ),
+
+        "ai_gap": bst_ai.get(
+            "ai_gap"
+        ),
+
+        "ai_signed_gap": bst_ai.get(
+            "ai_signed_gap"
+        ),
+
+        "ai_lean": bst_ai.get(
+            "ai_lean"
+        ),
+
+        "ai_direction_match": bst_ai.get(
+            "ai_direction_match"
+        ),
+
+        "ai_match_color": bst_ai.get(
+            "ai_match_color"
+        ),
+
+        "bst_ai_status": bst_ai.get(
+            "bst_ai_status"
+        ),
+
+        "bst_ai_reason": bst_ai.get(
+            "bst_ai_reason"
+        ),
+
+        "bst_ai_rating_type": bst_ai.get(
+            "bst_ai_rating_type"
+        ),
+
+        "bst_player1_found": bst_ai.get(
+            "bst_player1_found"
+        ),
+
+        "bst_player2_found": bst_ai.get(
+            "bst_player2_found"
         ),
 
         "base_probability": round(
