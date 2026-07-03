@@ -39,11 +39,8 @@ def extract_date_from_filename(path):
     return match.group(1)
 
 
-def latest_file(pattern):
+def sorted_files_newest_first(pattern):
     files = glob.glob(pattern)
-
-    if not files:
-        return None
 
     files.sort(
         key=lambda path: (
@@ -53,7 +50,32 @@ def latest_file(pattern):
         reverse=True,
     )
 
-    return files[0]
+    return files
+
+
+def load_json(path, default):
+    try:
+        if not path:
+            return default
+
+        if not os.path.exists(path):
+            return default
+
+        with open(
+            path,
+            "r",
+            encoding="utf-8",
+        ) as file:
+            return json.load(file)
+
+    except Exception as exc:
+        print(
+            "BUILD PAGES JSON LOAD ERROR:",
+            path,
+            str(exc),
+        )
+
+        return default
 
 
 def load_json_required(path):
@@ -80,6 +102,54 @@ def load_json_required(path):
         )
 
     return data
+
+
+def find_latest_non_empty_file(pattern, label):
+    files = sorted_files_newest_first(
+        pattern,
+    )
+
+    print("")
+    print(f"=== SEARCHING {label} FILES ===")
+
+    for path in files:
+        data = load_json(
+            path,
+            [],
+        )
+
+        count = len(data) if isinstance(data, list) else 0
+
+        print(
+            label,
+            "candidate:",
+            path,
+            "count:",
+            count,
+        )
+
+        if isinstance(data, list) and count > 0:
+            print(
+                label,
+                "selected:",
+                path,
+            )
+
+            print(f"=== END SEARCHING {label} FILES ===")
+            print("")
+
+            return path
+
+    print(
+        label,
+        "selected:",
+        None,
+    )
+
+    print(f"=== END SEARCHING {label} FILES ===")
+    print("")
+
+    return None
 
 
 def ensure_public_dirs():
@@ -180,14 +250,6 @@ def derive_primary_top(all_predictions):
 
 
 def derive_secondary_top(all_predictions):
-    """
-    Secondary tier.
-
-    Use only when primary TOP is empty.
-    Allows slightly lower odds only when probability is strong.
-    This avoids taking very low odds like 1.20.
-    """
-
     eligible = []
 
     for prediction in all_predictions:
@@ -228,13 +290,6 @@ def derive_secondary_top(all_predictions):
 
 
 def derive_model_only_top(all_predictions):
-    """
-    Last-resort fallback.
-
-    This prevents TOP5 from being empty when odds matching fails.
-    These are not value picks. They are model-only INFO ONLY picks.
-    """
-
     eligible = []
 
     for prediction in all_predictions:
@@ -268,16 +323,6 @@ def derive_model_only_top(all_predictions):
 
 
 def derive_top_from_all(all_predictions):
-    """
-    TOP5 selection strategy:
-
-    1. odds >= 1.50
-    2. if none: odds >= 1.35 and probability >= 70%
-    3. if none: model-only fallback with INFO ONLY tag
-
-    This keeps TOP5 populated without pretending that missing odds are value bets.
-    """
-
     primary = derive_primary_top(
         all_predictions
     )
@@ -380,12 +425,14 @@ def validate_predictions(top_predictions, all_predictions):
 def build_pages():
     ensure_public_dirs()
 
-    top_json = latest_file(
-        "public/predictions_*.json",
+    all_json = find_latest_non_empty_file(
+        "public/all_predictions_*.json",
+        "ALL",
     )
 
-    all_json = latest_file(
-        "public/all_predictions_*.json",
+    top_json = find_latest_non_empty_file(
+        "public/predictions_*.json",
+        "TOP",
     )
 
     print("")
