@@ -2,9 +2,19 @@ name: Daily Tennis Predictions
 
 on:
   workflow_dispatch:
+    inputs:
+      force_run:
+        description: "Force run even outside scheduled SK/CZ 06:00 window"
+        required: false
+        default: false
+        type: boolean
 
   schedule:
-    - cron: "0 4-22/3 * * *"
+    # Summer time SK/CZ: 04:10 UTC = 06:10 local
+    # Winter time SK/CZ: 05:10 UTC = 06:10 local
+    # Guard step below allows only the run where local hour is 06.
+    - cron: "10 4 * * *"
+    - cron: "10 5 * * *"
 
 permissions:
   contents: read
@@ -36,13 +46,58 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Check SK/CZ prediction window
+        id: prediction_window
+        env:
+          FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.force_run == true }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          LOCAL_TIME=$(TZ=Europe/Bratislava date -Iseconds)
+          LOCAL_HOUR=$(TZ=Europe/Bratislava date +%H)
+
+          echo "SK/CZ local time: $LOCAL_TIME"
+          echo "SK/CZ local hour: $LOCAL_HOUR"
+          echo "GitHub event: $EVENT_NAME"
+          echo "Force run: $FORCE_RUN"
+
+          if [ "$FORCE_RUN" = "true" ]; then
+            echo "Manual force_run=true. Workflow will continue."
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "reason=force_run" >> "$GITHUB_OUTPUT"
+            echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ "$EVENT_NAME" = "schedule" ] && [ "$LOCAL_HOUR" = "06" ]; then
+            echo "Scheduled run during SK/CZ 06:00 hour. Workflow will continue."
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "reason=scheduled_06_local" >> "$GITHUB_OUTPUT"
+            echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Not the daily prediction window. Workflow will stop successfully."
+          echo "should_run=false" >> "$GITHUB_OUTPUT"
+          echo "reason=outside_prediction_window" >> "$GITHUB_OUTPUT"
+          echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
+
+      - name: Stop outside prediction window
+        if: steps.prediction_window.outputs.should_run != 'true'
+        run: |
+          echo "Daily prediction snapshot was not generated."
+          echo "Reason: ${{ steps.prediction_window.outputs.reason }}"
+          echo "SK/CZ local time: ${{ steps.prediction_window.outputs.local_time }}"
+          echo "This is intentional. TOP5 / ALL are generated only once daily after 06:00 SK/CZ."
+
       - name: Setup Python
+        if: steps.prediction_window.outputs.should_run == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
 
       - name: Install dependencies
+        if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           python -m pip install --upgrade pip
 
@@ -53,6 +108,7 @@ jobs:
           fi
 
       - name: Prepare folders
+        if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           mkdir -p public
           mkdir -p public/all
@@ -61,14 +117,17 @@ jobs:
           mkdir -p data/play_history
 
       - name: Run predictions
+        if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           python update.py
 
       - name: Build TOP and ALL pages
+        if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           python build_pages.py
 
       - name: Build lightweight results page
+        if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           mkdir -p public
           mkdir -p public/results
@@ -99,7 +158,7 @@ jobs:
               "current_month": empty_summary,
               "all_time": empty_summary,
               "items": [],
-              "note": "Lightweight results page. Full results checker is not executed in fast deploy."
+              "note": "Lightweight results page. Full results checker is handled by a separate workflow."
           }
 
           with open("public/results_data.json", "w", encoding="utf-8") as file:
@@ -110,6 +169,7 @@ jobs:
           python rss_results.py
 
       - name: Remove production debug artifacts
+        if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           rm -f public/elo_debug.json || true
           rm -f public/odds_debug.json || true
@@ -120,6 +180,7 @@ jobs:
           rm -f public/source_manifest.json || true
 
       - name: Verify generated public files
+        if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           echo "=== PUBLIC FILES ==="
           find public -maxdepth 4 -type f | sort
@@ -138,13 +199,16 @@ jobs:
           echo "All required public files exist."
 
       - name: Setup GitHub Pages
+        if: steps.prediction_window.outputs.should_run == 'true'
         uses: actions/configure-pages@v5
 
       - name: Upload GitHub Pages artifact
+        if: steps.prediction_window.outputs.should_run == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
 
       - name: Deploy GitHub Pages
+        if: steps.prediction_window.outputs.should_run == 'true'
         id: deployment
         uses: actions/deploy-pages@v4
