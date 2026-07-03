@@ -3,12 +3,12 @@ import html
 from datetime import datetime, timezone
 
 
-SITE_TITLE = "BackstageTalks Statistic Model"
+SITE_TITLE = "Backstage Talks Statistical Engine"
 BASE_URL = "https://backstagetalks.github.io/tennis-backstage-talks"
 
-HEADER_TITLE = "BackstageTalks Statistic Model"
+HEADER_TITLE = "BackstageTalks Statistical Engine"
 HEADER_SUBTITLE = "This data is provided for informational and analytical purposes only"
-FOOTER_TEXT = "Powered by BackstageTalks Statistic Model"
+FOOTER_TEXT = "Powered by BackstageTalks Statistical Engine"
 
 
 def safe(value, default="-"):
