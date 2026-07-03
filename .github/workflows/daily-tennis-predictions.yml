@@ -4,17 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       force_run:
-        description: "Force run even outside scheduled SK/CZ 06:00 window"
+        description: "Force run even outside SK/CZ daily prediction window"
         required: false
         default: false
         type: boolean
 
   schedule:
-    # Summer time SK/CZ: 04:10 UTC = 06:10 local
-    # Winter time SK/CZ: 05:10 UTC = 06:10 local
+    # Summer time SK/CZ: 04:30 UTC = 06:30 local
+    # Winter time SK/CZ: 05:30 UTC = 06:30 local
     # Guard step below allows only the run where local hour is 06.
-    - cron: "10 4 * * *"
-    - cron: "10 5 * * *"
+    - cron: "30 4 * * *"
+    - cron: "30 5 * * *"
 
 permissions:
   contents: read
@@ -54,6 +54,7 @@ jobs:
         run: |
           LOCAL_TIME=$(TZ=Europe/Bratislava date -Iseconds)
           LOCAL_HOUR=$(TZ=Europe/Bratislava date +%H)
+          LOCAL_HOUR_NUM=$((10#$LOCAL_HOUR))
 
           echo "SK/CZ local time: $LOCAL_TIME"
           echo "SK/CZ local hour: $LOCAL_HOUR"
@@ -68,7 +69,15 @@ jobs:
             exit 0
           fi
 
-          if [ "$EVENT_NAME" = "schedule" ] && [ "$LOCAL_HOUR" = "06" ]; then
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "$LOCAL_HOUR_NUM" -ge 6 ]; then
+            echo "Manual run after 06:00 SK/CZ. Workflow will continue."
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "reason=manual_after_06_local" >> "$GITHUB_OUTPUT"
+            echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ "$EVENT_NAME" = "schedule" ] && [ "$LOCAL_HOUR_NUM" -eq 6 ]; then
             echo "Scheduled run during SK/CZ 06:00 hour. Workflow will continue."
             echo "should_run=true" >> "$GITHUB_OUTPUT"
             echo "reason=scheduled_06_local" >> "$GITHUB_OUTPUT"
