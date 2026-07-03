@@ -1,4 +1,4 @@
-from prediction_engine_core import ( 
+from prediction_engine_core import (
     TOP_N,
     MIN_ODDS,
     MIN_TOP_PROBABILITY,
