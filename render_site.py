@@ -174,7 +174,6 @@ def render_ai_match(prediction):
     ai_direction_match = prediction.get("ai_direction_match")
     ai_signed_gap = prediction.get("ai_signed_gap")
     ai_lean = str(prediction.get("ai_lean") or "").upper()
-    rating_type = prediction.get("bst_ai_rating_type")
 
     corq_text = pct(corq_probability)
     bst_text = pct(bst_probability)
@@ -199,19 +198,11 @@ def render_ai_match(prediction):
         except Exception:
             lean_text = "No lean"
 
-    rating_html = ""
-
-    if rating_type:
-        rating_html = f"""
-            <div class="ai-sub">Source: {safe(rating_type)}</div>
-"""
-
     return f"""
         <div class="ai-box ai-match-{ai_color}">
             <div class="ai-main">AI Match: {safe(match_text)}</div>
             <div class="ai-sub">Corq AI: {safe(corq_text)} · BsT AI: {safe(bst_text)}</div>
             <div class="ai-sub">Lean: {safe(lean_text)}</div>
-            {rating_html}
         </div>
 """
 
