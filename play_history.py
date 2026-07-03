@@ -1,23 +1,57 @@
 import json
 import os
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 
-PLAY_HISTORY_DIR = "data/play_history"
-LATEST_PUBLIC_PATH = "public/play_history_latest.json"
+BRATISLAVA_TZ = ZoneInfo("Europe/Bratislava")
+
+LEGACY_PLAY_HISTORY_DIR = "data/play_history"
+
+PICK_HISTORY_ROOT = "data/pick_history"
+ALL_PICK_HISTORY_DIR = "data/pick_history/all"
+TOP5_PICK_HISTORY_DIR = "data/pick_history/top5"
+
+LATEST_ALL_PUBLIC_PATH = "public/play_history_all_latest.json"
+LATEST_TOP5_PUBLIC_PATH = "public/play_history_top5_latest.json"
+LATEST_LEGACY_PUBLIC_PATH = "public/play_history_latest.json"
 
 
 def ensure_dirs():
-    os.makedirs(
-        PLAY_HISTORY_DIR,
-        exist_ok=True,
-    )
+    os.makedirs(LEGACY_PLAY_HISTORY_DIR, exist_ok=True)
+    os.makedirs(ALL_PICK_HISTORY_DIR, exist_ok=True)
+    os.makedirs(TOP5_PICK_HISTORY_DIR, exist_ok=True)
+    os.makedirs("public", exist_ok=True)
 
-    os.makedirs(
-        "public",
-        exist_ok=True,
-    )
+
+def now_utc_iso():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def betting_day(date_time=None):
+    """
+    Betting day window:
+    Europe/Bratislava 06:00 -> next day 06:00
+
+    If local time is before 06:00, the betting day is previous calendar day.
+    """
+    if date_time is None:
+        date_time = datetime.now(BRATISLAVA_TZ)
+
+    if date_time.tzinfo is None:
+        date_time = date_time.replace(tzinfo=BRATISLAVA_TZ)
+    else:
+        date_time = date_time.astimezone(BRATISLAVA_TZ)
+
+    if date_time.hour < 6:
+        date_time = date_time - timedelta(days=1)
+
+    return date_time.strftime("%Y-%m-%d")
+
+
+def today_utc():
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
 def normalize_text(value):
@@ -32,25 +66,13 @@ def normalize_text(value):
 
 
 def make_pick_id(date, prediction):
-    match = normalize_text(
-        prediction.get("match")
-    )
-
-    pick = normalize_text(
-        prediction.get("pick")
-    )
-
-    opponent = normalize_text(
-        prediction.get("opponent")
-    )
+    match = normalize_text(prediction.get("match"))
+    pick = normalize_text(prediction.get("pick"))
+    opponent = normalize_text(prediction.get("opponent"))
 
     base = f"{date}::{match}::{pick}::{opponent}"
 
-    return re.sub(
-        r"[^a-z0-9]+",
-        "_",
-        base,
-    ).strip("_")
+    return re.sub(r"[^a-z0-9]+", "_", base).strip("_")
 
 
 def safe_float(value):
@@ -64,29 +86,12 @@ def safe_float(value):
         return None
 
 
-def today_utc():
-    return datetime.now(
-        timezone.utc
-    ).strftime("%Y-%m-%d")
-
-
-def history_path(date):
-    return os.path.join(
-        PLAY_HISTORY_DIR,
-        f"{date}.json",
-    )
-
-
 def load_json(path, default):
     try:
         if not os.path.exists(path):
             return default
 
-        with open(
-            path,
-            "r",
-            encoding="utf-8",
-        ) as file:
+        with open(path, "r", encoding="utf-8") as file:
             return json.load(file)
 
     except Exception:
@@ -97,44 +102,35 @@ def save_json(path, data):
     directory = os.path.dirname(path)
 
     if directory:
-        os.makedirs(
-            directory,
-            exist_ok=True,
-        )
+        os.makedirs(directory, exist_ok=True)
 
-    with open(
-        path,
-        "w",
-        encoding="utf-8",
-    ) as file:
-        json.dump(
-            data,
-            file,
-            indent=2,
-            ensure_ascii=False,
-        )
+    with open(path, "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=2, ensure_ascii=False)
 
 
-def build_snapshot_record(date, prediction, rank):
-    pick_id = make_pick_id(
-        date,
-        prediction,
-    )
+def all_snapshot_path(date):
+    return os.path.join(ALL_PICK_HISTORY_DIR, f"{date}.json")
 
-    odds = safe_float(
-        prediction.get("odds")
-    )
 
-    probability = safe_float(
-        prediction.get("probability")
-    )
+def top5_snapshot_path(date):
+    return os.path.join(TOP5_PICK_HISTORY_DIR, f"{date}.json")
+
+
+def legacy_history_path(date):
+    return os.path.join(LEGACY_PLAY_HISTORY_DIR, f"{date}.json")
+
+
+def build_snapshot_record(date, prediction, rank, dataset):
+    pick_id = make_pick_id(date, prediction)
+
+    odds = safe_float(prediction.get("odds"))
+    probability = safe_float(prediction.get("probability"))
 
     return {
         "id": pick_id,
+        "dataset": dataset,
         "date": date,
-        "created_at": datetime.now(
-            timezone.utc
-        ).isoformat(),
+        "created_at": now_utc_iso(),
 
         "rank": rank,
 
@@ -158,130 +154,49 @@ def build_snapshot_record(date, prediction, rank):
         "expected_sets": prediction.get("expected_sets"),
         "sets_probability": prediction.get("sets_probability"),
         "sets_probability_label": prediction.get("sets_probability_label"),
+        "set_win_probability": prediction.get("set_win_probability"),
         "most_likely_score": prediction.get("most_likely_score"),
+        "most_likely_score_probability": prediction.get("most_likely_score_probability"),
         "score_probabilities": prediction.get("score_probabilities"),
 
         "bet_tag": prediction.get("bet_tag"),
+        "top_mode": prediction.get("top_mode"),
+        "top_reason": prediction.get("top_reason"),
 
-        "result_status": "PENDING",
-        "winner": None,
-        "score": None,
-        "units": 0.0,
-        "resolved_at": None,
-        "result_source": None,
-        "result_match_score": None,
+        "result_status": prediction.get("result_status") or "PENDING",
+        "winner": prediction.get("winner"),
+        "score": prediction.get("score"),
+        "units": safe_float(prediction.get("units")) or 0.0,
+        "resolved_at": prediction.get("resolved_at"),
+        "result_source": prediction.get("result_source"),
+        "result_match_score": prediction.get("result_match_score"),
     }
 
 
-def merge_existing_record(existing, new_record):
-    """
-    Denný pick je snapshot.
-
-    Pri opakovanom rune nechceme prepísať:
-    - pick
-    - odds
-    - probability
-    - tournament
-    - modelové dáta
-
-    Zachováme však výsledkové polia, ak už existujú.
-    """
-
-    result_fields = [
-        "result_status",
-        "winner",
-        "score",
-        "units",
-        "resolved_at",
-        "result_source",
-        "result_match_score",
-    ]
-
-    merged = dict(existing)
-
-    for field in result_fields:
-        if field in existing:
-            merged[field] = existing.get(field)
-
-    return merged
-
-
-def save_play_candidates(date=None, predictions=None):
-    """
-    Volané z update.py.
-
-    Očakávané volanie:
-        save_play_candidates(today, all_predictions)
-
-    Funkcia uloží snapshot pickov do:
-        data/play_history/YYYY-MM-DD.json
-
-    Pri ďalšom rune v ten istý deň sa existujúce picky neprepíšu.
-    Nové picky sa doplnia.
-    """
-
-    ensure_dirs()
-
+def build_snapshot(date, predictions, dataset):
     if predictions is None:
         predictions = []
 
-    if date is None:
-        date = today_utc()
-
-    path = history_path(date)
-
-    existing_data = load_json(
-        path,
-        [],
-    )
-
-    existing_by_id = {
-        item.get("id"): item
-        for item in existing_data
-        if item.get("id")
-    }
-
     output = []
 
-    for rank, prediction in enumerate(
-        predictions,
-        start=1,
-    ):
+    for rank, prediction in enumerate(predictions, start=1):
+        if not isinstance(prediction, dict):
+            continue
+
         if not prediction.get("pick"):
             continue
 
         if not prediction.get("match"):
             continue
 
-        new_record = build_snapshot_record(
-            date,
-            prediction,
-            rank,
-        )
-
-        pick_id = new_record["id"]
-
-        if pick_id in existing_by_id:
-            output.append(
-                merge_existing_record(
-                    existing_by_id[pick_id],
-                    new_record,
-                )
+        output.append(
+            build_snapshot_record(
+                date=date,
+                prediction=prediction,
+                rank=rank,
+                dataset=dataset,
             )
-
-        else:
-            output.append(new_record)
-
-    existing_ids = {
-        item.get("id")
-        for item in output
-    }
-
-    for item in existing_data:
-        item_id = item.get("id")
-
-        if item_id and item_id not in existing_ids:
-            output.append(item)
+        )
 
     output.sort(
         key=lambda item: (
@@ -290,22 +205,74 @@ def save_play_candidates(date=None, predictions=None):
         )
     )
 
-    save_json(
-        path,
-        output,
+    return output
+
+
+def save_snapshot(date, predictions, dataset, path, latest_public_path, overwrite=False):
+    """
+    Daily snapshot is immutable.
+
+    Default behavior:
+    - if snapshot file already exists and is non-empty, keep it unchanged
+    - do not overwrite odds, probability, rank, pick, model fields during the day
+
+    overwrite=True is intentionally available only for manual recovery.
+    """
+    ensure_dirs()
+
+    if date is None:
+        date = betting_day()
+
+    existing = load_json(path, None)
+
+    if (
+        existing is not None
+        and isinstance(existing, list)
+        and len(existing) > 0
+        and not overwrite
+    ):
+        save_json(
+            latest_public_path,
+            {
+                "date": date,
+                "dataset": dataset,
+                "count": len(existing),
+                "immutable_snapshot": True,
+                "items": existing,
+            },
+        )
+
+        print(
+            "SNAPSHOT EXISTS - KEEPING IMMUTABLE:",
+            dataset,
+            path,
+            len(existing),
+        )
+
+        return existing
+
+    output = build_snapshot(
+        date=date,
+        predictions=predictions,
+        dataset=dataset,
     )
 
+    save_json(path, output)
+
     save_json(
-        LATEST_PUBLIC_PATH,
+        latest_public_path,
         {
             "date": date,
+            "dataset": dataset,
             "count": len(output),
+            "immutable_snapshot": True,
             "items": output,
         },
     )
 
     print(
-        "PLAY HISTORY SAVED:",
+        "SNAPSHOT SAVED:",
+        dataset,
         path,
         len(output),
     )
@@ -313,33 +280,130 @@ def save_play_candidates(date=None, predictions=None):
     return output
 
 
-def load_play_history_for_date(date):
-    return load_json(
-        history_path(date),
-        [],
+def save_all_snapshot(date=None, all_predictions=None, overwrite=False):
+    if date is None:
+        date = betting_day()
+
+    return save_snapshot(
+        date=date,
+        predictions=all_predictions or [],
+        dataset="all",
+        path=all_snapshot_path(date),
+        latest_public_path=LATEST_ALL_PUBLIC_PATH,
+        overwrite=overwrite,
     )
 
 
-def load_all_play_history():
+def save_top5_snapshot(date=None, top5_predictions=None, overwrite=False):
+    if date is None:
+        date = betting_day()
+
+    return save_snapshot(
+        date=date,
+        predictions=top5_predictions or [],
+        dataset="top5",
+        path=top5_snapshot_path(date),
+        latest_public_path=LATEST_TOP5_PUBLIC_PATH,
+        overwrite=overwrite,
+    )
+
+
+def save_play_candidates(date=None, predictions=None, overwrite=False):
+    """
+    Backward-compatible wrapper.
+
+    Old code called:
+        save_play_candidates(today, all_predictions)
+
+    New architecture stores this as ALL snapshot:
+        data/pick_history/all/YYYY-MM-DD.json
+
+    It also writes legacy data/play_history/YYYY-MM-DD.json only if missing,
+    so older local scripts do not immediately break.
+    """
+    if date is None:
+        date = betting_day()
+
+    output = save_all_snapshot(
+        date=date,
+        all_predictions=predictions or [],
+        overwrite=overwrite,
+    )
+
+    legacy_path = legacy_history_path(date)
+
+    if not os.path.exists(legacy_path):
+        save_json(legacy_path, output)
+
+    save_json(
+        LATEST_LEGACY_PUBLIC_PATH,
+        {
+            "date": date,
+            "dataset": "all",
+            "count": len(output),
+            "items": output,
+        },
+    )
+
+    return output
+
+
+def load_all_snapshot_for_date(date):
+    return load_json(all_snapshot_path(date), [])
+
+
+def load_top5_snapshot_for_date(date):
+    return load_json(top5_snapshot_path(date), [])
+
+
+def load_play_history_for_date(date):
+    data = load_all_snapshot_for_date(date)
+
+    if data:
+        return data
+
+    return load_json(legacy_history_path(date), [])
+
+
+def load_history_dir(directory):
     ensure_dirs()
 
     items = []
 
-    for filename in sorted(os.listdir(PLAY_HISTORY_DIR)):
+    if not os.path.exists(directory):
+        return items
+
+    for filename in sorted(os.listdir(directory)):
         if not filename.endswith(".json"):
             continue
 
-        path = os.path.join(
-            PLAY_HISTORY_DIR,
-            filename,
-        )
-
-        data = load_json(
-            path,
-            [],
-        )
+        path = os.path.join(directory, filename)
+        data = load_json(path, [])
 
         if isinstance(data, list):
             items.extend(data)
 
     return items
+
+
+def load_all_pick_history():
+    return load_history_dir(ALL_PICK_HISTORY_DIR)
+
+
+def load_top5_pick_history():
+    return load_history_dir(TOP5_PICK_HISTORY_DIR)
+
+
+def load_all_play_history():
+    """
+    Backward-compatible loader.
+
+    Prefer new ALL pick history.
+    Fall back to old data/play_history if new folder is empty.
+    """
+    items = load_all_pick_history()
+
+    if items:
+        return items
+
+    return load_history_dir(LEGACY_PLAY_HISTORY_DIR)
