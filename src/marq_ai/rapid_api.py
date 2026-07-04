@@ -17,11 +17,12 @@ TIMEOUT = 20
 def _headers():
 
     return {
-        "X-RapidAPI-Key": os.getenv(
+        "Content-Type": "application/json",
+        "x-rapidapi-host": RAPID_API_HOST,
+        "x-rapidapi-key": os.getenv(
             "RAPIDAPI_KEY",
             ""
         ),
-        "X-RapidAPI-Host": RAPID_API_HOST,
     }
 
 
@@ -30,14 +31,9 @@ def get_event_id(
     player2: str,
     date_only: str,
 ):
-    """
-    Returns:
-        event_id or None
-    """
-
     url = (
         f"{BASE_URL}"
-        f"/event-id-by-participants"
+        f"/tennis/v2/extend/api/event/get"
         f"/{player1}"
         f"/{player2}"
         f"/{date_only}"
@@ -60,9 +56,14 @@ def get_event_id(
             {}
         )
 
-        return str(
-            result.get("id")
+        event_id = result.get(
+            "id"
         )
+
+        if not event_id:
+            return None
+
+        return str(event_id)
 
     except Exception as exc:
 
@@ -77,10 +78,9 @@ def get_event_id(
 def get_odds_summary(
     event_id: str,
 ):
-
     url = (
         f"{BASE_URL}"
-        f"/odds-summary"
+        f"/tennis/v2/extend/api/odds/summary"
         f"/{event_id}"
     )
 
@@ -111,7 +111,7 @@ def get_recent_odds(
 ):
     url = (
         f"{BASE_URL}"
-        f"/recent-odds"
+        f"/tennis/v2/extend/api/event/recent-odds/get"
         f"/{event_id}"
     )
 
