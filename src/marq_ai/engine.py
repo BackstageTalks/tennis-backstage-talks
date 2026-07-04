@@ -1,24 +1,55 @@
-from .models import MarqInput, MarqOutput
-from .signals import get_signal
+from .models import (
+    MarqInput,
+    MarqOutput,
+)
+
+from .movements import (
+    calculate_direction,
+    calculate_strength,
+    calculate_consistency,
+    calculate_steam_score,
+)
+
+from .signals import classify_signal
 
 
-def calculate_marq(input_data: MarqInput) -> MarqOutput:
+def calculate_marq(
+    data: MarqInput
+) -> MarqOutput:
 
-    open_prob = 1 / input_data.opening_odds
-    current_prob = 1 / input_data.current_odds
+    odds_history = [
+        point.odds
+        for point in data.movement_history
+    ]
 
-    move_pct = (current_prob - open_prob) * 100
+    direction = calculate_direction(
+        data.opening_odds,
+        data.current_odds,
+    )
 
-    marq_probability = max(
-        35.0,
-        min(
-            65.0,
-            50 + move_pct
-        )
+    strength = calculate_strength(
+        data.opening_odds,
+        data.current_odds,
+    )
+
+    consistency = calculate_consistency(
+        odds_history,
+    )
+
+    score = calculate_steam_score(
+        data.opening_odds,
+        data.current_odds,
+        odds_history,
+    )
+
+    signal = classify_signal(
+        score,
     )
 
     return MarqOutput(
-        probability=round(marq_probability, 1),
-        move_pct=round(move_pct, 2),
-        signal=get_signal(move_pct)
+        score=score,
+        direction=direction,
+        strength=strength,
+        consistency=consistency,
+        signal=signal,
     )
