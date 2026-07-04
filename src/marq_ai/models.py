@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 
 
 @dataclass
@@ -11,13 +12,13 @@ class MovementPoint:
 class MarqInput:
     opening_odds: float
     current_odds: float
-    movement_history: list[MovementPoint]
+    movement_history: List[MovementPoint]
 
 
 @dataclass
 class MarqOutput:
     score: float
-    direction: str
+    direction: float
     strength: float
     consistency: float
     signal: str
