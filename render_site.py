@@ -75,7 +75,7 @@ def tag_class(tag):
 
 def html_link(url, label):
     return (
-        f'<a href="{safe(url)}">'
+        f'">'
         f'{safe(label)}'
         f'</a>'
     )
@@ -143,13 +143,26 @@ def normalize_ai_color(value):
     return "gray"
 
 
-def render_ai_match(prediction):
-    status = prediction.get(
-        "bst_ai_status"
-    )
+def resolve_marq_signal(prediction):
+    signal = prediction.get("marq_ai_signal")
+    reason = prediction.get("marq_ai_reason")
+    score = prediction.get("marq_ai_score")
 
-    if status != "OK":
-        return ""
+    if score is None:
+        return "NO MARKET DATA"
+
+    if reason and str(reason).lower() not in ["ok", "none"]:
+        if score is None:
+            return "NO MARKET DATA"
+
+    if not signal:
+        return "NEUTRAL"
+
+    return str(signal).upper()
+
+
+def render_data_ai_box(prediction):
+    status = prediction.get("bst_ai_status")
 
     corq_probability = (
         prediction.get("corq_ai_probability")
@@ -164,15 +177,52 @@ def render_ai_match(prediction):
         "ai_match"
     )
 
-    marq_score = prediction.get(
-        "marq_ai_score"
-    )
+    if status != "OK":
+        return f"""
+        <div class="intel-box data-ai-box">
+            <div class="box-title">DATA AI</div>
 
-    marq_signal = str(
-        prediction.get(
-            "marq_ai_signal"
-        ) or "NEUTRAL"
-    ).upper()
+            <div class="intel-row">
+                <span>Corq AI</span>
+                <span>{pct(corq_probability)}</span>
+            </div>
+
+            <div class="intel-row muted-row">
+                <span>BsT AI</span>
+                <span>No data</span>
+            </div>
+
+            <div class="intel-row muted-row">
+                <span>AI Match</span>
+                <span>-</span>
+            </div>
+        </div>
+"""
+
+    return f"""
+        <div class="intel-box data-ai-box">
+            <div class="box-title">DATA AI</div>
+
+            <div class="intel-row ai-main-row">
+                <span>AI Match</span>
+                <span>{pct_plain(ai_match)}</span>
+            </div>
+
+            <div class="intel-row">
+                <span>Corq AI</span>
+                <span>{pct(corq_probability)}</span>
+            </div>
+
+            <div class="intel-row">
+                <span>BsT AI</span>
+                <span>{pct(bst_probability)}</span>
+            </div>
+        </div>
+"""
+
+
+def render_marq_ai_box(prediction):
+    marq_signal = resolve_marq_signal(prediction)
 
     signal_class_map = {
         "BULLISH": "market-bullish",
@@ -180,6 +230,7 @@ def render_ai_match(prediction):
         "NEUTRAL": "market-neutral",
         "CAUTION": "market-caution",
         "BEARISH": "market-bearish",
+        "NO MARKET DATA": "market-unavailable",
     }
 
     signal_class = signal_class_map.get(
@@ -187,53 +238,66 @@ def render_ai_match(prediction):
         "market-neutral",
     )
 
+    display_signal = marq_signal
+
+    if marq_signal == "NO MARKET DATA":
+        display_signal = "No market data"
+
     return f"""
-        <div class="ai-panel ai-match-gray">
-            <div class="panel-title">AI box</div>
+        <div class="intel-box marq-ai-box">
+            <div class="box-title">MARQ AI</div>
 
-            <div class="ai-row ai-main-row">
-                <span>AI Match</span>
-                <span>{pct_plain(ai_match)}</span>
-            </div>
-
-            <div class="ai-row">
-                <span>Corq AI</span>
-                <span>{pct(corq_probability)}</span>
-            </div>
-
-            <div class="ai-row">
-                <span>BsT AI</span>
-                <span>{pct(bst_probability)}</span>
-            </div>
-
-            <div class="ai-row">
-                <span>Marq AI</span>
-                <span>{pct_plain(marq_score)}</span>
-            </div>
-
-            <div class="market-badge {signal_class}">
-                {safe(marq_signal)}
+            <div class="marq-signal {signal_class}">
+                {safe(display_signal)}
             </div>
         </div>
 """
 
 
-def render_sets_prediction(prediction, expected_sets, sets_probability_label, sets_probability, most_likely_html):
+def render_sets_box(prediction, expected_sets, sets_probability_label, sets_probability, most_likely_html):
     return f"""
-        <div class="sets-panel">
-            <div class="panel-title">Set prediction</div>
+        <div class="intel-box sets-box">
+            <div class="box-title">SETS</div>
 
-            <div class="sets-row">
+            <div class="intel-row">
                 <span>Sets</span>
                 <span>{expected_sets}</span>
             </div>
 
-            <div class="sets-row">
+            <div class="intel-row">
                 <span>{sets_probability_label}</span>
                 <span>{sets_probability}</span>
             </div>
 
             {most_likely_html}
+        </div>
+"""
+
+
+def render_match_intelligence(prediction, expected_sets, sets_probability_label, sets_probability, most_likely_html):
+    data_ai_html = render_data_ai_box(
+        prediction
+    )
+
+    marq_ai_html = render_marq_ai_box(
+        prediction
+    )
+
+    sets_html = render_sets_box(
+        prediction=prediction,
+        expected_sets=expected_sets,
+        sets_probability_label=sets_probability_label,
+        sets_probability=sets_probability,
+        most_likely_html=most_likely_html,
+    )
+
+    return f"""
+        <div class="intel-title">Match Intelligence</div>
+
+        <div class="intel-layout">
+            {data_ai_html}
+            {marq_ai_html}
+            {sets_html}
         </div>
 """
 
@@ -370,17 +434,13 @@ def render_rows(predictions):
 
         if most_likely_score:
             most_likely_html = f"""
-            <div class="sets-row">
+            <div class="intel-row">
                 <span>Score</span>
                 <span>{most_likely_score}</span>
             </div>
 """
 
-        ai_match_html = render_ai_match(
-            prediction
-        )
-
-        sets_prediction_html = render_sets_prediction(
+        match_intelligence_html = render_match_intelligence(
             prediction=prediction,
             expected_sets=expected_sets,
             sets_probability_label=sets_probability_label,
@@ -408,12 +468,7 @@ def render_rows(predictions):
     <td class="odds">{odd}</td>
 
     <td class="intel">
-        <div class="intel-title">Match Intelligence</div>
-
-        <div class="intel-layout">
-            {ai_match_html}
-            {sets_prediction_html}
-        </div>
+        {match_intelligence_html}
     </td>
 </tr>
 """)
@@ -463,7 +518,7 @@ html, body {{
 }}
 
 .wrapper {{
-    max-width: 1440px;
+    max-width: 1500px;
     margin: 0 auto;
     padding: 28px;
 }}
@@ -553,7 +608,7 @@ html, body {{
 table {{
     width: 100%;
     border-collapse: collapse;
-    min-width: 1040px;
+    min-width: 1220px;
 }}
 
 thead {{
@@ -622,11 +677,11 @@ tr:hover {{
 
 .intel {{
     line-height: 1.45;
-    min-width: 320px;
+    min-width: 430px;
 }}
 
 .intel-title {{
-    margin-bottom: 6px;
+    margin-bottom: 7px;
     color: var(--muted);
     font-size: 11px;
     font-weight: 900;
@@ -636,42 +691,39 @@ tr:hover {{
 
 .intel-layout {{
     display: grid;
-    grid-template-columns: 142px 142px;
+    grid-template-columns: 128px 128px 128px;
     gap: 10px;
-    align-items: start;
+    align-items: stretch;
 }}
 
-.ai-panel,
-.sets-panel {{
-    min-height: 112px;
-    padding: 8px 9px;
+.intel-box {{
+    min-height: 104px;
+    padding: 9px 10px;
     border-radius: 8px;
     font-size: 11px;
-    line-height: 1.4;
-    background: rgba(100, 116, 139, 0.14);
-    border: 1px solid rgba(100, 116, 139, 0.38);
+    line-height: 1.45;
+    background: rgba(100, 116, 139, 0.12);
+    border: 1px solid rgba(148, 163, 184, 0.55);
 }}
 
-.panel-title {{
-    color: var(--muted);
-    font-size: 10px;
+.box-title {{
+    color: #e5e7eb;
+    font-size: 11px;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 5px;
+    margin-bottom: 7px;
 }}
 
-.ai-row,
-.sets-row {{
+.intel-row {{
     display: grid;
-    grid-template-columns: 58px auto;
+    grid-template-columns: 64px auto;
     column-gap: 7px;
     align-items: center;
-    margin-top: 3px;
+    margin-top: 4px;
 }}
 
-.ai-row span:last-child,
-.sets-row span:last-child {{
+.intel-row span:last-child {{
     text-align: right;
     color: var(--text);
     font-weight: 800;
@@ -682,45 +734,63 @@ tr:hover {{
     font-weight: 900;
 }}
 
-.market-badge {{
-    display: inline-block;
+.muted-row {{
+    color: var(--muted);
+}}
+
+.marq-signal {{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    width: 100%;
     margin-top: 8px;
-    padding: 4px 9px;
-    border-radius: 5px;
-    font-size: 10px;
-    font-weight: 800;
+    padding: 7px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 900;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    text-align: center;
 }}
 
 .market-bullish {{
     color: #22c55e;
-    border: 1px solid rgba(34,197,94,.45);
-    background: rgba(34,197,94,.08);
+    border: 1px solid rgba(34, 197, 94, .55);
+    background: rgba(34, 197, 94, .10);
 }}
 
 .market-support {{
     color: #38bdf8;
-    border: 1px solid rgba(56,189,248,.45);
-    background: rgba(56,189,248,.08);
+    border: 1px solid rgba(56, 189, 248, .55);
+    background: rgba(56, 189, 248, .10);
 }}
 
 .market-neutral {{
     color: #94a3b8;
-    border: 1px solid rgba(148,163,184,.45);
-    background: rgba(148,163,184,.08);
+    border: 1px solid rgba(148, 163, 184, .55);
+    background: rgba(148, 163, 184, .10);
 }}
 
 .market-caution {{
     color: #fb923c;
-    border: 1px solid rgba(251,146,60,.45);
-    background: rgba(251,146,60,.08);
+    border: 1px solid rgba(251, 146, 60, .55);
+    background: rgba(251, 146, 60, .10);
 }}
 
 .market-bearish {{
     color: #ef4444;
-    border: 1px solid rgba(239,68,68,.45);
-    background: rgba(239,68,68,.08);
+    border: 1px solid rgba(239, 68, 68, .55);
+    background: rgba(239, 68, 68, .10);
+}}
+
+.market-unavailable {{
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, .35);
+    background: rgba(148, 163, 184, .06);
+    font-size: 10px;
+    letter-spacing: 0;
+    text-transform: none;
 }}
 
 .empty {{
@@ -736,6 +806,16 @@ tr:hover {{
     font-size: 12px;
     text-align: center;
     line-height: 1.7;
+}}
+
+@media (max-width: 1200px) {{
+    .intel-layout {{
+        grid-template-columns: 1fr;
+    }}
+
+    .intel {{
+        min-width: 180px;
+    }}
 }}
 
 @media (max-width: 1050px) {{
@@ -764,10 +844,6 @@ tr:hover {{
     }}
 
     .summary {{
-        grid-template-columns: 1fr;
-    }}
-
-    .intel-layout {{
         grid-template-columns: 1fr;
     }}
 }}
@@ -871,18 +947,21 @@ def render_rss(predictions, title, link):
             )
             bst_ai = pct(prediction.get("bst_ai_probability"))
             ai_match = pct_plain(prediction.get("ai_match"))
-            marq_ai = pct_plain(prediction.get("marq_ai_score"))
-            marq_signal = safe(
-                prediction.get("marq_ai_signal"),
-                default="NEUTRAL",
+
+            marq_signal = resolve_marq_signal(
+                prediction
             )
+
+            if marq_signal == "NO MARKET DATA":
+                marq_text = "Marq AI: No market data\n"
+            else:
+                marq_text = f"Marq AI: {marq_signal}\n"
 
             ai_text = (
                 f"AI Match: {ai_match}\n"
                 f"Corq AI: {corq_ai}\n"
                 f"BsT AI: {bst_ai}\n"
-                f"Marq AI: {marq_ai}\n"
-                f"Market Signal: {marq_signal}\n"
+                f"{marq_text}"
             )
 
         else:
@@ -890,7 +969,7 @@ def render_rss(predictions, title, link):
                 "Corq AI: available\n"
                 "BsT AI: No data\n"
                 "AI Match: No data\n"
-                "Marq AI: No data\n"
+                "Marq AI: No market data\n"
             )
 
         description_text = (
