@@ -10,27 +10,34 @@ on:
         type: boolean
 
   schedule:
-    # Summer time SK/CZ: 04:30 UTC = 06:30 local
-    # Winter time SK/CZ: 05:30 UTC = 06:30 local
-    # Guard step below allows only the run where local hour is 06.
-    - cron: "30 4 * * *"
-    - cron: "30 5 * * *"
+    # Robust morning retry window.
+    #
+    # GitHub cron is UTC.
+    # Summer SK/CZ = UTC+2:
+    #   04:23 UTC = 06:23 local
+    #   09:53 UTC = 11:53 local, but guard allows only until local 10:59.
+    #
+    # Winter SK/CZ = UTC+1:
+    #   05:23 UTC = 06:23 local
+    #   09:53 UTC = 10:53 local.
+    #
+    # We intentionally avoid minute 00 because scheduled GitHub Actions
+    # can be delayed during high-load periods.
+    - cron: "23,53 4-9 * * *"
 
 permissions:
   contents: write
   pages: write
   id-token: write
 
-
 concurrency:
-  group: tennis-backstage-talks-main-write
+  group: tennis-pages
   cancel-in-progress: false
-
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
 
     environment:
       name: github-pages
@@ -58,17 +65,25 @@ jobs:
           LOCAL_TIME=$(TZ=Europe/Bratislava date -Iseconds)
           LOCAL_HOUR=$(TZ=Europe/Bratislava date +%H)
           LOCAL_HOUR_NUM=$((10#$LOCAL_HOUR))
+          BETTING_DAY=$(TZ=Europe/Bratislava date +%F)
+
+          ALL_SNAPSHOT="data/pick_history/all/${BETTING_DAY}.json"
+          TOP5_SNAPSHOT="data/pick_history/top5/${BETTING_DAY}.json"
 
           echo "SK/CZ local time: $LOCAL_TIME"
           echo "SK/CZ local hour: $LOCAL_HOUR"
+          echo "Betting day: $BETTING_DAY"
           echo "GitHub event: $EVENT_NAME"
           echo "Force run: $FORCE_RUN"
+          echo "Expected ALL snapshot: $ALL_SNAPSHOT"
+          echo "Expected TOP5 snapshot: $TOP5_SNAPSHOT"
 
           if [ "$FORCE_RUN" = "true" ]; then
             echo "Manual force_run=true. Workflow will continue."
             echo "should_run=true" >> "$GITHUB_OUTPUT"
             echo "reason=force_run" >> "$GITHUB_OUTPUT"
             echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
+            echo "betting_day=$BETTING_DAY" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -77,14 +92,34 @@ jobs:
             echo "should_run=true" >> "$GITHUB_OUTPUT"
             echo "reason=manual_after_06_local" >> "$GITHUB_OUTPUT"
             echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
+            echo "betting_day=$BETTING_DAY" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          if [ "$EVENT_NAME" = "schedule" ] && [ "$LOCAL_HOUR_NUM" -eq 6 ]; then
-            echo "Scheduled run during SK/CZ 06:00 hour. Workflow will continue."
+          if [ "$EVENT_NAME" = "schedule" ]; then
+            if [ "$LOCAL_HOUR_NUM" -lt 6 ] || [ "$LOCAL_HOUR_NUM" -gt 10 ]; then
+              echo "Scheduled run outside SK/CZ 06:00-10:59 prediction window. Workflow will stop successfully."
+              echo "should_run=false" >> "$GITHUB_OUTPUT"
+              echo "reason=outside_prediction_window" >> "$GITHUB_OUTPUT"
+              echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
+              echo "betting_day=$BETTING_DAY" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            if [ -s "$ALL_SNAPSHOT" ] && [ -s "$TOP5_SNAPSHOT" ]; then
+              echo "Daily snapshots already exist for betting day $BETTING_DAY. Workflow will stop successfully."
+              echo "should_run=false" >> "$GITHUB_OUTPUT"
+              echo "reason=snapshot_already_exists" >> "$GITHUB_OUTPUT"
+              echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
+              echo "betting_day=$BETTING_DAY" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            echo "Scheduled run inside SK/CZ 06:00-10:59 prediction window and snapshot is not complete yet. Workflow will continue."
             echo "should_run=true" >> "$GITHUB_OUTPUT"
-            echo "reason=scheduled_06_local" >> "$GITHUB_OUTPUT"
+            echo "reason=scheduled_retry_window" >> "$GITHUB_OUTPUT"
             echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
+            echo "betting_day=$BETTING_DAY" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -92,12 +127,14 @@ jobs:
           echo "should_run=false" >> "$GITHUB_OUTPUT"
           echo "reason=outside_prediction_window" >> "$GITHUB_OUTPUT"
           echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
+          echo "betting_day=$BETTING_DAY" >> "$GITHUB_OUTPUT"
 
       - name: Stop outside prediction window
         if: steps.prediction_window.outputs.should_run != 'true'
         run: |
           echo "Daily prediction snapshot was not generated."
           echo "Reason: ${{ steps.prediction_window.outputs.reason }}"
+          echo "Betting day: ${{ steps.prediction_window.outputs.betting_day }}"
           echo "SK/CZ local time: ${{ steps.prediction_window.outputs.local_time }}"
           echo "This is intentional. TOP5 / ALL are generated only once daily after 06:00 SK/CZ."
 
@@ -144,90 +181,7 @@ jobs:
       - name: Run results checker
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
-          if [ -f results_checker.py ]; then
-            echo "Running results_checker.py"
-            python results_checker.py
-          else
-            echo "results_checker.py not found."
-            echo "Creating fallback public/results_data.json"
-            python - <<'PY'
-          import json
-          import os
-          from datetime import datetime, timezone
-
-          os.makedirs("public", exist_ok=True)
-
-          empty_summary = {
-              "picks": 0,
-              "won": 0,
-              "lost": 0,
-              "void": 0,
-              "pending": 0,
-              "unknown": 0,
-              "units": 0.0,
-              "win_rate": None
-          }
-
-          payload = {
-              "generated_at": datetime.now(timezone.utc).isoformat(),
-              "today": empty_summary,
-              "last_7_days": empty_summary,
-              "current_month": empty_summary,
-              "all_time": empty_summary,
-              "items": [],
-              "note": "results_checker.py not found. Results page generated with fallback data."
-          }
-
-          with open("public/results_data.json", "w", encoding="utf-8") as file:
-              json.dump(payload, file, indent=2, ensure_ascii=False)
-          PY
-          fi
-
-      - name: Ensure results data exists
-        if: steps.prediction_window.outputs.should_run == 'true'
-        run: |
-          mkdir -p public
-          mkdir -p public/results
-
-          if [ -f public/results_data.json ]; then
-            echo "public/results_data.json exists"
-          elif [ -f data/play_results.json ]; then
-            echo "Copying data/play_results.json to public/results_data.json"
-            cp data/play_results.json public/results_data.json
-          else
-            echo "Creating fallback public/results_data.json"
-            python - <<'PY'
-          import json
-          import os
-          from datetime import datetime, timezone
-
-          os.makedirs("public", exist_ok=True)
-
-          empty_summary = {
-              "picks": 0,
-              "won": 0,
-              "lost": 0,
-              "void": 0,
-              "pending": 0,
-              "unknown": 0,
-              "units": 0.0,
-              "win_rate": None
-          }
-
-          payload = {
-              "generated_at": datetime.now(timezone.utc).isoformat(),
-              "today": empty_summary,
-              "last_7_days": empty_summary,
-              "current_month": empty_summary,
-              "all_time": empty_summary,
-              "items": [],
-              "note": "Fallback results_data.json created by workflow."
-          }
-
-          with open("public/results_data.json", "w", encoding="utf-8") as file:
-              json.dump(payload, file, indent=2, ensure_ascii=False)
-          PY
-          fi
+          python results_checker.py
 
       - name: Build results page
         if: steps.prediction_window.outputs.should_run == 'true'
@@ -241,21 +195,18 @@ jobs:
 
           if [ ! -f public/results/index.html ]; then
             echo "ERROR: public/results/index.html was not created."
-            echo "Listing public directory:"
             find public -maxdepth 4 -type f | sort
             exit 1
           fi
 
           if [ ! -f public/results.xml ]; then
             echo "ERROR: public/results.xml was not created."
-            echo "Listing public directory:"
             find public -maxdepth 4 -type f | sort
             exit 1
           fi
 
           if [ ! -f public/results_data.json ]; then
             echo "ERROR: public/results_data.json was not created."
-            echo "Listing public directory:"
             find public -maxdepth 4 -type f | sort
             exit 1
           fi
@@ -319,7 +270,7 @@ jobs:
 
       - name: Upload GitHub Pages artifact
         if: steps.prediction_window.outputs.should_run == 'true'
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-pages-artifact@v3
         with:
           path: public
           name: ${{ env.PAGES_ARTIFACT_NAME }}
