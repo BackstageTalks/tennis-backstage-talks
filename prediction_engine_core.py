@@ -146,7 +146,14 @@ def infer_surface(surface_map, player1, player2, match):
     return surface_map.get(key) or "Hard"
 
 
-def build_safe_marq_ai(match, player1, player2, pick):
+def build_safe_marq_ai(
+    match,
+    player1,
+    player2,
+    pick,
+    odds_player1=None,
+    odds_player2=None,
+):
     match_date = format_match_date(match)
 
     if not match_date:
@@ -165,6 +172,8 @@ def build_safe_marq_ai(match, player1, player2, pick):
             player2=player2,
             date_only=match_date,
             pick=pick,
+            odds_player1=odds_player1,
+            odds_player2=odds_player2,
         )
 
     except Exception as exc:
@@ -295,7 +304,12 @@ def build_prediction_record(
         player1=player1,
         player2=player2,
         pick=pick,
+        odds_player1=odds1,
+        odds_player2=odds2,
     )
+
+    if not isinstance(marq_ai, dict):
+        marq_ai = {}
 
     return {
         "match": f"{player1} vs {player2}",
@@ -367,34 +381,64 @@ def build_prediction_record(
             "bst_player2_found"
         ),
 
-        "marq_ai_score": getattr(
-            marq_ai,
-            "score",
-            None,
+        "marq_ai_score": marq_ai.get(
+            "marq_ai_score"
         ),
 
-        "marq_ai_signal": getattr(
-            marq_ai,
-            "signal",
-            None,
+        "marq_ai_signal": marq_ai.get(
+            "marq_ai_signal"
         ),
 
-        "marq_ai_direction": getattr(
-            marq_ai,
-            "direction",
-            None,
+        "marq_ai_direction": marq_ai.get(
+            "marq_ai_direction"
         ),
 
-        "marq_ai_strength": getattr(
-            marq_ai,
-            "strength",
-            None,
+        "marq_ai_strength": marq_ai.get(
+            "marq_ai_strength"
         ),
 
-        "marq_ai_consistency": getattr(
-            marq_ai,
-            "consistency",
-            None,
+        "marq_ai_consistency": marq_ai.get(
+            "marq_ai_consistency"
+        ),
+
+        "marq_ai_reason": marq_ai.get(
+            "marq_ai_reason"
+        ),
+
+        "marq_event_id": marq_ai.get(
+            "marq_event_id"
+        ),
+
+        "marq_outcome_key": marq_ai.get(
+            "marq_outcome_key"
+        ),
+
+        "marq_source": marq_ai.get(
+            "marq_source"
+        ),
+
+        "marq_market_name": marq_ai.get(
+            "marq_market_name"
+        ),
+
+        "marq_opening": marq_ai.get(
+            "marq_opening"
+        ),
+
+        "marq_latest": marq_ai.get(
+            "marq_latest"
+        ),
+
+        "marq_market_move_pct": marq_ai.get(
+            "marq_market_move_pct"
+        ),
+
+        "marq_probability_change_pp": marq_ai.get(
+            "marq_probability_change_pp"
+        ),
+
+        "marq_opponent_move_pct": marq_ai.get(
+            "marq_opponent_move_pct"
         ),
 
         "base_probability": round(
