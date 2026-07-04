@@ -1,666 +1,185 @@
+import logging
+from typing import Any, Dict, Optional
 
-import json
-import os
-import re
-import unicodedata
-from datetime import datetime, timedelta, timezone
-from zoneinfo import ZoneInfo
-
-from results_fetcher import fetch_finished_results
+from tennisapi_client import TennisApiClient, normalize_event
 
 
-BRATISLAVA_TZ = ZoneInfo("Europe/Bratislava")
-
-ALL_PICK_HISTORY_DIR = "data/pick_history/all"
-TOP5_PICK_HISTORY_DIR = "data/pick_history/top5"
-LEGACY_PLAY_HISTORY_DIR = "data/play_history"
-
-RESULTS_DIR = "data/results"
-ALL_RESULTS_PATH = "data/results/all_results.json"
-TOP5_RESULTS_PATH = "data/results/top5_results.json"
-PUBLIC_RESULTS_DATA_PATH = "public/results_data.json"
-RESULTS_DEBUG_PATH = "public/results_debug.json"
+logger = logging.getLogger(__name__)
 
 
-_DEBUG = {
-    "datasets": {
-        "all": {
-            "history_files": [],
-            "history_items_loaded": 0,
-            "resolved_count": 0,
-            "pending_count": 0,
-            "unknown_count": 0,
-        },
-        "top5": {
-            "history_files": [],
-            "history_items_loaded": 0,
-            "resolved_count": 0,
-            "pending_count": 0,
-            "unknown_count": 0,
-        },
-    },
-    "results_fetcher": {},
-    "finished_results_found": 0,
-    "examples_results": [],
-    "examples_resolved": [],
-    "examples_unresolved": [],
-}
+def check_result_with_tennisapi(match_id: int) -> Optional[Dict[str, Any]]:
+    """
+    Primary results checker cez TennisApi.
 
+    Potvrdené zo screenshotu:
+    - status.code = 100
+    - status.description = "Ended"
+    - status.type = "finished"
+    - winnerCode = 2
+    - homeScore / awayScore
+    """
+    client = TennisApiClient()
 
-def ensure_dirs():
-    os.makedirs("data", exist_ok=True)
-    os.makedirs(RESULTS_DIR, exist_ok=True)
-    os.makedirs(ALL_PICK_HISTORY_DIR, exist_ok=True)
-    os.makedirs(TOP5_PICK_HISTORY_DIR, exist_ok=True)
-    os.makedirs(LEGACY_PLAY_HISTORY_DIR, exist_ok=True)
-    os.makedirs("public", exist_ok=True)
-
-
-def now_utc_iso():
-    return datetime.now(timezone.utc).isoformat()
-
-
-def betting_day(date_time=None):
-    if date_time is None:
-        date_time = datetime.now(BRATISLAVA_TZ)
-
-    if isinstance(date_time, str):
-        try:
-            date_time = datetime.fromisoformat(
-                date_time.replace("Z", "+00:00")
-            )
-        except Exception:
-            date_time = datetime.now(BRATISLAVA_TZ)
-
-    if date_time.tzinfo is None:
-        date_time = date_time.replace(tzinfo=BRATISLAVA_TZ)
-    else:
-        date_time = date_time.astimezone(BRATISLAVA_TZ)
-
-    if date_time.hour < 6:
-        date_time = date_time - timedelta(days=1)
-
-    return date_time.strftime("%Y-%m-%d")
-
-
-def save_json(path, data):
-    directory = os.path.dirname(path)
-
-    if directory:
-        os.makedirs(directory, exist_ok=True)
-
-    with open(path, "w", encoding="utf-8") as file:
-        json.dump(
-            data,
-            file,
-            indent=2,
-            ensure_ascii=False,
-        )
-
-
-def load_json(path, default):
     try:
-        if not os.path.exists(path):
-            return default
+        details = client.get_match_details(match_id)
+        normalized = normalize_event(details)
 
-        with open(path, "r", encoding="utf-8") as file:
-            return json.load(file)
+        if not normalized.get("match_id"):
+            normalized["match_id"] = match_id
+
+        return {
+            "source": "TennisApi",
+            "match_id": normalized.get("match_id"),
+
+            "status": normalized.get("status"),
+            "status_raw": normalized.get("status_raw"),
+
+            "winner_code": normalized.get("winner_code"),
+            "winner": normalized.get("winner"),
+
+            "player1": normalized.get("player1"),
+            "player2": normalized.get("player2"),
+
+            "home_score_current": normalized.get("home_score_current"),
+            "away_score_current": normalized.get("away_score_current"),
+
+            "home_score_period1": normalized.get("home_score_period1"),
+            "away_score_period1": normalized.get("away_score_period1"),
+            "home_score_period2": normalized.get("home_score_period2"),
+            "away_score_period2": normalized.get("away_score_period2"),
+            "home_score_period3": normalized.get("home_score_period3"),
+            "away_score_period3": normalized.get("away_score_period3"),
+            "home_score_period4": normalized.get("home_score_period4"),
+            "away_score_period4": normalized.get("away_score_period4"),
+            "home_score_period5": normalized.get("home_score_period5"),
+            "away_score_period5": normalized.get("away_score_period5"),
+
+            "raw": normalized.get("raw"),
+        }
 
     except Exception as exc:
-        print("RESULTS CHECKER JSON LOAD ERROR:", path, str(exc))
-        return default
-
-
-def snapshot_items(data):
-    if isinstance(data, list):
-        return data
-
-    if isinstance(data, dict):
-        items = data.get("items")
-
-        if isinstance(items, list):
-            return items
-
-    return []
-
-
-def normalize(value):
-    if value is None:
-        return ""
-
-    text = str(value)
-    text = unicodedata.normalize("NFKD", text)
-    text = "".join(
-        char
-        for char in text
-        if not unicodedata.combining(char)
-    )
-    text = text.lower()
-    text = text.replace("-", " ")
-    text = text.replace(".", " ")
-    text = text.replace(",", " ")
-    text = text.replace("'", "")
-    text = text.replace("’", "")
-    text = text.replace("`", "")
-    text = re.sub(r"[^a-z0-9\s]", " ", text)
-
-    return " ".join(text.split())
-
-
-def loose_name_keys(name):
-    normalized = normalize(name)
-    parts = normalized.split()
-
-    keys = set()
-
-    if normalized:
-        keys.add(normalized)
-
-    if parts:
-        keys.add(parts[-1])
-
-    if len(parts) >= 2:
-        keys.add(" ".join(parts[-2:]))
-        keys.add(f"{parts[-1]} {parts[0][0]}")
-
-    return keys
-
-
-def names_match(a, b):
-    a_keys = loose_name_keys(a)
-    b_keys = loose_name_keys(b)
-
-    if not a_keys or not b_keys:
-        return False
-
-    return bool(a_keys.intersection(b_keys))
-
-
-def safe_float(value):
-    try:
-        if value in [None, "", "NA", "NaN"]:
-            return None
-
-        return float(value)
-
-    except Exception:
+        logger.warning("TennisApi result check failed. match_id=%s error=%s", match_id, exc)
         return None
 
 
-def load_history_items(dataset, directory):
-    ensure_dirs()
-
-    items = []
-    files = []
-
-    if not os.path.exists(directory):
-        return items
-
-    for filename in sorted(os.listdir(directory)):
-        if not filename.endswith(".json"):
-            continue
-
-        path = os.path.join(directory, filename)
-        files.append(path)
-
-        data = load_json(path, [])
-
-        for item in snapshot_items(data):
-            if isinstance(item, dict):
-                updated = dict(item)
-                updated["dataset"] = dataset
-                items.append(updated)
-
-    _DEBUG["datasets"][dataset]["history_files"] = files
-    _DEBUG["datasets"][dataset]["history_items_loaded"] = len(items)
-
-    return items
+def is_finished(result: Dict[str, Any]) -> bool:
+    return result.get("status") == "FINISHED"
 
 
-def load_dataset_history(dataset):
-    if dataset == "all":
-        items = load_history_items("all", ALL_PICK_HISTORY_DIR)
-
-        if items:
-            return items
-
-        return load_history_items("all", LEGACY_PLAY_HISTORY_DIR)
-
-    if dataset == "top5":
-        return load_history_items("top5", TOP5_PICK_HISTORY_DIR)
-
-    return []
+def get_winner_from_result(result: Dict[str, Any]) -> Optionalreturn result.get("winner")
 
 
-def match_pick_to_result(pick, result):
-    pick_player = pick.get("pick") or ""
-    opponent = pick.get("opponent") or ""
+def evaluate_pick_result(
+    match_id: int,
+    picked_player: str,
+) -> Dict[str, Any]:
+    """
+    Vyhodnotenie jedného picku.
 
-    r1 = result.get("player1") or ""
-    r2 = result.get("player2") or ""
-
-    direct = (
-        names_match(pick_player, r1)
-        and names_match(opponent, r2)
-    )
-
-    reversed_match = (
-        names_match(pick_player, r2)
-        and names_match(opponent, r1)
-    )
-
-    return direct or reversed_match
-
-
-def find_matching_result(pick, results):
-    for result in results:
-        if match_pick_to_result(pick, result):
-            return result
-
-    return None
-
-
-def calculate_units(status, odds):
-    odds_value = safe_float(odds)
-
-    if status == "WON":
-        if odds_value is None:
-            return 0.0
-
-        return round(odds_value - 1.0, 2)
-
-    if status == "LOST":
-        if odds_value is None:
-            return 0.0
-
-        return -1.0
-
-    return 0.0
-
-
-def evaluate_pick(pick, results, dataset):
-    result = find_matching_result(
-        pick,
-        results,
-    )
+    picked_player = meno hráča, ktorého vybral Corq AI.
+    """
+    result = check_result_with_tennisapi(match_id)
 
     if not result:
-        updated = dict(pick)
-        existing_status = str(updated.get("result_status") or "PENDING").upper()
+        return {
+            "match_id": match_id,
+            "status": "NO_RESULT",
+            "won": None,
+            "winner": None,
+            "source": None,
+        }
 
-        if existing_status in ["WON", "LOST", "VOID"]:
-            updated["dataset"] = dataset
-            return updated
+    if not is_finished(result):
+        return {
+            "match_id": match_id,
+            "status": result.get("status"),
+            "won": None,
+            "winner": result.get("winner"),
+            "source": result.get("source"),
+            "result": result,
+        }
 
-        updated["dataset"] = dataset
-        updated["result_status"] = "PENDING"
-        updated["units"] = 0.0
+    winner = result.get("winner")
 
-        if len(_DEBUG["examples_unresolved"]) < 30:
-            _DEBUG["examples_unresolved"].append(
-                {
-                    "dataset": dataset,
-                    "match": pick.get("match"),
-                    "pick": pick.get("pick"),
-                    "opponent": pick.get("opponent"),
-                    "reason": "no_matching_finished_result",
-                }
-            )
+    if not winner:
+        return {
+            "match_id": match_id,
+            "status": "NO_WINNER",
+            "won": None,
+            "winner": None,
+            "source": result.get("source"),
+            "result": result,
+        }
 
-        return updated
-
-    updated = dict(pick)
-
-    if result.get("status") == "VOID":
-        status = "VOID"
-    else:
-        winner = result.get("winner")
-
-        if winner and names_match(pick.get("pick"), winner):
-            status = "WON"
-        elif winner:
-            status = "LOST"
-        else:
-            status = "UNKNOWN"
-
-    updated["dataset"] = dataset
-    updated["result_status"] = status
-    updated["winner"] = result.get("winner")
-    updated["score"] = result.get("score")
-    updated["units"] = calculate_units(
-        status,
-        updated.get("odds"),
-    )
-    updated["resolved_at"] = now_utc_iso()
-    updated["result_source"] = result.get("source")
-    updated["result_match_score"] = result.get("match")
-
-    if len(_DEBUG["examples_resolved"]) < 30:
-        _DEBUG["examples_resolved"].append(
-            {
-                "dataset": dataset,
-                "match": updated.get("match"),
-                "pick": updated.get("pick"),
-                "status": status,
-                "winner": updated.get("winner"),
-                "score": updated.get("score"),
-                "units": updated.get("units"),
-            }
-        )
-
-    return updated
-
-
-def summarize(items):
-    summary = {
-        "picks": len(items),
-        "won": 0,
-        "lost": 0,
-        "void": 0,
-        "pending": 0,
-        "unknown": 0,
-        "units": 0.0,
-    }
-
-    for item in items:
-        status = str(
-            item.get("result_status") or "PENDING"
-        ).upper()
-
-        if status == "WON":
-            summary["won"] += 1
-        elif status == "LOST":
-            summary["lost"] += 1
-        elif status == "VOID":
-            summary["void"] += 1
-        elif status == "UNKNOWN":
-            summary["unknown"] += 1
-        else:
-            summary["pending"] += 1
-
-        summary["units"] += safe_float(item.get("units")) or 0.0
-
-    summary["units"] = round(summary["units"], 2)
-
-    settled = summary["won"] + summary["lost"]
-
-    if settled > 0:
-        summary["win_rate"] = round(summary["won"] / settled, 3)
-    else:
-        summary["win_rate"] = None
-
-    return summary
-
-
-def parse_date(value):
-    try:
-        return datetime.strptime(value, "%Y-%m-%d").date()
-    except Exception:
-        return None
-
-
-def filter_by_days(items, days):
-    today_date = parse_date(betting_day())
-
-    if today_date is None:
-        today_date = datetime.now(timezone.utc).date()
-
-    cutoff = today_date - timedelta(days=days - 1)
-
-    output = []
-
-    for item in items:
-        item_date = parse_date(item.get("date"))
-
-        if item_date and item_date >= cutoff:
-            output.append(item)
-
-    return output
-
-
-def filter_current_month(items):
-    today_date = parse_date(betting_day())
-
-    if today_date is None:
-        today_date = datetime.now(timezone.utc).date()
-
-    output = []
-
-    for item in items:
-        item_date = parse_date(item.get("date"))
-
-        if (
-            item_date
-            and item_date.year == today_date.year
-            and item_date.month == today_date.month
-        ):
-            output.append(item)
-
-    return output
-
-
-def sort_items(items):
-    return sorted(
-        items,
-        key=lambda item: (
-            item.get("date") or "",
-            -(item.get("rank") or 9999),
-            item.get("match") or "",
-        ),
-        reverse=True,
-    )
-
-
-def build_dataset_payload(dataset, evaluated_items):
-    today = betting_day()
-
-    today_items = [
-        item
-        for item in evaluated_items
-        if item.get("date") == today
-    ]
-
-    last_7_items = filter_by_days(
-        evaluated_items,
-        7,
-    )
-
-    month_items = filter_current_month(
-        evaluated_items,
-    )
+    won = normalize_name(winner) == normalize_name(picked_player)
 
     return {
-        "dataset": dataset,
-        "generated_at": now_utc_iso(),
-        "today": summarize(today_items),
-        "last_7_days": summarize(last_7_items),
-        "current_month": summarize(month_items),
-        "all_time": summarize(evaluated_items),
-        "items": sort_items(evaluated_items),
+        "match_id": match_id,
+        "status": "FINISHED",
+        "won": won,
+        "winner": winner,
+        "picked_player": picked_player,
+        "source": result.get("source"),
+        "result": result,
     }
 
 
-def evaluate_items(dataset, history_items, finished_results):
-    evaluated = []
+def normalize_name(name: Optional[str]) -> str:
+    if not name:
+        return ""
 
-    for item in history_items:
-        evaluated.append(
-            evaluate_pick(
-                pick=item,
-                results=finished_results,
-                dataset=dataset,
-            )
-        )
-
-    _DEBUG["datasets"][dataset]["resolved_count"] = sum(
-        1
-        for item in evaluated
-        if item.get("result_status") in ["WON", "LOST", "VOID"]
-    )
-
-    _DEBUG["datasets"][dataset]["pending_count"] = sum(
-        1
-        for item in evaluated
-        if item.get("result_status") == "PENDING"
-    )
-
-    _DEBUG["datasets"][dataset]["unknown_count"] = sum(
-        1
-        for item in evaluated
-        if item.get("result_status") == "UNKNOWN"
-    )
-
-    return build_dataset_payload(
-        dataset=dataset,
-        evaluated_items=evaluated,
+    return (
+        str(name)
+        .lower()
+        .replace(".", "")
+        .replace("-", " ")
+        .replace("_", " ")
+        .strip()
     )
 
 
-def empty_dataset_payload(dataset, error=None):
-    payload = {
-        "dataset": dataset,
-        "generated_at": now_utc_iso(),
-        "today": summarize([]),
-        "last_7_days": summarize([]),
-        "current_month": summarize([]),
-        "all_time": summarize([]),
-        "items": [],
+def check_stored_pick(pick: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Univerzálny helper pre uložený pick.
+
+    Očakáva minimálne:
+    {
+        "match_id": 123,
+        "pick": "Player Name"
     }
 
-    if error:
-        payload["error"] = error
-
-    return payload
-
-
-def build_public_payload(top5_payload, all_payload, error=None):
-    payload = {
-        "generated_at": now_utc_iso(),
-        "betting_day": betting_day(),
-        "top5": top5_payload,
-        "all": all_payload,
+    Alebo:
+    {
+        "match_id": 123,
+        "selected_player": "Player Name"
     }
+    """
+    match_id = pick.get("match_id") or pick.get("event_id") or pick.get("id")
+    picked_player = (
+        pick.get("pick")
+        or pick.get("selected_player")
+        or pick.get("player")
+        or pick.get("prediction")
+    )
 
-    if error:
-        payload["error"] = error
+    if not match_id or not picked_player:
+        return {
+            "status": "INVALID_PICK",
+            "won": None,
+            "reason": "Missing match_id or picked_player",
+            "pick": pick,
+        }
 
-    return payload
-
-
-def run():
-    ensure_dirs()
-
-    try:
-        top5_history = load_dataset_history("top5")
-        all_history = load_dataset_history("all")
-
-        combined_history = top5_history + all_history
-
-        finished_results, fetcher_debug = fetch_finished_results(
-            picks=combined_history,
-        )
-
-        _DEBUG["results_fetcher"] = fetcher_debug
-        _DEBUG["finished_results_found"] = len(finished_results)
-        _DEBUG["examples_results"] = finished_results[:30]
-
-        top5_payload = evaluate_items(
-            "top5",
-            top5_history,
-            finished_results,
-        )
-
-        all_payload = evaluate_items(
-            "all",
-            all_history,
-            finished_results,
-        )
-
-        public_payload = build_public_payload(
-            top5_payload=top5_payload,
-            all_payload=all_payload,
-        )
-
-        save_json(
-            TOP5_RESULTS_PATH,
-            top5_payload,
-        )
-
-        save_json(
-            ALL_RESULTS_PATH,
-            all_payload,
-        )
-
-        save_json(
-            PUBLIC_RESULTS_DATA_PATH,
-            public_payload,
-        )
-
-        save_json(
-            RESULTS_DEBUG_PATH,
-            _DEBUG,
-        )
-
-        print(
-            "RESULTS CHECKER DONE:",
-            "top5_items",
-            len(top5_payload.get("items", [])),
-            "all_items",
-            len(all_payload.get("items", [])),
-            "finished_results",
-            len(finished_results),
-        )
-
-        return public_payload
-
-    except Exception as exc:
-        error_text = str(exc)
-
-        _DEBUG["fetch_error"] = error_text
-
-        top5_payload = empty_dataset_payload(
-            "top5",
-            error=error_text,
-        )
-
-        all_payload = empty_dataset_payload(
-            "all",
-            error=error_text,
-        )
-
-        public_payload = build_public_payload(
-            top5_payload=top5_payload,
-            all_payload=all_payload,
-            error=error_text,
-        )
-
-        save_json(
-            TOP5_RESULTS_PATH,
-            top5_payload,
-        )
-
-        save_json(
-            ALL_RESULTS_PATH,
-            all_payload,
-        )
-
-        save_json(
-            PUBLIC_RESULTS_DATA_PATH,
-            public_payload,
-        )
-
-        save_json(
-            RESULTS_DEBUG_PATH,
-            _DEBUG,
-        )
-
-        print(
-            "RESULTS CHECKER ERROR:",
-            error_text,
-        )
-
-        return public_payload
+    return evaluate_pick_result(
+        match_id=int(match_id),
+        picked_player=str(picked_player),
+    )
 
 
 if __name__ == "__main__":
-    run()
+    logging.basicConfig(level=logging.INFO)
+
+    test_match_id = 14232981
+    result = check_result_with_tennisapi(test_match_id)
+
+    print(result)
