@@ -1,94 +1,368 @@
-from .models import (
-    MarqInput,
-    MovementPoint,
-)
+from __future__ import annotations
+
+from typing import Any, Dict, Optional, Tuple
 
 
-def extract_opening_odds(
-    odds_summary: dict,
-) -> float | None:
+def _norm(value: Any) -> str:
+    return str(value or "").strip().lower()
+
+
+def _to_float(value: Any) -> Optionalif value is None:
+        return None
+
+    if isinstance(value, (int, float)):
+        try:
+            return float(value)
+        except Exception:
+            return None
+
+    text = str(value).strip()
+    if not text:
+        return None
+
+    text = text.replace(",", ".")
 
     try:
-        return float(
-            odds_summary["start"]["od1"]
-        )
-
+        return float(text)
     except Exception:
         return None
 
 
-def extract_current_odds(
-    recent_odds: dict,
-) -> float | None:
+def resolve_outcome_key(
+    player1: str,
+    player2: str,
+    pick: Optional[str] = None,
+) -> str:
+    """
+    Resolve which odds side should be tracked by Marq AI.
 
-    try:
-        result = recent_odds.get(
-            "result",
-            {}
+    RapidAPI odds mapping:
+    - od1 = participant1 / player1
+    - od2 = participant2 / player2
+
+    If pick matches player1 -> od1
+    If pick matches player2 -> od2
+    If pick is missing or cannot be resolved -> od1 fallback
+    """
+
+    p1 = _norm(player1)
+    p2 = _norm(player2)
+    pk = _norm(pick)
+
+    if not pk:
+        return "od1"
+
+    if pk == p1:
+        return "od1"
+
+    if pk == p2:
+        return "od2"
+
+    if pk in p1 or p1 in pk:
+        return "od1"
+
+    if pk in p2 or p2 in pk:
+        return "od2"
+
+    p1_parts = set(p1.replace("-", " ").split())
+    p2_parts = set(p2.replace("-", " ").split())
+    pk_parts = set(pk.replace("-", " ").split())
+
+    if p1_parts and pk_parts and p1_parts.intersection(pk_parts):
+        return "od1"
+
+    if p2_parts and pk_parts and p2_parts.intersection(pk_parts):
+        return "od2"
+
+    return "od1"
+
+
+def opposite_outcome_key(outcome_key: str) -> str:
+    return "od2" if outcome_key == "od1" else "od1"
+
+
+def _walk_values(obj: Any):
+    """
+    Recursively walk nested dict/list structures.
+    """
+
+    if isinstance(obj, dict):
+        yield obj
+        for value in obj.values():
+            yield from _walk_values(value)
+
+    elif isinstance(obj, list):
+        for item in obj:
+            yield from _walk_values(item)
+
+
+def find_event_id(payload: Any) -> Optional"""
+    Best-effort event id resolver for RapidAPI event/get response.
+    Tries common keys used by tennis APIs.
+    """
+
+    candidate_keys = (
+        "eventId",
+        "event_id",
+        "eventID",
+        "id",
+        "matchId",
+        "match_id",
+        "fixtureId",
+        "fixture_id",
+    )
+
+    for item in _walk_values(payload):
+        for key in candidate_keys:
+            value = item.get(key)
+            if value not in (None, "", 0):
+                return str(value)
+
+    return None
+
+
+def _extract_direct_price(item: Dict[str, Any], outcome_key: str) -> Optional"""
+    Extract price from one dict if it contains direct odds fields.
+    """
+
+    direct_keys = (
+        outcome_key,
+        outcome_key.upper(),
+        f"{outcome_key}_price",
+        f"{outcome_key}Price",
+        f"{outcome_key}_odd",
+        f"{outcome_key}Odd",
+        f"{outcome_key}_odds",
+        f"{outcome_key}Odds",
+    )
+
+    for key in direct_keys:
+        if key in item:
+            price = _to_float(item.get(key))
+            if price is not None:
+                return price
+
+    return None
+
+
+def _extract_stage_price(payload: Any, stage: str, outcome_key: str) -> Optional"""
+    Extract odds for a stage:
+    - start = opening odds
+    - kickoff = pre-match odds
+    - end = closing/end odds
+
+    Supports multiple possible JSON shapes.
+    """
+
+    stage_norm = _norm(stage)
+
+    for item in _walk_values(payload):
+        keys_lower = {_norm(k): k for k in item.keys()}
+
+        # Shape:
+        # {
+        #   "start": {"od1": 1.55, "od2": 2.40}
+        # }
+        if stage_norm in keys_lower:
+            stage_obj = item.get(keys_lower[stage_norm])
+            if isinstance(stage_obj, dict):
+                price = _extract_direct_price(stage_obj, outcome_key)
+                if price is not None:
+                    return price
+
+        # Shape:
+        # {
+        #   "period": "start",
+        #   "od1": 1.55,
+        #   "od2": 2.40
+        # }
+        marker_keys = (
+            "type",
+            "name",
+            "period",
+            "stage",
+            "moment",
+            "phase",
+            "oddsType",
+            "odds_type",
         )
 
-        full_time = result.get(
-            "Full Time Result",
-            {}
-        )
+        marker = ""
+        for marker_key in marker_keys:
+            if marker_key in item:
+                marker = _norm(item.get(marker_key))
+                break
 
-        bookmaker = next(
-            iter(full_time.values())
-        )
+        if marker == stage_norm:
+            price = _extract_direct_price(item, outcome_key)
+            if price is not None:
+                return price
 
-        return float(
-            bookmaker["od1"]
-        )
+    return None
 
-    except Exception:
+
+def extract_summary_prices(
+    summary_payload: Any,
+    outcome_key: str,
+) -> Dict[str, Optional[float]]:
+    """
+    Returns odds prices for selected outcome from summary endpoint.
+    """
+
+    return {
+        "start": _extract_stage_price(summary_payload, "start", outcome_key),
+        "kickoff": _extract_stage_price(summary_payload, "kickoff", outcome_key),
+        "end": _extract_stage_price(summary_payload, "end", outcome_key),
+    }
+
+
+def extract_opponent_summary_prices(
+    summary_payload: Any,
+    outcome_key: str,
+) -> Dict[str, Optional[float]]:
+    """
+    Returns odds prices for opposite outcome from summary endpoint.
+    """
+
+    opponent_key = opposite_outcome_key(outcome_key)
+
+    return {
+        "start": _extract_stage_price(summary_payload, "start", opponent_key),
+        "kickoff": _extract_stage_price(summary_payload, "kickoff", opponent_key),
+        "end": _extract_stage_price(summary_payload, "end", opponent_key),
+    }
+
+
+def extract_recent_price(
+    recent_payload: Any,
+    outcome_key: str,
+) -> Optional"""
+    Best-effort recent/current odds extractor.
+    Looks for latest available selected outcome price.
+    """
+
+    prices = []
+
+    for item in _walk_values(recent_payload):
+        price = _extract_direct_price(item, outcome_key)
+        if price is not None:
+            prices.append(price)
+
+    if not prices:
         return None
 
-
-def build_movement_history(
-    opening_odds: float,
-    current_odds: float,
-):
-
-    return [
-        MovementPoint(
-            odds=opening_odds,
-            timestamp=0,
-        ),
-        MovementPoint(
-            odds=current_odds,
-            timestamp=1,
-        ),
-    ]
+    return prices[-1]
 
 
 def build_marq_input(
-    odds_summary: dict,
-    recent_odds: dict,
-):
+    summary_payload: Any,
+    recent_payload: Any,
+    outcome_key: str,
+) -> Dict[str, Any]:
+    """
+    Convert RapidAPI summary/recent odds payloads into normalized Marq AI input.
+    """
 
-    opening_odds = extract_opening_odds(
-        odds_summary
-    )
+    selected = extract_summary_prices(summary_payload, outcome_key)
+    opponent = extract_opponent_summary_prices(summary_payload, outcome_key)
+    recent = extract_recent_price(recent_payload, outcome_key)
 
-    current_odds = extract_current_odds(
-        recent_odds
-    )
+    opening = selected.get("start")
+    kickoff = selected.get("kickoff")
+    closing = selected.get("end")
 
-    if (
-        opening_odds is None
-        or current_odds is None
-    ):
+    latest = recent or closing or kickoff
+
+    return {
+        "outcome_key": outcome_key,
+        "opening": opening,
+        "kickoff": kickoff,
+        "closing": closing,
+        "recent": recent,
+        "latest": latest,
+        "opponent_opening": opponent.get("start"),
+        "opponent_kickoff": opponent.get("kickoff"),
+        "opponent_closing": opponent.get("end"),
+    }
+
+
+def has_usable_marq_input(marq_input: Dict[str, Any]) -> bool:
+    """
+    Minimal requirement:
+    selected opening odds and one later/current odds value.
+    """
+
+    if not isinstance(marq_input, dict):
+        return False
+
+    opening = marq_input.get("opening")
+    latest = marq_input.get("latest")
+
+    return opening is not None and latest is not None
+
+
+def calculate_market_move_percent(
+    opening: Optional[float],
+    latest: Optional[float],
+) -> Optional"""
+    Decimal odds move percentage.
+
+    Negative value = odds shortened = market support.
+    Positive value = odds drifted = market against.
+    """
+
+    if opening is None or latest is None:
         return None
 
-    movement_history = (
-        build_movement_history(
-            opening_odds,
-            current_odds,
-        )
+    if opening <= 0:
+        return None
+
+    return ((latest - opening) / opening) * 100.0
+
+
+def calculate_implied_probability(odds: Optional[float]) -> Optionalif odds is None or odds <= 0:
+        return None
+
+    return 1.0 / odds
+
+
+def calculate_probability_change_pp(
+    opening: Optional[float],
+    latest: Optional[float],
+) -> Optional"""
+    Implied probability change in percentage points.
+    Positive = selected player became more likely by market movement.
+    """
+
+    p_open = calculate_implied_probability(opening)
+    p_latest = calculate_implied_probability(latest)
+
+    if p_open is None or p_latest is None:
+        return None
+
+    return (p_latest - p_open) * 100.0
+
+
+def summarize_movement(marq_input: Dict[str, Any]) -> Dict[str, Any]:
+    opening = marq_input.get("opening")
+    latest = marq_input.get("latest")
+
+    move_pct = calculate_market_move_percent(opening, latest)
+    prob_change_pp = calculate_probability_change_pp(opening, latest)
+
+    opponent_opening = marq_input.get("opponent_opening")
+    opponent_latest = (
+        marq_input.get("opponent_closing")
+        or marq_input.get("opponent_kickoff")
     )
 
-    return MarqInput(
-        opening_odds=opening_odds,
-        current_odds=current_odds,
-        movement_history=movement_history,
+    opponent_move_pct = calculate_market_move_percent(
+        opponent_opening,
+        opponent_latest,
     )
+
+    return {
+        "move_pct": move_pct,
+        "prob_change_pp": prob_change_pp,
+        "opponent_move_pct": opponent_move_pct,
+    }
