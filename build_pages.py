@@ -497,27 +497,66 @@ def print_prediction_sample(label, predictions):
                     "match": prediction.get("match"),
                     "pick": prediction.get("pick"),
                     "opponent": prediction.get("opponent"),
+
                     "probability": prediction.get("probability"),
+                    "base_probability": prediction.get("base_probability"),
+
                     "corq_ai_probability": prediction.get("corq_ai_probability"),
                     "bst_ai_probability": prediction.get("bst_ai_probability"),
                     "ai_match": prediction.get("ai_match"),
+                    "ai_gap": prediction.get("ai_gap"),
+                    "ai_signed_gap": prediction.get("ai_signed_gap"),
                     "ai_lean": prediction.get("ai_lean"),
+                    "ai_direction_match": prediction.get("ai_direction_match"),
                     "ai_match_color": prediction.get("ai_match_color"),
+
                     "bst_ai_status": prediction.get("bst_ai_status"),
+                    "bst_ai_reason": prediction.get("bst_ai_reason"),
+                    "bst_ai_rating_type": prediction.get("bst_ai_rating_type"),
+                    "bst_player1_found": prediction.get("bst_player1_found"),
+                    "bst_player2_found": prediction.get("bst_player2_found"),
+
+                    "marq_ai_score": prediction.get("marq_ai_score"),
+                    "marq_ai_signal": prediction.get("marq_ai_signal"),
+                    "marq_ai_direction": prediction.get("marq_ai_direction"),
+                    "marq_ai_strength": prediction.get("marq_ai_strength"),
+                    "marq_ai_consistency": prediction.get("marq_ai_consistency"),
+                    "marq_ai_reason": prediction.get("marq_ai_reason"),
+                    "marq_event_id": prediction.get("marq_event_id"),
+                    "marq_outcome_key": prediction.get("marq_outcome_key"),
+                    "marq_source": prediction.get("marq_source"),
+                    "marq_market_name": prediction.get("marq_market_name"),
+                    "marq_opening": prediction.get("marq_opening"),
+                    "marq_latest": prediction.get("marq_latest"),
+                    "marq_market_move_pct": prediction.get("marq_market_move_pct"),
+                    "marq_probability_change_pp": prediction.get("marq_probability_change_pp"),
+                    "marq_opponent_move_pct": prediction.get("marq_opponent_move_pct"),
+
                     "odds": prediction.get("odds"),
+                    "odds_source": prediction.get("odds_source"),
+                    "bookmaker": prediction.get("bookmaker"),
+
                     "time": prediction.get("time"),
+                    "match_start": prediction.get("match_start"),
                     "tournament": prediction.get("tournament"),
                     "gender": prediction.get("gender"),
                     "best_of": prediction.get("best_of"),
                     "surface": prediction.get("surface"),
+
                     "expected_sets": prediction.get("expected_sets"),
                     "sets_probability": prediction.get("sets_probability"),
                     "sets_probability_label": prediction.get("sets_probability_label"),
+                    "set_win_probability": prediction.get("set_win_probability"),
                     "most_likely_score": prediction.get("most_likely_score"),
+                    "most_likely_score_probability": prediction.get("most_likely_score_probability"),
+                    "score_probabilities": prediction.get("score_probabilities"),
+                    "expected_games": prediction.get("expected_games"),
+                    "games_pick": prediction.get("games_pick"),
+                    "games_line": prediction.get("games_line"),
+
                     "bet_tag": prediction.get("bet_tag"),
                     "top_mode": prediction.get("top_mode"),
                     "top_reason": prediction.get("top_reason"),
-                    "odds_source": prediction.get("odds_source"),
                 },
                 ensure_ascii=False,
             )
@@ -649,7 +688,6 @@ def build_pages():
     print("public/index.html")
     print("public/tennis.xml")
     print("public/all/index.html")
-    print("public/tennis_all.xml")
     print("TOP COUNT:", len(top_predictions))
     print("ALL COUNT:", len(all_predictions))
     print("=== END BUILD PAGES WRITTEN ===")
