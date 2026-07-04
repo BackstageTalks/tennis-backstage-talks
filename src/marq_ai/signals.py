@@ -1,8 +1,15 @@
-def get_signal(move_pct: float) -> str:
-    if move_pct >= 5:
-        return "SUPPORTING"
+def classify_signal(score: float) -> str:
 
-    if move_pct <= -5:
+    if score >= 80:
+        return "STRONG_SUPPORT"
+
+    if score >= 65:
+        return "SUPPORT"
+
+    if score >= 45:
+        return "NEUTRAL"
+
+    if score >= 30:
         return "AGAINST"
 
-    return "NEUTRAL"
+    return "STRONG_AGAINST"
