@@ -6,124 +6,114 @@ on:
     - cron: "05 04 * * *"
 
 permissions:
-  contents: read
-  pages: write
+  contents: read*  pages: write
   id-token: write
 
-concurrency:
-  group: daily-tennis-predictions
-  cancel-in-progress: true
+*oncurrency:
+  group: daily-tennis-*redictions
+  cancel-in-progress: t*ue
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ub*ntu-latest
 
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+     *name: github-pages
+      url: ${{ *teps.deployment.outputs.page_url }*
+
+    env:
+      ODDS_API_KEY: ${{*secrets.ODDS_API_KEY }}
+      RAPI*API_KEY: ${{ secrets.RAPIDAPI_KEY *}
+      TENNISAPI_RAPIDAPI_KEY: ${* secrets.TENNISAPI_RAPIDAPI_KEY ||*secrets.RAPIDAPI_KEY }}
+      TENN*SAPI_CATEGORY_IDS: "3"
+      TENNI*API_PROVIDER_ID: "1"
+      SGOAPI:*${{ secrets.SGOAPI }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+*     - name: Checkout repository
+ *      uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+ *    - name: Setup Python
+        u*es: actions/setup-python@v5
+      * with:
+          python-version: "*.11"
 
-      - name: Install dependencies
+      - name: Install depend*ncies
         run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pyt*on -m pip install --upgrade pip
+  *       if [ -f requirements.txt ];*then pip install -r requirements.t*t; fi
 
-      - name: Check prediction window
-        id: prediction_window
+      - name: Syntax check *ennisApi files
         run: |
+    *     python -m py_compile tennisap*_client.py results_fetcher.py resu*ts_checker.py odds_api.py
+
+      -*name: Check prediction window
+    *   id: prediction_window
+        r*n: |
           python - <<'PY'
-          import os
-          from datetime import datetime, timezone, timedelta
+   *      import os
+          from dat*time import datetime, timezone, ti*edelta
 
-          # SK/CZ time = UTC+2 in summer period.
-          now_utc = datetime.now(timezone.utc)
-          now_sk = now_utc + timedelta(hours=2)
+          now_utc = dateti*e.now(timezone.utc)
+          now_*k = now_utc + timedelta(hours=2)
 
-          # Manual workflow_dispatch should always run.
-          event_name = os.getenv("GITHUB_EVENT_NAME", "")
-          if event_name == "workflow_dispatch":
-              should_run = "true"
-          else:
-              # Daily scheduled run after 06:00 SK/CZ.
-              should_run = "true" if now_sk.hour >= 6 else "false"
+*         event_name = os.getenv("G*THUB_EVENT_NAME", "")
+          if*event_name == "workflow_dispatch":*              should_run = "true"
+*         else:
+              shoul*_run = "true" if now_sk.hour >= 6 *lse "false"
 
-          print(f"UTC now: {now_utc.isoformat()}")
-          print(f"SK/CZ approx now: {now_sk.isoformat()}")
-          print(f"should_run={should_run}")
+          print(f"UTC*now: {now_utc.isoformat()}")
+     *    print(f"SK/CZ approx now: {now*sk.isoformat()}")
+          print(*"should_run={should_run}")
 
-          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
-              f.write(f"should_run={should_run}\n")
+      *   with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f*
+              f.write(f"should_ru*={should_run}\n")
           PY
 
-      - name: Prepare directories
-        if: steps.prediction_window.outputs.should_run == 'true'
-        run: |
+  *   - name: Prepare directories
+   *    if: steps.prediction_window.ou*puts.should_run == 'true'
+        *un: |
           mkdir -p public
-          mkdir -p data
-          mkdir -p data/pick_history
-          mkdir -p data/pick_history/all
-          mkdir -p data/pick_history/top5
+  *       mkdir -p data
+          mkd*r -p data/pick_history
+          m*dir -p data/pick_history/all
+     *    mkdir -p data/pick_history/top*
           mkdir -p data/results
-          mkdir -p data/marq_ai
+ *        mkdir -p data/marq_ai
 
-      - name: Check API secrets
-        if: steps.prediction_window.outputs.should_run == 'true'
-        run: |
+   *  - name: Check API secrets
+      * if: steps.prediction_window.outpu*s.should_run == 'true'
+        run* |
           python - <<'PY'
-          import os
+     *    import os
 
-          print("ODDS_API_KEY:", "OK" if os.getenv("ODDS_API_KEY") else "MISSING")
-          print("RAPIDAPI_KEY:", "OK" if os.getenv("RAPIDAPI_KEY") else "MISSING")
+          print("OD*S_API_KEY:", "OK" if os.getenv("OD*S_API_KEY") else "MISSING")
+      *   print("RAPIDAPI_KEY:", "OK" if *s.getenv("RAPIDAPI_KEY") else "MIS*ING")
+          print("TENNISAPI_R*PIDAPI_KEY:", "OK" if os.getenv("T*NNISAPI_RAPIDAPI_KEY") else "MISSING")
           print("SGOAPI:", "OK" if os.getenv("SGOAPI") else "MISSING")
+          print("TENNISAPI_CATEGORY_IDS:", os.getenv("TENNISAPI_CATEGORY_IDS", "MISSING"))
+          print("TENNISAPI_PROVIDER_ID:", os.getenv("TENNISAPI_PROVIDER_ID", "MISSING"))
           PY
-        env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
-          SGOAPI: ${{ secrets.SGOAPI }}
 
       - name: Run predictions
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           python update.py
-        env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
-          SGOAPI: ${{ secrets.SGOAPI }}
 
       - name: Build TOP and ALL pages
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           python build_pages.py
-        env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
-          SGOAPI: ${{ secrets.SGOAPI }}
 
       - name: Run results checker
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           python results_checker.py
-        env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
-          SGOAPI: ${{ secrets.SGOAPI }}
 
       - name: Build results page
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           python rss_results.py
-        env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
-          SGOAPI: ${{ secrets.SGOAPI }}
 
       - name: Ensure results page exists
         if: steps.prediction_window.outputs.should_run == 'true'
