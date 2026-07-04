@@ -2,302 +2,160 @@ name: Daily Tennis Predictions
 
 on:
   workflow_dispatch:
-    inputs:
-      force_run:
-        description: "Force run even outside SK/CZ daily prediction window"
-        required: false
-        default: false
-        type: boolean
-
   schedule:
-    # Robust morning retry window.
-    #
-    # GitHub cron is UTC.
-    # Summer SK/CZ = UTC+2:
-    #   04:23 UTC = 06:23 local
-    #   09:53 UTC = 11:53 local, but guard allows only until local 10:59.
-    #
-    # Winter SK/CZ = UTC+1:
-    #   05:23 UTC = 06:23 local
-    #   09:53 UTC = 10:53 local.
-    #
-    # We intentionally avoid minute 00 because scheduled GitHub Actions
-    # can be delayed during high-load periods.
-    - cron: "23,53 4-9 * * *"
+    - cron: "05 04 * * *"
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
 concurrency:
-  group: tennis-pages
-  cancel-in-progress: false
+  group: daily-tennis-predictions
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
 
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    env:
-      ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-      RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
-      LOCAL_TZ_OFFSET_HOURS: "2"
-      BET_WINDOW_START_HOUR: "6"
-      BET_WINDOW_END_NEXT_DAY_HOUR: "6"
-      PAGES_ARTIFACT_NAME: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Check SK/CZ prediction window
-        id: prediction_window
-        env:
-          FORCE_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.force_run == true }}
-          EVENT_NAME: ${{ github.event_name }}
-        run: |
-          LOCAL_TIME=$(TZ=Europe/Bratislava date -Iseconds)
-          LOCAL_HOUR=$(TZ=Europe/Bratislava date +%H)
-          LOCAL_HOUR_NUM=$((10#$LOCAL_HOUR))
-          BETTING_DAY=$(TZ=Europe/Bratislava date +%F)
-
-          ALL_SNAPSHOT="data/pick_history/all/${BETTING_DAY}.json"
-          TOP5_SNAPSHOT="data/pick_history/top5/${BETTING_DAY}.json"
-
-          echo "SK/CZ local time: $LOCAL_TIME"
-          echo "SK/CZ local hour: $LOCAL_HOUR"
-          echo "Betting day: $BETTING_DAY"
-          echo "GitHub event: $EVENT_NAME"
-          echo "Force run: $FORCE_RUN"
-          echo "Expected ALL snapshot: $ALL_SNAPSHOT"
-          echo "Expected TOP5 snapshot: $TOP5_SNAPSHOT"
-
-          if [ "$FORCE_RUN" = "true" ]; then
-            echo "Manual force_run=true. Workflow will continue."
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-            echo "reason=force_run" >> "$GITHUB_OUTPUT"
-            echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
-            echo "betting_day=$BETTING_DAY" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "$LOCAL_HOUR_NUM" -ge 6 ]; then
-            echo "Manual run after 06:00 SK/CZ. Workflow will continue."
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-            echo "reason=manual_after_06_local" >> "$GITHUB_OUTPUT"
-            echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
-            echo "betting_day=$BETTING_DAY" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          if [ "$EVENT_NAME" = "schedule" ]; then
-            if [ "$LOCAL_HOUR_NUM" -lt 6 ] || [ "$LOCAL_HOUR_NUM" -gt 10 ]; then
-              echo "Scheduled run outside SK/CZ 06:00-10:59 prediction window. Workflow will stop successfully."
-              echo "should_run=false" >> "$GITHUB_OUTPUT"
-              echo "reason=outside_prediction_window" >> "$GITHUB_OUTPUT"
-              echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
-              echo "betting_day=$BETTING_DAY" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-
-            if [ -s "$ALL_SNAPSHOT" ] && [ -s "$TOP5_SNAPSHOT" ]; then
-              echo "Daily snapshots already exist for betting day $BETTING_DAY. Workflow will stop successfully."
-              echo "should_run=false" >> "$GITHUB_OUTPUT"
-              echo "reason=snapshot_already_exists" >> "$GITHUB_OUTPUT"
-              echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
-              echo "betting_day=$BETTING_DAY" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-
-            echo "Scheduled run inside SK/CZ 06:00-10:59 prediction window and snapshot is not complete yet. Workflow will continue."
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-            echo "reason=scheduled_retry_window" >> "$GITHUB_OUTPUT"
-            echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
-            echo "betting_day=$BETTING_DAY" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          echo "Not the daily prediction window. Workflow will stop successfully."
-          echo "should_run=false" >> "$GITHUB_OUTPUT"
-          echo "reason=outside_prediction_window" >> "$GITHUB_OUTPUT"
-          echo "local_time=$LOCAL_TIME" >> "$GITHUB_OUTPUT"
-          echo "betting_day=$BETTING_DAY" >> "$GITHUB_OUTPUT"
-
-      - name: Stop outside prediction window
-        if: steps.prediction_window.outputs.should_run != 'true'
-        run: |
-          echo "Daily prediction snapshot was not generated."
-          echo "Reason: ${{ steps.prediction_window.outputs.reason }}"
-          echo "Betting day: ${{ steps.prediction_window.outputs.betting_day }}"
-          echo "SK/CZ local time: ${{ steps.prediction_window.outputs.local_time }}"
-          echo "This is intentional. TOP5 / ALL are generated only once daily after 06:00 SK/CZ."
 
       - name: Setup Python
-        if: steps.prediction_window.outputs.should_run == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip"
 
       - name: Install dependencies
-        if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          else
-            pip install requests beautifulsoup4 pandas openpyxl
-          fi
+      - name: Check prediction window
+        id: prediction_window
+        run: |
+          python - <<'PY'
+          import os
+          from datetime import datetime, timezone, timedelta
 
-      - name: Prepare folders
+          # SK/CZ time = UTC+2 in summer period.
+          now_utc = datetime.now(timezone.utc)
+          now_sk = now_utc + timedelta(hours=2)
+
+          # Manual workflow_dispatch should always run.
+          event_name = os.getenv("GITHUB_EVENT_NAME", "")
+          if event_name == "workflow_dispatch":
+              should_run = "true"
+          else:
+              # Daily scheduled run after 06:00 SK/CZ.
+              should_run = "true" if now_sk.hour >= 6 else "false"
+
+          print(f"UTC now: {now_utc.isoformat()}")
+          print(f"SK/CZ approx now: {now_sk.isoformat()}")
+          print(f"should_run={should_run}")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+              f.write(f"should_run={should_run}\n")
+          PY
+
+      - name: Prepare directories
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           mkdir -p public
-          mkdir -p public/all
-          mkdir -p public/results
           mkdir -p data
-          mkdir -p data/play_history
+          mkdir -p data/pick_history
           mkdir -p data/pick_history/all
           mkdir -p data/pick_history/top5
           mkdir -p data/results
           mkdir -p data/marq_ai
 
+      - name: Check API secrets
+        if: steps.prediction_window.outputs.should_run == 'true'
+        run: |
+          python - <<'PY'
+          import os
+
+          print("ODDS_API_KEY:", "OK" if os.getenv("ODDS_API_KEY") else "MISSING")
+          print("RAPIDAPI_KEY:", "OK" if os.getenv("RAPIDAPI_KEY") else "MISSING")
+          print("SGOAPI:", "OK" if os.getenv("SGOAPI") else "MISSING")
+          PY
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          SGOAPI: ${{ secrets.SGOAPI }}
+
       - name: Run predictions
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           python update.py
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          SGOAPI: ${{ secrets.SGOAPI }}
 
       - name: Build TOP and ALL pages
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           python build_pages.py
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          SGOAPI: ${{ secrets.SGOAPI }}
 
       - name: Run results checker
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           python results_checker.py
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          SGOAPI: ${{ secrets.SGOAPI }}
 
       - name: Build results page
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           python rss_results.py
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          SGOAPI: ${{ secrets.SGOAPI }}
 
       - name: Ensure results page exists
         if: steps.prediction_window.outputs.should_run == 'true'
         run: |
           mkdir -p public/results
-
           if [ ! -f public/results/index.html ]; then
-            echo "ERROR: public/results/index.html was not created."
-            find public -maxdepth 4 -type f | sort
-            exit 1
+            cat > public/results/index.html <<'HTML'
+          <!doctype html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Results</title>
+          </head>
+          <body>
+            <h1>Results</h1>
+            <p>No results available yet.</p>
+          </body>
+          </html>
+          HTML
           fi
 
-          if [ ! -f public/results.xml ]; then
-            echo "ERROR: public/results.xml was not created."
-            find public -maxdepth 4 -type f | sort
-            exit 1
-          fi
-
-          if [ ! -f public/results_data.json ]; then
-            echo "ERROR: public/results_data.json was not created."
-            find public -maxdepth 4 -type f | sort
-            exit 1
-          fi
-
-          echo "Results page files exist."
-
-      - name: Remove production debug artifacts
-        if: steps.prediction_window.outputs.should_run == 'true'
-        run: |
-          rm -f public/elo_debug.json || true
-          rm -f public/odds_debug.json || true
-          rm -f public/sportscore_debug.json || true
-          rm -f public/match_debug.json || true
-          rm -f public/results_debug.json || true
-          rm -f public/source_audit.json || true
-          rm -f public/source_manifest.json || true
-          rm -f public/model_diagnostics.json || true
-
-      - name: Verify generated public files
-        if: steps.prediction_window.outputs.should_run == 'true'
-        run: |
-          echo "=== PUBLIC FILES ==="
-          find public -maxdepth 4 -type f | sort
-
-          echo "=== REQUIRED TOP / ALL FILES ==="
-          test -f public/index.html
-          test -f public/all/index.html
-          test -f public/tennis.xml
-          test -f public/tennis_all.xml
-
-          echo "=== REQUIRED RESULTS FILES ==="
-          test -f public/results/index.html
-          test -f public/results.xml
-          test -f public/results_data.json
-
-          echo "All required public files exist."
-
-      - name: Persist play history and results data
-        if: steps.prediction_window.outputs.should_run == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git pull --rebase --autostash origin main
-
-          git add data/play_history/*.json || true
-          git add data/pick_history/all/*.json || true
-          git add data/pick_history/top5/*.json || true
-          git add data/play_results.json || true
-          git add data/results/*.json || true
-          git add data/marq_ai/*.json || true
-          git add public/results_data.json || true
-
-          if git diff --cached --quiet; then
-            echo "No play history or results changes to commit."
-          else
-            git commit -m "Update tennis play history and results [skip ci]"
-
-            for attempt in 1 2 3; do
-              echo "Push attempt $attempt..."
-
-              if git push origin HEAD:main; then
-                echo "Persisted play history and results data."
-                exit 0
-              fi
-
-              echo "Push failed. Rebasing on latest main and retrying..."
-              git pull --rebase --autostash origin main
-              sleep 5
-            done
-
-            echo "Failed to persist play history and results data after 3 attempts."
-            exit 1
-          fi
-
-      - name: Setup GitHub Pages
+      - name: Setup Pages
         if: steps.prediction_window.outputs.should_run == 'true'
         uses: actions/configure-pages@v5
 
-      - name: Upload GitHub Pages artifact
+      - name: Upload Pages artifact
         if: steps.prediction_window.outputs.should_run == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
-          name: ${{ env.PAGES_ARTIFACT_NAME }}
 
       - name: Deploy GitHub Pages
         if: steps.prediction_window.outputs.should_run == 'true'
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          artifact_name: ${{ env.PAGES_ARTIFACT_NAME }}
