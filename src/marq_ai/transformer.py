@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Optional
 
 
 def _norm(value: Any) -> str:
@@ -101,6 +101,9 @@ def find_event_id(payload: Any) -> Optional"""
     Tries common keys used by tennis APIs.
     """
 
+    if payload is None:
+        return None
+
     candidate_keys = (
         "eventId",
         "event_id",
@@ -121,7 +124,10 @@ def find_event_id(payload: Any) -> Optional"""
     return None
 
 
-def _extract_direct_price(item: Dict[str, Any], outcome_key: str) -> Optional"""
+def _extract_direct_price(
+    item: Dict[str, Any],
+    outcome_key: str,
+) -> Optional"""
     Extract price from one dict if it contains direct odds fields.
     """
 
@@ -145,7 +151,11 @@ def _extract_direct_price(item: Dict[str, Any], outcome_key: str) -> Optional"""
     return None
 
 
-def _extract_stage_price(payload: Any, stage: str, outcome_key: str) -> Optional"""
+def _extract_stage_price(
+    payload: Any,
+    stage: str,
+    outcome_key: str,
+) -> Optional"""
     Extract odds for a stage:
     - start = opening odds
     - kickoff = pre-match odds
@@ -153,6 +163,9 @@ def _extract_stage_price(payload: Any, stage: str, outcome_key: str) -> Optional
 
     Supports multiple possible JSON shapes.
     """
+
+    if payload is None:
+        return None
 
     stage_norm = _norm(stage)
 
@@ -240,6 +253,9 @@ def extract_recent_price(
     Best-effort recent/current odds extractor.
     Looks for latest available selected outcome price.
     """
+
+    if recent_payload is None:
+        return None
 
     prices = []
 
