@@ -41,7 +41,6 @@ class TennisApiClient:
             or os.getenv("TENNISAPI_RAPIDAPI_KEY", "").strip()
             or os.getenv("RAPIDAPI_KEY", "").strip()
         )
-
         self.rapidapi_host = rapidapi_host
         self.timeout = timeout
         self.max_retries = max_retries
@@ -68,13 +67,11 @@ class TennisApiClient:
                     self.rapidapi_host,
                     timeout=self.timeout,
                 )
-
                 conn.request(
                     method.upper(),
                     path,
                     headers=self._headers(),
                 )
-
                 res = conn.getresponse()
                 raw = res.read().decode(
                     "utf-8",
@@ -91,7 +88,6 @@ class TennisApiClient:
 
                 try:
                     data = json.loads(raw)
-
                 except json.JSONDecodeError as exc:
                     raise TennisApiError(
                         f"TennisApi returned invalid JSON for {path}: {raw[:500]}"
@@ -111,7 +107,6 @@ class TennisApiClient:
                     time.sleep(
                         self.retry_sleep_seconds,
                     )
-
                 else:
                     break
 
