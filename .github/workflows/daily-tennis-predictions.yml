@@ -1,0 +1,146 @@
+name: Daily Tennis Predictions
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "00 04 * * *"
+    - cron: "20 04 * * *"
+    - cron: "40 04 * * *"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: daily-tennis-predictions
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Syntax check project files
+        run: |
+          python -m py_compile tennisapi_client.py
+          python -m py_compile tennisapi_cache.py
+          python -m py_compile fetch_matches.py
+          python -m py_compile results_fetcher.py
+          python -m py_compile results_checker.py
+          python -m py_compile odds_api.py
+          python -m py_compile prediction_engine_core.py
+          python -m py_compile render_site.py
+          python -m py_compile fix_navigation.py
+
+      - name: Prepare directories
+        run: |
+          mkdir -p public public/results data data/pick_history/all data/pick_history/top5 data/results data/marq_ai data/tennisapi_cache
+
+      - name: Warm TennisApi cache
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          TENNISAPI_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          SGOAPI: ${{ secrets.SGOAPI }}
+          TENNISAPI_CATEGORY_IDS: "3,6,871"
+          TENNISAPI_PROVIDER_ID: "1"
+          RESULTS_LOOKBACK_DAYS: "90"
+          ODDS_SCAN_DAYS_AHEAD: "1"
+          ODDS_SCAN_DAYS_BACK: "0"
+        run: |
+          python tennisapi_cache.py
+
+      - name: Run predictions
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          TENNISAPI_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          SGOAPI: ${{ secrets.SGOAPI }}
+          TENNISAPI_CATEGORY_IDS: "3,6,871"
+          TENNISAPI_PROVIDER_ID: "1"
+          RESULTS_LOOKBACK_DAYS: "90"
+          ODDS_SCAN_DAYS_AHEAD: "1"
+          ODDS_SCAN_DAYS_BACK: "0"
+        run: |
+          python update.py
+
+      - name: Build TOP and ALL pages
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          TENNISAPI_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          SGOAPI: ${{ secrets.SGOAPI }}
+          TENNISAPI_CATEGORY_IDS: "3,6,871"
+          TENNISAPI_PROVIDER_ID: "1"
+          RESULTS_LOOKBACK_DAYS: "90"
+          ODDS_SCAN_DAYS_AHEAD: "1"
+          ODDS_SCAN_DAYS_BACK: "0"
+        run: |
+          python build_pages.py
+
+      - name: Run results checker
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          TENNISAPI_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          SGOAPI: ${{ secrets.SGOAPI }}
+          TENNISAPI_CATEGORY_IDS: "3,6,871"
+          TENNISAPI_PROVIDER_ID: "1"
+          RESULTS_LOOKBACK_DAYS: "90"
+          ODDS_SCAN_DAYS_AHEAD: "1"
+          ODDS_SCAN_DAYS_BACK: "0"
+        run: |
+          python results_checker.py
+
+      - name: Build results page
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          TENNISAPI_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          SGOAPI: ${{ secrets.SGOAPI }}
+          TENNISAPI_CATEGORY_IDS: "3,6,871"
+          TENNISAPI_PROVIDER_ID: "1"
+          RESULTS_LOOKBACK_DAYS: "90"
+          ODDS_SCAN_DAYS_AHEAD: "1"
+          ODDS_SCAN_DAYS_BACK: "0"
+        run: |
+          python rss_results.py
+
+      - name: Fix navigation links
+        run: |
+          python fix_navigation.py
+
+      - name: Ensure results page exists
+        run: |
+          if [ ! -f public/results/index.html ]; then
+            printf '%s\n' '<!doctype html>' '<html>' '<head>' '<meta charset="utf-8">' '<title>Results</title>' '</head>' '<body>' '<h1>Results</h1>' '<p>No results available yet.</p>' '</body>' '</html>' > public/results/index.html
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
