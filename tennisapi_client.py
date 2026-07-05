@@ -73,10 +73,7 @@ class TennisApiClient:
                     headers=self._headers(),
                 )
                 res = conn.getresponse()
-                raw = res.read().decode(
-                    "utf-8",
-                    errors="replace",
-                )
+                raw = res.read().decode("utf-8", errors="replace")
 
                 if res.status >= 400:
                     raise TennisApiError(
@@ -96,42 +93,28 @@ class TennisApiClient:
                 if isinstance(data, dict):
                     return data
 
-                return {
-                    "data": data,
-                }
+                return {"data": data}
 
             except Exception as exc:
                 last_error = exc
-
                 if attempt < self.max_retries:
-                    time.sleep(
-                        self.retry_sleep_seconds,
-                    )
+                    time.sleep(self.retry_sleep_seconds)
                 else:
                     break
 
-        raise TennisApiError(
-            f"TennisApi request failed for {path}: {last_error}"
-        )
+        raise TennisApiError(f"TennisApi request failed for {path}: {last_error}")
 
     def _try_paths(self, paths: List[str]) -> Dict[str, Any]:
         errors: List[str] = []
 
         for path in paths:
             try:
-                return self._request_json(
-                    "GET",
-                    path,
-                )
-
+                return self._request_json("GET", path)
             except Exception as exc:
-                errors.append(
-                    f"{path} -> {exc}"
-                )
+                errors.append(f"{path} -> {exc}")
 
         raise TennisApiError(
-            "All TennisApi candidate paths failed: "
-            + " | ".join(errors)
+            "All TennisApi candidate paths failed: " + " | ".join(errors)
         )
 
     # ------------------------------------------------------------------
@@ -145,21 +128,9 @@ class TennisApiClient:
         month: int,
         year: int,
     ) -> List[Dict[str, Any]]:
-        path = (
-            f"/api/tennis/category/{category_id}/events/"
-            f"{day}/{month}/{year}"
-        )
-
-        data = self._request_json(
-            "GET",
-            path,
-        )
-
-        events = data.get(
-            "events",
-            [],
-        )
-
+        path = f"/api/tennis/category/{category_id}/events/{day}/{month}/{year}"
+        data = self._request_json("GET", path)
+        events = data.get("events", [])
         return events if isinstance(events, list) else []
 
     def get_events_by_date(
@@ -177,11 +148,7 @@ class TennisApiClient:
                     month=target_date.month,
                     year=target_date.year,
                 )
-
-                all_events.extend(
-                    events,
-                )
-
+                all_events.extend(events)
             except Exception as exc:
                 logger.warning(
                     "TennisApi category fetch failed. category_id=%s date=%s error=%s",
@@ -190,9 +157,7 @@ class TennisApiClient:
                     exc,
                 )
 
-        return deduplicate_events(
-            all_events,
-        )
+        return deduplicate_events(all_events)
 
     def get_events_odds_by_date(
         self,
@@ -207,20 +172,13 @@ class TennisApiClient:
             /api/tennis/events/odds/{day}/{month}/{year}
         """
         path = f"/api/tennis/events/odds/{day}/{month}/{year}"
-
-        return self._request_json(
-            "GET",
-            path,
-        )
+        return self._request_json("GET", path)
 
     # ------------------------------------------------------------------
     # Match details
     # ------------------------------------------------------------------
 
-    def get_match_details(
-        self,
-        match_id: int,
-    ) -> Dict[str, Any]:
+    def get_match_details(self, match_id: int) -> Dict[str, Any]:
         """
         TennisApi match/event details.
 
@@ -234,10 +192,7 @@ class TennisApiClient:
             f"/api/tennis/matches/{match_id}",
             f"/api/tennis/match/{match_id}/details",
         ]
-
-        return self._try_paths(
-            paths,
-        )
+        return self._try_paths(paths)
 
     # ------------------------------------------------------------------
     # Live
@@ -249,22 +204,14 @@ class TennisApiClient:
             "/api/tennis/events/live",
             "/api/tennis/live",
         ]
-
-        data = self._try_paths(
-            paths,
-        )
+        data = self._try_paths(paths)
 
         if isinstance(data.get("events"), list):
             return data["events"]
-
         if isinstance(data.get("matches"), list):
             return data["matches"]
-
         if isinstance(data.get("event"), dict):
-            return [
-                data["event"],
-            ]
-
+            return [data["event"]]
         return []
 
     # ------------------------------------------------------------------
@@ -282,24 +229,11 @@ class TennisApiClient:
         Confirmed RapidAPI snippet:
             /api/tennis/event/{event_id}/provider/{provider_id}/winning-odds
         """
-        provider_id = provider_id or int(
-            os.getenv(
-                "TENNISAPI_PROVIDER_ID",
-                "1",
-            )
-        )
-
-        path = (
-            f"/api/tennis/event/{match_id}/provider/"
-            f"{provider_id}/winning-odds"
-        )
+        provider_id = provider_id or int(os.getenv("TENNISAPI_PROVIDER_ID", "1"))
+        path = f"/api/tennis/event/{match_id}/provider/{provider_id}/winning-odds"
 
         try:
-            return self._request_json(
-                "GET",
-                path,
-            )
-
+            return self._request_json("GET", path)
         except Exception as exc:
             logger.info(
                 "TennisApi winning odds unavailable. match_id=%s provider_id=%s error=%s",
@@ -307,7 +241,6 @@ class TennisApiClient:
                 provider_id,
                 exc,
             )
-
             return None
 
     def get_all_odds_for_event(
@@ -324,12 +257,7 @@ class TennisApiClient:
         Fallback:
             /api/tennis/event/{event_id}/provider/{provider_id}/winning-odds
         """
-        provider_id = provider_id or int(
-            os.getenv(
-                "TENNISAPI_PROVIDER_ID",
-                "1",
-            )
-        )
+        provider_id = provider_id or int(os.getenv("TENNISAPI_PROVIDER_ID", "1"))
 
         paths = [
             f"/api/tennis/event/{match_id}/odds/{provider_id}/all",
@@ -338,11 +266,7 @@ class TennisApiClient:
 
         for path in paths:
             try:
-                return self._request_json(
-                    "GET",
-                    path,
-                )
-
+                return self._request_json("GET", path)
             except Exception as exc:
                 logger.debug(
                     "TennisApi all odds candidate failed. path=%s error=%s",
@@ -358,206 +282,111 @@ class TennisApiClient:
 # ----------------------------------------------------------------------
 
 
-def safe_get(
-    data: Dict[str, Any],
-    *keys: str,
-    default: Any = None,
-) -> Any:
+def safe_get(data: Dict[str, Any], *keys: str, default: Any = None) -> Any:
     cur: Any = data
-
     for key in keys:
         if not isinstance(cur, dict):
             return default
-
-        cur = cur.get(
-            key,
-        )
-
+        cur = cur.get(key)
     return cur if cur is not None else default
 
 
-def deduplicate_events(
-    events: List[Dict[str, Any]],
-) -> List[Dict[str, Any]]:
+def deduplicate_events(events: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     seen = set()
     result: List[Dict[str, Any]] = []
 
     for event in events:
-        event_id = event.get(
-            "id",
-        )
-
+        event_id = event.get("id")
         if event_id is None:
-            result.append(
-                event,
-            )
+            result.append(event)
             continue
-
         if event_id in seen:
             continue
-
-        seen.add(
-            event_id,
-        )
-
-        result.append(
-            event,
-        )
+        seen.add(event_id)
+        result.append(event)
 
     return result
 
 
-def fractional_to_decimal(
-    value: Optional[str],
-) -> Optional"""Convert fractional odds to decimal odds. Example: 73/100 -> 1.73."""
+def fractional_to_decimal(value: Optional[str]) -> Optional[float]:
+    """Convert fractional odds to decimal odds. Example: 73/100 -> 1.73."""
     if not value or not isinstance(value, str):
         return None
 
     value = value.strip()
-
     try:
         if "/" in value:
-            left, right = value.split(
-                "/",
-                1,
-            )
-
-            numerator = float(
-                left,
-            )
-
-            denominator = float(
-                right,
-            )
-
+            left, right = value.split("/", 1)
+            numerator = float(left)
+            denominator = float(right)
             if denominator == 0:
                 return None
+            return round(1.0 + numerator / denominator, 4)
 
-            return round(
-                1.0 + numerator / denominator,
-                4,
-            )
-
-        return round(
-            float(value),
-            4,
-        )
-
+        return round(float(value), 4)
     except Exception:
         return None
 
 
-def unix_to_iso(
-    timestamp: Optional[int],
-) -> Optionalif not timestamp:
+def unix_to_iso(timestamp: Optional[int]) -> Optional[str]:
+    if not timestamp:
         return None
-
     try:
-        return datetime.fromtimestamp(
-            int(timestamp),
-            tz=timezone.utc,
-        ).isoformat()
-
+        return datetime.fromtimestamp(int(timestamp), tz=timezone.utc).isoformat()
     except Exception:
         return None
 
 
-def normalize_status(
-    status: Any,
-) -> str:
+def normalize_status(status: Any) -> str:
     if not isinstance(status, dict):
         return "UNKNOWN"
 
-    status_type = str(
-        status.get(
-            "type",
-            "",
-        )
-    ).lower().strip()
+    status_type = str(status.get("type", "")).lower().strip()
+    description = str(status.get("description", "")).lower().strip()
+    code = status.get("code")
 
-    description = str(
-        status.get(
-            "description",
-            "",
-        )
-    ).lower().strip()
-
-    code = status.get(
-        "code",
-    )
-
-    if (
-        status_type in {"finished", "ended"}
-        or description in {"ended", "finished"}
-        or code == 100
-    ):
+    if status_type in {"finished", "ended"} or description in {"ended", "finished"} or code == 100:
         return "FINISHED"
-
     if status_type in {"inprogress", "in_progress", "live"}:
         return "LIVE"
-
     if status_type in {"notstarted", "not_started", "scheduled"}:
         return "NOT_STARTED"
-
     if status_type in {"cancelled", "canceled"}:
         return "CANCELLED"
-
     if status_type == "postponed":
         return "POSTPONED"
-
     if status_type == "retired":
         return "RETIRED"
-
     if status_type == "walkover":
         return "WALKOVER"
 
     return status_type.upper() if status_type else "UNKNOWN"
 
 
-def extract_event(
-    payload: Dict[str, Any],
-) -> Dict[str, Any]:
+def extract_event(payload: Dict[str, Any]) -> Dict[str, Any]:
     if isinstance(payload, dict) and isinstance(payload.get("event"), dict):
         return payload["event"]
-
     return payload if isinstance(payload, dict) else {}
 
 
-def normalize_event(
-    event: Dict[str, Any],
-) -> Dict[str, Any]:
-    event = extract_event(
-        event,
-    )
+def normalize_event(event: Dict[str, Any]) -> Dict[str, Any]:
+    event = extract_event(event)
 
     home_team = event.get("homeTeam") or {}
     away_team = event.get("awayTeam") or {}
     tournament = event.get("tournament") or {}
-    unique_tournament = (
-        tournament.get("uniqueTournament")
-        or event.get("uniqueTournament")
-        or {}
-    )
+    unique_tournament = tournament.get("uniqueTournament") or event.get("uniqueTournament") or {}
     category = tournament.get("category") or event.get("category") or {}
     status = event.get("status") or {}
     home_score = event.get("homeScore") or {}
     away_score = event.get("awayScore") or {}
 
-    winner_code = event.get(
-        "winnerCode",
-    )
-
+    winner_code = event.get("winnerCode")
     winner_name = None
-
     if winner_code == 1:
-        winner_name = home_team.get(
-            "name",
-        )
-
+        winner_name = home_team.get("name")
     elif winner_code == 2:
-        winner_name = away_team.get(
-            "name",
-        )
+        winner_name = away_team.get("name")
 
     return {
         "source": "TennisApi",
@@ -574,24 +403,12 @@ def normalize_event(
         "tournament_slug": unique_tournament.get("slug") or tournament.get("slug"),
         "category": category.get("name"),
         "category_id": category.get("id"),
-        "round": safe_get(
-            event,
-            "roundInfo",
-            "name",
-        ),
-        "round_number": safe_get(
-            event,
-            "roundInfo",
-            "round",
-        ),
+        "round": safe_get(event, "roundInfo", "name"),
+        "round_number": safe_get(event, "roundInfo", "round"),
         "start_timestamp": event.get("startTimestamp"),
-        "start_time_utc": unix_to_iso(
-            event.get("startTimestamp"),
-        ),
+        "start_time_utc": unix_to_iso(event.get("startTimestamp")),
         "status_raw": status,
-        "status": normalize_status(
-            status,
-        ),
+        "status": normalize_status(status),
         "winner_code": winner_code,
         "winner": winner_name,
         "home_score_current": home_score.get("current"),
@@ -610,9 +427,7 @@ def normalize_event(
     }
 
 
-def normalize_winning_odds(
-    odds_payload: Optional[Dict[str, Any]],
-) -> Optional[Dict[str, Any]]:
+def normalize_winning_odds(odds_payload: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
     """
     Normalize TennisApi winning odds.
 
@@ -629,7 +444,6 @@ def normalize_winning_odds(
 
     if isinstance(odds_payload.get("odds"), dict):
         odds_payload = odds_payload["odds"]
-
     elif isinstance(odds_payload.get("data"), dict):
         odds_payload = odds_payload["data"]
 
@@ -639,21 +453,10 @@ def normalize_winning_odds(
     if not home or not away:
         return None
 
-    home_fractional = home.get(
-        "fractionalValue",
-    )
-
-    away_fractional = away.get(
-        "fractionalValue",
-    )
-
-    home_decimal = fractional_to_decimal(
-        home_fractional,
-    )
-
-    away_decimal = fractional_to_decimal(
-        away_fractional,
-    )
+    home_fractional = home.get("fractionalValue")
+    away_fractional = away.get("fractionalValue")
+    home_decimal = fractional_to_decimal(home_fractional)
+    away_decimal = fractional_to_decimal(away_fractional)
 
     if home_decimal is None or away_decimal is None:
         return None
