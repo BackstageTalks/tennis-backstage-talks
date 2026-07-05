@@ -208,7 +208,6 @@ class TennisApiClient:
         try:
             return self._request_json("GET", path)
         except Exception as exc:
-            # Do not spam deploy logs with every old candidate path. One compact line is enough.
             logger.info(
                 "TennisApi winning odds unavailable. match_id=%s provider_id=%s error=%s",
                 match_id,
