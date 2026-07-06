@@ -68,7 +68,6 @@ def html_link(url, label):
     )
 
 
-
 def render_nav():
     links = [
         html_link(f"{BASE_URL}/", "Corq"),
