@@ -297,23 +297,29 @@ def choose_public_all_predictions(
     generated_all_predictions,
     all_snapshot,
 ):
-    if is_non_empty_list(all_snapshot):
-        print(
-            "PUBLIC ALL SOURCE:",
-            "today immutable snapshot",
-            len(all_snapshot),
-        )
-
-        return all_snapshot
+    # Rule:
+    # If there is any current/generated ALL content, use it.
+    # Snapshot is used only when today's generated offer is empty.
+    #
+    # This prevents mixing current picks with old snapshot picks.
 
     if is_non_empty_list(generated_all_predictions):
         print(
             "PUBLIC ALL SOURCE:",
-            "generated predictions",
+            "generated predictions - no snapshot fill",
             len(generated_all_predictions),
         )
 
         return generated_all_predictions
+
+    if is_non_empty_list(all_snapshot):
+        print(
+            "PUBLIC ALL SOURCE:",
+            "today immutable snapshot fallback",
+            len(all_snapshot),
+        )
+
+        return all_snapshot
 
     restored_all = latest_non_empty_snapshot(
         "all"
@@ -340,41 +346,26 @@ def choose_public_top_predictions(
     top5_snapshot,
     public_all_predictions,
 ):
-    if is_non_empty_list(top5_snapshot):
-        print(
-            "PUBLIC TOP5 SOURCE:",
-            "today immutable snapshot",
-            len(top5_snapshot),
-        )
-
-        return top5_snapshot
+    # Rule:
+    # If there is at least one current/generated TOP pick, use only current picks.
+    # Do not fill missing positions up to TOP5 from old snapshot.
+    # Snapshot is used only when today's generated TOP offer is empty.
 
     if is_non_empty_list(generated_top_predictions):
         print(
             "PUBLIC TOP5 SOURCE:",
-            "generated predictions",
+            "generated predictions - no snapshot fill",
             len(generated_top_predictions),
         )
 
         return generated_top_predictions
 
-    restored_top5 = latest_non_empty_snapshot(
-        "top5"
-    )
-
-    if is_non_empty_list(restored_top5):
-        print(
-            "PUBLIC TOP5 SOURCE:",
-            "latest non-empty snapshot fallback",
-            len(restored_top5),
-        )
-
-        return restored_top5
-
+    # If generated TOP is empty, but current/generated ALL exists,
+    # try deriving TOP from current ALL before falling back to snapshots.
     if is_non_empty_list(public_all_predictions):
         print(
             "PUBLIC TOP5 SOURCE:",
-            "derived from public ALL predictions",
+            "trying to derive from public ALL predictions",
         )
 
         derived_top = get_top_predictions(
@@ -389,10 +380,32 @@ def choose_public_top_predictions(
 
             return derived_top
 
+    if is_non_empty_list(top5_snapshot):
+        print(
+            "PUBLIC TOP5 SOURCE:",
+            "today immutable snapshot fallback",
+            len(top5_snapshot),
+        )
+
+        return top5_snapshot
+
+    restored_top5 = latest_non_empty_snapshot(
+        "top5"
+    )
+
+    if is_non_empty_list(restored_top5):
+        print(
+            "PUBLIC TOP5 SOURCE:",
+            "latest non-empty snapshot fallback",
+            len(restored_top5),
+        )
+
+        return restored_top5
+
     print(
         "PUBLIC TOP5 WARNING:",
-        "No generated TOP5, no TOP5 snapshot, no historical TOP5, "
-        "and no derived TOP5. Writing empty TOP5 public JSON. "
+        "No generated TOP5, no derived TOP5, no TOP5 snapshot, "
+        "and no historical TOP5. Writing empty TOP5 public JSON. "
         "build_pages.py can derive TOP5 from ALL."
     )
 
@@ -587,8 +600,10 @@ def refresh_bst_fields(prediction):
     player2 = prediction.get("player2")
     pick = prediction.get("pick")
     surface = prediction.get("surface")
+
     corq_probability = safe_float(
         prediction.get("corq_ai_probability")
+        or prediction.get("corq_display_probability")
         or prediction.get("probability")
     )
 
@@ -676,6 +691,7 @@ def refresh_marq_fields(prediction):
     player1 = prediction.get("player1")
     player2 = prediction.get("player2")
     pick = prediction.get("pick")
+
     match_date = extract_match_date(
         prediction
     )
@@ -786,7 +802,11 @@ def merge_refreshable_fields(base_prediction, fresh_prediction):
     return base_prediction
 
 
-def enrich_public_predictions(public_predictions, fresh_predictions, label):
+def enrich_public_predictions(
+    public_predictions,
+    fresh_predictions,
+    label,
+):
     if not is_non_empty_list(public_predictions):
         return public_predictions
 
@@ -829,8 +849,6 @@ def enrich_public_predictions(public_predictions, fresh_predictions, label):
                 updated.get("bst_ai_status"),
             )
 
-            # If the fresh match did not have usable BsT for any reason,
-            # still try recomputing from the snapshot fields.
             if updated.get("bst_ai_status") != "OK":
                 updated = refresh_bst_fields(
                     updated
@@ -917,6 +935,7 @@ def run():
 
     if is_non_empty_list(existing_all_snapshot):
         all_snapshot = existing_all_snapshot
+
         print(
             "KEEPING EXISTING NON-EMPTY ALL SNAPSHOT:",
             len(all_snapshot),
@@ -931,6 +950,7 @@ def run():
 
     if is_non_empty_list(existing_top5_snapshot):
         top5_snapshot = existing_top5_snapshot
+
         print(
             "KEEPING EXISTING NON-EMPTY TOP5 SNAPSHOT:",
             len(top5_snapshot),
