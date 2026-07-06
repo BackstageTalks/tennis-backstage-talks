@@ -44,17 +44,14 @@ def pct(value):
 
 def pct_plain(value):
     try:
-        return f"{float(value):.1f}%"
+        return f"{float(value):.1f}"
     except Exception:
         return "-"
 
 
 def odds(value):
     try:
-        if value is None:
-            return "-"
-
-        if value == "":
+        if value is None or value == "":
             return "-"
 
         return f"{float(value):.2f}"
@@ -87,11 +84,11 @@ def render_nav():
 
 
 def format_match_meta(prediction):
+    parts = []
+
     tournament = prediction.get("tournament")
     surface = prediction.get("surface")
     best_of = prediction.get("best_of")
-
-    parts = []
 
     if tournament:
         parts.append(str(tournament))
@@ -145,6 +142,7 @@ def format_pct_points(value):
 def resolve_ai_metrics(prediction):
     corq_pct = normalize_probability_for_display(
         prediction.get("corq_ai_probability")
+        or prediction.get("corq_display_probability")
         or prediction.get("probability")
     )
 
@@ -163,6 +161,36 @@ def resolve_ai_metrics(prediction):
     }
 
 
+def resolve_ai_delta(metrics):
+    corq_pct = metrics.get("corq_pct")
+    bst_pct = metrics.get("bst_pct")
+
+    if corq_pct is None or bst_pct is None:
+        return {
+            "label": "BsT unavailable",
+            "class": "delta-muted",
+        }
+
+    gap = float(bst_pct) - float(corq_pct)
+
+    if abs(gap) < 0.05:
+        return {
+            "label": "Even",
+            "class": "delta-even",
+        }
+
+    if gap > 0:
+        return {
+            "label": f"BsT +{gap:.1f}%",
+            "class": "delta-bst",
+        }
+
+    return {
+        "label": f"Corq +{abs(gap):.1f}%",
+        "class": "delta-corq",
+    }
+
+
 def resolve_marq_signal(prediction):
     signal = prediction.get("marq_ai_signal")
     score = prediction.get("marq_ai_score")
@@ -176,7 +204,16 @@ def resolve_marq_signal(prediction):
     return str(signal).upper()
 
 
-def render_data_ai_box(prediction):
+def metric_row(label, value):
+    return f"""
+            <div class="metric-row">
+                <span>{safe(label)}</span>
+                <strong>{safe(value)}</strong>
+            </div>
+"""
+
+
+def render_data_ai_box(prediction, model_view="corq"):
     status = prediction.get("bst_ai_status")
     metrics = resolve_ai_metrics(prediction)
 
@@ -187,31 +224,34 @@ def render_data_ai_box(prediction):
     if status != "OK":
         bst_display = "No data"
         ai_match_display = "-"
-        footer = "BsT unavailable"
+        delta = {
+            "label": "BsT unavailable",
+            "class": "delta-muted",
+        }
     else:
-        footer = "AI Match ready"
+        delta = resolve_ai_delta(metrics)
+
+    if model_view == "bst":
+        rows = (
+            metric_row("BsT AI", bst_display)
+            + metric_row("Corq AI", corq_display)
+            + metric_row("AI Match", ai_match_display)
+        )
+    else:
+        rows = (
+            metric_row("Corq AI", corq_display)
+            + metric_row("BsT AI", bst_display)
+            + metric_row("AI Match", ai_match_display)
+        )
 
     return f"""
         <div class="intel-panel data-ai-panel">
             <div class="panel-title">DATA AI</div>
 
-            <div class="metric-row">
-                <span>Corq AI</span>
-                <strong>{safe(corq_display)}</strong>
-            </div>
+            {rows}
 
-            <div class="metric-row">
-                <span>BsT AI</span>
-                <strong>{safe(bst_display)}</strong>
-            </div>
-
-            <div class="metric-row">
-                <span>AI Match</span>
-                <strong>{safe(ai_match_display)}</strong>
-            </div>
-
-            <div class="panel-footnote">
-                {safe(footer)}
+            <div class="ai-delta {safe(delta['class'])}">
+                {safe(delta['label'])}
             </div>
         </div>
 """
@@ -241,12 +281,7 @@ def render_marq_ai_box(prediction):
         score_html = ""
     else:
         display_signal = marq_signal
-        score_html = f"""
-            <div class="metric-row">
-                <span>Score</span>
-                <strong>{safe(pct_plain(score))}</strong>
-            </div>
-"""
+        score_html = metric_row("Score", pct_plain(score))
 
     return f"""
         <div class="intel-panel marq-panel">
@@ -264,16 +299,8 @@ def render_sets_box(expected_sets, sets_probability_label, sets_probability, mos
         <div class="intel-panel sets-panel">
             <div class="panel-title">SETS</div>
 
-            <div class="metric-row">
-                <span>Sets</span>
-                <strong>{expected_sets}</strong>
-            </div>
-
-            <div class="metric-row">
-                <span>{sets_probability_label}</span>
-                <strong>{sets_probability}</strong>
-            </div>
-
+            {metric_row("Sets", expected_sets)}
+            {metric_row(sets_probability_label, sets_probability)}
             {most_likely_html}
         </div>
 """
@@ -285,12 +312,13 @@ def render_match_intelligence(
     sets_probability_label,
     sets_probability,
     most_likely_html,
+    model_view="corq",
 ):
     return f"""
         <div class="intel-title">Match Intelligence</div>
 
         <div class="intel-layout">
-            {render_data_ai_box(prediction)}
+            {render_data_ai_box(prediction, model_view=model_view)}
             {render_marq_ai_box(prediction)}
             {render_sets_box(expected_sets, sets_probability_label, sets_probability, most_likely_html)}
         </div>
@@ -352,7 +380,7 @@ def render_summary(predictions):
 """
 
 
-def render_rows(predictions):
+def render_rows(predictions, model_view="corq"):
     if not predictions:
         return """
 <tr>
@@ -399,12 +427,7 @@ def render_rows(predictions):
         most_likely_html = ""
 
         if most_likely_score:
-            most_likely_html = f"""
-            <div class="metric-row">
-                <span>Score</span>
-                <strong>{most_likely_score}</strong>
-            </div>
-"""
+            most_likely_html = metric_row("Score", most_likely_score)
 
         intelligence_html = render_match_intelligence(
             prediction=prediction,
@@ -412,6 +435,7 @@ def render_rows(predictions):
             sets_probability_label=sets_probability_label,
             sets_probability=sets_probability,
             most_likely_html=most_likely_html,
+            model_view=model_view,
         )
 
         rows.append(f"""
@@ -442,8 +466,26 @@ def render_rows(predictions):
     return "\n".join(rows)
 
 
+def resolve_model_view(title, subtitle):
+    text = f"{title or ''} {subtitle or ''}".lower()
+
+    if "bst" in text:
+        return "bst"
+
+    return "corq"
+
+
 def render_page(predictions, title, subtitle):
-    rows = render_rows(predictions)
+    model_view = resolve_model_view(
+        title,
+        subtitle,
+    )
+
+    rows = render_rows(
+        predictions,
+        model_view=model_view,
+    )
+
     summary = render_summary(predictions)
     nav = render_nav()
     page_title = safe(title or SITE_TITLE)
@@ -471,9 +513,7 @@ def render_page(predictions, title, subtitle):
     --blue: #38bdf8;
 }}
 
-* {{
-    box-sizing: border-box;
-}}
+* {{ box-sizing: border-box; }}
 
 html, body {{
     margin: 0;
@@ -531,9 +571,7 @@ html, body {{
     letter-spacing: 0.04em;
 }}
 
-.nav a:hover {{
-    color: var(--blue);
-}}
+.nav a:hover {{ color: var(--blue); }}
 
 .summary {{
     display: grid;
@@ -560,9 +598,7 @@ html, body {{
     font-weight: 800;
 }}
 
-.summary-value.small {{
-    font-size: 14px;
-}}
+.summary-value.small {{ font-size: 14px; }}
 
 .table-wrap {{
     overflow-x: auto;
@@ -577,9 +613,7 @@ table {{
     min-width: 1040px;
 }}
 
-thead {{
-    background: var(--panel-2);
-}}
+thead {{ background: var(--panel-2); }}
 
 th {{
     padding: 14px 12px;
@@ -597,9 +631,7 @@ td {{
     vertical-align: top;
 }}
 
-tr:hover {{
-    background: rgba(255, 255, 255, 0.03);
-}}
+tr:hover {{ background: rgba(255, 255, 255, 0.03); }}
 
 .rank {{
     font-weight: 800;
@@ -689,9 +721,7 @@ tr:hover {{
     margin-top: 3px;
 }}
 
-.metric-row span {{
-    color: var(--muted);
-}}
+.metric-row span {{ color: var(--muted); }}
 
 .metric-row strong {{
     text-align: right;
@@ -699,13 +729,17 @@ tr:hover {{
     font-weight: 900;
 }}
 
-.panel-footnote {{
+.ai-delta {{
     margin-top: 7px;
     text-align: right;
-    color: var(--muted);
     font-size: 10px;
-    font-weight: 800;
+    font-weight: 900;
 }}
+
+.delta-bst {{ color: var(--blue); }}
+.delta-corq {{ color: var(--orange); }}
+.delta-even {{ color: var(--muted); }}
+.delta-muted {{ color: var(--muted); }}
 
 .market-badge {{
     display: inline-block;
@@ -771,37 +805,20 @@ tr:hover {{
 }}
 
 @media (max-width: 1050px) {{
-    .header {{
-        display: block;
-    }}
-
-    .logo {{
-        white-space: normal;
-    }}
-
+    .header {{ display: block; }}
+    .logo {{ white-space: normal; }}
     .nav {{
         margin-top: 16px;
         padding-top: 0;
         flex-wrap: wrap;
     }}
-
-    .summary {{
-        grid-template-columns: 1fr 1fr;
-    }}
+    .summary {{ grid-template-columns: 1fr 1fr; }}
 }}
 
 @media (max-width: 700px) {{
-    .wrapper {{
-        padding: 16px;
-    }}
-
-    .summary {{
-        grid-template-columns: 1fr;
-    }}
-
-    .intel-layout {{
-        grid-template-columns: 1fr;
-    }}
+    .wrapper {{ padding: 16px; }}
+    .summary {{ grid-template-columns: 1fr; }}
+    .intel-layout {{ grid-template-columns: 1fr; }}
 }}
 </style>
 </head>
@@ -898,6 +915,7 @@ def render_rss(predictions, title, link):
         corq_ai = format_pct_points(metrics["corq_pct"])
         bst_ai = format_pct_points(metrics["bst_pct"])
         ai_match = format_pct_points(metrics["ai_match"])
+        delta = resolve_ai_delta(metrics)
         marq_signal = resolve_marq_signal(prediction)
         marq_score = pct_plain(prediction.get("marq_ai_score"))
 
@@ -912,6 +930,7 @@ def render_rss(predictions, title, link):
             f"Corq AI: {corq_ai}\n"
             f"BsT AI: {bst_ai}\n"
             f"AI Match: {ai_match}\n"
+            f"AI Difference: {delta['label']}\n"
             f"Marq AI: {marq_score}\n"
             f"Market Signal: {marq_signal}\n"
             f"Expected sets: {expected_sets}\n"
