@@ -2,6 +2,8 @@ import glob
 import json
 import os
 import re
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from play_history import (
     betting_day,
@@ -14,9 +16,18 @@ from prediction_engine_top import (
     get_top_predictions,
 )
 
+from src.bst_ai.service import (
+    build_bst_ai_comparison,
+)
+
+from src.marq_ai import (
+    build_marq_from_match,
+)
+
 
 ALL_SNAPSHOT_DIR = "data/pick_history/all"
 TOP5_SNAPSHOT_DIR = "data/pick_history/top5"
+LOCAL_TZ = ZoneInfo("Europe/Bratislava")
 
 
 # -----------------------------------------------------------------------------
@@ -37,7 +48,6 @@ def save_json(path, data):
             ensure_ascii=False,
             indent=2,
         )
-
 
 
 def load_json(path, default):
@@ -61,9 +71,22 @@ def load_json(path, default):
         return default
 
 
-
 def is_non_empty_list(data):
     return isinstance(data, list) and len(data) > 0
+
+
+def safe_float(value):
+    try:
+        if value is None:
+            return None
+
+        if value == "":
+            return None
+
+        return float(value)
+
+    except Exception:
+        return None
 
 
 # -----------------------------------------------------------------------------
@@ -89,7 +112,6 @@ def snapshot_path(kind, date):
     )
 
 
-
 def extract_date_from_filename(path):
     filename = os.path.basename(path or "")
 
@@ -102,7 +124,6 @@ def extract_date_from_filename(path):
         return ""
 
     return match.group(1)
-
 
 
 def latest_non_empty_snapshot(kind):
@@ -158,7 +179,6 @@ def latest_non_empty_snapshot(kind):
     return []
 
 
-
 def load_today_snapshot(kind, date):
     path = snapshot_path(
         kind,
@@ -190,7 +210,6 @@ def load_today_snapshot(kind, date):
     return []
 
 
-
 def save_non_empty_all_snapshot(date, all_predictions):
     if not is_non_empty_list(all_predictions):
         print(
@@ -211,8 +230,6 @@ def save_non_empty_all_snapshot(date, all_predictions):
     if is_non_empty_list(snapshot):
         return snapshot
 
-    # If an older bug created an empty immutable file for today, treat that empty
-    # file as invalid and repair it with the current non-empty generated data.
     path = snapshot_path(
         "all",
         date,
@@ -230,7 +247,6 @@ def save_non_empty_all_snapshot(date, all_predictions):
     )
 
     return all_predictions
-
 
 
 def save_non_empty_top5_snapshot(date, top_predictions):
@@ -253,8 +269,6 @@ def save_non_empty_top5_snapshot(date, top_predictions):
     if is_non_empty_list(snapshot):
         return snapshot
 
-    # If an older bug created an empty immutable file for today, treat that empty
-    # file as invalid and repair it with the current non-empty generated data.
     path = snapshot_path(
         "top5",
         date,
@@ -275,21 +289,14 @@ def save_non_empty_top5_snapshot(date, top_predictions):
 
 
 # -----------------------------------------------------------------------------
-# Public output selection
+# Public output source selection
 # -----------------------------------------------------------------------------
 
 
 def choose_public_all_predictions(
-    today,
     generated_all_predictions,
     all_snapshot,
 ):
-    # Production rule:
-    # 1. Prefer today's immutable non-empty snapshot.
-    # 2. If there is no such snapshot, use today's non-empty generated output.
-    # 3. If today is empty, fall back to the latest historical non-empty snapshot.
-    # 4. Only fail if the project has no usable data at all.
-
     if is_non_empty_list(all_snapshot):
         print(
             "PUBLIC ALL SOURCE:",
@@ -328,20 +335,11 @@ def choose_public_all_predictions(
     )
 
 
-
 def choose_public_top_predictions(
-    today,
     generated_top_predictions,
     top5_snapshot,
     public_all_predictions,
 ):
-    # Production rule:
-    # 1. Prefer today's immutable non-empty TOP5 snapshot.
-    # 2. If there is no TOP5 snapshot, use today's non-empty generated TOP5.
-    # 3. If TOP5 is empty, restore latest historical non-empty TOP5 snapshot.
-    # 4. If no TOP5 snapshot exists, derive TOP5 from restored ALL.
-    # 5. Only write empty TOP5 if ALL exists and build_pages.py can derive TOP5.
-
     if is_non_empty_list(top5_snapshot):
         print(
             "PUBLIC TOP5 SOURCE:",
@@ -399,6 +397,312 @@ def choose_public_top_predictions(
     )
 
     return []
+
+
+# -----------------------------------------------------------------------------
+# Match keys / enrichment helpers
+# -----------------------------------------------------------------------------
+
+
+def normalize_text(value):
+    return str(value or "").strip().lower()
+
+
+def prediction_key(prediction):
+    player1 = normalize_text(
+        prediction.get("player1")
+    )
+
+    player2 = normalize_text(
+        prediction.get("player2")
+    )
+
+    pick = normalize_text(
+        prediction.get("pick")
+    )
+
+    match_start = normalize_text(
+        prediction.get("match_start")
+    )
+
+    if player1 and player2 and pick and match_start:
+        return (
+            player1,
+            player2,
+            pick,
+            match_start,
+        )
+
+    return (
+        normalize_text(prediction.get("match")),
+        pick,
+    )
+
+
+def build_fresh_index(fresh_predictions):
+    index = {}
+
+    for prediction in fresh_predictions or []:
+        key = prediction_key(
+            prediction
+        )
+
+        index[key] = prediction
+
+    return index
+
+
+def extract_match_date(prediction):
+    start_value = prediction.get("match_start")
+
+    if not start_value:
+        return None
+
+    try:
+        text = str(start_value)
+
+        if text.endswith("Z"):
+            text = text.replace("Z", "+00:00")
+
+        dt = datetime.fromisoformat(text)
+
+        if dt.tzinfo is None:
+            return text[:10]
+
+        local_dt = dt.astimezone(
+            LOCAL_TZ,
+        )
+
+        return local_dt.strftime("%Y-%m-%d")
+
+    except Exception:
+        text = str(start_value)
+
+        if len(text) >= 10:
+            return text[:10]
+
+    return None
+
+
+def refresh_bst_fields(prediction):
+    player1 = prediction.get("player1")
+    player2 = prediction.get("player2")
+    pick = prediction.get("pick")
+    surface = prediction.get("surface")
+    corq_probability = safe_float(
+        prediction.get("corq_ai_probability")
+        or prediction.get("probability")
+    )
+
+    if not player1 or not player2 or not pick:
+        return prediction
+
+    if corq_probability is None:
+        return prediction
+
+    try:
+        bst_ai = build_bst_ai_comparison(
+            player1=player1,
+            player2=player2,
+            pick=pick,
+            surface=surface,
+            corq_probability=corq_probability,
+            tour=prediction.get("gender"),
+        )
+
+        fields = [
+            "corq_ai_probability",
+            "bst_ai_probability",
+            "ai_match",
+            "ai_gap",
+            "ai_signed_gap",
+            "ai_lean",
+            "ai_direction_match",
+            "ai_match_color",
+            "bst_ai_status",
+            "bst_ai_reason",
+            "bst_ai_rating_type",
+            "bst_player1_found",
+            "bst_player2_found",
+        ]
+
+        for field in fields:
+            prediction[field] = bst_ai.get(field)
+
+        print(
+            "ENRICH BST:",
+            prediction.get("match"),
+            "status=",
+            prediction.get("bst_ai_status"),
+            "bst=",
+            prediction.get("bst_ai_probability"),
+        )
+
+    except Exception as exc:
+        print(
+            "ENRICH BST ERROR:",
+            prediction.get("match"),
+            str(exc),
+        )
+
+    return prediction
+
+
+def refresh_marq_fields(prediction):
+    player1 = prediction.get("player1")
+    player2 = prediction.get("player2")
+    pick = prediction.get("pick")
+    match_date = extract_match_date(
+        prediction
+    )
+
+    if not player1 or not player2 or not pick or not match_date:
+        return prediction
+
+    try:
+        marq_ai = build_marq_from_match(
+            player1=player1,
+            player2=player2,
+            date_only=match_date,
+            pick=pick,
+        )
+
+        prediction["marq_ai_score"] = getattr(
+            marq_ai,
+            "score",
+            None,
+        )
+
+        prediction["marq_ai_signal"] = getattr(
+            marq_ai,
+            "signal",
+            None,
+        )
+
+        prediction["marq_ai_direction"] = getattr(
+            marq_ai,
+            "direction",
+            None,
+        )
+
+        prediction["marq_ai_strength"] = getattr(
+            marq_ai,
+            "strength",
+            None,
+        )
+
+        prediction["marq_ai_consistency"] = getattr(
+            marq_ai,
+            "consistency",
+            None,
+        )
+
+        print(
+            "ENRICH MARQ:",
+            prediction.get("match"),
+            "score=",
+            prediction.get("marq_ai_score"),
+            "signal=",
+            prediction.get("marq_ai_signal"),
+        )
+
+    except Exception as exc:
+        print(
+            "ENRICH MARQ ERROR:",
+            prediction.get("match"),
+            str(exc),
+        )
+
+    return prediction
+
+
+def merge_refreshable_fields(base_prediction, fresh_prediction):
+    if not isinstance(fresh_prediction, dict):
+        return base_prediction
+
+    # Preserve immutable pick identity and stored Corq/odds snapshot.
+    # Refresh only analytical fields that can improve after the morning snapshot.
+    refreshable_fields = [
+        "bst_ai_probability",
+        "ai_match",
+        "ai_gap",
+        "ai_signed_gap",
+        "ai_lean",
+        "ai_direction_match",
+        "ai_match_color",
+        "bst_ai_status",
+        "bst_ai_reason",
+        "bst_ai_rating_type",
+        "bst_player1_found",
+        "bst_player2_found",
+        "marq_ai_score",
+        "marq_ai_signal",
+        "marq_ai_direction",
+        "marq_ai_strength",
+        "marq_ai_consistency",
+    ]
+
+    for field in refreshable_fields:
+        if field in fresh_prediction:
+            base_prediction[field] = fresh_prediction.get(field)
+
+    return base_prediction
+
+
+def enrich_public_predictions(public_predictions, fresh_predictions, label):
+    if not is_non_empty_list(public_predictions):
+        return public_predictions
+
+    fresh_index = build_fresh_index(
+        fresh_predictions
+    )
+
+    enriched = []
+
+    print(
+        "ENRICH PUBLIC PREDICTIONS:",
+        label,
+        "count=",
+        len(public_predictions),
+    )
+
+    for prediction in public_predictions:
+        updated = dict(prediction)
+
+        fresh = fresh_index.get(
+            prediction_key(prediction)
+        )
+
+        if fresh:
+            updated = merge_refreshable_fields(
+                updated,
+                fresh,
+            )
+
+            print(
+                "ENRICH FROM FRESH:",
+                label,
+                updated.get("match"),
+            )
+
+        else:
+            print(
+                "ENRICH FROM RECOMPUTE:",
+                label,
+                updated.get("match"),
+            )
+
+            updated = refresh_bst_fields(
+                updated
+            )
+
+            updated = refresh_marq_fields(
+                updated
+            )
+
+        enriched.append(updated)
+
+    return enriched
 
 
 # -----------------------------------------------------------------------------
@@ -496,16 +800,26 @@ def run():
     )
 
     public_all_predictions = choose_public_all_predictions(
-        today=today,
         generated_all_predictions=all_predictions,
         all_snapshot=all_snapshot,
     )
 
     public_top_predictions = choose_public_top_predictions(
-        today=today,
         generated_top_predictions=top_predictions,
         top5_snapshot=top5_snapshot,
         public_all_predictions=public_all_predictions,
+    )
+
+    public_all_predictions = enrich_public_predictions(
+        public_predictions=public_all_predictions,
+        fresh_predictions=all_predictions,
+        label="ALL",
+    )
+
+    public_top_predictions = enrich_public_predictions(
+        public_predictions=public_top_predictions,
+        fresh_predictions=all_predictions,
+        label="TOP5",
     )
 
     top_path = f"public/predictions_{today}.json"
