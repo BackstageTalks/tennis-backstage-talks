@@ -69,19 +69,36 @@ def remove_path(path):
 
 
 def html_link(url, label):
-    return f'{url}{label}</a>'
+    return f'<a href="{url}">{label}</a>'
+
+
+def blend_page_exists():
+    return Path(f"public/{BLEND_PATH}/index.html").exists()
+
+
+def blend_rss_exists():
+    return Path(f"public/{BLEND_RSS_PATH}").exists()
 
 
 def build_nav_html():
     links = [
         html_link(f"{BASE_URL}/{CORQ_PATH}/", "Corq"),
         html_link(f"{BASE_URL}/{THINQ_PATH}/", "Thinq"),
-        html_link(f"{BASE_URL}/{BLEND_PATH}/", "Blend"),
-        html_link(f"{BASE_URL}/{CORQ_RSS_PATH}", "Corq RSS"),
-        html_link(f"{BASE_URL}/{THINQ_RSS_PATH}", "Thinq RSS"),
-        html_link(f"{BASE_URL}/{ALL_PATH}/", "All"),
-        html_link(f"{BASE_URL}/{RESULTS_PATH}/", "Results"),
     ]
+
+    if blend_page_exists():
+        links.append(
+            html_link(f"{BASE_URL}/{BLEND_PATH}/", "Blend")
+        )
+
+    links.extend(
+        [
+            html_link(f"{BASE_URL}/{CORQ_RSS_PATH}", "Corq RSS"),
+            html_link(f"{BASE_URL}/{THINQ_RSS_PATH}", "Thinq RSS"),
+            html_link(f"{BASE_URL}/{ALL_PATH}/", "All"),
+            html_link(f"{BASE_URL}/{RESULTS_PATH}/", "Results"),
+        ]
+    )
 
     return f"""
 <nav class="nav" aria-label="Main navigation">
@@ -150,6 +167,7 @@ def rewrite_rss_links(path, page_url):
         errors="replace",
     )
 
+    # Replace all channel/item link blocks with the target page URL.
     text = re.sub(
         r"<link>.*?</link>",
         f"<link>{page_url}</link>",
@@ -263,7 +281,6 @@ def verify_random_outputs():
     required_files = [
         f"public/{CORQ_PATH}/index.html",
         f"public/{THINQ_PATH}/index.html",
-        f"public/{BLEND_PATH}/index.html",
         f"public/{ALL_PATH}/index.html",
         f"public/{RESULTS_PATH}/index.html",
         f"public/{CORQ_RSS_PATH}",
@@ -271,6 +288,7 @@ def verify_random_outputs():
     ]
 
     optional_files = [
+        f"public/{BLEND_PATH}/index.html",
         f"public/{BLEND_RSS_PATH}",
     ]
 
@@ -291,17 +309,14 @@ def verify_random_outputs():
             "Random path output verification failed."
         )
 
+    print("")
+    print("OPTIONAL RANDOM OUTPUTS:")
+
     for path in optional_files:
         if Path(path).exists():
-            print(
-                "OPTIONAL OUTPUT EXISTS:",
-                path,
-            )
+            print("OK:", path)
         else:
-            print(
-                "OPTIONAL OUTPUT MISSING:",
-                path,
-            )
+            print("MISSING OPTIONAL:", path)
 
     print("")
     print("RANDOM OUTPUT VERIFICATION OK")
