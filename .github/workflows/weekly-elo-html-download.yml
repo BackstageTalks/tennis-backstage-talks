@@ -1,0 +1,64 @@
+name: Weekly ELO HTML Download
+
+on:
+  schedule:
+    # Tuesday around 03:00 SK/CZ during summer time.
+    # GitHub Actions cron is UTC, so 01:00 UTC = 03:00 CEST.
+    - cron: '0 1 * * 2'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-elo-html-download
+  cancel-in-progress: false
+
+jobs:
+  download-elo-html:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Syntax check downloader
+        run: |
+          python -m py_compile elo_html_downloader.py
+
+      - name: Download ELO HTML pages
+        run: |
+          python elo_html_downloader.py
+
+      - name: Commit downloaded ELO HTML files
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          echo "=== GIT STATUS BEFORE ADD ==="
+          git status --short
+
+          git add -A data/elo/raw data/elo/raw_history data/elo/meta || true
+
+          echo "=== GIT STATUS AFTER ADD ==="
+          git status --short
+
+          if git diff --cached --quiet; then
+            echo "No ELO HTML changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Update weekly ELO HTML cache"
+
+          echo "=== REBASE WITH AUTOSTASH ==="
+          git pull --rebase --autostash
+
+          echo "=== PUSH ==="
+          git push
