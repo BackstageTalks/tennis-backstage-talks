@@ -67,6 +67,7 @@ def remove_path(path):
         target.unlink()
 
     print(
+ (
         "REMOVED OLD PATH:",
         path,
     )
@@ -254,6 +255,10 @@ def verify_random_outputs():
         f"public/{THINQ_RSS_PATH}",
     ]
 
+    optional_files = [
+        f"public/{BLEND_RSS_PATH}",
+    ]
+
     missing = []
 
     for path in required_files:
@@ -263,12 +268,25 @@ def verify_random_outputs():
     if missing:
         print("")
         print("MISSING RANDOM OUTPUTS:")
+
         for path in missing:
             print(path)
 
         raise RuntimeError(
             "Random path output verification failed."
         )
+
+    for path in optional_files:
+        if Path(path).exists():
+            print(
+                "OPTIONAL OUTPUT EXISTS:",
+                path,
+            )
+        else:
+            print(
+                "OPTIONAL OUTPUT MISSING:",
+                path,
+            )
 
     print("")
     print("RANDOM OUTPUT VERIFICATION OK")
