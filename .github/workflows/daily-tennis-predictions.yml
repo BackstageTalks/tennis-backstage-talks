@@ -1,0 +1,194 @@
+name: Daily Tennis Predictions
+
+on:
+  schedule:
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+permission*:
+  contents: write
+  pages: write*  id-token: write
+
+concurrency:
+  *roup: daily-tennis-predictions
+  c*ncel-in-progress: false
+
+jobs:
+  b*ild:
+    runs-on: ubuntu-latest
+
+ *  environment:
+      name: github-*ages
+      url: ${{ steps.deployme*t.outputs.page_url }}
+
+    steps:
+*     - name: Checkout repository
+ *      uses: actions/checkout@v4
+  *     with:
+          fetch-depth: *
+
+      - name: Setup Python
+     *  uses: actions/setup-python@v5
+  *     with:
+          python-versio*: "3.11"
+
+      - name: Install de*endencies
+        run: |
+         *python -m pip install --upgrade pi*
+          if [ -f requirements.txt ]; then pip install -r requiremen*s.txt; fi
+
+      - name: Syntax ch*ck project files
+        run: |
+  *       python -m py_compile tennis*pi_client.py
+          python -m p*_compile tennisapi_cache.py
+      *   python -m py_compile fetch_matc*es.py
+          python -m py_compi*e results_fetcher.py
+          pyt*on -m py_compile results_checker.p*
+          python -m py_compile od*s_api.py
+          python -m py_co*pile prediction_engine_core.py
+   *      python -m py_compile predict*on_engine_top.py
+          python *m py_compile update.py
+          p*thon -m py_compile build_pages.py
+*         python -m py_compile rend*r_site.py
+          python -m py_c*mpile random_paths.py
+          if*[ -f fix_navigation.py ]; then pyt*on -m py_compile fix_navigation.py* fi
+          if [ -f telegram_feed.py ]; then python -m py_compile t*legram_feed.py; fi
+
+      - name: *repare directories
+        run: |
+*         mkdir -p public
+         *mkdir -p public/results
+          *kdir -p public/BsT
+          mkdir*-p public/Blend
+          mkdir -p*data
+          mkdir -p data/pick_*istory/all
+          mkdir -p data*pick_history/top5
+          mkdir *p data/results
+          mkdir -p *ata/marq_ai
+          mkdir -p dat*/tennisapi_cache
+
+      - name: Wa*m TennisApi cache
+        env:
+   *      ODDS_API_KEY: ${{ secrets.OD*S_API_KEY }}
+          RAPIDAPI_KE*: ${{ secrets.RAPIDAPI_KEY }}
+    *     TENNISAPI_RAPIDAPI_KEY: ${{ s*crets.RAPIDAPI_KEY }}
+          SG*API: ${{ secrets.SGOAPI }}
+       *  TENNISAPI_CATEGORY_IDS: "3,6,871*
+          TENNISAPI_PROVIDER_ID: *1"
+          RESULTS_LOOKBACK_DAYS* "90"
+          ODDS_SCAN_DAYS_AHE*D: "1"
+          ODDS_SCAN_DAYS_BA*K: "0"
+        run: |
+          py*hon tennisapi_cache.py
+
+      - na*e: Run predictions
+        env:
+  *       ODDS_API_KEY: ${{ secrets.O*DS_API_KEY }}
+          RAPIDAPI_K*Y: ${{ secrets.RAPIDAPI_KEY }}
+   *      TENNISAPI_RAPIDAPI_KEY: ${{ *ecrets.RAPIDAPI_KEY }}
+          S*OAPI: ${{ secrets.SGOAPI }}
+      *   TENNISAPI_CATEGORY_IDS: "3,6,87*"
+          TENNISAPI_PROVIDER_ID:*"1"
+          RESULTS_LOOKBACK_DAY*: "90"
+          ODDS_SCAN_DAYS_AH*AD: "1"
+          ODDS_SCAN_DAYS_B*CK: "0"
+        run: |
+          p*thon update.py
+
+      - name: Buil* Corq, Thinq, Blend and ALL pages
+*       env:
+          ODDS_API_KEY* ${{ secrets.ODDS_API_KEY }}
+     *    RAPIDAPI_KEY: ${{ secrets.RAPI*API_KEY }}
+          TENNISAPI_RAP*DAPI_KEY: ${{ secrets.RAPIDAPI_KEY*}}
+          SGOAPI: ${{ secrets.S*OAPI }}
+          TENNISAPI_CATEGO*Y_IDS: "3,6,871"
+          TENNISA*I_PROVIDER_ID: "1"
+          RESUL*S_LOOKBACK_DAYS: "90"
+          OD*S_SCAN_DAYS_AHEAD: "1"
+          O*DS_SCAN_DAYS_BACK: "0"
+        run* |
+          python build_pages.py*
+      - name: Run results checker*        env:
+          ODDS_API_KE*: ${{ secrets.ODDS_API_KEY }}
+    *     RAPIDAPI_KEY: ${{ secrets.RAP*DAPI_KEY }}
+          TENNISAPI_RA*IDAPI_KEY: ${{ secrets.RAPIDAPI_KE* }}
+          SGOAPI: ${{ secrets.*GOAPI }}
+          TENNISAPI_CATEG*RY_IDS: "3,6,871"
+          TENNIS*PI_PROVIDER_ID: "1"
+          RESU*TS_LOOKBACK_DAYS: "90"
+          O*DS_SCAN_DAYS_AHEAD: "1"
+          *DDS_SCAN_DAYS_BACK: "0"
+        ru*: |
+          python results_check*r.py
+
+      - name: Build results *age
+        env:
+          ODDS_AP*_KEY: ${{ secrets.ODDS_API_KEY }}
+*         RAPIDAPI_KEY: ${{ secrets*RAPIDAPI_KEY }}
+          TENNISAP*_RAPIDAPI_KEY: ${{ secrets.RAPIDAP*_KEY }}
+          SGOAPI: ${{ secr*ts.SGOAPI }}
+          TENNISAPI_C*TEGORY_IDS: "3,6,871"
+          TE*NISAPI_PROVIDER_ID: "1"
+          *ESULTS_LOOKBACK_DAYS: "90"
+       *  ODDS_SCAN_DAYS_AHEAD: "1"
+      *   ODDS_SCAN_DAYS_BACK: "0"
+      * run: |
+          python rss_resul*s.py
+
+      - name: Ensure results*page exists
+        run: |
+       *  if [ ! -f public/results/index.html ]; then
+            printf '%s\*' '<!doctype html>' '<html>' '<hea*>' '<meta charset="utf-8">' '<titl*>Results</title>' '</head>' '<body>' '<h1>Results</h1>' '<p>No results available yet.</p>' '</body>' '</html>' > public/results/index.html
+          fi
+
+      - name: Apply random public paths
+        run: |
+          python random_paths.py
+
+      - name: Verify random public files
+        run: |
+          echo "=== VERIFY RANDOM PUBLIC FILES ==="
+          test -f public/index.html
+          test -f public/h4v34n1c3d4y180/index.html
+          test -f public/h4v34n1c3d4y181/index.html
+          test -f public/h4v34n1c3d4y182/index.html
+          test -f public/h4v34n1c3d4y183/index.html
+          test -f public/h4v34n1c3d4y184/index.html
+          test -f public/h4v34n1c3d4y185.xml
+          test -f public/h4v34n1c3d4y186.xml
+          test -f public/h4v34n1c3d4y187.xml
+          echo "All required random public files exist."
+
+      - name: Commit generated data and public files
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add public data || true
+
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+          else
+            git commit -m "Update tennis predictions data"
+            git pull --rebase
+            git push
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Send Telegram TOP5
+        env:
+          TG_BOT_BTLKR: ${{ secrets.TG_BOT_BTLKR }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+        run: |
+          python telegram_feed.py
