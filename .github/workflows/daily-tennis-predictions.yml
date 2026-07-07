@@ -51,75 +51,73 @@ jobs:
           p*thon -m py_compile build_pages.py
 *         python -m py_compile rend*r_site.py
           python -m py_c*mpile random_paths.py
-          if*[ -f fix_navigation.py ]; then pyt*on -m py_compile fix_navigation.py* fi
-          if [ -f telegram_feed.py ]; then python -m py_compile t*legram_feed.py; fi
+          if*[ -f rss_results.py ]; then python*-m py_compile rss_results.py; fi
+ *        if [ -f fix_navigation.py ]; then python -m py_compile fix_na*igation.py; fi
+          if [ -f telegram_feed.py ]; then python -m p*_compile telegram_feed.py; fi
 
-      - name: *repare directories
+   *  - name: Prepare directories
+    *   run: |
+          mkdir -p publi*
+          mkdir -p public/results*          mkdir -p public/BsT
+    *     mkdir -p public/Blend
+       *  mkdir -p data
+          mkdir -p*data/pick_history/all
+          mk*ir -p data/pick_history/top5
+     *    mkdir -p data/results
+        * mkdir -p data/marq_ai
+          m*dir -p data/tennisapi_cache
+
+     *- name: Warm TennisApi cache
+     *  env:
+          ODDS_API_KEY: ${{*secrets.ODDS_API_KEY }}
+          *APIDAPI_KEY: ${{ secrets.RAPIDAPI_*EY }}
+          TENNISAPI_RAPIDAPI*KEY: ${{ secrets.RAPIDAPI_KEY }}
+ *        SGOAPI: ${{ secrets.SGOAPI*}}
+          TENNISAPI_CATEGORY_ID*: "3,6,871"
+          TENNISAPI_PR*VIDER_ID: "1"
+          RESULTS_LO*KBACK_DAYS: "90"
+          ODDS_SC*N_DAYS_AHEAD: "1"
+          ODDS_S*AN_DAYS_BACK: "0"
         run: |
-*         mkdir -p public
-         *mkdir -p public/results
-          *kdir -p public/BsT
-          mkdir*-p public/Blend
-          mkdir -p*data
-          mkdir -p data/pick_*istory/all
-          mkdir -p data*pick_history/top5
-          mkdir *p data/results
-          mkdir -p *ata/marq_ai
-          mkdir -p dat*/tennisapi_cache
+ *        python tennisapi_cache.py
+*      - name: Run predictions
+    *   env:
+          ODDS_API_KEY: ${* secrets.ODDS_API_KEY }}
+         *RAPIDAPI_KEY: ${{ secrets.RAPIDAPI*KEY }}
+          TENNISAPI_RAPIDAP*_KEY: ${{ secrets.RAPIDAPI_KEY }}
+*         SGOAPI: ${{ secrets.SGOAP* }}
+          TENNISAPI_CATEGORY_I*S: "3,6,871"
+          TENNISAPI_P*OVIDER_ID: "1"
+          RESULTS_L*OKBACK_DAYS: "90"
+          ODDS_S*AN_DAYS_AHEAD: "1"
+          ODDS_*CAN_DAYS_BACK: "0"
+        run: |
+*         python update.py
 
-      - name: Wa*m TennisApi cache
+      -*name: Build Corq, Thinq, Blend and*ALL pages
         env:
-   *      ODDS_API_KEY: ${{ secrets.OD*S_API_KEY }}
-          RAPIDAPI_KE*: ${{ secrets.RAPIDAPI_KEY }}
-    *     TENNISAPI_RAPIDAPI_KEY: ${{ s*crets.RAPIDAPI_KEY }}
-          SG*API: ${{ secrets.SGOAPI }}
-       *  TENNISAPI_CATEGORY_IDS: "3,6,871*
-          TENNISAPI_PROVIDER_ID: *1"
-          RESULTS_LOOKBACK_DAYS* "90"
-          ODDS_SCAN_DAYS_AHE*D: "1"
-          ODDS_SCAN_DAYS_BA*K: "0"
-        run: |
-          py*hon tennisapi_cache.py
+          O*DS_API_KEY: ${{ secrets.ODDS_API_K*Y }}
+          RAPIDAPI_KEY: ${{ s*crets.RAPIDAPI_KEY }}
+          TE*NISAPI_RAPIDAPI_KEY: ${{ secrets.R*PIDAPI_KEY }}
+          SGOAPI: ${* secrets.SGOAPI }}
+          TENNI*API_CATEGORY_IDS: "3,6,871"
+      *   TENNISAPI_PROVIDER_ID: "1"
+    *     RESULTS_LOOKBACK_DAYS: "90"
+ *        ODDS_SCAN_DAYS_AHEAD: "1"
+*         ODDS_SCAN_DAYS_BACK: "0"
+*       run: |
+          python bui*d_pages.py
 
-      - na*e: Run predictions
+      - name: Run resu*ts checker
         env:
-  *       ODDS_API_KEY: ${{ secrets.O*DS_API_KEY }}
-          RAPIDAPI_K*Y: ${{ secrets.RAPIDAPI_KEY }}
-   *      TENNISAPI_RAPIDAPI_KEY: ${{ *ecrets.RAPIDAPI_KEY }}
-          S*OAPI: ${{ secrets.SGOAPI }}
-      *   TENNISAPI_CATEGORY_IDS: "3,6,87*"
-          TENNISAPI_PROVIDER_ID:*"1"
-          RESULTS_LOOKBACK_DAY*: "90"
-          ODDS_SCAN_DAYS_AH*AD: "1"
-          ODDS_SCAN_DAYS_B*CK: "0"
-        run: |
-          p*thon update.py
-
-      - name: Buil* Corq, Thinq, Blend and ALL pages
-*       env:
-          ODDS_API_KEY* ${{ secrets.ODDS_API_KEY }}
-     *    RAPIDAPI_KEY: ${{ secrets.RAPI*API_KEY }}
-          TENNISAPI_RAP*DAPI_KEY: ${{ secrets.RAPIDAPI_KEY*}}
-          SGOAPI: ${{ secrets.S*OAPI }}
-          TENNISAPI_CATEGORY_IDS: "3,6,871"
-          TENNISAPI_PROVIDER_ID: "1"
-          RESULTS_LOOKBACK_DAYS: "90"
-          ODDS_SCAN_DAYS_AHEAD: "1"
-          ODDS_SCAN_DAYS_BACK: "0"
-        run: |
-          python build_pages.py
-
-      - name: Run results checker
-        env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
-          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
-          TENNISAPI_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
-          SGOAPI: ${{ secrets.SGOAPI }}
-          TENNISAPI_CATEGORY_IDS: "3,6,871"
-          TENNISAPI_PROVIDER_ID: "1"
-          RESULTS_LOOKBACK_DAYS: "90"
-          ODDS_SCAN_DAYS_AHEAD: "1"
-          ODDS_SCAN_DAYS_BACK: "0"
+          *DDS_API_KEY: ${{ secrets.ODDS_API_*EY }}
+          RAPIDAPI_KEY: ${{ *ecrets.RAPIDAPI_KEY }}
+          T*NNISAPI_RAPIDAPI_KEY: ${{ secrets.*APIDAPI_KEY }}
+          SGOAPI: $*{ secrets.SGOAPI }}
+          TENN*SAPI_CATEGORY_IDS: "3,6,871"
+     *    TENNISAPI_PROVIDER_ID: "1"
+   *      RESULTS_LOOKBACK_DAYS: "90"
+*         ODDS_SCAN_DAYS_AHEAD: "1"*          ODDS_SCAN_DAYS_BACK: "0"
         run: |
           python results_checker.py
 
