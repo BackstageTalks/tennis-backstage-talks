@@ -20,8 +20,9 @@ def ensure_dir(path):
     Path(path).mkdir(parents=True, exist_ok=True)
 
 
-def html_link(url, label):
-    return f'<a href="{url}">{label}</a>'
+def html_link(url, label, active=False):
+    active_attr = ' class="active"' if active else ""
+    return f'<a href="{url}"{active_attr}>{label}</a>'
 
 
 def copy_file(source, destination):
@@ -63,24 +64,11 @@ def create_root_redirect():
   <meta http-equiv="refresh" content="0; url=./{CORQ_PATH}/">
   <title>BackstageTalks</title>
   <style>
-    body {{
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0f172a;
-      color: #e5e7eb;
-      font-family: Arial, Helvetica, sans-serif;
-    }}
-    a {{ color: #38bdf8; font-weight: 800; }}
+    body {{ margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; background:#0f172a; color:#e5e7eb; font-family:Arial,Helvetica,sans-serif; }}
+    a {{ color:#38bdf8; font-weight:800; }}
   </style>
 </head>
-<body>
-  <div>
-    Redirecting to <a href="./{CORQ_PATH}/">Corq</a>...
-  </div>
-</body>
+<body><div>Redirecting to <a href="./{CORQ_PATH}/">Corq</a>...</div></body>
 </html>
 ''',
         encoding="utf-8",
@@ -88,16 +76,33 @@ def create_root_redirect():
     print("ROOT REDIRECT CREATED:", root_path)
 
 
-def build_nav_html():
+def active_key_for_path(path):
+    normalized = str(path).replace("\\", "/")
+
+    if normalized == f"public/{CORQ_PATH}/index.html":
+        return "corq"
+    if normalized == f"public/{THINQ_PATH}/index.html":
+        return "thinq"
+    if normalized == f"public/{BLEND_PATH}/index.html":
+        return "blend"
+    if normalized == f"public/{ALL_PATH}/index.html":
+        return "all"
+    if normalized == f"public/{RESULTS_PATH}/index.html":
+        return "results"
+
+    return ""
+
+
+def build_nav_html(active_key=""):
     links = [
-        html_link(f"{BASE_URL}/{CORQ_PATH}/", "Corq"),
-        html_link(f"{BASE_URL}/{THINQ_PATH}/", "Thinq"),
-        html_link(f"{BASE_URL}/{BLEND_PATH}/", "Blend"),
+        html_link(f"{BASE_URL}/{CORQ_PATH}/", "Corq", active_key == "corq"),
+        html_link(f"{BASE_URL}/{THINQ_PATH}/", "Thinq", active_key == "thinq"),
+        html_link(f"{BASE_URL}/{BLEND_PATH}/", "Blend", active_key == "blend"),
         html_link(f"{BASE_URL}/{CORQ_RSS_PATH}", "Corq RSS"),
         html_link(f"{BASE_URL}/{THINQ_RSS_PATH}", "Thinq RSS"),
         html_link(f"{BASE_URL}/{BLEND_RSS_PATH}", "Blend RSS"),
-        html_link(f"{BASE_URL}/{ALL_PATH}/", "All"),
-        html_link(f"{BASE_URL}/{RESULTS_PATH}/", "Results"),
+        html_link(f"{BASE_URL}/{ALL_PATH}/", "All", active_key == "all"),
+        html_link(f"{BASE_URL}/{RESULTS_PATH}/", "Results", active_key == "results"),
     ]
 
     return f'''
@@ -107,6 +112,29 @@ def build_nav_html():
 '''
 
 
+def ensure_active_nav_css(path):
+    file_path = Path(path)
+    text = file_path.read_text(encoding="utf-8", errors="replace")
+
+    if ".nav a.active" in text:
+        return text
+
+    css = ".nav a.active { background:rgba(34,197,94,.18); color:#22c55e; padding:7px 9px; border-radius:3px; }"
+
+    if ".nav a:hover" in text:
+        text = re.sub(
+            r"(\.nav a:hover\s*\{[^}]*\})",
+            r"\1\n" + css,
+            text,
+            count=1,
+            flags=re.DOTALL,
+        )
+    else:
+        text = text.replace("</style>", css + "\n</style>")
+
+    return text
+
+
 def replace_navigation_in_file(path):
     file_path = Path(path)
 
@@ -114,8 +142,8 @@ def replace_navigation_in_file(path):
         print("SKIP NAV FIX - FILE MISSING:", path)
         return False
 
-    text = file_path.read_text(encoding="utf-8", errors="replace")
-    nav_html = build_nav_html()
+    text = ensure_active_nav_css(path)
+    nav_html = build_nav_html(active_key_for_path(path))
 
     new_text, count = re.subn(
         r'<nav class="nav" aria-label="Main navigation">.*?</nav>',
@@ -156,7 +184,7 @@ def rewrite_rss_links(path, page_url):
 def create_placeholder_page(destination, title, message):
     destination_path = Path(destination)
     ensure_dir(destination_path.parent)
-    nav_html = build_nav_html()
+    nav_html = build_nav_html(active_key_for_path(destination))
     page_html = f'''<!doctype html>
 <html>
 <head>
@@ -169,6 +197,7 @@ def create_placeholder_page(destination, title, message):
     .nav {{ display:flex; gap:18px; align-items:center; flex-wrap:wrap; margin-bottom:28px; }}
     .nav a {{ color:#e5e7eb; text-decoration:none; font-weight:900; font-size:14px; letter-spacing:.04em; }}
     .nav a:hover {{ color:#38bdf8; }}
+    .nav a.active {{ background:rgba(34,197,94,.18); color:#22c55e; padding:7px 9px; border-radius:3px; }}
     .card {{ background:#111827; border:1px solid #334155; border-radius:16px; padding:24px; }}
     h1 {{ margin-top:0; }}
     p {{ color:#94a3b8; line-height:1.6; }}
