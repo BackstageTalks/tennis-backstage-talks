@@ -11,42 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 40,
-  "found_count": 30,
-  "missing_count": 10,
+  "lookup_count": 36,
+  "found_count": 28,
+  "missing_count": 8,
   "examples_found": [
-    {
-      "input": "Angela Fita Boluda",
-      "matched": "Angela Fita Boluda",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1444.4,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Lisa Pigato",
-      "matched": "Lisa Pigato",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1601.3,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Naomi Osaka",
-      "matched": "Naomi Osaka",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1987.4,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Karolina Muchova",
-      "matched": "Karolina Muchova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 2066.1,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Felix Auger-Aliassime",
       "matched": "Felix Auger Aliassime",
@@ -77,6 +45,22 @@
       "method": "exact",
       "score": 1.0,
       "elo": 1578.3,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Angela Fita Boluda",
+      "matched": "Angela Fita Boluda",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1444.4,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Lisa Pigato",
+      "matched": "Lisa Pigato",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1601.3,
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
@@ -257,16 +241,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Bajraliu L / Deng T T",
-      "normalized": "bajraliu l / deng t t",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Da Silva Fick G / McGiffin T",
-      "normalized": "da silva fick g / mcgiffin t",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Harrison C / Zhang S",
       "normalized": "harrison c / zhang s",
