@@ -11,82 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 96,
-  "found_count": 60,
-  "missing_count": 36,
+  "lookup_count": 82,
+  "found_count": 51,
+  "missing_count": 31,
   "examples_found": [
-    {
-      "input": "Aneta Laboutkova",
-      "matched": "Aneta Laboutkova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1220.4,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Caijsa Wilda Hennemann",
-      "matched": "Caijsa Wilda Hennemann",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1509.1,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Mona Barthel",
-      "matched": "Mona Barthel",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1550.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Lola Radivojević",
-      "matched": "Lola Radivojevic",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1554.7,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Amandine Monnot",
-      "matched": "Amandine Monnot",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1508.7,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Leolia Jeanjean",
-      "matched": "Leolia Jeanjean",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1653.2,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Laura Pigossi",
-      "matched": "Laura Pigossi",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1477.5,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Yasmine Kabbaj",
-      "matched": "Yasmine Kabbaj",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1444.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Mayar Sherif",
-      "matched": "Mayar Sherif",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1684.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Tamara Korpatsch",
       "matched": "Tamara Korpatsch",
@@ -254,34 +182,81 @@
       "score": 1.0,
       "elo": 2071.2,
       "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Lisa Zaar",
+      "matched": "Lisa Zaar",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1526.7,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Varvara Lepchenko",
+      "matched": "Varvara Lepchenko",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1578.3,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Angela Fita Boluda",
+      "matched": "Angela Fita Boluda",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1444.4,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Lisa Pigato",
+      "matched": "Lisa Pigato",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1601.3,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Naomi Osaka",
+      "matched": "Naomi Osaka",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1987.4,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Karolina Muchova",
+      "matched": "Karolina Muchova",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 2066.1,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Felix Auger-Aliassime",
+      "matched": "Felix Auger Aliassime",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1957.9,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Novak Djokovic",
+      "matched": "Novak Djokovic",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 2059.3,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Tatjana Maria",
+      "matched": "Tatjana Maria",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1702.5,
+      "source": "data/elo/wta_elo_latest.csv"
     }
   ],
   "examples_missing": [
-    {
-      "input": "Grace Bernstein",
-      "normalized": "grace bernstein",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "June Bjork",
-      "normalized": "june bjork",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Maria Carle",
-      "normalized": "maria carle",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Ayukawa M / Morisaki K",
-      "normalized": "ayukawa m / morisaki k",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Lee Y / Ye Q Y",
-      "normalized": "lee y / ye q y",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Linea Bajraliu",
       "normalized": "linea bajraliu",
