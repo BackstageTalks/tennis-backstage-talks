@@ -1,0 +1,3775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BackstageTalks Statistic Model</title>
+<style>
+:root { --bg:#0f172a; --panel:#111827; --panel-2:#1e293b; --border:#334155; --text:#e5e7eb; --muted:#94a3b8; --green:#22c55e; --orange:#fb923c; --red:#ef4444; --yellow:#facc15; --blue:#38bdf8; }
+* { box-sizing:border-box; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family:Arial, Helvetica, sans-serif; }
+.wrapper { max-width:1440px; margin:0 auto; padding:28px; }
+.header { display:grid; grid-template-columns:minmax(560px,1fr) auto; gap:40px; align-items:start; margin-bottom:24px; }
+.logo { font-size:30px; font-weight:900; line-height:1.15; color:var(--text); letter-spacing:.2px; white-space:nowrap; }
+.subtitle { color:var(--muted); margin-top:10px; font-size:14px; line-height:1.45; max-width:800px; }
+.nav { display:flex; gap:18px; align-items:center; flex-wrap:nowrap; padding-top:8px; white-space:nowrap; }
+.nav a { color:var(--text); text-decoration:none; font-weight:900; font-size:14px; letter-spacing:.04em; }
+.nav a:hover { color:var(--blue); }
+.summary { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px; }
+.summary-card { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px; }
+.summary-label { color:var(--muted); font-size:13px; margin-bottom:8px; }
+.summary-value { font-size:22px; font-weight:800; }
+.summary-value.small { font-size:14px; }
+.table-wrap { overflow-x:auto; background:var(--panel); border:1px solid var(--border); border-radius:16px; }
+table { width:100%; border-collapse:collapse; min-width:1040px; }
+thead { background:var(--panel-2); }
+th { padding:14px 12px; text-align:left; font-size:13px; color:var(--muted); border-bottom:1px solid var(--border); text-transform:uppercase; letter-spacing:.04em; }
+td { padding:16px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
+tr:hover { background:rgba(255,255,255,.03); }
+.rank { font-weight:800; color:var(--blue); }
+.pick-name { font-size:20px; line-height:1.12; font-weight:900; }
+.pick-sub { color:var(--green); font-size:14px; line-height:1.1; margin-top:4px; font-weight:900; }
+.match-name { color:var(--muted); font-size:12px; line-height:1.18; margin-top:7px; }
+.match-meta { color:var(--blue); font-size:12px; line-height:1.18; margin-top:5px; font-weight:700; }
+.probability { font-weight:800; color:var(--green); }
+.odds { font-weight:800; color:var(--yellow); }
+.intel { line-height:1.45; min-width:390px; }
+.intel-title { margin-bottom:6px; color:var(--muted); font-size:11px; font-weight:900; letter-spacing:.04em; text-transform:uppercase; }
+.intel-layout { display:grid; grid-template-columns:minmax(110px,1fr) minmax(110px,1fr) minmax(130px,1.15fr); gap:8px; align-items:stretch; }
+.intel-panel { min-height:92px; padding:8px 9px; border-radius:8px; font-size:11px; line-height:1.35; background:rgba(100,116,139,.14); border:1px solid rgba(100,116,139,.38); }
+.panel-title { color:#fff; font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; }
+.metric-row { display:grid; grid-template-columns:58px auto; column-gap:7px; align-items:center; margin-top:3px; }
+.metric-row span { color:var(--muted); }
+.metric-row strong { text-align:right; color:var(--text); font-weight:900; }
+.ai-delta { margin-top:7px; text-align:right; font-size:10px; font-weight:900; }
+.delta-thinq { color:var(--blue); } .delta-corq { color:var(--orange); } .delta-even { color:var(--muted); } .delta-muted { color:var(--muted); }
+.market-badge { display:inline-block; margin-top:8px; padding:5px 10px; border-radius:5px; font-size:10px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
+.market-bullish { color:#22c55e; border:1px solid rgba(34,197,94,.45); background:rgba(34,197,94,.08); }
+.market-support { color:#38bdf8; border:1px solid rgba(56,189,248,.45); background:rgba(56,189,248,.08); }
+.market-neutral { color:#94a3b8; border:1px solid rgba(148,163,184,.45); background:rgba(148,163,184,.08); }
+.market-caution { color:#fb923c; border:1px solid rgba(251,146,60,.45); background:rgba(251,146,60,.08); }
+.market-bearish { color:#ef4444; border:1px solid rgba(239,68,68,.45); background:rgba(239,68,68,.08); }
+.market-unavailable { color:#94a3b8; border:1px solid rgba(148,163,184,.35); background:rgba(148,163,184,.05); text-transform:none; }
+.empty { text-align:center; color:var(--muted); padding:40px; }
+.footer { max-width:900px; margin:38px auto 0; color:var(--muted); font-size:12px; text-align:center; line-height:1.7; }
+@media (max-width:1050px) { .header{display:block;} .logo{white-space:normal;} .nav{margin-top:16px; padding-top:0; flex-wrap:wrap;} .summary{grid-template-columns:1fr 1fr;} }
+@media (max-width:700px) { .wrapper{padding:16px;} .summary{grid-template-columns:1fr;} .intel-layout{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="header"><div><div class="logo">BackstageTalks Statistical Engine</div><div class="subtitle">This data is provided for informational and analytical purposes only</div></div>
+
+<nav class="nav" aria-label="Main navigation">
+    <a href="https://backstagetalks.github.io/tennis-backstage-talks/h4v34n1c3d4y180/">Corq</a> <a href="https://backstagetalks.github.io/tennis-backstage-talks/h4v34n1c3d4y181/">Thinq</a> <a href="https://backstagetalks.github.io/tennis-backstage-talks/h4v34n1c3d4y185.xml">Corq RSS</a> <a href="https://backstagetalks.github.io/tennis-backstage-talks/h4v34n1c3d4y186.xml">Thinq RSS</a> <a href="https://backstagetalks.github.io/tennis-backstage-talks/h4v34n1c3d4y183/">All</a> <a href="https://backstagetalks.github.io/tennis-backstage-talks/h4v34n1c3d4y184/">Results</a>
+</nav>
+
+</div>
+    
+<div class="summary">
+    <div class="summary-card"><div class="summary-label">Picks</div><div class="summary-value">48</div></div>
+    <div class="summary-card"><div class="summary-label">Average Win %</div><div class="summary-value">63.8%</div></div>
+    <div class="summary-card"><div class="summary-label">Average AI Match</div><div class="summary-value">94.3%</div></div>
+    <div class="summary-card"><div class="summary-label">Updated</div><div class="summary-value small">2026-07-07 07:51 UTC</div></div>
+</div>
+
+    <div class="table-wrap"><table><thead><tr><th>#</th><th>Pick</th><th>Opponent</th><th>Time</th><th>Win %</th><th>Odds</th><th>Match Intelligence</th></tr></thead><tbody>
+<tr>
+    <td class="rank">#1</td>
+    <td class="pick-cell">
+        <div class="pick-name">Jeline Vandromme</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Jeline Vandromme vs Diana Martynov</div>
+        <div class="match-meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+    <td>Diana Martynov</td>
+    <td>12:10</td>
+    <td class="probability">85.0%</td>
+    <td class="odds">1.12</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>85.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>90.5%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>94.5%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +5.5%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#2</td>
+    <td class="pick-cell">
+        <div class="pick-name">Elsa Jacquemot</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Aurora Zantedeschi vs Elsa Jacquemot</div>
+        <div class="match-meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+    <td>Aurora Zantedeschi</td>
+    <td>13:20</td>
+    <td class="probability">85.0%</td>
+    <td class="odds">1.40</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>85.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>90.9%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>94.1%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +5.9%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.4</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>40.5%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#3</td>
+    <td class="pick-cell">
+        <div class="pick-name">Elina Avanesyan</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Elina Avanesyan vs Alicia Herrero Linana</div>
+        <div class="match-meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+    <td>Alicia Herrero Linana</td>
+    <td>13:20</td>
+    <td class="probability">85.0%</td>
+    <td class="odds">1.12</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>85.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>90.1%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>94.9%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +5.1%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#4</td>
+    <td class="pick-cell">
+        <div class="pick-name">Oksana Selekhmeteva</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Yelyzaveta Kotliar vs Oksana Selekhmeteva</div>
+        <div class="match-meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+    <td>Yelyzaveta Kotliar</td>
+    <td>13:20</td>
+    <td class="probability">85.0%</td>
+    <td class="odds">1.17</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>85.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>92.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>93.0%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +7.0%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#5</td>
+    <td class="pick-cell">
+        <div class="pick-name">Jannik Sinner</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Jannik Sinner vs Jan-Lennard Struff</div>
+        <div class="match-meta">Wimbledon • Grass • BO5</div>
+    </td>
+    <td>Jan-Lennard Struff</td>
+    <td>14:00</td>
+    <td class="probability">85.0%</td>
+    <td class="odds">1.03</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>85.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>93.6%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>91.4%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +8.6%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>3.55</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>5 Sets</span>
+                <strong>13.1%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>3-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#6</td>
+    <td class="pick-cell">
+        <div class="pick-name">Katie Volynets</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Katie Volynets vs Ariana Arseneault</div>
+        <div class="match-meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+    <td>Ariana Arseneault</td>
+    <td>18:10</td>
+    <td class="probability">85.0%</td>
+    <td class="odds">1.06</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>85.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>93.9%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>91.1%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +8.9%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#7</td>
+    <td class="pick-cell">
+        <div class="pick-name">Francesca Jones</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Francesca Jones vs Alice Rame</div>
+        <div class="match-meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+    <td>Alice Rame</td>
+    <td>12:10</td>
+    <td class="probability">83.4%</td>
+    <td class="odds">1.17</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>83.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>91.3%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>92.1%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +7.9%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#8</td>
+    <td class="pick-cell">
+        <div class="pick-name">Grace Bernstein</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Aneta Laboutkova vs Grace Bernstein</div>
+        <div class="match-meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+    <td>Aneta Laboutkova</td>
+    <td>11:00</td>
+    <td class="probability">83.3%</td>
+    <td class="odds">10.00</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>83.3%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#9</td>
+    <td class="pick-cell">
+        <div class="pick-name">Kylie Collins</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Kylie Collins vs Alana Smith</div>
+        <div class="match-meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+    <td>Alana Smith</td>
+    <td>18:10</td>
+    <td class="probability">80.9%</td>
+    <td class="odds">2.00</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>80.9%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.46</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>45.5%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#10</td>
+    <td class="pick-cell">
+        <div class="pick-name">Petra Marčinko</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Petra Marčinko vs Clara Burel</div>
+        <div class="match-meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+    <td>Clara Burel</td>
+    <td>17:30</td>
+    <td class="probability">80.4%</td>
+    <td class="odds">1.36</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>80.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.4</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>39.5%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#11</td>
+    <td class="pick-cell">
+        <div class="pick-name">Mayar Sherif</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Yasmine Kabbaj vs Mayar Sherif</div>
+        <div class="match-meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+    <td>Yasmine Kabbaj</td>
+    <td>11:00</td>
+    <td class="probability">79.9%</td>
+    <td class="odds">1.17</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>79.9%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>70.2%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>90.3%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +9.7%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#12</td>
+    <td class="pick-cell">
+        <div class="pick-name">Madison Brengle</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Madison Brengle vs Ana Sofia Sanchez</div>
+        <div class="match-meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+    <td>Ana Sofia Sanchez</td>
+    <td>18:10</td>
+    <td class="probability">79.9%</td>
+    <td class="odds">1.17</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>79.9%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>79.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>99.5%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +0.5%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#13</td>
+    <td class="pick-cell">
+        <div class="pick-name">Tatjana Maria</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Olivia Lincer vs Tatjana Maria</div>
+        <div class="match-meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+    <td>Olivia Lincer</td>
+    <td>17:00</td>
+    <td class="probability">76.2%</td>
+    <td class="odds">1.06</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>76.2%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#14</td>
+    <td class="pick-cell">
+        <div class="pick-name">Elizabeth Mandlik</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Momoko Kobori vs Elizabeth Mandlik</div>
+        <div class="match-meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+    <td>Momoko Kobori</td>
+    <td>18:45</td>
+    <td class="probability">73.3%</td>
+    <td class="odds">1.44</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>73.3%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>73.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>99.9%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +0.1%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.41</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>41.2%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#15</td>
+    <td class="pick-cell">
+        <div class="pick-name">Tamara Korpatsch</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Linea Bajraliu vs Tamara Korpatsch</div>
+        <div class="match-meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+    <td>Linea Bajraliu</td>
+    <td>12:10</td>
+    <td class="probability">72.4%</td>
+    <td class="odds">1.20</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>72.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#16</td>
+    <td class="pick-cell">
+        <div class="pick-name">Lisa Pigato</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Angela Fita Boluda vs Lisa Pigato</div>
+        <div class="match-meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+    <td>Angela Fita Boluda</td>
+    <td>14:30</td>
+    <td class="probability">71.2%</td>
+    <td class="odds">1.33</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>71.2%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>82.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>88.8%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +11.2%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.39</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.6%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#17</td>
+    <td class="pick-cell">
+        <div class="pick-name">Mary Stoiana</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Katrina Scott vs Mary Stoiana</div>
+        <div class="match-meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+    <td>Katrina Scott</td>
+    <td>19:20</td>
+    <td class="probability">70.9%</td>
+    <td class="odds">1.17</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>70.9%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>65.5%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>94.6%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +5.4%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#18</td>
+    <td class="pick-cell">
+        <div class="pick-name">Leolia Jeanjean</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Amandine Monnot vs Leolia Jeanjean</div>
+        <div class="match-meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+    <td>Amandine Monnot</td>
+    <td>11:00</td>
+    <td class="probability">69.7%</td>
+    <td class="odds">1.22</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>69.7%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>65.3%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>95.6%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +4.4%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#19</td>
+    <td class="pick-cell">
+        <div class="pick-name">Dalma Galfi</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Dalma Galfi vs Kajsa Rinaldo Persson</div>
+        <div class="match-meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+    <td>Kajsa Rinaldo Persson</td>
+    <td>13:20</td>
+    <td class="probability">68.5%</td>
+    <td class="odds">1.40</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>68.5%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>70.5%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>98.0%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +2.0%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.4</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>40.5%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#20</td>
+    <td class="pick-cell">
+        <div class="pick-name">Alice Tubello</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Alice Tubello vs Yufei Ren</div>
+        <div class="match-meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+    <td>Yufei Ren</td>
+    <td>12:10</td>
+    <td class="probability">67.4%</td>
+    <td class="odds">1.22</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>67.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>53.5%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>86.1%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +13.9%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#21</td>
+    <td class="pick-cell">
+        <div class="pick-name">Clervie Ngounoue</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Lea Ma vs Clervie Ngounoue</div>
+        <div class="match-meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+    <td>Lea Ma</td>
+    <td>20:30</td>
+    <td class="probability">67.4%</td>
+    <td class="odds">1.50</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>67.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>66.2%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>98.8%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +1.2%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.42</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>42.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#22</td>
+    <td class="pick-cell">
+        <div class="pick-name">Novak Djokovic</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Felix Auger-Aliassime vs Novak Djokovic</div>
+        <div class="match-meta">Wimbledon • Grass • BO5</div>
+    </td>
+    <td>Felix Auger-Aliassime</td>
+    <td>16:05</td>
+    <td class="probability">64.2%</td>
+    <td class="odds">1.53</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>64.2%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>68.6%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>95.6%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +4.4%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>3.97</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>5 Sets</span>
+                <strong>30.9%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-3</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#23</td>
+    <td class="pick-cell">
+        <div class="pick-name">Cadence Brace</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Katherine Sebov vs Cadence Brace</div>
+        <div class="match-meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+    <td>Katherine Sebov</td>
+    <td>17:35</td>
+    <td class="probability">63.8%</td>
+    <td class="odds">1.83</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>63.8%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>63.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>99.2%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +0.8%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.47</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>47.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#24</td>
+    <td class="pick-cell">
+        <div class="pick-name">Karolina Muchova</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Naomi Osaka vs Karolina Muchova</div>
+        <div class="match-meta">Wimbledon • Grass • BO3</div>
+    </td>
+    <td>Naomi Osaka</td>
+    <td>15:40</td>
+    <td class="probability">61.1%</td>
+    <td class="odds">2.10</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>61.1%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>58.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>97.3%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +2.7%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.47</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>47.1%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#25</td>
+    <td class="pick-cell">
+        <div class="pick-name">Sinja Kraus</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Sinja Kraus vs Claire Liu</div>
+        <div class="match-meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+    <td>Claire Liu</td>
+    <td>12:10</td>
+    <td class="probability">59.5%</td>
+    <td class="odds">2.20</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>59.5%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>51.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>91.9%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +8.1%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.44</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>43.9%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#26</td>
+    <td class="pick-cell">
+        <div class="pick-name">Varvara Lepchenko</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Lisa Zaar vs Varvara Lepchenko</div>
+        <div class="match-meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+    <td>Lisa Zaar</td>
+    <td>14:30</td>
+    <td class="probability">57.4%</td>
+    <td class="odds">1.83</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>57.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>72.1%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>85.3%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +14.7%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.47</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>47.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#27</td>
+    <td class="pick-cell">
+        <div class="pick-name">Kayla Cross</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Sayaka Ishii vs Kayla Cross</div>
+        <div class="match-meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+    <td>Sayaka Ishii</td>
+    <td>18:10</td>
+    <td class="probability">56.4%</td>
+    <td class="odds">1.62</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>56.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>56.2%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>99.8%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +0.2%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.44</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>43.9%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#28</td>
+    <td class="pick-cell">
+        <div class="pick-name">Jessica Pegula</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Jessica Pegula vs Coco Gauff</div>
+        <div class="match-meta">Wimbledon • Grass • BO3</div>
+    </td>
+    <td>Coco Gauff</td>
+    <td>14:30</td>
+    <td class="probability">53.6%</td>
+    <td class="odds">1.62</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>53.6%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>61.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>92.2%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +7.8%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.45</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>45.5%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#29</td>
+    <td class="pick-cell">
+        <div class="pick-name">Mananchaya Sawangkaew</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Mananchaya Sawangkaew vs Caroline Dolehide</div>
+        <div class="match-meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+    <td>Caroline Dolehide</td>
+    <td>19:55</td>
+    <td class="probability">53.4%</td>
+    <td class="odds">1.44</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>53.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>52.8%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>99.4%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +0.6%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.41</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>41.2%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#30</td>
+    <td class="pick-cell">
+        <div class="pick-name">Maria Carle</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Maria Carle vs Laura Pigossi</div>
+        <div class="match-meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+    <td>Laura Pigossi</td>
+    <td>11:00</td>
+    <td class="probability">53.2%</td>
+    <td class="odds">1.36</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>53.2%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.4</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>39.5%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#31</td>
+    <td class="pick-cell">
+        <div class="pick-name">Sachia Vickery</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Sachia Vickery vs Reese Brantmeier</div>
+        <div class="match-meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+    <td>Reese Brantmeier</td>
+    <td>20:30</td>
+    <td class="probability">52.2%</td>
+    <td class="odds">3.00</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>52.2%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.4</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>39.5%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#32</td>
+    <td class="pick-cell">
+        <div class="pick-name">Caijsa Wilda Hennemann</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">June Bjork vs Caijsa Wilda Hennemann</div>
+        <div class="match-meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+    <td>June Bjork</td>
+    <td>11:00</td>
+    <td class="probability">51.3%</td>
+    <td class="odds">1.01</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>51.3%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#33</td>
+    <td class="pick-cell">
+        <div class="pick-name">Hayu Kinoshita</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Iryna Shymanovich vs Hayu Kinoshita</div>
+        <div class="match-meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+    <td>Iryna Shymanovich</td>
+    <td>19:20</td>
+    <td class="probability">50.6%</td>
+    <td class="odds">2.38</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.6%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>57.3%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>93.3%</strong>
+            </div>
+
+            <div class="ai-delta delta-thinq">Thinq +6.7%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.43</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>42.7%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#34</td>
+    <td class="pick-cell">
+        <div class="pick-name">Lola Radivojević</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Mona Barthel vs Lola Radivojević</div>
+        <div class="match-meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+    <td>Mona Barthel</td>
+    <td>11:00</td>
+    <td class="probability">50.5%</td>
+    <td class="odds">1.36</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.5%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.4</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>39.5%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#35</td>
+    <td class="pick-cell">
+        <div class="pick-name">Ayukawa M / Morisaki K</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Ayukawa M / Morisaki K vs Lee Y / Ye Q Y</div>
+        <div class="match-meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+    <td>Lee Y / Ye Q Y</td>
+    <td>11:00</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">2.62</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.41</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>41.2%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#36</td>
+    <td class="pick-cell">
+        <div class="pick-name">Burillo Escorihuela I / Romero Gormaz L</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Burillo Escorihuela I / Romero Gormaz L vs Barnett A / Lechemia E</div>
+        <div class="match-meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+    <td>Barnett A / Lechemia E</td>
+    <td>12:10</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">1.57</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.43</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>43.5%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#37</td>
+    <td class="pick-cell">
+        <div class="pick-name">Karamoko N / Semenistaja D</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Karamoko N / Semenistaja D vs Pridankina E / Yashina E</div>
+        <div class="match-meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+    <td>Pridankina E / Yashina E</td>
+    <td>12:10</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">1.73</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.46</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>45.5%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#38</td>
+    <td class="pick-cell">
+        <div class="pick-name">Arango E / Waltert S</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Arango E / Waltert S vs Noha Akugue N / Wagner A</div>
+        <div class="match-meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+    <td>Noha Akugue N / Wagner A</td>
+    <td>13:20</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">1.36</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.4</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>39.5%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#39</td>
+    <td class="pick-cell">
+        <div class="pick-name">Kucmova A / Laboutková A</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Kucmova A / Laboutková A vs Salden L / Strakhova V</div>
+        <div class="match-meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+    <td>Salden L / Strakhova V</td>
+    <td>13:20</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">1.73</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.46</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>45.5%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#40</td>
+    <td class="pick-cell">
+        <div class="pick-name">Uchijima M / Webley-Smith E</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Uchijima M / Webley-Smith E vs Bhosale R / Li Y-Y</div>
+        <div class="match-meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+    <td>Bhosale R / Li Y-Y</td>
+    <td>13:20</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">2.50</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.42</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>42.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#41</td>
+    <td class="pick-cell">
+        <div class="pick-name">McNally C / Hunter S</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">McNally C / Hunter S vs Dabrowski G / Stefani L</div>
+        <div class="match-meta">Wimbledon, Doubles • Grass • BO3</div>
+    </td>
+    <td>Dabrowski G / Stefani L</td>
+    <td>14:00</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">3.25</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.41</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>40.9%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#42</td>
+    <td class="pick-cell">
+        <div class="pick-name">Siniakova K / Townsend T</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Siniakova K / Townsend T vs Muhammad A / Stollar F</div>
+        <div class="match-meta">Wimbledon, Doubles • Grass • BO3</div>
+    </td>
+    <td>Muhammad A / Stollar F</td>
+    <td>14:00</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">1.07</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.3</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>29.8%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#43</td>
+    <td class="pick-cell">
+        <div class="pick-name">Sramkova R / Noskova L</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Sramkova R / Noskova L vs Piter K / Siskova A</div>
+        <div class="match-meta">Wimbledon, Doubles • Grass • BO3</div>
+    </td>
+    <td>Piter K / Siskova A</td>
+    <td>14:00</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">2.10</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.47</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>46.7%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#44</td>
+    <td class="pick-cell">
+        <div class="pick-name">Bajraliu L / Deng T T</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Bajraliu L / Deng T T vs Da Silva Fick G / McGiffin T</div>
+        <div class="match-meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+    <td>Da Silva Fick G / McGiffin T</td>
+    <td>14:30</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">4.50</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.38</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>38.0%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#45</td>
+    <td class="pick-cell">
+        <div class="pick-name">Heliovaara H / Patten H</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Heliovaara H / Patten H vs Andreozzi G / Guinard M</div>
+        <div class="match-meta">Wimbledon, Doubles • Grass • BO3</div>
+    </td>
+    <td>Andreozzi G / Guinard M</td>
+    <td>15:10</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">1.25</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.42</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>42.4%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#46</td>
+    <td class="pick-cell">
+        <div class="pick-name">Krajicek A / Mektic N</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Krajicek A / Mektic N vs Kokkinakis T / Kovacevic A</div>
+        <div class="match-meta">Wimbledon, Doubles • Grass • BO3</div>
+    </td>
+    <td>Kokkinakis T / Kovacevic A</td>
+    <td>15:10</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">1.73</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.58</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>57.7%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-1</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#47</td>
+    <td class="pick-cell">
+        <div class="pick-name">Harrison C / Zhang S</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Harrison C / Zhang S vs Arevalo M / Ostapenko J</div>
+        <div class="match-meta">Wimbledon, Mixed Doubles • Grass • BO3</div>
+    </td>
+    <td>Arevalo M / Ostapenko J</td>
+    <td>16:20</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">1.83</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.52</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>52.1%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#48</td>
+    <td class="pick-cell">
+        <div class="pick-name">Polmans M / Hunter S</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Polmans M / Hunter S vs Pavic M / Stollar F</div>
+        <div class="match-meta">Wimbledon, Mixed Doubles • Grass • BO3</div>
+    </td>
+    <td>Pavic M / Stollar F</td>
+    <td>16:20</td>
+    <td class="probability">50.0%</td>
+    <td class="odds">1.83</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>50.0%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>No data</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>-</strong>
+            </div>
+
+            <div class="ai-delta delta-muted">Thinq unavailable</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ AI</div>
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>35.0</strong>
+            </div>
+
+            <div class="market-badge market-neutral">THIN MARKET</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.52</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>52.1%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+</tbody></table></div>
+    <div class="footer">Powered by BackstageTalks Statistical Engine</div>
+</div>
+</body>
+</html>
