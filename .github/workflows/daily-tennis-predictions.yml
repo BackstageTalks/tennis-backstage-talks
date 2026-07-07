@@ -51,6 +51,7 @@ jobs:
           python -m py_compile update.py
           python -m py_compile build_pages.py
           python -m py_compile render_site.py
+          python -m py_compile random_paths.py
           if [ -f fix_navigation.py ]; then python -m py_compile fix_navigation.py; fi
 
       - name: Prepare directories
@@ -58,6 +59,7 @@ jobs:
           mkdir -p public
           mkdir -p public/results
           mkdir -p public/BsT
+          mkdir -p public/Blend
           mkdir -p data
           mkdir -p data/pick_history/all
           mkdir -p data/pick_history/top5
@@ -93,7 +95,7 @@ jobs:
         run: |
           python update.py
 
-      - name: Build Corq, Thinq and ALL pages
+      - name: Build Corq, Thinq, Blend and ALL pages
         env:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
@@ -135,26 +137,27 @@ jobs:
         run: |
           python rss_results.py
 
-      - name: Fix navigation links if script exists
-        run: |
-          if [ -f fix_navigation.py ]; then python fix_navigation.py; fi
-
       - name: Ensure results page exists
         run: |
           if [ ! -f public/results/index.html ]; then
             printf '%s\n' '<!doctype html>' '<html>' '<head>' '<meta charset="utf-8">' '<title>Results</title>' '</head>' '<body>' '<h1>Results</h1>' '<p>No results available yet.</p>' '</body>' '</html>' > public/results/index.html
           fi
 
-      - name: Verify generated public files
+      - name: Apply random public paths
         run: |
-          echo "=== VERIFY PUBLIC FILES ==="
-          test -f public/index.html
-          test -f public/all/index.html
-          test -f public/BsT/index.html
-          test -f public/tennis.xml
-          test -f public/tennis_bst.xml
-          test -f public/results/index.html
-          echo "All required public files exist."
+          python random_paths.py
+
+      - name: Verify random public files
+        run: |
+          echo "=== VERIFY RANDOM PUBLIC FILES ==="
+          test -f public/h4v34n1c3d4y180/index.html
+          test -f public/h4v34n1c3d4y181/index.html
+          test -f public/h4v34n1c3d4y182/index.html
+          test -f public/h4v34n1c3d4y183/index.html
+          test -f public/h4v34n1c3d4y184/index.html
+          test -f public/h4v34n1c3d4y185.xml
+          test -f public/h4v34n1c3d4y186.xml
+          echo "All required random public files exist."
 
       - name: Commit generated data and public files
         run: |
