@@ -49,6 +49,77 @@ $(document).ready(function() {
         });
     });
 </script>
+
+<style id="bt-layout-tune-style">
+  /* Match Intelligence layout tuning */
+  .intel {
+    min-width: 490px !important;
+  }
+
+  .intel-layout {
+    display: grid !important;
+    grid-template-columns: 138px 138px 172px !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+  }
+
+  .intel-box {
+    min-height: 108px !important;
+    padding: 10px 10px !important;
+    overflow: visible !important;
+  }
+
+  .data-ai-box,
+  .marq-ai-box {
+    min-width: 138px !important;
+  }
+
+  .sets-box {
+    min-width: 172px !important;
+  }
+
+  .sets-box .intel-row {
+    grid-template-columns: 62px minmax(82px, 1fr) !important;
+    column-gap: 8px !important;
+  }
+
+  .sets-box .intel-row span:first-child,
+  .sets-box .intel-row span:last-child {
+    white-space: nowrap !important;
+  }
+
+  .ai-diff {
+    margin-top: 6px !important;
+    padding-top: 5px !important;
+    border-top: 1px solid rgba(148, 163, 184, .25) !important;
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+    text-align: right !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+  }
+
+  .marq-signal {
+    min-height: 38px !important;
+  }
+
+  @media (max-width: 1200px) {
+    .intel {
+      min-width: 230px !important;
+    }
+
+    .intel-layout {
+      grid-template-columns: 1fr !important;
+    }
+
+    .data-ai-box,
+    .marq-ai-box,
+    .sets-box {
+      min-width: 0 !important;
+    }
+  }
+</style>
+
 </head>
 <body>
 

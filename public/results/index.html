@@ -1,0 +1,4315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>BackstageTalks Statistic Model</title>
+
+<style>
+:root {
+    --bg: #0f172a;
+    --panel: #111827;
+    --panel-2: #1e293b;
+    --border: #334155;
+    --text: #e5e7eb;
+    --muted: #94a3b8;
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #facc15;
+    --blue: #38bdf8;
+    --gray: #64748b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.wrapper {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 28px;
+}
+
+.header {
+    display: grid;
+    grid-template-columns: minmax(560px, 1fr) auto;
+    gap: 40px;
+    align-items: start;
+    margin-bottom: 24px;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--text);
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+
+.subtitle {
+    color: var(--muted);
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.45;
+    max-width: 800px;
+}
+
+.nav {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding-top: 8px;
+    white-space: nowrap;
+}
+
+.nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+}
+
+.nav a:hover {
+    color: var(--blue);
+}
+
+.dataset-section {
+    margin-top: 30px;
+}
+
+.section-header {
+    margin-bottom: 16px;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--text);
+}
+
+.section-header p {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.summary-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+}
+
+.summary-label {
+    color: var(--blue);
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.summary-grid span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.summary-grid strong {
+    display: block;
+    font-size: 16px;
+    margin-top: 3px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1050px;
+}
+
+thead {
+    background: var(--panel-2);
+}
+
+th {
+    padding: 14px 12px;
+    text-align: left;
+    font-size: 13px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+td {
+    padding: 15px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+}
+
+tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.pick {
+    font-weight: 800;
+    color: var(--text);
+}
+
+.match {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.meta {
+    color: var(--blue);
+    font-size: 12px;
+    margin-top: 6px;
+    font-weight: 700;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.status-won {
+    background: rgba(34, 197, 94, 0.18);
+    color: var(--green);
+    border: 1px solid rgba(34, 197, 94, 0.45);
+}
+
+.status-lost {
+    background: rgba(239, 68, 68, 0.18);
+    color: var(--red);
+    border: 1px solid rgba(239, 68, 68, 0.45);
+}
+
+.status-pending {
+    background: rgba(250, 204, 21, 0.16);
+    color: var(--yellow);
+    border: 1px solid rgba(250, 204, 21, 0.45);
+}
+
+.status-void {
+    background: rgba(100, 116, 139, 0.18);
+    color: var(--muted);
+    border: 1px solid rgba(100, 116, 139, 0.45);
+}
+
+.status-unknown {
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--blue);
+    border: 1px solid rgba(56, 189, 248, 0.45);
+}
+
+.units {
+    font-weight: 800;
+}
+
+.empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 40px;
+}
+
+.footer {
+    max-width: 900px;
+    margin: 38px auto 0;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.7;
+}
+
+@media (max-width: 1050px) {
+    .header {
+        display: block;
+    }
+
+    .logo {
+        white-space: normal;
+    }
+
+    .nav {
+        margin-top: 16px;
+        padding-top: 0;
+        flex-wrap: wrap;
+    }
+
+    .summary {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .wrapper {
+        padding: 16px;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<style id="bt-layout-tune-style">
+  /* Match Intelligence layout tuning */
+  .intel {
+    min-width: 490px !important;
+  }
+
+  .intel-layout {
+    display: grid !important;
+    grid-template-columns: 138px 138px 172px !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+  }
+
+  .intel-box {
+    min-height: 108px !important;
+    padding: 10px 10px !important;
+    overflow: visible !important;
+  }
+
+  .data-ai-box,
+  .marq-ai-box {
+    min-width: 138px !important;
+  }
+
+  .sets-box {
+    min-width: 172px !important;
+  }
+
+  .sets-box .intel-row {
+    grid-template-columns: 62px minmax(82px, 1fr) !important;
+    column-gap: 8px !important;
+  }
+
+  .sets-box .intel-row span:first-child,
+  .sets-box .intel-row span:last-child {
+    white-space: nowrap !important;
+  }
+
+  .ai-diff {
+    margin-top: 6px !important;
+    padding-top: 5px !important;
+    border-top: 1px solid rgba(148, 163, 184, .25) !important;
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+    text-align: right !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+  }
+
+  .marq-signal {
+    min-height: 38px !important;
+  }
+
+  @media (max-width: 1200px) {
+    .intel {
+      min-width: 230px !important;
+    }
+
+    .intel-layout {
+      grid-template-columns: 1fr !important;
+    }
+
+    .data-ai-box,
+    .marq-ai-box,
+    .sets-box {
+      min-width: 0 !important;
+    }
+  }
+</style>
+
+</head>
+
+<body>
+<div class="wrapper">
+
+    <div class="header">
+        <div>
+            <div class="logo">
+                BackstageTalks Statistic Model
+            </div>
+
+            <div class="subtitle">
+                This data is provided for informational and analytical purposes only
+            </div>
+        </div>
+
+        
+<nav class="nav" aria-label="Main navigation">
+    <a href="https://backstagetalks.github.io/tennis-backstage-talks/">TOP5</a> <a href="https://backstagetalks.github.io/tennis-backstage-talks/all/">ALL</a> <a href="https://backstagetalks.github.io/tennis-backstage-talks/results/">RESULTS</a>
+</nav>
+
+    </div>
+
+    
+<section class="dataset-section">
+    <div class="section-header">
+        <h2>TOP5 Results</h2>
+        <p>Track record for the daily TOP5 snapshot.</p>
+    </div>
+
+    
+<div class="summary">
+    
+<div class="summary-card">
+    <div class="summary-label">Today</div>
+
+    <div class="summary-grid">
+        <div>
+            <span>Picks</span>
+            <strong>5</strong>
+        </div>
+
+        <div>
+            <span>W-L</span>
+            <strong>0-0</strong>
+        </div>
+
+        <div>
+            <span>Pending</span>
+            <strong>5</strong>
+        </div>
+
+        <div>
+            <span>Units</span>
+            <strong>0.00u</strong>
+        </div>
+
+        <div>
+            <span>Win rate</span>
+            <strong>-</strong>
+        </div>
+    </div>
+</div>
+
+    
+<div class="summary-card">
+    <div class="summary-label">Last 7 days</div>
+
+    <div class="summary-grid">
+        <div>
+            <span>Picks</span>
+            <strong>13</strong>
+        </div>
+
+        <div>
+            <span>W-L</span>
+            <strong>5-3</strong>
+        </div>
+
+        <div>
+            <span>Pending</span>
+            <strong>5</strong>
+        </div>
+
+        <div>
+            <span>Units</span>
+            <strong>+0.50u</strong>
+        </div>
+
+        <div>
+            <span>Win rate</span>
+            <strong>62.5%</strong>
+        </div>
+    </div>
+</div>
+
+    
+<div class="summary-card">
+    <div class="summary-label">Current month</div>
+
+    <div class="summary-grid">
+        <div>
+            <span>Picks</span>
+            <strong>13</strong>
+        </div>
+
+        <div>
+            <span>W-L</span>
+            <strong>5-3</strong>
+        </div>
+
+        <div>
+            <span>Pending</span>
+            <strong>5</strong>
+        </div>
+
+        <div>
+            <span>Units</span>
+            <strong>+0.50u</strong>
+        </div>
+
+        <div>
+            <span>Win rate</span>
+            <strong>62.5%</strong>
+        </div>
+    </div>
+</div>
+
+    
+<div class="summary-card">
+    <div class="summary-label">All time</div>
+
+    <div class="summary-grid">
+        <div>
+            <span>Picks</span>
+            <strong>13</strong>
+        </div>
+
+        <div>
+            <span>W-L</span>
+            <strong>5-3</strong>
+        </div>
+
+        <div>
+            <span>Pending</span>
+            <strong>5</strong>
+        </div>
+
+        <div>
+            <span>Units</span>
+            <strong>+0.50u</strong>
+        </div>
+
+        <div>
+            <span>Win rate</span>
+            <strong>62.5%</strong>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+    
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Pick</th>
+                <th>Opponent</th>
+                <th>Win %</th>
+                <th>Odds</th>
+                <th>Status</th>
+                <th>Winner</th>
+                <th>Score</th>
+                <th>Units</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Elsa Jacquemot</div>
+        <div class="match">Aurora Zantedeschi vs Elsa Jacquemot</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Aurora Zantedeschi</td>
+
+    <td>85.0%</td>
+
+    <td>1.40</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Elizabeth Mandlik</div>
+        <div class="match">Momoko Kobori vs Elizabeth Mandlik</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Momoko Kobori</td>
+
+    <td>73.3%</td>
+
+    <td>1.44</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Lisa Pigato</div>
+        <div class="match">Angela Fita Boluda vs Lisa Pigato</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Angela Fita Boluda</td>
+
+    <td>71.2%</td>
+
+    <td>1.33</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Dalma Galfi</div>
+        <div class="match">Dalma Galfi vs Kajsa Rinaldo Persson</div>
+        <div class="meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+
+    <td>Kajsa Rinaldo Persson</td>
+
+    <td>68.5%</td>
+
+    <td>1.40</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Clervie Ngounoue</div>
+        <div class="match">Lea Ma vs Clervie Ngounoue</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Lea Ma</td>
+
+    <td>67.4%</td>
+
+    <td>1.50</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Marta Kostyuk</div>
+        <div class="match">Emma Navarro vs Marta Kostyuk</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Emma Navarro</td>
+
+    <td>75.0%</td>
+
+    <td>1.79</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Marta Kostyuk</td>
+
+    <td>2-6 6-4 1-6</td>
+
+    <td class="units">
+        +0.79u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Marie Bouzkova</div>
+        <div class="match">Liudmila Samsonova vs Marie Bouzkova</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Liudmila Samsonova</td>
+
+    <td>63.4%</td>
+
+    <td>1.74</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Marie Bouzkova</td>
+
+    <td>6-4 6-7 4-6</td>
+
+    <td class="units">
+        +0.74u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Jasmine Paolini</div>
+        <div class="match">Jasmine Paolini vs Maria Sakkari</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Maria Sakkari</td>
+
+    <td>63.2%</td>
+
+    <td>1.81</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Jasmine Paolini</td>
+
+    <td>6-1 6-2</td>
+
+    <td class="units">
+        +0.81u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Matteo Berrettini</div>
+        <div class="match">Grigor Dimitrov vs Matteo Berrettini</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Grigor Dimitrov</td>
+
+    <td>62.4%</td>
+
+    <td>1.80</td>
+
+    <td>
+        <span class="status status-lost">
+            LOST
+        </span>
+    </td>
+
+    <td>Grigor Dimitrov</td>
+
+    <td>6-3 6-4 3-6 5-7 6-3</td>
+
+    <td class="units">
+        -1.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Zizou Bergs</div>
+        <div class="match">Zizou Bergs vs Arthur Fery</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Arthur Fery</td>
+
+    <td>62.3%</td>
+
+    <td>1.80</td>
+
+    <td>
+        <span class="status status-lost">
+            LOST
+        </span>
+    </td>
+
+    <td>Arthur Fery</td>
+
+    <td>6-2 5-7 6-2 6-7 6-7</td>
+
+    <td class="units">
+        -1.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Tommy Paul</div>
+        <div class="match">Hubert Hurkacz vs Tommy Paul</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Hubert Hurkacz</td>
+
+    <td>70.4%</td>
+
+    <td>1.62</td>
+
+    <td>
+        <span class="status status-lost">
+            LOST
+        </span>
+    </td>
+
+    <td>Hubert Hurkacz</td>
+
+    <td>4-6 7-6 7-5 6-2</td>
+
+    <td class="units">
+        -1.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Barbora Krejcikova</div>
+        <div class="match">Nikola Bartunkova vs Barbora Krejcikova</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Nikola Bartunkova</td>
+
+    <td>62.1%</td>
+
+    <td>1.61</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Barbora Krejčiková</td>
+
+    <td>3-6 5-7</td>
+
+    <td class="units">
+        +0.61u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Iva Jovic</div>
+        <div class="match">Ekaterina Alexandrova vs Iva Jovic</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Ekaterina Alexandrova</td>
+
+    <td>58.8%</td>
+
+    <td>1.55</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Iva Jović</td>
+
+    <td>3-6 6-3 4-6</td>
+
+    <td class="units">
+        +0.55u
+    </td>
+</tr>
+
+        </tbody>
+    </table>
+</div>
+
+</section>
+
+
+    
+<section class="dataset-section">
+    <div class="section-header">
+        <h2>ALL Results</h2>
+        <p>Track record for all model-quality daily snapshot picks.</p>
+    </div>
+
+    
+<div class="summary">
+    
+<div class="summary-card">
+    <div class="summary-label">Today</div>
+
+    <div class="summary-grid">
+        <div>
+            <span>Picks</span>
+            <strong>48</strong>
+        </div>
+
+        <div>
+            <span>W-L</span>
+            <strong>0-0</strong>
+        </div>
+
+        <div>
+            <span>Pending</span>
+            <strong>48</strong>
+        </div>
+
+        <div>
+            <span>Units</span>
+            <strong>0.00u</strong>
+        </div>
+
+        <div>
+            <span>Win rate</span>
+            <strong>-</strong>
+        </div>
+    </div>
+</div>
+
+    
+<div class="summary-card">
+    <div class="summary-label">Last 7 days</div>
+
+    <div class="summary-grid">
+        <div>
+            <span>Picks</span>
+            <strong>103</strong>
+        </div>
+
+        <div>
+            <span>W-L</span>
+            <strong>23-8</strong>
+        </div>
+
+        <div>
+            <span>Pending</span>
+            <strong>72</strong>
+        </div>
+
+        <div>
+            <span>Units</span>
+            <strong>+1.77u</strong>
+        </div>
+
+        <div>
+            <span>Win rate</span>
+            <strong>74.2%</strong>
+        </div>
+    </div>
+</div>
+
+    
+<div class="summary-card">
+    <div class="summary-label">Current month</div>
+
+    <div class="summary-grid">
+        <div>
+            <span>Picks</span>
+            <strong>103</strong>
+        </div>
+
+        <div>
+            <span>W-L</span>
+            <strong>23-8</strong>
+        </div>
+
+        <div>
+            <span>Pending</span>
+            <strong>72</strong>
+        </div>
+
+        <div>
+            <span>Units</span>
+            <strong>+1.77u</strong>
+        </div>
+
+        <div>
+            <span>Win rate</span>
+            <strong>74.2%</strong>
+        </div>
+    </div>
+</div>
+
+    
+<div class="summary-card">
+    <div class="summary-label">All time</div>
+
+    <div class="summary-grid">
+        <div>
+            <span>Picks</span>
+            <strong>103</strong>
+        </div>
+
+        <div>
+            <span>W-L</span>
+            <strong>23-8</strong>
+        </div>
+
+        <div>
+            <span>Pending</span>
+            <strong>72</strong>
+        </div>
+
+        <div>
+            <span>Units</span>
+            <strong>+1.77u</strong>
+        </div>
+
+        <div>
+            <span>Win rate</span>
+            <strong>74.2%</strong>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+    
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Pick</th>
+                <th>Opponent</th>
+                <th>Win %</th>
+                <th>Odds</th>
+                <th>Status</th>
+                <th>Winner</th>
+                <th>Score</th>
+                <th>Units</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Jeline Vandromme</div>
+        <div class="match">Jeline Vandromme vs Diana Martynov</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Diana Martynov</td>
+
+    <td>85.0%</td>
+
+    <td>1.12</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Elsa Jacquemot</div>
+        <div class="match">Aurora Zantedeschi vs Elsa Jacquemot</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Aurora Zantedeschi</td>
+
+    <td>85.0%</td>
+
+    <td>1.40</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Elina Avanesyan</div>
+        <div class="match">Elina Avanesyan vs Alicia Herrero Linana</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Alicia Herrero Linana</td>
+
+    <td>85.0%</td>
+
+    <td>1.12</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Oksana Selekhmeteva</div>
+        <div class="match">Yelyzaveta Kotliar vs Oksana Selekhmeteva</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Yelyzaveta Kotliar</td>
+
+    <td>85.0%</td>
+
+    <td>1.17</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Jannik Sinner</div>
+        <div class="match">Jannik Sinner vs Jan-Lennard Struff</div>
+        <div class="meta">Wimbledon • Grass • BO5</div>
+    </td>
+
+    <td>Jan-Lennard Struff</td>
+
+    <td>85.0%</td>
+
+    <td>1.03</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Katie Volynets</div>
+        <div class="match">Katie Volynets vs Ariana Arseneault</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Ariana Arseneault</td>
+
+    <td>85.0%</td>
+
+    <td>1.06</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Francesca Jones</div>
+        <div class="match">Francesca Jones vs Alice Rame</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Alice Rame</td>
+
+    <td>83.4%</td>
+
+    <td>1.17</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Grace Bernstein</div>
+        <div class="match">Aneta Laboutkova vs Grace Bernstein</div>
+        <div class="meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+
+    <td>Aneta Laboutkova</td>
+
+    <td>83.3%</td>
+
+    <td>10.00</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Kylie Collins</div>
+        <div class="match">Kylie Collins vs Alana Smith</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Alana Smith</td>
+
+    <td>80.9%</td>
+
+    <td>2.00</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Petra Marčinko</div>
+        <div class="match">Petra Marčinko vs Clara Burel</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Clara Burel</td>
+
+    <td>80.4%</td>
+
+    <td>1.36</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Mayar Sherif</div>
+        <div class="match">Yasmine Kabbaj vs Mayar Sherif</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Yasmine Kabbaj</td>
+
+    <td>79.9%</td>
+
+    <td>1.17</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Madison Brengle</div>
+        <div class="match">Madison Brengle vs Ana Sofia Sanchez</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Ana Sofia Sanchez</td>
+
+    <td>79.9%</td>
+
+    <td>1.17</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Tatjana Maria</div>
+        <div class="match">Olivia Lincer vs Tatjana Maria</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Olivia Lincer</td>
+
+    <td>76.2%</td>
+
+    <td>1.06</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Elizabeth Mandlik</div>
+        <div class="match">Momoko Kobori vs Elizabeth Mandlik</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Momoko Kobori</td>
+
+    <td>73.3%</td>
+
+    <td>1.44</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Tamara Korpatsch</div>
+        <div class="match">Linea Bajraliu vs Tamara Korpatsch</div>
+        <div class="meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+
+    <td>Linea Bajraliu</td>
+
+    <td>72.4%</td>
+
+    <td>1.20</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Lisa Pigato</div>
+        <div class="match">Angela Fita Boluda vs Lisa Pigato</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Angela Fita Boluda</td>
+
+    <td>71.2%</td>
+
+    <td>1.33</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Mary Stoiana</div>
+        <div class="match">Katrina Scott vs Mary Stoiana</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Katrina Scott</td>
+
+    <td>70.9%</td>
+
+    <td>1.17</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Leolia Jeanjean</div>
+        <div class="match">Amandine Monnot vs Leolia Jeanjean</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Amandine Monnot</td>
+
+    <td>69.7%</td>
+
+    <td>1.22</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Dalma Galfi</div>
+        <div class="match">Dalma Galfi vs Kajsa Rinaldo Persson</div>
+        <div class="meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+
+    <td>Kajsa Rinaldo Persson</td>
+
+    <td>68.5%</td>
+
+    <td>1.40</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Alice Tubello</div>
+        <div class="match">Alice Tubello vs Yufei Ren</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Yufei Ren</td>
+
+    <td>67.4%</td>
+
+    <td>1.22</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Clervie Ngounoue</div>
+        <div class="match">Lea Ma vs Clervie Ngounoue</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Lea Ma</td>
+
+    <td>67.4%</td>
+
+    <td>1.50</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Novak Djokovic</div>
+        <div class="match">Felix Auger-Aliassime vs Novak Djokovic</div>
+        <div class="meta">Wimbledon • Grass • BO5</div>
+    </td>
+
+    <td>Felix Auger-Aliassime</td>
+
+    <td>64.2%</td>
+
+    <td>1.53</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Cadence Brace</div>
+        <div class="match">Katherine Sebov vs Cadence Brace</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Katherine Sebov</td>
+
+    <td>63.8%</td>
+
+    <td>1.83</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Karolina Muchova</div>
+        <div class="match">Naomi Osaka vs Karolina Muchova</div>
+        <div class="meta">Wimbledon • Grass • BO3</div>
+    </td>
+
+    <td>Naomi Osaka</td>
+
+    <td>61.1%</td>
+
+    <td>2.00</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Sinja Kraus</div>
+        <div class="match">Sinja Kraus vs Claire Liu</div>
+        <div class="meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+
+    <td>Claire Liu</td>
+
+    <td>59.5%</td>
+
+    <td>2.20</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Varvara Lepchenko</div>
+        <div class="match">Lisa Zaar vs Varvara Lepchenko</div>
+        <div class="meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+
+    <td>Lisa Zaar</td>
+
+    <td>57.4%</td>
+
+    <td>1.83</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Kayla Cross</div>
+        <div class="match">Sayaka Ishii vs Kayla Cross</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Sayaka Ishii</td>
+
+    <td>56.4%</td>
+
+    <td>1.62</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Jessica Pegula</div>
+        <div class="match">Jessica Pegula vs Coco Gauff</div>
+        <div class="meta">Wimbledon • Grass • BO3</div>
+    </td>
+
+    <td>Coco Gauff</td>
+
+    <td>53.6%</td>
+
+    <td>1.62</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Mananchaya Sawangkaew</div>
+        <div class="match">Mananchaya Sawangkaew vs Caroline Dolehide</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Caroline Dolehide</td>
+
+    <td>53.4%</td>
+
+    <td>1.44</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Maria Carle</div>
+        <div class="match">Maria Carle vs Laura Pigossi</div>
+        <div class="meta">Contrexeville, France • Hard • BO3</div>
+    </td>
+
+    <td>Laura Pigossi</td>
+
+    <td>53.2%</td>
+
+    <td>1.36</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Sachia Vickery</div>
+        <div class="match">Sachia Vickery vs Reese Brantmeier</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Reese Brantmeier</td>
+
+    <td>52.2%</td>
+
+    <td>3.00</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Caijsa Wilda Hennemann</div>
+        <div class="match">June Bjork vs Caijsa Wilda Hennemann</div>
+        <div class="meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+
+    <td>June Bjork</td>
+
+    <td>51.3%</td>
+
+    <td>1.01</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Hayu Kinoshita</div>
+        <div class="match">Iryna Shymanovich vs Hayu Kinoshita</div>
+        <div class="meta">WTA 125K Newport, USA Women Singles • Hard • BO3</div>
+    </td>
+
+    <td>Iryna Shymanovich</td>
+
+    <td>50.6%</td>
+
+    <td>2.38</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Lola Radivojević</div>
+        <div class="match">Mona Barthel vs Lola Radivojević</div>
+        <div class="meta">Bastad, Sweden  • Hard • BO3</div>
+    </td>
+
+    <td>Mona Barthel</td>
+
+    <td>50.5%</td>
+
+    <td>1.36</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Ayukawa M / Morisaki K</div>
+        <div class="match">Ayukawa M / Morisaki K vs Lee Y / Ye Q Y</div>
+        <div class="meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+
+    <td>Lee Y / Ye Q Y</td>
+
+    <td>50.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Burillo Escorihuela I / Romero Gormaz L</div>
+        <div class="match">Burillo Escorihuela I / Romero Gormaz L vs Barnett A / Lechemia E</div>
+        <div class="meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+
+    <td>Barnett A / Lechemia E</td>
+
+    <td>50.0%</td>
+
+    <td>4.50</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Karamoko N / Semenistaja D</div>
+        <div class="match">Karamoko N / Semenistaja D vs Pridankina E / Yashina E</div>
+        <div class="meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+
+    <td>Pridankina E / Yashina E</td>
+
+    <td>50.0%</td>
+
+    <td>2.10</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Arango E / Waltert S</div>
+        <div class="match">Arango E / Waltert S vs Noha Akugue N / Wagner A</div>
+        <div class="meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+
+    <td>Noha Akugue N / Wagner A</td>
+
+    <td>50.0%</td>
+
+    <td>1.73</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Kucmova A / Laboutková A</div>
+        <div class="match">Kucmova A / Laboutková A vs Salden L / Strakhova V</div>
+        <div class="meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+
+    <td>Salden L / Strakhova V</td>
+
+    <td>50.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Uchijima M / Webley-Smith E</div>
+        <div class="match">Uchijima M / Webley-Smith E vs Bhosale R / Li Y-Y</div>
+        <div class="meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+
+    <td>Bhosale R / Li Y-Y</td>
+
+    <td>50.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">McNally C / Hunter S</div>
+        <div class="match">McNally C / Hunter S vs Dabrowski G / Stefani L</div>
+        <div class="meta">Wimbledon, Doubles • Grass • BO3</div>
+    </td>
+
+    <td>Dabrowski G / Stefani L</td>
+
+    <td>50.0%</td>
+
+    <td>3.25</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Siniakova K / Townsend T</div>
+        <div class="match">Siniakova K / Townsend T vs Muhammad A / Stollar F</div>
+        <div class="meta">Wimbledon, Doubles • Grass • BO3</div>
+    </td>
+
+    <td>Muhammad A / Stollar F</td>
+
+    <td>50.0%</td>
+
+    <td>1.07</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Sramkova R / Noskova L</div>
+        <div class="match">Sramkova R / Noskova L vs Piter K / Siskova A</div>
+        <div class="meta">Wimbledon, Doubles • Grass • BO3</div>
+    </td>
+
+    <td>Piter K / Siskova A</td>
+
+    <td>50.0%</td>
+
+    <td>2.10</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Bajraliu L / Deng T T</div>
+        <div class="match">Bajraliu L / Deng T T vs Da Silva Fick G / McGiffin T</div>
+        <div class="meta">Bastad, Sweden, Doubles • Hard • BO3</div>
+    </td>
+
+    <td>Da Silva Fick G / McGiffin T</td>
+
+    <td>50.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Heliovaara H / Patten H</div>
+        <div class="match">Heliovaara H / Patten H vs Andreozzi G / Guinard M</div>
+        <div class="meta">Wimbledon, Doubles • Grass • BO3</div>
+    </td>
+
+    <td>Andreozzi G / Guinard M</td>
+
+    <td>50.0%</td>
+
+    <td>1.25</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Krajicek A / Mektic N</div>
+        <div class="match">Krajicek A / Mektic N vs Kokkinakis T / Kovacevic A</div>
+        <div class="meta">Wimbledon, Doubles • Grass • BO3</div>
+    </td>
+
+    <td>Kokkinakis T / Kovacevic A</td>
+
+    <td>50.0%</td>
+
+    <td>1.73</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Harrison C / Zhang S</div>
+        <div class="match">Harrison C / Zhang S vs Arevalo M / Ostapenko J</div>
+        <div class="meta">Wimbledon, Mixed Doubles • Grass • BO3</div>
+    </td>
+
+    <td>Arevalo M / Ostapenko J</td>
+
+    <td>50.0%</td>
+
+    <td>1.83</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-07</td>
+
+    <td>
+        <div class="pick">Polmans M / Hunter S</div>
+        <div class="match">Polmans M / Hunter S vs Pavic M / Stollar F</div>
+        <div class="meta">Wimbledon, Mixed Doubles • Grass • BO3</div>
+    </td>
+
+    <td>Pavic M / Stollar F</td>
+
+    <td>50.0%</td>
+
+    <td>1.83</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Alexander Zverev</div>
+        <div class="match">Marcos Giron vs Alexander Zverev</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Marcos Giron</td>
+
+    <td>85.0%</td>
+
+    <td>1.09</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Alexander Zverev</td>
+
+    <td>2-6 6-7 4-6</td>
+
+    <td class="units">
+        +0.09u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Zsombor Piros</div>
+        <div class="match">Maks Kasnikowski vs Zsombor Piros</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Maks Kasnikowski</td>
+
+    <td>81.7%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Alex de Minaur</div>
+        <div class="match">Alex de Minaur vs Zachary Svajda</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Zachary Svajda</td>
+
+    <td>80.2%</td>
+
+    <td>1.19</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Alex de Minaur</td>
+
+    <td>6-2 5-7 6-2 6-4</td>
+
+    <td class="units">
+        +0.19u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Elena Rybakina</div>
+        <div class="match">Elise Mertens vs Elena Rybakina</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Elise Mertens</td>
+
+    <td>78.9%</td>
+
+    <td>1.25</td>
+
+    <td>
+        <span class="status status-lost">
+            LOST
+        </span>
+    </td>
+
+    <td>Elise Mertens</td>
+
+    <td>7-6 6-1</td>
+
+    <td class="units">
+        -1.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Kilian Feldbausch</div>
+        <div class="match">Lorenzo Giustino vs Kilian Feldbausch</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Lorenzo Giustino</td>
+
+    <td>75.8%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Marta Kostyuk</div>
+        <div class="match">Emma Navarro vs Marta Kostyuk</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Emma Navarro</td>
+
+    <td>75.0%</td>
+
+    <td>1.79</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Marta Kostyuk</td>
+
+    <td>2-6 6-4 1-6</td>
+
+    <td class="units">
+        +0.79u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Taylor Fritz</div>
+        <div class="match">Taylor Fritz vs Lorenzo Sonego</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Lorenzo Sonego</td>
+
+    <td>74.9%</td>
+
+    <td>1.15</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Taylor Fritz</td>
+
+    <td>4-6 6-3 6-4 7-6</td>
+
+    <td class="units">
+        +0.15u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Iga Swiatek</div>
+        <div class="match">Alexandra Eala vs Iga Swiatek</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Alexandra Eala</td>
+
+    <td>72.6%</td>
+
+    <td>1.33</td>
+
+    <td>
+        <span class="status status-lost">
+            LOST
+        </span>
+    </td>
+
+    <td>Alexandra Eala</td>
+
+    <td>7-6 6-2</td>
+
+    <td class="units">
+        -1.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Facundo Diaz Acosta</div>
+        <div class="match">Daniel Rincon vs Facundo Diaz Acosta</div>
+        <div class="meta">ATP Challenger • Clay • BO3</div>
+    </td>
+
+    <td>Daniel Rincon</td>
+
+    <td>71.4%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Jiri Lehecka</div>
+        <div class="match">Jiri Lehecka vs Jaume Munar</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Jaume Munar</td>
+
+    <td>71.0%</td>
+
+    <td>1.34</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Jiri Lehečka</td>
+
+    <td>6-4 6-4 4-6 6-4</td>
+
+    <td class="units">
+        +0.34u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Gustavo Heide</div>
+        <div class="match">Gustavo Heide vs Marco Cecchinato</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Marco Cecchinato</td>
+
+    <td>66.6%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Marie Bouzkova</div>
+        <div class="match">Liudmila Samsonova vs Marie Bouzkova</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Liudmila Samsonova</td>
+
+    <td>63.4%</td>
+
+    <td>1.74</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Marie Bouzkova</td>
+
+    <td>6-4 6-7 4-6</td>
+
+    <td class="units">
+        +0.74u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Jasmine Paolini</div>
+        <div class="match">Jasmine Paolini vs Maria Sakkari</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Maria Sakkari</td>
+
+    <td>63.2%</td>
+
+    <td>1.81</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Jasmine Paolini</td>
+
+    <td>6-1 6-2</td>
+
+    <td class="units">
+        +0.81u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Matteo Berrettini</div>
+        <div class="match">Grigor Dimitrov vs Matteo Berrettini</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Grigor Dimitrov</td>
+
+    <td>62.4%</td>
+
+    <td>1.80</td>
+
+    <td>
+        <span class="status status-lost">
+            LOST
+        </span>
+    </td>
+
+    <td>Grigor Dimitrov</td>
+
+    <td>6-3 6-4 3-6 5-7 6-3</td>
+
+    <td class="units">
+        -1.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Zizou Bergs</div>
+        <div class="match">Zizou Bergs vs Arthur Fery</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Arthur Fery</td>
+
+    <td>62.3%</td>
+
+    <td>1.80</td>
+
+    <td>
+        <span class="status status-lost">
+            LOST
+        </span>
+    </td>
+
+    <td>Arthur Fery</td>
+
+    <td>6-2 5-7 6-2 6-7 6-7</td>
+
+    <td class="units">
+        -1.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Felipe Meligeni Alves</div>
+        <div class="match">Felipe Meligeni Alves vs Hernan Casanova</div>
+        <div class="meta">ATP Challenger • Clay • BO3</div>
+    </td>
+
+    <td>Hernan Casanova</td>
+
+    <td>61.9%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Justo Guido Ivan</div>
+        <div class="match">Justo Guido Ivan vs Keegan Smith</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Keegan Smith</td>
+
+    <td>61.2%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Madison Keys</div>
+        <div class="match">Amanda Anisimova vs Madison Keys</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Amanda Anisimova</td>
+
+    <td>60.4%</td>
+
+    <td>1.64</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Madison Keys</td>
+
+    <td>6-3 2-6 3-6</td>
+
+    <td class="units">
+        +0.64u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Flavio Cobolli</div>
+        <div class="match">Karen Khachanov vs Flavio Cobolli</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Karen Khachanov</td>
+
+    <td>59.7%</td>
+
+    <td>2.36</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Flavio Cobolli</td>
+
+    <td>6-0 6-7 7-6 2-6 2-6</td>
+
+    <td class="units">
+        +1.36u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Calvin Hemery</div>
+        <div class="match">Calvin Hemery vs Marvin Moeller</div>
+        <div class="meta">ATP Challenger • Clay • BO3</div>
+    </td>
+
+    <td>Marvin Moeller</td>
+
+    <td>56.1%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Frances Tiafoe</div>
+        <div class="match">Frances Tiafoe vs Alexander Bublik</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Alexander Bublik</td>
+
+    <td>54.1%</td>
+
+    <td>1.90</td>
+
+    <td>
+        <span class="status status-lost">
+            LOST
+        </span>
+    </td>
+
+    <td>Alexander Bublik</td>
+
+    <td>6-4 6-7 6-7 6-4 3-6</td>
+
+    <td class="units">
+        -1.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Linda Noskova</div>
+        <div class="match">Sorana Cirstea vs Linda Noskova</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Sorana Cirstea</td>
+
+    <td>52.9%</td>
+
+    <td>1.49</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Linda Noskova</td>
+
+    <td>6-2 3-6 6-7</td>
+
+    <td class="units">
+        +0.49u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Ashlyn Krueger</div>
+        <div class="match">Daria Snigur vs Ashlyn Krueger</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Daria Snigur</td>
+
+    <td>51.4%</td>
+
+    <td>2.02</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Ashlyn Krueger</td>
+
+    <td>3-6 2-6</td>
+
+    <td class="units">
+        +1.02u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Leyla Fiorella Britez Risso</div>
+        <div class="match">Leyla Fiorella Britez Risso vs Maria Rivera Corado</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Maria Rivera Corado</td>
+
+    <td>50.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Agustin Mastri</div>
+        <div class="match">Agustin Mastri vs Sebastian Sec</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Sebastian Sec</td>
+
+    <td>50.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-04</td>
+
+    <td>
+        <div class="pick">Junior Tavarez Pichardo</div>
+        <div class="match">Junior Tavarez Pichardo vs You Junghee</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>You Junghee</td>
+
+    <td>50.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Jannik Sinner</div>
+        <div class="match">Jannik Sinner vs Jenson Brooksby</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Jenson Brooksby</td>
+
+    <td>85.0%</td>
+
+    <td>1.04</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Jannik Sinner</td>
+
+    <td>6-4 6-3 6-4</td>
+
+    <td class="units">
+        +0.04u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Jessica Pegula</div>
+        <div class="match">Jessica Pegula vs Jessica Bouzas Maneiro</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Jessica Bouzas Maneiro</td>
+
+    <td>85.0%</td>
+
+    <td>1.14</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Jessica Pegula</td>
+
+    <td>6-1 6-3</td>
+
+    <td class="units">
+        +0.14u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Karolina Muchova</div>
+        <div class="match">Karolina Muchova vs Mananchaya Sawangkaew</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Mananchaya Sawangkaew</td>
+
+    <td>85.0%</td>
+
+    <td>1.10</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Karolina Muchova</td>
+
+    <td>6-2 7-6</td>
+
+    <td class="units">
+        +0.10u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Aryna Sabalenka</div>
+        <div class="match">Aryna Sabalenka vs Jeļena Ostapenko</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Jeļena Ostapenko</td>
+
+    <td>85.0%</td>
+
+    <td>1.30</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Aryna Sabalenka</td>
+
+    <td>6-4 6-4</td>
+
+    <td class="units">
+        +0.30u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Coco Gauff</div>
+        <div class="match">Claire Liu vs Coco Gauff</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Claire Liu</td>
+
+    <td>85.0%</td>
+
+    <td>1.14</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Coco Gauff</td>
+
+    <td>3-6 7-6 2-6</td>
+
+    <td class="units">
+        +0.14u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Daniil Medvedev</div>
+        <div class="match">Jan-Lennard Struff vs Daniil Medvedev</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Jan-Lennard Struff</td>
+
+    <td>83.6%</td>
+
+    <td>1.21</td>
+
+    <td>
+        <span class="status status-lost">
+            LOST
+        </span>
+    </td>
+
+    <td>Jan-Lennard Struff</td>
+
+    <td>7-6 7-6 7-5</td>
+
+    <td class="units">
+        -1.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Novak Djokovic</div>
+        <div class="match">Arthur Rinderknech vs Novak Djokovic</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Arthur Rinderknech</td>
+
+    <td>83.3%</td>
+
+    <td>1.13</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Novak Djokovic</td>
+
+    <td>5-7 4-6 6-1 6-7</td>
+
+    <td class="units">
+        +0.13u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Felix Auger Aliassime</div>
+        <div class="match">Felix Auger Aliassime vs Michael Zheng</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Michael Zheng</td>
+
+    <td>81.9%</td>
+
+    <td>1.20</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Felix Auger-Aliassime</td>
+
+    <td>7-6 6-2 6-1</td>
+
+    <td class="units">
+        +0.20u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Naomi Osaka</div>
+        <div class="match">Daria Kasatkina vs Naomi Osaka</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Daria Kasatkina</td>
+
+    <td>75.1%</td>
+
+    <td>1.23</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Naomi Osaka</td>
+
+    <td>1-6 3-6</td>
+
+    <td class="units">
+        +0.23u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Facundo Diaz Acosta</div>
+        <div class="match">Facundo Diaz Acosta vs Juan Cruz Martin Manzano</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Juan Cruz Martin Manzano</td>
+
+    <td>73.9%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Joao Fonseca</div>
+        <div class="match">Roman Safiullin vs Joao Fonseca</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Roman Safiullin</td>
+
+    <td>73.6%</td>
+
+    <td>1.31</td>
+
+    <td>
+        <span class="status status-lost">
+            LOST
+        </span>
+    </td>
+
+    <td>Roman Safiullin</td>
+
+    <td>6-3 6-3 6-3</td>
+
+    <td class="units">
+        -1.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Francisco Comesana</div>
+        <div class="match">Francisco Comesana vs Daniel Rincon</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Daniel Rincon</td>
+
+    <td>73.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Tommy Paul</div>
+        <div class="match">Hubert Hurkacz vs Tommy Paul</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Hubert Hurkacz</td>
+
+    <td>70.4%</td>
+
+    <td>1.62</td>
+
+    <td>
+        <span class="status status-lost">
+            LOST
+        </span>
+    </td>
+
+    <td>Hubert Hurkacz</td>
+
+    <td>4-6 7-6 7-5 6-2</td>
+
+    <td class="units">
+        -1.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Matheus Pucinelli de Almeida</div>
+        <div class="match">Alan Magadan vs Matheus Pucinelli de Almeida</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Alan Magadan</td>
+
+    <td>68.9%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Alejandro Davidovich Fokina</div>
+        <div class="match">Alejandro Davidovich Fokina vs Marton Fucsovics</div>
+        <div class="meta">Wimbledon Men Singles • Grass • BO5</div>
+    </td>
+
+    <td>Marton Fucsovics</td>
+
+    <td>68.8%</td>
+
+    <td>1.31</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Alejandro Davidovich Fokina</td>
+
+    <td>7-6 6-2 6-3</td>
+
+    <td class="units">
+        +0.31u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Jay Dylan Hara Friend</div>
+        <div class="match">Jay Dylan Hara Friend vs Braden Shick</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Braden Shick</td>
+
+    <td>66.4%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Juan Sebastian Osorio</div>
+        <div class="match">Hernan Casanova vs Juan Sebastian Osorio</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Hernan Casanova</td>
+
+    <td>64.9%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Barbora Krejcikova</div>
+        <div class="match">Nikola Bartunkova vs Barbora Krejcikova</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Nikola Bartunkova</td>
+
+    <td>62.1%</td>
+
+    <td>1.61</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Barbora Krejčiková</td>
+
+    <td>3-6 5-7</td>
+
+    <td class="units">
+        +0.61u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Belinda Bencic</div>
+        <div class="match">Belinda Bencic vs Anna Kalinskaya</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Anna Kalinskaya</td>
+
+    <td>61.6%</td>
+
+    <td>1.40</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Belinda Bencic</td>
+
+    <td>6-4 4-6 7-6</td>
+
+    <td class="units">
+        +0.40u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Iva Jovic</div>
+        <div class="match">Ekaterina Alexandrova vs Iva Jovic</div>
+        <div class="meta">Wimbledon Women Singles • Grass • BO3</div>
+    </td>
+
+    <td>Ekaterina Alexandrova</td>
+
+    <td>58.8%</td>
+
+    <td>1.55</td>
+
+    <td>
+        <span class="status status-won">
+            WON
+        </span>
+    </td>
+
+    <td>Iva Jović</td>
+
+    <td>3-6 6-3 4-6</td>
+
+    <td class="units">
+        +0.55u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Rodrigo Pacheco Mendez</div>
+        <div class="match">Felipe Meligeni Alves vs Rodrigo Pacheco Mendez</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Felipe Meligeni Alves</td>
+
+    <td>57.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Marat Sharipov</div>
+        <div class="match">Marvin Moeller vs Marat Sharipov</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Marvin Moeller</td>
+
+    <td>54.1%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Sascha Gueymard Wayenburg</div>
+        <div class="match">Sascha Gueymard Wayenburg vs Maks Kasnikowski</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Maks Kasnikowski</td>
+
+    <td>51.8%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Eliakim Coulibaly</div>
+        <div class="match">Eliakim Coulibaly vs Calvin Hemery</div>
+        <div class="meta">ATP Challenger • Clay • BO3</div>
+    </td>
+
+    <td>Calvin Hemery</td>
+
+    <td>51.5%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Tomas Quesada Perez</div>
+        <div class="match">Tomas Quesada Perez vs Caden Hasler</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Caden Hasler</td>
+
+    <td>50.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">You Junghee</div>
+        <div class="match">You Junghee vs Sebastian Sec</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Sebastian Sec</td>
+
+    <td>50.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Junior Tavarez Pichardo</div>
+        <div class="match">Junior Tavarez Pichardo vs Agustin Mastri</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Agustin Mastri</td>
+
+    <td>50.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Timo Legout</div>
+        <div class="match">Timo Legout vs Ozan Baris</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Ozan Baris</td>
+
+    <td>50.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+
+<tr>
+    <td>2026-07-03</td>
+
+    <td>
+        <div class="pick">Ignacio Monzon</div>
+        <div class="match">Ignacio Monzon vs Samuel Heredia</div>
+        <div class="meta">ATP Challenger • Unknown • BO3</div>
+    </td>
+
+    <td>Samuel Heredia</td>
+
+    <td>50.0%</td>
+
+    <td>-</td>
+
+    <td>
+        <span class="status status-pending">
+            PENDING
+        </span>
+    </td>
+
+    <td>-</td>
+
+    <td>-</td>
+
+    <td class="units">
+        0.00u
+    </td>
+</tr>
+
+        </tbody>
+    </table>
+</div>
+
+</section>
+
+
+    <div class="footer">
+        Powered by BackstageTalks Statistic Model
+    </div>
+
+</div>
+</body>
+</html>
