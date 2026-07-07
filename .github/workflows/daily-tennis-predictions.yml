@@ -101,44 +101,46 @@ jobs:
      *    RAPIDAPI_KEY: ${{ secrets.RAPI*API_KEY }}
           TENNISAPI_RAP*DAPI_KEY: ${{ secrets.RAPIDAPI_KEY*}}
           SGOAPI: ${{ secrets.S*OAPI }}
-          TENNISAPI_CATEGO*Y_IDS: "3,6,871"
-          TENNISA*I_PROVIDER_ID: "1"
-          RESUL*S_LOOKBACK_DAYS: "90"
-          OD*S_SCAN_DAYS_AHEAD: "1"
-          O*DS_SCAN_DAYS_BACK: "0"
-        run* |
-          python build_pages.py*
-      - name: Run results checker*        env:
-          ODDS_API_KE*: ${{ secrets.ODDS_API_KEY }}
-    *     RAPIDAPI_KEY: ${{ secrets.RAP*DAPI_KEY }}
-          TENNISAPI_RA*IDAPI_KEY: ${{ secrets.RAPIDAPI_KE* }}
-          SGOAPI: ${{ secrets.*GOAPI }}
-          TENNISAPI_CATEG*RY_IDS: "3,6,871"
-          TENNIS*PI_PROVIDER_ID: "1"
-          RESU*TS_LOOKBACK_DAYS: "90"
-          O*DS_SCAN_DAYS_AHEAD: "1"
-          *DDS_SCAN_DAYS_BACK: "0"
-        ru*: |
-          python results_check*r.py
-
-      - name: Build results *age
-        env:
-          ODDS_AP*_KEY: ${{ secrets.ODDS_API_KEY }}
-*         RAPIDAPI_KEY: ${{ secrets*RAPIDAPI_KEY }}
-          TENNISAP*_RAPIDAPI_KEY: ${{ secrets.RAPIDAP*_KEY }}
-          SGOAPI: ${{ secr*ts.SGOAPI }}
-          TENNISAPI_C*TEGORY_IDS: "3,6,871"
-          TE*NISAPI_PROVIDER_ID: "1"
-          *ESULTS_LOOKBACK_DAYS: "90"
-       *  ODDS_SCAN_DAYS_AHEAD: "1"
-      *   ODDS_SCAN_DAYS_BACK: "0"
-      * run: |
-          python rss_resul*s.py
-
-      - name: Ensure results*page exists
+          TENNISAPI_CATEGORY_IDS: "3,6,871"
+          TENNISAPI_PROVIDER_ID: "1"
+          RESULTS_LOOKBACK_DAYS: "90"
+          ODDS_SCAN_DAYS_AHEAD: "1"
+          ODDS_SCAN_DAYS_BACK: "0"
         run: |
-       *  if [ ! -f public/results/index.html ]; then
-            printf '%s\*' '<!doctype html>' '<html>' '<hea*>' '<meta charset="utf-8">' '<titl*>Results</title>' '</head>' '<body>' '<h1>Results</h1>' '<p>No results available yet.</p>' '</body>' '</html>' > public/results/index.html
+          python build_pages.py
+
+      - name: Run results checker
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          TENNISAPI_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          SGOAPI: ${{ secrets.SGOAPI }}
+          TENNISAPI_CATEGORY_IDS: "3,6,871"
+          TENNISAPI_PROVIDER_ID: "1"
+          RESULTS_LOOKBACK_DAYS: "90"
+          ODDS_SCAN_DAYS_AHEAD: "1"
+          ODDS_SCAN_DAYS_BACK: "0"
+        run: |
+          python results_checker.py
+
+      - name: Build results page
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          TENNISAPI_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          SGOAPI: ${{ secrets.SGOAPI }}
+          TENNISAPI_CATEGORY_IDS: "3,6,871"
+          TENNISAPI_PROVIDER_ID: "1"
+          RESULTS_LOOKBACK_DAYS: "90"
+          ODDS_SCAN_DAYS_AHEAD: "1"
+          ODDS_SCAN_DAYS_BACK: "0"
+        run: |
+          python rss_results.py
+
+      - name: Ensure results page exists
+        run: |
+          if [ ! -f public/results/index.html ]; then
+            printf '%s\n' '<!doctype html>' '<html>' '<head>' '<meta charset="utf-8">' '<title>Results</title>' '</head>' '<body>' '<h1>Results</h1>' '<p>No results available yet.</p>' '</body>' '</html>' > public/results/index.html
           fi
 
       - name: Apply random public paths
