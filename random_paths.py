@@ -1,4 +1,3 @@
-import os
 import re
 import shutil
 from pathlib import Path
@@ -33,12 +32,9 @@ def copy_file(source, destination):
             "SKIP COPY - SOURCE MISSING:",
             source,
         )
-
         return False
 
-    ensure_dir(
-        destination_path.parent
-    )
+    ensure_dir(destination_path.parent)
 
     shutil.copy2(
         source_path,
@@ -67,54 +63,29 @@ def remove_path(path):
         target.unlink()
 
     print(
- (
         "REMOVED OLD PATH:",
         path,
     )
 
 
+def html_link(url, label):
+    return f'{url}{label}</a>'
+
+
 def build_nav_html():
     links = [
-        (
-            f"{BASE_URL}/{CORQ_PATH}/",
-            "Corq",
-        ),
-        (
-            f"{BASE_URL}/{THINQ_PATH}/",
-            "Thinq",
-        ),
-        (
-            f"{BASE_URL}/{BLEND_PATH}/",
-            "Blend",
-        ),
-        (
-            f"{BASE_URL}/{CORQ_RSS_PATH}",
-            "Corq RSS",
-        ),
-        (
-            f"{BASE_URL}/{THINQ_RSS_PATH}",
-            "Thinq RSS",
-        ),
-        (
-            f"{BASE_URL}/{ALL_PATH}/",
-            "All",
-        ),
-        (
-            f"{BASE_URL}/{RESULTS_PATH}/",
-            "Results",
-        ),
+        html_link(f"{BASE_URL}/{CORQ_PATH}/", "Corq"),
+        html_link(f"{BASE_URL}/{THINQ_PATH}/", "Thinq"),
+        html_link(f"{BASE_URL}/{BLEND_PATH}/", "Blend"),
+        html_link(f"{BASE_URL}/{CORQ_RSS_PATH}", "Corq RSS"),
+        html_link(f"{BASE_URL}/{THINQ_RSS_PATH}", "Thinq RSS"),
+        html_link(f"{BASE_URL}/{ALL_PATH}/", "All"),
+        html_link(f"{BASE_URL}/{RESULTS_PATH}/", "Results"),
     ]
-
-    html_links = []
-
-    for url, label in links:
-        html_links.append(
-            f'{url}{label}</a>'
-        )
 
     return f"""
 <nav class="nav" aria-label="Main navigation">
-    {" ".join(html_links)}
+    {" ".join(links)}
 </nav>
 """
 
@@ -127,7 +98,6 @@ def replace_navigation_in_file(path):
             "SKIP NAV FIX - FILE MISSING:",
             path,
         )
-
         return False
 
     text = file_path.read_text(
@@ -150,7 +120,6 @@ def replace_navigation_in_file(path):
             "NAV NOT FOUND:",
             path,
         )
-
         return False
 
     file_path.write_text(
@@ -161,6 +130,43 @@ def replace_navigation_in_file(path):
     print(
         "NAV UPDATED:",
         path,
+    )
+
+    return True
+
+
+def rewrite_rss_links(path, page_url):
+    file_path = Path(path)
+
+    if not file_path.exists():
+        print(
+            "SKIP RSS LINK FIX - FILE MISSING:",
+            path,
+        )
+        return False
+
+    text = file_path.read_text(
+        encoding="utf-8",
+        errors="replace",
+    )
+
+    text = re.sub(
+        r"<link>.*?</link>",
+        f"<link>{page_url}</link>",
+        text,
+        flags=re.DOTALL,
+    )
+
+    file_path.write_text(
+        text,
+        encoding="utf-8",
+    )
+
+    print(
+        "RSS LINKS UPDATED:",
+        path,
+        "->",
+        page_url,
     )
 
     return True
@@ -209,22 +215,31 @@ def create_random_rss_outputs():
         (
             "public/tennis.xml",
             f"public/{CORQ_RSS_PATH}",
+            f"{BASE_URL}/{CORQ_PATH}/",
         ),
         (
             "public/tennis_bst.xml",
             f"public/{THINQ_RSS_PATH}",
+            f"{BASE_URL}/{THINQ_PATH}/",
         ),
         (
             "public/tennis_blend.xml",
             f"public/{BLEND_RSS_PATH}",
+            f"{BASE_URL}/{BLEND_PATH}/",
         ),
     ]
 
-    for source, destination in rss_map:
-        copy_file(
+    for source, destination, page_url in rss_map:
+        ok = copy_file(
             source,
             destination,
         )
+
+        if ok:
+            rewrite_rss_links(
+                destination,
+                page_url,
+            )
 
 
 def remove_old_public_paths():
