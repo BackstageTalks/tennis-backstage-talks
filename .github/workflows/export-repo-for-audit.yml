@@ -1,0 +1,115 @@
+name: Export Repository For Audit
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_to_repo:
+        description: "Commit repo_export.md back to repository"
+        required: true
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+permissions:
+  contents: write
+
+jobs:
+  export-repo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate repo_export.md
+        shell: bash
+        run: |
+          set -e
+
+          OUTPUT="repo_export.md"
+          rm -f "$OUTPUT"
+
+          echo "# Repository Export For Audit" >> "$OUTPUT"
+          echo "" >> "$OUTPUT"
+          echo "Repository: $GITHUB_REPOSITORY" >> "$OUTPUT"
+          echo "Branch: ${GITHUB_REF_NAME}" >> "$OUTPUT"
+          echo "Commit: ${GITHUB_SHA}" >> "$OUTPUT"
+          echo "Generated at UTC: $(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> "$OUTPUT"
+          echo "" >> "$OUTPUT"
+          echo "Excluded directories: .git, data, public, __pycache__, .venv, node_modules" >> "$OUTPUT"
+          echo "" >> "$OUTPUT"
+
+          find . -type f \
+            ! -path "./.git/*" \
+            ! -path "./data/*" \
+            ! -path "./public/*" \
+            ! -path "./__pycache__/*" \
+            ! -path "./.venv/*" \
+            ! -path "./venv/*" \
+            ! -path "./node_modules/*" \
+            ! -path "./repo_export.md" \
+            ! -name "*.pyc" \
+            ! -name "*.pyo" \
+            ! -name "*.log" \
+            ! -name "*.sqlite" \
+            ! -name "*.db" \
+            \( \
+              -name "*.py" -o \
+              -name "*.yml" -o \
+              -name "*.yaml" -o \
+              -name "*.md" -o \
+              -name "*.txt" -o \
+              -name "*.json" -o \
+              -name "*.toml" -o \
+              -name "*.ini" \
+            \) | sort > files_to_export.txt
+
+          while IFS= read -r file; do
+            echo "" >> "$OUTPUT"
+            echo "" >> "$OUTPUT"
+            echo "## FILE: ${file#./}" >> "$OUTPUT"
+            echo "" >> "$OUTPUT"
+            echo '```' >> "$OUTPUT"
+
+            # Basic secret redaction for safety
+            sed -E \
+              -e 's/(RAPIDAPI_KEY[[:space:]]*[:=][[:space:]]*)[^[:space:]]+/\1***REDACTED***/Ig' \
+              -e 's/(TELEGRAM_BOT_TOKEN[[:space:]]*[:=][[:space:]]*)[^[:space:]]+/\1***REDACTED***/Ig' \
+              -e 's/(TELEGRAM_CHAT_ID[[:space:]]*[:=][[:space:]]*)[^[:space:]]+/\1***REDACTED***/Ig' \
+              -e 's/(API_KEY[[:space:]]*[:=][[:space:]]*)[^[:space:]]+/\1***REDACTED***/Ig' \
+              -e 's/(TOKEN[[:space:]]*[:=][[:space:]]*)[^[:space:]]+/\1***REDACTED***/Ig' \
+              -e 's/(PASSWORD[[:space:]]*[:=][[:space:]]*)[^[:space:]]+/\1***REDACTED***/Ig' \
+              "$file" >> "$OUTPUT" || true
+
+            echo '```' >> "$OUTPUT"
+          done < files_to_export.txt
+
+          echo "Generated export:"
+          ls -lh "$OUTPUT"
+
+      - name: Upload repo export artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo_export
+          path: repo_export.md
+          retention-days: 7
+
+      - name: Commit repo_export.md to repository
+        if: ${{ github.event.inputs.commit_to_repo == 'true' }}
+        shell: bash
+        run: |
+          set -e
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add repo_export.md
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Add repository export for audit"
+            git push
+          fi
