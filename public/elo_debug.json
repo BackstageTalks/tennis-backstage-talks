@@ -11,58 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 68,
-  "found_count": 38,
-  "missing_count": 30,
+  "lookup_count": 52,
+  "found_count": 32,
+  "missing_count": 20,
   "examples_found": [
-    {
-      "input": "Linda Noskova",
-      "matched": "Linda Noskova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1976.4,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Elise Mertens",
-      "matched": "Elise Mertens",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1893.5,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Marta Kostyuk",
-      "matched": "Marta Kostyuk",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 2056.7,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Jasmine Paolini",
-      "matched": "Jasmine Paolini",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1905.2,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Taylor Fritz",
-      "matched": "Taylor Fritz",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1909.0,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Alexander Zverev",
-      "matched": "Alexander Zverev",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 2099.7,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
     {
       "input": "Flavio Cobolli",
       "matched": "Flavio Cobolli",
@@ -254,29 +206,57 @@
       "score": 1.0,
       "elo": 1696.3,
       "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Caroline Dolehide",
+      "matched": "Caroline Dolehide",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1672.6,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Darja Vidmanova",
+      "matched": "Darja Vidmanova",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1674.5,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Carolyn Ansari",
+      "matched": "Carolyn Ansari",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1352.6,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Lucrezia Stefanini",
+      "matched": "Lucrezia Stefanini",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1526.8,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Carol Zhao",
+      "matched": "Carol Zhao",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1389.7,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Mei Yamaguchi",
+      "matched": "Mei Yamaguchi",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1448.2,
+      "source": "data/elo/wta_elo_latest.csv"
     }
   ],
   "examples_missing": [
-    {
-      "input": "Arevalo M / Pavic M",
-      "normalized": "arevalo m / pavic m",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Cash J / Glasspool L",
-      "normalized": "cash j / glasspool l",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Appleton E / Ninomiya M",
-      "normalized": "appleton e / ninomiya m",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Hennemann C W / Zaar L",
-      "normalized": "hennemann c w / zaar l",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Da Silva Fick G / McGiffin T",
       "normalized": "da silva fick g / mcgiffin t",
@@ -285,36 +265,6 @@
     {
       "input": "Salden L / Strakhova V",
       "normalized": "salden l / strakhova v",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Karamoko N / Semenistaja D",
-      "normalized": "karamoko n / semenistaja d",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Lee Y / Ye Q Y",
-      "normalized": "lee y / ye q y",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Perez E / Schuurs D",
-      "normalized": "perez e / schuurs d",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Aoyama S / Liang E",
-      "normalized": "aoyama s / liang e",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Piter K / Siskova A",
-      "normalized": "piter k / siskova a",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Dabrowski G / Stefani L",
-      "normalized": "dabrowski g / stefani l",
       "reason": "no_safe_match"
     },
     {
