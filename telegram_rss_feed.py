@@ -43,9 +43,9 @@ RSS_FEEDS = [
         "title": "TOP BETS | Thinq Model",
     },
     {
-        "key": "blend",
+        "key": "blenq",
         "url": "https://backstagetalks.github.io/tennis-backstage-talks/h4v34n1c3d4y187.xml",
-        "title": "TOP BETS | Blend Model",
+        "title": "TOP BETS | Blenq Model",
     },
 ]
 
