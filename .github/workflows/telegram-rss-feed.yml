@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       feed:
-        description: 'Feed to send: all, corq, thinq, blend'
+        description: 'Feed to send: all, corq, thinq, blenq'
         required: false
         default: 'all'
         type: choice
@@ -16,7 +16,7 @@ on:
           - all
           - corq
           - thinq
-          - blend
+          - blenq
       limit:
         description: 'How many picks per feed'
         required: false
