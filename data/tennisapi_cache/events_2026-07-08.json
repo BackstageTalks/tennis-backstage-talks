@@ -8497,10 +8497,11 @@
     },
     "customId": "VktsmzOc",
     "status": {
-      "code": 9,
-      "description": "2nd set",
-      "type": "inprogress"
+      "code": 100,
+      "description": "Ended",
+      "type": "finished"
     },
+    "winnerCode": 2,
     "homeTeam": {
       "name": "Lola Radivojević",
       "slug": "radivojevic-lola",
@@ -8593,27 +8594,28 @@
       "display": 0,
       "period1": 4,
       "period2": 5,
-      "point": "0"
+      "point": "15",
+      "normaltime": 0
     },
     "awayScore": {
-      "current": 1,
-      "display": 1,
+      "current": 2,
+      "display": 2,
       "period1": 6,
-      "period2": 6,
-      "point": "0"
+      "period2": 7,
+      "point": "40",
+      "normaltime": 2
     },
     "time": {
       "period1": 2749,
+      "period2": 4705,
       "currentPeriodStartTimestamp": 1783504345
     },
     "changes": {
       "changes": [
-        "homeScore.point",
-        "awayScore.period2",
-        "awayScore.point",
-        "firstToServe"
+        "time.currentPeriodStart",
+        "time.period2"
       ],
-      "changeTimestamp": 1783508799
+      "changeTimestamp": 1783509098
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
@@ -8629,7 +8631,6 @@
       "period4": "4th set",
       "period5": "5th set"
     },
-    "lastPeriod": "period2",
     "finalResultOnly": false,
     "feedLocked": false,
     "groundType": "Red clay",
@@ -9128,220 +9129,6 @@
     "_cache_category_id": 871
   },
   {
-    "awayTeamSeed": "2",
-    "tournament": {
-      "name": "Bastad, Sweden",
-      "slug": "bastad-sweden",
-      "category": {
-        "name": "WTA 125",
-        "slug": "wta-125",
-        "sport": {
-          "name": "Tennis",
-          "slug": "tennis",
-          "id": 5
-        },
-        "priority": 5,
-        "country": {},
-        "id": 871,
-        "flag": "wta-125",
-        "fieldTranslations": {
-          "nameTranslation": {
-            "ar": "رابطة محترفات التنس 125",
-            "ru": "WTA 125"
-          },
-          "shortNameTranslation": {}
-        }
-      },
-      "uniqueTournament": {
-        "name": "Bastad, Sweden ",
-        "slug": "bastad-sweden",
-        "category": {
-          "name": "WTA 125",
-          "slug": "wta-125",
-          "sport": {
-            "name": "Tennis",
-            "slug": "tennis",
-            "id": 5
-          },
-          "priority": 5,
-          "country": {},
-          "id": 871,
-          "flag": "wta-125",
-          "fieldTranslations": {
-            "nameTranslation": {
-              "ar": "رابطة محترفات التنس 125",
-              "ru": "WTA 125"
-            },
-            "shortNameTranslation": {}
-          }
-        },
-        "userCount": 196,
-        "groundType": "Red clay",
-        "tennisPoints": 125,
-        "hasPerformanceGraphFeature": false,
-        "country": {},
-        "id": 13377,
-        "hasEventPlayerStatistics": false,
-        "displayInverseHomeAwayTeams": false,
-        "fieldTranslations": {
-          "nameTranslation": {
-            "ar": "باستاد، السويد",
-            "ru": "Бастад, Швеция"
-          },
-          "shortNameTranslation": {}
-        }
-      },
-      "priority": 0,
-      "isGroup": false,
-      "id": 190357,
-      "endTimestamp": 1783728000,
-      "startTimestamp": 1783296000
-    },
-    "season": {
-      "name": "WTA 125K Bastad, Sweden Women Singles 2026",
-      "year": "2026",
-      "editor": false,
-      "id": 91333
-    },
-    "roundInfo": {
-      "round": 5,
-      "name": "Round of 16",
-      "slug": "round-of-16",
-      "cupRoundType": 8
-    },
-    "customId": "uDhsNZC",
-    "status": {
-      "code": 0,
-      "description": "Not started",
-      "type": "notstarted"
-    },
-    "homeTeam": {
-      "name": "Varvara Lepchenko",
-      "slug": "lepchenko-varvara",
-      "shortName": "V. Lepchenko",
-      "gender": "F",
-      "sport": {
-        "name": "Tennis",
-        "slug": "tennis",
-        "id": 5
-      },
-      "userCount": 1738,
-      "playerTeamInfo": {
-        "id": 415
-      },
-      "nameCode": "LEP",
-      "ranking": 175,
-      "national": false,
-      "type": 1,
-      "country": {
-        "alpha2": "US",
-        "alpha3": "USA",
-        "name": "USA",
-        "slug": "usa"
-      },
-      "id": 18919,
-      "subTeams": [],
-      "teamColors": {
-        "primary": "#374df5",
-        "secondary": "#374df5",
-        "text": "#ffffff"
-      },
-      "fieldTranslations": {
-        "nameTranslation": {
-          "ar": "فارفارا ليبشينكو",
-          "bn": "ভারভারা লেপচেঙ্কো",
-          "hi": "वार्वरा लेपचेनको",
-          "ru": "Лепченко, Варвара"
-        },
-        "shortNameTranslation": {
-          "ar": "ف. ليبشينكو"
-        }
-      }
-    },
-    "awayTeam": {
-      "name": "Tamara Korpatsch",
-      "slug": "korpatsch-tamara",
-      "shortName": "T. Korpatsch",
-      "gender": "F",
-      "sport": {
-        "name": "Tennis",
-        "slug": "tennis",
-        "id": 5
-      },
-      "userCount": 2719,
-      "playerTeamInfo": {
-        "id": 396
-      },
-      "nameCode": "KOR",
-      "ranking": 78,
-      "national": false,
-      "type": 1,
-      "country": {
-        "alpha2": "DE",
-        "alpha3": "DEU",
-        "name": "Germany",
-        "slug": "germany"
-      },
-      "id": 69988,
-      "subTeams": [],
-      "teamColors": {
-        "primary": "#374df5",
-        "secondary": "#374df5",
-        "text": "#ffffff"
-      },
-      "fieldTranslations": {
-        "nameTranslation": {
-          "ar": "تامارا كورباتش",
-          "bn": "তামারা কর্পাটস",
-          "hi": "तामारा कोर्पत्स्च",
-          "ru": "Корпач, Тамара"
-        },
-        "shortNameTranslation": {
-          "ar": "ت. كورباتش"
-        }
-      }
-    },
-    "homeScore": {},
-    "awayScore": {},
-    "time": {},
-    "changes": {
-      "changeTimestamp": 0
-    },
-    "hasGlobalHighlights": false,
-    "crowdsourcingDataDisplayEnabled": false,
-    "id": 16425249,
-    "slug": "tamara-korpatsch-varvara-lepchenko",
-    "startTimestamp": 1783505400,
-    "periods": {
-      "point": "Game",
-      "current": "Match",
-      "period1": "1st set",
-      "period2": "2nd set",
-      "period3": "3rd set",
-      "period4": "4th set",
-      "period5": "5th set"
-    },
-    "finalResultOnly": false,
-    "feedLocked": false,
-    "groundType": "Red clay",
-    "isEditor": false,
-    "eventFilters": {
-      "category": [
-        "singles"
-      ],
-      "level": [
-        "pro"
-      ],
-      "tournament": [
-        "lower"
-      ],
-      "gender": [
-        "F"
-      ]
-    },
-    "_cache_category_id": 871
-  },
-  {
     "firstToServe": 1,
     "homeTeamSeed": "6",
     "tournament": {
@@ -9521,23 +9308,26 @@
     "homeScore": {
       "current": 0,
       "display": 0,
-      "period1": 1,
-      "point": "A"
+      "period1": 2,
+      "point": "0"
     },
     "awayScore": {
       "current": 0,
       "display": 0,
-      "period1": 2,
-      "point": "40"
+      "period1": 5,
+      "point": "0"
     },
     "time": {
       "currentPeriodStartTimestamp": 1783507941
     },
     "changes": {
       "changes": [
-        "homeScore.point"
+        "homeScore.point",
+        "awayScore.period1",
+        "awayScore.point",
+        "firstToServe"
       ],
-      "changeTimestamp": 1783508813
+      "changeTimestamp": 1783509918
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
@@ -9752,23 +9542,26 @@
     "homeScore": {
       "current": 0,
       "display": 0,
-      "period1": 3,
-      "point": "40"
+      "period1": 5,
+      "point": "0"
     },
     "awayScore": {
       "current": 0,
       "display": 0,
-      "period1": 0,
-      "point": "15"
+      "period1": 2,
+      "point": "0"
     },
     "time": {
       "currentPeriodStartTimestamp": 1783507619
     },
     "changes": {
       "changes": [
-        "homeScore.point"
+        "homeScore.period1",
+        "homeScore.point",
+        "awayScore.point",
+        "firstToServe"
       ],
-      "changeTimestamp": 1783508805
+      "changeTimestamp": 1783509872
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
@@ -10201,6 +9994,436 @@
     "id": 16425250,
     "slug": "moyuka-uchijima-irene-burillo",
     "startTimestamp": 1783509600,
+    "periods": {
+      "point": "Game",
+      "current": "Match",
+      "period1": "1st set",
+      "period2": "2nd set",
+      "period3": "3rd set",
+      "period4": "4th set",
+      "period5": "5th set"
+    },
+    "finalResultOnly": false,
+    "feedLocked": false,
+    "groundType": "Red clay",
+    "isEditor": false,
+    "eventFilters": {
+      "category": [
+        "singles"
+      ],
+      "level": [
+        "pro"
+      ],
+      "tournament": [
+        "lower"
+      ],
+      "gender": [
+        "F"
+      ]
+    },
+    "_cache_category_id": 871
+  },
+  {
+    "awayTeamSeed": "2",
+    "tournament": {
+      "name": "Bastad, Sweden",
+      "slug": "bastad-sweden",
+      "category": {
+        "name": "WTA 125",
+        "slug": "wta-125",
+        "sport": {
+          "name": "Tennis",
+          "slug": "tennis",
+          "id": 5
+        },
+        "priority": 5,
+        "country": {},
+        "id": 871,
+        "flag": "wta-125",
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "رابطة محترفات التنس 125",
+            "ru": "WTA 125"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "uniqueTournament": {
+        "name": "Bastad, Sweden ",
+        "slug": "bastad-sweden",
+        "category": {
+          "name": "WTA 125",
+          "slug": "wta-125",
+          "sport": {
+            "name": "Tennis",
+            "slug": "tennis",
+            "id": 5
+          },
+          "priority": 5,
+          "country": {},
+          "id": 871,
+          "flag": "wta-125",
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "رابطة محترفات التنس 125",
+              "ru": "WTA 125"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "userCount": 196,
+        "groundType": "Red clay",
+        "tennisPoints": 125,
+        "hasPerformanceGraphFeature": false,
+        "country": {},
+        "id": 13377,
+        "hasEventPlayerStatistics": false,
+        "displayInverseHomeAwayTeams": false,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "باستاد، السويد",
+            "ru": "Бастад, Швеция"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "priority": 0,
+      "isGroup": false,
+      "id": 190357,
+      "endTimestamp": 1783728000,
+      "startTimestamp": 1783296000
+    },
+    "season": {
+      "name": "WTA 125K Bastad, Sweden Women Singles 2026",
+      "year": "2026",
+      "editor": false,
+      "id": 91333
+    },
+    "roundInfo": {
+      "round": 5,
+      "name": "Round of 16",
+      "slug": "round-of-16",
+      "cupRoundType": 8
+    },
+    "customId": "uDhsNZC",
+    "status": {
+      "code": 0,
+      "description": "Not started",
+      "type": "notstarted"
+    },
+    "homeTeam": {
+      "name": "Varvara Lepchenko",
+      "slug": "lepchenko-varvara",
+      "shortName": "V. Lepchenko",
+      "gender": "F",
+      "sport": {
+        "name": "Tennis",
+        "slug": "tennis",
+        "id": 5
+      },
+      "userCount": 1738,
+      "playerTeamInfo": {
+        "id": 415
+      },
+      "nameCode": "LEP",
+      "ranking": 175,
+      "national": false,
+      "type": 1,
+      "country": {
+        "alpha2": "US",
+        "alpha3": "USA",
+        "name": "USA",
+        "slug": "usa"
+      },
+      "id": 18919,
+      "subTeams": [],
+      "teamColors": {
+        "primary": "#374df5",
+        "secondary": "#374df5",
+        "text": "#ffffff"
+      },
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "فارفارا ليبشينكو",
+          "bn": "ভারভারা লেপচেঙ্কো",
+          "hi": "वार्वरा लेपचेनको",
+          "ru": "Лепченко, Варвара"
+        },
+        "shortNameTranslation": {
+          "ar": "ف. ليبشينكو"
+        }
+      }
+    },
+    "awayTeam": {
+      "name": "Tamara Korpatsch",
+      "slug": "korpatsch-tamara",
+      "shortName": "T. Korpatsch",
+      "gender": "F",
+      "sport": {
+        "name": "Tennis",
+        "slug": "tennis",
+        "id": 5
+      },
+      "userCount": 2719,
+      "playerTeamInfo": {
+        "id": 396
+      },
+      "nameCode": "KOR",
+      "ranking": 78,
+      "national": false,
+      "type": 1,
+      "country": {
+        "alpha2": "DE",
+        "alpha3": "DEU",
+        "name": "Germany",
+        "slug": "germany"
+      },
+      "id": 69988,
+      "subTeams": [],
+      "teamColors": {
+        "primary": "#374df5",
+        "secondary": "#374df5",
+        "text": "#ffffff"
+      },
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "تامارا كورباتش",
+          "bn": "তামারা কর্পাটস",
+          "hi": "तामारा कोर्पत्स्च",
+          "ru": "Корпач, Тамара"
+        },
+        "shortNameTranslation": {
+          "ar": "ت. كورباتش"
+        }
+      }
+    },
+    "homeScore": {},
+    "awayScore": {},
+    "time": {},
+    "changes": {
+      "changeTimestamp": 0
+    },
+    "hasGlobalHighlights": false,
+    "crowdsourcingDataDisplayEnabled": false,
+    "id": 16425249,
+    "slug": "tamara-korpatsch-varvara-lepchenko",
+    "startTimestamp": 1783509600,
+    "periods": {
+      "point": "Game",
+      "current": "Match",
+      "period1": "1st set",
+      "period2": "2nd set",
+      "period3": "3rd set",
+      "period4": "4th set",
+      "period5": "5th set"
+    },
+    "finalResultOnly": false,
+    "feedLocked": false,
+    "groundType": "Red clay",
+    "isEditor": false,
+    "eventFilters": {
+      "category": [
+        "singles"
+      ],
+      "level": [
+        "pro"
+      ],
+      "tournament": [
+        "lower"
+      ],
+      "gender": [
+        "F"
+      ]
+    },
+    "_cache_category_id": 871
+  },
+  {
+    "homeTeamSeed": "5",
+    "awayTeamSeed": "3",
+    "tournament": {
+      "name": "Bastad, Sweden",
+      "slug": "bastad-sweden",
+      "category": {
+        "name": "WTA 125",
+        "slug": "wta-125",
+        "sport": {
+          "name": "Tennis",
+          "slug": "tennis",
+          "id": 5
+        },
+        "priority": 5,
+        "country": {},
+        "id": 871,
+        "flag": "wta-125",
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "رابطة محترفات التنس 125",
+            "ru": "WTA 125"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "uniqueTournament": {
+        "name": "Bastad, Sweden ",
+        "slug": "bastad-sweden",
+        "category": {
+          "name": "WTA 125",
+          "slug": "wta-125",
+          "sport": {
+            "name": "Tennis",
+            "slug": "tennis",
+            "id": 5
+          },
+          "priority": 5,
+          "country": {},
+          "id": 871,
+          "flag": "wta-125",
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "رابطة محترفات التنس 125",
+              "ru": "WTA 125"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "userCount": 196,
+        "groundType": "Red clay",
+        "tennisPoints": 125,
+        "hasPerformanceGraphFeature": false,
+        "country": {},
+        "id": 13377,
+        "hasEventPlayerStatistics": false,
+        "displayInverseHomeAwayTeams": false,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "باستاد، السويد",
+            "ru": "Бастад, Швеция"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "priority": 0,
+      "isGroup": false,
+      "id": 190357,
+      "endTimestamp": 1783728000,
+      "startTimestamp": 1783296000
+    },
+    "season": {
+      "name": "WTA 125K Bastad, Sweden Women Singles 2026",
+      "year": "2026",
+      "editor": false,
+      "id": 91333
+    },
+    "roundInfo": {
+      "round": 27,
+      "name": "Quarterfinals",
+      "slug": "quarterfinals",
+      "cupRoundType": 4
+    },
+    "customId": "VktsjyYb",
+    "status": {
+      "code": 0,
+      "description": "Not started",
+      "type": "notstarted"
+    },
+    "homeTeam": {
+      "name": "Sinja Kraus",
+      "slug": "kraus-sinja",
+      "shortName": "S. Kraus",
+      "gender": "F",
+      "sport": {
+        "name": "Tennis",
+        "slug": "tennis",
+        "id": 5
+      },
+      "userCount": 2273,
+      "playerTeamInfo": {
+        "id": 3547
+      },
+      "nameCode": "KRA",
+      "ranking": 93,
+      "national": false,
+      "type": 1,
+      "country": {
+        "alpha2": "AT",
+        "alpha3": "AUT",
+        "name": "Austria",
+        "slug": "austria"
+      },
+      "id": 246159,
+      "subTeams": [],
+      "teamColors": {
+        "primary": "#374df5",
+        "secondary": "#374df5",
+        "text": "#ffffff"
+      },
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "سينجا كراوس",
+          "bn": "সিনজ. ক্রাউস",
+          "hi": "सिंजा क्राउस",
+          "ru": "Краус, Синья"
+        },
+        "shortNameTranslation": {
+          "ar": "س. كراوس"
+        }
+      }
+    },
+    "awayTeam": {
+      "name": "Yulia Putintseva",
+      "slug": "putintseva-yulia",
+      "shortName": "Y. Putintseva",
+      "gender": "F",
+      "sport": {
+        "name": "Tennis",
+        "slug": "tennis",
+        "id": 5
+      },
+      "userCount": 4944,
+      "playerTeamInfo": {
+        "id": 202
+      },
+      "nameCode": "PUT",
+      "ranking": 84,
+      "disabled": false,
+      "national": false,
+      "type": 1,
+      "country": {
+        "alpha2": "KZ",
+        "alpha3": "KAZ",
+        "name": "Kazakhstan",
+        "slug": "kazakhstan"
+      },
+      "id": 45545,
+      "subTeams": [],
+      "teamColors": {
+        "primary": "#374df5",
+        "secondary": "#374df5",
+        "text": "#ffffff"
+      },
+      "fieldTranslations": {
+        "nameTranslation": {
+          "ar": "يوليا بوتينتسيفا",
+          "bn": "ইউলিয়া পুতিনসেভা",
+          "hi": "यूलिया पूटिंटसेवा",
+          "ru": "Путинцева, Юлия"
+        },
+        "shortNameTranslation": {
+          "ar": "ي. بوتينتسيفا"
+        }
+      }
+    },
+    "homeScore": {},
+    "awayScore": {},
+    "time": {},
+    "changes": {
+      "changeTimestamp": 0
+    },
+    "hasGlobalHighlights": false,
+    "crowdsourcingDataDisplayEnabled": false,
+    "id": 16425253,
+    "slug": "sinja-kraus-yulia-putintseva",
+    "startTimestamp": 1783587600,
     "periods": {
       "point": "Game",
       "current": "Match",
@@ -11839,23 +12062,26 @@
     "homeScore": {
       "current": 0,
       "display": 0,
-      "period1": 1,
-      "point": "30"
+      "period1": 4,
+      "point": "0"
     },
     "awayScore": {
       "current": 0,
       "display": 0,
-      "period1": 2,
-      "point": "40"
+      "period1": 3,
+      "point": "0"
     },
     "time": {
       "currentPeriodStartTimestamp": 1783507811
     },
     "changes": {
       "changes": [
-        "awayScore.point"
+        "homeScore.period1",
+        "homeScore.point",
+        "awayScore.point",
+        "firstToServe"
       ],
-      "changeTimestamp": 1783508825
+      "changeTimestamp": 1783509689
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,

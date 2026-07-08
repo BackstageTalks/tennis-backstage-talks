@@ -11,42 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 78,
-  "found_count": 42,
-  "missing_count": 36,
+  "lookup_count": 68,
+  "found_count": 38,
+  "missing_count": 30,
   "examples_found": [
-    {
-      "input": "Kajsa Rinaldo Persson",
-      "matched": "Kajsa Rinaldo Persson",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1542.7,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Kaitlin Quevedo",
-      "matched": "Kaitlin Quevedo",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1756.8,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Moyuka Uchijima",
-      "matched": "Moyuka Uchijima",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1680.5,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Anna Blinkova",
-      "matched": "Anna Blinkova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1694.4,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Linda Noskova",
       "matched": "Linda Noskova",
@@ -254,39 +222,41 @@
       "score": 1.0,
       "elo": 1509.6,
       "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Momoko Kobori",
+      "matched": "Momoko Kobori",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1354.5,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Elizabeth Mandlik",
+      "matched": "Elizabeth Mandlik",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1530.2,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Sachia Vickery",
+      "matched": "Sachia Vickery",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1515.1,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Mananchaya Sawangkaew",
+      "matched": "Mananchaya Sawangkaew",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1696.3,
+      "source": "data/elo/wta_elo_latest.csv"
     }
   ],
   "examples_missing": [
-    {
-      "input": "Irene Burillo",
-      "normalized": "irene burillo",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Maria Carle",
-      "normalized": "maria carle",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Barnett A / Lechemia E",
-      "normalized": "barnett a / lechemia e",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Bhosale R / Li Y-Y",
-      "normalized": "bhosale r / li y y",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Krawietz K / Puetz T",
-      "normalized": "krawietz k / puetz t",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Doumbia S / Reboul F",
-      "normalized": "doumbia s / reboul f",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Arevalo M / Pavic M",
       "normalized": "arevalo m / pavic m",
