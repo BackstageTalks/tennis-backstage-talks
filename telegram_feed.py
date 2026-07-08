@@ -27,11 +27,15 @@ if not CHAT_ID:
 RSS_FEEDS = [
     {
         "url": "https://backstagetalks.github.io/tennis-backstage-talks/h4v34n1c3d4y185.xml",
-        "title": "TOP 5"
+        "title": "TOP BETS | Corq Model"
     },
     {
         "url": "https://backstagetalks.github.io/tennis-backstage-talks/h4v34n1c3d4y186.xml",
-        "title": "TOP 5 | Thinq Model"
+        "title": "TOP BETS | Thinq Model"
+    },
+    {
+        "url": "https://backstagetalks.github.io/tennis-backstage-talks/h4v34n1c3d4y187.xml",
+        "title": "TOP BETS | Blenq Model"
     }
 ]
 
