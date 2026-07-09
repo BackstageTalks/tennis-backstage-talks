@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783403348.5986648,
+  "saved_at": 1783573396.576486,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Braunschweig, Germany, Doubles",
         "slug": "braunschweig-germany-doubles",
@@ -13,7 +14,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "priority": 5,
+          "priority": 6,
           "country": {},
           "id": 72,
           "flag": "challenger",
@@ -38,7 +39,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "priority": 5,
+            "priority": 6,
             "country": {},
             "id": 72,
             "flag": "challenger",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 13,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,9 +90,35 @@
       },
       "customId": "kOgjsMzXj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 1,
+      "venue": {
+        "city": {
+          "name": "Braunschweig",
+          "country": {
+            "alpha2": "DE",
+            "alpha3": "DEU",
+            "name": "Germany",
+            "slug": "germany"
+          },
+          "id": 19645
+        },
+        "hidden": true,
+        "slug": "ecovis-court",
+        "name": "Ecovis Court",
+        "country": {
+          "alpha2": "DE",
+          "alpha3": "DEU",
+          "name": "Germany",
+          "slug": "germany"
+        },
+        "id": 60470,
+        "stadium": {
+          "name": "Ecovis Court"
+        }
       },
       "homeTeam": {
         "name": "Liutarevich I / Reyes-Varela M A",
@@ -120,7 +147,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 156,
+            "userCount": 157,
             "playerTeamInfo": {
               "height": 1.96,
               "weight": 92,
@@ -149,7 +176,7 @@
                 "value": 98593,
                 "currency": "EUR"
               },
-              "currentRanking": 1242
+              "currentRanking": 1218
             },
             "nameCode": "LIU",
             "disabled": false,
@@ -283,7 +310,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 146,
+            "userCount": 147,
             "playerTeamInfo": {
               "height": 1.78,
               "weight": 67,
@@ -312,7 +339,7 @@
                 "value": 33753,
                 "currency": "EUR"
               },
-              "currentRanking": 1563
+              "currentRanking": 1570
             },
             "nameCode": "PUJ",
             "national": false,
@@ -352,7 +379,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 132,
+            "userCount": 134,
             "playerTeamInfo": {
               "height": 1.88,
               "weight": 78,
@@ -387,7 +414,7 @@
                 "value": 302948,
                 "currency": "EUR"
               },
-              "currentRanking": 1837
+              "currentRanking": 1878
             },
             "nameCode": "VEG",
             "disabled": false,
@@ -434,18 +461,42 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2052,
+        "period2": 2272,
+        "currentPeriodStartTimestamp": 1783521802
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period1",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783525160
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16451089,
       "defaultPeriodCount": 3,
       "slug": "liutarevich-reyes-varelaa-pujol-navarro-vega-hernandez",
-      "startTimestamp": 1783497600,
+      "currentPeriodStartTimestamp": 1783521802,
+      "startTimestamp": 1783518900,
       "periods": {
         "point": "Game",
         "current": "Match",

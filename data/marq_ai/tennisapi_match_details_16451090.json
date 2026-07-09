@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783403348.0250447,
+  "saved_at": 1783573368.5253344,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Braunschweig, Germany, Doubles",
         "slug": "braunschweig-germany-doubles",
@@ -13,7 +14,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "priority": 5,
+          "priority": 6,
           "country": {},
           "id": 72,
           "flag": "challenger",
@@ -38,7 +39,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "priority": 5,
+            "priority": 6,
             "country": {},
             "id": 72,
             "flag": "challenger",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 13,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,9 +90,35 @@
       },
       "customId": "LtdjsiQXj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 2,
+      "venue": {
+        "city": {
+          "name": "Braunschweig",
+          "country": {
+            "alpha2": "DE",
+            "alpha3": "DEU",
+            "name": "Germany",
+            "slug": "germany"
+          },
+          "id": 19645
+        },
+        "hidden": true,
+        "slug": "ecovis-court",
+        "name": "Ecovis Court",
+        "country": {
+          "alpha2": "DE",
+          "alpha3": "DEU",
+          "name": "Germany",
+          "slug": "germany"
+        },
+        "id": 60470,
+        "stadium": {
+          "name": "Ecovis Court"
+        }
       },
       "homeTeam": {
         "name": "Jarvis R / Vance Jam",
@@ -124,7 +151,7 @@
             "playerTeamInfo": {
               "id": 26613,
               "underage": false,
-              "currentRanking": 2813
+              "currentRanking": 2823
             },
             "nameCode": "JAR",
             "national": false,
@@ -165,7 +192,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 31,
+            "userCount": 32,
             "nameCode": "VAN",
             "national": false,
             "type": 1,
@@ -212,7 +239,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2,
+        "userCount": 3,
         "nameCode": "P/V",
         "national": false,
         "type": 2,
@@ -230,7 +257,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 451,
+            "userCount": 453,
             "playerTeamInfo": {
               "height": 1.96,
               "weight": 86,
@@ -259,7 +286,7 @@
                 "value": 84544,
                 "currency": "EUR"
               },
-              "currentRanking": 619
+              "currentRanking": 621
             },
             "nameCode": "PIE",
             "ranking": 1017,
@@ -301,7 +328,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 555,
+            "userCount": 556,
             "playerTeamInfo": {
               "plays": "right-handed",
               "prizeCurrent": 5088,
@@ -385,18 +412,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 3,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2024,
+        "period2": 1891,
+        "currentPeriodStartTimestamp": 1783516512
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783518451
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16451090,
       "defaultPeriodCount": 3,
       "slug": "jarvis-vance-jam-pieczonka-vrbensky",
-      "startTimestamp": 1783497600,
+      "currentPeriodStartTimestamp": 1783516512,
+      "startTimestamp": 1783514100,
       "periods": {
         "point": "Game",
         "current": "Match",
