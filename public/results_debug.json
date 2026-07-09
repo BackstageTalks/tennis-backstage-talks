@@ -4116,5 +4116,34 @@
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Kylie Collins vs Alana Smith"
     }
+  ],
+  "examples_void": [
+    {
+      "dataset": "all",
+      "date": "2026-07-08",
+      "match": "Lea Ma vs Clervie Ngounoue",
+      "pick": "Clervie Ngounoue",
+      "score": "6-4 6-6",
+      "winner": "Lea Ma",
+      "reason": "incomplete_score_with_winner:6-4 6-6"
+    },
+    {
+      "dataset": "all",
+      "date": "2026-07-09",
+      "match": "Lisa Pigato vs Aurora Zantedeschi",
+      "pick": "Lisa Pigato",
+      "score": "2-6 5-5",
+      "winner": "Aurora Zantedeschi",
+      "reason": "incomplete_score_with_winner:2-6 5-5"
+    },
+    {
+      "dataset": "top5",
+      "date": "2026-07-09",
+      "match": "Lisa Pigato vs Aurora Zantedeschi",
+      "pick": "Lisa Pigato",
+      "score": "2-6 5-5",
+      "winner": "Aurora Zantedeschi",
+      "reason": "incomplete_score_with_winner:2-6 5-5"
+    }
   ]
 }

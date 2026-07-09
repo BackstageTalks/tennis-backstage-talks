@@ -1,98 +1,98 @@
 {
   "dataset": "top5",
-  "updated_at": "2026-07-09T20:12:35.906163+00:00",
+  "updated_at": "2026-07-09T20:53:21.412621+00:00",
   "betting_day": "2026-07-09",
   "summary": {
     "picks": 23,
     "won": 12,
-    "lost": 9,
-    "void": 0,
+    "lost": 8,
+    "void": 1,
     "pending": 2,
     "unknown": 0,
-    "units": -1.37,
-    "win_rate": 0.571
+    "units": -0.37,
+    "win_rate": 0.6
   },
   "cards": {
     "today": {
       "picks": 5,
       "won": 3,
-      "lost": 2,
-      "void": 0,
+      "lost": 1,
+      "void": 1,
       "pending": 0,
       "unknown": 0,
-      "units": 0.06,
-      "win_rate": 0.6
+      "units": 1.06,
+      "win_rate": 0.75
     },
     "last_7_days": {
       "picks": 23,
       "won": 12,
-      "lost": 9,
-      "void": 0,
+      "lost": 8,
+      "void": 1,
       "pending": 2,
       "unknown": 0,
-      "units": -1.37,
-      "win_rate": 0.571
+      "units": -0.37,
+      "win_rate": 0.6
     },
     "current_month": {
       "picks": 23,
       "won": 12,
-      "lost": 9,
-      "void": 0,
+      "lost": 8,
+      "void": 1,
       "pending": 2,
       "unknown": 0,
-      "units": -1.37,
-      "win_rate": 0.571
+      "units": -0.37,
+      "win_rate": 0.6
     },
     "all_time": {
       "picks": 23,
       "won": 12,
-      "lost": 9,
-      "void": 0,
+      "lost": 8,
+      "void": 1,
       "pending": 2,
       "unknown": 0,
-      "units": -1.37,
-      "win_rate": 0.571
+      "units": -0.37,
+      "win_rate": 0.6
     }
   },
   "today": {
     "picks": 5,
     "won": 3,
-    "lost": 2,
-    "void": 0,
+    "lost": 1,
+    "void": 1,
     "pending": 0,
     "unknown": 0,
-    "units": 0.06,
-    "win_rate": 0.6
+    "units": 1.06,
+    "win_rate": 0.75
   },
   "last_7_days": {
     "picks": 23,
     "won": 12,
-    "lost": 9,
-    "void": 0,
+    "lost": 8,
+    "void": 1,
     "pending": 2,
     "unknown": 0,
-    "units": -1.37,
-    "win_rate": 0.571
+    "units": -0.37,
+    "win_rate": 0.6
   },
   "current_month": {
     "picks": 23,
     "won": 12,
-    "lost": 9,
-    "void": 0,
+    "lost": 8,
+    "void": 1,
     "pending": 2,
     "unknown": 0,
-    "units": -1.37,
-    "win_rate": 0.571
+    "units": -0.37,
+    "win_rate": 0.6
   },
   "all_time": {
     "picks": 23,
     "won": 12,
-    "lost": 9,
-    "void": 0,
+    "lost": 8,
+    "void": 1,
     "pending": 2,
     "unknown": 0,
-    "units": -1.37,
-    "win_rate": 0.571
+    "units": -0.37,
+    "win_rate": 0.6
   },
   "items": [
     {
@@ -128,14 +128,15 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "LOST",
+      "result_status": "VOID",
       "winner": "Aurora Zantedeschi",
       "score": "2-6 5-5",
-      "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.900328+00:00",
+      "units": 0.0,
+      "resolved_at": "2026-07-09T20:53:21.412345+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Lisa Pigato vs Aurora Zantedeschi",
-      "result_date": "2026-07-09"
+      "result_date": "2026-07-09",
+      "result_void_reason": "incomplete_score_with_winner:2-6 5-5"
     },
     {
       "id": "2026_07_09_sinja_kraus_vs_yulia_putintseva_yulia_putintseva_sinja_kraus",
@@ -174,7 +175,7 @@
       "winner": "Yulia Putintseva",
       "score": "2-6 3-6",
       "units": 0.73,
-      "resolved_at": "2026-07-09T20:12:35.901731+00:00",
+      "resolved_at": "2026-07-09T20:53:21.408889+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Sinja Kraus vs Yulia Putintseva",
       "result_date": "2026-07-09"
@@ -216,7 +217,7 @@
       "winner": "Linda Noskova",
       "score": "4-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.902973+00:00",
+      "resolved_at": "2026-07-09T20:53:21.409894+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Marta Kostyuk vs Linda Noskova",
       "result_date": "2026-07-09"
@@ -258,7 +259,7 @@
       "winner": "Simona Waltert",
       "score": "6-2 6-1",
       "units": 0.5,
-      "resolved_at": "2026-07-09T20:12:35.904306+00:00",
+      "resolved_at": "2026-07-09T20:53:21.410995+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Simona Waltert vs Leyre Romero Gormaz",
       "result_date": "2026-07-09"
@@ -300,7 +301,7 @@
       "winner": "Leolia Jeanjean",
       "score": "6-1 4-6 5-7",
       "units": 0.83,
-      "resolved_at": "2026-07-09T20:12:35.905817+00:00",
+      "resolved_at": "2026-07-09T20:53:21.412235+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Francesca Jones vs Leolia Jeanjean",
       "result_date": "2026-07-09"
@@ -342,7 +343,7 @@
       "winner": "Sinja Kraus",
       "score": "6-2 6-4",
       "units": 0.3,
-      "resolved_at": "2026-07-09T20:12:35.892691+00:00",
+      "resolved_at": "2026-07-09T20:53:21.401734+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Sinja Kraus vs Caijsa Wilda Hennemann",
       "result_date": "2026-07-08"
@@ -384,7 +385,7 @@
       "winner": "Francesca Curmi",
       "score": "4-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.894803+00:00",
+      "resolved_at": "2026-07-09T20:53:21.403435+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Rebeka Masarova vs Francesca Curmi",
       "result_date": "2026-07-08"
@@ -428,7 +429,7 @@
       "winner": "Alexander Zverev",
       "score": "4-6 4-6 2-6",
       "units": 1.0,
-      "resolved_at": "2026-07-09T20:12:35.895977+00:00",
+      "resolved_at": "2026-07-09T20:53:21.404326+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Taylor Fritz vs Alexander Zverev",
       "result_date": "2026-07-08"
@@ -470,7 +471,7 @@
       "winner": "Elizabeth Mandlik",
       "score": "1-6 4-6",
       "units": 0.44,
-      "resolved_at": "2026-07-09T20:12:35.897703+00:00",
+      "resolved_at": "2026-07-09T20:53:21.405678+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Momoko Kobori vs Elizabeth Mandlik",
       "result_date": "2026-07-08"
@@ -514,7 +515,7 @@
       "winner": "Arthur Fery",
       "score": "4-6 6-7 0-6",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.898845+00:00",
+      "resolved_at": "2026-07-09T20:53:21.406545+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Flavio Cobolli vs Arthur Fery",
       "result_date": "2026-07-08"
@@ -556,7 +557,7 @@
       "winner": "Aurora Zantedeschi",
       "score": "6-1 6-2",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.878906+00:00",
+      "resolved_at": "2026-07-09T20:53:21.391183+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Aurora Zantedeschi vs Elsa Jacquemot",
       "result_date": "2026-07-07"
@@ -637,7 +638,7 @@
       "winner": "Lisa Pigato",
       "score": "1-6 6-1 6-7",
       "units": 0.33,
-      "resolved_at": "2026-07-09T20:12:35.884901+00:00",
+      "resolved_at": "2026-07-09T20:53:21.395746+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Angela Fita Boluda vs Lisa Pigato",
       "result_date": "2026-07-07"
@@ -679,7 +680,7 @@
       "winner": "Kajsa Rinaldo Persson",
       "score": "4-6 6-7",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.886388+00:00",
+      "resolved_at": "2026-07-09T20:53:21.396926+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Dalma Galfi vs Kajsa Rinaldo Persson",
       "result_date": "2026-07-07"
@@ -760,7 +761,7 @@
       "winner": "Marta Kostyuk",
       "score": "2-6 6-4 1-6",
       "units": 0.79,
-      "resolved_at": "2026-07-09T20:12:35.870937+00:00",
+      "resolved_at": "2026-07-09T20:53:21.384795+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Emma Navarro vs Marta Kostyuk",
       "result_date": "2026-07-04"
@@ -802,7 +803,7 @@
       "winner": "Marie Bouzkova",
       "score": "6-4 6-7 4-6",
       "units": 0.74,
-      "resolved_at": "2026-07-09T20:12:35.873137+00:00",
+      "resolved_at": "2026-07-09T20:53:21.386579+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Liudmila Samsonova vs Marie Bouzkova",
       "result_date": "2026-07-04"
@@ -844,7 +845,7 @@
       "winner": "Jasmine Paolini",
       "score": "6-1 6-2",
       "units": 0.81,
-      "resolved_at": "2026-07-09T20:12:35.874778+00:00",
+      "resolved_at": "2026-07-09T20:53:21.387918+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Jasmine Paolini vs Maria Sakkari",
       "result_date": "2026-07-04"
@@ -888,7 +889,7 @@
       "winner": "Grigor Dimitrov",
       "score": "6-3 6-4 3-6 5-7 6-3",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.876124+00:00",
+      "resolved_at": "2026-07-09T20:53:21.388990+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Grigor Dimitrov vs Matteo Berrettini",
       "result_date": "2026-07-04"
@@ -932,7 +933,7 @@
       "winner": "Arthur Fery",
       "score": "6-2 5-7 6-2 6-7 6-7",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.877345+00:00",
+      "resolved_at": "2026-07-09T20:53:21.389931+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Zizou Bergs vs Arthur Fery",
       "result_date": "2026-07-04"
@@ -976,7 +977,7 @@
       "winner": "Hubert Hurkacz",
       "score": "4-6 7-6 7-5 6-2",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.865286+00:00",
+      "resolved_at": "2026-07-09T20:53:21.380161+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Hubert Hurkacz vs Tommy Paul",
       "result_date": "2026-07-03"
@@ -1018,7 +1019,7 @@
       "winner": "Barbora Krejčiková",
       "score": "3-6 5-7",
       "units": 0.61,
-      "resolved_at": "2026-07-09T20:12:35.867114+00:00",
+      "resolved_at": "2026-07-09T20:53:21.381646+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Nikola Bartunkova vs Barbora Krejčiková",
       "result_date": "2026-07-03"
@@ -1060,7 +1061,7 @@
       "winner": "Iva Jović",
       "score": "3-6 6-3 4-6",
       "units": 0.55,
-      "resolved_at": "2026-07-09T20:12:35.868795+00:00",
+      "resolved_at": "2026-07-09T20:53:21.383013+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Ekaterina Alexandrova vs Iva Jović",
       "result_date": "2026-07-03"
@@ -1100,14 +1101,15 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "LOST",
+      "result_status": "VOID",
       "winner": "Aurora Zantedeschi",
       "score": "2-6 5-5",
-      "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.900328+00:00",
+      "units": 0.0,
+      "resolved_at": "2026-07-09T20:53:21.412345+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Lisa Pigato vs Aurora Zantedeschi",
-      "result_date": "2026-07-09"
+      "result_date": "2026-07-09",
+      "result_void_reason": "incomplete_score_with_winner:2-6 5-5"
     },
     {
       "id": "2026_07_09_sinja_kraus_vs_yulia_putintseva_yulia_putintseva_sinja_kraus",
@@ -1146,7 +1148,7 @@
       "winner": "Yulia Putintseva",
       "score": "2-6 3-6",
       "units": 0.73,
-      "resolved_at": "2026-07-09T20:12:35.901731+00:00",
+      "resolved_at": "2026-07-09T20:53:21.408889+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Sinja Kraus vs Yulia Putintseva",
       "result_date": "2026-07-09"
@@ -1188,7 +1190,7 @@
       "winner": "Linda Noskova",
       "score": "4-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.902973+00:00",
+      "resolved_at": "2026-07-09T20:53:21.409894+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Marta Kostyuk vs Linda Noskova",
       "result_date": "2026-07-09"
@@ -1230,7 +1232,7 @@
       "winner": "Simona Waltert",
       "score": "6-2 6-1",
       "units": 0.5,
-      "resolved_at": "2026-07-09T20:12:35.904306+00:00",
+      "resolved_at": "2026-07-09T20:53:21.410995+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Simona Waltert vs Leyre Romero Gormaz",
       "result_date": "2026-07-09"
@@ -1272,7 +1274,7 @@
       "winner": "Leolia Jeanjean",
       "score": "6-1 4-6 5-7",
       "units": 0.83,
-      "resolved_at": "2026-07-09T20:12:35.905817+00:00",
+      "resolved_at": "2026-07-09T20:53:21.412235+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Francesca Jones vs Leolia Jeanjean",
       "result_date": "2026-07-09"
@@ -1314,7 +1316,7 @@
       "winner": "Sinja Kraus",
       "score": "6-2 6-4",
       "units": 0.3,
-      "resolved_at": "2026-07-09T20:12:35.892691+00:00",
+      "resolved_at": "2026-07-09T20:53:21.401734+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Sinja Kraus vs Caijsa Wilda Hennemann",
       "result_date": "2026-07-08"
@@ -1356,7 +1358,7 @@
       "winner": "Francesca Curmi",
       "score": "4-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.894803+00:00",
+      "resolved_at": "2026-07-09T20:53:21.403435+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Rebeka Masarova vs Francesca Curmi",
       "result_date": "2026-07-08"
@@ -1400,7 +1402,7 @@
       "winner": "Alexander Zverev",
       "score": "4-6 4-6 2-6",
       "units": 1.0,
-      "resolved_at": "2026-07-09T20:12:35.895977+00:00",
+      "resolved_at": "2026-07-09T20:53:21.404326+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Taylor Fritz vs Alexander Zverev",
       "result_date": "2026-07-08"
@@ -1442,7 +1444,7 @@
       "winner": "Elizabeth Mandlik",
       "score": "1-6 4-6",
       "units": 0.44,
-      "resolved_at": "2026-07-09T20:12:35.897703+00:00",
+      "resolved_at": "2026-07-09T20:53:21.405678+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Momoko Kobori vs Elizabeth Mandlik",
       "result_date": "2026-07-08"
@@ -1486,7 +1488,7 @@
       "winner": "Arthur Fery",
       "score": "4-6 6-7 0-6",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.898845+00:00",
+      "resolved_at": "2026-07-09T20:53:21.406545+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Flavio Cobolli vs Arthur Fery",
       "result_date": "2026-07-08"
@@ -1528,7 +1530,7 @@
       "winner": "Aurora Zantedeschi",
       "score": "6-1 6-2",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.878906+00:00",
+      "resolved_at": "2026-07-09T20:53:21.391183+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Aurora Zantedeschi vs Elsa Jacquemot",
       "result_date": "2026-07-07"
@@ -1609,7 +1611,7 @@
       "winner": "Lisa Pigato",
       "score": "1-6 6-1 6-7",
       "units": 0.33,
-      "resolved_at": "2026-07-09T20:12:35.884901+00:00",
+      "resolved_at": "2026-07-09T20:53:21.395746+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Angela Fita Boluda vs Lisa Pigato",
       "result_date": "2026-07-07"
@@ -1651,7 +1653,7 @@
       "winner": "Kajsa Rinaldo Persson",
       "score": "4-6 6-7",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.886388+00:00",
+      "resolved_at": "2026-07-09T20:53:21.396926+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Dalma Galfi vs Kajsa Rinaldo Persson",
       "result_date": "2026-07-07"
@@ -1732,7 +1734,7 @@
       "winner": "Marta Kostyuk",
       "score": "2-6 6-4 1-6",
       "units": 0.79,
-      "resolved_at": "2026-07-09T20:12:35.870937+00:00",
+      "resolved_at": "2026-07-09T20:53:21.384795+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Emma Navarro vs Marta Kostyuk",
       "result_date": "2026-07-04"
@@ -1774,7 +1776,7 @@
       "winner": "Marie Bouzkova",
       "score": "6-4 6-7 4-6",
       "units": 0.74,
-      "resolved_at": "2026-07-09T20:12:35.873137+00:00",
+      "resolved_at": "2026-07-09T20:53:21.386579+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Liudmila Samsonova vs Marie Bouzkova",
       "result_date": "2026-07-04"
@@ -1816,7 +1818,7 @@
       "winner": "Jasmine Paolini",
       "score": "6-1 6-2",
       "units": 0.81,
-      "resolved_at": "2026-07-09T20:12:35.874778+00:00",
+      "resolved_at": "2026-07-09T20:53:21.387918+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Jasmine Paolini vs Maria Sakkari",
       "result_date": "2026-07-04"
@@ -1860,7 +1862,7 @@
       "winner": "Grigor Dimitrov",
       "score": "6-3 6-4 3-6 5-7 6-3",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.876124+00:00",
+      "resolved_at": "2026-07-09T20:53:21.388990+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Grigor Dimitrov vs Matteo Berrettini",
       "result_date": "2026-07-04"
@@ -1904,7 +1906,7 @@
       "winner": "Arthur Fery",
       "score": "6-2 5-7 6-2 6-7 6-7",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.877345+00:00",
+      "resolved_at": "2026-07-09T20:53:21.389931+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Zizou Bergs vs Arthur Fery",
       "result_date": "2026-07-04"
@@ -1948,7 +1950,7 @@
       "winner": "Hubert Hurkacz",
       "score": "4-6 7-6 7-5 6-2",
       "units": -1.0,
-      "resolved_at": "2026-07-09T20:12:35.865286+00:00",
+      "resolved_at": "2026-07-09T20:53:21.380161+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Hubert Hurkacz vs Tommy Paul",
       "result_date": "2026-07-03"
@@ -1990,7 +1992,7 @@
       "winner": "Barbora Krejčiková",
       "score": "3-6 5-7",
       "units": 0.61,
-      "resolved_at": "2026-07-09T20:12:35.867114+00:00",
+      "resolved_at": "2026-07-09T20:53:21.381646+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Nikola Bartunkova vs Barbora Krejčiková",
       "result_date": "2026-07-03"
@@ -2032,7 +2034,7 @@
       "winner": "Iva Jović",
       "score": "3-6 6-3 4-6",
       "units": 0.55,
-      "resolved_at": "2026-07-09T20:12:35.868795+00:00",
+      "resolved_at": "2026-07-09T20:53:21.383013+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Ekaterina Alexandrova vs Iva Jović",
       "result_date": "2026-07-03"
