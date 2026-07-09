@@ -11,42 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 64,
-  "found_count": 28,
-  "missing_count": 36,
+  "lookup_count": 56,
+  "found_count": 24,
+  "missing_count": 32,
   "examples_found": [
-    {
-      "input": "Simona Waltert",
-      "matched": "Simona Waltert",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1669.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Leyre Romero Gormaz",
-      "matched": "Leyre Romero Gormaz",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1616.2,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Jeline Vandromme",
-      "matched": "Jeline Vandromme",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1645.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Oksana Selekhmeteva",
-      "matched": "Oksana Selekhmeteva",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1670.1,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Kaitlin Quevedo",
       "matched": "Kaitlin Quevedo",
@@ -241,26 +209,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Siniakova K / Townsend T",
-      "normalized": "siniakova k / townsend t",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Guo H / Mladenovic K",
-      "normalized": "guo h / mladenovic k",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Da Silva Fick G / McGiffin T",
-      "normalized": "da silva fick g / mcgiffin t",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Barnett A / Lechemia E",
-      "normalized": "barnett a / lechemia e",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Irene Burillo",
       "normalized": "irene burillo",
