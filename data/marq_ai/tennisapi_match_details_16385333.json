@@ -1,10 +1,9 @@
 {
-  "saved_at": 1783616955.659949,
+  "saved_at": 1783616926.1172595,
   "data": {
     "event": {
-      "firstToServe": 2,
-      "homeTeamSeed": "9",
-      "awayTeamSeed": "WC",
+      "homeTeamSeed": "WC",
+      "awayTeamSeed": "2",
       "tournament": {
         "name": "Wimbledon, London, Great Britain",
         "slug": "wimbledon-london-great-britain",
@@ -96,18 +95,17 @@
         "id": 85943
       },
       "roundInfo": {
-        "round": 27,
-        "name": "Quarterfinals",
-        "slug": "quarterfinals",
-        "cupRoundType": 4
+        "round": 28,
+        "name": "Semifinals",
+        "slug": "semifinals",
+        "cupRoundType": 2
       },
-      "customId": "FyjcsOKDc",
+      "customId": "nTxsOKDc",
       "status": {
-        "code": 100,
-        "description": "Ended",
-        "type": "finished"
+        "code": 0,
+        "description": "Not started",
+        "type": "notstarted"
       },
-      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "London",
@@ -142,91 +140,6 @@
         }
       },
       "homeTeam": {
-        "name": "Flavio Cobolli",
-        "slug": "flavio-cobolli",
-        "shortName": "F. Cobolli",
-        "gender": "M",
-        "sport": {
-          "name": "Tennis",
-          "slug": "tennis",
-          "id": 5
-        },
-        "userCount": 37735,
-        "playerTeamInfo": {
-          "height": 1.83,
-          "weight": 74,
-          "plays": "right-handed",
-          "prizeCurrent": 2755795,
-          "prizeTotal": 7337229,
-          "birthCity": {
-            "name": "Florence",
-            "country": {
-              "alpha2": "IT",
-              "alpha3": "ITA",
-              "name": "Italy",
-              "slug": "italy"
-            },
-            "id": 19275
-          },
-          "residenceCity": {
-            "name": "Rome",
-            "country": {
-              "alpha2": "IT",
-              "alpha3": "ITA",
-              "name": "Italy",
-              "slug": "italy"
-            },
-            "id": 18725
-          },
-          "id": 4435,
-          "birthplace": "Florence, Italy",
-          "birthDateTimestamp": 1020643200,
-          "underage": false,
-          "residence": "Rome, Italy",
-          "prizeCurrentRaw": {
-            "value": 2755795,
-            "currency": "EUR"
-          },
-          "prizeTotalRaw": {
-            "value": 7337229,
-            "currency": "EUR"
-          },
-          "currentRanking": 9
-        },
-        "nameCode": "COB",
-        "ranking": 10,
-        "class": 0,
-        "disabled": false,
-        "national": false,
-        "type": 1,
-        "country": {
-          "alpha2": "IT",
-          "alpha3": "ITA",
-          "name": "Italy",
-          "slug": "italy"
-        },
-        "id": 273680,
-        "fullName": "Flavio Cobolli",
-        "subTeams": [],
-        "teamColors": {
-          "primary": "#374df5",
-          "secondary": "#374df5",
-          "text": "#ffffff"
-        },
-        "fieldTranslations": {
-          "nameTranslation": {
-            "ar": "فلافيو كوبولي",
-            "ru": "Коболли, Флавио"
-          },
-          "shortNameTranslation": {
-            "ar": "ف. كوبولي",
-            "bn": "এফ. কোবলি",
-            "hi": "एफ. कोबोल्ली"
-          }
-        },
-        "timeActive": []
-      },
-      "awayTeam": {
         "name": "Arthur Fery",
         "slug": "fery-arthur",
         "shortName": "A. Fery",
@@ -265,7 +178,7 @@
             "value": 755206,
             "currency": "EUR"
           },
-          "currentRanking": 36
+          "currentRanking": 63
         },
         "nameCode": "FER",
         "ranking": 114,
@@ -298,47 +211,103 @@
         },
         "timeActive": []
       },
-      "homeScore": {
-        "current": 0,
-        "display": 0,
-        "period1": 4,
-        "period2": 6,
-        "period3": 0,
-        "period2TieBreak": 4,
-        "point": "0",
-        "normaltime": 0
+      "awayTeam": {
+        "name": "Alexander Zverev",
+        "slug": "zverev-alexander",
+        "shortName": "A. Zverev",
+        "gender": "M",
+        "sport": {
+          "name": "Tennis",
+          "slug": "tennis",
+          "id": 5
+        },
+        "userCount": 94177,
+        "playerTeamInfo": {
+          "height": 1.98,
+          "weight": 90,
+          "plays": "right-handed",
+          "turnedPro": "2013",
+          "prizeCurrent": 5659416,
+          "prizeTotal": 57435601,
+          "birthCity": {
+            "name": "Hamburg",
+            "country": {
+              "alpha2": "DE",
+              "alpha3": "DEU",
+              "name": "Germany",
+              "slug": "germany"
+            },
+            "id": 19484
+          },
+          "residenceCity": {
+            "name": "Monte Carlo",
+            "country": {
+              "alpha2": "MC",
+              "alpha3": "MCO",
+              "name": "Monaco",
+              "slug": "monaco"
+            },
+            "id": 21098
+          },
+          "id": 3,
+          "birthplace": "Hamburg, Germany",
+          "birthDateTimestamp": 861494400,
+          "underage": false,
+          "residence": "Monte Carlo, Monaco",
+          "prizeCurrentRaw": {
+            "value": 5659416,
+            "currency": "EUR"
+          },
+          "prizeTotalRaw": {
+            "value": 57435601,
+            "currency": "EUR"
+          },
+          "currentRanking": 3
+        },
+        "nameCode": "ZVE",
+        "ranking": 3,
+        "class": 4,
+        "national": false,
+        "type": 1,
+        "country": {
+          "alpha2": "DE",
+          "alpha3": "DEU",
+          "name": "Germany",
+          "slug": "germany"
+        },
+        "id": 57163,
+        "fullName": "Alexander Zverev",
+        "subTeams": [],
+        "teamColors": {
+          "primary": "#374df5",
+          "secondary": "#374df5",
+          "text": "#ffffff"
+        },
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "ألكسندر زفيريف",
+            "bn": "আলেকজান্ডার জাভেরেভ",
+            "hi": "अलेक्ज़ेंडर ज़्वेरेव",
+            "ru": "Зверев, Александер"
+          },
+          "shortNameTranslation": {
+            "ar": "أ. زفيريف"
+          }
+        },
+        "timeActive": []
       },
-      "awayScore": {
-        "current": 3,
-        "display": 3,
-        "period1": 6,
-        "period2": 7,
-        "period3": 6,
-        "period2TieBreak": 7,
-        "point": "40",
-        "normaltime": 3
-      },
-      "time": {
-        "period1": 2327,
-        "period2": 3397,
-        "period3": 2275,
-        "currentPeriodStartTimestamp": 1783525801
-      },
+      "homeScore": {},
+      "awayScore": {},
+      "time": {},
       "changes": {
-        "changes": [
-          "time.currentPeriodStart",
-          "time.period3"
-        ],
-        "changeTimestamp": 1783528117
+        "changeTimestamp": 0
       },
-      "hasGlobalHighlights": true,
+      "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
-      "correctAiInsight": true,
-      "id": 16385330,
+      "id": 16385333,
       "defaultPeriodCount": 5,
-      "slug": "arthur-fery-flavio-cobolli",
-      "currentPeriodStartTimestamp": 1783525801,
-      "startTimestamp": 1783519800,
+      "slug": "arthur-fery-alexander-zverev",
+      "startTimestamp": 1783686600,
       "periods": {
         "point": "Game",
         "current": "Match",
