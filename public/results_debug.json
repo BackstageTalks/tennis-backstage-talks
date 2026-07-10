@@ -13,8 +13,8 @@
         "data/pick_history/all/2026-07-10.json"
       ],
       "history_items_loaded": 206,
-      "resolved_count": 140,
-      "pending_count": 66,
+      "resolved_count": 141,
+      "pending_count": 65,
       "unknown_count": 0
     },
     "top5": {
@@ -32,8 +32,291 @@
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4159,
+  "finished_results_found": 4160,
   "examples_results": [
+    {
+      "match_id": 16385333,
+      "event_id": 16385333,
+      "date": "2026-07-10",
+      "player1": "Arthur Fery",
+      "player2": "Alexander Zverev",
+      "winner": "Alexander Zverev",
+      "score": "6-7 2-6 4-6",
+      "status": "FINISHED",
+      "source": "TennisApi",
+      "match": "Arthur Fery vs Alexander Zverev",
+      "raw": {
+        "source": "TennisApi",
+        "match_id": 16385333,
+        "event_id": 16385333,
+        "date": "2026-07-10",
+        "player1": "Arthur Fery",
+        "player2": "Alexander Zverev",
+        "winner": "Alexander Zverev",
+        "score": "6-7 2-6 4-6",
+        "status": "FINISHED",
+        "match": "Arthur Fery vs Alexander Zverev",
+        "tournament": "Wimbledon, Men",
+        "category": "ATP",
+        "start_time_utc": "2026-07-10T12:30:00+00:00",
+        "raw": {
+          "firstToServe": 2,
+          "homeTeamSeed": "WC",
+          "awayTeamSeed": "2",
+          "tournament": {
+            "name": "Wimbledon, London, Great Britain",
+            "slug": "wimbledon-london-great-britain",
+            "category": {
+              "name": "ATP",
+              "slug": "atp",
+              "sport": {
+                "name": "Tennis",
+                "slug": "tennis",
+                "id": 5
+              },
+              "priority": 8,
+              "country": {},
+              "id": 3,
+              "flag": "atp",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "bn": "এটিপি",
+                  "hi": "डब्ल्यूटीए",
+                  "ar": "رابطة محترفي التنس",
+                  "ru": "ATP"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "uniqueTournament": {
+              "name": "Wimbledon, Men",
+              "slug": "wimbledon",
+              "primaryColorHex": "#006633",
+              "secondaryColorHex": "#54008b",
+              "category": {
+                "name": "ATP",
+                "slug": "atp",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "priority": 8,
+                "country": {},
+                "id": 3,
+                "flag": "atp",
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "bn": "এটিপি",
+                    "hi": "डब्ल्यूटीए",
+                    "ar": "رابطة محترفي التنس",
+                    "ru": "ATP"
+                  },
+                  "shortNameTranslation": {}
+                }
+              },
+              "userCount": 39476,
+              "groundType": "Grass",
+              "tennisPoints": 2000,
+              "hasPerformanceGraphFeature": false,
+              "country": {},
+              "id": 2361,
+              "hasEventPlayerStatistics": false,
+              "displayInverseHomeAwayTeams": false,
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "بطولة ويمبلدون",
+                  "hi": "विंबलडन",
+                  "bn": "উইম্বলডন",
+                  "ru": "Уимблдон"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "priority": 0,
+            "isGroup": false,
+            "id": 189477,
+            "endTimestamp": 1783814400,
+            "startTimestamp": 1782691200,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ru": "Уимблдон, Лондон, Великобритания"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "season": {
+            "name": "Wimbledon Men Singles 2026",
+            "year": "2026",
+            "editor": false,
+            "id": 85943
+          },
+          "roundInfo": {
+            "round": 28,
+            "name": "Semifinals",
+            "slug": "semifinals",
+            "cupRoundType": 2
+          },
+          "customId": "nTxsOKDc",
+          "status": {
+            "code": 100,
+            "description": "Ended",
+            "type": "finished"
+          },
+          "winnerCode": 2,
+          "homeTeam": {
+            "name": "Arthur Fery",
+            "slug": "fery-arthur",
+            "shortName": "A. Fery",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 5703,
+            "playerTeamInfo": {
+              "id": 4454
+            },
+            "nameCode": "FER",
+            "ranking": 114,
+            "disabled": false,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "GB",
+              "alpha3": "GBR",
+              "name": "United Kingdom",
+              "slug": "united-kingdom"
+            },
+            "id": 321789,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "آرثر فيري",
+                "ru": "Фери, Артур"
+              },
+              "shortNameTranslation": {
+                "ar": "آ. فيري"
+              }
+            }
+          },
+          "awayTeam": {
+            "name": "Alexander Zverev",
+            "slug": "zverev-alexander",
+            "shortName": "A. Zverev",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 94908,
+            "playerTeamInfo": {
+              "id": 3
+            },
+            "nameCode": "ZVE",
+            "ranking": 3,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "DE",
+              "alpha3": "DEU",
+              "name": "Germany",
+              "slug": "germany"
+            },
+            "id": 57163,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "ألكسندر زفيريف",
+                "bn": "আলেকজান্ডার জাভেরেভ",
+                "hi": "अलेक्ज़ेंडर ज़्वेरेव",
+                "ru": "Зверев, Александер"
+              },
+              "shortNameTranslation": {
+                "ar": "أ. زفيريف"
+              }
+            }
+          },
+          "homeScore": {
+            "current": 0,
+            "display": 0,
+            "period1": 6,
+            "period2": 2,
+            "period3": 4,
+            "period1TieBreak": 0,
+            "point": "15",
+            "normaltime": 0
+          },
+          "awayScore": {
+            "current": 3,
+            "display": 3,
+            "period1": 7,
+            "period2": 6,
+            "period3": 6,
+            "period1TieBreak": 7,
+            "point": "40",
+            "normaltime": 3
+          },
+          "time": {
+            "period1": 3226,
+            "period2": 2265,
+            "period3": 2533,
+            "currentPeriodStartTimestamp": 1783692656
+          },
+          "changes": {
+            "changes": [
+              "time.currentPeriodStart",
+              "time.period3"
+            ],
+            "changeTimestamp": 1783695228
+          },
+          "hasGlobalHighlights": false,
+          "crowdsourcingDataDisplayEnabled": false,
+          "id": 16385333,
+          "slug": "arthur-fery-alexander-zverev",
+          "startTimestamp": 1783686600,
+          "periods": {
+            "point": "Game",
+            "current": "Match",
+            "period1": "1st set",
+            "period2": "2nd set",
+            "period3": "3rd set",
+            "period4": "4th set",
+            "period5": "5th set"
+          },
+          "finalResultOnly": false,
+          "feedLocked": false,
+          "groundType": "Grass",
+          "isEditor": false,
+          "eventFilters": {
+            "category": [
+              "singles"
+            ],
+            "level": [
+              "pro"
+            ],
+            "tournament": [
+              "grand-slam"
+            ],
+            "gender": [
+              "M"
+            ]
+          }
+        }
+      }
+    },
     {
       "match_id": 16385657,
       "event_id": 16385657,
@@ -3170,271 +3453,6 @@
           }
         }
       }
-    },
-    {
-      "match_id": 16425261,
-      "event_id": 16425261,
-      "date": "2026-07-10",
-      "player1": "Kaitlin Quevedo",
-      "player2": "Simona Waltert",
-      "winner": "Simona Waltert",
-      "score": "5-7 2-6",
-      "status": "FINISHED",
-      "source": "TennisApi",
-      "match": "Kaitlin Quevedo vs Simona Waltert",
-      "raw": {
-        "source": "TennisApi",
-        "match_id": 16425261,
-        "event_id": 16425261,
-        "date": "2026-07-10",
-        "player1": "Kaitlin Quevedo",
-        "player2": "Simona Waltert",
-        "winner": "Simona Waltert",
-        "score": "5-7 2-6",
-        "status": "FINISHED",
-        "match": "Kaitlin Quevedo vs Simona Waltert",
-        "tournament": "Bastad, Sweden ",
-        "category": "WTA 125",
-        "start_time_utc": "2026-07-10T09:00:00+00:00",
-        "raw": {
-          "firstToServe": 2,
-          "homeTeamSeed": "8",
-          "awayTeamSeed": "4",
-          "tournament": {
-            "name": "Bastad, Sweden",
-            "slug": "bastad-sweden",
-            "category": {
-              "name": "WTA 125",
-              "slug": "wta-125",
-              "sport": {
-                "name": "Tennis",
-                "slug": "tennis",
-                "id": 5
-              },
-              "priority": 5,
-              "country": {},
-              "id": 871,
-              "flag": "wta-125",
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "رابطة محترفات التنس 125",
-                  "ru": "WTA 125"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "uniqueTournament": {
-              "name": "Bastad, Sweden ",
-              "slug": "bastad-sweden",
-              "category": {
-                "name": "WTA 125",
-                "slug": "wta-125",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "priority": 5,
-                "country": {},
-                "id": 871,
-                "flag": "wta-125",
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "رابطة محترفات التنس 125",
-                    "ru": "WTA 125"
-                  },
-                  "shortNameTranslation": {}
-                }
-              },
-              "userCount": 221,
-              "groundType": "Red clay",
-              "tennisPoints": 125,
-              "hasPerformanceGraphFeature": false,
-              "country": {},
-              "id": 13377,
-              "hasEventPlayerStatistics": false,
-              "displayInverseHomeAwayTeams": false,
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "باستاد، السويد",
-                  "ru": "Бастад, Швеция"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "priority": 0,
-            "isGroup": false,
-            "id": 190357,
-            "endTimestamp": 1783728000,
-            "startTimestamp": 1783296000
-          },
-          "season": {
-            "name": "WTA 125K Bastad, Sweden Women Singles 2026",
-            "year": "2026",
-            "editor": false,
-            "id": 91333
-          },
-          "roundInfo": {
-            "round": 28,
-            "name": "Semifinals",
-            "slug": "semifinals",
-            "cupRoundType": 2
-          },
-          "customId": "qdLbsXbnd",
-          "status": {
-            "code": 100,
-            "description": "Ended",
-            "type": "finished"
-          },
-          "winnerCode": 2,
-          "homeTeam": {
-            "name": "Kaitlin Quevedo",
-            "slug": "quevedo-kaitlin",
-            "shortName": "K. Quevedo",
-            "gender": "F",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 1423,
-            "playerTeamInfo": {
-              "id": 5739
-            },
-            "nameCode": "QUE",
-            "ranking": 107,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "ES",
-              "alpha3": "ESP",
-              "name": "Spain",
-              "slug": "spain"
-            },
-            "id": 407597,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "كايتلين كويفيدو",
-                "ru": "Кейтлин Кеведо"
-              },
-              "shortNameTranslation": {
-                "ar": "ك. كويفيدو",
-                "ru": "К. Кеведо"
-              }
-            }
-          },
-          "awayTeam": {
-            "name": "Simona Waltert",
-            "slug": "waltert-simona",
-            "shortName": "S. Waltert",
-            "gender": "F",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 2250,
-            "playerTeamInfo": {
-              "id": 3426
-            },
-            "nameCode": "WAL",
-            "ranking": 90,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "CH",
-              "alpha3": "CHE",
-              "name": "Switzerland",
-              "slug": "switzerland"
-            },
-            "id": 215166,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "سيمونا والترت",
-                "bn": "সিমোনা ওয়াল্টার্ট",
-                "hi": "सिमोना वाल्टरट",
-                "ru": "Симона Вальтерт"
-              },
-              "shortNameTranslation": {
-                "ar": "س. والترت",
-                "ru": "С. Вальтерт"
-              }
-            }
-          },
-          "homeScore": {
-            "current": 0,
-            "display": 0,
-            "period1": 5,
-            "period2": 2,
-            "point": "0",
-            "normaltime": 0
-          },
-          "awayScore": {
-            "current": 2,
-            "display": 2,
-            "period1": 7,
-            "period2": 6,
-            "point": "0",
-            "normaltime": 2
-          },
-          "time": {
-            "period1": 3373,
-            "period2": 2135,
-            "currentPeriodStartTimestamp": 1783677876
-          },
-          "changes": {
-            "changes": [
-              "time.currentPeriodStart",
-              "time.period2"
-            ],
-            "changeTimestamp": 1783680056
-          },
-          "hasGlobalHighlights": false,
-          "crowdsourcingDataDisplayEnabled": false,
-          "id": 16425261,
-          "slug": "kaitlin-quevedo-simona-waltert",
-          "startTimestamp": 1783674000,
-          "periods": {
-            "point": "Game",
-            "current": "Match",
-            "period1": "1st set",
-            "period2": "2nd set",
-            "period3": "3rd set",
-            "period4": "4th set",
-            "period5": "5th set"
-          },
-          "finalResultOnly": false,
-          "feedLocked": false,
-          "groundType": "Red clay",
-          "isEditor": false,
-          "eventFilters": {
-            "category": [
-              "singles"
-            ],
-            "level": [
-              "pro"
-            ],
-            "tournament": [
-              "lower"
-            ],
-            "gender": [
-              "F"
-            ]
-          }
-        }
-      }
     }
   ],
   "examples_resolved": [
@@ -3984,6 +4002,13 @@
   "examples_date_rejected": [
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-10",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Arthur Fery vs Alexander Zverev"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-09",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
@@ -4184,13 +4209,6 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Arango E / Waltert S vs Lee Y / Ye Q Y"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-09",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Bara I M / Brooks M vs Carle M L / Selekhmeteva O"
     }
   ],
   "examples_void": [

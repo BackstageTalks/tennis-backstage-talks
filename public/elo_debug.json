@@ -11,25 +11,25 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 20,
+  "lookup_count": 18,
   "found_count": 10,
-  "missing_count": 10,
+  "missing_count": 8,
   "examples_found": [
     {
-      "input": "Mananchaya Sawangkaew",
-      "matched": "Mananchaya Sawangkaew",
+      "input": "Jannik Sinner",
+      "matched": "Jannik Sinner",
       "method": "exact",
       "score": 1.0,
-      "elo": 1696.3,
-      "source": "data/elo/wta_elo_latest.csv"
+      "elo": 2319.8,
+      "source": "data/elo/atp_elo_latest.csv"
     },
     {
-      "input": "Mary Stoiana",
-      "matched": "Mary Stoiana",
+      "input": "Novak Djokovic",
+      "matched": "Novak Djokovic",
       "method": "exact",
       "score": 1.0,
-      "elo": 1656.3,
-      "source": "data/elo/wta_elo_latest.csv"
+      "elo": 2059.3,
+      "source": "data/elo/atp_elo_latest.csv"
     },
     {
       "input": "Leolia Jeanjean",
@@ -97,16 +97,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Kuwata H / Ngounoue C",
-      "normalized": "kuwata h / ngounoue c",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Ansari C / Sanchez A S",
-      "normalized": "ansari c / sanchez a s",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Guo H / Mladenovic K",
       "normalized": "guo h / mladenovic k",
