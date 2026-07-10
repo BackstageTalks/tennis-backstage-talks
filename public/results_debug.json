@@ -13,8 +13,8 @@
         "data/pick_history/all/2026-07-10.json"
       ],
       "history_items_loaded": 206,
-      "resolved_count": 144,
-      "pending_count": 62,
+      "resolved_count": 148,
+      "pending_count": 58,
       "unknown_count": 0
     },
     "top5": {
@@ -32,7 +32,7 @@
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4164,
+  "finished_results_found": 4169,
   "examples_results": [
     {
       "match_id": 16385333,
@@ -567,8 +567,9 @@
             ],
             "changeTimestamp": 1783705328
           },
-          "hasGlobalHighlights": false,
+          "hasGlobalHighlights": true,
           "crowdsourcingDataDisplayEnabled": false,
+          "correctAiInsight": true,
           "id": 16385331,
           "slug": "jannik-sinner-novak-djokovic",
           "startTimestamp": 1783696800,
@@ -3200,113 +3201,126 @@
       }
     },
     {
-      "match_id": 16425247,
-      "event_id": 16425247,
-      "date": "2026-07-09",
-      "player1": "Paula Badosa",
-      "player2": "Varvara Lepchenko",
-      "winner": "Paula Badosa",
-      "score": "7-5 7-6",
+      "match_id": 16385780,
+      "event_id": 16385780,
+      "date": "2026-07-10",
+      "player1": "Guo H / Mladenovic K",
+      "player2": "Jiang X / Xu Y",
+      "winner": "Guo H / Mladenovic K",
+      "score": "7-6 6-4",
       "status": "FINISHED",
       "source": "TennisApi",
-      "match": "Paula Badosa vs Varvara Lepchenko",
+      "match": "Guo H / Mladenovic K vs Jiang X / Xu Y",
       "raw": {
         "source": "TennisApi",
-        "match_id": 16425247,
-        "event_id": 16425247,
-        "date": "2026-07-09",
-        "player1": "Paula Badosa",
-        "player2": "Varvara Lepchenko",
-        "winner": "Paula Badosa",
-        "score": "7-5 7-6",
+        "match_id": 16385780,
+        "event_id": 16385780,
+        "date": "2026-07-10",
+        "player1": "Guo H / Mladenovic K",
+        "player2": "Jiang X / Xu Y",
+        "winner": "Guo H / Mladenovic K",
+        "score": "7-6 6-4",
         "status": "FINISHED",
-        "match": "Paula Badosa vs Varvara Lepchenko",
-        "tournament": "Bastad, Sweden ",
-        "category": "WTA 125",
-        "start_time_utc": "2026-07-09T13:25:00+00:00",
+        "match": "Guo H / Mladenovic K vs Jiang X / Xu Y",
+        "tournament": "Wimbledon, Women Doubles",
+        "category": "WTA",
+        "start_time_utc": "2026-07-10T16:30:00+00:00",
         "raw": {
-          "firstToServe": 2,
+          "firstToServe": 1,
+          "homeTeamSeed": "10",
           "tournament": {
-            "name": "Bastad, Sweden",
-            "slug": "bastad-sweden",
+            "name": "Wimbledon, London, Great Britain, Doubles",
+            "slug": "wimbledon-london-great-britain-doubles",
             "category": {
-              "name": "WTA 125",
-              "slug": "wta-125",
+              "name": "WTA",
+              "slug": "wta",
               "sport": {
                 "name": "Tennis",
                 "slug": "tennis",
                 "id": 5
               },
-              "priority": 5,
+              "priority": 7,
               "country": {},
-              "id": 871,
-              "flag": "wta-125",
+              "id": 6,
+              "flag": "wta",
               "fieldTranslations": {
                 "nameTranslation": {
-                  "ar": "رابطة محترفات التنس 125",
-                  "ru": "WTA 125"
+                  "ar": "رابطة لاعبات التنس",
+                  "hi": "चैलेंजर",
+                  "bn": "ডব্লিউটিএ",
+                  "ru": "WTA"
                 },
                 "shortNameTranslation": {}
               }
             },
             "uniqueTournament": {
-              "name": "Bastad, Sweden ",
-              "slug": "bastad-sweden",
+              "name": "Wimbledon, Women Doubles",
+              "slug": "wimbledon-doubles",
+              "primaryColorHex": "#006633",
+              "secondaryColorHex": "#54008b",
               "category": {
-                "name": "WTA 125",
-                "slug": "wta-125",
+                "name": "WTA",
+                "slug": "wta",
                 "sport": {
                   "name": "Tennis",
                   "slug": "tennis",
                   "id": 5
                 },
-                "priority": 5,
+                "priority": 7,
                 "country": {},
-                "id": 871,
-                "flag": "wta-125",
+                "id": 6,
+                "flag": "wta",
                 "fieldTranslations": {
                   "nameTranslation": {
-                    "ar": "رابطة محترفات التنس 125",
-                    "ru": "WTA 125"
+                    "ar": "رابطة لاعبات التنس",
+                    "hi": "चैलेंजर",
+                    "bn": "ডব্লিউটিএ",
+                    "ru": "WTA"
                   },
                   "shortNameTranslation": {}
                 }
               },
-              "userCount": 221,
-              "groundType": "Red clay",
-              "tennisPoints": 125,
+              "userCount": 746,
+              "groundType": "Grass",
+              "tennisPoints": 2000,
               "hasPerformanceGraphFeature": false,
               "country": {},
-              "id": 13377,
+              "id": 2640,
               "hasEventPlayerStatistics": false,
               "displayInverseHomeAwayTeams": false,
               "fieldTranslations": {
                 "nameTranslation": {
-                  "ar": "باستاد، السويد",
-                  "ru": "Бастад, Швеция"
+                  "ar": "بطولة ويمبلدون، زوجي",
+                  "ru": "Уимблдон, парный разряд"
                 },
                 "shortNameTranslation": {}
               }
             },
             "priority": 0,
             "isGroup": false,
-            "id": 190357,
-            "endTimestamp": 1783728000,
-            "startTimestamp": 1783296000
+            "id": 189486,
+            "endTimestamp": 1783814400,
+            "startTimestamp": 1782864000,
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ru": "Уимблдон, Лондон, Великобритания, парный разряд"
+              },
+              "shortNameTranslation": {}
+            }
           },
           "season": {
-            "name": "WTA 125K Bastad, Sweden Women Singles 2026",
+            "name": "Wimbledon Women Doubles 2026",
             "year": "2026",
             "editor": false,
-            "id": 91333
+            "id": 85946
           },
           "roundInfo": {
-            "round": 27,
-            "name": "Quarterfinals",
-            "slug": "quarterfinals",
-            "cupRoundType": 4
+            "round": 28,
+            "name": "Semifinals",
+            "slug": "semifinals",
+            "cupRoundType": 2
           },
-          "customId": "uDhsaGC",
+          "customId": "fUojsRyHj",
           "status": {
             "code": 100,
             "description": "Ended",
@@ -3314,32 +3328,101 @@
           },
           "winnerCode": 1,
           "homeTeam": {
-            "name": "Paula Badosa",
-            "slug": "badosa-paula",
-            "shortName": "P. Badosa",
+            "name": "Guo H / Mladenovic K",
+            "slug": "guo-h-mladenovic-k",
             "gender": "F",
             "sport": {
               "name": "Tennis",
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 19730,
-            "playerTeamInfo": {
-              "id": 4581
-            },
-            "nameCode": "BAS",
-            "ranking": 141,
-            "disabled": false,
+            "userCount": 88,
+            "nameCode": "G/M",
             "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "ES",
-              "alpha3": "ESP",
-              "name": "Spain",
-              "slug": "spain"
-            },
-            "id": 69050,
-            "subTeams": [],
+            "type": 2,
+            "country": {},
+            "id": 1162205,
+            "subTeams": [
+              {
+                "name": "Hanyu Guo",
+                "slug": "guo-hanyu",
+                "shortName": "H. Guo",
+                "gender": "F",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "userCount": 1234,
+                "nameCode": "GUO",
+                "ranking": 159,
+                "national": false,
+                "type": 1,
+                "country": {
+                  "alpha2": "CN",
+                  "alpha3": "CHN",
+                  "name": "China",
+                  "slug": "china"
+                },
+                "id": 153652,
+                "subTeams": [],
+                "teamColors": {
+                  "primary": "#374df5",
+                  "secondary": "#374df5",
+                  "text": "#ffffff"
+                },
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "ar": "هانييو قوه",
+                    "ru": "Гуо, Ханью"
+                  },
+                  "shortNameTranslation": {
+                    "ar": "ه. قوه"
+                  }
+                }
+              },
+              {
+                "name": "Kristina Mladenović",
+                "slug": "mladenovic-kristina",
+                "shortName": "K. Mladenović",
+                "gender": "F",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "userCount": 2176,
+                "nameCode": "MLA",
+                "ranking": 835,
+                "disabled": false,
+                "national": false,
+                "type": 1,
+                "country": {
+                  "alpha2": "FR",
+                  "alpha3": "FRA",
+                  "name": "France",
+                  "slug": "france"
+                },
+                "id": 33593,
+                "subTeams": [],
+                "teamColors": {
+                  "primary": "#374df5",
+                  "secondary": "#374df5",
+                  "text": "#ffffff"
+                },
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "ar": "كريستينا ملادنوفيتش",
+                    "ru": "Младенович, Кристина"
+                  },
+                  "shortNameTranslation": {
+                    "ar": "ك. ملادنوفيتش",
+                    "bn": "কে. ম্লাদেনোভিচ",
+                    "hi": "के. म्लाडेनोविक"
+                  }
+                }
+              }
+            ],
             "teamColors": {
               "primary": "#374df5",
               "secondary": "#374df5",
@@ -3347,42 +3430,104 @@
             },
             "fieldTranslations": {
               "nameTranslation": {
-                "ar": "باولا بادوسا",
-                "ru": "Бадоса, Паула"
+                "ar": "غو ه / ملادنوفيتش ك",
+                "ru": "Го Х / Младенович К"
               },
-              "shortNameTranslation": {
-                "ar": "ب. بادوسا",
-                "bn": "পি. বাদোসা",
-                "hi": "पी. बदोसा"
-              }
+              "shortNameTranslation": {}
             }
           },
           "awayTeam": {
-            "name": "Varvara Lepchenko",
-            "slug": "lepchenko-varvara",
-            "shortName": "V. Lepchenko",
+            "name": "Jiang X / Xu Y",
+            "slug": "jiang-x-xu-y",
             "gender": "F",
             "sport": {
               "name": "Tennis",
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 1797,
-            "playerTeamInfo": {
-              "id": 415
-            },
-            "nameCode": "LEP",
-            "ranking": 175,
+            "userCount": 48,
+            "nameCode": "J/X",
             "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "US",
-              "alpha3": "USA",
-              "name": "USA",
-              "slug": "usa"
-            },
-            "id": 18919,
-            "subTeams": [],
+            "type": 2,
+            "country": {},
+            "id": 1206192,
+            "subTeams": [
+              {
+                "name": "Xinyu Jiang",
+                "slug": "jiang-xinyu",
+                "shortName": "X. Jiang",
+                "gender": "F",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "userCount": 310,
+                "nameCode": "JIA",
+                "disabled": false,
+                "national": false,
+                "type": 1,
+                "country": {
+                  "alpha2": "CN",
+                  "alpha3": "CHN",
+                  "name": "China",
+                  "slug": "china"
+                },
+                "id": 150122,
+                "subTeams": [],
+                "teamColors": {
+                  "primary": "#374df5",
+                  "secondary": "#374df5",
+                  "text": "#ffffff"
+                },
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "ar": "شينيو جيانغ",
+                    "ru": "Цзян, Синью"
+                  },
+                  "shortNameTranslation": {
+                    "ar": "ش. جيانغ"
+                  }
+                }
+              },
+              {
+                "name": "Yifan Xu",
+                "slug": "yifan-xu",
+                "shortName": "Y. Xu",
+                "gender": "F",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "userCount": 306,
+                "nameCode": "YIF",
+                "national": false,
+                "type": 1,
+                "country": {
+                  "alpha2": "CN",
+                  "alpha3": "CHN",
+                  "name": "China",
+                  "slug": "china"
+                },
+                "id": 19974,
+                "subTeams": [],
+                "teamColors": {
+                  "primary": "#374df5",
+                  "secondary": "#374df5",
+                  "text": "#ffffff"
+                },
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "ar": "ييفان شيو",
+                    "ru": "Ксю, Ю Фань"
+                  },
+                  "shortNameTranslation": {
+                    "ar": "ي. شيو"
+                  }
+                }
+              }
+            ],
             "teamColors": {
               "primary": "#374df5",
               "secondary": "#374df5",
@@ -3390,59 +3535,47 @@
             },
             "fieldTranslations": {
               "nameTranslation": {
-                "ar": "فارفارا ليبشينكو",
-                "bn": "ভারভারা লেপচেঙ্কো",
-                "hi": "वार्वरा लेपचेनको",
-                "ru": "Лепченко, Варвара"
+                "ar": "جيانغ إكس / شو ي",
+                "ru": "Цзянь С / Сюй И"
               },
-              "shortNameTranslation": {
-                "ar": "ف. ليبشينكو"
-              }
+              "shortNameTranslation": {}
             }
           },
           "homeScore": {
             "current": 2,
             "display": 2,
             "period1": 7,
-            "period2": 7,
-            "period2TieBreak": 7,
-            "point": "6",
+            "period2": 6,
+            "period1TieBreak": 7,
+            "point": "40",
             "normaltime": 2
           },
           "awayScore": {
             "current": 0,
             "display": 0,
-            "period1": 5,
-            "period2": 6,
-            "period2TieBreak": 3,
-            "point": "3",
+            "period1": 6,
+            "period2": 4,
+            "period1TieBreak": 5,
+            "point": "15",
             "normaltime": 0
           },
           "time": {
-            "period1": 3160,
-            "period2": 5740,
-            "currentPeriodStartTimestamp": 1783607124
+            "period1": 4556,
+            "period2": 2855,
+            "currentPeriodStartTimestamp": 1783705781
           },
           "changes": {
             "changes": [
-              "status.code",
-              "status.description",
-              "status.type",
-              "homeScore.current",
-              "homeScore.display",
-              "homeScore.period2",
-              "homeScore.period2TieBreak",
-              "homeScore.normaltime",
-              "awayScore.normaltime",
-              "time.currentPeriodStart"
+              "time.currentPeriodStart",
+              "time.period2"
             ],
-            "changeTimestamp": 1783612991
+            "changeTimestamp": 1783708687
           },
           "hasGlobalHighlights": false,
           "crowdsourcingDataDisplayEnabled": false,
-          "id": 16425247,
-          "slug": "paula-badosa-varvara-lepchenko",
-          "startTimestamp": 1783603500,
+          "id": 16385780,
+          "slug": "jiang-xu-guo-mladenovic",
+          "startTimestamp": 1783701000,
           "periods": {
             "point": "Game",
             "current": "Match",
@@ -3454,7 +3587,7 @@
           },
           "finalResultOnly": false,
           "feedLocked": false,
-          "groundType": "Red clay",
+          "groundType": "Grass",
           "isEditor": false,
           "eventFilters": {
             "category": [
@@ -3464,7 +3597,7 @@
               "pro"
             ],
             "tournament": [
-              "lower"
+              "grand-slam"
             ],
             "gender": [
               "F"
@@ -4084,6 +4217,13 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-10",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Guo H / Mladenovic K vs Jiang X / Xu Y"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-09",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
@@ -4144,6 +4284,13 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Anna Blinkova vs Aurora Zantedeschi"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-10",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Leolia Jeanjean vs Alice Tubello"
     },
     {
       "pick_date": "2026-07-03",
@@ -4214,20 +4361,6 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Lucrezia Stefanini vs Anna Rogers"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-09",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Darja Vidmanova vs Greet Minnen"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-10",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Mananchaya Sawangkaew vs Mary Stoiana"
     }
   ],
   "examples_void": [
