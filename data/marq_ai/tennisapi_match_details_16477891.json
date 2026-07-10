@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783659069.8371456,
+  "saved_at": 1783705604.4196258,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 18,
+          "userCount": 19,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "JPrdsjXKd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "William Mirarchi",
         "slug": "mirarchi-william",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 68,
+        "userCount": 71,
         "playerTeamInfo": {
           "prizeCurrent": 659,
           "prizeTotal": 3089,
@@ -160,7 +161,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 63,
+        "userCount": 66,
         "playerTeamInfo": {
           "prizeCurrent": 1013,
           "prizeTotal": 4005,
@@ -207,18 +208,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 0,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe"
+        ],
+        "changeTimestamp": 1783672512
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16477891,
       "defaultPeriodCount": 3,
       "slug": "luka-talan-lopatic-william-mirarchi",
-      "startTimestamp": 1783666800,
+      "startTimestamp": 1783667417,
       "periods": {
         "point": "Game",
         "current": "Match",

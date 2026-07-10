@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783659064.1246235,
+  "saved_at": 1783705599.1889844,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 21,
+          "userCount": 20,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "WAAcsXvNi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Ekaterina Tupitsyna",
         "slug": "tupitsyna-ekaterina",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 185,
+        "userCount": 186,
         "playerTeamInfo": {
           "prizeCurrent": 6715,
           "prizeTotal": 9178,
@@ -160,7 +161,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 309,
+        "userCount": 321,
         "playerTeamInfo": {
           "prizeCurrent": 11441,
           "prizeTotal": 71966,
@@ -206,18 +207,37 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 1,
+        "period1TieBreak": 2,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1783670004
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16477359,
       "defaultPeriodCount": 3,
       "slug": "ekaterina-tupitsyna-ekaterina-maklakova",
-      "startTimestamp": 1783659600,
+      "startTimestamp": 1783663862,
       "periods": {
         "point": "Game",
         "current": "Match",

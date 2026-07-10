@@ -1,8 +1,7 @@
 {
-  "saved_at": 1783659025.318752,
+  "saved_at": 1783705562.3541205,
   "data": {
     "event": {
-      "firstToServe": 1,
       "tournament": {
         "name": "ITF M25 Laval Men",
         "slug": "itf-m25-laval-men",
@@ -90,10 +89,11 @@
       },
       "customId": "VwhdsyRQj",
       "status": {
-        "code": 80,
-        "description": "Interrupted",
-        "type": "interrupted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Jay Friend",
         "slug": "friend-jay-dylan-hara",
@@ -104,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 851,
+        "userCount": 850,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 77,
@@ -133,7 +133,7 @@
             "value": 31352,
             "currency": "EUR"
           },
-          "currentRanking": 271
+          "currentRanking": 273
         },
         "nameCode": "HAR",
         "ranking": 407,
@@ -204,25 +204,27 @@
         "timeActive": []
       },
       "homeScore": {
-        "current": 1,
-        "display": 1,
+        "current": 2,
+        "display": 2,
         "period1": 6,
-        "period2": 4,
+        "period2": 6,
         "point": "0"
       },
       "awayScore": {
         "current": 0,
         "display": 0,
         "period1": 4,
-        "period2": 1,
+        "period2": 2,
         "point": "0"
       },
       "time": {},
       "changes": {
         "changes": [
-          "firstToServe"
+          "status.code",
+          "status.description",
+          "status.type"
         ],
-        "changeTimestamp": 1783622912
+        "changeTimestamp": 1783700307
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,

@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783659065.903695,
+  "saved_at": 1783705598.5263977,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 21,
+          "userCount": 20,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "BgadsqoUd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Ingkar Dyussebay",
         "slug": "dyussebay-ingkar",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 26,
+        "userCount": 30,
         "playerTeamInfo": {
           "prizeCurrent": 2302,
           "prizeTotal": 6773,
@@ -117,7 +118,7 @@
             "value": 6773,
             "currency": "EUR"
           },
-          "currentRanking": 1255
+          "currentRanking": 1256
         },
         "nameCode": "DYU",
         "ranking": 1399,
@@ -206,18 +207,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 3,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1783669787
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16477355,
       "defaultPeriodCount": 3,
       "slug": "ingkar-dyussebay-aruzhan-sagandikova",
-      "startTimestamp": 1783659600,
+      "startTimestamp": 1783663608,
       "periods": {
         "point": "Game",
         "current": "Match",

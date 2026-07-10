@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783659072.7437358,
+  "saved_at": 1783705602.5019393,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 16,
+          "userCount": 15,
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
           "country": {},
@@ -88,10 +88,11 @@
       },
       "customId": "JPbbsdIQd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Zuzanna Pawlikowska",
         "slug": "pawlikowska-zuzanna",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 548,
+        "userCount": 550,
         "playerTeamInfo": {
           "prizeCurrent": 15506,
           "prizeTotal": 51735,
@@ -159,7 +160,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1096,
+        "userCount": 1099,
         "playerTeamInfo": {
           "height": 1.8,
           "plays": "right-handed",
@@ -233,18 +234,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 4,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1783671839
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16477372,
       "defaultPeriodCount": 3,
       "slug": "zuzanna-pawlikowska-viktoria-hruncakova",
-      "startTimestamp": 1783666800,
+      "startTimestamp": 1783667302,
       "periods": {
         "point": "Game",
         "current": "Match",

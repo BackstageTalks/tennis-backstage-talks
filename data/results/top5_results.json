@@ -1,98 +1,98 @@
 {
   "dataset": "top5",
-  "updated_at": "2026-07-10T17:16:25.512177+00:00",
+  "updated_at": "2026-07-10T17:51:21.207691+00:00",
   "betting_day": "2026-07-10",
   "summary": {
     "picks": 27,
-    "won": 0,
-    "lost": 0,
+    "won": 14,
+    "lost": 10,
     "void": 1,
-    "pending": 26,
+    "pending": 2,
     "unknown": 0,
-    "units": 0.0,
-    "win_rate": null
+    "units": -1.6,
+    "win_rate": 0.583
   },
   "cards": {
     "today": {
       "picks": 4,
-      "won": 0,
-      "lost": 0,
+      "won": 2,
+      "lost": 2,
       "void": 0,
-      "pending": 4,
+      "pending": 0,
       "unknown": 0,
-      "units": 0.0,
-      "win_rate": null
+      "units": -1.23,
+      "win_rate": 0.5
     },
     "last_7_days": {
       "picks": 24,
-      "won": 0,
-      "lost": 0,
+      "won": 12,
+      "lost": 9,
       "void": 1,
-      "pending": 23,
+      "pending": 2,
       "unknown": 0,
-      "units": 0.0,
-      "win_rate": null
+      "units": -1.76,
+      "win_rate": 0.571
     },
     "current_month": {
       "picks": 27,
-      "won": 0,
-      "lost": 0,
+      "won": 14,
+      "lost": 10,
       "void": 1,
-      "pending": 26,
+      "pending": 2,
       "unknown": 0,
-      "units": 0.0,
-      "win_rate": null
+      "units": -1.6,
+      "win_rate": 0.583
     },
     "all_time": {
       "picks": 27,
-      "won": 0,
-      "lost": 0,
+      "won": 14,
+      "lost": 10,
       "void": 1,
-      "pending": 26,
+      "pending": 2,
       "unknown": 0,
-      "units": 0.0,
-      "win_rate": null
+      "units": -1.6,
+      "win_rate": 0.583
     }
   },
   "today": {
     "picks": 4,
-    "won": 0,
-    "lost": 0,
+    "won": 2,
+    "lost": 2,
     "void": 0,
-    "pending": 4,
+    "pending": 0,
     "unknown": 0,
-    "units": 0.0,
-    "win_rate": null
+    "units": -1.23,
+    "win_rate": 0.5
   },
   "last_7_days": {
     "picks": 24,
-    "won": 0,
-    "lost": 0,
+    "won": 12,
+    "lost": 9,
     "void": 1,
-    "pending": 23,
+    "pending": 2,
     "unknown": 0,
-    "units": 0.0,
-    "win_rate": null
+    "units": -1.76,
+    "win_rate": 0.571
   },
   "current_month": {
     "picks": 27,
-    "won": 0,
-    "lost": 0,
+    "won": 14,
+    "lost": 10,
     "void": 1,
-    "pending": 26,
+    "pending": 2,
     "unknown": 0,
-    "units": 0.0,
-    "win_rate": null
+    "units": -1.6,
+    "win_rate": 0.583
   },
   "all_time": {
     "picks": 27,
-    "won": 0,
-    "lost": 0,
+    "won": 14,
+    "lost": 10,
     "void": 1,
-    "pending": 26,
+    "pending": 2,
     "unknown": 0,
-    "units": 0.0,
-    "win_rate": null
+    "units": -1.6,
+    "win_rate": 0.583
   },
   "items": [
     {
@@ -128,8 +128,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Simona Waltert",
+      "score": "5-7 2-6",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.204747+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Kaitlin Quevedo vs Simona Waltert",
+      "result_date": "2026-07-10"
     },
     {
       "id": "2026_07_10_francesca_curmi_vs_jeline_vandromme_jeline_vandromme_francesca_curmi",
@@ -164,8 +170,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Jeline Vandromme",
+      "score": "3-6 0-6",
+      "units": 0.57,
+      "resolved_at": "2026-07-10T17:51:21.205636+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Francesca Curmi vs Jeline Vandromme",
+      "result_date": "2026-07-10"
     },
     {
       "id": "2026_07_10_anna_blinkova_vs_aurora_zantedeschi_anna_blinkova_aurora_zantedeschi",
@@ -200,8 +212,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_RELAXED",
       "top_reason": "BsT AI OK required; relaxed odds/probability fallback",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Aurora Zantedeschi",
+      "score": "4-6 6-7",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.206550+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Anna Blinkova vs Aurora Zantedeschi",
+      "result_date": "2026-07-10"
     },
     {
       "id": "2026_07_10_jannik_sinner_vs_novak_djokovic_jannik_sinner_novak_djokovic",
@@ -238,11 +256,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_RELAXED",
       "top_reason": "BsT AI OK required; relaxed odds/probability fallback",
-      "result_status": "PENDING",
-      "units": 0.0,
-      "resolved_at": null,
-      "result_source": null,
-      "result_match_score": null
+      "result_status": "WON",
+      "winner": "Jannik Sinner",
+      "score": "6-4 6-4 6-4",
+      "units": 0.2,
+      "resolved_at": "2026-07-10T17:51:21.207326+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Jannik Sinner vs Novak Djokovic",
+      "result_date": "2026-07-10"
     },
     {
       "id": "2026_07_09_lisa_pigato_vs_aurora_zantedeschi_lisa_pigato_aurora_zantedeschi",
@@ -281,7 +302,7 @@
       "winner": "Aurora Zantedeschi",
       "score": "2-6 5-5",
       "units": 0.0,
-      "resolved_at": "2026-07-10T16:13:29.745522+00:00",
+      "resolved_at": "2026-07-10T17:51:21.207416+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Lisa Pigato vs Aurora Zantedeschi",
       "result_date": "2026-07-09",
@@ -320,8 +341,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Yulia Putintseva",
+      "score": "2-6 3-6",
+      "units": 0.73,
+      "resolved_at": "2026-07-10T17:51:21.200621+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Sinja Kraus vs Yulia Putintseva",
+      "result_date": "2026-07-09"
     },
     {
       "id": "2026_07_09_marta_kostyuk_vs_linda_noskova_marta_kostyuk_linda_noskova",
@@ -356,8 +383,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Linda Noskova",
+      "score": "4-6 4-6",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.201501+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Marta Kostyuk vs Linda Noskova",
+      "result_date": "2026-07-09"
     },
     {
       "id": "2026_07_09_simona_waltert_vs_leyre_romero_gormaz_simona_waltert_leyre_romero_gormaz",
@@ -392,8 +425,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Simona Waltert",
+      "score": "6-2 6-1",
+      "units": 0.5,
+      "resolved_at": "2026-07-10T17:51:21.202930+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Simona Waltert vs Leyre Romero Gormaz",
+      "result_date": "2026-07-09"
     },
     {
       "id": "2026_07_09_francesca_jones_vs_leolia_jeanjean_leolia_jeanjean_francesca_jones",
@@ -428,8 +467,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_RELAXED",
       "top_reason": "BsT AI OK required; relaxed odds/probability fallback",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Leolia Jeanjean",
+      "score": "6-1 4-6 5-7",
+      "units": 0.83,
+      "resolved_at": "2026-07-10T17:51:21.203905+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Francesca Jones vs Leolia Jeanjean",
+      "result_date": "2026-07-09"
     },
     {
       "id": "2026_07_08_sinja_kraus_vs_caijsa_wilda_hennemann_sinja_kraus_caijsa_wilda_hennemann",
@@ -464,8 +509,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Sinja Kraus",
+      "score": "6-2 6-4",
+      "units": 0.3,
+      "resolved_at": "2026-07-10T17:51:21.194224+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Sinja Kraus vs Caijsa Wilda Hennemann",
+      "result_date": "2026-07-08"
     },
     {
       "id": "2026_07_08_rebeka_masarova_vs_francesca_curmi_rebeka_masarova_francesca_curmi",
@@ -500,8 +551,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Francesca Curmi",
+      "score": "4-6 4-6",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.195786+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Rebeka Masarova vs Francesca Curmi",
+      "result_date": "2026-07-08"
     },
     {
       "id": "2026_07_08_taylor_fritz_vs_alexander_zverev_alexander_zverev_taylor_fritz",
@@ -538,8 +595,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Alexander Zverev",
+      "score": "4-6 4-6 2-6",
+      "units": 1.0,
+      "resolved_at": "2026-07-10T17:51:21.196638+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Taylor Fritz vs Alexander Zverev",
+      "result_date": "2026-07-08"
     },
     {
       "id": "2026_07_08_momoko_kobori_vs_elizabeth_mandlik_elizabeth_mandlik_momoko_kobori",
@@ -574,8 +637,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Elizabeth Mandlik",
+      "score": "1-6 4-6",
+      "units": 0.44,
+      "resolved_at": "2026-07-10T17:51:21.197892+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Momoko Kobori vs Elizabeth Mandlik",
+      "result_date": "2026-07-08"
     },
     {
       "id": "2026_07_08_flavio_cobolli_vs_arthur_fery_flavio_cobolli_arthur_fery",
@@ -612,8 +681,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Arthur Fery",
+      "score": "4-6 6-7 0-6",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.198704+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Flavio Cobolli vs Arthur Fery",
+      "result_date": "2026-07-08"
     },
     {
       "id": "2026_07_07_aurora_zantedeschi_vs_elsa_jacquemot_elsa_jacquemot_aurora_zantedeschi",
@@ -648,8 +723,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Aurora Zantedeschi",
+      "score": "6-1 6-2",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.184421+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Aurora Zantedeschi vs Elsa Jacquemot",
+      "result_date": "2026-07-07"
     },
     {
       "id": "2026_07_07_momoko_kobori_vs_elizabeth_mandlik_elizabeth_mandlik_momoko_kobori",
@@ -723,8 +804,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Lisa Pigato",
+      "score": "1-6 6-1 6-7",
+      "units": 0.33,
+      "resolved_at": "2026-07-10T17:51:21.188776+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Angela Fita Boluda vs Lisa Pigato",
+      "result_date": "2026-07-07"
     },
     {
       "id": "2026_07_07_dalma_galfi_vs_kajsa_rinaldo_persson_dalma_galfi_kajsa_rinaldo_persson",
@@ -759,8 +846,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Kajsa Rinaldo Persson",
+      "score": "4-6 6-7",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.189858+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Dalma Galfi vs Kajsa Rinaldo Persson",
+      "result_date": "2026-07-07"
     },
     {
       "id": "2026_07_07_lea_ma_vs_clervie_ngounoue_clervie_ngounoue_lea_ma",
@@ -834,8 +927,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Marta Kostyuk",
+      "score": "2-6 6-4 1-6",
+      "units": 0.79,
+      "resolved_at": "2026-07-10T17:51:21.178676+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Emma Navarro vs Marta Kostyuk",
+      "result_date": "2026-07-04"
     },
     {
       "id": "2026_07_04_liudmila_samsonova_vs_marie_bouzkova_marie_bouzkova_liudmila_samsonova",
@@ -870,8 +969,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Marie Bouzkova",
+      "score": "6-4 6-7 4-6",
+      "units": 0.74,
+      "resolved_at": "2026-07-10T17:51:21.180275+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Liudmila Samsonova vs Marie Bouzkova",
+      "result_date": "2026-07-04"
     },
     {
       "id": "2026_07_04_jasmine_paolini_vs_maria_sakkari_jasmine_paolini_maria_sakkari",
@@ -906,8 +1011,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Jasmine Paolini",
+      "score": "6-1 6-2",
+      "units": 0.81,
+      "resolved_at": "2026-07-10T17:51:21.181461+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Jasmine Paolini vs Maria Sakkari",
+      "result_date": "2026-07-04"
     },
     {
       "id": "2026_07_04_grigor_dimitrov_vs_matteo_berrettini_matteo_berrettini_grigor_dimitrov",
@@ -944,8 +1055,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Grigor Dimitrov",
+      "score": "6-3 6-4 3-6 5-7 6-3",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.182435+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Grigor Dimitrov vs Matteo Berrettini",
+      "result_date": "2026-07-04"
     },
     {
       "id": "2026_07_04_zizou_bergs_vs_arthur_fery_zizou_bergs_arthur_fery",
@@ -982,8 +1099,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Arthur Fery",
+      "score": "6-2 5-7 6-2 6-7 6-7",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.183279+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Zizou Bergs vs Arthur Fery",
+      "result_date": "2026-07-04"
     },
     {
       "id": "2026_07_03_hubert_hurkacz_vs_tommy_paul_tommy_paul_hubert_hurkacz",
@@ -1020,8 +1143,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Hubert Hurkacz",
+      "score": "4-6 7-6 7-5 6-2",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.174478+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Hubert Hurkacz vs Tommy Paul",
+      "result_date": "2026-07-03"
     },
     {
       "id": "2026_07_03_nikola_bartunkova_vs_barbora_krejcikova_barbora_krejcikova_nikola_bartunkova",
@@ -1056,8 +1185,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Barbora Krejčiková",
+      "score": "3-6 5-7",
+      "units": 0.61,
+      "resolved_at": "2026-07-10T17:51:21.175864+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Nikola Bartunkova vs Barbora Krejčiková",
+      "result_date": "2026-07-03"
     },
     {
       "id": "2026_07_03_ekaterina_alexandrova_vs_iva_jovic_iva_jovic_ekaterina_alexandrova",
@@ -1092,8 +1227,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Iva Jović",
+      "score": "3-6 6-3 4-6",
+      "units": 0.55,
+      "resolved_at": "2026-07-10T17:51:21.177103+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Ekaterina Alexandrova vs Iva Jović",
+      "result_date": "2026-07-03"
     }
   ],
   "results": [
@@ -1130,8 +1271,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Simona Waltert",
+      "score": "5-7 2-6",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.204747+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Kaitlin Quevedo vs Simona Waltert",
+      "result_date": "2026-07-10"
     },
     {
       "id": "2026_07_10_francesca_curmi_vs_jeline_vandromme_jeline_vandromme_francesca_curmi",
@@ -1166,8 +1313,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Jeline Vandromme",
+      "score": "3-6 0-6",
+      "units": 0.57,
+      "resolved_at": "2026-07-10T17:51:21.205636+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Francesca Curmi vs Jeline Vandromme",
+      "result_date": "2026-07-10"
     },
     {
       "id": "2026_07_10_anna_blinkova_vs_aurora_zantedeschi_anna_blinkova_aurora_zantedeschi",
@@ -1202,8 +1355,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_RELAXED",
       "top_reason": "BsT AI OK required; relaxed odds/probability fallback",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Aurora Zantedeschi",
+      "score": "4-6 6-7",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.206550+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Anna Blinkova vs Aurora Zantedeschi",
+      "result_date": "2026-07-10"
     },
     {
       "id": "2026_07_10_jannik_sinner_vs_novak_djokovic_jannik_sinner_novak_djokovic",
@@ -1240,11 +1399,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_RELAXED",
       "top_reason": "BsT AI OK required; relaxed odds/probability fallback",
-      "result_status": "PENDING",
-      "units": 0.0,
-      "resolved_at": null,
-      "result_source": null,
-      "result_match_score": null
+      "result_status": "WON",
+      "winner": "Jannik Sinner",
+      "score": "6-4 6-4 6-4",
+      "units": 0.2,
+      "resolved_at": "2026-07-10T17:51:21.207326+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Jannik Sinner vs Novak Djokovic",
+      "result_date": "2026-07-10"
     },
     {
       "id": "2026_07_09_lisa_pigato_vs_aurora_zantedeschi_lisa_pigato_aurora_zantedeschi",
@@ -1283,7 +1445,7 @@
       "winner": "Aurora Zantedeschi",
       "score": "2-6 5-5",
       "units": 0.0,
-      "resolved_at": "2026-07-10T16:13:29.745522+00:00",
+      "resolved_at": "2026-07-10T17:51:21.207416+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Lisa Pigato vs Aurora Zantedeschi",
       "result_date": "2026-07-09",
@@ -1322,8 +1484,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Yulia Putintseva",
+      "score": "2-6 3-6",
+      "units": 0.73,
+      "resolved_at": "2026-07-10T17:51:21.200621+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Sinja Kraus vs Yulia Putintseva",
+      "result_date": "2026-07-09"
     },
     {
       "id": "2026_07_09_marta_kostyuk_vs_linda_noskova_marta_kostyuk_linda_noskova",
@@ -1358,8 +1526,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Linda Noskova",
+      "score": "4-6 4-6",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.201501+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Marta Kostyuk vs Linda Noskova",
+      "result_date": "2026-07-09"
     },
     {
       "id": "2026_07_09_simona_waltert_vs_leyre_romero_gormaz_simona_waltert_leyre_romero_gormaz",
@@ -1394,8 +1568,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Simona Waltert",
+      "score": "6-2 6-1",
+      "units": 0.5,
+      "resolved_at": "2026-07-10T17:51:21.202930+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Simona Waltert vs Leyre Romero Gormaz",
+      "result_date": "2026-07-09"
     },
     {
       "id": "2026_07_09_francesca_jones_vs_leolia_jeanjean_leolia_jeanjean_francesca_jones",
@@ -1430,8 +1610,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_RELAXED",
       "top_reason": "BsT AI OK required; relaxed odds/probability fallback",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Leolia Jeanjean",
+      "score": "6-1 4-6 5-7",
+      "units": 0.83,
+      "resolved_at": "2026-07-10T17:51:21.203905+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Francesca Jones vs Leolia Jeanjean",
+      "result_date": "2026-07-09"
     },
     {
       "id": "2026_07_08_sinja_kraus_vs_caijsa_wilda_hennemann_sinja_kraus_caijsa_wilda_hennemann",
@@ -1466,8 +1652,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Sinja Kraus",
+      "score": "6-2 6-4",
+      "units": 0.3,
+      "resolved_at": "2026-07-10T17:51:21.194224+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Sinja Kraus vs Caijsa Wilda Hennemann",
+      "result_date": "2026-07-08"
     },
     {
       "id": "2026_07_08_rebeka_masarova_vs_francesca_curmi_rebeka_masarova_francesca_curmi",
@@ -1502,8 +1694,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Francesca Curmi",
+      "score": "4-6 4-6",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.195786+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Rebeka Masarova vs Francesca Curmi",
+      "result_date": "2026-07-08"
     },
     {
       "id": "2026_07_08_taylor_fritz_vs_alexander_zverev_alexander_zverev_taylor_fritz",
@@ -1540,8 +1738,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Alexander Zverev",
+      "score": "4-6 4-6 2-6",
+      "units": 1.0,
+      "resolved_at": "2026-07-10T17:51:21.196638+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Taylor Fritz vs Alexander Zverev",
+      "result_date": "2026-07-08"
     },
     {
       "id": "2026_07_08_momoko_kobori_vs_elizabeth_mandlik_elizabeth_mandlik_momoko_kobori",
@@ -1576,8 +1780,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Elizabeth Mandlik",
+      "score": "1-6 4-6",
+      "units": 0.44,
+      "resolved_at": "2026-07-10T17:51:21.197892+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Momoko Kobori vs Elizabeth Mandlik",
+      "result_date": "2026-07-08"
     },
     {
       "id": "2026_07_08_flavio_cobolli_vs_arthur_fery_flavio_cobolli_arthur_fery",
@@ -1614,8 +1824,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Arthur Fery",
+      "score": "4-6 6-7 0-6",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.198704+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Flavio Cobolli vs Arthur Fery",
+      "result_date": "2026-07-08"
     },
     {
       "id": "2026_07_07_aurora_zantedeschi_vs_elsa_jacquemot_elsa_jacquemot_aurora_zantedeschi",
@@ -1650,8 +1866,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Aurora Zantedeschi",
+      "score": "6-1 6-2",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.184421+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Aurora Zantedeschi vs Elsa Jacquemot",
+      "result_date": "2026-07-07"
     },
     {
       "id": "2026_07_07_momoko_kobori_vs_elizabeth_mandlik_elizabeth_mandlik_momoko_kobori",
@@ -1725,8 +1947,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Lisa Pigato",
+      "score": "1-6 6-1 6-7",
+      "units": 0.33,
+      "resolved_at": "2026-07-10T17:51:21.188776+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Angela Fita Boluda vs Lisa Pigato",
+      "result_date": "2026-07-07"
     },
     {
       "id": "2026_07_07_dalma_galfi_vs_kajsa_rinaldo_persson_dalma_galfi_kajsa_rinaldo_persson",
@@ -1761,8 +1989,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Kajsa Rinaldo Persson",
+      "score": "4-6 6-7",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.189858+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Dalma Galfi vs Kajsa Rinaldo Persson",
+      "result_date": "2026-07-07"
     },
     {
       "id": "2026_07_07_lea_ma_vs_clervie_ngounoue_clervie_ngounoue_lea_ma",
@@ -1836,8 +2070,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Marta Kostyuk",
+      "score": "2-6 6-4 1-6",
+      "units": 0.79,
+      "resolved_at": "2026-07-10T17:51:21.178676+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Emma Navarro vs Marta Kostyuk",
+      "result_date": "2026-07-04"
     },
     {
       "id": "2026_07_04_liudmila_samsonova_vs_marie_bouzkova_marie_bouzkova_liudmila_samsonova",
@@ -1872,8 +2112,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Marie Bouzkova",
+      "score": "6-4 6-7 4-6",
+      "units": 0.74,
+      "resolved_at": "2026-07-10T17:51:21.180275+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Liudmila Samsonova vs Marie Bouzkova",
+      "result_date": "2026-07-04"
     },
     {
       "id": "2026_07_04_jasmine_paolini_vs_maria_sakkari_jasmine_paolini_maria_sakkari",
@@ -1908,8 +2154,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Jasmine Paolini",
+      "score": "6-1 6-2",
+      "units": 0.81,
+      "resolved_at": "2026-07-10T17:51:21.181461+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Jasmine Paolini vs Maria Sakkari",
+      "result_date": "2026-07-04"
     },
     {
       "id": "2026_07_04_grigor_dimitrov_vs_matteo_berrettini_matteo_berrettini_grigor_dimitrov",
@@ -1946,8 +2198,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Grigor Dimitrov",
+      "score": "6-3 6-4 3-6 5-7 6-3",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.182435+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Grigor Dimitrov vs Matteo Berrettini",
+      "result_date": "2026-07-04"
     },
     {
       "id": "2026_07_04_zizou_bergs_vs_arthur_fery_zizou_bergs_arthur_fery",
@@ -1984,8 +2242,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Arthur Fery",
+      "score": "6-2 5-7 6-2 6-7 6-7",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.183279+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Zizou Bergs vs Arthur Fery",
+      "result_date": "2026-07-04"
     },
     {
       "id": "2026_07_03_hubert_hurkacz_vs_tommy_paul_tommy_paul_hubert_hurkacz",
@@ -2022,8 +2286,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "LOST",
+      "winner": "Hubert Hurkacz",
+      "score": "4-6 7-6 7-5 6-2",
+      "units": -1.0,
+      "resolved_at": "2026-07-10T17:51:21.174478+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Hubert Hurkacz vs Tommy Paul",
+      "result_date": "2026-07-03"
     },
     {
       "id": "2026_07_03_nikola_bartunkova_vs_barbora_krejcikova_barbora_krejcikova_nikola_bartunkova",
@@ -2058,8 +2328,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Barbora Krejčiková",
+      "score": "3-6 5-7",
+      "units": 0.61,
+      "resolved_at": "2026-07-10T17:51:21.175864+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Nikola Bartunkova vs Barbora Krejčiková",
+      "result_date": "2026-07-03"
     },
     {
       "id": "2026_07_03_ekaterina_alexandrova_vs_iva_jovic_iva_jovic_ekaterina_alexandrova",
@@ -2094,8 +2370,14 @@
       "bet_tag": "INFO ONLY",
       "top_mode": null,
       "top_reason": null,
-      "result_status": "PENDING",
-      "units": 0.0
+      "result_status": "WON",
+      "winner": "Iva Jović",
+      "score": "3-6 6-3 4-6",
+      "units": 0.55,
+      "resolved_at": "2026-07-10T17:51:21.177103+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Ekaterina Alexandrova vs Iva Jović",
+      "result_date": "2026-07-03"
     }
   ]
 }

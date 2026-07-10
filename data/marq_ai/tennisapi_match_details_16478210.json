@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783659070.1811085,
+  "saved_at": 1783705605.172117,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 11,
+          "userCount": 9,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "LWecsAHrd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Antoni Fabre",
         "slug": "fabre-antoni",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 68,
+        "userCount": 70,
         "playerTeamInfo": {
           "prizeCurrent": 2511,
           "prizeTotal": 5632,
@@ -223,18 +224,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1783673587
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16478210,
       "defaultPeriodCount": 3,
       "slug": "antoni-fabre-dusan-obradovic",
-      "startTimestamp": 1783666800,
+      "startTimestamp": 1783667528,
       "periods": {
         "point": "Game",
         "current": "Match",

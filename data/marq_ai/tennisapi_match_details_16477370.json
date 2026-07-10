@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783659072.4146357,
+  "saved_at": 1783705603.9491045,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 16,
+          "userCount": 15,
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
           "country": {},
@@ -88,10 +88,11 @@
       },
       "customId": "qdTbslLac",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Valentina Ryser",
         "slug": "ryser-valentina",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 678,
+        "userCount": 679,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 20220,
@@ -159,7 +160,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 147,
+        "userCount": 148,
         "playerTeamInfo": {
           "prizeCurrent": 6189,
           "prizeTotal": 31881,
@@ -205,18 +206,37 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 7,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 6,
+        "period2TieBreak": 4,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1783672676
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16477370,
       "defaultPeriodCount": 3,
       "slug": "valentina-ryser-victoria-allen",
-      "startTimestamp": 1783666800,
+      "startTimestamp": 1783667333,
       "periods": {
         "point": "Game",
         "current": "Match",

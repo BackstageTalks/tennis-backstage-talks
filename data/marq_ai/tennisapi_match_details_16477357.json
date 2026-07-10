@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783659066.2327654,
+  "saved_at": 1783705599.9470718,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 21,
+          "userCount": 20,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "RvadsCzxh",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Maria Sholokhova",
         "slug": "sholokhova-maria",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 150,
+        "userCount": 153,
         "playerTeamInfo": {
           "prizeCurrent": 2890,
           "prizeTotal": 19837,
@@ -159,7 +160,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 219,
+        "userCount": 226,
         "playerTeamInfo": {
           "prizeCurrent": 11080,
           "prizeTotal": 26458,
@@ -206,18 +207,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 1,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1783669479
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16477357,
       "defaultPeriodCount": 3,
       "slug": "kristina-kroitor-maria-sholokhova",
-      "startTimestamp": 1783659600,
+      "startTimestamp": 1783664002,
       "periods": {
         "point": "Game",
         "current": "Match",
