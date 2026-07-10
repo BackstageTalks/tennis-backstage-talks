@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783537336.575054,
+  "saved_at": 1783659009.5556064,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "12",
       "awayTeamSeed": "9",
       "tournament": {
@@ -56,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 13138,
+          "userCount": 13274,
           "groundType": "Grass",
           "tennisPoints": 2000,
           "hasRounds": true,
@@ -102,10 +103,11 @@
       },
       "customId": "gbRbsZFjc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "London",
@@ -149,7 +151,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 14602,
+        "userCount": 14922,
         "playerTeamInfo": {
           "height": 1.75,
           "plays": "right-handed",
@@ -223,7 +225,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 8479,
+        "userCount": 8771,
         "playerTeamInfo": {
           "height": 1.79,
           "plays": "right-handed",
@@ -285,18 +287,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 4,
+        "point": "30",
+        "normaltime": 0
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2544,
+        "period2": 2245,
+        "currentPeriodStartTimestamp": 1783614745
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1783617062
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": false,
       "id": 16385411,
       "defaultPeriodCount": 3,
       "slug": "linda-noskova-marta-kostyuk",
-      "startTimestamp": 1783604400,
+      "currentPeriodStartTimestamp": 1783614745,
+      "startTimestamp": 1783612200,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -307,6 +332,90 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "09",
+        "20",
+        "28",
+        "29",
+        "31",
+        "33",
+        "36",
+        "39",
+        "43",
+        "49",
+        "56",
+        "61",
+        "A1",
+        "AA",
+        "AB",
+        "AC",
+        "AG",
+        "AI",
+        "AQ",
+        "AR",
+        "AW",
+        "BB",
+        "BL",
+        "BM",
+        "BO",
+        "BQ",
+        "BR",
+        "BS",
+        "BZ",
+        "C1",
+        "CA",
+        "CL",
+        "CO",
+        "CR",
+        "CU",
+        "CW",
+        "DM",
+        "DO",
+        "EC",
+        "FK",
+        "GD",
+        "GF",
+        "GP",
+        "GT",
+        "GY",
+        "HN",
+        "HT",
+        "IA",
+        "JM",
+        "KN",
+        "KY",
+        "LC",
+        "MF",
+        "MQ",
+        "MS",
+        "MX",
+        "NI",
+        "OH",
+        "ON",
+        "PA",
+        "PE",
+        "PR",
+        "PY",
+        "SG",
+        "SR",
+        "SV",
+        "SX",
+        "TC",
+        "TT",
+        "UY",
+        "VC",
+        "VE",
+        "VG",
+        "VI",
+        "VR",
+        "XA",
+        "XB",
+        "IR",
+        "GR",
+        "RU",
+        "CH"
+      ],
       "feedLocked": false,
       "groundType": "Grass",
       "showTotoPromo": true,
