@@ -4038,6 +4038,7 @@
     "_cache_category_id": 871
   },
   {
+    "firstToServe": 2,
     "homeTeamSeed": "8",
     "awayTeamSeed": "4",
     "tournament": {
@@ -4122,10 +4123,11 @@
     },
     "customId": "qdLbsXbnd",
     "status": {
-      "code": 0,
-      "description": "Not started",
-      "type": "notstarted"
+      "code": 100,
+      "description": "Ended",
+      "type": "finished"
     },
+    "winnerCode": 2,
     "homeTeam": {
       "name": "Kaitlin Quevedo",
       "slug": "quevedo-kaitlin",
@@ -4212,11 +4214,33 @@
         }
       }
     },
-    "homeScore": {},
-    "awayScore": {},
-    "time": {},
+    "homeScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 5,
+      "period2": 2,
+      "point": "0",
+      "normaltime": 0
+    },
+    "awayScore": {
+      "current": 2,
+      "display": 2,
+      "period1": 7,
+      "period2": 6,
+      "point": "0",
+      "normaltime": 2
+    },
+    "time": {
+      "period1": 3373,
+      "period2": 2135,
+      "currentPeriodStartTimestamp": 1783677876
+    },
     "changes": {
-      "changeTimestamp": 0
+      "changes": [
+        "time.currentPeriodStart",
+        "time.period2"
+      ],
+      "changeTimestamp": 1783680056
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
@@ -4253,6 +4277,7 @@
     "_cache_category_id": 871
   },
   {
+    "firstToServe": 1,
     "homeTeamSeed": "3",
     "tournament": {
       "name": "Bastad, Sweden",
@@ -4336,9 +4361,9 @@
     },
     "customId": "VktsaGC",
     "status": {
-      "code": 0,
-      "description": "Not started",
-      "type": "notstarted"
+      "code": 8,
+      "description": "1st set",
+      "type": "inprogress"
     },
     "homeTeam": {
       "name": "Yulia Putintseva",
@@ -4428,17 +4453,32 @@
         }
       }
     },
-    "homeScore": {},
-    "awayScore": {},
-    "time": {},
+    "homeScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 0,
+      "point": "40"
+    },
+    "awayScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 1,
+      "point": "15"
+    },
+    "time": {
+      "currentPeriodStartTimestamp": 1783681023
+    },
     "changes": {
-      "changeTimestamp": 0
+      "changes": [
+        "homeScore.point"
+      ],
+      "changeTimestamp": 1783681496
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
     "id": 16425240,
     "slug": "paula-badosa-yulia-putintseva",
-    "startTimestamp": 1783678200,
+    "startTimestamp": 1783680600,
     "periods": {
       "point": "Game",
       "current": "Match",
@@ -4448,6 +4488,7 @@
       "period4": "4th set",
       "period5": "5th set"
     },
+    "lastPeriod": "period1",
     "finalResultOnly": false,
     "feedLocked": false,
     "groundType": "Red clay",
@@ -4942,6 +4983,7 @@
     "_cache_category_id": 871
   },
   {
+    "firstToServe": 2,
     "tournament": {
       "name": "Contrexeville, France",
       "slug": "contrexeville-france",
@@ -5024,10 +5066,11 @@
     },
     "customId": "IFccshZnd",
     "status": {
-      "code": 0,
-      "description": "Not started",
-      "type": "notstarted"
+      "code": 100,
+      "description": "Ended",
+      "type": "finished"
     },
+    "winnerCode": 2,
     "homeTeam": {
       "name": "Francesca Curmi",
       "slug": "curmi-francesca",
@@ -5112,11 +5155,33 @@
         }
       }
     },
-    "homeScore": {},
-    "awayScore": {},
-    "time": {},
+    "homeScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 3,
+      "period2": 0,
+      "point": "30",
+      "normaltime": 0
+    },
+    "awayScore": {
+      "current": 2,
+      "display": 2,
+      "period1": 6,
+      "period2": 6,
+      "point": "40",
+      "normaltime": 2
+    },
+    "time": {
+      "period1": 2382,
+      "period2": 1772,
+      "currentPeriodStartTimestamp": 1783676892
+    },
     "changes": {
-      "changeTimestamp": 0
+      "changes": [
+        "time.currentPeriodStart",
+        "time.period2"
+      ],
+      "changeTimestamp": 1783678687
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
@@ -5153,6 +5218,7 @@
     "_cache_category_id": 871
   },
   {
+    "firstToServe": 2,
     "homeTeamSeed": "Q",
     "awayTeamSeed": "5",
     "tournament": {
@@ -5237,9 +5303,9 @@
     },
     "customId": "kqKsqJX",
     "status": {
-      "code": 0,
-      "description": "Not started",
-      "type": "notstarted"
+      "code": 8,
+      "description": "1st set",
+      "type": "inprogress"
     },
     "homeTeam": {
       "name": "Alicia Herrero Linana",
@@ -5327,17 +5393,32 @@
         }
       }
     },
-    "homeScore": {},
-    "awayScore": {},
-    "time": {},
+    "homeScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 2,
+      "point": "0"
+    },
+    "awayScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 3,
+      "point": "30"
+    },
+    "time": {
+      "currentPeriodStartTimestamp": 1783679719
+    },
     "changes": {
-      "changeTimestamp": 0
+      "changes": [
+        "awayScore.point"
+      ],
+      "changeTimestamp": 1783681466
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
     "id": 16425218,
     "slug": "alicia-herrero-linana-mayar-sherif",
-    "startTimestamp": 1783678200,
+    "startTimestamp": 1783679100,
     "periods": {
       "point": "Game",
       "current": "Match",
@@ -5347,6 +5428,7 @@
       "period4": "4th set",
       "period5": "5th set"
     },
+    "lastPeriod": "period1",
     "finalResultOnly": false,
     "feedLocked": false,
     "groundType": "Red clay",
@@ -5550,7 +5632,7 @@
     "crowdsourcingDataDisplayEnabled": false,
     "id": 16425216,
     "slug": "aurora-zantedeschi-anna-blinkova",
-    "startTimestamp": 1783682400,
+    "startTimestamp": 1783683600,
     "periods": {
       "point": "Game",
       "current": "Match",
@@ -9959,7 +10041,7 @@
     "crowdsourcingDataDisplayEnabled": false,
     "id": 16425263,
     "slug": "arango-waltert-lee-yey",
-    "startTimestamp": 1783682400,
+    "startTimestamp": 1783683600,
     "periods": {
       "point": "Game",
       "current": "Match",
@@ -10704,6 +10786,7 @@
     "_cache_category_id": 871
   },
   {
+    "awayTeamSeed": "2",
     "tournament": {
       "name": "Contrexeville, France, Doubles",
       "slug": "contrexeville-france-doubles",

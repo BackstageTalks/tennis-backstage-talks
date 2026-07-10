@@ -13,8 +13,8 @@
         "data/pick_history/all/2026-07-10.json"
       ],
       "history_items_loaded": 206,
-      "resolved_count": 132,
-      "pending_count": 74,
+      "resolved_count": 134,
+      "pending_count": 72,
       "unknown_count": 0
     },
     "top5": {
@@ -27,12 +27,12 @@
         "data/pick_history/top5/2026-07-10.json"
       ],
       "history_items_loaded": 27,
-      "resolved_count": 21,
-      "pending_count": 6,
+      "resolved_count": 23,
+      "pending_count": 4,
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4151,
+  "finished_results_found": 4153,
   "examples_results": [
     {
       "match_id": 16385657,
@@ -2763,6 +2763,271 @@
       }
     },
     {
+      "match_id": 16425261,
+      "event_id": 16425261,
+      "date": "2026-07-10",
+      "player1": "Kaitlin Quevedo",
+      "player2": "Simona Waltert",
+      "winner": "Simona Waltert",
+      "score": "5-7 2-6",
+      "status": "FINISHED",
+      "source": "TennisApi",
+      "match": "Kaitlin Quevedo vs Simona Waltert",
+      "raw": {
+        "source": "TennisApi",
+        "match_id": 16425261,
+        "event_id": 16425261,
+        "date": "2026-07-10",
+        "player1": "Kaitlin Quevedo",
+        "player2": "Simona Waltert",
+        "winner": "Simona Waltert",
+        "score": "5-7 2-6",
+        "status": "FINISHED",
+        "match": "Kaitlin Quevedo vs Simona Waltert",
+        "tournament": "Bastad, Sweden ",
+        "category": "WTA 125",
+        "start_time_utc": "2026-07-10T09:00:00+00:00",
+        "raw": {
+          "firstToServe": 2,
+          "homeTeamSeed": "8",
+          "awayTeamSeed": "4",
+          "tournament": {
+            "name": "Bastad, Sweden",
+            "slug": "bastad-sweden",
+            "category": {
+              "name": "WTA 125",
+              "slug": "wta-125",
+              "sport": {
+                "name": "Tennis",
+                "slug": "tennis",
+                "id": 5
+              },
+              "priority": 5,
+              "country": {},
+              "id": 871,
+              "flag": "wta-125",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "رابطة محترفات التنس 125",
+                  "ru": "WTA 125"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "uniqueTournament": {
+              "name": "Bastad, Sweden ",
+              "slug": "bastad-sweden",
+              "category": {
+                "name": "WTA 125",
+                "slug": "wta-125",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "priority": 5,
+                "country": {},
+                "id": 871,
+                "flag": "wta-125",
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "ar": "رابطة محترفات التنس 125",
+                    "ru": "WTA 125"
+                  },
+                  "shortNameTranslation": {}
+                }
+              },
+              "userCount": 221,
+              "groundType": "Red clay",
+              "tennisPoints": 125,
+              "hasPerformanceGraphFeature": false,
+              "country": {},
+              "id": 13377,
+              "hasEventPlayerStatistics": false,
+              "displayInverseHomeAwayTeams": false,
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "باستاد، السويد",
+                  "ru": "Бастад, Швеция"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "priority": 0,
+            "isGroup": false,
+            "id": 190357,
+            "endTimestamp": 1783728000,
+            "startTimestamp": 1783296000
+          },
+          "season": {
+            "name": "WTA 125K Bastad, Sweden Women Singles 2026",
+            "year": "2026",
+            "editor": false,
+            "id": 91333
+          },
+          "roundInfo": {
+            "round": 28,
+            "name": "Semifinals",
+            "slug": "semifinals",
+            "cupRoundType": 2
+          },
+          "customId": "qdLbsXbnd",
+          "status": {
+            "code": 100,
+            "description": "Ended",
+            "type": "finished"
+          },
+          "winnerCode": 2,
+          "homeTeam": {
+            "name": "Kaitlin Quevedo",
+            "slug": "quevedo-kaitlin",
+            "shortName": "K. Quevedo",
+            "gender": "F",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 1423,
+            "playerTeamInfo": {
+              "id": 5739
+            },
+            "nameCode": "QUE",
+            "ranking": 107,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "ES",
+              "alpha3": "ESP",
+              "name": "Spain",
+              "slug": "spain"
+            },
+            "id": 407597,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "كايتلين كويفيدو",
+                "ru": "Кейтлин Кеведо"
+              },
+              "shortNameTranslation": {
+                "ar": "ك. كويفيدو",
+                "ru": "К. Кеведо"
+              }
+            }
+          },
+          "awayTeam": {
+            "name": "Simona Waltert",
+            "slug": "waltert-simona",
+            "shortName": "S. Waltert",
+            "gender": "F",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 2250,
+            "playerTeamInfo": {
+              "id": 3426
+            },
+            "nameCode": "WAL",
+            "ranking": 90,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "CH",
+              "alpha3": "CHE",
+              "name": "Switzerland",
+              "slug": "switzerland"
+            },
+            "id": 215166,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "سيمونا والترت",
+                "bn": "সিমোনা ওয়াল্টার্ট",
+                "hi": "सिमोना वाल्टरट",
+                "ru": "Симона Вальтерт"
+              },
+              "shortNameTranslation": {
+                "ar": "س. والترت",
+                "ru": "С. Вальтерт"
+              }
+            }
+          },
+          "homeScore": {
+            "current": 0,
+            "display": 0,
+            "period1": 5,
+            "period2": 2,
+            "point": "0",
+            "normaltime": 0
+          },
+          "awayScore": {
+            "current": 2,
+            "display": 2,
+            "period1": 7,
+            "period2": 6,
+            "point": "0",
+            "normaltime": 2
+          },
+          "time": {
+            "period1": 3373,
+            "period2": 2135,
+            "currentPeriodStartTimestamp": 1783677876
+          },
+          "changes": {
+            "changes": [
+              "time.currentPeriodStart",
+              "time.period2"
+            ],
+            "changeTimestamp": 1783680056
+          },
+          "hasGlobalHighlights": false,
+          "crowdsourcingDataDisplayEnabled": false,
+          "id": 16425261,
+          "slug": "kaitlin-quevedo-simona-waltert",
+          "startTimestamp": 1783674000,
+          "periods": {
+            "point": "Game",
+            "current": "Match",
+            "period1": "1st set",
+            "period2": "2nd set",
+            "period3": "3rd set",
+            "period4": "4th set",
+            "period5": "5th set"
+          },
+          "finalResultOnly": false,
+          "feedLocked": false,
+          "groundType": "Red clay",
+          "isEditor": false,
+          "eventFilters": {
+            "category": [
+              "singles"
+            ],
+            "level": [
+              "pro"
+            ],
+            "tournament": [
+              "lower"
+            ],
+            "gender": [
+              "F"
+            ]
+          }
+        }
+      }
+    },
+    {
       "match_id": 16425264,
       "event_id": 16425264,
       "date": "2026-07-09",
@@ -2990,273 +3255,6 @@
           "id": 16425264,
           "slug": "lisa-pigato-aurora-zantedeschi",
           "startTimestamp": 1783602900,
-          "periods": {
-            "point": "Game",
-            "current": "Match",
-            "period1": "1st set",
-            "period2": "2nd set",
-            "period3": "3rd set",
-            "period4": "4th set",
-            "period5": "5th set"
-          },
-          "finalResultOnly": false,
-          "feedLocked": false,
-          "groundType": "Red clay",
-          "isEditor": false,
-          "eventFilters": {
-            "category": [
-              "singles"
-            ],
-            "level": [
-              "pro"
-            ],
-            "tournament": [
-              "lower"
-            ],
-            "gender": [
-              "F"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "match_id": 16425208,
-      "event_id": 16425208,
-      "date": "2026-07-09",
-      "player1": "Francesca Jones",
-      "player2": "Leolia Jeanjean",
-      "winner": "Leolia Jeanjean",
-      "score": "6-1 4-6 5-7",
-      "status": "FINISHED",
-      "source": "TennisApi",
-      "match": "Francesca Jones vs Leolia Jeanjean",
-      "raw": {
-        "source": "TennisApi",
-        "match_id": 16425208,
-        "event_id": 16425208,
-        "date": "2026-07-09",
-        "player1": "Francesca Jones",
-        "player2": "Leolia Jeanjean",
-        "winner": "Leolia Jeanjean",
-        "score": "6-1 4-6 5-7",
-        "status": "FINISHED",
-        "match": "Francesca Jones vs Leolia Jeanjean",
-        "tournament": "Contrexeville, France",
-        "category": "WTA 125",
-        "start_time_utc": "2026-07-09T15:30:00+00:00",
-        "raw": {
-          "firstToServe": 1,
-          "homeTeamSeed": "4",
-          "tournament": {
-            "name": "Contrexeville, France",
-            "slug": "contrexeville-france",
-            "category": {
-              "name": "WTA 125",
-              "slug": "wta-125",
-              "sport": {
-                "name": "Tennis",
-                "slug": "tennis",
-                "id": 5
-              },
-              "priority": 5,
-              "country": {},
-              "id": 871,
-              "flag": "wta-125",
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "رابطة محترفات التنس 125",
-                  "ru": "WTA 125"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "uniqueTournament": {
-              "name": "Contrexeville, France",
-              "slug": "contrexeville-france",
-              "category": {
-                "name": "WTA 125",
-                "slug": "wta-125",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "priority": 5,
-                "country": {},
-                "id": 871,
-                "flag": "wta-125",
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "رابطة محترفات التنس 125",
-                    "ru": "WTA 125"
-                  },
-                  "shortNameTranslation": {}
-                }
-              },
-              "userCount": 168,
-              "groundType": "Red clay",
-              "tennisPoints": 125,
-              "hasPerformanceGraphFeature": false,
-              "country": {},
-              "id": 18581,
-              "hasEventPlayerStatistics": false,
-              "displayInverseHomeAwayTeams": false,
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "كونتريكسفيل، فرنسا",
-                  "ru": "Контрексевиль, Франция"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "priority": 0,
-            "isGroup": false,
-            "id": 190353,
-            "endTimestamp": 1783814400,
-            "startTimestamp": 1783296000
-          },
-          "season": {
-            "name": "WTA 125K Contrexeville, France Women Singles 2026",
-            "year": "2026",
-            "editor": false,
-            "id": 91337
-          },
-          "roundInfo": {
-            "round": 5,
-            "name": "Round of 16",
-            "slug": "round-of-16",
-            "cupRoundType": 8
-          },
-          "customId": "hjVsPpCb",
-          "status": {
-            "code": 100,
-            "description": "Ended",
-            "type": "finished"
-          },
-          "winnerCode": 2,
-          "homeTeam": {
-            "name": "Francesca Jones",
-            "slug": "jones-francesca",
-            "shortName": "F. Jones",
-            "gender": "F",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 2343,
-            "playerTeamInfo": {
-              "id": 3290
-            },
-            "nameCode": "JON",
-            "ranking": 106,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "GB",
-              "alpha3": "GBR",
-              "name": "United Kingdom",
-              "slug": "united-kingdom"
-            },
-            "id": 193290,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "فرانسيسكا جونز",
-                "bn": "ফ্রান্সেসকা জোন্স",
-                "hi": "फ्रांसिस्का जोन्स",
-                "ru": "Джонс, Франческа"
-              },
-              "shortNameTranslation": {
-                "ar": "ف. جونز"
-              }
-            }
-          },
-          "awayTeam": {
-            "name": "Leolia Jeanjean",
-            "slug": "jeanjean-leolia",
-            "shortName": "L. Jeanjean",
-            "gender": "F",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 2663,
-            "playerTeamInfo": {
-              "id": 4592
-            },
-            "nameCode": "JEA",
-            "ranking": 132,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "FR",
-              "alpha3": "FRA",
-              "name": "France",
-              "slug": "france"
-            },
-            "id": 112957,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "ليوليا جانجيان",
-                "bn": "লিওলিয়া জিনজিন",
-                "hi": "लेओलिया जीनजीन",
-                "ru": "Жанжан, Лоли"
-              },
-              "shortNameTranslation": {
-                "ar": "ل. جانجيان"
-              }
-            }
-          },
-          "homeScore": {
-            "current": 1,
-            "display": 1,
-            "period1": 6,
-            "period2": 4,
-            "period3": 5,
-            "point": "15",
-            "normaltime": 1
-          },
-          "awayScore": {
-            "current": 2,
-            "display": 2,
-            "period1": 1,
-            "period2": 6,
-            "period3": 7,
-            "point": "40",
-            "normaltime": 2
-          },
-          "time": {
-            "period1": 1857,
-            "period2": 2739,
-            "period3": 3391,
-            "currentPeriodStartTimestamp": 1783616115
-          },
-          "changes": {
-            "changes": [
-              "time.currentPeriodStart",
-              "time.period3"
-            ],
-            "changeTimestamp": 1783619525
-          },
-          "hasGlobalHighlights": false,
-          "crowdsourcingDataDisplayEnabled": false,
-          "id": 16425208,
-          "slug": "francesca-jones-leolia-jeanjean",
-          "startTimestamp": 1783611000,
           "periods": {
             "point": "Game",
             "current": "Match",
@@ -3891,6 +3889,13 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-10",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Kaitlin Quevedo vs Simona Waltert"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-09",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
@@ -3902,6 +3907,13 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Francesca Jones vs Leolia Jeanjean"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-10",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Francesca Curmi vs Jeline Vandromme"
     },
     {
       "pick_date": "2026-07-03",
@@ -4028,20 +4040,6 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Broadus S / Collins K vs Daniel J / Zamarripa A"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-08",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Flavio Cobolli vs Arthur Fery"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-08",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Taylor Fritz vs Alexander Zverev"
     }
   ],
   "examples_void": [

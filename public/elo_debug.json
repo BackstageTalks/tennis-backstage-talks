@@ -11,74 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 42,
-  "found_count": 24,
-  "missing_count": 18,
+  "lookup_count": 32,
+  "found_count": 16,
+  "missing_count": 16,
   "examples_found": [
-    {
-      "input": "Kaitlin Quevedo",
-      "matched": "Kaitlin Quevedo",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1756.8,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Simona Waltert",
-      "matched": "Simona Waltert",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1669.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Francesca Curmi",
-      "matched": "Francesca Curmi",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1579.6,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Jeline Vandromme",
-      "matched": "Jeline Vandromme",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1645.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Yulia Putintseva",
-      "matched": "Yulia Putintseva",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1804.7,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Paula Badosa",
-      "matched": "Paula Badosa",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1779.6,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Alicia Herrero Linana",
-      "matched": "Alicia Herrero Linana",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1303.5,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Mayar Sherif",
-      "matched": "Mayar Sherif",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1684.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Anna Blinkova",
       "matched": "Anna Blinkova",
@@ -209,16 +145,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Carle M L / Selekhmeteva O",
-      "normalized": "carle m l / selekhmeteva o",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Cascino E / Fossa Huergo N",
-      "normalized": "cascino e / fossa huergo n",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Arango E / Waltert S",
       "normalized": "arango e / waltert s",
