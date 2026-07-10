@@ -11,42 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 32,
-  "found_count": 16,
-  "missing_count": 16,
+  "lookup_count": 22,
+  "found_count": 12,
+  "missing_count": 10,
   "examples_found": [
-    {
-      "input": "Anna Blinkova",
-      "matched": "Anna Blinkova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1694.4,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Aurora Zantedeschi",
-      "matched": "Aurora Zantedeschi",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1302.1,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Arthur Fery",
-      "matched": "Arthur Fery",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1720.6,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Alexander Zverev",
-      "matched": "Alexander Zverev",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 2099.7,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
     {
       "input": "Jannik Sinner",
       "matched": "Jannik Sinner",
@@ -145,36 +113,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Arango E / Waltert S",
-      "normalized": "arango e / waltert s",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Lee Y / Ye Q Y",
-      "normalized": "lee y / ye q y",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Aoyama S / Liang E",
-      "normalized": "aoyama s / liang e",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Dabrowski G / Stefani L",
-      "normalized": "dabrowski g / stefani l",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Cavalle-Reimers Y / Pigossi L",
-      "normalized": "cavalle reimers y / pigossi l",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Herrero Linana A / Osborne A",
-      "normalized": "herrero linana a / osborne a",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Guo H / Mladenovic K",
       "normalized": "guo h / mladenovic k",
