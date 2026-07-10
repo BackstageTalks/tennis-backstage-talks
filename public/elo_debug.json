@@ -11,9 +11,9 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 40,
+  "lookup_count": 42,
   "found_count": 24,
-  "missing_count": 16,
+  "missing_count": 18,
   "examples_found": [
     {
       "input": "Kaitlin Quevedo",
@@ -237,6 +237,16 @@
     {
       "input": "Dabrowski G / Stefani L",
       "normalized": "dabrowski g / stefani l",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Cavalle-Reimers Y / Pigossi L",
+      "normalized": "cavalle reimers y / pigossi l",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Herrero Linana A / Osborne A",
+      "normalized": "herrero linana a / osborne a",
       "reason": "no_safe_match"
     },
     {
