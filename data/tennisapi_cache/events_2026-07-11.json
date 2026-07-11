@@ -55,7 +55,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 39476,
+        "userCount": 39776,
         "groundType": "Grass",
         "tennisPoints": 2000,
         "hasPerformanceGraphFeature": false,
@@ -114,7 +114,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 5703,
+      "userCount": 6285,
       "playerTeamInfo": {
         "id": 4454
       },
@@ -156,7 +156,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 94908,
+      "userCount": 95729,
       "playerTeamInfo": {
         "id": 3
       },
@@ -313,7 +313,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 39476,
+        "userCount": 39776,
         "groundType": "Grass",
         "tennisPoints": 2000,
         "hasPerformanceGraphFeature": false,
@@ -372,7 +372,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 250660,
+      "userCount": 251874,
       "playerTeamInfo": {
         "id": 481
       },
@@ -416,7 +416,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 293199,
+      "userCount": 294816,
       "playerTeamInfo": {
         "id": 1
       },
@@ -571,7 +571,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1189,
+        "userCount": 1199,
         "groundType": "Grass",
         "tennisPoints": 2000,
         "hasPerformanceGraphFeature": false,
@@ -626,7 +626,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 706,
+      "userCount": 711,
       "nameCode": "H/P",
       "national": false,
       "type": 2,
@@ -643,7 +643,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 767,
+          "userCount": 768,
           "nameCode": "HEL",
           "national": false,
           "type": 1,
@@ -680,7 +680,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 614,
+          "userCount": 616,
           "nameCode": "PAT",
           "national": false,
           "type": 1,
@@ -731,7 +731,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 678,
+      "userCount": 689,
       "nameCode": "A/P",
       "national": false,
       "type": 2,
@@ -748,7 +748,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 744,
+          "userCount": 745,
           "nameCode": "ARE",
           "national": false,
           "type": 1,
@@ -787,7 +787,7 @@
             "slug": "tennis",
             "id": 5
           },
-          "userCount": 2189,
+          "userCount": 2191,
           "nameCode": "PAV",
           "national": false,
           "type": 1,
@@ -871,6 +871,7 @@
     "_cache_category_id": 3
   },
   {
+    "firstToServe": 2,
     "tournament": {
       "name": "Gstaad, Switzerland, Qualifying",
       "slug": "gstaad-switzerland-qualifying",
@@ -923,7 +924,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1619,
+        "userCount": 1635,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -961,9 +962,9 @@
     },
     "customId": "fATscHHb",
     "status": {
-      "code": 0,
-      "description": "Not started",
-      "type": "notstarted"
+      "code": 8,
+      "description": "1st set",
+      "type": "inprogress"
     },
     "homeTeam": {
       "name": "Clement Tabur",
@@ -975,7 +976,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 2518,
+      "userCount": 2525,
       "playerTeamInfo": {
         "id": 2746
       },
@@ -1016,7 +1017,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 234,
+      "userCount": 238,
       "playerTeamInfo": {
         "id": 4331
       },
@@ -1046,11 +1047,29 @@
         }
       }
     },
-    "homeScore": {},
-    "awayScore": {},
-    "time": {},
+    "homeScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 5,
+      "point": "0"
+    },
+    "awayScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 2,
+      "point": "0"
+    },
+    "time": {
+      "currentPeriodStartTimestamp": 1783757332
+    },
     "changes": {
-      "changeTimestamp": 0
+      "changes": [
+        "homeScore.period1",
+        "homeScore.point",
+        "awayScore.point",
+        "firstToServe"
+      ],
+      "changeTimestamp": 1783758640
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
@@ -1066,6 +1085,7 @@
       "period4": "4th set",
       "period5": "5th set"
     },
+    "lastPeriod": "period1",
     "finalResultOnly": false,
     "feedLocked": false,
     "groundType": "Red clay",
@@ -1087,6 +1107,7 @@
     "_cache_category_id": 3
   },
   {
+    "firstToServe": 2,
     "tournament": {
       "name": "Gstaad, Switzerland, Qualifying",
       "slug": "gstaad-switzerland-qualifying",
@@ -1139,7 +1160,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1619,
+        "userCount": 1635,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -1177,9 +1198,9 @@
     },
     "customId": "mcibsRled",
     "status": {
-      "code": 0,
-      "description": "Not started",
-      "type": "notstarted"
+      "code": 8,
+      "description": "1st set",
+      "type": "inprogress"
     },
     "homeTeam": {
       "name": "Marc-Andrea Huesler",
@@ -1266,11 +1287,29 @@
         }
       }
     },
-    "homeScore": {},
-    "awayScore": {},
-    "time": {},
+    "homeScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 4,
+      "point": "0"
+    },
+    "awayScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 3,
+      "point": "0"
+    },
+    "time": {
+      "currentPeriodStartTimestamp": 1783757183
+    },
     "changes": {
-      "changeTimestamp": 0
+      "changes": [
+        "homeScore.point",
+        "awayScore.period1",
+        "awayScore.point",
+        "firstToServe"
+      ],
+      "changeTimestamp": 1783758561
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
@@ -1286,6 +1325,7 @@
       "period4": "4th set",
       "period5": "5th set"
     },
+    "lastPeriod": "period1",
     "finalResultOnly": false,
     "feedLocked": false,
     "groundType": "Red clay",
@@ -1359,7 +1399,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1619,
+        "userCount": 1635,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -1411,7 +1451,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 8169,
+      "userCount": 8170,
       "playerTeamInfo": {
         "id": 140
       },
@@ -1455,7 +1495,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 3634,
+      "userCount": 3638,
       "playerTeamInfo": {
         "id": 40
       },
@@ -1582,7 +1622,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1619,
+        "userCount": 1635,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -1634,7 +1674,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 1340,
+      "userCount": 1346,
       "playerTeamInfo": {
         "id": 3071
       },
@@ -1675,7 +1715,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 1397,
+      "userCount": 1401,
       "playerTeamInfo": {
         "id": 347
       },
@@ -1801,7 +1841,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1619,
+        "userCount": 1635,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -1853,7 +1893,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 4109,
+      "userCount": 4112,
       "playerTeamInfo": {
         "id": 2945
       },
@@ -1896,7 +1936,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 466,
+      "userCount": 469,
       "playerTeamInfo": {
         "id": 5773
       },
@@ -2021,7 +2061,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1619,
+        "userCount": 1635,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -2073,7 +2113,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 8317,
+      "userCount": 8325,
       "playerTeamInfo": {
         "id": 13528
       },
@@ -2116,7 +2156,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 1032,
+      "userCount": 1034,
       "playerTeamInfo": {
         "id": 5499
       },
@@ -2241,7 +2281,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1619,
+        "userCount": 1635,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -2293,7 +2333,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 915,
+      "userCount": 923,
       "playerTeamInfo": {
         "id": 13396
       },
@@ -2335,7 +2375,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 2407,
+      "userCount": 2414,
       "playerTeamInfo": {
         "id": 1900
       },
@@ -2462,7 +2502,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1619,
+        "userCount": 1635,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -2514,7 +2554,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 2111,
+      "userCount": 2118,
       "playerTeamInfo": {
         "id": 2952
       },
@@ -2558,7 +2598,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 120,
+      "userCount": 122,
       "playerTeamInfo": {
         "id": 2642
       },
@@ -2681,7 +2721,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1778,
+        "userCount": 1786,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -2733,7 +2773,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 9244,
+      "userCount": 9247,
       "playerTeamInfo": {
         "id": 3136
       },
@@ -2778,7 +2818,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 1159,
+      "userCount": 1163,
       "playerTeamInfo": {
         "id": 2523
       },
@@ -2902,7 +2942,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1778,
+        "userCount": 1786,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -2954,7 +2994,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 4308,
+      "userCount": 4304,
       "playerTeamInfo": {
         "id": 16
       },
@@ -3124,7 +3164,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1778,
+        "userCount": 1786,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -3219,7 +3259,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 1400,
+      "userCount": 1404,
       "playerTeamInfo": {
         "id": 2849
       },
@@ -3344,7 +3384,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1778,
+        "userCount": 1786,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -3438,7 +3478,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 1644,
+      "userCount": 1645,
       "playerTeamInfo": {
         "id": 2396
       },
@@ -3565,7 +3605,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1778,
+        "userCount": 1786,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -3617,7 +3657,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 2111,
+      "userCount": 2117,
       "playerTeamInfo": {
         "id": 5237
       },
@@ -3660,7 +3700,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 169,
+      "userCount": 171,
       "playerTeamInfo": {
         "id": 12520
       },
@@ -3785,7 +3825,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1778,
+        "userCount": 1786,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -3837,7 +3877,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 2481,
+      "userCount": 2492,
       "playerTeamInfo": {
         "id": 4867
       },
@@ -3879,7 +3919,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 2042,
+      "userCount": 2049,
       "playerTeamInfo": {
         "id": 4856
       },
@@ -4005,7 +4045,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1778,
+        "userCount": 1786,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -4100,7 +4140,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 1202,
+      "userCount": 1214,
       "playerTeamInfo": {
         "id": 2576
       },
@@ -4225,7 +4265,7 @@
             "shortNameTranslation": {}
           }
         },
-        "userCount": 1778,
+        "userCount": 1786,
         "groundType": "Red clay",
         "tennisPoints": 250,
         "hasPerformanceGraphFeature": false,
@@ -4277,7 +4317,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 1450,
+      "userCount": 1454,
       "playerTeamInfo": {
         "id": 589
       },
@@ -4321,7 +4361,7 @@
         "slug": "tennis",
         "id": 5
       },
-      "userCount": 2248,
+      "userCount": 2247,
       "playerTeamInfo": {
         "id": 5048
       },
