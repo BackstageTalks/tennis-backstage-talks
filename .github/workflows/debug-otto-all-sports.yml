@@ -19,6 +19,10 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install requests
+        run: |
+          python -m pip install requests
+
       - name: Debug Otto All Sports odds
         env:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
@@ -29,20 +33,44 @@ jobs:
           import requests
 
           event_id = 16486813
-          url = f"https://allsportsapi2.p.rapidapi.com/api/tennis/event/{event_id}/provider/1/winning-odds"
+          host = "allsportsapi2.p.rapidapi.com"
+          url = f"https://{host}/api/tennis/event/{event_id}/provider/1/winning-odds"
 
           headers = {
               "x-rapidapi-key": os.getenv("RAPIDAPI_KEY", ""),
-              "x-rapidapi-host": "allsportsapi2.p.rapidapi.com",
+              "x-rapidapi-host": host,
               "Content-Type": "application/json",
           }
 
           print("RAPIDAPI_KEY:", "SET" if headers["x-rapidapi-key"] else "MISSING")
           print("DEBUG ALL SPORTS EVENT:", event_id)
+          print("MATCH: Otto Virtanen vs Dylan Dietrich")
           print("url:", url)
+
+          def fractional_to_decimal(value):
+              if not value or not isinstance(value, str):
+                  return None
+
+              value = value.strip()
+
+              try:
+                  if "/" in value:
+                      left, right = value.split("/", 1)
+                      denominator = float(right)
+
+                      if denominator == 0:
+                          return None
+
+                      return round(1.0 + float(left) / denominator, 4)
+
+                  return round(float(value), 4)
+
+              except Exception:
+                  return None
 
           try:
               response = requests.get(url, headers=headers, timeout=30)
+
               print("status:", response.status_code)
               print("body preview:", response.text[:2000])
 
@@ -52,43 +80,44 @@ jobs:
                   print("json parse error:", repr(exc))
                   raise SystemExit(0)
 
-              print("top_level_keys:", list(payload.keys()) if isinstance(payload, dict) else type(payload).__name__)
+              print(
+                  "top_level_keys:",
+                  list(payload.keys()) if isinstance(payload, dict) else type(payload).__name__,
+              )
 
-              def fractional_to_decimal(value):
-                  if not value or not isinstance(value, str):
-                      return None
-                  value = value.strip()
-                  try:
-                      if "/" in value:
-                          left, right = value.split("/", 1)
-                          return round(1.0 + float(left) / float(right), 4)
-                      return round(float(value), 4)
-                  except Exception:
-                      return None
+              if not isinstance(payload, dict):
+                  print("NORMALIZED_NONE")
+                  raise SystemExit(0)
 
-              if isinstance(payload, dict):
-                  home = payload.get("home") or {}
-                  away = payload.get("away") or {}
-                  home_fractional = home.get("fractionalValue") if isinstance(home, dict) else None
-                  away_fractional = away.get("fractionalValue") if isinstance(away, dict) else None
-                  home_decimal = fractional_to_decimal(home_fractional)
-                  away_decimal = fractional_to_decimal(away_fractional)
+              home = payload.get("home") or {}
+              away = payload.get("away") or {}
 
-                  print("home_fractional:", home_fractional)
-                  print("away_fractional:", away_fractional)
-                  print("home_decimal:", home_decimal)
-                  print("away_decimal:", away_decimal)
+              home_fractional = home.get("fractionalValue") if isinstance(home, dict) else None
+              away_fractional = away.get("fractionalValue") if isinstance(away, dict) else None
 
-                  if home_decimal and away_decimal:
-                      print("NORMALIZED_OK:", json.dumps({
-                          "event_id": event_id,
-                          "odds_source": "all_sports_api",
-                          "odds_provider": "provider_1",
-                          "odds_player1": home_decimal,
-                          "odds_player2": away_decimal,
-                      }, ensure_ascii=False))
-                  else:
-                      print("NORMALIZED_NONE")
+              home_decimal = fractional_to_decimal(home_fractional)
+              away_decimal = fractional_to_decimal(away_fractional)
+
+              print("home_fractional:", home_fractional)
+              print("away_fractional:", away_fractional)
+              print("home_decimal:", home_decimal)
+              print("away_decimal:", away_decimal)
+
+              if home_decimal and away_decimal:
+                  normalized = {
+                      "event_id": event_id,
+                      "odds_source": "all_sports_api",
+                      "odds_provider": "provider_1",
+                      "odds_player1": home_decimal,
+                      "odds_player2": away_decimal,
+                      "raw_home": home,
+                      "raw_away": away,
+                  }
+
+                  print("NORMALIZED_OK:", json.dumps(normalized, ensure_ascii=False))
+
+              else:
+                  print("NORMALIZED_NONE")
 
           except Exception as exc:
               print("ERROR:", repr(exc))
