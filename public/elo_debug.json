@@ -11,9 +11,9 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 44,
-  "found_count": 31,
-  "missing_count": 13,
+  "lookup_count": 42,
+  "found_count": 30,
+  "missing_count": 12,
   "examples_found": [
     {
       "input": "Lina Glushko",
@@ -21,14 +21,6 @@
       "method": "exact",
       "score": 1.0,
       "elo": 1379.7,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Elena Mićić",
-      "matched": "Elena Micic",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1398.9,
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
@@ -254,17 +246,20 @@
       "score": 1.0,
       "elo": 1722.5,
       "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Katie Volynets",
+      "matched": "Katie Volynets",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1785.7,
+      "source": "data/elo/wta_elo_latest.csv"
     }
   ],
   "examples_missing": [
     {
       "input": "Ekaterina Yashina",
       "normalized": "ekaterina yashina",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Makoto Ninomiya",
-      "normalized": "makoto ninomiya",
       "reason": "no_safe_match"
     },
     {
