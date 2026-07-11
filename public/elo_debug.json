@@ -11,34 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 70,
-  "found_count": 48,
-  "missing_count": 22,
+  "lookup_count": 66,
+  "found_count": 45,
+  "missing_count": 21,
   "examples_found": [
-    {
-      "input": "Clement Tabur",
-      "matched": "Clement Tabur",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1606.8,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Marc-Andrea Huesler",
-      "matched": "Marc Andrea Huesler",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1503.5,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Edas Butvilas",
-      "matched": "Edas Butvilas",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1544.3,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
     {
       "input": "Thiago Monteiro",
       "matched": "Thiago Monteiro",
@@ -254,14 +230,33 @@
       "score": 1.0,
       "elo": 1462.7,
       "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Pol Martin Tiffon",
+      "matched": "Pol Martin Tiffon",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1560.9,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Genaro Alberto Olivieri",
+      "matched": "Genaro Alberto Olivieri",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1488.6,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Karolina Muchova",
+      "matched": "Karolina Muchova",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 2066.1,
+      "source": "data/elo/wta_elo_latest.csv"
     }
   ],
   "examples_missing": [
-    {
-      "input": "Hendrik Jebens",
-      "normalized": "hendrik jebens",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Dylan Dietrich",
       "normalized": "dylan dietrich",
