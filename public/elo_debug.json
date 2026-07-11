@@ -11,26 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 60,
+  "lookup_count": 58,
   "found_count": 39,
-  "missing_count": 21,
+  "missing_count": 19,
   "examples_found": [
-    {
-      "input": "Simona Waltert",
-      "matched": "Simona Waltert",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1669.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Paula Badosa",
-      "matched": "Paula Badosa",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1779.6,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Federico Cinà",
       "matched": "Federico Cina",
@@ -142,6 +126,22 @@
       "score": 1.0,
       "elo": 1653.2,
       "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Manas Dhamne",
+      "matched": "Manas Dhamne",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1398.6,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Vitaliy Sachko",
+      "matched": "Vitaliy Sachko",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1583.5,
+      "source": "data/elo/atp_elo_latest.csv"
     },
     {
       "input": "Luca Nardi",
@@ -257,16 +257,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Heliovaara H / Patten H",
-      "normalized": "heliovaara h / patten h",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Arevalo M / Pavic M",
-      "normalized": "arevalo m / pavic m",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Dylan Dietrich",
       "normalized": "dylan dietrich",
