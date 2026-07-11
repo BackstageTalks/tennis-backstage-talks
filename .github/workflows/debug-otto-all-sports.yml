@@ -1,0 +1,95 @@
+name: Debug Otto All Sports Odds
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Debug Otto All Sports odds
+        env:
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+        run: |
+          python - <<'PY'
+          import os
+          import json
+          import requests
+
+          event_id = 16486813
+          url = f"https://allsportsapi2.p.rapidapi.com/api/tennis/event/{event_id}/provider/1/winning-odds"
+
+          headers = {
+              "x-rapidapi-key": os.getenv("RAPIDAPI_KEY", ""),
+              "x-rapidapi-host": "allsportsapi2.p.rapidapi.com",
+              "Content-Type": "application/json",
+          }
+
+          print("RAPIDAPI_KEY:", "SET" if headers["x-rapidapi-key"] else "MISSING")
+          print("DEBUG ALL SPORTS EVENT:", event_id)
+          print("url:", url)
+
+          try:
+              response = requests.get(url, headers=headers, timeout=30)
+              print("status:", response.status_code)
+              print("body preview:", response.text[:2000])
+
+              try:
+                  payload = response.json()
+              except Exception as exc:
+                  print("json parse error:", repr(exc))
+                  raise SystemExit(0)
+
+              print("top_level_keys:", list(payload.keys()) if isinstance(payload, dict) else type(payload).__name__)
+
+              def fractional_to_decimal(value):
+                  if not value or not isinstance(value, str):
+                      return None
+                  value = value.strip()
+                  try:
+                      if "/" in value:
+                          left, right = value.split("/", 1)
+                          return round(1.0 + float(left) / float(right), 4)
+                      return round(float(value), 4)
+                  except Exception:
+                      return None
+
+              if isinstance(payload, dict):
+                  home = payload.get("home") or {}
+                  away = payload.get("away") or {}
+                  home_fractional = home.get("fractionalValue") if isinstance(home, dict) else None
+                  away_fractional = away.get("fractionalValue") if isinstance(away, dict) else None
+                  home_decimal = fractional_to_decimal(home_fractional)
+                  away_decimal = fractional_to_decimal(away_fractional)
+
+                  print("home_fractional:", home_fractional)
+                  print("away_fractional:", away_fractional)
+                  print("home_decimal:", home_decimal)
+                  print("away_decimal:", away_decimal)
+
+                  if home_decimal and away_decimal:
+                      print("NORMALIZED_OK:", json.dumps({
+                          "event_id": event_id,
+                          "odds_source": "all_sports_api",
+                          "odds_provider": "provider_1",
+                          "odds_player1": home_decimal,
+                          "odds_player2": away_decimal,
+                      }, ensure_ascii=False))
+                  else:
+                      print("NORMALIZED_NONE")
+
+          except Exception as exc:
+              print("ERROR:", repr(exc))
+          PY
