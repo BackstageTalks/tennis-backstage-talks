@@ -14,8 +14,8 @@
         "data/pick_history/all/2026-07-11.json"
       ],
       "history_items_loaded": 241,
-      "resolved_count": 152,
-      "pending_count": 89,
+      "resolved_count": 154,
+      "pending_count": 87,
       "unknown_count": 0
     },
     "top5": {
@@ -34,7 +34,7 @@
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4118,
+  "finished_results_found": 4120,
   "examples_results": [
     {
       "match_id": 16385333,
@@ -597,6 +597,541 @@
             ],
             "tournament": [
               "grand-slam"
+            ],
+            "gender": [
+              "M"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "match_id": 16486811,
+      "event_id": 16486811,
+      "date": "2026-07-11",
+      "player1": "Clement Tabur",
+      "player2": "Hendrik Jebens",
+      "winner": "Clement Tabur",
+      "score": "6-3 6-4",
+      "status": "FINISHED",
+      "source": "TennisApi",
+      "match": "Clement Tabur vs Hendrik Jebens",
+      "raw": {
+        "source": "TennisApi",
+        "match_id": 16486811,
+        "event_id": 16486811,
+        "date": "2026-07-11",
+        "player1": "Clement Tabur",
+        "player2": "Hendrik Jebens",
+        "winner": "Clement Tabur",
+        "score": "6-3 6-4",
+        "status": "FINISHED",
+        "match": "Clement Tabur vs Hendrik Jebens",
+        "tournament": "Gstaad",
+        "category": "ATP",
+        "start_time_utc": "2026-07-11T08:00:00+00:00",
+        "raw": {
+          "firstToServe": 1,
+          "tournament": {
+            "name": "Gstaad, Switzerland, Qualifying",
+            "slug": "gstaad-switzerland-qualifying",
+            "category": {
+              "name": "ATP",
+              "slug": "atp",
+              "sport": {
+                "name": "Tennis",
+                "slug": "tennis",
+                "id": 5
+              },
+              "priority": 8,
+              "country": {},
+              "id": 3,
+              "flag": "atp",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "bn": "এটিপি",
+                  "hi": "डब्ल्यूटीए",
+                  "ar": "رابطة محترفي التنس",
+                  "ru": "ATP"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "uniqueTournament": {
+              "name": "Gstaad",
+              "slug": "gstaad",
+              "primaryColorHex": "#3a4265",
+              "secondaryColorHex": "#5a669e",
+              "category": {
+                "name": "ATP",
+                "slug": "atp",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "priority": 8,
+                "country": {},
+                "id": 3,
+                "flag": "atp",
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "bn": "এটিপি",
+                    "hi": "डब्ल्यूटीए",
+                    "ar": "رابطة محترفي التنس",
+                    "ru": "ATP"
+                  },
+                  "shortNameTranslation": {}
+                }
+              },
+              "userCount": 1635,
+              "groundType": "Red clay",
+              "tennisPoints": 250,
+              "hasPerformanceGraphFeature": false,
+              "country": {},
+              "id": 2416,
+              "hasEventPlayerStatistics": false,
+              "displayInverseHomeAwayTeams": false,
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "غشتاد",
+                  "hi": "गस्ताद",
+                  "bn": "জিসটাদ",
+                  "ru": "Гштаад"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "priority": 0,
+            "isGroup": false,
+            "id": 191487,
+            "endTimestamp": 1783814400,
+            "startTimestamp": 1783728000,
+            "qualificationOrPreliminary": true
+          },
+          "season": {
+            "name": "ATP Gstaad, Switzerland Men Singles 2026",
+            "year": "2026",
+            "editor": false,
+            "id": 81903
+          },
+          "roundInfo": {
+            "round": 1,
+            "name": "Qualification Round 1",
+            "slug": "qualification-round-1"
+          },
+          "customId": "fATscHHb",
+          "status": {
+            "code": 100,
+            "description": "Ended",
+            "type": "finished"
+          },
+          "winnerCode": 1,
+          "homeTeam": {
+            "name": "Clement Tabur",
+            "slug": "tabur-clement",
+            "shortName": "C. Tabur",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 2525,
+            "playerTeamInfo": {
+              "id": 2746
+            },
+            "nameCode": "TAB",
+            "ranking": 189,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "FR",
+              "alpha3": "FRA",
+              "name": "France",
+              "slug": "france"
+            },
+            "id": 206602,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "كلمنت تابور",
+                "ru": "Табур, Клемен"
+              },
+              "shortNameTranslation": {
+                "ar": "ك. تابور"
+              }
+            }
+          },
+          "awayTeam": {
+            "name": "Hendrik Jebens",
+            "slug": "jebens-hendrik",
+            "shortName": "H. Jebens",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 238,
+            "playerTeamInfo": {
+              "id": 4331
+            },
+            "nameCode": "JEB",
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "DE",
+              "alpha3": "DEU",
+              "name": "Germany",
+              "slug": "germany"
+            },
+            "id": 108755,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "هندريك جيبينس",
+                "ru": "Йебенс, Хендрик"
+              },
+              "shortNameTranslation": {
+                "ar": "ه. جيبينس"
+              }
+            }
+          },
+          "homeScore": {
+            "current": 2,
+            "display": 2,
+            "period1": 6,
+            "period2": 6,
+            "point": "40",
+            "normaltime": 2
+          },
+          "awayScore": {
+            "current": 0,
+            "display": 0,
+            "period1": 3,
+            "period2": 4,
+            "point": "0",
+            "normaltime": 0
+          },
+          "time": {
+            "period1": 1649,
+            "period2": 2092,
+            "currentPeriodStartTimestamp": 1783758981
+          },
+          "changes": {
+            "changes": [
+              "time.currentPeriodStart"
+            ],
+            "changeTimestamp": 1783761203
+          },
+          "hasGlobalHighlights": false,
+          "crowdsourcingDataDisplayEnabled": false,
+          "id": 16486811,
+          "slug": "clement-tabur-hendrik-jebens",
+          "startTimestamp": 1783756800,
+          "periods": {
+            "point": "Game",
+            "current": "Match",
+            "period1": "1st set",
+            "period2": "2nd set",
+            "period3": "3rd set",
+            "period4": "4th set",
+            "period5": "5th set"
+          },
+          "finalResultOnly": false,
+          "feedLocked": false,
+          "groundType": "Red clay",
+          "isEditor": false,
+          "eventFilters": {
+            "category": [
+              "singles"
+            ],
+            "level": [
+              "pro"
+            ],
+            "tournament": [
+              "p250"
+            ],
+            "gender": [
+              "M"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "match_id": 16486810,
+      "event_id": 16486810,
+      "date": "2026-07-11",
+      "player1": "Marc-Andrea Huesler",
+      "player2": "Edas Butvilas",
+      "winner": "Marc-Andrea Huesler",
+      "score": "6-4 6-3",
+      "status": "FINISHED",
+      "source": "TennisApi",
+      "match": "Marc-Andrea Huesler vs Edas Butvilas",
+      "raw": {
+        "source": "TennisApi",
+        "match_id": 16486810,
+        "event_id": 16486810,
+        "date": "2026-07-11",
+        "player1": "Marc-Andrea Huesler",
+        "player2": "Edas Butvilas",
+        "winner": "Marc-Andrea Huesler",
+        "score": "6-4 6-3",
+        "status": "FINISHED",
+        "match": "Marc-Andrea Huesler vs Edas Butvilas",
+        "tournament": "Gstaad",
+        "category": "ATP",
+        "start_time_utc": "2026-07-11T08:00:00+00:00",
+        "raw": {
+          "firstToServe": 1,
+          "tournament": {
+            "name": "Gstaad, Switzerland, Qualifying",
+            "slug": "gstaad-switzerland-qualifying",
+            "category": {
+              "name": "ATP",
+              "slug": "atp",
+              "sport": {
+                "name": "Tennis",
+                "slug": "tennis",
+                "id": 5
+              },
+              "priority": 8,
+              "country": {},
+              "id": 3,
+              "flag": "atp",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "bn": "এটিপি",
+                  "hi": "डब्ल्यूटीए",
+                  "ar": "رابطة محترفي التنس",
+                  "ru": "ATP"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "uniqueTournament": {
+              "name": "Gstaad",
+              "slug": "gstaad",
+              "primaryColorHex": "#3a4265",
+              "secondaryColorHex": "#5a669e",
+              "category": {
+                "name": "ATP",
+                "slug": "atp",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "priority": 8,
+                "country": {},
+                "id": 3,
+                "flag": "atp",
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "bn": "এটিপি",
+                    "hi": "डब्ल्यूटीए",
+                    "ar": "رابطة محترفي التنس",
+                    "ru": "ATP"
+                  },
+                  "shortNameTranslation": {}
+                }
+              },
+              "userCount": 1635,
+              "groundType": "Red clay",
+              "tennisPoints": 250,
+              "hasPerformanceGraphFeature": false,
+              "country": {},
+              "id": 2416,
+              "hasEventPlayerStatistics": false,
+              "displayInverseHomeAwayTeams": false,
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "غشتاد",
+                  "hi": "गस्ताद",
+                  "bn": "জিসটাদ",
+                  "ru": "Гштаад"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "priority": 0,
+            "isGroup": false,
+            "id": 191487,
+            "endTimestamp": 1783814400,
+            "startTimestamp": 1783728000,
+            "qualificationOrPreliminary": true
+          },
+          "season": {
+            "name": "ATP Gstaad, Switzerland Men Singles 2026",
+            "year": "2026",
+            "editor": false,
+            "id": 81903
+          },
+          "roundInfo": {
+            "round": 1,
+            "name": "Qualification Round 1",
+            "slug": "qualification-round-1"
+          },
+          "customId": "mcibsRled",
+          "status": {
+            "code": 100,
+            "description": "Ended",
+            "type": "finished"
+          },
+          "winnerCode": 1,
+          "homeTeam": {
+            "name": "Marc-Andrea Huesler",
+            "slug": "huesler-marc-andrea",
+            "shortName": "M. Huesler",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 2687,
+            "playerTeamInfo": {
+              "id": 533
+            },
+            "nameCode": "HUE",
+            "ranking": 311,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "CH",
+              "alpha3": "CHE",
+              "name": "Switzerland",
+              "slug": "switzerland"
+            },
+            "id": 145112,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "مارك-أندريا هويزلر",
+                "ru": "Хуслен, Марк-Андреа"
+              },
+              "shortNameTranslation": {
+                "ar": "م. هويزلر",
+                "bn": "এম. হুসলার",
+                "hi": "एम. हूसलर"
+              }
+            }
+          },
+          "awayTeam": {
+            "name": "Edas Butvilas",
+            "slug": "butvilas-edas",
+            "shortName": "E. Butvilas",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 2214,
+            "playerTeamInfo": {
+              "id": 5775
+            },
+            "nameCode": "BUT",
+            "ranking": 225,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "LT",
+              "alpha3": "LTU",
+              "name": "Lithuania",
+              "slug": "lithuania"
+            },
+            "id": 385592,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "إيداس بوتفيلاس",
+                "ru": "Эдас Бутвилас"
+              },
+              "shortNameTranslation": {
+                "ar": "إ. بوتفيلاس",
+                "ru": "Э. Бутвилас"
+              }
+            }
+          },
+          "homeScore": {
+            "current": 2,
+            "display": 2,
+            "period1": 6,
+            "period2": 6,
+            "point": "A",
+            "normaltime": 2
+          },
+          "awayScore": {
+            "current": 0,
+            "display": 0,
+            "period1": 4,
+            "period2": 3,
+            "point": "40",
+            "normaltime": 0
+          },
+          "time": {
+            "period1": 2115,
+            "period2": 2419,
+            "currentPeriodStartTimestamp": 1783759298
+          },
+          "changes": {
+            "changes": [
+              "time.currentPeriodStart",
+              "time.period2"
+            ],
+            "changeTimestamp": 1783761751
+          },
+          "hasGlobalHighlights": false,
+          "crowdsourcingDataDisplayEnabled": false,
+          "id": 16486810,
+          "slug": "edas-butvilas-marc-andrea-huesler",
+          "startTimestamp": 1783756800,
+          "periods": {
+            "point": "Game",
+            "current": "Match",
+            "period1": "1st set",
+            "period2": "2nd set",
+            "period3": "3rd set",
+            "period4": "4th set",
+            "period5": "5th set"
+          },
+          "finalResultOnly": false,
+          "feedLocked": false,
+          "groundType": "Red clay",
+          "isEditor": false,
+          "eventFilters": {
+            "category": [
+              "singles"
+            ],
+            "level": [
+              "pro"
+            ],
+            "tournament": [
+              "p250"
             ],
             "gender": [
               "M"
@@ -2500,546 +3035,6 @@
           }
         }
       }
-    },
-    {
-      "match_id": 16425223,
-      "event_id": 16425223,
-      "date": "2026-07-10",
-      "player1": "Lucrezia Stefanini",
-      "player2": "Tatjana Maria",
-      "winner": "Tatjana Maria",
-      "score": "1-6 0-6",
-      "status": "FINISHED",
-      "source": "TennisApi",
-      "match": "Lucrezia Stefanini vs Tatjana Maria",
-      "raw": {
-        "source": "TennisApi",
-        "match_id": 16425223,
-        "event_id": 16425223,
-        "date": "2026-07-10",
-        "player1": "Lucrezia Stefanini",
-        "player2": "Tatjana Maria",
-        "winner": "Tatjana Maria",
-        "score": "1-6 0-6",
-        "status": "FINISHED",
-        "match": "Lucrezia Stefanini vs Tatjana Maria",
-        "tournament": "WTA 125K Newport, USA Women Singles",
-        "category": "WTA 125",
-        "start_time_utc": "2026-07-10T18:55:00+00:00",
-        "raw": {
-          "firstToServe": 2,
-          "homeTeamSeed": "5",
-          "awayTeamSeed": "2",
-          "tournament": {
-            "name": "Newport, USA",
-            "slug": "newport-usa",
-            "category": {
-              "name": "WTA 125",
-              "slug": "wta-125",
-              "sport": {
-                "name": "Tennis",
-                "slug": "tennis",
-                "id": 5
-              },
-              "priority": 5,
-              "country": {},
-              "id": 871,
-              "flag": "wta-125",
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "رابطة محترفات التنس 125",
-                  "ru": "WTA 125"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "uniqueTournament": {
-              "name": "WTA 125K Newport, USA Women Singles",
-              "slug": "wta-125k-newport-usa-women-singles",
-              "category": {
-                "name": "WTA 125",
-                "slug": "wta-125",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "priority": 5,
-                "country": {},
-                "id": 871,
-                "flag": "wta-125",
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "رابطة محترفات التنس 125",
-                    "ru": "WTA 125"
-                  },
-                  "shortNameTranslation": {}
-                }
-              },
-              "userCount": 124,
-              "groundType": "Grass",
-              "tennisPoints": 125,
-              "hasPerformanceGraphFeature": false,
-              "country": {},
-              "id": 27740,
-              "hasEventPlayerStatistics": false,
-              "displayInverseHomeAwayTeams": false,
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "WTA 125K نيوبورت، الولايات المتحدة السيدات فردي",
-                  "ru": "WTA 125K Ньюпорт, США среди женщин одиночный"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "priority": 0,
-            "isGroup": false,
-            "id": 190355,
-            "endTimestamp": 1783814400,
-            "startTimestamp": 1783296000
-          },
-          "season": {
-            "name": "WTA 125K Newport, USA Women Singles 2026",
-            "year": "2026",
-            "editor": false,
-            "id": 91341
-          },
-          "roundInfo": {
-            "round": 27,
-            "name": "Quarterfinals",
-            "slug": "quarterfinals",
-            "cupRoundType": 4
-          },
-          "customId": "vPhsPrmb",
-          "status": {
-            "code": 100,
-            "description": "Ended",
-            "type": "finished"
-          },
-          "winnerCode": 2,
-          "homeTeam": {
-            "name": "Lucrezia Stefanini",
-            "slug": "stefanini-lucrezia",
-            "shortName": "L. Stefanini",
-            "gender": "F",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 2627,
-            "playerTeamInfo": {
-              "id": 3155
-            },
-            "nameCode": "STE",
-            "ranking": 163,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "IT",
-              "alpha3": "ITA",
-              "name": "Italy",
-              "slug": "italy"
-            },
-            "id": 155890,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "لوكريزيا ستيفانيني",
-                "bn": "লুক্রেজিয়া স্টেফানিনি",
-                "hi": "लुक्रेज़िया स्तेफानिनी",
-                "ru": "Стефанини, Лукреция"
-              },
-              "shortNameTranslation": {
-                "ar": "ل. ستيفانيني"
-              }
-            }
-          },
-          "awayTeam": {
-            "name": "Tatjana Maria",
-            "slug": "maria-tatjana",
-            "shortName": "T. Maria",
-            "gender": "F",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 4865,
-            "playerTeamInfo": {
-              "id": 261
-            },
-            "nameCode": "MAR",
-            "ranking": 96,
-            "disabled": false,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "DE",
-              "alpha3": "DEU",
-              "name": "Germany",
-              "slug": "germany"
-            },
-            "id": 19520,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "تاتيانا ماريا",
-                "bn": "তাতজানা মারিয়া",
-                "hi": "तात्याना मारिया",
-                "ru": "Татьяна Мария"
-              },
-              "shortNameTranslation": {
-                "ar": "ت. ماريا"
-              }
-            }
-          },
-          "homeScore": {
-            "current": 0,
-            "display": 0,
-            "period1": 1,
-            "period2": 0,
-            "point": "30",
-            "normaltime": 0
-          },
-          "awayScore": {
-            "current": 2,
-            "display": 2,
-            "period1": 6,
-            "period2": 6,
-            "point": "30",
-            "normaltime": 2
-          },
-          "time": {
-            "period1": 1695,
-            "period2": 1835,
-            "currentPeriodStartTimestamp": 1783711904
-          },
-          "changes": {
-            "changes": [
-              "time.currentPeriodStart",
-              "time.period2",
-              "status.code",
-              "status.description",
-              "status.type",
-              "homeScore.normaltime",
-              "awayScore.current",
-              "awayScore.display",
-              "awayScore.period2",
-              "awayScore.normaltime",
-              "awayScore.point",
-              "homeScore.point"
-            ],
-            "changeTimestamp": 1783713749
-          },
-          "hasGlobalHighlights": false,
-          "crowdsourcingDataDisplayEnabled": false,
-          "id": 16425223,
-          "slug": "lucrezia-stefanini-tatjana-maria",
-          "startTimestamp": 1783709700,
-          "periods": {
-            "point": "Game",
-            "current": "Match",
-            "period1": "1st set",
-            "period2": "2nd set",
-            "period3": "3rd set",
-            "period4": "4th set",
-            "period5": "5th set"
-          },
-          "finalResultOnly": false,
-          "feedLocked": false,
-          "groundType": "Grass",
-          "isEditor": false,
-          "eventFilters": {
-            "category": [
-              "singles"
-            ],
-            "level": [
-              "pro"
-            ],
-            "tournament": [
-              "lower"
-            ],
-            "gender": [
-              "F"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "match_id": 16425224,
-      "event_id": 16425224,
-      "date": "2026-07-10",
-      "player1": "Greet Minnen",
-      "player2": "Madison Brengle",
-      "winner": "Greet Minnen",
-      "score": "7-5 6-0",
-      "status": "FINISHED",
-      "source": "TennisApi",
-      "match": "Greet Minnen vs Madison Brengle",
-      "raw": {
-        "source": "TennisApi",
-        "match_id": 16425224,
-        "event_id": 16425224,
-        "date": "2026-07-10",
-        "player1": "Greet Minnen",
-        "player2": "Madison Brengle",
-        "winner": "Greet Minnen",
-        "score": "7-5 6-0",
-        "status": "FINISHED",
-        "match": "Greet Minnen vs Madison Brengle",
-        "tournament": "WTA 125K Newport, USA Women Singles",
-        "category": "WTA 125",
-        "start_time_utc": "2026-07-10T20:15:00+00:00",
-        "raw": {
-          "firstToServe": 2,
-          "tournament": {
-            "name": "Newport, USA",
-            "slug": "newport-usa",
-            "category": {
-              "name": "WTA 125",
-              "slug": "wta-125",
-              "sport": {
-                "name": "Tennis",
-                "slug": "tennis",
-                "id": 5
-              },
-              "priority": 5,
-              "country": {},
-              "id": 871,
-              "flag": "wta-125",
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "رابطة محترفات التنس 125",
-                  "ru": "WTA 125"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "uniqueTournament": {
-              "name": "WTA 125K Newport, USA Women Singles",
-              "slug": "wta-125k-newport-usa-women-singles",
-              "category": {
-                "name": "WTA 125",
-                "slug": "wta-125",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "priority": 5,
-                "country": {},
-                "id": 871,
-                "flag": "wta-125",
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "رابطة محترفات التنس 125",
-                    "ru": "WTA 125"
-                  },
-                  "shortNameTranslation": {}
-                }
-              },
-              "userCount": 124,
-              "groundType": "Grass",
-              "tennisPoints": 125,
-              "hasPerformanceGraphFeature": false,
-              "country": {},
-              "id": 27740,
-              "hasEventPlayerStatistics": false,
-              "displayInverseHomeAwayTeams": false,
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "WTA 125K نيوبورت، الولايات المتحدة السيدات فردي",
-                  "ru": "WTA 125K Ньюпорт, США среди женщин одиночный"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "priority": 0,
-            "isGroup": false,
-            "id": 190355,
-            "endTimestamp": 1783814400,
-            "startTimestamp": 1783296000
-          },
-          "season": {
-            "name": "WTA 125K Newport, USA Women Singles 2026",
-            "year": "2026",
-            "editor": false,
-            "id": 91341
-          },
-          "roundInfo": {
-            "round": 27,
-            "name": "Quarterfinals",
-            "slug": "quarterfinals",
-            "cupRoundType": 4
-          },
-          "customId": "kRhsdqU",
-          "status": {
-            "code": 100,
-            "description": "Ended",
-            "type": "finished"
-          },
-          "winnerCode": 1,
-          "homeTeam": {
-            "name": "Greet Minnen",
-            "slug": "minnen-greet",
-            "shortName": "G. Minnen",
-            "gender": "F",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 2504,
-            "playerTeamInfo": {
-              "id": 723
-            },
-            "nameCode": "MIN",
-            "ranking": 205,
-            "disabled": false,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "BE",
-              "alpha3": "BEL",
-              "name": "Belgium",
-              "slug": "belgium"
-            },
-            "id": 110803,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "غريت مينن",
-                "bn": "গ্রীট মিনেন",
-                "ru": "Миннен, Грет"
-              },
-              "shortNameTranslation": {
-                "ar": "غ. مينن",
-                "hi": "जी. मिनन"
-              }
-            }
-          },
-          "awayTeam": {
-            "name": "Madison Brengle",
-            "slug": "brengle-madison",
-            "shortName": "M. Brengle",
-            "gender": "F",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 712,
-            "playerTeamInfo": {
-              "id": 316
-            },
-            "nameCode": "BRE",
-            "ranking": 223,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "US",
-              "alpha3": "USA",
-              "name": "USA",
-              "slug": "usa"
-            },
-            "id": 19610,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "ماديسون برينغلي",
-                "bn": "ম্যাডিসন ব্রেঙ্গেল",
-                "hi": "मैडिसन ब्रेंगल",
-                "ru": "Бренгл, Мэдисон"
-              },
-              "shortNameTranslation": {
-                "ar": "م. برينغلي"
-              }
-            }
-          },
-          "homeScore": {
-            "current": 2,
-            "display": 2,
-            "period1": 7,
-            "period2": 6,
-            "point": "A",
-            "normaltime": 2
-          },
-          "awayScore": {
-            "current": 0,
-            "display": 0,
-            "period1": 5,
-            "period2": 0,
-            "point": "40",
-            "normaltime": 0
-          },
-          "time": {
-            "period1": 2795,
-            "period2": 1241,
-            "currentPeriodStartTimestamp": 1783717538
-          },
-          "changes": {
-            "changes": [
-              "time.currentPeriodStart",
-              "time.period2"
-            ],
-            "changeTimestamp": 1783718812
-          },
-          "hasGlobalHighlights": false,
-          "crowdsourcingDataDisplayEnabled": false,
-          "id": 16425224,
-          "slug": "greet-minnen-madison-brengle",
-          "startTimestamp": 1783714500,
-          "periods": {
-            "point": "Game",
-            "current": "Match",
-            "period1": "1st set",
-            "period2": "2nd set",
-            "period3": "3rd set",
-            "period4": "4th set",
-            "period5": "5th set"
-          },
-          "finalResultOnly": false,
-          "feedLocked": false,
-          "groundType": "Grass",
-          "isEditor": false,
-          "eventFilters": {
-            "category": [
-              "singles"
-            ],
-            "level": [
-              "pro"
-            ],
-            "tournament": [
-              "lower"
-            ],
-            "gender": [
-              "F"
-            ]
-          }
-        }
-      }
     }
   ],
   "examples_resolved": [
@@ -3603,6 +3598,20 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-11",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Clement Tabur vs Hendrik Jebens"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-11",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Marc-Andrea Huesler vs Edas Butvilas"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-10",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
@@ -3782,20 +3791,6 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Lisa Pigato vs Aurora Zantedeschi"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-09",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Francesca Jones vs Leolia Jeanjean"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-10",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Francesca Curmi vs Jeline Vandromme"
     }
   ],
   "examples_void": [

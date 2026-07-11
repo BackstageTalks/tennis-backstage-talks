@@ -962,10 +962,11 @@
     },
     "customId": "fATscHHb",
     "status": {
-      "code": 9,
-      "description": "2nd set",
-      "type": "inprogress"
+      "code": 100,
+      "description": "Ended",
+      "type": "finished"
     },
+    "winnerCode": 1,
     "homeTeam": {
       "name": "Clement Tabur",
       "slug": "tabur-clement",
@@ -1048,28 +1049,31 @@
       }
     },
     "homeScore": {
-      "current": 1,
-      "display": 1,
+      "current": 2,
+      "display": 2,
       "period1": 6,
-      "period2": 3,
-      "point": "30"
+      "period2": 6,
+      "point": "40",
+      "normaltime": 2
     },
     "awayScore": {
       "current": 0,
       "display": 0,
       "period1": 3,
-      "period2": 2,
-      "point": "0"
+      "period2": 4,
+      "point": "0",
+      "normaltime": 0
     },
     "time": {
       "period1": 1649,
+      "period2": 2092,
       "currentPeriodStartTimestamp": 1783758981
     },
     "changes": {
       "changes": [
-        "homeScore.point"
+        "time.currentPeriodStart"
       ],
-      "changeTimestamp": 1783760136
+      "changeTimestamp": 1783761203
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
@@ -1085,7 +1089,6 @@
       "period4": "4th set",
       "period5": "5th set"
     },
-    "lastPeriod": "period2",
     "finalResultOnly": false,
     "feedLocked": false,
     "groundType": "Red clay",
@@ -1198,10 +1201,11 @@
     },
     "customId": "mcibsRled",
     "status": {
-      "code": 9,
-      "description": "2nd set",
-      "type": "inprogress"
+      "code": 100,
+      "description": "Ended",
+      "type": "finished"
     },
+    "winnerCode": 1,
     "homeTeam": {
       "name": "Marc-Andrea Huesler",
       "slug": "huesler-marc-andrea",
@@ -1288,28 +1292,32 @@
       }
     },
     "homeScore": {
-      "current": 1,
-      "display": 1,
+      "current": 2,
+      "display": 2,
       "period1": 6,
-      "period2": 1,
-      "point": "40"
+      "period2": 6,
+      "point": "A",
+      "normaltime": 2
     },
     "awayScore": {
       "current": 0,
       "display": 0,
       "period1": 4,
-      "period2": 1,
-      "point": "15"
+      "period2": 3,
+      "point": "40",
+      "normaltime": 0
     },
     "time": {
       "period1": 2115,
+      "period2": 2419,
       "currentPeriodStartTimestamp": 1783759298
     },
     "changes": {
       "changes": [
-        "homeScore.point"
+        "time.currentPeriodStart",
+        "time.period2"
       ],
-      "changeTimestamp": 1783760135
+      "changeTimestamp": 1783761751
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
@@ -1325,7 +1333,6 @@
       "period4": "4th set",
       "period5": "5th set"
     },
-    "lastPeriod": "period2",
     "finalResultOnly": false,
     "feedLocked": false,
     "groundType": "Red clay",
@@ -1347,6 +1354,7 @@
     "_cache_category_id": 3
   },
   {
+    "firstToServe": 1,
     "tournament": {
       "name": "Gstaad, Switzerland, Qualifying",
       "slug": "gstaad-switzerland-qualifying",
@@ -1437,9 +1445,9 @@
     },
     "customId": "dQrsdcu",
     "status": {
-      "code": 0,
-      "description": "Not started",
-      "type": "notstarted"
+      "code": 8,
+      "description": "1st set",
+      "type": "inprogress"
     },
     "homeTeam": {
       "name": "Thiago Monteiro",
@@ -1529,17 +1537,32 @@
         }
       }
     },
-    "homeScore": {},
-    "awayScore": {},
-    "time": {},
+    "homeScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 0,
+      "point": "40"
+    },
+    "awayScore": {
+      "current": 0,
+      "display": 0,
+      "period1": 1,
+      "point": "40"
+    },
+    "time": {
+      "currentPeriodStartTimestamp": 1783763053
+    },
     "changes": {
-      "changeTimestamp": 0
+      "changes": [
+        "awayScore.point"
+      ],
+      "changeTimestamp": 1783763466
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
     "id": 16486812,
     "slug": "thiago-monteiro-pierre-hugues-herbert",
-    "startTimestamp": 1783761000,
+    "startTimestamp": 1783761900,
     "periods": {
       "point": "Game",
       "current": "Match",
@@ -1549,6 +1572,7 @@
       "period4": "4th set",
       "period5": "5th set"
     },
+    "lastPeriod": "period1",
     "finalResultOnly": false,
     "feedLocked": false,
     "groundType": "Red clay",
