@@ -5,7 +5,11 @@ from fetch_matches import get_today_matches
 from stats_engine import get_stats_context
 from elo_engine import load, predict
 from odds_api import fetch_odds, find_match_odds
-from form_engine import load_form_store, get_player_form, calculate_form_adjustment
+from form_engine import (
+    load_form_store,
+    get_player_form,
+    calculate_form_adjustment,
+)
 from src.bst_ai.service import build_bst_ai_comparison
 from src.marq_ai import build_marq_from_match
 from mcp_module import build_mcp_player_stats, mcp_adjustment
@@ -16,6 +20,7 @@ from sets_model import build_market_aware_sets
 TOP_N = 5
 MIN_ODDS = 1.50
 MIN_TOP_PROBABILITY = 0.0
+
 LOCAL_TZ = ZoneInfo("Europe/Bratislava")
 
 
@@ -33,42 +38,64 @@ def safe_float(value):
 
 
 def format_match_time(match):
-    start_value = match.get("match_start") or match.get("start_time") or match.get("commence_time")
+    start_value = (
+        match.get("match_start")
+        or match.get("start_time")
+        or match.get("commence_time")
+    )
+
     if start_value:
         try:
             text = str(start_value)
             if text.endswith("Z"):
                 text = text.replace("Z", "+00:00")
+
             dt = datetime.fromisoformat(text)
+
             if dt.tzinfo is None:
                 dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+
             return dt.astimezone(LOCAL_TZ).strftime("%H:%M")
+
         except Exception:
             pass
+
     return "TBD"
 
 
 def format_match_date(match):
-    start_value = match.get("match_start") or match.get("start_time") or match.get("commence_time")
+    start_value = (
+        match.get("match_start")
+        or match.get("start_time")
+        or match.get("commence_time")
+    )
+
     if not start_value:
         return None
+
     try:
         text = str(start_value)
         if text.endswith("Z"):
             text = text.replace("Z", "+00:00")
+
         dt = datetime.fromisoformat(text)
+
         if dt.tzinfo is None:
             dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+
         return dt.astimezone(LOCAL_TZ).strftime("%Y-%m-%d")
+
     except Exception:
         text = str(start_value)
         if len(text) >= 10:
             return text[:10]
+
     return None
 
 
 def normalize_match(match):
     match_id = match.get("match_id") or match.get("event_id") or match.get("id")
+
     return {
         "match_id": match_id,
         "event_id": match_id,
@@ -90,14 +117,24 @@ def normalize_match(match):
 def infer_surface(surface_map, player1, player2, match):
     if match.get("surface"):
         return match.get("surface")
+
     return surface_map.get(f"{player1}::{player2}") or "Hard"
 
 
-def build_safe_marq_ai(match, player1, player2, pick, odds_player1=None, odds_player2=None):
+def build_safe_marq_ai(
+    match,
+    player1,
+    player2,
+    pick,
+    odds_player1=None,
+    odds_player2=None,
+):
     match_date = format_match_date(match)
+
     if not match_date:
         print("MARQ DEBUG: match_date missing", player1, "vs", player2)
         return None
+
     try:
         return build_marq_from_match(
             player1=player1,
@@ -107,25 +144,59 @@ def build_safe_marq_ai(match, player1, player2, pick, odds_player1=None, odds_pl
             odds_player1=odds_player1,
             odds_player2=odds_player2,
         )
+
     except Exception as exc:
-        print("MARQ AI ERROR:", player1, "vs", player2, "pick:", pick, "date:", match_date, str(exc))
+        print(
+            "MARQ AI ERROR:",
+            player1,
+            "vs",
+            player2,
+            "pick:",
+            pick,
+            "date:",
+            match_date,
+            str(exc),
+        )
         return None
 
 
-def build_prediction_record(match, surface, elo_prediction, odds_data, form_store, mcp_stats):
+def build_prediction_record(
+    match,
+    surface,
+    elo_prediction,
+    odds_data,
+    form_store,
+    mcp_stats,
+):
     player1 = match["player1"]
     player2 = match["player2"]
+
     odds_data = odds_data or {}
 
     prob1 = safe_float(elo_prediction.get("probability_player1"))
     prob2 = safe_float(elo_prediction.get("probability_player2"))
+
     if prob1 is None:
         prob1 = 0.5
+
     if prob2 is None:
         prob2 = 0.5
 
-    odds1 = safe_float(odds_data.get("odds_player1") or odds_data.get("p1_odds") or odds_data.get("home_odds") or odds_data.get("odds1") or odds_data.get("price1"))
-    odds2 = safe_float(odds_data.get("odds_player2") or odds_data.get("p2_odds") or odds_data.get("away_odds") or odds_data.get("odds2") or odds_data.get("price2"))
+    odds1 = safe_float(
+        odds_data.get("odds_player1")
+        or odds_data.get("p1_odds")
+        or odds_data.get("home_odds")
+        or odds_data.get("odds1")
+        or odds_data.get("price1")
+    )
+
+    odds2 = safe_float(
+        odds_data.get("odds_player2")
+        or odds_data.get("p2_odds")
+        or odds_data.get("away_odds")
+        or odds_data.get("odds2")
+        or odds_data.get("price2")
+    )
 
     form1 = get_player_form(form_store, player1, surface)
     form2 = get_player_form(form_store, player2, surface)
@@ -141,10 +212,16 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         base_probability = prob2
         pick_odds = odds2
 
-    form_adjustment = calculate_form_adjustment(pick_form=form1, opponent_form=form2)
+    form_adjustment = calculate_form_adjustment(
+        pick_form=form1,
+        opponent_form=form2,
+    )
+
     final_probability = base_probability + form_adjustment["total_adjustment"]
+
     final_probability += mcp_adjustment(pick, mcp_stats)
     final_probability -= mcp_adjustment(opponent, mcp_stats)
+
     final_probability = clamp(final_probability, 0.15, 0.85)
 
     bst_ai = build_bst_ai_comparison(
@@ -156,15 +233,26 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         tour=match.get("gender"),
     )
 
-    marq_ai = build_safe_marq_ai(match=match, player1=player1, player2=player2, pick=pick, odds_player1=odds1, odds_player2=odds2)
+    marq_ai = build_safe_marq_ai(
+        match=match,
+        player1=player1,
+        player2=player2,
+        pick=pick,
+        odds_player1=odds1,
+        odds_player2=odds2,
+    )
+
     if not isinstance(marq_ai, dict):
         marq_ai = {}
 
     set_markets = {}
+
     try:
         event_id = match.get("event_id") or match.get("match_id") or match.get("id")
+
         if event_id:
             set_markets = get_set_markets(int(event_id))
+
     except Exception as exc:
         print("SETS MARKET ERROR:", player1, "vs", player2, str(exc))
         set_markets = {}
@@ -192,6 +280,8 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         "best_of": match.get("best_of") or 3,
         "surface": surface,
         "probability": round(final_probability, 3),
+
+        # DATA AI / Corq / Thinq.
         "corq_ai_probability": bst_ai.get("corq_ai_probability"),
         "bst_ai_probability": bst_ai.get("bst_ai_probability"),
         "ai_match": bst_ai.get("ai_match"),
@@ -205,6 +295,10 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         "bst_ai_rating_type": bst_ai.get("bst_ai_rating_type"),
         "bst_player1_found": bst_ai.get("bst_player1_found"),
         "bst_player2_found": bst_ai.get("bst_player2_found"),
+
+        # ------------------------------------------------------------------
+        # MARQ legacy fields.
+        # ------------------------------------------------------------------
         "marq_ai_score": marq_ai.get("marq_ai_score"),
         "marq_ai_signal": marq_ai.get("marq_ai_signal"),
         "marq_ai_direction": marq_ai.get("marq_ai_direction"),
@@ -220,12 +314,50 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         "marq_market_move_pct": marq_ai.get("marq_market_move_pct"),
         "marq_probability_change_pp": marq_ai.get("marq_probability_change_pp"),
         "marq_opponent_move_pct": marq_ai.get("marq_opponent_move_pct"),
+
+        # ------------------------------------------------------------------
+        # MARQ v1 MARKET VIEW fields.
+        # ------------------------------------------------------------------
+        "marq_market_view": marq_ai.get("marq_market_view"),
+
+        "marq_crowd_player1_pct": marq_ai.get("marq_crowd_player1_pct"),
+        "marq_crowd_player2_pct": marq_ai.get("marq_crowd_player2_pct"),
+        "marq_crowd_pick_pct": marq_ai.get("marq_crowd_pick_pct"),
+        "marq_crowd_opponent_pct": marq_ai.get("marq_crowd_opponent_pct"),
+
+        "marq_move_signal": marq_ai.get("marq_move_signal"),
+        "marq_sharp_signal": marq_ai.get("marq_sharp_signal"),
+        "marq_sharp_pick_pct": marq_ai.get("marq_sharp_pick_pct"),
+        "marq_quality_signal": marq_ai.get("marq_quality_signal"),
+        "marq_clv_status": marq_ai.get("marq_clv_status"),
+
+        "marq_provider_count": marq_ai.get("marq_provider_count"),
+        "marq_market_spread_pct": marq_ai.get("marq_market_spread_pct"),
+        "marq_market_median_odds": marq_ai.get("marq_market_median_odds"),
+        "marq_outlier_count": marq_ai.get("marq_outlier_count"),
+
+        "marq_initial_pick_odds": marq_ai.get("marq_initial_pick_odds"),
+        "marq_current_pick_odds": marq_ai.get("marq_current_pick_odds"),
+        "marq_initial_opponent_odds": marq_ai.get("marq_initial_opponent_odds"),
+        "marq_current_opponent_odds": marq_ai.get("marq_current_opponent_odds"),
+
+        "marq_exchange_available": marq_ai.get("marq_exchange_available"),
+        "marq_exchange_provider": marq_ai.get("marq_exchange_provider"),
+        "marq_exchange_market_id": marq_ai.get("marq_exchange_market_id"),
+        "marq_exchange_total_matched": marq_ai.get("marq_exchange_total_matched"),
+        "marq_exchange_total_available": marq_ai.get("marq_exchange_total_available"),
+        "marq_exchange_pick_price": marq_ai.get("marq_exchange_pick_price"),
+        "marq_exchange_opponent_price": marq_ai.get("marq_exchange_opponent_price"),
+
+        # Core model fields.
         "base_probability": round(base_probability, 3),
         "odds": pick_odds,
         "odds_player1": odds1,
         "odds_player2": odds2,
         "time": match.get("time"),
         "match_start": match.get("match_start"),
+
+        # Odds metadata.
         "bookmaker": odds_data.get("bookmaker"),
         "odds_source": odds_data.get("odds_source") or odds_data.get("source"),
         "odds_event_id": odds_data.get("event_id") or odds_data.get("match_id"),
@@ -233,6 +365,8 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         "odds_matching_score": odds_data.get("matching_score"),
         "no_odds_reason": odds_data.get("no_odds_reason"),
         "fallback_tried_sources": odds_data.get("fallback_tried_sources"),
+
+        # Sets model.
         "expected_sets": sets_info.get("expected_sets"),
         "sets_probability": sets_info.get("sets_probability"),
         "sets_probability_label": sets_info.get("sets_probability_label"),
@@ -246,6 +380,8 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
         "games_over_probability": sets_info.get("games_over_probability"),
         "tie_break_probability": sets_info.get("tie_break_probability"),
         "sets_model_source": sets_info.get("sets_model_source"),
+
+        # Misc.
         "bet_tag": bet_tag,
         "form_adjustment": form_adjustment.get("total_adjustment"),
         "top_mode": None,
@@ -255,10 +391,12 @@ def build_prediction_record(match, surface, elo_prediction, odds_data, form_stor
 
 def build_all_predictions():
     raw_matches = get_today_matches()
+
     matches = [normalize_match(match) for match in raw_matches]
     matches = [match for match in matches if match["player1"] and match["player2"]]
 
     players = []
+
     for match in matches:
         players.append(match["player1"])
         players.append(match["player2"])
@@ -272,7 +410,12 @@ def build_all_predictions():
     elo_store = load()
     form_store = load_form_store()
     odds_matches = fetch_odds()
-    print("PREDICTION ODDS LIST COUNT:", len(odds_matches) if isinstance(odds_matches, list) else "invalid")
+
+    print(
+        "PREDICTION ODDS LIST COUNT:",
+        len(odds_matches) if isinstance(odds_matches, list) else "invalid",
+    )
+
     mcp_stats = build_mcp_player_stats()
 
     all_predictions = []
@@ -280,32 +423,74 @@ def build_all_predictions():
     odds_miss_count = 0
 
     for match in matches:
-        surface = infer_surface(surface_map, match["player1"], match["player2"], match)
-        elo_prediction = predict(match["player1"], match["player2"], surface, elo_store)
+        surface = infer_surface(
+            surface_map,
+            match["player1"],
+            match["player2"],
+            match,
+        )
+
+        elo_prediction = predict(
+            match["player1"],
+            match["player2"],
+            surface,
+            elo_store,
+        )
+
         odds_data = find_match_odds(odds_matches, match)
 
         if odds_data:
             odds_hit_count += 1
         else:
             odds_miss_count += 1
-            if odds_miss_count <= 20:
-                print("ODDS MATCH MISS:", match.get("player1"), "vs", match.get("player2"), "match_id:", match.get("match_id"))
 
-        prediction = build_prediction_record(match, surface, elo_prediction, odds_data, form_store, mcp_stats)
+            if odds_miss_count <= 20:
+                print(
+                    "ODDS MATCH MISS:",
+                    match.get("player1"),
+                    "vs",
+                    match.get("player2"),
+                    "match_id:",
+                    match.get("match_id"),
+                )
+
+        prediction = build_prediction_record(
+            match,
+            surface,
+            elo_prediction,
+            odds_data,
+            form_store,
+            mcp_stats,
+        )
+
         all_predictions.append(prediction)
 
     print("ODDS MATCH HITS:", odds_hit_count)
     print("ODDS MATCH MISSES:", odds_miss_count)
 
-    all_predictions.sort(key=lambda item: item.get("probability", 0), reverse=True)
+    all_predictions.sort(
+        key=lambda item: item.get("probability", 0),
+        reverse=True,
+    )
+
     return all_predictions
 
 
 def get_top_predictions(all_predictions=None):
     if all_predictions is None:
         all_predictions = build_all_predictions()
-    eligible = [prediction for prediction in all_predictions if prediction.get("odds") is not None and prediction.get("odds") > MIN_ODDS]
-    eligible.sort(key=lambda item: item.get("probability", 0), reverse=True)
+
+    eligible = [
+        prediction
+        for prediction in all_predictions
+        if prediction.get("odds") is not None and prediction.get("odds") > MIN_ODDS
+    ]
+
+    eligible.sort(
+        key=lambda item: item.get("probability", 0),
+        reverse=True,
+    )
+
     return eligible[:TOP_N]
 
 
