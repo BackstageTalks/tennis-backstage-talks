@@ -1540,23 +1540,26 @@
     "homeScore": {
       "current": 0,
       "display": 0,
-      "period1": 0,
-      "point": "40"
+      "period1": 2,
+      "point": "0"
     },
     "awayScore": {
       "current": 0,
       "display": 0,
-      "period1": 1,
-      "point": "40"
+      "period1": 3,
+      "point": "0"
     },
     "time": {
       "currentPeriodStartTimestamp": 1783763053
     },
     "changes": {
       "changes": [
-        "awayScore.point"
+        "homeScore.point",
+        "awayScore.period1",
+        "awayScore.point",
+        "firstToServe"
       ],
-      "changeTimestamp": 1783763466
+      "changeTimestamp": 1783764201
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
@@ -1594,6 +1597,7 @@
     "_cache_category_id": 3
   },
   {
+    "firstToServe": 2,
     "tournament": {
       "name": "Gstaad, Switzerland, Qualifying",
       "slug": "gstaad-switzerland-qualifying",
@@ -1772,11 +1776,20 @@
         }
       }
     },
-    "homeScore": {},
-    "awayScore": {},
+    "homeScore": {
+      "point": "0"
+    },
+    "awayScore": {
+      "point": "0"
+    },
     "time": {},
     "changes": {
-      "changeTimestamp": 0
+      "changes": [
+        "homeScore.point",
+        "awayScore.point",
+        "firstToServe"
+      ],
+      "changeTimestamp": 1783764129
     },
     "hasGlobalHighlights": false,
     "crowdsourcingDataDisplayEnabled": false,
