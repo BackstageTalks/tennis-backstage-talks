@@ -11,74 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 58,
-  "found_count": 39,
-  "missing_count": 19,
+  "lookup_count": 46,
+  "found_count": 31,
+  "missing_count": 15,
   "examples_found": [
-    {
-      "input": "Federico Cinà",
-      "matched": "Federico Cina",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1630.0,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Patrick Zahraj",
-      "matched": "Patrick Zahraj",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1330.8,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Otto Virtanen",
-      "matched": "Otto Virtanen",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1706.3,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Jeline Vandromme",
-      "matched": "Jeline Vandromme",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1645.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Aurora Zantedeschi",
-      "matched": "Aurora Zantedeschi",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1302.1,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Madison Sieg",
-      "matched": "Madison Sieg",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1237.0,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Yasmine Mansouri",
-      "matched": "Yasmine Mansouri",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1302.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Mina Hodzic",
-      "matched": "Mina Hodzic",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1381.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Timofey Skatov",
       "matched": "Timofey Skatov",
@@ -254,29 +190,73 @@
       "score": 1.0,
       "elo": 1385.0,
       "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Juan Carlos Prado Angelo",
+      "matched": "Juan Carlos Prado Angelo",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1575.5,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Lukas Neumayer",
+      "matched": "Lukas Neumayer",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1621.3,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Mili Poljičak",
+      "matched": "Mili Poljicak",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1471.1,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Norbert Gombos",
+      "matched": "Norbert Gombos",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1472.0,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Nikolas Sanchez Izquierdo",
+      "matched": "Nikolas Sanchez Izquierdo",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1562.7,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Raul Brancaccio",
+      "matched": "Raul Brancaccio",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1491.7,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Federico Agustin Gomez",
+      "matched": "Federico Agustin Gomez",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1445.0,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Greet Minnen",
+      "matched": "Greet Minnen",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1722.5,
+      "source": "data/elo/wta_elo_latest.csv"
     }
   ],
   "examples_missing": [
-    {
-      "input": "Dylan Dietrich",
-      "normalized": "dylan dietrich",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Artemis Aslanisvili",
-      "normalized": "artemis aslanisvili",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Eleni Tsetsou",
-      "normalized": "eleni tsetsou",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Hao-Ching Chan",
-      "normalized": "hao ching chan",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Anirudh Chandrasekar",
       "normalized": "anirudh chandrasekar",
