@@ -16,14 +16,6 @@
   "missing_count": 15,
   "examples_found": [
     {
-      "input": "Timofey Skatov",
-      "matched": "Timofey Skatov",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1543.8,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
       "input": "Lina Glushko",
       "matched": "Lina Glushko",
       "method": "exact",
@@ -46,6 +38,14 @@
       "score": 1.0,
       "elo": 1275.4,
       "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Timofey Skatov",
+      "matched": "Timofey Skatov",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1543.8,
+      "source": "data/elo/atp_elo_latest.csv"
     },
     {
       "input": "Mayar Sherif",
@@ -258,11 +258,6 @@
   ],
   "examples_missing": [
     {
-      "input": "Anirudh Chandrasekar",
-      "normalized": "anirudh chandrasekar",
-      "reason": "no_safe_match"
-    },
-    {
       "input": "Arango E / Waltert S",
       "normalized": "arango e / waltert s",
       "reason": "no_safe_match"
@@ -285,6 +280,11 @@
     {
       "input": "Maria Rentoumi",
       "normalized": "maria rentoumi",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Anirudh Chandrasekar",
+      "normalized": "anirudh chandrasekar",
       "reason": "no_safe_match"
     },
     {
