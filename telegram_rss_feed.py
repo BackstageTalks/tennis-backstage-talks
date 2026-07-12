@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 import re
 import html
@@ -107,47 +109,24 @@ def normalize_time(value):
 
     value = clean_text(value)
 
-    patterns = [
-        r"\b([01]?[0-9]|2[0-3]):([0-5][0-9])\b",
-        r"T([01][0-9]|2[0-3]):([0-5][0-9])"
-    ]
+    match = re.search(
+        r"\b([0-2]?[0-9]):([0-5][0-9])\b",
+        value
+    )
 
-    for pattern in patterns:
-        match = re.search(pattern, value)
-        if match:
-            hour = match.group(1).zfill(2)
-            minute = match.group(2)
-            return f"{hour}:{minute}"
+    if not match:
+        return None
 
-    return None
+    hour = int(match.group(1))
+    minute = match.group(2)
+
+    if hour > 23:
+        return None
+
+    return f"{hour:02d}:{minute}"
 
 
 def extract_match_time(item):
-    possible_fields = [
-        "match_time",
-        "start_time",
-        "scheduled_time",
-        "scheduled",
-        "time",
-        "start",
-        "published",
-        "updated"
-    ]
-
-    for field in possible_fields:
-        value = item.get(field)
-
-        if value:
-            parsed_time = normalize_time(value)
-            if parsed_time:
-                return parsed_time
-
-    if item.get("published_parsed"):
-        return datetime(*item.published_parsed[:6]).strftime("%H:%M")
-
-    if item.get("updated_parsed"):
-        return datetime(*item.updated_parsed[:6]).strftime("%H:%M")
-
     title = item.get("title", "")
     description = item.get("description", "")
     summary = item.get("summary", "")
@@ -155,19 +134,23 @@ def extract_match_time(item):
     combined_text = clean_text(f"{title} {description} {summary}")
 
     label_patterns = [
-        r"(?:Match time|Start time|Scheduled time|Time|Start|Scheduled):\s*([0-2]?[0-9]:[0-5][0-9])",
-        r"(?:Match|Start|Scheduled)\s*[-–]\s*([0-2]?[0-9]:[0-5][0-9])"
-  * ]
+        r"Match time:\s*([0-2]?[0-9]:[0-5][0-9])",
+        r"Start time:\s*([0-2]?[0-9]:[0-5][0-9])",
+        r"Scheduled time:\s*([0-2]?[0-9]:[0-5][0-9])",
+        r"Time:\s*([0-2]?[0-9]:[0-5][0-9])",
+        r"Start:\s*([0-2]?[0-9]:[0-5][0-9])",
+        r"Scheduled:\s*([0-2]?[0-9]:[0-5][0-9])"
+    ]
 
-    for pattern in label_patte*ns:
-        match = re.search(patt*rn, combined_text, re.IGNORECASE)
-*       if match:
-            retur* normalize_time(match.group(1))
+    for pattern in label_patterns:
+        match = re.search(pattern, combined_text, re.IGNORECASE)
+        if match:
+            return normalize_time(match.group(1))
 
- *  return normalize_time(combined_t*xt)
+    return normalize_time(combined_text)
 
 
-def build_message(feed_url, *eed_title, pick_limit):
+def build_message(feed_url, feed_title, pick_limit):
     feed = feedparser.parse(feed_url)
 
     if feed.bozo:
@@ -210,7 +193,7 @@ def build_message(feed_url, *eed_title, pick_limit):
         else:
             icon = f"{added + 1}."
 
-        message += f"{icon} {surname} · {time_text} · {probability}% · {odds}\n"
+        message += f"{icon} {surname} | {time_text} | {probability}% | {odds}\n"
 
         added += 1
 
