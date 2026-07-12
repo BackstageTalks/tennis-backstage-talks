@@ -11,34 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 106,
-  "found_count": 77,
-  "missing_count": 29,
+  "lookup_count": 100,
+  "found_count": 74,
+  "missing_count": 26,
   "examples_found": [
-    {
-      "input": "Ekaterina Kazionova",
-      "matched": "Ekaterina Kazionova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1374.5,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Ilinca Dalina Amariei",
-      "matched": "Ilinca Dalina Amariei",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1308.4,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Elena Pridankina",
-      "matched": "Elena Pridankina",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1561.3,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Gonzalo Bueno",
       "matched": "Gonzalo Bueno",
@@ -254,24 +230,33 @@
       "score": 1.0,
       "elo": 1276.7,
       "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Elmer Moller",
+      "matched": "Elmer Moller",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1609.2,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Thomas Faurel",
+      "matched": "Thomas Faurel",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1458.6,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Federico Coria",
+      "matched": "Federico Coria",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1537.4,
+      "source": "data/elo/atp_elo_latest.csv"
     }
   ],
   "examples_missing": [
-    {
-      "input": "Carmen Andreea Herea",
-      "normalized": "carmen andreea herea",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Caroline Werner",
-      "normalized": "caroline werner",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Eva Maria Ionescu",
-      "normalized": "eva maria ionescu",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Igor Marcondes",
       "normalized": "igor marcondes",
