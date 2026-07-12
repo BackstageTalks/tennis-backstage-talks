@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783745472.099577,
+  "saved_at": 1783831705.3899066,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 18,
+          "userCount": 20,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "WmGcsyKIc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Anastasiia Sobolieva",
         "slug": "soboleva-anastasiya-konstantinovna",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 808,
+        "userCount": 809,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 25373,
@@ -105,7 +106,7 @@
             "value": 294846,
             "currency": "EUR"
           },
-          "currentRanking": 160
+          "currentRanking": 161
         },
         "nameCode": "SOB",
         "ranking": 249,
@@ -147,7 +148,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 669,
+        "userCount": 677,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 73495,
@@ -163,7 +164,7 @@
             "value": 293213,
             "currency": "EUR"
           },
-          "currentRanking": 183
+          "currentRanking": 179
         },
         "nameCode": "AVD",
         "ranking": 191,
@@ -195,18 +196,37 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 7,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 6,
+        "period2TieBreak": 4,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1783782836
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16485800,
       "defaultPeriodCount": 3,
       "slug": "julia-avdeeva-anastasiia-sobolieva",
-      "startTimestamp": 1783774800,
+      "startTimestamp": 1783775351,
       "periods": {
         "point": "Game",
         "current": "Match",

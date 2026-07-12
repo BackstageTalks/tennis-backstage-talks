@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783745433.0664613,
+  "saved_at": 1783831729.2912853,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Newport, USA",
         "slug": "newport-usa",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 165,
+          "userCount": 173,
           "groundType": "Grass",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +90,11 @@
       },
       "customId": "LUzbsYtkc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Newport",
@@ -136,7 +138,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2315,
+        "userCount": 2355,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 79,
@@ -219,7 +221,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4729,
+        "userCount": 4763,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 80,
@@ -248,7 +250,7 @@
             "value": 1548760,
             "currency": "EUR"
           },
-          "currentRanking": 132
+          "currentRanking": 130
         },
         "nameCode": "FEA",
         "ranking": 159,
@@ -281,18 +283,46 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 7,
+        "period2": 3,
+        "period3": 4,
+        "period1TieBreak": 7,
+        "point": "30",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "period3": 6,
+        "period1TieBreak": 2,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3390,
+        "period2": 2426,
+        "period3": 2635,
+        "currentPeriodStartTimestamp": 1783806439
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1783809102
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16425129,
       "defaultPeriodCount": 3,
       "slug": "jacob-fearnley-alexis-galarneau",
-      "startTimestamp": 1783794600,
+      "currentPeriodStartTimestamp": 1783806439,
+      "startTimestamp": 1783800600,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -303,6 +333,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Grass",
       "showTotoPromo": true,

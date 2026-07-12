@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783745472.7393923,
+  "saved_at": 1783831710.270493,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Bastad, Sweden, Doubles",
         "slug": "bastad-sweden-doubles",
@@ -48,7 +49,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 20,
+          "userCount": 21,
           "groundType": "Red clay",
           "tennisPoints": 125,
           "hasRounds": true,
@@ -86,10 +87,11 @@
       },
       "customId": "nnzhsvRXj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Bastad",
@@ -132,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3,
+        "userCount": 4,
         "nameCode": "A/W",
         "national": false,
         "type": 2,
@@ -150,7 +152,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 4245,
+            "userCount": 4243,
             "playerTeamInfo": {
               "height": 1.75,
               "plays": "right-handed",
@@ -224,7 +226,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 2250,
+            "userCount": 2279,
             "playerTeamInfo": {
               "height": 1.76,
               "plays": "right-handed",
@@ -303,7 +305,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 31,
+        "userCount": 33,
         "nameCode": "B/L",
         "national": false,
         "type": 2,
@@ -403,7 +405,7 @@
                 "value": 114229,
                 "currency": "EUR"
               },
-              "currentRanking": 1113
+              "currentRanking": 1120
             },
             "nameCode": "LEC",
             "national": false,
@@ -448,18 +450,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 1,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2411,
+        "period2": 1722,
+        "currentPeriodStartTimestamp": 1783784985
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1783786770
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16425262,
       "defaultPeriodCount": 3,
       "slug": "arango-waltert-barnett-lechemia",
-      "startTimestamp": 1783776600,
+      "currentPeriodStartTimestamp": 1783784985,
+      "startTimestamp": 1783780500,
       "periods": {
         "point": "Game",
         "current": "Match",

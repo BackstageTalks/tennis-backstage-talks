@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783745472.436742,
+  "saved_at": 1783831699.8421738,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 20,
+          "userCount": 19,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "FckbsrXFc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Han Shi",
         "slug": "shi-han",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 636,
+        "userCount": 646,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 25027,
@@ -160,7 +161,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1036,
+        "userCount": 1037,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 69447,
@@ -176,7 +177,7 @@
             "value": 551776,
             "currency": "EUR"
           },
-          "currentRanking": 228
+          "currentRanking": 231
         },
         "nameCode": "GAO",
         "ranking": 260,
@@ -207,18 +208,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 3,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1783777790
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16485803,
       "defaultPeriodCount": 3,
       "slug": "han-shi-xinyu-gao",
-      "startTimestamp": 1783774800,
+      "startTimestamp": 1783772048,
       "periods": {
         "point": "Game",
         "current": "Match",

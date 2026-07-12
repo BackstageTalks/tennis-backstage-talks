@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783745473.4788206,
+  "saved_at": 1783831726.53257,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "1",
       "awayTeamSeed": "4",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 255,
+          "userCount": 267,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "ADXbsZicc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Iasi",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4565,
+        "userCount": 4608,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 86,
@@ -221,7 +223,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2925,
+        "userCount": 2927,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 80,
@@ -250,7 +252,7 @@
             "value": 955703,
             "currency": "EUR"
           },
-          "currentRanking": 108
+          "currentRanking": 110
         },
         "nameCode": "DRO",
         "ranking": 116,
@@ -283,18 +285,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3357,
+        "period2": 2568,
+        "currentPeriodStartTimestamp": 1783794838
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783797465
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16425135,
       "defaultPeriodCount": 3,
       "slug": "valentin-royer-titouan-droguet",
-      "startTimestamp": 1783782000,
+      "currentPeriodStartTimestamp": 1783794838,
+      "startTimestamp": 1783791300,
       "periods": {
         "point": "Game",
         "current": "Match",

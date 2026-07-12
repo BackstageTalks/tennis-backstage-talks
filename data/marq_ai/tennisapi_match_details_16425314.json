@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783745467.9009333,
+  "saved_at": 1783831698.1450906,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "4",
       "tournament": {
         "name": "Braunschweig, Germany",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 311,
+          "userCount": 325,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "hmRsQXxc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Braunschweig",
@@ -129,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1903,
+        "userCount": 1990,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 85,
@@ -200,7 +202,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2730,
+        "userCount": 2754,
         "playerTeamInfo": {
           "height": 1.96,
           "weight": 88,
@@ -274,18 +276,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 2,
+        "point": "40",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2739,
+        "period2": 2558,
+        "currentPeriodStartTimestamp": 1783774535
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783777149
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16425314,
       "defaultPeriodCount": 3,
       "slug": "daniel-rincon-jan-choinski",
-      "startTimestamp": 1783769400,
+      "currentPeriodStartTimestamp": 1783774535,
+      "startTimestamp": 1783771200,
       "periods": {
         "point": "Game",
         "current": "Match",

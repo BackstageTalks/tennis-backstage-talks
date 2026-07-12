@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783745473.7711782,
+  "saved_at": 1783831718.1093102,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 15,
+          "userCount": 14,
           "groundType": "Hard",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "hlKbstJWb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Yanki Erel",
         "slug": "erel-yanki",
@@ -173,7 +174,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1609,
+        "userCount": 1613,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 82,
@@ -249,18 +250,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 2,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1783789503
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16484850,
       "defaultPeriodCount": 3,
       "slug": "yanki-erel-oliver-crawford",
-      "startTimestamp": 1783784700,
+      "startTimestamp": 1783785281,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783745471.8029194,
+  "saved_at": 1783831704.6897101,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Iasi, Romania",
         "slug": "iasi-romania",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 255,
+          "userCount": 267,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +90,11 @@
       },
       "customId": "VpHbswGyc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Iasi",
@@ -136,7 +138,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3084,
+        "userCount": 3123,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 68,
@@ -220,7 +222,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2775,
+        "userCount": 2816,
         "playerTeamInfo": {
           "height": 1.98,
           "weight": 87,
@@ -261,7 +263,7 @@
             "value": 635851,
             "currency": "EUR"
           },
-          "currentRanking": 89
+          "currentRanking": 86
         },
         "nameCode": "KYM",
         "ranking": 196,
@@ -295,17 +297,42 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "0",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 3,
+        "period1TieBreak": 5,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3571,
+        "period2": 2572,
+        "currentPeriodStartTimestamp": 1783787681
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783790381
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16425132,
       "defaultPeriodCount": 3,
       "slug": "jerome-kym-zsombor-piros",
+      "currentPeriodStartTimestamp": 1783787681,
       "startTimestamp": 1783774800,
       "periods": {
         "point": "Game",

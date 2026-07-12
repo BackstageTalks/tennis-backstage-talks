@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783745470.6235492,
+  "saved_at": 1783831699.5694869,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 2,
+          "userCount": 1,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "DbYjsncYj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Lagerbohm L / Wygona J",
         "slug": "lagerbohm-l-wygona-j",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2,
+        "userCount": 3,
         "nameCode": "L/J",
         "disabled": false,
         "national": false,
@@ -122,7 +123,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 76,
+            "userCount": 81,
             "playerTeamInfo": {
               "prizeCurrent": 1482,
               "prizeTotal": 4567,
@@ -137,7 +138,7 @@
                 "value": 4567,
                 "currency": "EUR"
               },
-              "currentRanking": 1320
+              "currentRanking": 1191
             },
             "nameCode": "LAG",
             "ranking": 1369,
@@ -232,7 +233,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3,
+        "userCount": 4,
         "nameCode": "T/A",
         "disabled": false,
         "national": false,
@@ -352,7 +353,7 @@
                 "value": 11782,
                 "currency": "EUR"
               },
-              "currentRanking": 1452
+              "currentRanking": 1457
             },
             "nameCode": "BOJ",
             "ranking": 1475,
@@ -392,18 +393,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 6,
+        "period3": 6,
+        "period1TieBreak": 4,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 4,
+        "period3": 10,
+        "period1TieBreak": 7,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "awayScore.current",
+          "awayScore.display"
+        ],
+        "changeTimestamp": 1783778168
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16485377,
       "defaultPeriodCount": 3,
       "slug": "lagerbohm-wygona-berkieta-bojarski",
-      "startTimestamp": 1783771200,
+      "startTimestamp": 1783771884,
       "periods": {
         "point": "Game",
         "current": "Match",

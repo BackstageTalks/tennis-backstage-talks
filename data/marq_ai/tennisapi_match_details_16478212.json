@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783745460.621225,
+  "saved_at": 1783831708.003999,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "nZtjsXcYj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Arzhankin A / Pankin S",
         "slug": "arzhankin-a-pankin-s",
@@ -165,7 +166,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 336,
+            "userCount": 337,
             "playerTeamInfo": {
               "height": 1.83,
               "weight": 85,
@@ -269,7 +270,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 178,
+            "userCount": 180,
             "playerTeamInfo": {
               "height": 1.83,
               "weight": 82,
@@ -373,18 +374,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 4,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1783782779
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16478212,
       "defaultPeriodCount": 3,
       "slug": "juhas-vukovic-arzhankin-pankin",
-      "startTimestamp": 1783764000,
+      "startTimestamp": 1783779007,
       "periods": {
         "point": "Game",
         "current": "Match",

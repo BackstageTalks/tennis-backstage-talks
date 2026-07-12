@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783745471.5015721,
+  "saved_at": 1783831706.7699773,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "8",
       "tournament": {
         "name": "Braunschweig, Germany",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 311,
+          "userCount": 325,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "gtHbsxMfc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Braunschweig",
@@ -129,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3735,
+        "userCount": 3752,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 75,
@@ -212,7 +214,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5530,
+        "userCount": 5537,
         "playerTeamInfo": {
           "height": 1.73,
           "weight": 68,
@@ -252,7 +254,7 @@
             "value": 3498059,
             "currency": "EUR"
           },
-          "currentRanking": 113
+          "currentRanking": 110
         },
         "nameCode": "GAS",
         "ranking": 118,
@@ -286,18 +288,46 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 7,
+        "period2": 6,
+        "period3": 5,
+        "period2TieBreak": 4,
+        "point": "15",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 5,
+        "period2": 7,
+        "period3": 7,
+        "period2TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3369,
+        "period2": 4512,
+        "period3": 4336,
+        "currentPeriodStartTimestamp": 1783786178
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1783790564
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16425313,
       "defaultPeriodCount": 3,
       "slug": "facundo-diaz-acosta-hugo-gaston",
-      "startTimestamp": 1783773600,
+      "currentPeriodStartTimestamp": 1783786178,
+      "startTimestamp": 1783777500,
       "periods": {
         "point": "Game",
         "current": "Match",

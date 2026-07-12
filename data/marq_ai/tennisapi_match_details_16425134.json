@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783745470.9052043,
+  "saved_at": 1783831707.0023577,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "4",
       "tournament": {
         "name": "Nottingham 3, Great Britain",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 78,
+          "userCount": 79,
           "groundType": "Grass",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "zbkcsiLmd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Nottingham",
@@ -137,7 +139,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1173,
+        "userCount": 1188,
         "playerTeamInfo": {
           "height": 1.93,
           "weight": 85,
@@ -166,7 +168,7 @@
             "value": 275839,
             "currency": "EUR"
           },
-          "currentRanking": 219
+          "currentRanking": 220
         },
         "nameCode": "SEA",
         "ranking": 273,
@@ -208,7 +210,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 701,
+        "userCount": 710,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 70,
@@ -237,7 +239,7 @@
             "value": 43225,
             "currency": "EUR"
           },
-          "currentRanking": 259
+          "currentRanking": 260
         },
         "nameCode": "BAS",
         "ranking": 329,
@@ -269,18 +271,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 2,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2908,
+        "period2": 2059,
+        "currentPeriodStartTimestamp": 1783781965
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783784072
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16425134,
       "defaultPeriodCount": 3,
       "slug": "henry-searle-max-basing",
-      "startTimestamp": 1783772400,
+      "currentPeriodStartTimestamp": 1783781965,
+      "startTimestamp": 1783778700,
       "periods": {
         "point": "Game",
         "current": "Match",

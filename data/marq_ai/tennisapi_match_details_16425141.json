@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783745467.194969,
+  "saved_at": 1783831701.3812456,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "4",
       "tournament": {
         "name": "Liege, Belgium",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 64,
+          "userCount": 67,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -83,10 +84,11 @@
       },
       "customId": "BxusmhCb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Liege",
@@ -122,7 +124,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1733,
+        "userCount": 1739,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 80,
@@ -206,7 +208,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 941,
+        "userCount": 956,
         "playerTeamInfo": {
           "height": 2.08,
           "weight": 84,
@@ -266,18 +268,42 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 3,
+        "period1TieBreak": 3,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 4634,
+        "period2": 3048,
+        "currentPeriodStartTimestamp": 1783779665
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1783782907
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16425141,
       "defaultPeriodCount": 3,
       "slug": "miguel-damas-lorenzo-giustino",
-      "startTimestamp": 1783768200,
+      "currentPeriodStartTimestamp": 1783779665,
+      "startTimestamp": 1783774200,
       "periods": {
         "point": "Game",
         "current": "Match",

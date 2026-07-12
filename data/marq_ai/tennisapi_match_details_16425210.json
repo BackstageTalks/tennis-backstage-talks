@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783745471.2201617,
+  "saved_at": 1783831700.4426873,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Contrexeville, France",
         "slug": "contrexeville-france",
@@ -48,7 +49,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 168,
+          "userCount": 182,
           "groundType": "Red clay",
           "tennisPoints": 125,
           "hasRounds": true,
@@ -86,10 +87,11 @@
       },
       "customId": "ddIbshZnd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Contrexeville",
@@ -133,7 +135,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1320,
+        "userCount": 1353,
         "playerTeamInfo": {
           "prizeCurrent": 56582,
           "prizeTotal": 81161,
@@ -189,7 +191,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 495,
+        "userCount": 554,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 13258,
@@ -205,7 +207,7 @@
             "value": 137715,
             "currency": "EUR"
           },
-          "currentRanking": 273
+          "currentRanking": 268
         },
         "nameCode": "ZAN",
         "ranking": 364,
@@ -236,17 +238,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 4,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2781,
+        "period2": 3239,
+        "currentPeriodStartTimestamp": 1783775954
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783779233
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16425210,
       "defaultPeriodCount": 3,
       "slug": "jeline-vandromme-aurora-zantedeschi",
+      "currentPeriodStartTimestamp": 1783775954,
       "startTimestamp": 1783773000,
       "periods": {
         "point": "Game",
@@ -258,6 +283,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,
