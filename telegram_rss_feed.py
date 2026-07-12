@@ -1,5 +1,6 @@
 import os
 import re
+import html
 from datetime import datetime
 
 import feedparser
@@ -50,32 +51,122 @@ RSS_FEEDS = [
 # FUNCTIONS
 # ============================================================
 
+def clean_text(value):
+    if not value:
+        return ""
+
+    value = html.unescape(str(value))
+    value = re.sub(r"<[^>]+>", " ", value)
+    value = re.sub(r"\s+", " ", value)
+
+    return value.strip()
+
+
 def extract_player(title):
+    title = clean_text(title)
+
     if " to win vs " in title:
         return title.split(" to win vs ")[0].strip()
+
     return title.strip()
 
 
 def extract_probability(description):
+    description = clean_text(description)
+
     match = re.search(
         r"Win probability:\s*([0-9.]+)%",
         description,
         re.IGNORECASE
     )
+
     if match:
         return match.group(1)
+
     return None
 
 
 def extract_odds(description):
+    description = clean_text(description)
+
     match = re.search(
         r"Odds:\s*([0-9.]+)",
         description,
         re.IGNORECASE
     )
+
     if match:
         return match.group(1)
+
     return None
+
+
+def normalize_time(value):
+    if not value:
+        return None
+
+    value = clean_text(value)
+
+    patterns = [
+        r"\b([01]?[0-9]|2[0-3]):([0-5][0-9])\b",
+        r"T([01][0-9]|2[0-3]):([0-5][0-9])"
+    ]
+
+    for pattern in patterns:
+        match = re.search(pattern, value)
+        if match:
+            hour = match.group(1).zfill(2)
+            minute = match.group(2)
+            return f"{hour}:{minute}"
+
+    return None
+
+
+def extract_match_time(item):
+    possible_fields = [
+        "match_time",
+        "start_time",
+        "scheduled_time",
+        "scheduled",
+        "time",
+        "start",
+        "published",
+        "updated"
+    ]
+
+    for field in possible_fields:
+        value = item.get(field)
+
+        if value:
+            parsed_time = normalize_time(value)
+            if parsed_time:
+                return parsed_time
+
+    if item.get("published_parsed"):
+        return datetime(*item.published_parsed[:6]).strftime("%H:%M")
+
+    if item.get("updated_parsed"):
+        return datetime(*item.updated_parsed[:6]).strftime("%H:%M")
+
+    title = item.get("title", "")
+    description = item.get("description", "")
+    summary = item.get("summary", "")
+
+    combined_text = f"{title} {description} {summary}"
+
+    label_patterns = [
+        r"(?:Match time|Start time|Scheduled time|Time|Start|Scheduled):\s*([0-2]?[0-9]:[0-5][0-9])",
+        r"(?:Match|Start|Scheduled)\s*[-–]\s*([0-2]?[0-9]:[0-5][0-9])"
+    ]
+
+    combined_text = clean_text(combined_text)
+
+    for pattern in label_patterns:
+        match = re.search(pattern, combined_text, re.IGNORECASE)
+        if match:
+            return normalize_time(match.group(1))
+
+    return normalize_time(combined_text)
 
 
 def build_message(feed_url, feed_title, pick_limit):
@@ -108,18 +199,20 @@ def build_message(feed_url, feed_title, pick_limit):
         player = extract_player(title)
         probability = extract_probability(description)
         odds = extract_odds(description)
+        match_time = extract_match_time(item)
 
         if not player or not probability or not odds:
             continue
 
         surname = player.split()[-1]
+        time_text = match_time if match_time else "time TBA"
 
         if added < len(icons):
             icon = icons[added]
         else:
             icon = f"{added + 1}."
 
-        message += f"{icon} {surname} | {probability}% | {odds}\n"
+        message += f"{icon} {surname} · {time_text} · {probability}% · {odds}\n"
 
         added += 1
 
@@ -128,8 +221,8 @@ def build_message(feed_url, feed_title, pick_limit):
 
     message += (
         "\n"
-        "This data is provided for informational and analytical purposes only\n"
-        "Powered by BackstageTalks Statistical Engine"
+        "ℹ️ Analytical preview only\n"
+        "BackstageTalks Engine"
     )
 
     return message
