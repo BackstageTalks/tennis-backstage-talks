@@ -103,53 +103,6 @@ def extract_odds(description):
     return None
 
 
-def normalize_time(value):
-    if not value:
-        return None
-
-    value = clean_text(value)
-
-    match = re.search(
-        r"\b([0-2]?[0-9]):([0-5][0-9])\b",
-        value
-    )
-
-    if not match:
-        return None
-
-    hour = int(match.group(1))
-    minute = match.group(2)
-
-    if hour > 23:
-        return None
-
-    return f"{hour:02d}:{minute}"
-
-
-def extract_match_time(item):
-    title = item.get("title", "")
-    description = item.get("description", "")
-    summary = item.get("summary", "")
-
-    combined_text = clean_text(f"{title} {description} {summary}")
-
-    label_patterns = [
-        r"Match time:\s*([0-2]?[0-9]:[0-5][0-9])",
-        r"Start time:\s*([0-2]?[0-9]:[0-5][0-9])",
-        r"Scheduled time:\s*([0-2]?[0-9]:[0-5][0-9])",
-        r"Time:\s*([0-2]?[0-9]:[0-5][0-9])",
-        r"Start:\s*([0-2]?[0-9]:[0-5][0-9])",
-        r"Scheduled:\s*([0-2]?[0-9]:[0-5][0-9])"
-    ]
-
-    for pattern in label_patterns:
-        match = re.search(pattern, combined_text, re.IGNORECASE)
-        if match:
-            return normalize_time(match.group(1))
-
-    return normalize_time(combined_text)
-
-
 def build_message(feed_url, feed_title, pick_limit):
     feed = feedparser.parse(feed_url)
 
@@ -180,20 +133,18 @@ def build_message(feed_url, feed_title, pick_limit):
         player = extract_player(title)
         probability = extract_probability(description)
         odds = extract_odds(description)
-        match_time = extract_match_time(item)
 
         if not player or not probability or not odds:
             continue
 
         surname = player.split()[-1]
-        time_text = match_time if match_time else "time TBA"
 
         if added < len(icons):
             icon = icons[added]
         else:
             icon = f"{added + 1}."
 
-        message += f"{icon} {surname} | {time_text} | {probability}% | {odds}\n"
+        message += f"{icon} {surname} | {probability}% | {odds}\n"
 
         added += 1
 
@@ -203,7 +154,7 @@ def build_message(feed_url, feed_title, pick_limit):
     message += (
         "\n"
         "ℹ️ Analytical preview only\n"
-        "🧠 Powered by BackstageTalks AI Engine"
+        "🧠 by BackstageTalks AI Engine"
     )
 
     return message
