@@ -152,24 +152,22 @@ def extract_match_time(item):
     description = item.get("description", "")
     summary = item.get("summary", "")
 
-    combined_text = f"{title} {description} {summary}"
+    combined_text = clean_text(f"{title} {description} {summary}")
 
     label_patterns = [
         r"(?:Match time|Start time|Scheduled time|Time|Start|Scheduled):\s*([0-2]?[0-9]:[0-5][0-9])",
         r"(?:Match|Start|Scheduled)\s*[-–]\s*([0-2]?[0-9]:[0-5][0-9])"
-    ]
+  * ]
 
-    combined_text = clean_text(combined_text)
+    for pattern in label_patte*ns:
+        match = re.search(patt*rn, combined_text, re.IGNORECASE)
+*       if match:
+            retur* normalize_time(match.group(1))
 
-    for pattern in label_patterns:
-        match = re.search(pattern, combined_text, re.IGNORECASE)
-        if match:
-            return normalize_time(match.group(1))
-
-    return normalize_time(combined_text)
+ *  return normalize_time(combined_t*xt)
 
 
-def build_message(feed_url, feed_title, pick_limit):
+def build_message(feed_url, *eed_title, pick_limit):
     feed = feedparser.parse(feed_url)
 
     if feed.bozo:
@@ -222,7 +220,7 @@ def build_message(feed_url, feed_title, pick_limit):
     message += (
         "\n"
         "ℹ️ Analytical preview only\n"
-        "BackstageTalks Engine"
+        "🧠 Powered by BackstageTalks AI Engine"
     )
 
     return message
