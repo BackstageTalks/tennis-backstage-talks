@@ -1,7 +1,9 @@
 {
-  "saved_at": 1783831739.9939024,
+  "saved_at": 1783918230.505954,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "awayTeamSeed": "7",
       "tournament": {
         "name": "Istanbul 2, Turkiye, Qualifying",
         "slug": "istanbul-2-turkiye-qualifying",
@@ -48,7 +50,8 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 18,
+          "groundType": "Hardcourt outdoor",
           "tennisPoints": 125,
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -78,10 +81,11 @@
       },
       "customId": "vAqcsEDYc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Istanbul",
@@ -173,7 +177,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 581,
+        "userCount": 583,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 11837,
@@ -221,18 +225,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 0,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3079,
+        "period2": 2190,
+        "currentPeriodStartTimestamp": 1783867388
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783869617
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16495555,
       "defaultPeriodCount": 3,
       "slug": "duru-soke-priska-madelyn-nugroho",
-      "startTimestamp": 1783858800,
+      "currentPeriodStartTimestamp": 1783867388,
+      "startTimestamp": 1783864500,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -243,7 +270,17 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
+      "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,
       "isEditor": false,
       "eventFilters": {

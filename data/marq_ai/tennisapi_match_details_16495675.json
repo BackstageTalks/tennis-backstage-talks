@@ -1,7 +1,10 @@
 {
-  "saved_at": 1783831740.5560348,
+  "saved_at": 1783918234.7000074,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "homeTeamSeed": "3",
+      "awayTeamSeed": "WC",
       "tournament": {
         "name": "Rome, Italy, Qualifying",
         "slug": "rome-italy-qualifying",
@@ -48,7 +51,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 47,
+          "userCount": 62,
           "groundType": "Red clay",
           "tennisPoints": 125,
           "hasRounds": false,
@@ -86,10 +89,11 @@
       },
       "customId": "ixYbsJZHd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Rome",
@@ -125,7 +129,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 315,
+        "userCount": 316,
         "playerTeamInfo": {
           "prizeCurrent": 11187,
           "prizeTotal": 44748,
@@ -139,7 +143,7 @@
             "value": 44748,
             "currency": "EUR"
           },
-          "currentRanking": 314
+          "currentRanking": 317
         },
         "nameCode": "MAZ",
         "ranking": 375,
@@ -182,7 +186,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 149,
+        "userCount": 155,
         "playerTeamInfo": {
           "prizeCurrent": 6863,
           "prizeTotal": 11618,
@@ -196,7 +200,7 @@
             "value": 11618,
             "currency": "EUR"
           },
-          "currentRanking": 669
+          "currentRanking": 647
         },
         "nameCode": "GAN",
         "ranking": 775,
@@ -228,17 +232,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2249,
+        "period2": 3256,
+        "currentPeriodStartTimestamp": 1783867412
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783870719
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16495675,
       "defaultPeriodCount": 3,
       "slug": "francesca-gandolfi-alessandra-mazzola",
+      "currentPeriodStartTimestamp": 1783867412,
       "startTimestamp": 1783864800,
       "periods": {
         "point": "Game",
@@ -250,6 +277,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

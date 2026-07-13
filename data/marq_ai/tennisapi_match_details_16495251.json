@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783831750.968708,
+  "saved_at": 1783918358.0315447,
   "data": {
     "event": {
+      "homeTeamSeed": "WC",
       "tournament": {
         "name": "Gstaad, Switzerland",
         "slug": "gstaad-switzerland",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1635,
+          "userCount": 1663,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -98,6 +99,39 @@
         "description": "Not started",
         "type": "notstarted"
       },
+      "venue": {
+        "city": {
+          "name": "Gstaad",
+          "country": {
+            "alpha2": "CH",
+            "alpha3": "CHE",
+            "name": "Switzerland",
+            "slug": "switzerland"
+          },
+          "id": 19830
+        },
+        "hidden": true,
+        "slug": "center-court",
+        "name": "Center Court",
+        "country": {
+          "alpha2": "CH",
+          "alpha3": "CHE",
+          "name": "Switzerland",
+          "slug": "switzerland"
+        },
+        "id": 17385,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الملعب المركزي",
+            "hi": "सेंटर कोर्ट",
+            "bn": "সেন্টার কোর্ট"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Center Court"
+        }
+      },
       "homeTeam": {
         "name": "Kilian Feldbausch",
         "slug": "feldbausch-kilian",
@@ -137,7 +171,7 @@
             "value": 103415,
             "currency": "EUR"
           },
-          "currentRanking": 210
+          "currentRanking": 205
         },
         "nameCode": "FEL",
         "ranking": 288,
@@ -179,7 +213,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 11040,
+        "userCount": 11044,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 75,
@@ -221,7 +255,7 @@
             "value": 7802103,
             "currency": "EUR"
           },
-          "currentRanking": 36
+          "currentRanking": 37
         },
         "nameCode": "KEC",
         "ranking": 50,
@@ -267,7 +301,7 @@
       "id": 16495251,
       "defaultPeriodCount": 3,
       "slug": "kilian-feldbausch-miomir-kecmanovic",
-      "startTimestamp": 1783933200,
+      "startTimestamp": 1783935600,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -278,6 +312,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

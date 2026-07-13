@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783831757.024608,
+  "saved_at": 1783918405.5410717,
   "data": {
     "event": {
+      "homeTeamSeed": "WC",
       "tournament": {
         "name": "Athens, Greece",
         "slug": "athens-greece",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 30,
+          "userCount": 90,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": false,
@@ -87,6 +88,39 @@
         "description": "Not started",
         "type": "notstarted"
       },
+      "venue": {
+        "city": {
+          "name": "Athens",
+          "country": {
+            "alpha2": "GR",
+            "alpha3": "GRC",
+            "name": "Greece",
+            "slug": "greece"
+          },
+          "id": 18392
+        },
+        "hidden": true,
+        "slug": "centre-court",
+        "name": "Centre Court",
+        "country": {
+          "alpha2": "GR",
+          "alpha3": "GRC",
+          "name": "Greece",
+          "slug": "greece"
+        },
+        "id": 43588,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الملعب المركزي",
+            "hi": "सेंटर कोर्ट",
+            "bn": "সেন্ট্রালকোর্ট"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Centre Court"
+        }
+      },
       "homeTeam": {
         "name": "Valentini Grammatikopoulou",
         "slug": "grammatikopoulou-valentini",
@@ -97,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 850,
+        "userCount": 853,
         "playerTeamInfo": {
           "height": 1.64,
           "plays": "right-handed",
@@ -169,7 +203,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5185,
+        "userCount": 5188,
         "playerTeamInfo": {
           "height": 1.85,
           "plays": "right-handed",
@@ -241,7 +275,7 @@
       "id": 16495631,
       "defaultPeriodCount": 3,
       "slug": "alycia-parks-valentini-grammatikopoulou",
-      "startTimestamp": 1783936800,
+      "startTimestamp": 1783964400,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -252,6 +286,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

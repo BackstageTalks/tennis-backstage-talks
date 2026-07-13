@@ -1,0 +1,93 @@
+{
+  "saved_at": 1783918774.3495414,
+  "data": {
+    "markets": [
+      {
+        "sourceId": 197764600,
+        "structureType": 1,
+        "marketId": 1,
+        "marketName": "Full time",
+        "isLive": false,
+        "fid": 197764600,
+        "suspended": false,
+        "id": 344147517,
+        "marketGroup": "Home/Away",
+        "marketPeriod": "Match",
+        "choices": [
+          {
+            "initialFractionalValue": "1/2",
+            "fractionalValue": "1/2",
+            "sourceId": 1678683607,
+            "name": "1",
+            "change": 0
+          },
+          {
+            "initialFractionalValue": "163/100",
+            "fractionalValue": "163/100",
+            "sourceId": 1678683613,
+            "name": "2",
+            "change": 0
+          }
+        ]
+      },
+      {
+        "sourceId": 197764600,
+        "structureType": 1,
+        "marketId": 11,
+        "marketName": "First set winner",
+        "isLive": false,
+        "fid": 197764600,
+        "suspended": false,
+        "id": 344207522,
+        "marketGroup": "Home/Away",
+        "marketPeriod": "1st set",
+        "choices": [
+          {
+            "initialFractionalValue": "8/15",
+            "fractionalValue": "8/15",
+            "sourceId": 1682623598,
+            "name": "1",
+            "change": 0
+          },
+          {
+            "initialFractionalValue": "6/4",
+            "fractionalValue": "6/4",
+            "sourceId": 1682623604,
+            "name": "2",
+            "change": 0
+          }
+        ]
+      },
+      {
+        "sourceId": 197764600,
+        "structureType": 2,
+        "marketId": 12,
+        "marketName": "Total games won",
+        "choiceGroup": "20.5",
+        "isLive": false,
+        "fid": 197764600,
+        "suspended": false,
+        "id": 344207523,
+        "marketGroup": "Total sets/games",
+        "marketPeriod": "Extra time",
+        "choices": [
+          {
+            "initialFractionalValue": "5/6",
+            "fractionalValue": "5/6",
+            "sourceId": 1682623572,
+            "name": "Over",
+            "change": 0
+          },
+          {
+            "initialFractionalValue": "5/6",
+            "fractionalValue": "5/6",
+            "sourceId": 1682623527,
+            "name": "Under",
+            "change": 0
+          }
+        ]
+      }
+    ],
+    "eventId": 16496731
+  }
+}

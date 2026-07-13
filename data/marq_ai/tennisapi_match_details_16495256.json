@@ -1,7 +1,9 @@
 {
-  "saved_at": 1783831751.7178617,
+  "saved_at": 1783918399.1648083,
   "data": {
     "event": {
+      "homeTeamSeed": "WC",
+      "awayTeamSeed": "8",
       "tournament": {
         "name": "Gstaad, Switzerland",
         "slug": "gstaad-switzerland",
@@ -54,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1635,
+          "userCount": 1663,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -98,6 +100,39 @@
         "description": "Not started",
         "type": "notstarted"
       },
+      "venue": {
+        "city": {
+          "name": "Gstaad",
+          "country": {
+            "alpha2": "CH",
+            "alpha3": "CHE",
+            "name": "Switzerland",
+            "slug": "switzerland"
+          },
+          "id": 19830
+        },
+        "hidden": true,
+        "slug": "center-court",
+        "name": "Center Court",
+        "country": {
+          "alpha2": "CH",
+          "alpha3": "CHE",
+          "name": "Switzerland",
+          "slug": "switzerland"
+        },
+        "id": 17385,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الملعب المركزي",
+            "hi": "सेंटर कोर्ट",
+            "bn": "সেন্টার কোর্ট"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Center Court"
+        }
+      },
       "homeTeam": {
         "name": "Dominic Stricker",
         "slug": "stricker-dominic-stephan",
@@ -108,7 +143,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3022,
+        "userCount": 3025,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 80,
@@ -181,7 +216,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 9193,
+        "userCount": 9197,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 76,
@@ -268,7 +303,7 @@
       "id": 16495256,
       "defaultPeriodCount": 3,
       "slug": "dominic-stricker-jaume-munar",
-      "startTimestamp": 1783933200,
+      "startTimestamp": 1783956600,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -279,6 +314,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

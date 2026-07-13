@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783831757.7064204,
+  "saved_at": 1783918389.1670685,
   "data": {
     "event": {
+      "homeTeamSeed": "8",
       "tournament": {
         "name": "Athens, Greece",
         "slug": "athens-greece",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 30,
+          "userCount": 90,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": false,
@@ -87,6 +88,31 @@
         "description": "Not started",
         "type": "notstarted"
       },
+      "venue": {
+        "city": {
+          "name": "Athens",
+          "country": {
+            "alpha2": "GR",
+            "alpha3": "GRC",
+            "name": "Greece",
+            "slug": "greece"
+          },
+          "id": 18392
+        },
+        "hidden": true,
+        "slug": "court-3",
+        "name": "Court 3",
+        "country": {
+          "alpha2": "GR",
+          "alpha3": "GRC",
+          "name": "Greece",
+          "slug": "greece"
+        },
+        "id": 60686,
+        "stadium": {
+          "name": "Court 3"
+        }
+      },
       "homeTeam": {
         "name": "Magda Linette",
         "slug": "linette-magda",
@@ -97,7 +123,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 12426,
+        "userCount": 12435,
         "playerTeamInfo": {
           "height": 1.71,
           "weight": 59,
@@ -198,7 +224,7 @@
             "value": 1026114,
             "currency": "EUR"
           },
-          "currentRanking": 200
+          "currentRanking": 202
         },
         "nameCode": "HON",
         "ranking": 204,
@@ -243,7 +269,7 @@
       "id": 16495632,
       "defaultPeriodCount": 3,
       "slug": "mai-hontama-magda-linette",
-      "startTimestamp": 1783936800,
+      "startTimestamp": 1783951800,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -254,6 +280,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

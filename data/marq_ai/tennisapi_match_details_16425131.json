@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783831742.6435587,
+  "saved_at": 1783918253.9978592,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "4",
       "tournament": {
         "name": "Iasi, Romania",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 267,
+          "userCount": 271,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "VpHbsADXb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Iasi",
@@ -137,7 +139,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2927,
+        "userCount": 2965,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 80,
@@ -166,7 +168,7 @@
             "value": 955703,
             "currency": "EUR"
           },
-          "currentRanking": 110
+          "currentRanking": 111
         },
         "nameCode": "DRO",
         "ranking": 116,
@@ -209,7 +211,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3123,
+        "userCount": 3162,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 68,
@@ -283,18 +285,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 6,
+        "period2TieBreak": 2,
+        "point": "2",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 7,
+        "point": "6",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1915,
+        "period2": 3660,
+        "currentPeriodStartTimestamp": 1783874400
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783878121
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16425131,
       "defaultPeriodCount": 3,
       "slug": "titouan-droguet-zsombor-piros",
-      "startTimestamp": 1783872000,
+      "currentPeriodStartTimestamp": 1783874400,
+      "startTimestamp": 1783872300,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -305,6 +332,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

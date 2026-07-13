@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783831756.4649827,
+  "saved_at": 1783918403.053617,
   "data": {
     "event": {
+      "awayTeamSeed": "4",
       "tournament": {
         "name": "Athens, Greece",
         "slug": "athens-greece",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 30,
+          "userCount": 90,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": false,
@@ -87,6 +88,39 @@
         "description": "Not started",
         "type": "notstarted"
       },
+      "venue": {
+        "city": {
+          "name": "Athens",
+          "country": {
+            "alpha2": "GR",
+            "alpha3": "GRC",
+            "name": "Greece",
+            "slug": "greece"
+          },
+          "id": 18392
+        },
+        "hidden": true,
+        "slug": "centre-court",
+        "name": "Centre Court",
+        "country": {
+          "alpha2": "GR",
+          "alpha3": "GRC",
+          "name": "Greece",
+          "slug": "greece"
+        },
+        "id": 43588,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الملعب المركزي",
+            "hi": "सेंटर कोर्ट",
+            "bn": "সেন্ট্রালকোর্ট"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Centre Court"
+        }
+      },
       "homeTeam": {
         "name": "Polina Kudermetova",
         "slug": "kudermetova-polina",
@@ -97,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3172,
+        "userCount": 3168,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 241342,
@@ -113,7 +147,7 @@
             "value": 1362959,
             "currency": "EUR"
           },
-          "currentRanking": 94
+          "currentRanking": 95
         },
         "nameCode": "KUD",
         "ranking": 113,
@@ -156,7 +190,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 17586,
+        "userCount": 17591,
         "playerTeamInfo": {
           "height": 1.72,
           "weight": 62,
@@ -243,7 +277,7 @@
       "id": 16495630,
       "defaultPeriodCount": 3,
       "slug": "polina-kudermetova-maria-sakkari",
-      "startTimestamp": 1783936800,
+      "startTimestamp": 1783960200,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -254,6 +288,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,
