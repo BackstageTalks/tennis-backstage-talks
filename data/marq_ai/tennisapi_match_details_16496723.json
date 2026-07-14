@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918399.4911966,
+  "saved_at": 1784004897.1488936,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "WC",
       "awayTeamSeed": "2",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 426,
+          "userCount": 465,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +93,11 @@
       },
       "customId": "Bfzscwcd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Iasi",
@@ -139,7 +141,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2866,
+        "userCount": 2876,
         "playerTeamInfo": {
           "height": 1.7,
           "weight": 60,
@@ -180,10 +182,10 @@
             "value": 2607967,
             "currency": "EUR"
           },
-          "currentRanking": 347
+          "currentRanking": 348
         },
         "nameCode": "POD",
-        "ranking": 574,
+        "ranking": 533,
         "national": false,
         "type": 1,
         "country": {
@@ -223,7 +225,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3393,
+        "userCount": 3408,
         "playerTeamInfo": {
           "height": 1.76,
           "plays": "right-handed",
@@ -254,7 +256,7 @@
           "currentRanking": 45
         },
         "nameCode": "MAR",
-        "ranking": 47,
+        "ranking": 45,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -286,18 +288,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 2,
+        "period2": 6,
+        "period3": 4,
+        "point": "40",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 3,
+        "period3": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2082,
+        "period2": 2989,
+        "period3": 2999,
+        "currentPeriodStartTimestamp": 1783958911
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1783961927
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16496723,
       "defaultPeriodCount": 3,
       "slug": "petra-marcinko-nadia-podoroska",
-      "startTimestamp": 1783957200,
+      "currentPeriodStartTimestamp": 1783958911,
+      "startTimestamp": 1783953300,
       "periods": {
         "point": "Game",
         "current": "Match",

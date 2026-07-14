@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918384.9955041,
+  "saved_at": 1784004872.7339134,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Bastad, Sweden",
         "slug": "bastad-sweden",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1862,
+          "userCount": 1894,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -94,10 +95,11 @@
       },
       "customId": "vNXbsxPDc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Bastad",
@@ -141,7 +143,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 7505,
+        "userCount": 7525,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 70,
@@ -226,7 +228,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3788,
+        "userCount": 3805,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 72,
@@ -255,10 +257,10 @@
             "value": 660372,
             "currency": "EUR"
           },
-          "currentRanking": 126
+          "currentRanking": 128
         },
         "nameCode": "GAU",
-        "ranking": 129,
+        "ranking": 128,
         "national": false,
         "type": 1,
         "country": {
@@ -287,18 +289,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 7,
+        "period1TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 5,
+        "period1TieBreak": 1,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 4042,
+        "period2": 4033,
+        "currentPeriodStartTimestamp": 1783955221
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783959284
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16495405,
       "defaultPeriodCount": 3,
       "slug": "vilius-gaubas-jesper-de-jong",
-      "startTimestamp": 1783946400,
+      "currentPeriodStartTimestamp": 1783955221,
+      "startTimestamp": 1783950600,
       "periods": {
         "point": "Game",
         "current": "Match",

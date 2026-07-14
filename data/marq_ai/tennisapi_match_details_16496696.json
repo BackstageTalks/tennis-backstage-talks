@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918381.4902382,
+  "saved_at": 1784004866.3148997,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "WC",
       "tournament": {
         "name": "Bunschoten, Netherlands",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 40,
+          "userCount": 61,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "AxQsOMRd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Bunschoten",
@@ -129,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 207,
+        "userCount": 212,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 76,
@@ -158,10 +160,10 @@
             "value": 16972,
             "currency": "EUR"
           },
-          "currentRanking": 696
+          "currentRanking": 688
         },
         "nameCode": "DE",
-        "ranking": 882,
+        "ranking": 696,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -201,7 +203,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1168,
+        "userCount": 1174,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 73,
@@ -244,7 +246,7 @@
           "currentRanking": 278
         },
         "nameCode": "GEE",
-        "ranking": 333,
+        "ranking": 328,
         "national": false,
         "type": 1,
         "country": {
@@ -274,18 +276,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 2,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1880,
+        "period2": 1854,
+        "currentPeriodStartTimestamp": 1783951547
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783953448
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16496696,
       "defaultPeriodCount": 3,
       "slug": "pieter-de-lange-michael-geerts",
-      "startTimestamp": 1783945800,
+      "currentPeriodStartTimestamp": 1783951547,
+      "startTimestamp": 1783949400,
       "periods": {
         "point": "Game",
         "current": "Match",

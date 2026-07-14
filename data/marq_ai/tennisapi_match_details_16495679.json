@@ -1,7 +1,9 @@
 {
-  "saved_at": 1783918404.5636683,
+  "saved_at": 1784004943.5744932,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "WC",
       "tournament": {
         "name": "Umag, Croatia, Doubles",
         "slug": "umag-croatia-doubles",
@@ -54,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 78,
+          "userCount": 84,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +94,11 @@
       },
       "customId": "bFfjsMzXj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Umag",
@@ -172,7 +175,7 @@
                 "value": 23194,
                 "currency": "EUR"
               },
-              "currentRanking": 2940
+              "currentRanking": 2943
             },
             "nameCode": "KAL",
             "national": false,
@@ -215,7 +218,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 712,
+            "userCount": 711,
             "playerTeamInfo": {
               "height": 1.91,
               "weight": 85,
@@ -256,10 +259,9 @@
                 "value": 493735,
                 "currency": "EUR"
               },
-              "currentRanking": 1269
+              "currentRanking": 1271
             },
             "nameCode": "SER",
-            "ranking": 1488,
             "disabled": false,
             "national": false,
             "type": 1,
@@ -361,7 +363,7 @@
                 "value": 98593,
                 "currency": "EUR"
               },
-              "currentRanking": 1096
+              "currentRanking": 1100
             },
             "nameCode": "LIU",
             "disabled": false,
@@ -468,18 +470,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 1,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2422,
+        "period2": 1426,
+        "currentPeriodStartTimestamp": 1783968293
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1783969849
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16495679,
       "defaultPeriodCount": 3,
       "slug": "liutarevich-reyes-varelaa-kalender-serdarusic",
-      "startTimestamp": 1783963800,
+      "currentPeriodStartTimestamp": 1783968293,
+      "startTimestamp": 1783965600,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918391.9262598,
+  "saved_at": 1784004895.505731,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "6",
       "tournament": {
         "name": "Athens, Greece",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 90,
+          "userCount": 144,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": false,
@@ -84,10 +85,11 @@
       },
       "customId": "Jfdcsfckc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Athens",
@@ -131,7 +133,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 17170,
+        "userCount": 17177,
         "playerTeamInfo": {
           "height": 1.78,
           "plays": "right-handed",
@@ -159,10 +161,10 @@
             "value": 8998012,
             "currency": "EUR"
           },
-          "currentRanking": 78
+          "currentRanking": 79
         },
         "nameCode": "ZHE",
-        "ranking": 138,
+        "ranking": 135,
         "class": 4,
         "disabled": false,
         "national": false,
@@ -204,7 +206,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5281,
+        "userCount": 5284,
         "playerTeamInfo": {
           "height": 1.7,
           "plays": "right-handed",
@@ -232,10 +234,10 @@
             "value": 2451665,
             "currency": "EUR"
           },
-          "currentRanking": 52
+          "currentRanking": 59
         },
         "nameCode": "BOU",
-        "ranking": 52,
+        "ranking": 62,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -268,17 +270,48 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 1,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3614,
+        "period2": 2916,
+        "currentPeriodStartTimestamp": 1783957154
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "homeScore.normaltime",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1783960082
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16495633,
       "defaultPeriodCount": 3,
       "slug": "jessica-bouzas-maneiro-qinwen-zheng",
+      "currentPeriodStartTimestamp": 1783957154,
       "startTimestamp": 1783953000,
       "periods": {
         "point": "Game",

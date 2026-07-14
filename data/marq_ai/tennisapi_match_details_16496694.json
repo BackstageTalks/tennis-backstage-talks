@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918401.8829093,
+  "saved_at": 1784004920.3801548,
   "data": {
     "event": {
+      "firstToServe": 2,
       "awayTeamSeed": "3",
       "tournament": {
         "name": "Bunschoten, Netherlands",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 40,
+          "userCount": 61,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "fTxsETkc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Bunschoten",
@@ -129,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1334,
+        "userCount": 1335,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 78,
@@ -158,10 +160,10 @@
             "value": 224956,
             "currency": "EUR"
           },
-          "currentRanking": 239
+          "currentRanking": 242
         },
         "nameCode": "HOU",
-        "ranking": 239,
+        "ranking": 244,
         "national": false,
         "type": 1,
         "country": {
@@ -200,7 +202,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 993,
+        "userCount": 991,
         "playerTeamInfo": {
           "height": 1.98,
           "weight": 86,
@@ -240,10 +242,10 @@
             "value": 209032,
             "currency": "EUR"
           },
-          "currentRanking": 171
+          "currentRanking": 164
         },
         "nameCode": "JOR",
-        "ranking": 184,
+        "ranking": 189,
         "national": false,
         "type": 1,
         "country": {
@@ -271,18 +273,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 1,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2820,
+        "period2": 2458,
+        "currentPeriodStartTimestamp": 1783961834
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783964323
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16496694,
       "defaultPeriodCount": 3,
       "slug": "max-houkes-david-jorda-sanchis",
-      "startTimestamp": 1783958400,
+      "currentPeriodStartTimestamp": 1783961834,
+      "startTimestamp": 1783959000,
       "periods": {
         "point": "Game",
         "current": "Match",

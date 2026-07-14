@@ -1,7 +1,9 @@
 {
-  "saved_at": 1783918400.2823339,
+  "saved_at": 1784004916.8420827,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "Q",
       "awayTeamSeed": "5",
       "tournament": {
         "name": "Athens, Greece",
@@ -53,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 90,
+          "userCount": 144,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": false,
@@ -84,10 +86,11 @@
       },
       "customId": "IlCbsJdUc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Athens",
@@ -123,7 +126,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 473,
+        "userCount": 479,
         "playerTeamInfo": {
           "prizeCurrent": 12679,
           "prizeTotal": 103248,
@@ -138,10 +141,10 @@
             "value": 103248,
             "currency": "EUR"
           },
-          "currentRanking": 300
+          "currentRanking": 285
         },
         "nameCode": "MOR",
-        "ranking": 303,
+        "ranking": 300,
         "national": false,
         "type": 1,
         "country": {
@@ -179,7 +182,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3619,
+        "userCount": 3630,
         "playerTeamInfo": {
           "height": 1.63,
           "plays": "left-handed",
@@ -210,7 +213,7 @@
           "currentRanking": 42
         },
         "nameCode": "BEJ",
-        "ranking": 45,
+        "ranking": 42,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -242,18 +245,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 5,
+        "point": "30",
+        "normaltime": 0
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1762,
+        "period2": 3602,
+        "currentPeriodStartTimestamp": 1783960248
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783963893
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16503455,
       "defaultPeriodCount": 3,
       "slug": "sara-bejlek-viktoria-morvayova",
-      "startTimestamp": 1783957200,
+      "currentPeriodStartTimestamp": 1783960248,
+      "startTimestamp": 1783958100,
       "periods": {
         "point": "Game",
         "current": "Match",

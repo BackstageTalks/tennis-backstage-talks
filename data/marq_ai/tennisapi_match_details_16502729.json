@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783918365.6801646,
+  "saved_at": 1784004857.4875028,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 9,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "HFabsNYEd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Andreas Timini",
         "slug": "timini-andreas",
@@ -117,10 +118,10 @@
             "value": 6543,
             "currency": "EUR"
           },
-          "currentRanking": 1369
+          "currentRanking": 1454
         },
         "nameCode": "TIM",
-        "ranking": 1369,
+        "ranking": 1454,
         "national": false,
         "type": 1,
         "country": {
@@ -163,7 +164,7 @@
         "playerTeamInfo": {
           "id": 43610,
           "underage": false,
-          "currentRanking": 4355
+          "currentRanking": 4364
         },
         "nameCode": "CAR",
         "national": false,
@@ -194,18 +195,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 4,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1783952514
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16502729,
       "defaultPeriodCount": 3,
       "slug": "andreas-timini-vasilios-caripi",
-      "startTimestamp": 1783936800,
+      "startTimestamp": 1783946478,
       "periods": {
         "point": "Game",
         "current": "Match",

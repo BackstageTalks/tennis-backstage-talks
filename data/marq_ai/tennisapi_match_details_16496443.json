@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918402.5553012,
+  "saved_at": 1784004918.6140072,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Umag, Croatia",
         "slug": "umag-croatia",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1780,
+          "userCount": 1843,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -94,10 +95,11 @@
       },
       "customId": "JJpsccJc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Umag",
@@ -141,7 +143,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 6591,
+        "userCount": 6596,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 83,
@@ -185,7 +187,7 @@
           "currentRanking": 144
         },
         "nameCode": "LAJ",
-        "ranking": 153,
+        "ranking": 152,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -227,7 +229,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4319,
+        "userCount": 4331,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 72,
@@ -259,7 +261,7 @@
           "currentRanking": 80
         },
         "nameCode": "VAN",
-        "ranking": 80,
+        "ranking": 86,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -291,17 +293,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 5,
+        "period3": 4,
+        "point": "30",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 2,
+        "period2": 7,
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2956,
+        "period2": 3925,
+        "period3": 3291,
+        "currentPeriodStartTimestamp": 1783965726
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1783969050
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16496443,
       "defaultPeriodCount": 3,
       "slug": "luca-van-assche-dusan-lajovic",
+      "currentPeriodStartTimestamp": 1783965726,
       "startTimestamp": 1783958400,
       "periods": {
         "point": "Game",

@@ -1,7 +1,9 @@
 {
-  "saved_at": 1783918385.9878364,
+  "saved_at": 1784004861.9091628,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "awayTeamSeed": "WC",
       "tournament": {
         "name": "Gstaad, Switzerland, Doubles",
         "slug": "gstaad-switzerland-doubles",
@@ -54,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 86,
+          "userCount": 93,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +94,11 @@
       },
       "customId": "JXIjsoNYj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Gstaad",
@@ -197,7 +200,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 128,
+            "userCount": 129,
             "playerTeamInfo": {
               "height": 1.88,
               "weight": 82,
@@ -310,7 +313,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 2835,
+            "userCount": 2840,
             "playerTeamInfo": {
               "height": 1.98,
               "weight": 87,
@@ -351,10 +354,10 @@
                 "value": 635851,
                 "currency": "EUR"
               },
-              "currentRanking": 88
+              "currentRanking": 91
             },
             "nameCode": "KYM",
-            "ranking": 196,
+            "ranking": 186,
             "class": 0,
             "disabled": false,
             "national": false,
@@ -395,7 +398,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 17213,
+            "userCount": 17196,
             "playerTeamInfo": {
               "height": 1.83,
               "weight": 81,
@@ -436,10 +439,10 @@
                 "value": 33463155,
                 "currency": "EUR"
               },
-              "currentRanking": 109
+              "currentRanking": 117
             },
             "nameCode": "WAW",
-            "ranking": 109,
+            "ranking": 117,
             "class": 4,
             "disabled": false,
             "national": false,
@@ -479,17 +482,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 5,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2110,
+        "period2": 2344,
+        "currentPeriodStartTimestamp": 1783950333
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783952711
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16495123,
       "defaultPeriodCount": 3,
       "slug": "kym-wawrinka-demoliner-galloway",
+      "currentPeriodStartTimestamp": 1783950333,
       "startTimestamp": 1783947600,
       "periods": {
         "point": "Game",

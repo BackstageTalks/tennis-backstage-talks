@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918391.619366,
+  "saved_at": 1784004894.9461708,
   "data": {
     "event": {
+      "firstToServe": 2,
       "awayTeamSeed": "6",
       "tournament": {
         "name": "Cordenons, Italy",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 186,
+          "userCount": 198,
           "groundType": "Red clay",
           "tennisPoints": 75,
           "hasRounds": true,
@@ -91,10 +92,11 @@
       },
       "customId": "ticcsTfvc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Cordenons",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1318,
+        "userCount": 1322,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 80,
@@ -167,10 +169,10 @@
             "value": 200419,
             "currency": "EUR"
           },
-          "currentRanking": 260
+          "currentRanking": 262
         },
         "nameCode": "REH",
-        "ranking": 510,
+        "ranking": 409,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -210,7 +212,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1057,
+        "userCount": 1055,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 78,
@@ -239,10 +241,10 @@
             "value": 126785,
             "currency": "EUR"
           },
-          "currentRanking": 226
+          "currentRanking": 220
         },
         "nameCode": "JUS",
-        "ranking": 238,
+        "ranking": 226,
         "national": false,
         "type": 1,
         "country": {
@@ -270,17 +272,48 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 4,
+        "point": "15",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2374,
+        "period2": 2778,
+        "currentPeriodStartTimestamp": 1783956062
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1783958854
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16496718,
       "defaultPeriodCount": 3,
       "slug": "max-hans-rehberg-guido-ivan-justo",
+      "currentPeriodStartTimestamp": 1783956062,
       "startTimestamp": 1783953000,
       "periods": {
         "point": "Game",

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918405.6848722,
+  "saved_at": 1784004955.2951546,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "8",
       "tournament": {
         "name": "Umag, Croatia",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1780,
+          "userCount": 1843,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -95,10 +96,11 @@
       },
       "customId": "VMEbsOGOc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Umag",
@@ -142,7 +144,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4778,
+        "userCount": 4780,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 69,
@@ -228,7 +230,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 10821,
+        "userCount": 10838,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 80,
@@ -257,7 +259,7 @@
             "value": 1131091,
             "currency": "EUR"
           },
-          "currentRanking": 34
+          "currentRanking": 35
         },
         "nameCode": "PRI",
         "ranking": 84,
@@ -291,18 +293,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 3,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1747,
+        "period2": 2930,
+        "currentPeriodStartTimestamp": 1783971853
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783974819
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16496444,
       "defaultPeriodCount": 3,
       "slug": "dino-prizmic-vit-kopriva",
-      "startTimestamp": 1783969200,
+      "currentPeriodStartTimestamp": 1783971853,
+      "startTimestamp": 1783970100,
       "periods": {
         "point": "Game",
         "current": "Match",

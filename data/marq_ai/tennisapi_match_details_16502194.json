@@ -1,5 +1,5 @@
 {
-  "saved_at": 1783918383.63195,
+  "saved_at": 1784004852.9905891,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 4,
+          "userCount": 7,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "IQMdsaKYd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Antonin Witz",
         "slug": "witz-antonin",
@@ -142,11 +143,11 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 15,
+        "userCount": 16,
         "playerTeamInfo": {
           "id": 46390,
           "underage": false,
-          "currentRanking": 3460
+          "currentRanking": 3468
         },
         "nameCode": "HUE",
         "disabled": false,
@@ -178,18 +179,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 3,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1783948965
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16502194,
       "defaultPeriodCount": 3,
       "slug": "antonin-witz-attila-hueller-varga",
-      "startTimestamp": 1783945800,
+      "startTimestamp": 1783944743,
       "periods": {
         "point": "Game",
         "current": "Match",

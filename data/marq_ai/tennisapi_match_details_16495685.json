@@ -1,7 +1,10 @@
 {
-  "saved_at": 1783918396.066197,
+  "saved_at": 1784004904.537004,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "1",
+      "awayTeamSeed": "WC",
       "tournament": {
         "name": "Umag, Croatia, Doubles",
         "slug": "umag-croatia-doubles",
@@ -54,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 78,
+          "userCount": 84,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +95,11 @@
       },
       "customId": "dcJjsIPYj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Umag",
@@ -138,7 +142,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 76,
+        "userCount": 75,
         "nameCode": "P/R",
         "national": false,
         "type": 2,
@@ -156,7 +160,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 237,
+            "userCount": 238,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 76,
@@ -238,7 +242,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 133,
+            "userCount": 134,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 80,
@@ -350,7 +354,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 271,
+            "userCount": 273,
             "playerTeamInfo": {
               "prizeCurrent": 271,
               "prizeTotal": 2978,
@@ -365,7 +369,7 @@
                 "value": 2978,
                 "currency": "EUR"
               },
-              "currentRanking": 1524
+              "currentRanking": 1529
             },
             "nameCode": "IVA",
             "disabled": false,
@@ -407,7 +411,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 2077,
+            "userCount": 2078,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 92,
@@ -436,10 +440,10 @@
                 "value": 179816,
                 "currency": "EUR"
               },
-              "currentRanking": 296
+              "currentRanking": 299
             },
             "nameCode": "POL",
-            "ranking": 347,
+            "ranking": 348,
             "disabled": false,
             "national": false,
             "type": 1,
@@ -477,18 +481,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1973,
+        "period2": 2051,
+        "currentPeriodStartTimestamp": 1783957207
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783959284
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16495685,
       "defaultPeriodCount": 3,
       "slug": "ivanisevic-poljicak-pavlasek-rikl",
-      "startTimestamp": 1783954800,
+      "currentPeriodStartTimestamp": 1783957207,
+      "startTimestamp": 1783955100,
       "periods": {
         "point": "Game",
         "current": "Match",

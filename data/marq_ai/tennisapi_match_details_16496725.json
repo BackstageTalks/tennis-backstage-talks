@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918378.9662533,
+  "saved_at": 1784004851.613443,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "7",
       "awayTeamSeed": "WC",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 426,
+          "userCount": 465,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +93,11 @@
       },
       "customId": "Rhzszlkb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Iasi",
@@ -139,7 +141,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3597,
+        "userCount": 3614,
         "playerTeamInfo": {
           "height": 1.75,
           "plays": "right-handed",
@@ -171,7 +173,7 @@
           "currentRanking": 73
         },
         "nameCode": "BON",
-        "ranking": 74,
+        "ranking": 73,
         "national": false,
         "type": 1,
         "country": {
@@ -211,7 +213,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3203,
+        "userCount": 3214,
         "playerTeamInfo": {
           "height": 1.76,
           "weight": 69,
@@ -252,10 +254,10 @@
             "value": 4917810,
             "currency": "EUR"
           },
-          "currentRanking": 133
+          "currentRanking": 132
         },
         "nameCode": "SOR",
-        "ranking": 253,
+        "ranking": 212,
         "class": 1,
         "disabled": false,
         "national": false,
@@ -287,18 +289,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 4,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3745,
+        "period2": 3978,
+        "currentPeriodStartTimestamp": 1783948856
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783952895
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16496725,
       "defaultPeriodCount": 3,
       "slug": "anna-bondar-sara-sorribes-tormo",
-      "startTimestamp": 1783944000,
+      "currentPeriodStartTimestamp": 1783948856,
+      "startTimestamp": 1783944600,
       "periods": {
         "point": "Game",
         "current": "Match",

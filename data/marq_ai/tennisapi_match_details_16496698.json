@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918382.426129,
+  "saved_at": 1784004856.5104423,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "4",
       "tournament": {
         "name": "Bunschoten, Netherlands",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 40,
+          "userCount": 61,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "dRjdseImd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Bunschoten",
@@ -129,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1605,
+        "userCount": 1606,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 78,
@@ -158,10 +160,10 @@
             "value": 191845,
             "currency": "EUR"
           },
-          "currentRanking": 203
+          "currentRanking": 199
         },
         "nameCode": "ARN",
-        "ranking": 210,
+        "ranking": 203,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -201,7 +203,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1188,
+        "userCount": 1186,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 82,
@@ -233,7 +235,7 @@
           "currentRanking": 287
         },
         "nameCode": "ROM",
-        "ranking": 312,
+        "ranking": 308,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -263,18 +265,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 4,
+        "period3": 2,
+        "point": "30",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 2,
+        "period2": 6,
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2477,
+        "period2": 4351,
+        "period3": 2628,
+        "currentPeriodStartTimestamp": 1783953067
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1783955721
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16496698,
       "defaultPeriodCount": 3,
       "slug": "gilles-arnaud-bailly-filippo-romano",
-      "startTimestamp": 1783945800,
+      "currentPeriodStartTimestamp": 1783953067,
+      "startTimestamp": 1783946100,
       "periods": {
         "point": "Game",
         "current": "Match",

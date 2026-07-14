@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918288.3571393,
+  "saved_at": 1784004968.8908424,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "UTR PTT Saitama Men 05, Group D",
         "slug": "utr-ptt-saitama-men-05-group-d",
@@ -48,7 +49,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 11,
+          "userCount": 18,
           "groundType": "Hardcourt outdoor",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -83,10 +84,11 @@
       },
       "customId": "MztisZAti",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Kawaguchi",
@@ -99,17 +101,17 @@
           "id": 21294
         },
         "hidden": true,
-        "slug": "green-tennis-plaza-court-05",
-        "name": "Green Tennis Plaza - Court 05",
+        "slug": "green-tennis-plaza-court-06",
+        "name": "Green Tennis Plaza - Court 06",
         "country": {
           "alpha2": "JP",
           "alpha3": "JPN",
           "name": "Japan",
           "slug": "japan"
         },
-        "id": 48156,
+        "id": 48158,
         "stadium": {
-          "name": "Green Tennis Plaza - Court 05"
+          "name": "Green Tennis Plaza - Court 06"
         }
       },
       "homeTeam": {
@@ -122,7 +124,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 164,
+        "userCount": 170,
         "playerTeamInfo": {
           "id": 28524,
           "underage": false
@@ -166,7 +168,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 30,
+        "userCount": 35,
         "nameCode": "FUK",
         "national": false,
         "type": 1,
@@ -196,18 +198,46 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 6,
+        "period3": 4,
+        "period1TieBreak": 2,
+        "point": "30",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 2,
+        "period3": 6,
+        "period1TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 4046,
+        "period2": 62487,
+        "period3": 2588,
+        "currentPeriodStartTimestamp": 1783989077
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1783991678
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16484735,
       "defaultPeriodCount": 3,
       "slug": "soma-fukuhara-kotaro-mochizuki",
-      "startTimestamp": 1783918200,
+      "currentPeriodStartTimestamp": 1783989077,
+      "startTimestamp": 1783987200,
       "periods": {
         "point": "Game",
         "current": "Match",

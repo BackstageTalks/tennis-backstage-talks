@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918379.46744,
+  "saved_at": 1784005011.247041,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Iasi, Romania",
         "slug": "iasi-romania",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 426,
+          "userCount": 465,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -90,10 +91,11 @@
       },
       "customId": "ViccsgOKc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Iasi",
@@ -137,7 +139,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1666,
+        "userCount": 1667,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 130075,
@@ -153,7 +155,7 @@
             "value": 352953,
             "currency": "EUR"
           },
-          "currentRanking": 96
+          "currentRanking": 95
         },
         "nameCode": "CHA",
         "ranking": 118,
@@ -195,7 +197,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2259,
+        "userCount": 2265,
         "playerTeamInfo": {
           "height": 1.8,
           "plays": "left-handed",
@@ -223,10 +225,10 @@
             "value": 903329,
             "currency": "EUR"
           },
-          "currentRanking": 110
+          "currentRanking": 114
         },
         "nameCode": "JIM",
-        "ranking": 110,
+        "ranking": 114,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -258,17 +260,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 1,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1588,
+        "period2": 1804,
+        "currentPeriodStartTimestamp": 1783946082
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783947905
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16496731,
       "defaultPeriodCount": 3,
       "slug": "victoria-jimenez-kasintseva-alina-charaeva",
+      "currentPeriodStartTimestamp": 1783946082,
       "startTimestamp": 1783944000,
       "periods": {
         "point": "Game",

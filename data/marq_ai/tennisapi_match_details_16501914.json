@@ -1,7 +1,9 @@
 {
-  "saved_at": 1783918376.4049942,
+  "saved_at": 1784004880.9534383,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "awayTeamSeed": "WC",
       "tournament": {
         "name": "Kitzbuhel, Austria",
         "slug": "kitzbuhel-austria",
@@ -48,7 +50,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 15,
+          "userCount": 37,
           "groundType": "Red clay",
           "tennisPoints": 125,
           "hasRounds": false,
@@ -79,10 +81,11 @@
       },
       "customId": "acWbstbVd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Kitzbuehel",
@@ -126,7 +129,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 655,
+        "userCount": 656,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 23029,
@@ -142,10 +145,10 @@
             "value": 437380,
             "currency": "EUR"
           },
-          "currentRanking": 262
+          "currentRanking": 255
         },
         "nameCode": "TIK",
-        "ranking": 262,
+        "ranking": 264,
         "national": false,
         "type": 1,
         "country": {
@@ -185,7 +188,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 354,
+        "userCount": 353,
         "playerTeamInfo": {
           "prizeCurrent": 20383,
           "prizeTotal": 41579,
@@ -199,10 +202,10 @@
             "value": 41579,
             "currency": "EUR"
           },
-          "currentRanking": 320
+          "currentRanking": 317
         },
         "nameCode": "BEN",
-        "ranking": 322,
+        "ranking": 320,
         "national": false,
         "type": 1,
         "country": {
@@ -231,18 +234,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 5,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2503,
+        "period2": 3815,
+        "currentPeriodStartTimestamp": 1783954637
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783958485
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16501914,
       "defaultPeriodCount": 3,
       "slug": "eva-bennemann-anastasia-tikhonova",
-      "startTimestamp": 1783941600,
+      "currentPeriodStartTimestamp": 1783954637,
+      "startTimestamp": 1783951500,
       "periods": {
         "point": "Game",
         "current": "Match",

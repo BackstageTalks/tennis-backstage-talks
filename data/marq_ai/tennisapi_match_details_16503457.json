@@ -1,8 +1,10 @@
 {
-  "saved_at": 1783918403.5340464,
+  "saved_at": 1784004941.434563,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "WC",
+      "awayTeamSeed": "Q",
       "tournament": {
         "name": "Athens, Greece",
         "slug": "athens-greece",
@@ -53,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 90,
+          "userCount": 144,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": false,
@@ -84,10 +86,11 @@
       },
       "customId": "fmOsRvQc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Athens",
@@ -123,7 +126,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 474,
+        "userCount": 478,
         "playerTeamInfo": {
           "prizeCurrent": 18145,
           "prizeTotal": 100959,
@@ -141,7 +144,7 @@
           "currentRanking": 301
         },
         "nameCode": "MAT",
-        "ranking": 304,
+        "ranking": 301,
         "national": false,
         "type": 1,
         "country": {
@@ -179,7 +182,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 360,
+        "userCount": 369,
         "playerTeamInfo": {
           "prizeCurrent": 52248,
           "prizeTotal": 146962,
@@ -194,10 +197,10 @@
             "value": 146962,
             "currency": "EUR"
           },
-          "currentRanking": 302
+          "currentRanking": 291
         },
         "nameCode": "MIC",
-        "ranking": 310,
+        "ranking": 302,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -227,18 +230,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 3,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 4016,
+        "period2": 2747,
+        "currentPeriodStartTimestamp": 1783968845
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783971629
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16503457,
       "defaultPeriodCount": 3,
       "slug": "elena-micic-martha-matoula",
-      "startTimestamp": 1783961400,
+      "currentPeriodStartTimestamp": 1783968845,
+      "startTimestamp": 1783964400,
       "periods": {
         "point": "Game",
         "current": "Match",

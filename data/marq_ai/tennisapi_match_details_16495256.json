@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918399.1648083,
+  "saved_at": 1784004911.8404348,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "WC",
       "awayTeamSeed": "8",
       "tournament": {
@@ -56,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1663,
+          "userCount": 1736,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -96,10 +97,11 @@
       },
       "customId": "gCabsuCtc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Gstaad",
@@ -143,7 +145,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3025,
+        "userCount": 3044,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 80,
@@ -172,10 +174,10 @@
             "value": 1705438,
             "currency": "EUR"
           },
-          "currentRanking": 232
+          "currentRanking": 231
         },
         "nameCode": "STR",
-        "ranking": 343,
+        "ranking": 360,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -216,7 +218,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 9197,
+        "userCount": 9219,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 76,
@@ -257,7 +259,7 @@
             "value": 6381140,
             "currency": "EUR"
           },
-          "currentRanking": 44
+          "currentRanking": 43
         },
         "nameCode": "MUN",
         "ranking": 44,
@@ -292,18 +294,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2030,
+        "period2": 2952,
+        "currentPeriodStartTimestamp": 1783959139
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783962111
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16495256,
       "defaultPeriodCount": 3,
       "slug": "dominic-stricker-jaume-munar",
-      "startTimestamp": 1783956600,
+      "currentPeriodStartTimestamp": 1783959139,
+      "startTimestamp": 1783956900,
       "periods": {
         "point": "Game",
         "current": "Match",

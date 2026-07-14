@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918384.449989,
+  "saved_at": 1784004899.5375273,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Bastad, Sweden, Doubles",
         "slug": "bastad-sweden-doubles",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 122,
+          "userCount": 130,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +93,11 @@
       },
       "customId": "dvzcsLQYj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Bastad",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4,
+        "userCount": 5,
         "nameCode": "HIT",
         "national": false,
         "type": 2,
@@ -235,7 +237,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 14867,
+            "userCount": 14858,
             "playerTeamInfo": {
               "height": 1.88,
               "weight": 75,
@@ -279,7 +281,7 @@
               "currentRanking": 31
             },
             "nameCode": "TAB",
-            "ranking": 33,
+            "ranking": 31,
             "class": 1,
             "disabled": false,
             "national": false,
@@ -353,7 +355,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 135,
+            "userCount": 137,
             "playerTeamInfo": {
               "height": 1.88,
               "weight": 83,
@@ -433,7 +435,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 4176,
+            "userCount": 4171,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 76,
@@ -462,10 +464,10 @@
                 "value": 568488,
                 "currency": "EUR"
               },
-              "currentRanking": 56
+              "currentRanking": 58
             },
             "nameCode": "VAL",
-            "ranking": 72,
+            "ranking": 71,
             "disabled": false,
             "national": false,
             "type": 1,
@@ -503,18 +505,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 6,
+        "period2TieBreak": 4,
+        "point": "4",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 7,
+        "point": "6",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1667,
+        "period2": 2837,
+        "currentPeriodStartTimestamp": 1783956079
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783958976
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16496739,
       "defaultPeriodCount": 3,
       "slug": "paris-vallejod-hidalgo-tabilo",
-      "startTimestamp": 1783946400,
+      "currentPeriodStartTimestamp": 1783956079,
+      "startTimestamp": 1783953900,
       "periods": {
         "point": "Game",
         "current": "Match",

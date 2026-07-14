@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783918388.3687928,
+  "saved_at": 1784004878.4908671,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Umag, Croatia",
         "slug": "umag-croatia",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1780,
+          "userCount": 1843,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -94,10 +95,11 @@
       },
       "customId": "xIusvLLc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Umag",
@@ -141,7 +143,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5603,
+        "userCount": 5617,
         "playerTeamInfo": {
           "height": 1.75,
           "weight": 68,
@@ -182,10 +184,10 @@
             "value": 5972597,
             "currency": "EUR"
           },
-          "currentRanking": 105
+          "currentRanking": 108
         },
         "nameCode": "DZU",
-        "ranking": 105,
+        "ranking": 108,
         "class": 1,
         "disabled": false,
         "national": false,
@@ -227,7 +229,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5004,
+        "userCount": 5015,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 83,
@@ -259,7 +261,7 @@
           "currentRanking": 118
         },
         "nameCode": "ROC",
-        "ranking": 122,
+        "ranking": 124,
         "national": false,
         "type": 1,
         "country": {
@@ -288,18 +290,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 1,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2439,
+        "period2": 2292,
+        "currentPeriodStartTimestamp": 1783954175
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1783956520
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16496440,
       "defaultPeriodCount": 3,
       "slug": "henrique-rocha-damir-dzumhur",
-      "startTimestamp": 1783951200,
+      "currentPeriodStartTimestamp": 1783954175,
+      "startTimestamp": 1783951500,
       "periods": {
         "point": "Game",
         "current": "Match",
