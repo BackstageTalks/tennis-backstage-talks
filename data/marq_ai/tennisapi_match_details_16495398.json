@@ -1,7 +1,8 @@
 {
-  "saved_at": 1783831744.737532,
+  "saved_at": 1784091261.4764512,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Bastad, Sweden",
         "slug": "bastad-sweden",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1847,
+          "userCount": 1995,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -94,9 +95,43 @@
       },
       "customId": "iUabsgtHb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 1,
+      "venue": {
+        "city": {
+          "name": "Bastad",
+          "country": {
+            "alpha2": "SE",
+            "alpha3": "SWE",
+            "name": "Sweden",
+            "slug": "sweden"
+          },
+          "id": 19106
+        },
+        "hidden": true,
+        "slug": "court-1",
+        "name": "Court 1",
+        "country": {
+          "alpha2": "SE",
+          "alpha3": "SWE",
+          "name": "Sweden",
+          "slug": "sweden"
+        },
+        "id": 17462,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "ملعب 1",
+            "hi": "कोर्ट 1",
+            "bn": "কোর্ট 1"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Court 1"
+        }
       },
       "homeTeam": {
         "name": "Daniel Altmaier",
@@ -108,14 +143,14 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 7741,
+        "userCount": 7758,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 80,
           "plays": "right-handed",
           "turnedPro": "2014",
-          "prizeCurrent": 638929,
-          "prizeTotal": 4899510,
+          "prizeCurrent": 652470,
+          "prizeTotal": 4913052,
           "birthCity": {
             "name": "Kempen",
             "country": {
@@ -142,17 +177,17 @@
           "underage": false,
           "residence": "Kempen, Germany",
           "prizeCurrentRaw": {
-            "value": 638929,
+            "value": 652470,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 4899510,
+            "value": 4913052,
             "currency": "EUR"
           },
-          "currentRanking": 60
+          "currentRanking": 56
         },
         "nameCode": "ALT",
-        "ranking": 61,
+        "ranking": 60,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -194,13 +229,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5537,
+        "userCount": 5642,
         "playerTeamInfo": {
           "height": 1.73,
           "weight": 68,
           "plays": "left-handed",
-          "prizeCurrent": 309236,
-          "prizeTotal": 3498059,
+          "prizeCurrent": 326996,
+          "prizeTotal": 3515820,
           "birthCity": {
             "name": "Toulouse",
             "country": {
@@ -227,17 +262,17 @@
           "underage": false,
           "residence": "Fonsorbes, France",
           "prizeCurrentRaw": {
-            "value": 309236,
+            "value": 326996,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 3498059,
+            "value": 3515820,
             "currency": "EUR"
           },
           "currentRanking": 107
         },
         "nameCode": "GAS",
-        "ranking": 118,
+        "ranking": 107,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -268,18 +303,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 5,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2254,
+        "period2": 3205,
+        "currentPeriodStartTimestamp": 1784037467
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784040722
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16495398,
       "defaultPeriodCount": 3,
       "slug": "hugo-gaston-daniel-altmaier",
-      "startTimestamp": 1783931400,
+      "currentPeriodStartTimestamp": 1784037467,
+      "startTimestamp": 1784035200,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -290,6 +348,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

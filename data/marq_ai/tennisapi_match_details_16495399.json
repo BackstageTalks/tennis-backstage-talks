@@ -1,7 +1,10 @@
 {
-  "saved_at": 1783831744.4960558,
+  "saved_at": 1784091264.122631,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "5",
+      "awayTeamSeed": "WC",
       "tournament": {
         "name": "Bastad, Sweden",
         "slug": "bastad-sweden",
@@ -54,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1847,
+          "userCount": 1995,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -94,9 +97,43 @@
       },
       "customId": "gaabsuXie",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 1,
+      "venue": {
+        "city": {
+          "name": "Bastad",
+          "country": {
+            "alpha2": "SE",
+            "alpha3": "SWE",
+            "name": "Sweden",
+            "slug": "sweden"
+          },
+          "id": 19106
+        },
+        "hidden": true,
+        "slug": "centre-court",
+        "name": "Centre Court",
+        "country": {
+          "alpha2": "SE",
+          "alpha3": "SWE",
+          "name": "Sweden",
+          "slug": "sweden"
+        },
+        "id": 17413,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الملعب المركزي",
+            "hi": "सेंटर कोर्ट",
+            "bn": "সেন্টার কোর্ট"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Centre Court"
+        }
       },
       "homeTeam": {
         "name": "Nuno Borges",
@@ -108,13 +145,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 13920,
+        "userCount": 13943,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 78,
           "plays": "right-handed",
-          "prizeCurrent": 705195,
-          "prizeTotal": 4567866,
+          "prizeCurrent": 737072,
+          "prizeTotal": 4599743,
           "birthCity": {
             "name": "Maia",
             "country": {
@@ -141,17 +178,17 @@
           "underage": false,
           "residence": "Portugal, Portugal",
           "prizeCurrentRaw": {
-            "value": 705195,
+            "value": 737072,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 4567866,
+            "value": 4599743,
             "currency": "EUR"
           },
-          "currentRanking": 42
+          "currentRanking": 41
         },
         "nameCode": "BOR",
-        "ranking": 48,
+        "ranking": 52,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -194,13 +231,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 12195,
+        "userCount": 12202,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 73,
           "plays": "right-handed",
-          "prizeCurrent": 291636,
-          "prizeTotal": 351215,
+          "prizeCurrent": 293671,
+          "prizeTotal": 353250,
           "birthCity": {
             "name": "Paris",
             "country": {
@@ -216,17 +253,17 @@
           "birthDateTimestamp": 1236297600,
           "underage": false,
           "prizeCurrentRaw": {
-            "value": 291636,
+            "value": 293671,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 351215,
+            "value": 353250,
             "currency": "EUR"
           },
           "currentRanking": 144
         },
         "nameCode": "KOU",
-        "ranking": 215,
+        "ranking": 211,
         "national": false,
         "type": 1,
         "country": {
@@ -255,18 +292,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3054,
+        "period2": 1925,
+        "currentPeriodStartTimestamp": 1784038767
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784040722
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16495399,
       "defaultPeriodCount": 3,
       "slug": "moise-kouame-nuno-borges",
-      "startTimestamp": 1783931400,
+      "currentPeriodStartTimestamp": 1784038767,
+      "startTimestamp": 1784035500,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -277,6 +337,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

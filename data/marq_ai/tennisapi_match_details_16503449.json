@@ -1,7 +1,9 @@
 {
-  "saved_at": 1783918281.9673471,
+  "saved_at": 1784091293.620406,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "Q",
       "tournament": {
         "name": "Athens, Greece",
         "slug": "athens-greece",
@@ -52,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 90,
+          "userCount": 245,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": false,
@@ -83,9 +85,35 @@
       },
       "customId": "UTtcsTAid",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 2,
+      "venue": {
+        "city": {
+          "name": "Athens",
+          "country": {
+            "alpha2": "GR",
+            "alpha3": "GRC",
+            "name": "Greece",
+            "slug": "greece"
+          },
+          "id": 18392
+        },
+        "hidden": true,
+        "slug": "grandstand",
+        "name": "Grandstand",
+        "country": {
+          "alpha2": "GR",
+          "alpha3": "GRC",
+          "name": "Greece",
+          "slug": "greece"
+        },
+        "id": 60684,
+        "stadium": {
+          "name": "Grandstand"
+        }
       },
       "homeTeam": {
         "name": "Aoi Ito",
@@ -97,7 +125,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2014,
+        "userCount": 2023,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 65593,
@@ -113,10 +141,10 @@
             "value": 502504,
             "currency": "EUR"
           },
-          "currentRanking": 228
+          "currentRanking": 230
         },
         "nameCode": "ITO",
-        "ranking": 228,
+        "ranking": 246,
         "national": false,
         "type": 1,
         "country": {
@@ -155,7 +183,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2113,
+        "userCount": 2126,
         "playerTeamInfo": {
           "height": 1.8,
           "plays": "right-handed",
@@ -172,10 +200,10 @@
             "value": 514207,
             "currency": "EUR"
           },
-          "currentRanking": 87
+          "currentRanking": 88
         },
         "nameCode": "KOR",
-        "ranking": 98,
+        "ranking": 90,
         "national": false,
         "type": 1,
         "country": {
@@ -204,18 +232,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 1,
+        "point": "15",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1681,
+        "period2": 1612,
+        "currentPeriodStartTimestamp": 1784041580
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784043235
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16503449,
       "defaultPeriodCount": 3,
       "slug": "alina-korneeva-aoi-ito",
-      "startTimestamp": 1784034000,
+      "currentPeriodStartTimestamp": 1784041580,
+      "startTimestamp": 1784039700,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -226,6 +277,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

@@ -1,8 +1,10 @@
 {
-  "saved_at": 1783918217.7714713,
+  "saved_at": 1784091353.4630058,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "1",
+      "awayTeamSeed": "Q",
       "tournament": {
         "name": "Athens, Greece",
         "slug": "athens-greece",
@@ -53,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 90,
+          "userCount": 245,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": false,
@@ -84,9 +86,43 @@
       },
       "customId": "aZDstTac",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 1,
+      "venue": {
+        "city": {
+          "name": "Athens",
+          "country": {
+            "alpha2": "GR",
+            "alpha3": "GRC",
+            "name": "Greece",
+            "slug": "greece"
+          },
+          "id": 18392
+        },
+        "hidden": true,
+        "slug": "centre-court",
+        "name": "Centre Court",
+        "country": {
+          "alpha2": "GR",
+          "alpha3": "GRC",
+          "name": "Greece",
+          "slug": "greece"
+        },
+        "id": 43588,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الملعب المركزي",
+            "hi": "सेंटर कोर्ट",
+            "bn": "সেন্ট্রালকোর্ট"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Centre Court"
+        }
       },
       "homeTeam": {
         "name": "Clara Tauson",
@@ -98,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 10686,
+        "userCount": 10702,
         "playerTeamInfo": {
           "height": 1.82,
           "plays": "right-handed",
@@ -126,10 +162,10 @@
             "value": 4541885,
             "currency": "EUR"
           },
-          "currentRanking": 25
+          "currentRanking": 29
         },
         "nameCode": "TAU",
-        "ranking": 25,
+        "ranking": 30,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -171,7 +207,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1441,
+        "userCount": 1456,
         "playerTeamInfo": {
           "height": 1.63,
           "weight": 58,
@@ -212,10 +248,10 @@
             "value": 3351350,
             "currency": "EUR"
           },
-          "currentRanking": 235
+          "currentRanking": 221
         },
         "nameCode": "HIB",
-        "ranking": 246,
+        "ranking": 235,
         "national": false,
         "type": 1,
         "country": {
@@ -245,18 +281,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 4861,
+        "period2": 3041,
+        "currentPeriodStartTimestamp": 1784051960
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784055016
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16503448,
       "defaultPeriodCount": 3,
       "slug": "clara-tauson-nao-hibino",
-      "startTimestamp": 1784034000,
+      "currentPeriodStartTimestamp": 1784051960,
+      "startTimestamp": 1784046600,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -267,6 +326,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,
