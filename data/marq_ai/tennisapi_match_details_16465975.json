@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784091231.3863075,
+  "saved_at": 1784274990.9464974,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "Q",
       "tournament": {
         "name": "Iasi, Romania",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 522,
+          "userCount": 585,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -91,9 +92,43 @@
       },
       "customId": "aGCsaUqd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 2,
+      "venue": {
+        "city": {
+          "name": "Iasi",
+          "country": {
+            "alpha2": "RO",
+            "alpha3": "ROU",
+            "name": "Romania",
+            "slug": "romania"
+          },
+          "id": 20350
+        },
+        "hidden": true,
+        "slug": "center-court",
+        "name": "Center Court",
+        "country": {
+          "alpha2": "RO",
+          "alpha3": "ROU",
+          "name": "Romania",
+          "slug": "romania"
+        },
+        "id": 35413,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الملعب المركزي",
+            "hi": "सेंटर कोर्ट",
+            "bn": "সেন্টার কোর্ট"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Center Court"
+        }
       },
       "homeTeam": {
         "name": "Alevtina Ibragimova",
@@ -105,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 577,
+        "userCount": 606,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 18814,
@@ -121,7 +156,7 @@
             "value": 94323,
             "currency": "EUR"
           },
-          "currentRanking": 233
+          "currentRanking": 234
         },
         "nameCode": "IBR",
         "ranking": 275,
@@ -163,13 +198,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 19885,
+        "userCount": 19979,
         "playerTeamInfo": {
           "height": 1.8,
           "plays": "right-handed",
           "turnedPro": "2013",
-          "prizeCurrent": 343627,
-          "prizeTotal": 8416290,
+          "prizeCurrent": 450338,
+          "prizeTotal": 8523001,
           "birthCity": {
             "name": "New York City",
             "country": {
@@ -196,14 +231,14 @@
           "underage": false,
           "residence": "Barcelona, Spain",
           "prizeCurrentRaw": {
-            "value": 343627,
+            "value": 450338,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 8416290,
+            "value": 8523001,
             "currency": "EUR"
           },
-          "currentRanking": 56
+          "currentRanking": 52
         },
         "nameCode": "BAS",
         "ranking": 115,
@@ -238,18 +273,46 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 6,
+        "period3": 4,
+        "period1TieBreak": 5,
+        "point": "40",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 1,
+        "period3": 6,
+        "period1TieBreak": 7,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 4106,
+        "period2": 2388,
+        "period3": 3603,
+        "currentPeriodStartTimestamp": 1784219143
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1784222800
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16465975,
       "defaultPeriodCount": 3,
       "slug": "alevtina-ibragimova-paula-badosa",
-      "startTimestamp": 1784192400,
+      "currentPeriodStartTimestamp": 1784219143,
+      "startTimestamp": 1784212200,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -260,6 +323,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

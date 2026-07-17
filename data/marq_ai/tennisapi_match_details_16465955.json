@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784177855.6779165,
+  "saved_at": 1784275026.1734786,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "Q",
       "awayTeamSeed": "Q",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 114,
+          "userCount": 117,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "nAqcsMfJd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Pozoblanco",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 532,
+        "userCount": 529,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 85,
@@ -221,7 +223,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 270,
+        "userCount": 272,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 73,
@@ -250,7 +252,7 @@
             "value": 21922,
             "currency": "EUR"
           },
-          "currentRanking": 546
+          "currentRanking": 547
         },
         "nameCode": "IAV",
         "ranking": 585,
@@ -283,18 +285,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 3,
+        "point": "40",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 4134,
+        "period2": 3473,
+        "currentPeriodStartTimestamp": 1784239934
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1784243598
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16465955,
       "defaultPeriodCount": 3,
       "slug": "izan-almazan-valiente-dominik-palan",
-      "startTimestamp": 1784232000,
+      "currentPeriodStartTimestamp": 1784239934,
+      "startTimestamp": 1784235300,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784177855.7693202,
+  "saved_at": 1784275030.88534,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "Q",
       "awayTeamSeed": "2",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 108,
+          "userCount": 113,
           "groundType": "Hardcourt outdoor",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "LICbsCJbc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Nebraska City",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5121,
+        "userCount": 5118,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 80,
@@ -179,7 +181,7 @@
             "value": 1695498,
             "currency": "EUR"
           },
-          "currentRanking": 84
+          "currentRanking": 85
         },
         "nameCode": "YIB",
         "ranking": 106,
@@ -224,7 +226,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4408,
+        "userCount": 4406,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 82,
@@ -289,17 +291,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 4,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2304,
+        "period2": 2474,
+        "currentPeriodStartTimestamp": 1784244107
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784246646
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16465886,
       "defaultPeriodCount": 3,
       "slug": "yunchaokete-bu-yibing-wu",
+      "currentPeriodStartTimestamp": 1784244107,
       "startTimestamp": 1784241000,
       "periods": {
         "point": "Game",
