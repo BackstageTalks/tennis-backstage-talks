@@ -1,8 +1,8 @@
 {
-  "saved_at": 1784275037.5793083,
+  "saved_at": 1784350412.7286556,
   "data": {
     "event": {
-      "firstToServe": 2,
+      "firstToServe": 1,
       "tournament": {
         "name": "UTR PTT Saitama Men 05, 17-20 Playoff",
         "slug": "utr-ptt-saitama-men-05-17-20-playoff",
@@ -85,10 +85,11 @@
       },
       "customId": "MZrcsbLWd",
       "status": {
-        "code": 80,
-        "description": "Interrupted",
-        "type": "interrupted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Kawaguchi",
@@ -124,7 +125,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 20,
+        "userCount": 22,
         "nameCode": "JNU",
         "national": false,
         "type": 1,
@@ -164,7 +165,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 31,
+        "userCount": 34,
         "nameCode": "UEN",
         "national": false,
         "type": 1,
@@ -197,33 +198,38 @@
       "homeScore": {
         "current": 0,
         "display": 0,
-        "period1": 0,
-        "point": "0"
+        "period1": 2,
+        "period2": 1,
+        "point": "30",
+        "normaltime": 0
       },
       "awayScore": {
-        "current": 0,
-        "display": 0,
-        "period1": 1,
-        "point": "0"
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
       },
       "time": {
-        "currentPeriodStartTimestamp": 1784255166
+        "period1": 84697,
+        "period2": 86322,
+        "currentPeriodStartTimestamp": 1784255511
       },
       "changes": {
         "changes": [
-          "status.code",
-          "status.description",
-          "status.type"
+          "time.currentPeriodStart",
+          "time.period2"
         ],
-        "changeTimestamp": 1784255399
+        "changeTimestamp": 1784341852
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16534553,
       "defaultPeriodCount": 3,
       "slug": "taiyo-uenoyama-nuutti-jokinen",
-      "currentPeriodStartTimestamp": 1784255166,
-      "startTimestamp": 1784332800,
+      "currentPeriodStartTimestamp": 1784255511,
+      "startTimestamp": 1784337600,
       "periods": {
         "point": "Game",
         "current": "Match",

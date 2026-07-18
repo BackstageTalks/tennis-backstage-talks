@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784275038.2786741,
+  "saved_at": 1784350406.349043,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "UTR PTT Newport Beach Men 17, 1-4 Playoff",
         "slug": "utr-ptt-newport-beach-men-17-1-4-playoff",
@@ -48,7 +49,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 8,
+          "userCount": 7,
           "groundType": "Hardcourt outdoor",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -85,10 +86,11 @@
       },
       "customId": "DKYdsagxi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Newport Beach",
@@ -168,7 +170,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 12,
+        "userCount": 13,
         "nameCode": "YAF",
         "national": false,
         "type": 1,
@@ -198,17 +200,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 0,
+        "point": "40",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3174,
+        "period2": 2320,
+        "currentPeriodStartTimestamp": 1784336869
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784339224
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16542410,
       "defaultPeriodCount": 3,
       "slug": "benjamin-berger-douglas-yaffa",
+      "currentPeriodStartTimestamp": 1784336869,
       "startTimestamp": 1784332800,
       "periods": {
         "point": "Game",

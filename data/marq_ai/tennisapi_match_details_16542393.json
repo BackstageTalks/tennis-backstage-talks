@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784274965.0524535,
+  "saved_at": 1784350416.947052,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "UTR PTT Saitama Women 04, 13-16 Playoff",
         "slug": "utr-ptt-saitama-women-04-13-16-playoff",
@@ -78,10 +79,11 @@
       },
       "customId": "wFvcskofe",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Kawaguchi",
@@ -117,7 +119,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 13,
+        "userCount": 12,
         "nameCode": "MAE",
         "national": false,
         "type": 1,
@@ -157,7 +159,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 142,
+        "userCount": 140,
         "playerTeamInfo": {
           "prizeCurrent": 1657,
           "prizeTotal": 32634,
@@ -204,18 +206,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 2,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2150,
+        "period2": 3287,
+        "currentPeriodStartTimestamp": 1784343246
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784346559
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16542393,
       "defaultPeriodCount": 3,
       "slug": "rio-maeda-nana-kawagishi",
-      "startTimestamp": 1784338200,
+      "currentPeriodStartTimestamp": 1784343246,
+      "startTimestamp": 1784340300,
       "periods": {
         "point": "Game",
         "current": "Match",

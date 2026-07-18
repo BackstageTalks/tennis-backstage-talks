@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784275037.873087,
+  "saved_at": 1784350407.8485713,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "UTR PTT Newport Beach Men 17, 1-4 Playoff",
         "slug": "utr-ptt-newport-beach-men-17-1-4-playoff",
@@ -48,7 +49,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 8,
+          "userCount": 7,
           "groundType": "Hardcourt outdoor",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -85,10 +86,11 @@
       },
       "customId": "NZCcsVCrd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Newport Beach",
@@ -132,11 +134,11 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 200,
+        "userCount": 199,
         "playerTeamInfo": {
           "id": 46931,
           "underage": false,
-          "currentRanking": 2094
+          "currentRanking": 2099
         },
         "nameCode": "DDA",
         "national": false,
@@ -181,7 +183,7 @@
         "playerTeamInfo": {
           "id": 30782,
           "underage": false,
-          "currentRanking": 1359
+          "currentRanking": 1358
         },
         "nameCode": "HAS",
         "national": false,
@@ -212,17 +214,51 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 3,
+        "period2": 6,
+        "period3": 4,
+        "point": "0",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 3,
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 4305,
+        "period2": 2534,
+        "period3": 2964,
+        "currentPeriodStartTimestamp": 1784340653
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period3",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784343625
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16542409,
       "defaultPeriodCount": 3,
       "slug": "david-duong-hugo-hashimoto",
+      "currentPeriodStartTimestamp": 1784340653,
       "startTimestamp": 1784332800,
       "periods": {
         "point": "Game",

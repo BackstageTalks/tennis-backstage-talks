@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784177854.84961,
+  "saved_at": 1784350357.634968,
   "data": {
     "event": {
+      "firstToServe": 2,
       "awayTeamSeed": "2",
       "tournament": {
         "name": "Iasi, Romania",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 565,
+          "userCount": 611,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -91,9 +92,43 @@
       },
       "customId": "ZfUscwcd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 1,
+      "venue": {
+        "city": {
+          "name": "Iasi",
+          "country": {
+            "alpha2": "RO",
+            "alpha3": "ROU",
+            "name": "Romania",
+            "slug": "romania"
+          },
+          "id": 20350
+        },
+        "hidden": true,
+        "slug": "center-court",
+        "name": "Center Court",
+        "country": {
+          "alpha2": "RO",
+          "alpha3": "ROU",
+          "name": "Romania",
+          "slug": "romania"
+        },
+        "id": 35413,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الملعب المركزي",
+            "hi": "सेंटर कोर्ट",
+            "bn": "সেন্টার কোর্ট"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Center Court"
+        }
       },
       "homeTeam": {
         "name": "Tamara Zidanšek",
@@ -105,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2468,
+        "userCount": 2586,
         "playerTeamInfo": {
           "height": 1.68,
           "plays": "right-handed",
@@ -145,7 +180,7 @@
             "value": 3228190,
             "currency": "EUR"
           },
-          "currentRanking": 119
+          "currentRanking": 120
         },
         "nameCode": "ZID",
         "ranking": 148,
@@ -189,7 +224,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3439,
+        "userCount": 3491,
         "playerTeamInfo": {
           "height": 1.76,
           "plays": "right-handed",
@@ -252,18 +287,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 5,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2353,
+        "period2": 4071,
+        "currentPeriodStartTimestamp": 1784313688
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784317783
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16465971,
       "defaultPeriodCount": 3,
       "slug": "petra-marcinko-tamara-zidansek",
-      "startTimestamp": 1784282400,
+      "currentPeriodStartTimestamp": 1784313688,
+      "startTimestamp": 1784310900,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -274,6 +332,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

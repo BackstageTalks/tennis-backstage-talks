@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784275039.8512757,
+  "saved_at": 1784350417.3110359,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "Q",
       "awayTeamSeed": "8",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 113,
+          "userCount": 120,
           "groundType": "Hardcourt outdoor",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "FQgspUVd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Nebraska City",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 146,
+        "userCount": 164,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 86,
@@ -168,7 +170,7 @@
             "value": 93471,
             "currency": "EUR"
           },
-          "currentRanking": 662
+          "currentRanking": 655
         },
         "nameCode": "FOR",
         "ranking": 939,
@@ -210,7 +212,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2592,
+        "userCount": 2594,
         "playerTeamInfo": {
           "height": 1.96,
           "weight": 91,
@@ -251,7 +253,7 @@
             "value": 5893204,
             "currency": "EUR"
           },
-          "currentRanking": 201
+          "currentRanking": 202
         },
         "nameCode": "TOM",
         "ranking": 206,
@@ -285,18 +287,51 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 3,
+        "period1TieBreak": 1,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2434,
+        "period2": 2177,
+        "currentPeriodStartTimestamp": 1784343395
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784345582
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16465883,
       "defaultPeriodCount": 3,
       "slug": "matthew-forbes-bernard-tomic",
-      "startTimestamp": 1784333400,
+      "currentPeriodStartTimestamp": 1784343395,
+      "startTimestamp": 1784340300,
       "periods": {
         "point": "Game",
         "current": "Match",
