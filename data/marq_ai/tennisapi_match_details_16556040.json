@@ -1,7 +1,9 @@
 {
-  "saved_at": 1784350605.6044495,
+  "saved_at": 1784436504.654405,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "awayTeamSeed": "11",
       "tournament": {
         "name": "Prague, Czech Republic, Qualifying",
         "slug": "prague-czech-republic-qualifying",
@@ -54,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 648,
+          "userCount": 664,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +94,11 @@
       },
       "customId": "QTPsIlCb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Prague",
@@ -146,7 +149,7 @@
             "value": 103581,
             "currency": "EUR"
           },
-          "currentRanking": 289
+          "currentRanking": 290
         },
         "nameCode": "MOR",
         "ranking": 300,
@@ -187,7 +190,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 775,
+        "userCount": 777,
         "playerTeamInfo": {
           "height": 1.7,
           "plays": "right-handed",
@@ -258,18 +261,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 3,
+        "point": "15",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2418,
+        "period2": 2084,
+        "currentPeriodStartTimestamp": 1784396278
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1784398550
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16556040,
       "defaultPeriodCount": 3,
       "slug": "viktoria-morvayova-ayla-aksu",
-      "startTimestamp": 1784377800,
+      "currentPeriodStartTimestamp": 1784396278,
+      "startTimestamp": 1784393700,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -280,6 +305,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

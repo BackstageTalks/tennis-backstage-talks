@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784350601.8447192,
+  "saved_at": 1784436478.9424167,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 19,
+          "userCount": 20,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "ANpsHifb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Valeria Savinykh",
         "slug": "savinykh-valeria",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 401,
+        "userCount": 405,
         "playerTeamInfo": {
           "height": 1.67,
           "weight": 60,
@@ -133,7 +134,7 @@
             "value": 824094,
             "currency": "EUR"
           },
-          "currentRanking": 748
+          "currentRanking": 670
         },
         "nameCode": "SAV",
         "ranking": 874,
@@ -176,7 +177,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 579,
+        "userCount": 580,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 88301,
@@ -224,18 +225,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 4,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784385339
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16556274,
       "defaultPeriodCount": 3,
       "slug": "justina-mikulskyte-valeria-savinykh",
-      "startTimestamp": 1784376000,
+      "startTimestamp": 1784379165,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -246,6 +264,16 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "CZ",
+        "SK",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

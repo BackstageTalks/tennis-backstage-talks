@@ -1,7 +1,9 @@
 {
-  "saved_at": 1784350591.505483,
+  "saved_at": 1784436478.1154857,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "awayTeamSeed": "10",
       "tournament": {
         "name": "Prague, Czech Republic, Qualifying",
         "slug": "prague-czech-republic-qualifying",
@@ -54,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 648,
+          "userCount": 664,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +94,11 @@
       },
       "customId": "KaEbsJRQc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Prague",
@@ -131,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 865,
+        "userCount": 864,
         "playerTeamInfo": {
           "height": 1.68,
           "plays": "right-handed",
@@ -159,7 +162,7 @@
             "value": 388742,
             "currency": "EUR"
           },
-          "currentRanking": 306
+          "currentRanking": 307
         },
         "nameCode": "PAL",
         "ranking": 322,
@@ -203,7 +206,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1351,
+        "userCount": 1353,
         "playerTeamInfo": {
           "height": 1.64,
           "plays": "right-handed",
@@ -254,18 +257,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 3,
+        "point": "40",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2483,
+        "period2": 3800,
+        "currentPeriodStartTimestamp": 1784380322
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784384157
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16556033,
       "defaultPeriodCount": 3,
       "slug": "barbora-palicova-mai-hontama",
-      "startTimestamp": 1784373600,
+      "currentPeriodStartTimestamp": 1784380322,
+      "startTimestamp": 1784377500,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -276,6 +302,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

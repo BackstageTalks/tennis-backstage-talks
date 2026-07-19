@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784350590.106834,
+  "saved_at": 1784436483.671458,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "zqZjsBqZj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Gutjahr L / Raser F",
         "slug": "gutjahr-l-raser-f",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 0,
+        "userCount": 1,
         "nameCode": "L/F",
         "disabled": false,
         "national": false,
@@ -232,7 +233,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 266,
+            "userCount": 267,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 82,
@@ -261,7 +262,7 @@
                 "value": 14152,
                 "currency": "EUR"
               },
-              "currentRanking": 938
+              "currentRanking": 963
             },
             "nameCode": "PAL",
             "ranking": 1288,
@@ -383,18 +384,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2"
+        ],
+        "changeTimestamp": 1784387978
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16556117,
       "defaultPeriodCount": 3,
       "slug": "paldanius-tsitsipas-gutjahr-raser",
-      "startTimestamp": 1784372400,
+      "startTimestamp": 1784383557,
       "periods": {
         "point": "Game",
         "current": "Match",

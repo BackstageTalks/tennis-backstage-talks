@@ -1,7 +1,9 @@
 {
-  "saved_at": 1784350592.890363,
+  "saved_at": 1784436478.4291234,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "homeTeamSeed": "6",
       "tournament": {
         "name": "Prague, Czech Republic, Qualifying",
         "slug": "prague-czech-republic-qualifying",
@@ -54,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 648,
+          "userCount": 664,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +94,11 @@
       },
       "customId": "eWZslLac",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 92,
+        "description": "Retired",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Prague",
@@ -131,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3134,
+        "userCount": 3135,
         "playerTeamInfo": {
           "height": 1.86,
           "weight": 71,
@@ -172,7 +175,7 @@
             "value": 1862934,
             "currency": "EUR"
           },
-          "currentRanking": 106
+          "currentRanking": 107
         },
         "nameCode": "MAS",
         "ranking": 166,
@@ -217,7 +220,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 692,
+        "userCount": 695,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 20220,
@@ -264,18 +267,39 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 3,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 4,
+        "point": "15"
+      },
+      "time": {
+        "period1": 2305,
+        "period2": 2091,
+        "currentPeriodStartTimestamp": 1784381300
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784383420
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16556034,
       "defaultPeriodCount": 3,
       "slug": "valentina-ryser-rebeka-masarova",
-      "startTimestamp": 1784373600,
+      "currentPeriodStartTimestamp": 1784381300,
+      "startTimestamp": 1784378700,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -286,6 +310,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

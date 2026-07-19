@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784350419.6702602,
+  "saved_at": 1784436509.149665,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "1",
       "awayTeamSeed": "3",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 334,
+          "userCount": 354,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": false,
@@ -85,10 +86,11 @@
       },
       "customId": "YhzstTac",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Athens",
@@ -132,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 10804,
+        "userCount": 10852,
         "playerTeamInfo": {
           "height": 1.82,
           "plays": "right-handed",
@@ -205,7 +207,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 8641,
+        "userCount": 8730,
         "playerTeamInfo": {
           "height": 1.78,
           "plays": "right-handed",
@@ -245,7 +247,7 @@
             "value": 16456949,
             "currency": "EUR"
           },
-          "currentRanking": 23
+          "currentRanking": 20
         },
         "nameCode": "KRE",
         "ranking": 32,
@@ -280,18 +282,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 1,
+        "period2": 6,
+        "period3": 3,
+        "point": "40",
+        "normaltime": 1
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 4,
+        "period3": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2850,
+        "period2": 3345,
+        "period3": 3711,
+        "currentPeriodStartTimestamp": 1784405317
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1784409065
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16465997,
       "defaultPeriodCount": 3,
       "slug": "clara-tauson-barbora-krejcikova",
-      "startTimestamp": 1784396400,
+      "currentPeriodStartTimestamp": 1784405317,
+      "startTimestamp": 1784399100,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -302,6 +330,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

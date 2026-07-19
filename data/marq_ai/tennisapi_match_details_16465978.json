@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784350598.070799,
+  "saved_at": 1784436531.0054953,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "3",
       "awayTeamSeed": "2",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 79,
+          "userCount": 80,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": false,
@@ -92,10 +93,11 @@
       },
       "customId": "YkdcsxbQj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Iasi",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 40,
+        "userCount": 39,
         "nameCode": "D/K",
         "national": false,
         "type": 2,
@@ -225,7 +227,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 307,
+            "userCount": 308,
             "playerTeamInfo": {
               "height": 1.7,
               "weight": 59,
@@ -319,7 +321,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 86,
+        "userCount": 88,
         "nameCode": "K/M",
         "disabled": false,
         "national": false,
@@ -410,7 +412,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 192,
+            "userCount": 193,
             "playerTeamInfo": {
               "height": 1.78,
               "plays": "right-handed",
@@ -438,7 +440,7 @@
                 "value": 245812,
                 "currency": "EUR"
               },
-              "currentRanking": 705
+              "currentRanking": 707
             },
             "nameCode": "KOL",
             "national": false,
@@ -483,17 +485,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3098,
+        "period2": 3287,
+        "currentPeriodStartTimestamp": 1784379605
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784382930
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16465978,
       "defaultPeriodCount": 3,
       "slug": "detiuc-khromacheva-maleckova-skoch",
+      "currentPeriodStartTimestamp": 1784379605,
       "startTimestamp": 1784376000,
       "periods": {
         "point": "Game",

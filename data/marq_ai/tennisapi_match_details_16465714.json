@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784350599.3315465,
+  "saved_at": 1784436476.0932384,
   "data": {
     "event": {
+      "firstToServe": 2,
       "awayTeamSeed": "6",
       "tournament": {
         "name": "Bunschoten, Netherlands",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 98,
+          "userCount": 102,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "fZwsBkRc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Bunschoten",
@@ -129,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1519,
+        "userCount": 1527,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 76,
@@ -201,7 +203,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2378,
+        "userCount": 2387,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 71,
@@ -275,18 +277,52 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 7,
+        "point": "6",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 6,
+        "period2TieBreak": 3,
+        "point": "3",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1616,
+        "period2": 3319,
+        "currentPeriodStartTimestamp": 1784379780
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "homeScore.period2TieBreak",
+          "homeScore.normaltime",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784383115
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16465714,
       "defaultPeriodCount": 3,
       "slug": "guy-den-ouden-kimmer-coppejans",
-      "startTimestamp": 1784376000,
+      "currentPeriodStartTimestamp": 1784379780,
+      "startTimestamp": 1784376600,
       "periods": {
         "point": "Game",
         "current": "Match",
