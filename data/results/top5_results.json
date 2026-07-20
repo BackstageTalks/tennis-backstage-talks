@@ -1,98 +1,98 @@
 {
   "dataset": "top5",
-  "updated_at": "2026-07-20T20:50:50.519052+00:00",
+  "updated_at": "2026-07-20T21:41:05.996472+00:00",
   "betting_day": "2026-07-20",
   "summary": {
     "picks": 87,
-    "won": 49,
+    "won": 47,
     "lost": 31,
-    "void": 3,
-    "pending": 4,
+    "void": 6,
+    "pending": 3,
     "unknown": 0,
-    "units": -1.75,
-    "win_rate": 0.613
+    "units": -2.92,
+    "win_rate": 0.603
   },
   "cards": {
     "today": {
       "picks": 7,
       "won": 4,
-      "lost": 2,
+      "lost": 3,
       "void": 0,
-      "pending": 1,
+      "pending": 0,
       "unknown": 0,
-      "units": 0.34,
-      "win_rate": 0.667
+      "units": -0.66,
+      "win_rate": 0.571
     },
     "last_7_days": {
       "picks": 49,
-      "won": 29,
+      "won": 27,
       "lost": 16,
-      "void": 2,
-      "pending": 2,
+      "void": 5,
+      "pending": 1,
       "unknown": 0,
-      "units": 1.76,
-      "win_rate": 0.644
+      "units": 0.59,
+      "win_rate": 0.628
     },
     "current_month": {
       "picks": 87,
-      "won": 49,
+      "won": 47,
       "lost": 31,
-      "void": 3,
-      "pending": 4,
+      "void": 6,
+      "pending": 3,
       "unknown": 0,
-      "units": -1.75,
-      "win_rate": 0.613
+      "units": -2.92,
+      "win_rate": 0.603
     },
     "all_time": {
       "picks": 87,
-      "won": 49,
+      "won": 47,
       "lost": 31,
-      "void": 3,
-      "pending": 4,
+      "void": 6,
+      "pending": 3,
       "unknown": 0,
-      "units": -1.75,
-      "win_rate": 0.613
+      "units": -2.92,
+      "win_rate": 0.603
     }
   },
   "today": {
     "picks": 7,
     "won": 4,
-    "lost": 2,
+    "lost": 3,
     "void": 0,
-    "pending": 1,
+    "pending": 0,
     "unknown": 0,
-    "units": 0.34,
-    "win_rate": 0.667
+    "units": -0.66,
+    "win_rate": 0.571
   },
   "last_7_days": {
     "picks": 49,
-    "won": 29,
+    "won": 27,
     "lost": 16,
-    "void": 2,
-    "pending": 2,
+    "void": 5,
+    "pending": 1,
     "unknown": 0,
-    "units": 1.76,
-    "win_rate": 0.644
+    "units": 0.59,
+    "win_rate": 0.628
   },
   "current_month": {
     "picks": 87,
-    "won": 49,
+    "won": 47,
     "lost": 31,
-    "void": 3,
-    "pending": 4,
+    "void": 6,
+    "pending": 3,
     "unknown": 0,
-    "units": -1.75,
-    "win_rate": 0.613
+    "units": -2.92,
+    "win_rate": 0.603
   },
   "all_time": {
     "picks": 87,
-    "won": 49,
+    "won": 47,
     "lost": 31,
-    "void": 3,
-    "pending": 4,
+    "void": 6,
+    "pending": 3,
     "unknown": 0,
-    "units": -1.75,
-    "win_rate": 0.613
+    "units": -2.92,
+    "win_rate": 0.603
   },
   "items": [
     {
@@ -129,13 +129,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Dominika Salkova",
-      "score": "6-7 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.510083+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Antonia Ružić vs Dominika Salkova",
-      "result_date": "2026-07-20"
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED",
+      "winner": "Dominika Salkova",
+      "score": "6-7 4-6",
+      "resolved_at": "2026-07-20T21:41:05.984997+00:00"
     },
     {
       "id": "2026_07_20_alycia_parks_vs_lucie_havlickova_alycia_parks_lucie_havlickova",
@@ -171,13 +172,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Lucie Havlickova",
-      "score": "2-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.511250+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Alycia Parks vs Lucie Havlickova",
-      "result_date": "2026-07-20"
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED",
+      "winner": "Lucie Havlickova",
+      "score": "2-6 4-6",
+      "resolved_at": "2026-07-20T21:41:05.986810+00:00"
     },
     {
       "id": "2026_07_20_varvara_lepchenko_vs_elina_avanesyan_elina_avanesyan_varvara_lepchenko",
@@ -213,13 +215,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Elina Avanesyan",
-      "score": "6-4 6-7 3-6",
       "units": 0.5,
-      "resolved_at": "2026-07-20T20:50:50.512489+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Varvara Lepchenko vs Elina Avanesyan",
-      "result_date": "2026-07-20"
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED",
+      "winner": "Elina Avanesyan",
+      "score": "6-4 6-7 3-6",
+      "resolved_at": "2026-07-20T21:41:05.988865+00:00"
     },
     {
       "id": "2026_07_20_lina_gjorcheska_vs_erika_andreeva_erika_andreeva_lina_gjorcheska",
@@ -255,13 +258,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Erika Andreeva",
-      "score": "2-6 0-6",
       "units": 0.67,
-      "resolved_at": "2026-07-20T20:50:50.513835+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Lina Gjorcheska vs Erika Andreeva",
-      "result_date": "2026-07-20"
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED",
+      "winner": "Erika Andreeva",
+      "score": "2-6 0-6",
+      "resolved_at": "2026-07-20T21:41:05.990998+00:00"
     },
     {
       "id": "2026_07_20_kaitlin_quevedo_vs_anhelina_kalinina_anhelina_kalinina_kaitlin_quevedo",
@@ -297,13 +301,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Anhelina Kalinina",
-      "score": "5-7 4-6",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.514836+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Kaitlin Quevedo vs Anhelina Kalinina",
-      "result_date": "2026-07-20"
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED",
+      "winner": "Anhelina Kalinina",
+      "score": "5-7 4-6",
+      "resolved_at": "2026-07-20T21:41:05.992606+00:00"
     },
     {
       "id": "2026_07_20_joel_schwaerzler_vs_jurij_rodionov_jurij_rodionov_joel_schwaerzler",
@@ -339,13 +344,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Jurij Rodionov",
-      "score": "4-6 2-6",
       "units": 0.73,
-      "resolved_at": "2026-07-20T20:50:50.515677+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Joel Schwaerzler vs Jurij Rodionov",
-      "result_date": "2026-07-20"
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED",
+      "winner": "Jurij Rodionov",
+      "score": "4-6 2-6",
+      "resolved_at": "2026-07-20T21:41:05.993955+00:00"
     },
     {
       "id": "2026_07_20_henrique_rocha_vs_pedro_martinez_henrique_rocha_pedro_martinez",
@@ -380,11 +386,15 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
-      "result_status": "PENDING",
-      "units": 0.0,
-      "resolved_at": null,
-      "result_source": null,
-      "result_match_score": null
+      "result_status": "LOST",
+      "winner": "Pedro Martinez",
+      "score": "5-7 5-7",
+      "units": -1.0,
+      "resolved_at": "2026-07-20T21:41:05.995214+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Henrique Rocha vs Pedro Martinez",
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_19_julia_grabher_vs_sinja_kraus_sinja_kraus_julia_grabher",
@@ -420,13 +430,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Sinja Kraus",
-      "score": "3-6 1-6",
       "units": 0.5,
-      "resolved_at": "2026-07-20T20:50:50.502329+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Julia Grabher vs Sinja Kraus",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Sinja Kraus",
+      "score": "3-6 1-6",
+      "resolved_at": "2026-07-20T21:41:05.972686+00:00"
     },
     {
       "id": "2026_07_19_kyrian_jacquet_vs_taro_daniel_kyrian_jacquet_taro_daniel",
@@ -462,13 +473,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Taro Daniel",
-      "score": "4-6 6-3 3-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.503500+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Kyrian Jacquet vs Taro Daniel",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Taro Daniel",
+      "score": "4-6 6-3 3-6",
+      "resolved_at": "2026-07-20T21:41:05.974596+00:00"
     },
     {
       "id": "2026_07_19_xinyu_gao_vs_linda_fruhvirtova_linda_fruhvirtova_xinyu_gao",
@@ -504,13 +516,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Xinyu Gao",
-      "score": "6-2 0-6 6-3",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.504921+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Xinyu Gao vs Linda Fruhvirtova",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Xinyu Gao",
+      "score": "6-2 0-6 6-3",
+      "resolved_at": "2026-07-20T21:41:05.976761+00:00"
     },
     {
       "id": "2026_07_19_andrey_rublev_vs_luciano_darderi_andrey_rublev_luciano_darderi",
@@ -546,13 +559,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Andrey Rublev",
-      "score": "6-4 6-3",
       "units": 0.73,
-      "resolved_at": "2026-07-20T20:50:50.505662+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Andrey Rublev vs Luciano Darderi",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Andrey Rublev",
+      "score": "6-4 6-3",
+      "resolved_at": "2026-07-20T21:41:05.977926+00:00"
     },
     {
       "id": "2026_07_19_julia_avdeeva_vs_jule_niemeier_julia_avdeeva_jule_niemeier",
@@ -588,13 +602,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Jule Niemeier",
-      "score": "5-7 6-2 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.506912+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Julia Avdeeva vs Jule Niemeier",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Jule Niemeier",
+      "score": "5-7 6-2 4-6",
+      "resolved_at": "2026-07-20T21:41:05.979926+00:00"
     },
     {
       "id": "2026_07_19_jurij_rodionov_vs_vitaliy_sachko_jurij_rodionov_vitaliy_sachko",
@@ -630,13 +645,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Jurij Rodionov",
-      "score": "6-4 7-6",
       "units": 0.67,
-      "resolved_at": "2026-07-20T20:50:50.507739+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Jurij Rodionov vs Vitaliy Sachko",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Jurij Rodionov",
+      "score": "6-4 7-6",
+      "resolved_at": "2026-07-20T21:41:05.981254+00:00"
     },
     {
       "id": "2026_07_19_stefanos_tsitsipas_vs_raphael_collignon_raphael_collignon_stefanos_tsitsipas",
@@ -672,13 +688,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Stefanos Tsitsipas",
-      "score": "6-4 6-7 6-3",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.508868+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Stefanos Tsitsipas vs Raphael Collignon",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Stefanos Tsitsipas",
+      "score": "6-4 6-7 6-3",
+      "resolved_at": "2026-07-20T21:41:05.983091+00:00"
     },
     {
       "id": "2026_07_18_federica_urgesi_vs_yelyzaveta_kotliar_federica_urgesi_yelyzaveta_kotliar",
@@ -713,14 +730,16 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
-      "result_status": "LOST",
-      "winner": "Yelyzaveta Kotliar",
-      "score": null,
-      "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.492730+00:00",
+      "result_status": "VOID",
+      "units": 0.0,
       "result_source": "TennisApi",
       "result_match_score": "Federica Urgesi vs Yelyzaveta Kotliar",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Yelyzaveta Kotliar",
+      "score": null,
+      "resolved_at": "2026-07-20T21:41:05.957453+00:00",
+      "result_void_reason": "api_status:VOID | FINISHED | FINISHED"
     },
     {
       "id": "2026_07_18_lucija_iri_bagari_vs_amarissa_kiara_toth_amarissa_kiara_toth_lucija_iri_bagari",
@@ -755,14 +774,16 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
-      "result_status": "WON",
-      "winner": "Amarissa Kiara Toth",
-      "score": null,
-      "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.494116+00:00",
+      "result_status": "VOID",
+      "units": 0.0,
       "result_source": "TennisApi",
       "result_match_score": "Lucija Ćirić-Bagarić vs Amarissa Kiara Toth",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Amarissa Kiara Toth",
+      "score": null,
+      "resolved_at": "2026-07-20T21:41:05.959610+00:00",
+      "result_void_reason": "api_status:VOID | FINISHED | FINISHED"
     },
     {
       "id": "2026_07_18_martina_trevisan_vs_francesca_jones_francesca_jones_martina_trevisan",
@@ -798,13 +819,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Francesca Jones",
-      "score": "6-2 1-6 1-6",
       "units": 0.57,
-      "resolved_at": "2026-07-20T20:50:50.495354+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Martina Trevisan vs Francesca Jones",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Francesca Jones",
+      "score": "6-2 1-6 1-6",
+      "resolved_at": "2026-07-20T21:41:05.961552+00:00"
     },
     {
       "id": "2026_07_18_viktoria_morvayova_vs_ayla_aksu_ayla_aksu_viktoria_morvayova",
@@ -840,13 +862,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Ayla Aksu",
-      "score": "3-6 3-6",
       "units": 0.4,
-      "resolved_at": "2026-07-20T20:50:50.496476+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Viktoria Morvayova vs Ayla Aksu",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Ayla Aksu",
+      "score": "3-6 3-6",
+      "resolved_at": "2026-07-20T21:41:05.963325+00:00"
     },
     {
       "id": "2026_07_18_raphael_collignon_vs_juan_manuel_cerundolo_raphael_collignon_juan_manuel_cerundolo",
@@ -882,13 +905,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Raphael Collignon",
-      "score": "1-6 7-6 7-5",
       "units": 0.62,
-      "resolved_at": "2026-07-20T20:50:50.497910+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Raphael Collignon vs Juan Manuel Cerundolo",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Raphael Collignon",
+      "score": "1-6 7-6 7-5",
+      "resolved_at": "2026-07-20T21:41:05.965600+00:00"
     },
     {
       "id": "2026_07_18_marina_bassols_ribera_vs_sinja_kraus_sinja_kraus_marina_bassols_ribera",
@@ -924,13 +948,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Sinja Kraus",
-      "score": "6-3 4-6 1-6",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.499583+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Marina Bassols Ribera vs Sinja Kraus",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Sinja Kraus",
+      "score": "6-3 4-6 1-6",
+      "resolved_at": "2026-07-20T21:41:05.968277+00:00"
     },
     {
       "id": "2026_07_18_adolfo_daniel_vallejo_vs_luciano_darderi_luciano_darderi_adolfo_daniel_vallejo",
@@ -966,13 +991,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Luciano Darderi",
-      "score": "4-6 7-6 3-6",
       "units": 0.5,
-      "resolved_at": "2026-07-20T20:50:50.500968+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Adolfo Daniel Vallejo vs Luciano Darderi",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Luciano Darderi",
+      "score": "4-6 7-6 3-6",
+      "resolved_at": "2026-07-20T21:41:05.970503+00:00"
     },
     {
       "id": "2026_07_17_deborah_chiesa_vs_lucia_bronzetti_lucia_bronzetti_deborah_chiesa",
@@ -1008,13 +1034,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Lucia Bronzetti",
-      "score": "6-2 3-6 2-6",
       "units": 0.57,
-      "resolved_at": "2026-07-20T20:50:50.485105+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Deborah Chiesa vs Lucia Bronzetti",
-      "result_date": "2026-07-17"
+      "result_date": "2026-07-17",
+      "result_raw_status": "FINISHED",
+      "winner": "Lucia Bronzetti",
+      "score": "6-2 3-6 2-6",
+      "resolved_at": "2026-07-20T21:41:05.945237+00:00"
     },
     {
       "id": "2026_07_17_yulia_putintseva_vs_mayar_sherif_yulia_putintseva_mayar_sherif",
@@ -1050,13 +1077,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Mayar Sherif",
-      "score": "2-6 6-3 6-7",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.486544+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Yulia Putintseva vs Mayar Sherif",
-      "result_date": "2026-07-17"
+      "result_date": "2026-07-17",
+      "result_raw_status": "FINISHED",
+      "winner": "Mayar Sherif",
+      "score": "2-6 6-3 6-7",
+      "resolved_at": "2026-07-20T21:41:05.947548+00:00"
     },
     {
       "id": "2026_07_17_veronika_erjavec_vs_gina_feistel_veronika_erjavec_gina_feistel",
@@ -1092,13 +1120,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Veronika Erjavec",
-      "score": "6-2 7-5",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.487668+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Veronika Erjavec vs Gina Feistel",
-      "result_date": "2026-07-17"
+      "result_date": "2026-07-17",
+      "result_raw_status": "FINISHED",
+      "winner": "Veronika Erjavec",
+      "score": "6-2 7-5",
+      "resolved_at": "2026-07-20T21:41:05.949366+00:00"
     },
     {
       "id": "2026_07_17_hanne_vandewinkel_vs_harmony_tan_hanne_vandewinkel_harmony_tan",
@@ -1137,11 +1166,12 @@
       "winner": "Hanne Vandewinkel",
       "score": "6-1 1-0",
       "units": 0.0,
-      "resolved_at": "2026-07-20T20:50:50.518441+00:00",
+      "resolved_at": "2026-07-20T21:41:05.951139+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Hanne Vandewinkel vs Harmony Tan",
       "result_date": "2026-07-17",
-      "result_void_reason": "incomplete_score_with_winner:6-1 1-0"
+      "result_void_reason": "api_status:VOID | FINISHED | FINISHED",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_17_andrey_rublev_vs_sebasti_n_b_ez_andrey_rublev_sebasti_n_b_ez",
@@ -1177,13 +1207,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Andrey Rublev",
-      "score": "6-1 6-2",
       "units": 0.57,
-      "resolved_at": "2026-07-20T20:50:50.489506+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Andrey Rublev vs Sebastián Báez",
-      "result_date": "2026-07-17"
+      "result_date": "2026-07-17",
+      "result_raw_status": "FINISHED",
+      "winner": "Andrey Rublev",
+      "score": "6-1 6-2",
+      "resolved_at": "2026-07-20T21:41:05.952370+00:00"
     },
     {
       "id": "2026_07_17_nuria_brancaccio_vs_julia_riera_julia_riera_nuria_brancaccio",
@@ -1219,13 +1250,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Nuria Brancaccio",
-      "score": "6-3 1-6 7-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.490688+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Nuria Brancaccio vs Julia Riera",
-      "result_date": "2026-07-17"
+      "result_date": "2026-07-17",
+      "result_raw_status": "FINISHED",
+      "winner": "Nuria Brancaccio",
+      "score": "6-3 1-6 7-6",
+      "resolved_at": "2026-07-20T21:41:05.954255+00:00"
     },
     {
       "id": "2026_07_17_alejandro_tabilo_vs_thiago_agustin_tirante_alejandro_tabilo_thiago_agustin_tirante",
@@ -1260,14 +1292,16 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
-      "result_status": "WON",
-      "winner": "Alejandro Tabilo",
-      "score": null,
-      "units": 0.73,
-      "resolved_at": "2026-07-20T20:50:50.491460+00:00",
+      "result_status": "VOID",
+      "units": 0.0,
       "result_source": "TennisApi",
       "result_match_score": "Alejandro Tabilo vs Thiago Agustin Tirante",
-      "result_date": "2026-07-17"
+      "result_date": "2026-07-17",
+      "result_raw_status": "FINISHED",
+      "winner": "Alejandro Tabilo",
+      "score": null,
+      "resolved_at": "2026-07-20T21:41:05.955489+00:00",
+      "result_void_reason": "api_status:VOID | FINISHED | FINISHED"
     },
     {
       "id": "2026_07_16_anastasia_zakharova_vs_alexandra_shubladze_anastasia_zakharova_alexandra_shubladze",
@@ -1303,13 +1337,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Anastasia Zakharova",
-      "score": "7-6 7-6",
       "units": 0.62,
-      "resolved_at": "2026-07-20T20:50:50.475177+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Anastasia Zakharova vs Alexandra Shubladze",
-      "result_date": "2026-07-16"
+      "result_date": "2026-07-16",
+      "result_raw_status": "FINISHED",
+      "winner": "Anastasia Zakharova",
+      "score": "7-6 7-6",
+      "resolved_at": "2026-07-20T21:41:05.928826+00:00"
     },
     {
       "id": "2026_07_16_gina_feistel_vs_laura_samson_laura_samson_gina_feistel",
@@ -1345,13 +1380,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Gina Feistel",
-      "score": "6-3 6-1",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.476828+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Gina Feistel vs Laura Samson",
-      "result_date": "2026-07-16"
+      "result_date": "2026-07-16",
+      "result_raw_status": "FINISHED",
+      "winner": "Gina Feistel",
+      "score": "6-3 6-1",
+      "resolved_at": "2026-07-20T21:41:05.931515+00:00"
     },
     {
       "id": "2026_07_16_aurora_zantedeschi_vs_martina_trevisan_martina_trevisan_aurora_zantedeschi",
@@ -1387,13 +1423,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Martina Trevisan",
-      "score": "1-6 6-7",
       "units": 0.67,
-      "resolved_at": "2026-07-20T20:50:50.478108+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Aurora Zantedeschi vs Martina Trevisan",
-      "result_date": "2026-07-16"
+      "result_date": "2026-07-16",
+      "result_raw_status": "FINISHED",
+      "winner": "Martina Trevisan",
+      "score": "1-6 6-7",
+      "resolved_at": "2026-07-20T21:41:05.933602+00:00"
     },
     {
       "id": "2026_07_16_vera_zvonareva_vs_viktoria_hrun_akova_vera_zvonareva_viktoria_hrun_akova",
@@ -1429,13 +1466,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Vera Zvonareva",
-      "score": "7-6 6-3",
       "units": 0.73,
-      "resolved_at": "2026-07-20T20:50:50.479307+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Vera Zvonareva vs Viktoria Hrunčakova",
-      "result_date": "2026-07-16"
+      "result_date": "2026-07-16",
+      "result_raw_status": "FINISHED",
+      "winner": "Vera Zvonareva",
+      "score": "7-6 6-3",
+      "resolved_at": "2026-07-20T21:41:05.935580+00:00"
     },
     {
       "id": "2026_07_16_alexander_bublik_vs_quentin_halys_alexander_bublik_quentin_halys",
@@ -1510,13 +1548,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Alex Molčan",
-      "score": "3-6 6-1 6-2",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.483067+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Alex Molčan vs Alejandro Davidovich Fokina",
-      "result_date": "2026-07-16"
+      "result_date": "2026-07-16",
+      "result_raw_status": "FINISHED",
+      "winner": "Alex Molčan",
+      "score": "3-6 6-1 6-2",
+      "resolved_at": "2026-07-20T21:41:05.941899+00:00"
     },
     {
       "id": "2026_07_16_damir_d_umhur_vs_matteo_arnaldi_matteo_arnaldi_damir_d_umhur",
@@ -1552,13 +1591,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Damir Džumhur",
-      "score": "7-6 6-7 7-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.483910+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Damir Džumhur vs Matteo Arnaldi",
-      "result_date": "2026-07-16"
+      "result_date": "2026-07-16",
+      "result_raw_status": "FINISHED",
+      "winner": "Damir Džumhur",
+      "score": "7-6 6-7 7-6",
+      "resolved_at": "2026-07-20T21:41:05.943302+00:00"
     },
     {
       "id": "2026_07_15_flavio_cobolli_vs_roman_andres_burruchaga_flavio_cobolli_roman_andres_burruchaga",
@@ -1594,13 +1634,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Roman Andres Burruchaga",
-      "score": "2-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.464542+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Flavio Cobolli vs Roman Andres Burruchaga",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Roman Andres Burruchaga",
+      "score": "2-6 4-6",
+      "resolved_at": "2026-07-20T21:41:05.911867+00:00"
     },
     {
       "id": "2026_07_15_mai_hontama_vs_alycia_parks_alycia_parks_mai_hontama",
@@ -1636,13 +1677,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Alycia Parks",
-      "score": "7-6 2-6 5-7",
       "units": 0.62,
-      "resolved_at": "2026-07-20T20:50:50.465701+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Mai Hontama vs Alycia Parks",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Alycia Parks",
+      "score": "7-6 2-6 5-7",
+      "resolved_at": "2026-07-20T21:41:05.913634+00:00"
     },
     {
       "id": "2026_07_15_arthur_rinderknech_vs_clement_tabur_arthur_rinderknech_clement_tabur",
@@ -1678,13 +1720,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Arthur Rinderknech",
-      "score": "6-7 7-6 7-5",
       "units": 0.5,
-      "resolved_at": "2026-07-20T20:50:50.467256+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Arthur Rinderknech vs Clement Tabur",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Arthur Rinderknech",
+      "score": "6-7 7-6 7-5",
+      "resolved_at": "2026-07-20T21:41:05.916137+00:00"
     },
     {
       "id": "2026_07_15_raphael_collignon_vs_lorenzo_sonego_raphael_collignon_lorenzo_sonego",
@@ -1720,13 +1763,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Raphael Collignon",
-      "score": "7-6 7-6",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.468819+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Raphael Collignon vs Lorenzo Sonego",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Raphael Collignon",
+      "score": "7-6 7-6",
+      "resolved_at": "2026-07-20T21:41:05.918622+00:00"
     },
     {
       "id": "2026_07_15_yulia_putintseva_vs_alina_charaeva_yulia_putintseva_alina_charaeva",
@@ -1762,13 +1806,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Yulia Putintseva",
-      "score": "6-3 6-3",
       "units": 0.57,
-      "resolved_at": "2026-07-20T20:50:50.470571+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Yulia Putintseva vs Alina Charaeva",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Yulia Putintseva",
+      "score": "6-3 6-3",
+      "resolved_at": "2026-07-20T21:41:05.921378+00:00"
     },
     {
       "id": "2026_07_15_lola_radivojevi_vs_deborah_chiesa_lola_radivojevi_deborah_chiesa",
@@ -1804,13 +1849,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Deborah Chiesa",
-      "score": "2-6 2-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.472539+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Lola Radivojević vs Deborah Chiesa",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Deborah Chiesa",
+      "score": "2-6 2-6",
+      "resolved_at": "2026-07-20T21:41:05.924512+00:00"
     },
     {
       "id": "2026_07_15_darya_astakhova_vs_noma_noha_akugue_noma_noha_akugue_darya_astakhova",
@@ -1846,13 +1892,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Noma Noha Akugue",
-      "score": "7-5 2-6 3-6",
       "units": 0.5,
-      "resolved_at": "2026-07-20T20:50:50.473925+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Darya Astakhova vs Noma Noha Akugue",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Noma Noha Akugue",
+      "score": "7-5 2-6 3-6",
+      "resolved_at": "2026-07-20T21:41:05.926760+00:00"
     },
     {
       "id": "2026_07_14_fiona_ferro_vs_aurora_zantedeschi_fiona_ferro_aurora_zantedeschi",
@@ -1888,13 +1935,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Aurora Zantedeschi",
-      "score": "4-6 6-2 3-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.455182+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Fiona Ferro vs Aurora Zantedeschi",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "FINISHED",
+      "winner": "Aurora Zantedeschi",
+      "score": "4-6 6-2 3-6",
+      "resolved_at": "2026-07-20T21:41:05.896904+00:00"
     },
     {
       "id": "2026_07_14_matej_dodig_vs_pablo_carre_o_busta_pablo_carre_o_busta_matej_dodig",
@@ -1930,13 +1978,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Pablo Carreño Busta",
-      "score": "4-6 2-6",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.456150+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Matej Dodig vs Pablo Carreño Busta",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "FINISHED",
+      "winner": "Pablo Carreño Busta",
+      "score": "4-6 2-6",
+      "resolved_at": "2026-07-20T21:41:05.898522+00:00"
     },
     {
       "id": "2026_07_14_botic_van_de_zandschulp_vs_taro_daniel_botic_van_de_zandschulp_taro_daniel",
@@ -1972,13 +2021,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Botic Van de Zandschulp",
-      "score": "7-6 6-4",
       "units": 0.67,
-      "resolved_at": "2026-07-20T20:50:50.458239+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Botic Van de Zandschulp vs Taro Daniel",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "FINISHED",
+      "winner": "Botic Van de Zandschulp",
+      "score": "7-6 6-4",
+      "resolved_at": "2026-07-20T21:41:05.901805+00:00"
     },
     {
       "id": "2026_07_14_titouan_droguet_vs_alexander_blockx_alexander_blockx_titouan_droguet",
@@ -2014,13 +2064,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Titouan Droguet",
-      "score": "3-6 6-2 6-0",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.459438+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Titouan Droguet vs Alexander Blockx",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "FINISHED",
+      "winner": "Titouan Droguet",
+      "score": "3-6 6-2 6-0",
+      "resolved_at": "2026-07-20T21:41:05.903537+00:00"
     },
     {
       "id": "2026_07_14_stefano_travaglia_vs_martin_krumich_stefano_travaglia_martin_krumich",
@@ -2056,13 +2107,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Stefano Travaglia",
-      "score": "6-4 6-2",
       "units": 1.1,
-      "resolved_at": "2026-07-20T20:50:50.460194+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Stefano Travaglia vs Martin Krumich",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "FINISHED",
+      "winner": "Stefano Travaglia",
+      "score": "6-4 6-2",
+      "resolved_at": "2026-07-20T21:41:05.904869+00:00"
     },
     {
       "id": "2026_07_14_sapfo_sakellaridi_vs_miriana_tona_miriana_tona_sapfo_sakellaridi",
@@ -2098,13 +2150,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Miriana Tona",
-      "score": "6-7 7-5 2-6",
       "units": 1.38,
-      "resolved_at": "2026-07-20T20:50:50.461432+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Sapfo Sakellaridi vs Miriana Tona",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "FINISHED",
+      "winner": "Miriana Tona",
+      "score": "6-7 7-5 2-6",
+      "resolved_at": "2026-07-20T21:41:05.906888+00:00"
     },
     {
       "id": "2026_07_14_yulia_putintseva_vs_claire_liu_yulia_putintseva_claire_liu",
@@ -2143,10 +2196,12 @@
       "winner": null,
       "score": null,
       "units": 0.0,
-      "resolved_at": "2026-07-20T20:50:50.463599+00:00",
+      "resolved_at": "2026-07-20T21:41:05.910301+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Yulia Putintseva vs Leolia Jeanjean",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "VOID",
+      "result_void_reason": "api_status:VOID | VOID | VOID"
     },
     {
       "id": "2026_07_13_mia_risti_vs_mia_pohankova_mia_pohankova_mia_risti",
@@ -2182,13 +2237,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Mia Ristić",
-      "score": "6-3 7-5",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.443468+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Mia Ristić vs Mia Pohankova",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Mia Ristić",
+      "score": "6-3 7-5",
+      "resolved_at": "2026-07-20T21:41:05.877951+00:00"
     },
     {
       "id": "2026_07_13_carlos_sanchez_jover_vs_taro_daniel_taro_daniel_carlos_sanchez_jover",
@@ -2224,13 +2280,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Taro Daniel",
-      "score": "2-6 6-2 2-6",
       "units": 0.4,
-      "resolved_at": "2026-07-20T20:50:50.445293+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Carlos Sanchez Jover vs Taro Daniel",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Taro Daniel",
+      "score": "2-6 6-2 2-6",
+      "resolved_at": "2026-07-20T21:41:05.880876+00:00"
     },
     {
       "id": "2026_07_13_francesco_passaro_vs_martin_krumich_francesco_passaro_martin_krumich",
@@ -2266,13 +2323,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Martin Krumich",
-      "score": "4-6 3-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.447099+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Francesco Passaro vs Martin Krumich",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Martin Krumich",
+      "score": "4-6 3-6",
+      "resolved_at": "2026-07-20T21:41:05.883767+00:00"
     },
     {
       "id": "2026_07_13_hanne_vandewinkel_vs_carol_young_suh_lee_hanne_vandewinkel_carol_young_suh_lee",
@@ -2308,13 +2366,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Hanne Vandewinkel",
-      "score": "6-3 6-3",
       "units": 0.62,
-      "resolved_at": "2026-07-20T20:50:50.448514+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Hanne Vandewinkel vs Carol Young-suh Lee",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Hanne Vandewinkel",
+      "score": "6-3 6-3",
+      "resolved_at": "2026-07-20T21:41:05.886068+00:00"
     },
     {
       "id": "2026_07_13_lorenzo_sonego_vs_joel_schwaerzler_lorenzo_sonego_joel_schwaerzler",
@@ -2350,13 +2409,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Lorenzo Sonego",
-      "score": "6-4 7-6",
       "units": 0.4,
-      "resolved_at": "2026-07-20T20:50:50.450227+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Lorenzo Sonego vs Joel Schwaerzler",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Lorenzo Sonego",
+      "score": "6-4 7-6",
+      "resolved_at": "2026-07-20T21:41:05.888857+00:00"
     },
     {
       "id": "2026_07_13_qinwen_zheng_vs_jessica_bouzas_maneiro_qinwen_zheng_jessica_bouzas_maneiro",
@@ -2392,13 +2452,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Qinwen Zheng",
-      "score": "7-5 6-1",
       "units": 0.4,
-      "resolved_at": "2026-07-20T20:50:50.451316+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Qinwen Zheng vs Jessica Bouzas Maneiro",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Qinwen Zheng",
+      "score": "7-5 6-1",
+      "resolved_at": "2026-07-20T21:41:05.890705+00:00"
     },
     {
       "id": "2026_07_13_varvara_panshina_vs_weronika_falkowska_varvara_panshina_weronika_falkowska",
@@ -2434,13 +2495,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Weronika Falkowska",
-      "score": "4-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.453453+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Varvara Panshina vs Weronika Falkowska",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Weronika Falkowska",
+      "score": "4-6 4-6",
+      "resolved_at": "2026-07-20T21:41:05.894133+00:00"
     },
     {
       "id": "2026_07_12_amandine_hesse_vs_yelyzaveta_kotliar_amandine_hesse_yelyzaveta_kotliar",
@@ -2476,13 +2538,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Yelyzaveta Kotliar",
-      "score": "3-6 7-5 3-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.438668+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Amandine Hesse vs Yelyzaveta Kotliar",
-      "result_date": "2026-07-12"
+      "result_date": "2026-07-12",
+      "result_raw_status": "FINISHED",
+      "winner": "Yelyzaveta Kotliar",
+      "score": "3-6 7-5 3-6",
+      "resolved_at": "2026-07-20T21:41:05.870328+00:00"
     },
     {
       "id": "2026_07_12_clement_tabur_vs_marc_andrea_huesler_clement_tabur_marc_andrea_huesler",
@@ -2518,13 +2581,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Clement Tabur",
-      "score": "6-4 7-6",
       "units": 0.83,
-      "resolved_at": "2026-07-20T20:50:50.440093+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Clement Tabur vs Marc-Andrea Huesler",
-      "result_date": "2026-07-12"
+      "result_date": "2026-07-12",
+      "result_raw_status": "FINISHED",
+      "winner": "Clement Tabur",
+      "score": "6-4 7-6",
+      "resolved_at": "2026-07-20T21:41:05.872602+00:00"
     },
     {
       "id": "2026_07_12_elena_malygina_vs_viola_turini_viola_turini_elena_malygina",
@@ -2560,13 +2624,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Elena Malygina",
-      "score": "7-5 4-6 7-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.441449+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Elena Malygina vs Viola Turini",
-      "result_date": "2026-07-12"
+      "result_date": "2026-07-12",
+      "result_raw_status": "FINISHED",
+      "winner": "Elena Malygina",
+      "score": "7-5 4-6 7-6",
+      "resolved_at": "2026-07-20T21:41:05.874722+00:00"
     },
     {
       "id": "2026_07_11_simona_waltert_vs_paula_badosa_paula_badosa_simona_waltert",
@@ -2602,13 +2667,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Paula Badosa",
-      "score": "5-7 5-7",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.437371+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Simona Waltert vs Paula Badosa",
-      "result_date": "2026-07-11"
+      "result_date": "2026-07-11",
+      "result_raw_status": "FINISHED",
+      "winner": "Paula Badosa",
+      "score": "5-7 5-7",
+      "resolved_at": "2026-07-20T21:41:05.868250+00:00"
     },
     {
       "id": "2026_07_10_kaitlin_quevedo_vs_simona_waltert_kaitlin_quevedo_simona_waltert",
@@ -2644,13 +2710,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "LOST",
-      "winner": "Simona Waltert",
-      "score": "5-7 2-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.433239+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Kaitlin Quevedo vs Simona Waltert",
-      "result_date": "2026-07-10"
+      "result_date": "2026-07-10",
+      "result_raw_status": "FINISHED",
+      "winner": "Simona Waltert",
+      "score": "5-7 2-6",
+      "resolved_at": "2026-07-20T21:41:05.861335+00:00"
     },
     {
       "id": "2026_07_10_francesca_curmi_vs_jeline_vandromme_jeline_vandromme_francesca_curmi",
@@ -2686,13 +2753,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Jeline Vandromme",
-      "score": "3-6 0-6",
       "units": 0.57,
-      "resolved_at": "2026-07-20T20:50:50.434420+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Francesca Curmi vs Jeline Vandromme",
-      "result_date": "2026-07-10"
+      "result_date": "2026-07-10",
+      "result_raw_status": "FINISHED",
+      "winner": "Jeline Vandromme",
+      "score": "3-6 0-6",
+      "resolved_at": "2026-07-20T21:41:05.863280+00:00"
     },
     {
       "id": "2026_07_10_anna_blinkova_vs_aurora_zantedeschi_anna_blinkova_aurora_zantedeschi",
@@ -2728,13 +2796,14 @@
       "top_mode": "BST_REQUIRED_RELAXED",
       "top_reason": "BsT AI OK required; relaxed odds/probability fallback",
       "result_status": "LOST",
-      "winner": "Aurora Zantedeschi",
-      "score": "4-6 6-7",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.435318+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Anna Blinkova vs Aurora Zantedeschi",
-      "result_date": "2026-07-10"
+      "result_date": "2026-07-10",
+      "result_raw_status": "FINISHED",
+      "winner": "Aurora Zantedeschi",
+      "score": "4-6 6-7",
+      "resolved_at": "2026-07-20T21:41:05.864824+00:00"
     },
     {
       "id": "2026_07_10_jannik_sinner_vs_novak_djokovic_jannik_sinner_novak_djokovic",
@@ -2772,13 +2841,14 @@
       "top_mode": "BST_REQUIRED_RELAXED",
       "top_reason": "BsT AI OK required; relaxed odds/probability fallback",
       "result_status": "WON",
-      "winner": "Jannik Sinner",
-      "score": "6-4 6-4 6-4",
       "units": 0.2,
-      "resolved_at": "2026-07-20T20:50:50.436162+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Jannik Sinner vs Novak Djokovic",
-      "result_date": "2026-07-10"
+      "result_date": "2026-07-10",
+      "result_raw_status": "FINISHED",
+      "winner": "Jannik Sinner",
+      "score": "6-4 6-4 6-4",
+      "resolved_at": "2026-07-20T21:41:05.866270+00:00"
     },
     {
       "id": "2026_07_09_lisa_pigato_vs_aurora_zantedeschi_lisa_pigato_aurora_zantedeschi",
@@ -2817,11 +2887,12 @@
       "winner": "Aurora Zantedeschi",
       "score": "2-6 5-5",
       "units": 0.0,
-      "resolved_at": "2026-07-20T20:50:50.518327+00:00",
+      "resolved_at": "2026-07-20T21:41:05.852376+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Lisa Pigato vs Aurora Zantedeschi",
       "result_date": "2026-07-09",
-      "result_void_reason": "incomplete_score_with_winner:2-6 5-5"
+      "result_void_reason": "api_status:VOID | FINISHED | FINISHED",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_09_sinja_kraus_vs_yulia_putintseva_yulia_putintseva_sinja_kraus",
@@ -2857,13 +2928,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Yulia Putintseva",
-      "score": "2-6 3-6",
       "units": 0.73,
-      "resolved_at": "2026-07-20T20:50:50.428692+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Sinja Kraus vs Yulia Putintseva",
-      "result_date": "2026-07-09"
+      "result_date": "2026-07-09",
+      "result_raw_status": "FINISHED",
+      "winner": "Yulia Putintseva",
+      "score": "2-6 3-6",
+      "resolved_at": "2026-07-20T21:41:05.853993+00:00"
     },
     {
       "id": "2026_07_09_marta_kostyuk_vs_linda_noskova_marta_kostyuk_linda_noskova",
@@ -2899,13 +2971,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "LOST",
-      "winner": "Linda Noskova",
-      "score": "4-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.429594+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Marta Kostyuk vs Linda Noskova",
-      "result_date": "2026-07-09"
+      "result_date": "2026-07-09",
+      "result_raw_status": "FINISHED",
+      "winner": "Linda Noskova",
+      "score": "4-6 4-6",
+      "resolved_at": "2026-07-20T21:41:05.855523+00:00"
     },
     {
       "id": "2026_07_09_simona_waltert_vs_leyre_romero_gormaz_simona_waltert_leyre_romero_gormaz",
@@ -2941,13 +3014,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Simona Waltert",
-      "score": "6-2 6-1",
       "units": 0.5,
-      "resolved_at": "2026-07-20T20:50:50.430997+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Simona Waltert vs Leyre Romero Gormaz",
-      "result_date": "2026-07-09"
+      "result_date": "2026-07-09",
+      "result_raw_status": "FINISHED",
+      "winner": "Simona Waltert",
+      "score": "6-2 6-1",
+      "resolved_at": "2026-07-20T21:41:05.857765+00:00"
     },
     {
       "id": "2026_07_09_francesca_jones_vs_leolia_jeanjean_leolia_jeanjean_francesca_jones",
@@ -2983,13 +3057,14 @@
       "top_mode": "BST_REQUIRED_RELAXED",
       "top_reason": "BsT AI OK required; relaxed odds/probability fallback",
       "result_status": "WON",
-      "winner": "Leolia Jeanjean",
-      "score": "6-1 4-6 5-7",
       "units": 0.83,
-      "resolved_at": "2026-07-20T20:50:50.432079+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Francesca Jones vs Leolia Jeanjean",
-      "result_date": "2026-07-09"
+      "result_date": "2026-07-09",
+      "result_raw_status": "FINISHED",
+      "winner": "Leolia Jeanjean",
+      "score": "6-1 4-6 5-7",
+      "resolved_at": "2026-07-20T21:41:05.859431+00:00"
     },
     {
       "id": "2026_07_08_sinja_kraus_vs_caijsa_wilda_hennemann_sinja_kraus_caijsa_wilda_hennemann",
@@ -3025,13 +3100,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Sinja Kraus",
-      "score": "6-2 6-4",
       "units": 0.3,
-      "resolved_at": "2026-07-20T20:50:50.422240+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Sinja Kraus vs Caijsa Wilda Hennemann",
-      "result_date": "2026-07-08"
+      "result_date": "2026-07-08",
+      "result_raw_status": "FINISHED",
+      "winner": "Sinja Kraus",
+      "score": "6-2 6-4",
+      "resolved_at": "2026-07-20T21:41:05.843439+00:00"
     },
     {
       "id": "2026_07_08_rebeka_masarova_vs_francesca_curmi_rebeka_masarova_francesca_curmi",
@@ -3067,13 +3143,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "LOST",
-      "winner": "Francesca Curmi",
-      "score": "4-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.423746+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Rebeka Masarova vs Francesca Curmi",
-      "result_date": "2026-07-08"
+      "result_date": "2026-07-08",
+      "result_raw_status": "FINISHED",
+      "winner": "Francesca Curmi",
+      "score": "4-6 4-6",
+      "resolved_at": "2026-07-20T21:41:05.845842+00:00"
     },
     {
       "id": "2026_07_08_taylor_fritz_vs_alexander_zverev_alexander_zverev_taylor_fritz",
@@ -3111,13 +3188,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Alexander Zverev",
-      "score": "4-6 4-6 2-6",
       "units": 1.0,
-      "resolved_at": "2026-07-20T20:50:50.424683+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Taylor Fritz vs Alexander Zverev",
-      "result_date": "2026-07-08"
+      "result_date": "2026-07-08",
+      "result_raw_status": "FINISHED",
+      "winner": "Alexander Zverev",
+      "score": "4-6 4-6 2-6",
+      "resolved_at": "2026-07-20T21:41:05.847335+00:00"
     },
     {
       "id": "2026_07_08_momoko_kobori_vs_elizabeth_mandlik_elizabeth_mandlik_momoko_kobori",
@@ -3153,13 +3231,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Elizabeth Mandlik",
-      "score": "1-6 4-6",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.425894+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Momoko Kobori vs Elizabeth Mandlik",
-      "result_date": "2026-07-08"
+      "result_date": "2026-07-08",
+      "result_raw_status": "FINISHED",
+      "winner": "Elizabeth Mandlik",
+      "score": "1-6 4-6",
+      "resolved_at": "2026-07-20T21:41:05.849331+00:00"
     },
     {
       "id": "2026_07_08_flavio_cobolli_vs_arthur_fery_flavio_cobolli_arthur_fery",
@@ -3197,13 +3276,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "LOST",
-      "winner": "Arthur Fery",
-      "score": "4-6 6-7 0-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.426737+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Flavio Cobolli vs Arthur Fery",
-      "result_date": "2026-07-08"
+      "result_date": "2026-07-08",
+      "result_raw_status": "FINISHED",
+      "winner": "Arthur Fery",
+      "score": "4-6 6-7 0-6",
+      "resolved_at": "2026-07-20T21:41:05.850779+00:00"
     },
     {
       "id": "2026_07_07_aurora_zantedeschi_vs_elsa_jacquemot_elsa_jacquemot_aurora_zantedeschi",
@@ -3239,13 +3319,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "LOST",
-      "winner": "Aurora Zantedeschi",
-      "score": "6-1 6-2",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.413516+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Aurora Zantedeschi vs Elsa Jacquemot",
-      "result_date": "2026-07-07"
+      "result_date": "2026-07-07",
+      "result_raw_status": "FINISHED",
+      "winner": "Aurora Zantedeschi",
+      "score": "6-1 6-2",
+      "resolved_at": "2026-07-20T21:41:05.828704+00:00"
     },
     {
       "id": "2026_07_07_momoko_kobori_vs_elizabeth_mandlik_elizabeth_mandlik_momoko_kobori",
@@ -3320,13 +3401,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Lisa Pigato",
-      "score": "1-6 6-1 6-7",
       "units": 0.33,
-      "resolved_at": "2026-07-20T20:50:50.417229+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Angela Fita Boluda vs Lisa Pigato",
-      "result_date": "2026-07-07"
+      "result_date": "2026-07-07",
+      "result_raw_status": "FINISHED",
+      "winner": "Lisa Pigato",
+      "score": "1-6 6-1 6-7",
+      "resolved_at": "2026-07-20T21:41:05.834978+00:00"
     },
     {
       "id": "2026_07_07_dalma_galfi_vs_kajsa_rinaldo_persson_dalma_galfi_kajsa_rinaldo_persson",
@@ -3362,13 +3444,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "LOST",
-      "winner": "Kajsa Rinaldo Persson",
-      "score": "4-6 6-7",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.418312+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Dalma Galfi vs Kajsa Rinaldo Persson",
-      "result_date": "2026-07-07"
+      "result_date": "2026-07-07",
+      "result_raw_status": "FINISHED",
+      "winner": "Kajsa Rinaldo Persson",
+      "score": "4-6 6-7",
+      "resolved_at": "2026-07-20T21:41:05.836775+00:00"
     },
     {
       "id": "2026_07_07_lea_ma_vs_clervie_ngounoue_clervie_ngounoue_lea_ma",
@@ -3446,10 +3529,11 @@
       "winner": "Marta Kostyuk",
       "score": "2-6 6-4 1-6",
       "units": 0.79,
-      "resolved_at": "2026-07-20T20:50:50.407803+00:00",
+      "resolved_at": "2026-07-20T21:41:05.819009+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Emma Navarro vs Marta Kostyuk",
-      "result_date": "2026-07-04"
+      "result_date": "2026-07-04",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_04_liudmila_samsonova_vs_marie_bouzkova_marie_bouzkova_liudmila_samsonova",
@@ -3488,10 +3572,11 @@
       "winner": "Marie Bouzkova",
       "score": "6-4 6-7 4-6",
       "units": 0.74,
-      "resolved_at": "2026-07-20T20:50:50.409332+00:00",
+      "resolved_at": "2026-07-20T21:41:05.821557+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Liudmila Samsonova vs Marie Bouzkova",
-      "result_date": "2026-07-04"
+      "result_date": "2026-07-04",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_04_jasmine_paolini_vs_maria_sakkari_jasmine_paolini_maria_sakkari",
@@ -3530,10 +3615,11 @@
       "winner": "Jasmine Paolini",
       "score": "6-1 6-2",
       "units": 0.81,
-      "resolved_at": "2026-07-20T20:50:50.410493+00:00",
+      "resolved_at": "2026-07-20T21:41:05.823547+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Jasmine Paolini vs Maria Sakkari",
-      "result_date": "2026-07-04"
+      "result_date": "2026-07-04",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_04_grigor_dimitrov_vs_matteo_berrettini_matteo_berrettini_grigor_dimitrov",
@@ -3574,10 +3660,11 @@
       "winner": "Grigor Dimitrov",
       "score": "6-3 6-4 3-6 5-7 6-3",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.411473+00:00",
+      "resolved_at": "2026-07-20T21:41:05.825263+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Grigor Dimitrov vs Matteo Berrettini",
-      "result_date": "2026-07-04"
+      "result_date": "2026-07-04",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_04_zizou_bergs_vs_arthur_fery_zizou_bergs_arthur_fery",
@@ -3618,10 +3705,11 @@
       "winner": "Arthur Fery",
       "score": "6-2 5-7 6-2 6-7 6-7",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.412375+00:00",
+      "resolved_at": "2026-07-20T21:41:05.826838+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Zizou Bergs vs Arthur Fery",
-      "result_date": "2026-07-04"
+      "result_date": "2026-07-04",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_03_hubert_hurkacz_vs_tommy_paul_tommy_paul_hubert_hurkacz",
@@ -3662,10 +3750,11 @@
       "winner": "Hubert Hurkacz",
       "score": "4-6 7-6 7-5 6-2",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.403808+00:00",
+      "resolved_at": "2026-07-20T21:41:05.811626+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Hubert Hurkacz vs Tommy Paul",
-      "result_date": "2026-07-03"
+      "result_date": "2026-07-03",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_03_nikola_bartunkova_vs_barbora_krejcikova_barbora_krejcikova_nikola_bartunkova",
@@ -3704,10 +3793,11 @@
       "winner": "Barbora Krejčiková",
       "score": "3-6 5-7",
       "units": 0.61,
-      "resolved_at": "2026-07-20T20:50:50.405090+00:00",
+      "resolved_at": "2026-07-20T21:41:05.814230+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Nikola Bartunkova vs Barbora Krejčiková",
-      "result_date": "2026-07-03"
+      "result_date": "2026-07-03",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_03_ekaterina_alexandrova_vs_iva_jovic_iva_jovic_ekaterina_alexandrova",
@@ -3746,10 +3836,11 @@
       "winner": "Iva Jović",
       "score": "3-6 6-3 4-6",
       "units": 0.55,
-      "resolved_at": "2026-07-20T20:50:50.406306+00:00",
+      "resolved_at": "2026-07-20T21:41:05.816459+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Ekaterina Alexandrova vs Iva Jović",
-      "result_date": "2026-07-03"
+      "result_date": "2026-07-03",
+      "result_raw_status": "FINISHED"
     }
   ],
   "results": [
@@ -3787,13 +3878,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Dominika Salkova",
-      "score": "6-7 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.510083+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Antonia Ružić vs Dominika Salkova",
-      "result_date": "2026-07-20"
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED",
+      "winner": "Dominika Salkova",
+      "score": "6-7 4-6",
+      "resolved_at": "2026-07-20T21:41:05.984997+00:00"
     },
     {
       "id": "2026_07_20_alycia_parks_vs_lucie_havlickova_alycia_parks_lucie_havlickova",
@@ -3829,13 +3921,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Lucie Havlickova",
-      "score": "2-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.511250+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Alycia Parks vs Lucie Havlickova",
-      "result_date": "2026-07-20"
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED",
+      "winner": "Lucie Havlickova",
+      "score": "2-6 4-6",
+      "resolved_at": "2026-07-20T21:41:05.986810+00:00"
     },
     {
       "id": "2026_07_20_varvara_lepchenko_vs_elina_avanesyan_elina_avanesyan_varvara_lepchenko",
@@ -3871,13 +3964,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Elina Avanesyan",
-      "score": "6-4 6-7 3-6",
       "units": 0.5,
-      "resolved_at": "2026-07-20T20:50:50.512489+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Varvara Lepchenko vs Elina Avanesyan",
-      "result_date": "2026-07-20"
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED",
+      "winner": "Elina Avanesyan",
+      "score": "6-4 6-7 3-6",
+      "resolved_at": "2026-07-20T21:41:05.988865+00:00"
     },
     {
       "id": "2026_07_20_lina_gjorcheska_vs_erika_andreeva_erika_andreeva_lina_gjorcheska",
@@ -3913,13 +4007,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Erika Andreeva",
-      "score": "2-6 0-6",
       "units": 0.67,
-      "resolved_at": "2026-07-20T20:50:50.513835+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Lina Gjorcheska vs Erika Andreeva",
-      "result_date": "2026-07-20"
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED",
+      "winner": "Erika Andreeva",
+      "score": "2-6 0-6",
+      "resolved_at": "2026-07-20T21:41:05.990998+00:00"
     },
     {
       "id": "2026_07_20_kaitlin_quevedo_vs_anhelina_kalinina_anhelina_kalinina_kaitlin_quevedo",
@@ -3955,13 +4050,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Anhelina Kalinina",
-      "score": "5-7 4-6",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.514836+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Kaitlin Quevedo vs Anhelina Kalinina",
-      "result_date": "2026-07-20"
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED",
+      "winner": "Anhelina Kalinina",
+      "score": "5-7 4-6",
+      "resolved_at": "2026-07-20T21:41:05.992606+00:00"
     },
     {
       "id": "2026_07_20_joel_schwaerzler_vs_jurij_rodionov_jurij_rodionov_joel_schwaerzler",
@@ -3997,13 +4093,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Jurij Rodionov",
-      "score": "4-6 2-6",
       "units": 0.73,
-      "resolved_at": "2026-07-20T20:50:50.515677+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Joel Schwaerzler vs Jurij Rodionov",
-      "result_date": "2026-07-20"
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED",
+      "winner": "Jurij Rodionov",
+      "score": "4-6 2-6",
+      "resolved_at": "2026-07-20T21:41:05.993955+00:00"
     },
     {
       "id": "2026_07_20_henrique_rocha_vs_pedro_martinez_henrique_rocha_pedro_martinez",
@@ -4038,11 +4135,15 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
-      "result_status": "PENDING",
-      "units": 0.0,
-      "resolved_at": null,
-      "result_source": null,
-      "result_match_score": null
+      "result_status": "LOST",
+      "winner": "Pedro Martinez",
+      "score": "5-7 5-7",
+      "units": -1.0,
+      "resolved_at": "2026-07-20T21:41:05.995214+00:00",
+      "result_source": "TennisApi",
+      "result_match_score": "Henrique Rocha vs Pedro Martinez",
+      "result_date": "2026-07-20",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_19_julia_grabher_vs_sinja_kraus_sinja_kraus_julia_grabher",
@@ -4078,13 +4179,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Sinja Kraus",
-      "score": "3-6 1-6",
       "units": 0.5,
-      "resolved_at": "2026-07-20T20:50:50.502329+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Julia Grabher vs Sinja Kraus",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Sinja Kraus",
+      "score": "3-6 1-6",
+      "resolved_at": "2026-07-20T21:41:05.972686+00:00"
     },
     {
       "id": "2026_07_19_kyrian_jacquet_vs_taro_daniel_kyrian_jacquet_taro_daniel",
@@ -4120,13 +4222,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Taro Daniel",
-      "score": "4-6 6-3 3-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.503500+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Kyrian Jacquet vs Taro Daniel",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Taro Daniel",
+      "score": "4-6 6-3 3-6",
+      "resolved_at": "2026-07-20T21:41:05.974596+00:00"
     },
     {
       "id": "2026_07_19_xinyu_gao_vs_linda_fruhvirtova_linda_fruhvirtova_xinyu_gao",
@@ -4162,13 +4265,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Xinyu Gao",
-      "score": "6-2 0-6 6-3",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.504921+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Xinyu Gao vs Linda Fruhvirtova",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Xinyu Gao",
+      "score": "6-2 0-6 6-3",
+      "resolved_at": "2026-07-20T21:41:05.976761+00:00"
     },
     {
       "id": "2026_07_19_andrey_rublev_vs_luciano_darderi_andrey_rublev_luciano_darderi",
@@ -4204,13 +4308,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Andrey Rublev",
-      "score": "6-4 6-3",
       "units": 0.73,
-      "resolved_at": "2026-07-20T20:50:50.505662+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Andrey Rublev vs Luciano Darderi",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Andrey Rublev",
+      "score": "6-4 6-3",
+      "resolved_at": "2026-07-20T21:41:05.977926+00:00"
     },
     {
       "id": "2026_07_19_julia_avdeeva_vs_jule_niemeier_julia_avdeeva_jule_niemeier",
@@ -4246,13 +4351,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Jule Niemeier",
-      "score": "5-7 6-2 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.506912+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Julia Avdeeva vs Jule Niemeier",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Jule Niemeier",
+      "score": "5-7 6-2 4-6",
+      "resolved_at": "2026-07-20T21:41:05.979926+00:00"
     },
     {
       "id": "2026_07_19_jurij_rodionov_vs_vitaliy_sachko_jurij_rodionov_vitaliy_sachko",
@@ -4288,13 +4394,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Jurij Rodionov",
-      "score": "6-4 7-6",
       "units": 0.67,
-      "resolved_at": "2026-07-20T20:50:50.507739+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Jurij Rodionov vs Vitaliy Sachko",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Jurij Rodionov",
+      "score": "6-4 7-6",
+      "resolved_at": "2026-07-20T21:41:05.981254+00:00"
     },
     {
       "id": "2026_07_19_stefanos_tsitsipas_vs_raphael_collignon_raphael_collignon_stefanos_tsitsipas",
@@ -4330,13 +4437,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Stefanos Tsitsipas",
-      "score": "6-4 6-7 6-3",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.508868+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Stefanos Tsitsipas vs Raphael Collignon",
-      "result_date": "2026-07-19"
+      "result_date": "2026-07-19",
+      "result_raw_status": "FINISHED",
+      "winner": "Stefanos Tsitsipas",
+      "score": "6-4 6-7 6-3",
+      "resolved_at": "2026-07-20T21:41:05.983091+00:00"
     },
     {
       "id": "2026_07_18_federica_urgesi_vs_yelyzaveta_kotliar_federica_urgesi_yelyzaveta_kotliar",
@@ -4371,14 +4479,16 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
-      "result_status": "LOST",
-      "winner": "Yelyzaveta Kotliar",
-      "score": null,
-      "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.492730+00:00",
+      "result_status": "VOID",
+      "units": 0.0,
       "result_source": "TennisApi",
       "result_match_score": "Federica Urgesi vs Yelyzaveta Kotliar",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Yelyzaveta Kotliar",
+      "score": null,
+      "resolved_at": "2026-07-20T21:41:05.957453+00:00",
+      "result_void_reason": "api_status:VOID | FINISHED | FINISHED"
     },
     {
       "id": "2026_07_18_lucija_iri_bagari_vs_amarissa_kiara_toth_amarissa_kiara_toth_lucija_iri_bagari",
@@ -4413,14 +4523,16 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
-      "result_status": "WON",
-      "winner": "Amarissa Kiara Toth",
-      "score": null,
-      "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.494116+00:00",
+      "result_status": "VOID",
+      "units": 0.0,
       "result_source": "TennisApi",
       "result_match_score": "Lucija Ćirić-Bagarić vs Amarissa Kiara Toth",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Amarissa Kiara Toth",
+      "score": null,
+      "resolved_at": "2026-07-20T21:41:05.959610+00:00",
+      "result_void_reason": "api_status:VOID | FINISHED | FINISHED"
     },
     {
       "id": "2026_07_18_martina_trevisan_vs_francesca_jones_francesca_jones_martina_trevisan",
@@ -4456,13 +4568,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Francesca Jones",
-      "score": "6-2 1-6 1-6",
       "units": 0.57,
-      "resolved_at": "2026-07-20T20:50:50.495354+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Martina Trevisan vs Francesca Jones",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Francesca Jones",
+      "score": "6-2 1-6 1-6",
+      "resolved_at": "2026-07-20T21:41:05.961552+00:00"
     },
     {
       "id": "2026_07_18_viktoria_morvayova_vs_ayla_aksu_ayla_aksu_viktoria_morvayova",
@@ -4498,13 +4611,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Ayla Aksu",
-      "score": "3-6 3-6",
       "units": 0.4,
-      "resolved_at": "2026-07-20T20:50:50.496476+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Viktoria Morvayova vs Ayla Aksu",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Ayla Aksu",
+      "score": "3-6 3-6",
+      "resolved_at": "2026-07-20T21:41:05.963325+00:00"
     },
     {
       "id": "2026_07_18_raphael_collignon_vs_juan_manuel_cerundolo_raphael_collignon_juan_manuel_cerundolo",
@@ -4540,13 +4654,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Raphael Collignon",
-      "score": "1-6 7-6 7-5",
       "units": 0.62,
-      "resolved_at": "2026-07-20T20:50:50.497910+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Raphael Collignon vs Juan Manuel Cerundolo",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Raphael Collignon",
+      "score": "1-6 7-6 7-5",
+      "resolved_at": "2026-07-20T21:41:05.965600+00:00"
     },
     {
       "id": "2026_07_18_marina_bassols_ribera_vs_sinja_kraus_sinja_kraus_marina_bassols_ribera",
@@ -4582,13 +4697,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Sinja Kraus",
-      "score": "6-3 4-6 1-6",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.499583+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Marina Bassols Ribera vs Sinja Kraus",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Sinja Kraus",
+      "score": "6-3 4-6 1-6",
+      "resolved_at": "2026-07-20T21:41:05.968277+00:00"
     },
     {
       "id": "2026_07_18_adolfo_daniel_vallejo_vs_luciano_darderi_luciano_darderi_adolfo_daniel_vallejo",
@@ -4624,13 +4740,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Luciano Darderi",
-      "score": "4-6 7-6 3-6",
       "units": 0.5,
-      "resolved_at": "2026-07-20T20:50:50.500968+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Adolfo Daniel Vallejo vs Luciano Darderi",
-      "result_date": "2026-07-18"
+      "result_date": "2026-07-18",
+      "result_raw_status": "FINISHED",
+      "winner": "Luciano Darderi",
+      "score": "4-6 7-6 3-6",
+      "resolved_at": "2026-07-20T21:41:05.970503+00:00"
     },
     {
       "id": "2026_07_17_deborah_chiesa_vs_lucia_bronzetti_lucia_bronzetti_deborah_chiesa",
@@ -4666,13 +4783,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Lucia Bronzetti",
-      "score": "6-2 3-6 2-6",
       "units": 0.57,
-      "resolved_at": "2026-07-20T20:50:50.485105+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Deborah Chiesa vs Lucia Bronzetti",
-      "result_date": "2026-07-17"
+      "result_date": "2026-07-17",
+      "result_raw_status": "FINISHED",
+      "winner": "Lucia Bronzetti",
+      "score": "6-2 3-6 2-6",
+      "resolved_at": "2026-07-20T21:41:05.945237+00:00"
     },
     {
       "id": "2026_07_17_yulia_putintseva_vs_mayar_sherif_yulia_putintseva_mayar_sherif",
@@ -4708,13 +4826,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Mayar Sherif",
-      "score": "2-6 6-3 6-7",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.486544+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Yulia Putintseva vs Mayar Sherif",
-      "result_date": "2026-07-17"
+      "result_date": "2026-07-17",
+      "result_raw_status": "FINISHED",
+      "winner": "Mayar Sherif",
+      "score": "2-6 6-3 6-7",
+      "resolved_at": "2026-07-20T21:41:05.947548+00:00"
     },
     {
       "id": "2026_07_17_veronika_erjavec_vs_gina_feistel_veronika_erjavec_gina_feistel",
@@ -4750,13 +4869,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Veronika Erjavec",
-      "score": "6-2 7-5",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.487668+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Veronika Erjavec vs Gina Feistel",
-      "result_date": "2026-07-17"
+      "result_date": "2026-07-17",
+      "result_raw_status": "FINISHED",
+      "winner": "Veronika Erjavec",
+      "score": "6-2 7-5",
+      "resolved_at": "2026-07-20T21:41:05.949366+00:00"
     },
     {
       "id": "2026_07_17_hanne_vandewinkel_vs_harmony_tan_hanne_vandewinkel_harmony_tan",
@@ -4795,11 +4915,12 @@
       "winner": "Hanne Vandewinkel",
       "score": "6-1 1-0",
       "units": 0.0,
-      "resolved_at": "2026-07-20T20:50:50.518441+00:00",
+      "resolved_at": "2026-07-20T21:41:05.951139+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Hanne Vandewinkel vs Harmony Tan",
       "result_date": "2026-07-17",
-      "result_void_reason": "incomplete_score_with_winner:6-1 1-0"
+      "result_void_reason": "api_status:VOID | FINISHED | FINISHED",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_17_andrey_rublev_vs_sebasti_n_b_ez_andrey_rublev_sebasti_n_b_ez",
@@ -4835,13 +4956,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Andrey Rublev",
-      "score": "6-1 6-2",
       "units": 0.57,
-      "resolved_at": "2026-07-20T20:50:50.489506+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Andrey Rublev vs Sebastián Báez",
-      "result_date": "2026-07-17"
+      "result_date": "2026-07-17",
+      "result_raw_status": "FINISHED",
+      "winner": "Andrey Rublev",
+      "score": "6-1 6-2",
+      "resolved_at": "2026-07-20T21:41:05.952370+00:00"
     },
     {
       "id": "2026_07_17_nuria_brancaccio_vs_julia_riera_julia_riera_nuria_brancaccio",
@@ -4877,13 +4999,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Nuria Brancaccio",
-      "score": "6-3 1-6 7-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.490688+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Nuria Brancaccio vs Julia Riera",
-      "result_date": "2026-07-17"
+      "result_date": "2026-07-17",
+      "result_raw_status": "FINISHED",
+      "winner": "Nuria Brancaccio",
+      "score": "6-3 1-6 7-6",
+      "resolved_at": "2026-07-20T21:41:05.954255+00:00"
     },
     {
       "id": "2026_07_17_alejandro_tabilo_vs_thiago_agustin_tirante_alejandro_tabilo_thiago_agustin_tirante",
@@ -4918,14 +5041,16 @@
       "bet_tag": "INFO ONLY",
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
-      "result_status": "WON",
-      "winner": "Alejandro Tabilo",
-      "score": null,
-      "units": 0.73,
-      "resolved_at": "2026-07-20T20:50:50.491460+00:00",
+      "result_status": "VOID",
+      "units": 0.0,
       "result_source": "TennisApi",
       "result_match_score": "Alejandro Tabilo vs Thiago Agustin Tirante",
-      "result_date": "2026-07-17"
+      "result_date": "2026-07-17",
+      "result_raw_status": "FINISHED",
+      "winner": "Alejandro Tabilo",
+      "score": null,
+      "resolved_at": "2026-07-20T21:41:05.955489+00:00",
+      "result_void_reason": "api_status:VOID | FINISHED | FINISHED"
     },
     {
       "id": "2026_07_16_anastasia_zakharova_vs_alexandra_shubladze_anastasia_zakharova_alexandra_shubladze",
@@ -4961,13 +5086,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Anastasia Zakharova",
-      "score": "7-6 7-6",
       "units": 0.62,
-      "resolved_at": "2026-07-20T20:50:50.475177+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Anastasia Zakharova vs Alexandra Shubladze",
-      "result_date": "2026-07-16"
+      "result_date": "2026-07-16",
+      "result_raw_status": "FINISHED",
+      "winner": "Anastasia Zakharova",
+      "score": "7-6 7-6",
+      "resolved_at": "2026-07-20T21:41:05.928826+00:00"
     },
     {
       "id": "2026_07_16_gina_feistel_vs_laura_samson_laura_samson_gina_feistel",
@@ -5003,13 +5129,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Gina Feistel",
-      "score": "6-3 6-1",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.476828+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Gina Feistel vs Laura Samson",
-      "result_date": "2026-07-16"
+      "result_date": "2026-07-16",
+      "result_raw_status": "FINISHED",
+      "winner": "Gina Feistel",
+      "score": "6-3 6-1",
+      "resolved_at": "2026-07-20T21:41:05.931515+00:00"
     },
     {
       "id": "2026_07_16_aurora_zantedeschi_vs_martina_trevisan_martina_trevisan_aurora_zantedeschi",
@@ -5045,13 +5172,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Martina Trevisan",
-      "score": "1-6 6-7",
       "units": 0.67,
-      "resolved_at": "2026-07-20T20:50:50.478108+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Aurora Zantedeschi vs Martina Trevisan",
-      "result_date": "2026-07-16"
+      "result_date": "2026-07-16",
+      "result_raw_status": "FINISHED",
+      "winner": "Martina Trevisan",
+      "score": "1-6 6-7",
+      "resolved_at": "2026-07-20T21:41:05.933602+00:00"
     },
     {
       "id": "2026_07_16_vera_zvonareva_vs_viktoria_hrun_akova_vera_zvonareva_viktoria_hrun_akova",
@@ -5087,13 +5215,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Vera Zvonareva",
-      "score": "7-6 6-3",
       "units": 0.73,
-      "resolved_at": "2026-07-20T20:50:50.479307+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Vera Zvonareva vs Viktoria Hrunčakova",
-      "result_date": "2026-07-16"
+      "result_date": "2026-07-16",
+      "result_raw_status": "FINISHED",
+      "winner": "Vera Zvonareva",
+      "score": "7-6 6-3",
+      "resolved_at": "2026-07-20T21:41:05.935580+00:00"
     },
     {
       "id": "2026_07_16_alexander_bublik_vs_quentin_halys_alexander_bublik_quentin_halys",
@@ -5168,13 +5297,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Alex Molčan",
-      "score": "3-6 6-1 6-2",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.483067+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Alex Molčan vs Alejandro Davidovich Fokina",
-      "result_date": "2026-07-16"
+      "result_date": "2026-07-16",
+      "result_raw_status": "FINISHED",
+      "winner": "Alex Molčan",
+      "score": "3-6 6-1 6-2",
+      "resolved_at": "2026-07-20T21:41:05.941899+00:00"
     },
     {
       "id": "2026_07_16_damir_d_umhur_vs_matteo_arnaldi_matteo_arnaldi_damir_d_umhur",
@@ -5210,13 +5340,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Damir Džumhur",
-      "score": "7-6 6-7 7-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.483910+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Damir Džumhur vs Matteo Arnaldi",
-      "result_date": "2026-07-16"
+      "result_date": "2026-07-16",
+      "result_raw_status": "FINISHED",
+      "winner": "Damir Džumhur",
+      "score": "7-6 6-7 7-6",
+      "resolved_at": "2026-07-20T21:41:05.943302+00:00"
     },
     {
       "id": "2026_07_15_flavio_cobolli_vs_roman_andres_burruchaga_flavio_cobolli_roman_andres_burruchaga",
@@ -5252,13 +5383,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Roman Andres Burruchaga",
-      "score": "2-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.464542+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Flavio Cobolli vs Roman Andres Burruchaga",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Roman Andres Burruchaga",
+      "score": "2-6 4-6",
+      "resolved_at": "2026-07-20T21:41:05.911867+00:00"
     },
     {
       "id": "2026_07_15_mai_hontama_vs_alycia_parks_alycia_parks_mai_hontama",
@@ -5294,13 +5426,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Alycia Parks",
-      "score": "7-6 2-6 5-7",
       "units": 0.62,
-      "resolved_at": "2026-07-20T20:50:50.465701+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Mai Hontama vs Alycia Parks",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Alycia Parks",
+      "score": "7-6 2-6 5-7",
+      "resolved_at": "2026-07-20T21:41:05.913634+00:00"
     },
     {
       "id": "2026_07_15_arthur_rinderknech_vs_clement_tabur_arthur_rinderknech_clement_tabur",
@@ -5336,13 +5469,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Arthur Rinderknech",
-      "score": "6-7 7-6 7-5",
       "units": 0.5,
-      "resolved_at": "2026-07-20T20:50:50.467256+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Arthur Rinderknech vs Clement Tabur",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Arthur Rinderknech",
+      "score": "6-7 7-6 7-5",
+      "resolved_at": "2026-07-20T21:41:05.916137+00:00"
     },
     {
       "id": "2026_07_15_raphael_collignon_vs_lorenzo_sonego_raphael_collignon_lorenzo_sonego",
@@ -5378,13 +5512,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Raphael Collignon",
-      "score": "7-6 7-6",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.468819+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Raphael Collignon vs Lorenzo Sonego",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Raphael Collignon",
+      "score": "7-6 7-6",
+      "resolved_at": "2026-07-20T21:41:05.918622+00:00"
     },
     {
       "id": "2026_07_15_yulia_putintseva_vs_alina_charaeva_yulia_putintseva_alina_charaeva",
@@ -5420,13 +5555,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Yulia Putintseva",
-      "score": "6-3 6-3",
       "units": 0.57,
-      "resolved_at": "2026-07-20T20:50:50.470571+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Yulia Putintseva vs Alina Charaeva",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Yulia Putintseva",
+      "score": "6-3 6-3",
+      "resolved_at": "2026-07-20T21:41:05.921378+00:00"
     },
     {
       "id": "2026_07_15_lola_radivojevi_vs_deborah_chiesa_lola_radivojevi_deborah_chiesa",
@@ -5462,13 +5598,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Deborah Chiesa",
-      "score": "2-6 2-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.472539+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Lola Radivojević vs Deborah Chiesa",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Deborah Chiesa",
+      "score": "2-6 2-6",
+      "resolved_at": "2026-07-20T21:41:05.924512+00:00"
     },
     {
       "id": "2026_07_15_darya_astakhova_vs_noma_noha_akugue_noma_noha_akugue_darya_astakhova",
@@ -5504,13 +5641,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Noma Noha Akugue",
-      "score": "7-5 2-6 3-6",
       "units": 0.5,
-      "resolved_at": "2026-07-20T20:50:50.473925+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Darya Astakhova vs Noma Noha Akugue",
-      "result_date": "2026-07-15"
+      "result_date": "2026-07-15",
+      "result_raw_status": "FINISHED",
+      "winner": "Noma Noha Akugue",
+      "score": "7-5 2-6 3-6",
+      "resolved_at": "2026-07-20T21:41:05.926760+00:00"
     },
     {
       "id": "2026_07_14_fiona_ferro_vs_aurora_zantedeschi_fiona_ferro_aurora_zantedeschi",
@@ -5546,13 +5684,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Aurora Zantedeschi",
-      "score": "4-6 6-2 3-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.455182+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Fiona Ferro vs Aurora Zantedeschi",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "FINISHED",
+      "winner": "Aurora Zantedeschi",
+      "score": "4-6 6-2 3-6",
+      "resolved_at": "2026-07-20T21:41:05.896904+00:00"
     },
     {
       "id": "2026_07_14_matej_dodig_vs_pablo_carre_o_busta_pablo_carre_o_busta_matej_dodig",
@@ -5588,13 +5727,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Pablo Carreño Busta",
-      "score": "4-6 2-6",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.456150+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Matej Dodig vs Pablo Carreño Busta",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "FINISHED",
+      "winner": "Pablo Carreño Busta",
+      "score": "4-6 2-6",
+      "resolved_at": "2026-07-20T21:41:05.898522+00:00"
     },
     {
       "id": "2026_07_14_botic_van_de_zandschulp_vs_taro_daniel_botic_van_de_zandschulp_taro_daniel",
@@ -5630,13 +5770,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Botic Van de Zandschulp",
-      "score": "7-6 6-4",
       "units": 0.67,
-      "resolved_at": "2026-07-20T20:50:50.458239+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Botic Van de Zandschulp vs Taro Daniel",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "FINISHED",
+      "winner": "Botic Van de Zandschulp",
+      "score": "7-6 6-4",
+      "resolved_at": "2026-07-20T21:41:05.901805+00:00"
     },
     {
       "id": "2026_07_14_titouan_droguet_vs_alexander_blockx_alexander_blockx_titouan_droguet",
@@ -5672,13 +5813,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Titouan Droguet",
-      "score": "3-6 6-2 6-0",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.459438+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Titouan Droguet vs Alexander Blockx",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "FINISHED",
+      "winner": "Titouan Droguet",
+      "score": "3-6 6-2 6-0",
+      "resolved_at": "2026-07-20T21:41:05.903537+00:00"
     },
     {
       "id": "2026_07_14_stefano_travaglia_vs_martin_krumich_stefano_travaglia_martin_krumich",
@@ -5714,13 +5856,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Stefano Travaglia",
-      "score": "6-4 6-2",
       "units": 1.1,
-      "resolved_at": "2026-07-20T20:50:50.460194+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Stefano Travaglia vs Martin Krumich",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "FINISHED",
+      "winner": "Stefano Travaglia",
+      "score": "6-4 6-2",
+      "resolved_at": "2026-07-20T21:41:05.904869+00:00"
     },
     {
       "id": "2026_07_14_sapfo_sakellaridi_vs_miriana_tona_miriana_tona_sapfo_sakellaridi",
@@ -5756,13 +5899,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Miriana Tona",
-      "score": "6-7 7-5 2-6",
       "units": 1.38,
-      "resolved_at": "2026-07-20T20:50:50.461432+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Sapfo Sakellaridi vs Miriana Tona",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "FINISHED",
+      "winner": "Miriana Tona",
+      "score": "6-7 7-5 2-6",
+      "resolved_at": "2026-07-20T21:41:05.906888+00:00"
     },
     {
       "id": "2026_07_14_yulia_putintseva_vs_claire_liu_yulia_putintseva_claire_liu",
@@ -5801,10 +5945,12 @@
       "winner": null,
       "score": null,
       "units": 0.0,
-      "resolved_at": "2026-07-20T20:50:50.463599+00:00",
+      "resolved_at": "2026-07-20T21:41:05.910301+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Yulia Putintseva vs Leolia Jeanjean",
-      "result_date": "2026-07-14"
+      "result_date": "2026-07-14",
+      "result_raw_status": "VOID",
+      "result_void_reason": "api_status:VOID | VOID | VOID"
     },
     {
       "id": "2026_07_13_mia_risti_vs_mia_pohankova_mia_pohankova_mia_risti",
@@ -5840,13 +5986,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Mia Ristić",
-      "score": "6-3 7-5",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.443468+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Mia Ristić vs Mia Pohankova",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Mia Ristić",
+      "score": "6-3 7-5",
+      "resolved_at": "2026-07-20T21:41:05.877951+00:00"
     },
     {
       "id": "2026_07_13_carlos_sanchez_jover_vs_taro_daniel_taro_daniel_carlos_sanchez_jover",
@@ -5882,13 +6029,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Taro Daniel",
-      "score": "2-6 6-2 2-6",
       "units": 0.4,
-      "resolved_at": "2026-07-20T20:50:50.445293+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Carlos Sanchez Jover vs Taro Daniel",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Taro Daniel",
+      "score": "2-6 6-2 2-6",
+      "resolved_at": "2026-07-20T21:41:05.880876+00:00"
     },
     {
       "id": "2026_07_13_francesco_passaro_vs_martin_krumich_francesco_passaro_martin_krumich",
@@ -5924,13 +6072,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Martin Krumich",
-      "score": "4-6 3-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.447099+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Francesco Passaro vs Martin Krumich",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Martin Krumich",
+      "score": "4-6 3-6",
+      "resolved_at": "2026-07-20T21:41:05.883767+00:00"
     },
     {
       "id": "2026_07_13_hanne_vandewinkel_vs_carol_young_suh_lee_hanne_vandewinkel_carol_young_suh_lee",
@@ -5966,13 +6115,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Hanne Vandewinkel",
-      "score": "6-3 6-3",
       "units": 0.62,
-      "resolved_at": "2026-07-20T20:50:50.448514+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Hanne Vandewinkel vs Carol Young-suh Lee",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Hanne Vandewinkel",
+      "score": "6-3 6-3",
+      "resolved_at": "2026-07-20T21:41:05.886068+00:00"
     },
     {
       "id": "2026_07_13_lorenzo_sonego_vs_joel_schwaerzler_lorenzo_sonego_joel_schwaerzler",
@@ -6008,13 +6158,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Lorenzo Sonego",
-      "score": "6-4 7-6",
       "units": 0.4,
-      "resolved_at": "2026-07-20T20:50:50.450227+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Lorenzo Sonego vs Joel Schwaerzler",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Lorenzo Sonego",
+      "score": "6-4 7-6",
+      "resolved_at": "2026-07-20T21:41:05.888857+00:00"
     },
     {
       "id": "2026_07_13_qinwen_zheng_vs_jessica_bouzas_maneiro_qinwen_zheng_jessica_bouzas_maneiro",
@@ -6050,13 +6201,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Qinwen Zheng",
-      "score": "7-5 6-1",
       "units": 0.4,
-      "resolved_at": "2026-07-20T20:50:50.451316+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Qinwen Zheng vs Jessica Bouzas Maneiro",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Qinwen Zheng",
+      "score": "7-5 6-1",
+      "resolved_at": "2026-07-20T21:41:05.890705+00:00"
     },
     {
       "id": "2026_07_13_varvara_panshina_vs_weronika_falkowska_varvara_panshina_weronika_falkowska",
@@ -6092,13 +6244,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Weronika Falkowska",
-      "score": "4-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.453453+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Varvara Panshina vs Weronika Falkowska",
-      "result_date": "2026-07-13"
+      "result_date": "2026-07-13",
+      "result_raw_status": "FINISHED",
+      "winner": "Weronika Falkowska",
+      "score": "4-6 4-6",
+      "resolved_at": "2026-07-20T21:41:05.894133+00:00"
     },
     {
       "id": "2026_07_12_amandine_hesse_vs_yelyzaveta_kotliar_amandine_hesse_yelyzaveta_kotliar",
@@ -6134,13 +6287,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Yelyzaveta Kotliar",
-      "score": "3-6 7-5 3-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.438668+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Amandine Hesse vs Yelyzaveta Kotliar",
-      "result_date": "2026-07-12"
+      "result_date": "2026-07-12",
+      "result_raw_status": "FINISHED",
+      "winner": "Yelyzaveta Kotliar",
+      "score": "3-6 7-5 3-6",
+      "resolved_at": "2026-07-20T21:41:05.870328+00:00"
     },
     {
       "id": "2026_07_12_clement_tabur_vs_marc_andrea_huesler_clement_tabur_marc_andrea_huesler",
@@ -6176,13 +6330,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Clement Tabur",
-      "score": "6-4 7-6",
       "units": 0.83,
-      "resolved_at": "2026-07-20T20:50:50.440093+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Clement Tabur vs Marc-Andrea Huesler",
-      "result_date": "2026-07-12"
+      "result_date": "2026-07-12",
+      "result_raw_status": "FINISHED",
+      "winner": "Clement Tabur",
+      "score": "6-4 7-6",
+      "resolved_at": "2026-07-20T21:41:05.872602+00:00"
     },
     {
       "id": "2026_07_12_elena_malygina_vs_viola_turini_viola_turini_elena_malygina",
@@ -6218,13 +6373,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "LOST",
-      "winner": "Elena Malygina",
-      "score": "7-5 4-6 7-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.441449+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Elena Malygina vs Viola Turini",
-      "result_date": "2026-07-12"
+      "result_date": "2026-07-12",
+      "result_raw_status": "FINISHED",
+      "winner": "Elena Malygina",
+      "score": "7-5 4-6 7-6",
+      "resolved_at": "2026-07-20T21:41:05.874722+00:00"
     },
     {
       "id": "2026_07_11_simona_waltert_vs_paula_badosa_paula_badosa_simona_waltert",
@@ -6260,13 +6416,14 @@
       "top_mode": "TOP7_DUAL_MODEL_CONSENSUS",
       "top_reason": "TOP7: CorqQ/ThinqQ 80/20, odds >= 1.40, model_gap <= 15%, both probabilities required",
       "result_status": "WON",
-      "winner": "Paula Badosa",
-      "score": "5-7 5-7",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.437371+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Simona Waltert vs Paula Badosa",
-      "result_date": "2026-07-11"
+      "result_date": "2026-07-11",
+      "result_raw_status": "FINISHED",
+      "winner": "Paula Badosa",
+      "score": "5-7 5-7",
+      "resolved_at": "2026-07-20T21:41:05.868250+00:00"
     },
     {
       "id": "2026_07_10_kaitlin_quevedo_vs_simona_waltert_kaitlin_quevedo_simona_waltert",
@@ -6302,13 +6459,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "LOST",
-      "winner": "Simona Waltert",
-      "score": "5-7 2-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.433239+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Kaitlin Quevedo vs Simona Waltert",
-      "result_date": "2026-07-10"
+      "result_date": "2026-07-10",
+      "result_raw_status": "FINISHED",
+      "winner": "Simona Waltert",
+      "score": "5-7 2-6",
+      "resolved_at": "2026-07-20T21:41:05.861335+00:00"
     },
     {
       "id": "2026_07_10_francesca_curmi_vs_jeline_vandromme_jeline_vandromme_francesca_curmi",
@@ -6344,13 +6502,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Jeline Vandromme",
-      "score": "3-6 0-6",
       "units": 0.57,
-      "resolved_at": "2026-07-20T20:50:50.434420+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Francesca Curmi vs Jeline Vandromme",
-      "result_date": "2026-07-10"
+      "result_date": "2026-07-10",
+      "result_raw_status": "FINISHED",
+      "winner": "Jeline Vandromme",
+      "score": "3-6 0-6",
+      "resolved_at": "2026-07-20T21:41:05.863280+00:00"
     },
     {
       "id": "2026_07_10_anna_blinkova_vs_aurora_zantedeschi_anna_blinkova_aurora_zantedeschi",
@@ -6386,13 +6545,14 @@
       "top_mode": "BST_REQUIRED_RELAXED",
       "top_reason": "BsT AI OK required; relaxed odds/probability fallback",
       "result_status": "LOST",
-      "winner": "Aurora Zantedeschi",
-      "score": "4-6 6-7",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.435318+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Anna Blinkova vs Aurora Zantedeschi",
-      "result_date": "2026-07-10"
+      "result_date": "2026-07-10",
+      "result_raw_status": "FINISHED",
+      "winner": "Aurora Zantedeschi",
+      "score": "4-6 6-7",
+      "resolved_at": "2026-07-20T21:41:05.864824+00:00"
     },
     {
       "id": "2026_07_10_jannik_sinner_vs_novak_djokovic_jannik_sinner_novak_djokovic",
@@ -6430,13 +6590,14 @@
       "top_mode": "BST_REQUIRED_RELAXED",
       "top_reason": "BsT AI OK required; relaxed odds/probability fallback",
       "result_status": "WON",
-      "winner": "Jannik Sinner",
-      "score": "6-4 6-4 6-4",
       "units": 0.2,
-      "resolved_at": "2026-07-20T20:50:50.436162+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Jannik Sinner vs Novak Djokovic",
-      "result_date": "2026-07-10"
+      "result_date": "2026-07-10",
+      "result_raw_status": "FINISHED",
+      "winner": "Jannik Sinner",
+      "score": "6-4 6-4 6-4",
+      "resolved_at": "2026-07-20T21:41:05.866270+00:00"
     },
     {
       "id": "2026_07_09_lisa_pigato_vs_aurora_zantedeschi_lisa_pigato_aurora_zantedeschi",
@@ -6475,11 +6636,12 @@
       "winner": "Aurora Zantedeschi",
       "score": "2-6 5-5",
       "units": 0.0,
-      "resolved_at": "2026-07-20T20:50:50.518327+00:00",
+      "resolved_at": "2026-07-20T21:41:05.852376+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Lisa Pigato vs Aurora Zantedeschi",
       "result_date": "2026-07-09",
-      "result_void_reason": "incomplete_score_with_winner:2-6 5-5"
+      "result_void_reason": "api_status:VOID | FINISHED | FINISHED",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_09_sinja_kraus_vs_yulia_putintseva_yulia_putintseva_sinja_kraus",
@@ -6515,13 +6677,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Yulia Putintseva",
-      "score": "2-6 3-6",
       "units": 0.73,
-      "resolved_at": "2026-07-20T20:50:50.428692+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Sinja Kraus vs Yulia Putintseva",
-      "result_date": "2026-07-09"
+      "result_date": "2026-07-09",
+      "result_raw_status": "FINISHED",
+      "winner": "Yulia Putintseva",
+      "score": "2-6 3-6",
+      "resolved_at": "2026-07-20T21:41:05.853993+00:00"
     },
     {
       "id": "2026_07_09_marta_kostyuk_vs_linda_noskova_marta_kostyuk_linda_noskova",
@@ -6557,13 +6720,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "LOST",
-      "winner": "Linda Noskova",
-      "score": "4-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.429594+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Marta Kostyuk vs Linda Noskova",
-      "result_date": "2026-07-09"
+      "result_date": "2026-07-09",
+      "result_raw_status": "FINISHED",
+      "winner": "Linda Noskova",
+      "score": "4-6 4-6",
+      "resolved_at": "2026-07-20T21:41:05.855523+00:00"
     },
     {
       "id": "2026_07_09_simona_waltert_vs_leyre_romero_gormaz_simona_waltert_leyre_romero_gormaz",
@@ -6599,13 +6763,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Simona Waltert",
-      "score": "6-2 6-1",
       "units": 0.5,
-      "resolved_at": "2026-07-20T20:50:50.430997+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Simona Waltert vs Leyre Romero Gormaz",
-      "result_date": "2026-07-09"
+      "result_date": "2026-07-09",
+      "result_raw_status": "FINISHED",
+      "winner": "Simona Waltert",
+      "score": "6-2 6-1",
+      "resolved_at": "2026-07-20T21:41:05.857765+00:00"
     },
     {
       "id": "2026_07_09_francesca_jones_vs_leolia_jeanjean_leolia_jeanjean_francesca_jones",
@@ -6641,13 +6806,14 @@
       "top_mode": "BST_REQUIRED_RELAXED",
       "top_reason": "BsT AI OK required; relaxed odds/probability fallback",
       "result_status": "WON",
-      "winner": "Leolia Jeanjean",
-      "score": "6-1 4-6 5-7",
       "units": 0.83,
-      "resolved_at": "2026-07-20T20:50:50.432079+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Francesca Jones vs Leolia Jeanjean",
-      "result_date": "2026-07-09"
+      "result_date": "2026-07-09",
+      "result_raw_status": "FINISHED",
+      "winner": "Leolia Jeanjean",
+      "score": "6-1 4-6 5-7",
+      "resolved_at": "2026-07-20T21:41:05.859431+00:00"
     },
     {
       "id": "2026_07_08_sinja_kraus_vs_caijsa_wilda_hennemann_sinja_kraus_caijsa_wilda_hennemann",
@@ -6683,13 +6849,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Sinja Kraus",
-      "score": "6-2 6-4",
       "units": 0.3,
-      "resolved_at": "2026-07-20T20:50:50.422240+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Sinja Kraus vs Caijsa Wilda Hennemann",
-      "result_date": "2026-07-08"
+      "result_date": "2026-07-08",
+      "result_raw_status": "FINISHED",
+      "winner": "Sinja Kraus",
+      "score": "6-2 6-4",
+      "resolved_at": "2026-07-20T21:41:05.843439+00:00"
     },
     {
       "id": "2026_07_08_rebeka_masarova_vs_francesca_curmi_rebeka_masarova_francesca_curmi",
@@ -6725,13 +6892,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "LOST",
-      "winner": "Francesca Curmi",
-      "score": "4-6 4-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.423746+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Rebeka Masarova vs Francesca Curmi",
-      "result_date": "2026-07-08"
+      "result_date": "2026-07-08",
+      "result_raw_status": "FINISHED",
+      "winner": "Francesca Curmi",
+      "score": "4-6 4-6",
+      "resolved_at": "2026-07-20T21:41:05.845842+00:00"
     },
     {
       "id": "2026_07_08_taylor_fritz_vs_alexander_zverev_alexander_zverev_taylor_fritz",
@@ -6769,13 +6937,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Alexander Zverev",
-      "score": "4-6 4-6 2-6",
       "units": 1.0,
-      "resolved_at": "2026-07-20T20:50:50.424683+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Taylor Fritz vs Alexander Zverev",
-      "result_date": "2026-07-08"
+      "result_date": "2026-07-08",
+      "result_raw_status": "FINISHED",
+      "winner": "Alexander Zverev",
+      "score": "4-6 4-6 2-6",
+      "resolved_at": "2026-07-20T21:41:05.847335+00:00"
     },
     {
       "id": "2026_07_08_momoko_kobori_vs_elizabeth_mandlik_elizabeth_mandlik_momoko_kobori",
@@ -6811,13 +6980,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Elizabeth Mandlik",
-      "score": "1-6 4-6",
       "units": 0.44,
-      "resolved_at": "2026-07-20T20:50:50.425894+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Momoko Kobori vs Elizabeth Mandlik",
-      "result_date": "2026-07-08"
+      "result_date": "2026-07-08",
+      "result_raw_status": "FINISHED",
+      "winner": "Elizabeth Mandlik",
+      "score": "1-6 4-6",
+      "resolved_at": "2026-07-20T21:41:05.849331+00:00"
     },
     {
       "id": "2026_07_08_flavio_cobolli_vs_arthur_fery_flavio_cobolli_arthur_fery",
@@ -6855,13 +7025,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "LOST",
-      "winner": "Arthur Fery",
-      "score": "4-6 6-7 0-6",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.426737+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Flavio Cobolli vs Arthur Fery",
-      "result_date": "2026-07-08"
+      "result_date": "2026-07-08",
+      "result_raw_status": "FINISHED",
+      "winner": "Arthur Fery",
+      "score": "4-6 6-7 0-6",
+      "resolved_at": "2026-07-20T21:41:05.850779+00:00"
     },
     {
       "id": "2026_07_07_aurora_zantedeschi_vs_elsa_jacquemot_elsa_jacquemot_aurora_zantedeschi",
@@ -6897,13 +7068,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "LOST",
-      "winner": "Aurora Zantedeschi",
-      "score": "6-1 6-2",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.413516+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Aurora Zantedeschi vs Elsa Jacquemot",
-      "result_date": "2026-07-07"
+      "result_date": "2026-07-07",
+      "result_raw_status": "FINISHED",
+      "winner": "Aurora Zantedeschi",
+      "score": "6-1 6-2",
+      "resolved_at": "2026-07-20T21:41:05.828704+00:00"
     },
     {
       "id": "2026_07_07_momoko_kobori_vs_elizabeth_mandlik_elizabeth_mandlik_momoko_kobori",
@@ -6978,13 +7150,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "WON",
-      "winner": "Lisa Pigato",
-      "score": "1-6 6-1 6-7",
       "units": 0.33,
-      "resolved_at": "2026-07-20T20:50:50.417229+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Angela Fita Boluda vs Lisa Pigato",
-      "result_date": "2026-07-07"
+      "result_date": "2026-07-07",
+      "result_raw_status": "FINISHED",
+      "winner": "Lisa Pigato",
+      "score": "1-6 6-1 6-7",
+      "resolved_at": "2026-07-20T21:41:05.834978+00:00"
     },
     {
       "id": "2026_07_07_dalma_galfi_vs_kajsa_rinaldo_persson_dalma_galfi_kajsa_rinaldo_persson",
@@ -7020,13 +7193,14 @@
       "top_mode": "BST_REQUIRED_PRIMARY",
       "top_reason": "BsT AI OK + AI Match available + usable odds",
       "result_status": "LOST",
-      "winner": "Kajsa Rinaldo Persson",
-      "score": "4-6 6-7",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.418312+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Dalma Galfi vs Kajsa Rinaldo Persson",
-      "result_date": "2026-07-07"
+      "result_date": "2026-07-07",
+      "result_raw_status": "FINISHED",
+      "winner": "Kajsa Rinaldo Persson",
+      "score": "4-6 6-7",
+      "resolved_at": "2026-07-20T21:41:05.836775+00:00"
     },
     {
       "id": "2026_07_07_lea_ma_vs_clervie_ngounoue_clervie_ngounoue_lea_ma",
@@ -7104,10 +7278,11 @@
       "winner": "Marta Kostyuk",
       "score": "2-6 6-4 1-6",
       "units": 0.79,
-      "resolved_at": "2026-07-20T20:50:50.407803+00:00",
+      "resolved_at": "2026-07-20T21:41:05.819009+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Emma Navarro vs Marta Kostyuk",
-      "result_date": "2026-07-04"
+      "result_date": "2026-07-04",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_04_liudmila_samsonova_vs_marie_bouzkova_marie_bouzkova_liudmila_samsonova",
@@ -7146,10 +7321,11 @@
       "winner": "Marie Bouzkova",
       "score": "6-4 6-7 4-6",
       "units": 0.74,
-      "resolved_at": "2026-07-20T20:50:50.409332+00:00",
+      "resolved_at": "2026-07-20T21:41:05.821557+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Liudmila Samsonova vs Marie Bouzkova",
-      "result_date": "2026-07-04"
+      "result_date": "2026-07-04",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_04_jasmine_paolini_vs_maria_sakkari_jasmine_paolini_maria_sakkari",
@@ -7188,10 +7364,11 @@
       "winner": "Jasmine Paolini",
       "score": "6-1 6-2",
       "units": 0.81,
-      "resolved_at": "2026-07-20T20:50:50.410493+00:00",
+      "resolved_at": "2026-07-20T21:41:05.823547+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Jasmine Paolini vs Maria Sakkari",
-      "result_date": "2026-07-04"
+      "result_date": "2026-07-04",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_04_grigor_dimitrov_vs_matteo_berrettini_matteo_berrettini_grigor_dimitrov",
@@ -7232,10 +7409,11 @@
       "winner": "Grigor Dimitrov",
       "score": "6-3 6-4 3-6 5-7 6-3",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.411473+00:00",
+      "resolved_at": "2026-07-20T21:41:05.825263+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Grigor Dimitrov vs Matteo Berrettini",
-      "result_date": "2026-07-04"
+      "result_date": "2026-07-04",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_04_zizou_bergs_vs_arthur_fery_zizou_bergs_arthur_fery",
@@ -7276,10 +7454,11 @@
       "winner": "Arthur Fery",
       "score": "6-2 5-7 6-2 6-7 6-7",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.412375+00:00",
+      "resolved_at": "2026-07-20T21:41:05.826838+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Zizou Bergs vs Arthur Fery",
-      "result_date": "2026-07-04"
+      "result_date": "2026-07-04",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_03_hubert_hurkacz_vs_tommy_paul_tommy_paul_hubert_hurkacz",
@@ -7320,10 +7499,11 @@
       "winner": "Hubert Hurkacz",
       "score": "4-6 7-6 7-5 6-2",
       "units": -1.0,
-      "resolved_at": "2026-07-20T20:50:50.403808+00:00",
+      "resolved_at": "2026-07-20T21:41:05.811626+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Hubert Hurkacz vs Tommy Paul",
-      "result_date": "2026-07-03"
+      "result_date": "2026-07-03",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_03_nikola_bartunkova_vs_barbora_krejcikova_barbora_krejcikova_nikola_bartunkova",
@@ -7362,10 +7542,11 @@
       "winner": "Barbora Krejčiková",
       "score": "3-6 5-7",
       "units": 0.61,
-      "resolved_at": "2026-07-20T20:50:50.405090+00:00",
+      "resolved_at": "2026-07-20T21:41:05.814230+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Nikola Bartunkova vs Barbora Krejčiková",
-      "result_date": "2026-07-03"
+      "result_date": "2026-07-03",
+      "result_raw_status": "FINISHED"
     },
     {
       "id": "2026_07_03_ekaterina_alexandrova_vs_iva_jovic_iva_jovic_ekaterina_alexandrova",
@@ -7404,10 +7585,11 @@
       "winner": "Iva Jović",
       "score": "3-6 6-3 4-6",
       "units": 0.55,
-      "resolved_at": "2026-07-20T20:50:50.406306+00:00",
+      "resolved_at": "2026-07-20T21:41:05.816459+00:00",
       "result_source": "TennisApi",
       "result_match_score": "Ekaterina Alexandrova vs Iva Jović",
-      "result_date": "2026-07-03"
+      "result_date": "2026-07-03",
+      "result_raw_status": "FINISHED"
     }
   ]
 }
