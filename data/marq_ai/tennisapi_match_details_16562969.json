@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436718.359824,
+  "saved_at": 1784523114.9953678,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "4",
       "awayTeamSeed": "6",
       "tournament": {
@@ -56,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1648,
+          "userCount": 1660,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -96,10 +97,11 @@
       },
       "customId": "BxuslKtd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Kitzbuehel",
@@ -143,7 +145,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 8428,
+        "userCount": 8453,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 73,
@@ -215,7 +217,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1773,
+        "userCount": 1790,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 80,
@@ -289,18 +291,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2593,
+        "period2": 1849,
+        "currentPeriodStartTimestamp": 1784466911
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784468798
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16562969,
       "defaultPeriodCount": 3,
       "slug": "federico-cina-lorenzo-giustino",
-      "startTimestamp": 1784457000,
+      "currentPeriodStartTimestamp": 1784466911,
+      "startTimestamp": 1784462400,
       "periods": {
         "point": "Game",
         "current": "Match",

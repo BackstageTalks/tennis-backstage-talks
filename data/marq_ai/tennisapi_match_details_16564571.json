@@ -1,7 +1,9 @@
 {
-  "saved_at": 1784436743.1423619,
+  "saved_at": 1784523136.981233,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "awayTeamSeed": "8",
       "tournament": {
         "name": "Hamburg, Germany, Qualifying",
         "slug": "hamburg-germany-qualifying",
@@ -54,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 476,
+          "userCount": 506,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +94,11 @@
       },
       "customId": "jCqsOgr",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Hamburg",
@@ -131,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 454,
+        "userCount": 455,
         "playerTeamInfo": {
           "height": 1.73,
           "plays": "right-handed",
@@ -200,7 +203,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1608,
+        "userCount": 1614,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 69,
@@ -242,7 +245,7 @@
             "value": 3922406,
             "currency": "EUR"
           },
-          "currentRanking": 213
+          "currentRanking": 214
         },
         "nameCode": "BAR",
         "ranking": 223,
@@ -275,18 +278,52 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 1,
+        "period3": 1,
+        "point": "15",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 2,
+        "period2": 6,
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1733,
+        "period2": 1683,
+        "period3": 2079,
+        "currentPeriodStartTimestamp": 1784472165
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period3",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784474250
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564571,
       "defaultPeriodCount": 3,
       "slug": "mona-barthel-ekaterina-yashina",
-      "startTimestamp": 1784463000,
+      "currentPeriodStartTimestamp": 1784472165,
+      "startTimestamp": 1784468400,
       "periods": {
         "point": "Game",
         "current": "Match",

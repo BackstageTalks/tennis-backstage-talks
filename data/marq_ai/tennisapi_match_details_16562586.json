@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784436758.4574058,
+  "saved_at": 1784523296.6461823,
   "data": {
     "event": {
       "homeTeamSeed": "WC",
@@ -55,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1648,
+          "userCount": 1660,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -99,6 +99,39 @@
         "description": "Not started",
         "type": "notstarted"
       },
+      "venue": {
+        "city": {
+          "name": "Kitzbuehel",
+          "country": {
+            "alpha2": "AT",
+            "alpha3": "AUT",
+            "name": "Austria",
+            "slug": "austria"
+          },
+          "id": 20653
+        },
+        "hidden": true,
+        "slug": "centre-court",
+        "name": "Centre Court",
+        "country": {
+          "alpha2": "AT",
+          "alpha3": "AUT",
+          "name": "Austria",
+          "slug": "austria"
+        },
+        "id": 17486,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الملعب المركزي",
+            "hi": "सेंटर कोर्ट",
+            "bn": "সেন্টার কোর্ট"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Centre Court"
+        }
+      },
       "homeTeam": {
         "name": "Alexandre Muller",
         "slug": "muller-alexandre",
@@ -109,7 +142,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 6504,
+        "userCount": 6506,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 75,
@@ -150,7 +183,7 @@
             "value": 3753517,
             "currency": "EUR"
           },
-          "currentRanking": 118
+          "currentRanking": 119
         },
         "nameCode": "MUL",
         "ranking": 132,
@@ -195,7 +228,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 8610,
+        "userCount": 8612,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 73,
@@ -224,7 +257,7 @@
             "value": 2666018,
             "currency": "EUR"
           },
-          "currentRanking": 26
+          "currentRanking": 25
         },
         "nameCode": "NAV",
         "ranking": 48,
@@ -271,7 +304,7 @@
       "id": 16562586,
       "defaultPeriodCount": 3,
       "slug": "mariano-navone-alexandre-muller",
-      "startTimestamp": 1784543400,
+      "startTimestamp": 1784538000,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -282,6 +315,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

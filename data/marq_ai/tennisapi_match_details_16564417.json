@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436742.9001138,
+  "saved_at": 1784523129.7052464,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "8",
       "tournament": {
         "name": "Estoril, Portugal, Qualifying",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1994,
+          "userCount": 1989,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +94,11 @@
       },
       "customId": "VyUscHHb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Estoril",
@@ -140,7 +142,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1321,
+        "userCount": 1340,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 78,
@@ -180,7 +182,7 @@
             "value": 668143,
             "currency": "EUR"
           },
-          "currentRanking": 904
+          "currentRanking": 907
         },
         "nameCode": "LUZ",
         "ranking": 1072,
@@ -223,7 +225,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2800,
+        "userCount": 2848,
         "playerTeamInfo": {
           "height": 1.73,
           "weight": 73,
@@ -294,18 +296,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 3,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2750,
+        "period2": 2713,
+        "currentPeriodStartTimestamp": 1784470323
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784473088
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564417,
       "defaultPeriodCount": 3,
       "slug": "clement-tabur-orlando-luz",
-      "startTimestamp": 1784463000,
+      "currentPeriodStartTimestamp": 1784470323,
+      "startTimestamp": 1784466600,
       "periods": {
         "point": "Game",
         "current": "Match",

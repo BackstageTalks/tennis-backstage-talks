@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784436762.4563138,
+  "saved_at": 1784523471.080356,
   "data": {
     "event": {
       "homeTeamSeed": "WC",
@@ -55,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1648,
+          "userCount": 1660,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -99,6 +99,39 @@
         "description": "Not started",
         "type": "notstarted"
       },
+      "venue": {
+        "city": {
+          "name": "Kitzbuehel",
+          "country": {
+            "alpha2": "AT",
+            "alpha3": "AUT",
+            "name": "Austria",
+            "slug": "austria"
+          },
+          "id": 20653
+        },
+        "hidden": true,
+        "slug": "centre-court",
+        "name": "Centre Court",
+        "country": {
+          "alpha2": "AT",
+          "alpha3": "AUT",
+          "name": "Austria",
+          "slug": "austria"
+        },
+        "id": 17486,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الملعب المركزي",
+            "hi": "सेंटर कोर्ट",
+            "bn": "সেন্টার কোর্ট"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Centre Court"
+        }
+      },
       "homeTeam": {
         "name": "Lukas Neumayer",
         "slug": "neumayer-lukas",
@@ -109,7 +142,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2539,
+        "userCount": 2551,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 70,
@@ -138,7 +171,7 @@
             "value": 501178,
             "currency": "EUR"
           },
-          "currentRanking": 133
+          "currentRanking": 137
         },
         "nameCode": "NEU",
         "ranking": 162,
@@ -180,7 +213,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 6887,
+        "userCount": 6893,
         "playerTeamInfo": {
           "height": 1.93,
           "weight": 86,
@@ -267,7 +300,7 @@
       "id": 16562589,
       "defaultPeriodCount": 3,
       "slug": "lukas-neumayer-yannick-hanfmann",
-      "startTimestamp": 1784543400,
+      "startTimestamp": 1784542200,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -278,6 +311,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

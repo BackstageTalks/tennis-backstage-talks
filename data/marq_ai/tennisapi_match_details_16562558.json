@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784436744.2792902,
+  "saved_at": 1784523152.7950594,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "rCVbsMmEd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Oleksandr Ovcharenko",
         "slug": "ovcharenko-oleksandr",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 429,
+        "userCount": 434,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 82,
@@ -174,7 +175,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 251,
+        "userCount": 269,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 73,
@@ -203,7 +204,7 @@
             "value": 26094,
             "currency": "EUR"
           },
-          "currentRanking": 682
+          "currentRanking": 681
         },
         "nameCode": "TUR",
         "ranking": 714,
@@ -235,18 +236,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 1,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784475036
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16562558,
       "defaultPeriodCount": 3,
       "slug": "radu-david-turcanu-oleksandr-ovcharenko",
-      "startTimestamp": 1784469600,
+      "startTimestamp": 1784470192,
       "periods": {
         "point": "Game",
         "current": "Match",

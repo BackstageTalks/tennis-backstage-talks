@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784436741.1096926,
+  "saved_at": 1784523118.905829,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 13,
+          "userCount": 10,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "YdqbspcTb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Oleksii Krutykh",
         "slug": "krutykh-oleksii",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 621,
+        "userCount": 624,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 78,
@@ -132,7 +133,7 @@
             "value": 296465,
             "currency": "EUR"
           },
-          "currentRanking": 549
+          "currentRanking": 550
         },
         "nameCode": "KRU",
         "ranking": 559,
@@ -176,7 +177,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 312,
+        "userCount": 316,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 80,
@@ -247,18 +248,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 5,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784473257
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564514,
       "defaultPeriodCount": 3,
       "slug": "oleksii-krutykh-adrian-oetzbach",
-      "startTimestamp": 1784462400,
+      "startTimestamp": 1784463053,
       "periods": {
         "point": "Game",
         "current": "Match",

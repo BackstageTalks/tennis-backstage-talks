@@ -1,7 +1,9 @@
 {
-  "saved_at": 1784436743.414703,
+  "saved_at": 1784523166.7180312,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "5",
       "tournament": {
         "name": "Hamburg, Germany, Qualifying",
         "slug": "hamburg-germany-qualifying",
@@ -54,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 476,
+          "userCount": 506,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +94,11 @@
       },
       "customId": "Awpcscydd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Hamburg",
@@ -131,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1209,
+        "userCount": 1210,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 249938,
@@ -189,7 +192,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 280,
+        "userCount": 284,
         "playerTeamInfo": {
           "prizeCurrent": 12498,
           "prizeTotal": 68812,
@@ -204,7 +207,7 @@
             "value": 68812,
             "currency": "EUR"
           },
-          "currentRanking": 429
+          "currentRanking": 430
         },
         "nameCode": "MAR",
         "ranking": 440,
@@ -236,18 +239,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 4,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1646,
+        "period2": 2486,
+        "currentPeriodStartTimestamp": 1784477217
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784479758
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564625,
       "defaultPeriodCount": 3,
       "slug": "elena-pridankina-diana-martynov",
-      "startTimestamp": 1784463000,
+      "currentPeriodStartTimestamp": 1784477217,
+      "startTimestamp": 1784474400,
       "periods": {
         "point": "Game",
         "current": "Match",

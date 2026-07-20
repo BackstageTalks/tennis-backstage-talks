@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784436761.8862896,
+  "saved_at": 1784523726.6653206,
   "data": {
     "event": {
       "tournament": {
@@ -54,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 95,
+          "userCount": 96,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -95,6 +95,39 @@
         "code": 0,
         "description": "Not started",
         "type": "notstarted"
+      },
+      "venue": {
+        "city": {
+          "name": "Kitzbuehel",
+          "country": {
+            "alpha2": "AT",
+            "alpha3": "AUT",
+            "name": "Austria",
+            "slug": "austria"
+          },
+          "id": 20653
+        },
+        "hidden": true,
+        "slug": "grand-stand",
+        "name": "Grand Stand",
+        "country": {
+          "alpha2": "AT",
+          "alpha3": "AUT",
+          "name": "Austria",
+          "slug": "austria"
+        },
+        "id": 29580,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "المدرج الكبير",
+            "hi": "ग्रैंड स्टैंड",
+            "bn": "গ্র্যান্ড স্ট্যান্ড"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Grand Stand"
+        }
       },
       "homeTeam": {
         "name": "Schnaitter J / Wallner M",
@@ -191,7 +224,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 177,
+            "userCount": 176,
             "playerTeamInfo": {
               "height": 1.98,
               "weight": 93,
@@ -274,7 +307,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4,
+        "userCount": 3,
         "nameCode": "J/V",
         "national": false,
         "type": 2,
@@ -292,7 +325,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 251,
+            "userCount": 250,
             "playerTeamInfo": {
               "height": 1.96,
               "weight": 91,
@@ -401,7 +434,7 @@
                 "value": 69684,
                 "currency": "EUR"
               },
-              "currentRanking": 885
+              "currentRanking": 863
             },
             "nameCode": "VOC",
             "disabled": false,
@@ -457,7 +490,7 @@
       "id": 16562571,
       "defaultPeriodCount": 3,
       "slug": "jebens-vocel-schnaitter-wallner",
-      "startTimestamp": 1784543400,
+      "startTimestamp": 1784550600,
       "periods": {
         "point": "Game",
         "current": "Match",

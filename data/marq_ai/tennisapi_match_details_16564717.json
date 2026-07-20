@@ -1,7 +1,9 @@
 {
-  "saved_at": 1784436652.1692362,
+  "saved_at": 1784523125.146895,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "awayTeamSeed": "10",
       "tournament": {
         "name": "Tampere, Finland, Qualifying",
         "slug": "tampere-finland-qualifying",
@@ -52,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 128,
+          "userCount": 139,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +91,11 @@
       },
       "customId": "WixbsLlDd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Tampere",
@@ -136,7 +139,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 278,
+        "userCount": 281,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 77,
@@ -207,7 +210,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 528,
+        "userCount": 531,
         "playerTeamInfo": {
           "height": 1.98,
           "weight": 90,
@@ -280,18 +283,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 1,
+        "point": "40",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3073,
+        "period2": 1852,
+        "currentPeriodStartTimestamp": 1784468368
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784470267
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564717,
       "defaultPeriodCount": 3,
       "slug": "william-rejchtman-vinciguerra-louis-wessels",
-      "startTimestamp": 1784452200,
+      "currentPeriodStartTimestamp": 1784468368,
+      "startTimestamp": 1784464500,
       "periods": {
         "point": "Game",
         "current": "Match",

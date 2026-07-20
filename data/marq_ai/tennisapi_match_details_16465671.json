@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436736.3116171,
+  "saved_at": 1784523116.9224932,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "1",
       "tournament": {
         "name": "Gstaad, Switzerland, Doubles",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 125,
+          "userCount": 128,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +94,11 @@
       },
       "customId": "JXIjsqNYj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Gstaad",
@@ -139,7 +141,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 10,
+        "userCount": 11,
         "nameCode": "M/P",
         "national": false,
         "type": 2,
@@ -157,7 +159,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 766,
+            "userCount": 771,
             "playerTeamInfo": {
               "height": 1.83,
               "weight": 78,
@@ -198,7 +200,7 @@
                 "value": 1186109,
                 "currency": "EUR"
               },
-              "currentRanking": 1251
+              "currentRanking": 1248
             },
             "nameCode": "MIE",
             "national": false,
@@ -240,7 +242,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 1029,
+            "userCount": 1030,
             "playerTeamInfo": {
               "height": 1.88,
               "weight": 78,
@@ -331,7 +333,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 14,
+        "userCount": 19,
         "nameCode": "D/G",
         "national": false,
         "type": 2,
@@ -349,7 +351,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 1110,
+            "userCount": 1117,
             "nameCode": "DEM",
             "national": false,
             "type": 1,
@@ -476,18 +478,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 4,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1752,
+        "period2": 2075,
+        "currentPeriodStartTimestamp": 1784466801
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784468920
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16465671,
       "defaultPeriodCount": 3,
       "slug": "miedler-polmans-demoliner-galloway",
-      "startTimestamp": 1784457600,
+      "currentPeriodStartTimestamp": 1784466801,
+      "startTimestamp": 1784462700,
       "periods": {
         "point": "Game",
         "current": "Match",

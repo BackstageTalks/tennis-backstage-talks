@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436696.3485096,
+  "saved_at": 1784523132.551727,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "1",
       "awayTeamSeed": "12",
       "tournament": {
@@ -56,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 664,
+          "userCount": 699,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -94,10 +95,11 @@
       },
       "customId": "QBRsiBJc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Prague",
@@ -133,7 +135,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1538,
+        "userCount": 1550,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 158135,
@@ -191,7 +193,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 868,
+        "userCount": 887,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 104817,
@@ -207,7 +209,7 @@
             "value": 399056,
             "currency": "EUR"
           },
-          "currentRanking": 212
+          "currentRanking": 213
         },
         "nameCode": "KNU",
         "ranking": 217,
@@ -239,18 +241,49 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 3,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1783,
+        "period2": 2324,
+        "currentPeriodStartTimestamp": 1784469715
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "homeScore.normaltime",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784472046
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564307,
       "defaultPeriodCount": 3,
       "slug": "dominika-salkova-gabriela-knutson",
-      "startTimestamp": 1784455800,
+      "currentPeriodStartTimestamp": 1784469715,
+      "startTimestamp": 1784467500,
       "periods": {
         "point": "Game",
         "current": "Match",

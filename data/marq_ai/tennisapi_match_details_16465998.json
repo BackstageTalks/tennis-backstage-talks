@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436748.1927512,
+  "saved_at": 1784523185.0501878,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "3",
       "awayTeamSeed": "4",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 354,
+          "userCount": 357,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": false,
@@ -85,10 +86,11 @@
       },
       "customId": "YhzsauB",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Athens",
@@ -132,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 8730,
+        "userCount": 8882,
         "playerTeamInfo": {
           "height": 1.78,
           "plays": "right-handed",
@@ -172,7 +174,7 @@
             "value": 16456949,
             "currency": "EUR"
           },
-          "currentRanking": 20
+          "currentRanking": 19
         },
         "nameCode": "KRE",
         "ranking": 32,
@@ -217,7 +219,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 17936,
+        "userCount": 18059,
         "playerTeamInfo": {
           "height": 1.72,
           "weight": 62,
@@ -293,18 +295,42 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 3,
+        "period1TieBreak": 5,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3492,
+        "period2": 2736,
+        "currentPeriodStartTimestamp": 1784484417
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1784487280
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16465998,
       "defaultPeriodCount": 3,
       "slug": "maria-sakkari-barbora-krejcikova",
-      "startTimestamp": 1784480400,
+      "currentPeriodStartTimestamp": 1784484417,
+      "startTimestamp": 1784480700,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -315,6 +341,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

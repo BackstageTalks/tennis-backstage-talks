@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436740.315912,
+  "saved_at": 1784523213.6221359,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "1",
       "awayTeamSeed": "2",
       "tournament": {
@@ -56,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 2218,
+          "userCount": 2234,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -96,10 +97,11 @@
       },
       "customId": "fKRsJlyc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Bastad",
@@ -143,7 +145,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 42175,
+        "userCount": 42364,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 75,
@@ -184,7 +186,7 @@
             "value": 29321790,
             "currency": "EUR"
           },
-          "currentRanking": 15
+          "currentRanking": 14
         },
         "nameCode": "RUB",
         "ranking": 16,
@@ -229,7 +231,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 19034,
+        "userCount": 19233,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 82,
@@ -294,17 +296,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 3,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2548,
+        "period2": 2059,
+        "currentPeriodStartTimestamp": 1784465580
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784467693
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16465445,
       "defaultPeriodCount": 3,
       "slug": "luciano-darderi-andrey-rublev",
+      "currentPeriodStartTimestamp": 1784465580,
       "startTimestamp": 1784462400,
       "periods": {
         "point": "Game",

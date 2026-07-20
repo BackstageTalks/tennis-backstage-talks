@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436764.7946496,
+  "saved_at": 1784523549.6457224,
   "data": {
     "event": {
+      "homeTeamSeed": "WC",
       "tournament": {
         "name": "Estoril, Portugal",
         "slug": "estoril-portugal",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1994,
+          "userCount": 1989,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -96,6 +97,39 @@
         "description": "Not started",
         "type": "notstarted"
       },
+      "venue": {
+        "city": {
+          "name": "Estoril",
+          "country": {
+            "alpha2": "PT",
+            "alpha3": "PRT",
+            "name": "Portugal",
+            "slug": "portugal"
+          },
+          "id": 21129
+        },
+        "hidden": true,
+        "slug": "estadio-millennium",
+        "name": "Estadio Millennium",
+        "country": {
+          "alpha2": "PT",
+          "alpha3": "PRT",
+          "name": "Portugal",
+          "slug": "portugal"
+        },
+        "id": 21420,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "ملعب ميلينيوم",
+            "hi": "एस्टेडियो मिलेनियम",
+            "bn": "এস্টাডিও মিলেনিয়াম"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Estadio Millennium"
+        }
+      },
       "homeTeam": {
         "name": "Tiago Torres",
         "slug": "torres-tiago",
@@ -106,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 538,
+        "userCount": 544,
         "playerTeamInfo": {
           "height": 1.75,
           "weight": 73,
@@ -135,7 +169,7 @@
             "value": 42055,
             "currency": "EUR"
           },
-          "currentRanking": 409
+          "currentRanking": 408
         },
         "nameCode": "TOR",
         "ranking": 430,
@@ -177,7 +211,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5823,
+        "userCount": 5821,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 79,
@@ -274,6 +308,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

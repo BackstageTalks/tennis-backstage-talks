@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436755.1577754,
+  "saved_at": 1784523295.7153034,
   "data": {
     "event": {
+      "awayTeamSeed": "8",
       "tournament": {
         "name": "Prague, Czech Republic",
         "slug": "prague-czech-republic",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 664,
+          "userCount": 699,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -96,6 +97,31 @@
         "description": "Not started",
         "type": "notstarted"
       },
+      "venue": {
+        "city": {
+          "name": "Prague",
+          "country": {
+            "alpha2": "CZ",
+            "alpha3": "CZE",
+            "name": "Czechia",
+            "slug": "czechia"
+          },
+          "id": 19090
+        },
+        "hidden": true,
+        "slug": "court-1",
+        "name": "Court 1",
+        "country": {
+          "alpha2": "CZ",
+          "alpha3": "CZE",
+          "name": "Czechia",
+          "slug": "czechia"
+        },
+        "id": 50434,
+        "stadium": {
+          "name": "Court 1"
+        }
+      },
       "homeTeam": {
         "name": "Ella Seidel",
         "slug": "seidel-ella",
@@ -106,7 +132,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2792,
+        "userCount": 2791,
         "playerTeamInfo": {
           "height": 1.76,
           "plays": "right-handed",
@@ -177,7 +203,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2502,
+        "userCount": 2506,
         "playerTeamInfo": {
           "height": 1.73,
           "plays": "right-handed",
@@ -249,7 +275,7 @@
       "id": 16564861,
       "defaultPeriodCount": 3,
       "slug": "ella-seidel-daria-snigur",
-      "startTimestamp": 1784534400,
+      "startTimestamp": 1784538000,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -260,6 +286,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

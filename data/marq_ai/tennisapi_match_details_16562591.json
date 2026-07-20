@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784436763.0097213,
+  "saved_at": 1784523728.6711822,
   "data": {
     "event": {
       "awayTeamSeed": "5",
@@ -55,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1648,
+          "userCount": 1660,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -99,6 +99,39 @@
         "description": "Not started",
         "type": "notstarted"
       },
+      "venue": {
+        "city": {
+          "name": "Kitzbuehel",
+          "country": {
+            "alpha2": "AT",
+            "alpha3": "AUT",
+            "name": "Austria",
+            "slug": "austria"
+          },
+          "id": 20653
+        },
+        "hidden": true,
+        "slug": "centre-court",
+        "name": "Centre Court",
+        "country": {
+          "alpha2": "AT",
+          "alpha3": "AUT",
+          "name": "Austria",
+          "slug": "austria"
+        },
+        "id": 17486,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الملعب المركزي",
+            "hi": "सेंटर कोर्ट",
+            "bn": "সেন্টার কোর্ট"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Centre Court"
+        }
+      },
       "homeTeam": {
         "name": "Vit Kopřiva",
         "slug": "kopriva-vit",
@@ -109,7 +142,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4834,
+        "userCount": 4835,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 69,
@@ -195,7 +228,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 10693,
+        "userCount": 10699,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 78,
@@ -267,7 +300,7 @@
       "id": 16562591,
       "defaultPeriodCount": 3,
       "slug": "ignacio-buse-vit-kopriva",
-      "startTimestamp": 1784543400,
+      "startTimestamp": 1784550600,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -278,6 +311,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

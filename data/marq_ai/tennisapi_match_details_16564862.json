@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784436753.2878275,
+  "saved_at": 1784523216.383846,
   "data": {
     "event": {
       "tournament": {
@@ -54,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 664,
+          "userCount": 699,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,9 +92,9 @@
       },
       "customId": "tCrcsTAid",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 70,
+        "description": "Canceled",
+        "type": "canceled"
       },
       "homeTeam": {
         "name": "Polina Kudermetova",
@@ -106,7 +106,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3170,
+        "userCount": 3181,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 335091,
@@ -122,7 +122,7 @@
             "value": 1456707,
             "currency": "EUR"
           },
-          "currentRanking": 106
+          "currentRanking": 109
         },
         "nameCode": "KUD",
         "ranking": 109,
@@ -165,7 +165,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2262,
+        "userCount": 2330,
         "playerTeamInfo": {
           "height": 1.8,
           "plays": "right-handed",
@@ -218,7 +218,12 @@
       "awayScore": {},
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784461380
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,

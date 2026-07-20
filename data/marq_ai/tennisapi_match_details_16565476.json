@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784436744.5266001,
+  "saved_at": 1784523125.8191817,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 5,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "AeJbseWPd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Livia Keller",
         "slug": "keller-livia",
@@ -128,7 +129,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 186,
+        "userCount": 187,
         "playerTeamInfo": {
           "prizeCurrent": 11113,
           "prizeTotal": 124054,
@@ -175,18 +176,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 3,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784469102
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16565476,
       "defaultPeriodCount": 3,
       "slug": "livia-keller-michaela-bayerlova",
-      "startTimestamp": 1784469600,
+      "startTimestamp": 1784465419,
       "periods": {
         "point": "Game",
         "current": "Match",

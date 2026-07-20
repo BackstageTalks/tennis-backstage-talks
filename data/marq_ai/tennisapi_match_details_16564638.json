@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436739.534049,
+  "saved_at": 1784523131.5166945,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "2",
       "awayTeamSeed": "5",
       "tournament": {
@@ -56,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1648,
+          "userCount": 1660,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -96,10 +97,11 @@
       },
       "customId": "ubPsjdFb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Kitzbuehel",
@@ -143,7 +145,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3279,
+        "userCount": 3295,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 83,
@@ -227,7 +229,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2440,
+        "userCount": 2467,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 73,
@@ -267,7 +269,7 @@
             "value": 726801,
             "currency": "EUR"
           },
-          "currentRanking": 192
+          "currentRanking": 194
         },
         "nameCode": "SAC",
         "ranking": 195,
@@ -301,18 +303,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 7,
+        "point": "6",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 6,
+        "period2TieBreak": 4,
+        "point": "4",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2473,
+        "period2": 4484,
+        "currentPeriodStartTimestamp": 1784470467
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784474986
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564638,
       "defaultPeriodCount": 3,
       "slug": "jurij-rodionov-vitaliy-sachko",
-      "startTimestamp": 1784460600,
+      "currentPeriodStartTimestamp": 1784470467,
+      "startTimestamp": 1784467200,
       "periods": {
         "point": "Game",
         "current": "Match",
