@@ -14,7 +14,7 @@ TOP_MIN_AI_MATCH = float(os.getenv("TOP_MIN_AI_MATCH", "0.0"))
 
 # Cloq = close-odds model. Defaults are intentionally conservative and can be tuned by env.
 CLOQ_MIN_ODDS = float(os.getenv("CLOQ_MIN_ODDS", "1.60"))
-CLOQ_MAX_ODDS = float(os.getenv("CLOQ_MAX_ODDS", "2.20"))
+CLOQ_MAX_ODDS = float(os.getenv("CLOQ_MAX_ODDS", "4.20"))
 CLOQ_TARGET_ODDS = float(os.getenv("CLOQ_TARGET_ODDS", "1.85"))
 CLOQ_MIN_CONSENSUS = float(os.getenv("CLOQ_MIN_CONSENSUS", "0.55"))
 CLOQ_MAX_MODEL_GAP = float(os.getenv("CLOQ_MAX_MODEL_GAP", str(TOP_MAX_MODEL_GAP)))
