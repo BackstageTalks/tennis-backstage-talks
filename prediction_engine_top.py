@@ -6,7 +6,7 @@ from prediction_engine_core import build_all_predictions as build_core_all_predi
 
 TOP_N = int(os.getenv("TOP_N", "7"))
 TOP_MIN_ODDS = float(os.getenv("TOP_MIN_ODDS", "1.40"))
-TOP_MAX_ODDS = float(os.getenv("TOP_MAX_ODDS", "5.00"))
+TOP_MAX_ODDS = float(os.getenv("TOP_MAX_ODDS", "3.00"))
 TOP_MIN_CORQ_Q = float(os.getenv("TOP_MIN_CORQ_Q", "0.55"))
 TOP_MIN_THINQ_Q = float(os.getenv("TOP_MIN_THINQ_Q", "0.55"))
 TOP_MAX_MODEL_GAP = float(os.getenv("TOP_MAX_MODEL_GAP", "0.15"))
