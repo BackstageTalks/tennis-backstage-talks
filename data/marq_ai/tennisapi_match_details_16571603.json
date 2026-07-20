@@ -1,7 +1,10 @@
 {
-  "saved_at": 1784523522.5517383,
+  "saved_at": 1784569116.4070983,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "homeTeamSeed": "Q",
+      "awayTeamSeed": "Q",
       "tournament": {
         "name": "Prague, Czech Republic",
         "slug": "prague-czech-republic",
@@ -54,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 699,
+          "userCount": 754,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +95,11 @@
       },
       "customId": "Boecshdhd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Prague",
@@ -131,7 +135,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1240,
+        "userCount": 1259,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 102770,
@@ -147,10 +151,10 @@
             "value": 154335,
             "currency": "EUR"
           },
-          "currentRanking": 136
+          "currentRanking": 133
         },
         "nameCode": "POD",
-        "ranking": 136,
+        "ranking": 140,
         "national": false,
         "type": 1,
         "country": {
@@ -189,7 +193,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 574,
+        "userCount": 599,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 127357,
@@ -205,10 +209,10 @@
             "value": 172858,
             "currency": "EUR"
           },
-          "currentRanking": 178
+          "currentRanking": 170
         },
         "nameCode": "LEE",
-        "ranking": 182,
+        "ranking": 179,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -237,18 +241,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 1,
+        "period2": 7,
+        "period3": 2,
+        "point": "40",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 5,
+        "period3": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1862,
+        "period2": 3849,
+        "period3": 2538,
+        "currentPeriodStartTimestamp": 1784553183
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1784555736
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571603,
       "defaultPeriodCount": 3,
       "slug": "veronika-podrez-carol-young-suh-lee",
-      "startTimestamp": 1784542200,
+      "currentPeriodStartTimestamp": 1784553183,
+      "startTimestamp": 1784547000,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523521.302592,
+  "saved_at": 1784569117.0204837,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "4",
       "awayTeamSeed": "7",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 134,
+          "userCount": 159,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "uCtcszpBc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Zug",
@@ -130,7 +132,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1318,
+        "userCount": 1320,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 73,
@@ -159,10 +161,10 @@
             "value": 203536,
             "currency": "EUR"
           },
-          "currentRanking": 283
+          "currentRanking": 279
         },
         "nameCode": "TOR",
-        "ranking": 288,
+        "ranking": 283,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -203,7 +205,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3281,
+        "userCount": 3278,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 80,
@@ -232,10 +234,10 @@
             "value": 1706340,
             "currency": "EUR"
           },
-          "currentRanking": 235
+          "currentRanking": 237
         },
         "nameCode": "STR",
-        "ranking": 360,
+        "ranking": 357,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -266,18 +268,51 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 3,
+        "period1TieBreak": 6,
+        "point": "40",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 8,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3665,
+        "period2": 2567,
+        "currentPeriodStartTimestamp": 1784551440
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784554024
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571324,
       "defaultPeriodCount": 3,
       "slug": "juan-bautista-torres-dominic-stricker",
-      "startTimestamp": 1784542200,
+      "currentPeriodStartTimestamp": 1784551440,
+      "startTimestamp": 1784547300,
       "periods": {
         "point": "Game",
         "current": "Match",

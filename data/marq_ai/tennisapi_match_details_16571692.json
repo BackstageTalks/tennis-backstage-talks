@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523398.5185297,
+  "saved_at": 1784569086.0402274,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "11",
       "tournament": {
         "name": "Zug, Switzerland, Qualifying",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 134,
+          "userCount": 159,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "kcYbsWkYb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Zug",
@@ -137,7 +139,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 251,
+        "userCount": 259,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 83,
@@ -166,7 +168,7 @@
             "value": 31451,
             "currency": "EUR"
           },
-          "currentRanking": 541
+          "currentRanking": 523
         },
         "nameCode": "STA",
         "ranking": 541,
@@ -237,10 +239,10 @@
             "value": 176660,
             "currency": "EUR"
           },
-          "currentRanking": 373
+          "currentRanking": 362
         },
         "nameCode": "MAT",
-        "ranking": 377,
+        "ranking": 373,
         "national": false,
         "type": 1,
         "country": {
@@ -270,17 +272,48 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 2,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2181,
+        "period2": 2089,
+        "currentPeriodStartTimestamp": 1784540732
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784542832
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571692,
       "defaultPeriodCount": 3,
       "slug": "luca-staeheli-anton-matusevich",
+      "currentPeriodStartTimestamp": 1784540732,
       "startTimestamp": 1784538000,
       "periods": {
         "point": "Game",

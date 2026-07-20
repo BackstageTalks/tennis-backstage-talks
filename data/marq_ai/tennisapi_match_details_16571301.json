@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523682.030445,
+  "saved_at": 1784569126.17916,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 9,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "yAKdsgoRd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Isabel Skoog",
         "slug": "skoog-isabel",
@@ -102,10 +103,10 @@
             "value": 6708,
             "currency": "EUR"
           },
-          "currentRanking": 973
+          "currentRanking": 970
         },
         "nameCode": "SKO",
-        "ranking": 996,
+        "ranking": 973,
         "national": false,
         "type": 1,
         "country": {
@@ -158,10 +159,10 @@
             "value": 4788,
             "currency": "EUR"
           },
-          "currentRanking": 1322
+          "currentRanking": 1328
         },
         "nameCode": "GNI",
-        "ranking": 1322,
+        "ranking": 1328,
         "national": false,
         "type": 1,
         "country": {
@@ -190,18 +191,38 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 10,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 6,
+        "period2TieBreak": 8,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784557712
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571301,
       "defaultPeriodCount": 3,
       "slug": "oriana-gniewkowska-isabel-skoog",
-      "startTimestamp": 1784547000,
+      "startTimestamp": 1784550623,
       "periods": {
         "point": "Game",
         "current": "Match",

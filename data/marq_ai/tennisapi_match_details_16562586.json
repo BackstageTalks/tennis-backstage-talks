@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523296.6461823,
+  "saved_at": 1784569086.7963827,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "WC",
       "tournament": {
         "name": "Kitzbuhel, Austria",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1660,
+          "userCount": 1739,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -95,10 +96,11 @@
       },
       "customId": "REKsOCic",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Kitzbuehel",
@@ -142,7 +144,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 6506,
+        "userCount": 6529,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 75,
@@ -186,7 +188,7 @@
           "currentRanking": 119
         },
         "nameCode": "MUL",
-        "ranking": 132,
+        "ranking": 133,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -228,7 +230,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 8612,
+        "userCount": 8680,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 73,
@@ -260,7 +262,7 @@
           "currentRanking": 25
         },
         "nameCode": "NAV",
-        "ranking": 48,
+        "ranking": 47,
         "class": 1,
         "disabled": false,
         "national": false,
@@ -293,17 +295,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 0,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3315,
+        "period2": 1525,
+        "currentPeriodStartTimestamp": 1784541874
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784543452
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16562586,
       "defaultPeriodCount": 3,
       "slug": "mariano-navone-alexandre-muller",
+      "currentPeriodStartTimestamp": 1784541874,
       "startTimestamp": 1784538000,
       "periods": {
         "point": "Game",

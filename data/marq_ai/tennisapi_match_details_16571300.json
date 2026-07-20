@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523459.2465053,
+  "saved_at": 1784569111.8009481,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 9,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "CDKbsyvQb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Ella Haavisto",
         "slug": "haavisto-ella",
@@ -102,10 +103,10 @@
             "value": 18789,
             "currency": "EUR"
           },
-          "currentRanking": 770
+          "currentRanking": 764
         },
         "nameCode": "HAA",
-        "ranking": 770,
+        "ranking": 774,
         "national": false,
         "type": 1,
         "country": {
@@ -158,7 +159,7 @@
             "value": 38588,
             "currency": "EUR"
           },
-          "currentRanking": 1059
+          "currentRanking": 1054
         },
         "nameCode": "NUU",
         "ranking": 1145,
@@ -190,18 +191,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 1,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784549230
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571300,
       "defaultPeriodCount": 3,
       "slug": "ella-haavisto-maileen-nuudi",
-      "startTimestamp": 1784541600,
+      "startTimestamp": 1784544521,
       "periods": {
         "point": "Game",
         "current": "Match",

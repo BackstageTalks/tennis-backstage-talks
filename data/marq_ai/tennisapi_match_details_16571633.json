@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523548.9424562,
+  "saved_at": 1784569119.3029604,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 10,
+          "userCount": 11,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "xMYcsAPLd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Maria Garcia Cid",
         "slug": "garcia-cid-maria",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 169,
+        "userCount": 170,
         "playerTeamInfo": {
           "prizeCurrent": 8035,
           "prizeTotal": 17206,
@@ -116,10 +117,10 @@
             "value": 17206,
             "currency": "EUR"
           },
-          "currentRanking": 593
+          "currentRanking": 585
         },
         "nameCode": "MGC",
-        "ranking": 598,
+        "ranking": 593,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -173,10 +174,10 @@
             "value": 16459,
             "currency": "EUR"
           },
-          "currentRanking": 747
+          "currentRanking": 748
         },
         "nameCode": "SEN",
-        "ranking": 795,
+        "ranking": 798,
         "national": false,
         "type": 1,
         "country": {
@@ -205,18 +206,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 1,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784552495
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571633,
       "defaultPeriodCount": 3,
       "slug": "alja-senica-maria-garcia-cid",
-      "startTimestamp": 1784545200,
+      "startTimestamp": 1784547374,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523465.1419246,
+  "saved_at": 1784569110.2309258,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 5,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "fVGbslTZj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Fiona Ganz",
         "slug": "ganz-fiona",
@@ -169,18 +170,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 2,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784549246
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16572654,
       "defaultPeriodCount": 3,
       "slug": "emmy-mueller-fiona-ganz",
-      "startTimestamp": 1784541600,
+      "startTimestamp": 1784544190,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,8 +1,7 @@
 {
-  "saved_at": 1784523211.991654,
+  "saved_at": 1784569066.4165792,
   "data": {
     "event": {
-      "firstToServe": 1,
       "tournament": {
         "name": "ITF M15 Bali Men",
         "slug": "itf-m15-bali-men",
@@ -89,10 +88,11 @@
       },
       "customId": "LgndsAQbe",
       "status": {
-        "code": 9,
-        "description": "2nd set",
-        "type": "inprogress"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Jack Bruce-Smith",
         "slug": "bruce-smith-jack",
@@ -224,22 +224,25 @@
         "current": 0,
         "display": 0,
         "period1": 4,
-        "period2": 3,
-        "point": "15"
+        "period2": 4,
+        "point": "0"
       },
       "awayScore": {
-        "current": 1,
-        "display": 1,
+        "current": 2,
+        "display": 2,
         "period1": 6,
-        "period2": 3,
-        "point": "15"
+        "period2": 6,
+        "point": "0"
       },
       "time": {},
       "changes": {
         "changes": [
-          "awayScore.point"
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
         ],
-        "changeTimestamp": 1784523189
+        "changeTimestamp": 1784524336
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
@@ -256,7 +259,6 @@
         "period4": "4th set",
         "period5": "5th set"
       },
-      "lastPeriod": "period2",
       "finalResultOnly": false,
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",

@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523462.000368,
+  "saved_at": 1784569122.3756363,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 5,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "kvRbscYhe",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Petra Sedláčková",
         "slug": "sedlackova-petra",
@@ -102,7 +103,7 @@
             "value": 4771,
             "currency": "EUR"
           },
-          "currentRanking": 446
+          "currentRanking": 425
         },
         "nameCode": "SED",
         "ranking": 702,
@@ -144,7 +145,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 35,
+        "userCount": 34,
         "nameCode": "KHO",
         "national": false,
         "type": 1,
@@ -174,18 +175,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 3,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784553762
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16572123,
       "defaultPeriodCount": 3,
       "slug": "michelle-khomich-petra-sedlackova",
-      "startTimestamp": 1784541600,
+      "startTimestamp": 1784549188,
       "periods": {
         "point": "Game",
         "current": "Match",

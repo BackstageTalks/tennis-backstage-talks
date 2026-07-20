@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523457.0715306,
+  "saved_at": 1784569096.5148015,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "1",
       "awayTeamSeed": "8",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 139,
+          "userCount": 153,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "LOrbsKaqc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Tampere",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1658,
+        "userCount": 1668,
         "playerTeamInfo": {
           "height": 1.75,
           "weight": 73,
@@ -178,10 +180,10 @@
             "value": 682481,
             "currency": "EUR"
           },
-          "currentRanking": 199
+          "currentRanking": 198
         },
         "nameCode": "OLI",
-        "ranking": 201,
+        "ranking": 199,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -222,7 +224,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 324,
+        "userCount": 337,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 80,
@@ -251,10 +253,10 @@
             "value": 32632,
             "currency": "EUR"
           },
-          "currentRanking": 581
+          "currentRanking": 583
         },
         "nameCode": "ZIE",
-        "ranking": 581,
+        "ranking": 591,
         "national": false,
         "type": 1,
         "country": {
@@ -283,18 +285,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 2,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2233,
+        "period2": 2321,
+        "currentPeriodStartTimestamp": 1784543940
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784546323
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571704,
       "defaultPeriodCount": 3,
       "slug": "marcel-zielinski-genaro-alberto-olivieri",
-      "startTimestamp": 1784540400,
+      "currentPeriodStartTimestamp": 1784543940,
+      "startTimestamp": 1784541300,
       "periods": {
         "point": "Game",
         "current": "Match",

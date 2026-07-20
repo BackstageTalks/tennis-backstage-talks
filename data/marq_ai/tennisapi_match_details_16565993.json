@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523726.0215335,
+  "saved_at": 1784569124.9891353,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "3",
       "tournament": {
         "name": "Zug, Switzerland",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 134,
+          "userCount": 159,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "ibdbsmAob",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Zug",
@@ -137,7 +139,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 8269,
+        "userCount": 8278,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 80,
@@ -181,7 +183,7 @@
           "currentRanking": 253
         },
         "nameCode": "SEY",
-        "ranking": 284,
+        "ranking": 276,
         "class": 1,
         "disabled": false,
         "national": false,
@@ -223,7 +225,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1674,
+        "userCount": 1681,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 79,
@@ -267,7 +269,7 @@
           "currentRanking": 153
         },
         "nameCode": "KOL",
-        "ranking": 153,
+        "ranking": 154,
         "national": false,
         "type": 1,
         "country": {
@@ -297,17 +299,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 2,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2307,
+        "period2": 2332,
+        "currentPeriodStartTimestamp": 1784553438
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784555798
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16565993,
       "defaultPeriodCount": 3,
       "slug": "thiago-seyboth-wild-zdenek-kolar",
+      "currentPeriodStartTimestamp": 1784553438,
       "startTimestamp": 1784550600,
       "periods": {
         "point": "Game",

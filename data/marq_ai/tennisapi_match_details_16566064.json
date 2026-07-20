@@ -1,8 +1,7 @@
 {
-  "saved_at": 1784523121.627663,
+  "saved_at": 1784569008.2523375,
   "data": {
     "event": {
-      "firstToServe": 1,
       "tournament": {
         "name": "ITF W35 Gentofte Women",
         "slug": "itf-w35-gentofte-women",
@@ -49,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 9,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +74,11 @@
       },
       "customId": "EhddskXrd",
       "status": {
-        "code": 80,
-        "description": "Interrupted",
-        "type": "interrupted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Rose Marie Nijkamp",
         "slug": "nijkamp-rose-marie",
@@ -89,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 255,
+        "userCount": 256,
         "playerTeamInfo": {
           "prizeCurrent": 1699,
           "prizeTotal": 17837,
@@ -104,10 +104,10 @@
             "value": 17837,
             "currency": "EUR"
           },
-          "currentRanking": 767
+          "currentRanking": 763
         },
         "nameCode": "NIJ",
-        "ranking": 802,
+        "ranking": 803,
         "national": false,
         "type": 1,
         "country": {
@@ -146,7 +146,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 84,
+        "userCount": 90,
         "nameCode": "GNI",
         "national": false,
         "type": 1,
@@ -177,15 +177,17 @@
         "timeActive": []
       },
       "homeScore": {
-        "current": 0,
-        "display": 0,
-        "period1": 4,
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
         "point": "0"
       },
       "awayScore": {
         "current": 0,
         "display": 0,
         "period1": 0,
+        "period2": 1,
         "point": "0"
       },
       "time": {},
@@ -195,7 +197,7 @@
           "status.description",
           "status.type"
         ],
-        "changeTimestamp": 1784492592
+        "changeTimestamp": 1784537375
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,

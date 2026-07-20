@@ -1,8 +1,7 @@
 {
-  "saved_at": 1784523120.1902144,
+  "saved_at": 1784569007.3595405,
   "data": {
     "event": {
-      "firstToServe": 1,
       "tournament": {
         "name": "ITF W35 Gentofte Women",
         "slug": "itf-w35-gentofte-women",
@@ -49,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 9,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +74,11 @@
       },
       "customId": "ielbsXeLj",
       "status": {
-        "code": 80,
-        "description": "Interrupted",
-        "type": "interrupted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Astrid Wanja Brune Olsen",
         "slug": "brune-olsen-astrid-wanja",
@@ -89,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 114,
+        "userCount": 118,
         "playerTeamInfo": {
           "prizeCurrent": 3219,
           "prizeTotal": 30462,
@@ -146,7 +146,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 11,
+        "userCount": 16,
         "playerTeamInfo": {
           "id": 43884,
           "underage": false
@@ -182,15 +182,17 @@
         "timeActive": []
       },
       "homeScore": {
-        "current": 0,
-        "display": 0,
-        "period1": 3,
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
         "point": "0"
       },
       "awayScore": {
         "current": 0,
         "display": 0,
         "period1": 3,
+        "period2": 1,
         "point": "0"
       },
       "time": {},
@@ -198,13 +200,9 @@
         "changes": [
           "status.code",
           "status.description",
-          "status.type",
-          "homeScore.point",
-          "awayScore.point",
-          "providerLock.status",
-          "firstToServe"
+          "status.type"
         ],
-        "changeTimestamp": 1784492625
+        "changeTimestamp": 1784537530
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,

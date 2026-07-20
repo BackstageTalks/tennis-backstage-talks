@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523683.1840236,
+  "saved_at": 1784569121.7301097,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "A",
       "awayTeamSeed": "4",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 139,
+          "userCount": 153,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "zQLseImd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Tampere",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3801,
+        "userCount": 3806,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 72,
@@ -179,10 +181,10 @@
             "value": 3008144,
             "currency": "EUR"
           },
-          "currentRanking": 247
+          "currentRanking": 248
         },
         "nameCode": "GAL",
-        "ranking": 304,
+        "ranking": 287,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -224,7 +226,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1621,
+        "userCount": 1623,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 78,
@@ -253,10 +255,10 @@
             "value": 193697,
             "currency": "EUR"
           },
-          "currentRanking": 203
+          "currentRanking": 205
         },
         "nameCode": "ARN",
-        "ranking": 203,
+        "ranking": 205,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -286,17 +288,50 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 2,
+        "period1TieBreak": 4,
+        "point": "15",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3667,
+        "period2": 2607,
+        "currentPeriodStartTimestamp": 1784553057
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784555675
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16565983,
       "defaultPeriodCount": 3,
       "slug": "gilles-arnaud-bailly-daniel-elahi-galan",
+      "currentPeriodStartTimestamp": 1784553057,
       "startTimestamp": 1784548800,
       "periods": {
         "point": "Game",

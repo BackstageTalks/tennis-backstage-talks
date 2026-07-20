@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523812.9667187,
+  "saved_at": 1784569138.2604163,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 10,
+          "userCount": 11,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "gIpcsRoRi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Arianna Zucchini",
         "slug": "zucchini-arianna",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 251,
+        "userCount": 253,
         "playerTeamInfo": {
           "prizeCurrent": 5893,
           "prizeTotal": 61419,
@@ -116,10 +117,10 @@
             "value": 61419,
             "currency": "EUR"
           },
-          "currentRanking": 539
+          "currentRanking": 542
         },
         "nameCode": "ZUC",
-        "ranking": 539,
+        "ranking": 542,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -173,10 +174,10 @@
             "value": 2155,
             "currency": "EUR"
           },
-          "currentRanking": 1310
+          "currentRanking": 1317
         },
         "nameCode": "CDI",
-        "ranking": 1310,
+        "ranking": 1317,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -206,18 +207,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 2,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784557869
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571634,
       "defaultPeriodCount": 3,
       "slug": "carolina-dibenedetto-arianna-zucchini",
-      "startTimestamp": 1784552400,
+      "startTimestamp": 1784553268,
       "periods": {
         "point": "Game",
         "current": "Match",

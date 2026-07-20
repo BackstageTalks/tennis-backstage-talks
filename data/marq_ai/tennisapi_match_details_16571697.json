@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523575.6035337,
+  "saved_at": 1784569113.8985672,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "2",
       "awayTeamSeed": "9",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 152,
+          "userCount": 171,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "hbGbsmjZb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Segovia",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 310,
+        "userCount": 314,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 72,
@@ -167,10 +169,10 @@
             "value": 56112,
             "currency": "EUR"
           },
-          "currentRanking": 410
+          "currentRanking": 414
         },
         "nameCode": "VAN",
-        "ranking": 410,
+        "ranking": 414,
         "national": false,
         "type": 1,
         "country": {
@@ -209,7 +211,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 597,
+        "userCount": 602,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 83,
@@ -238,10 +240,10 @@
             "value": 119348,
             "currency": "EUR"
           },
-          "currentRanking": 490
+          "currentRanking": 482
         },
         "nameCode": "OUA",
-        "ranking": 525,
+        "ranking": 490,
         "national": false,
         "type": 1,
         "country": {
@@ -270,17 +272,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 1,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2674,
+        "period2": 2100,
+        "currentPeriodStartTimestamp": 1784548846
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784550998
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571697,
       "defaultPeriodCount": 3,
       "slug": "cyril-vandermeersch-aziz-ouakaa",
+      "currentPeriodStartTimestamp": 1784548846,
       "startTimestamp": 1784545200,
       "periods": {
         "point": "Game",

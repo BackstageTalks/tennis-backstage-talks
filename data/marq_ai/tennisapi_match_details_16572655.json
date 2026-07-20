@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523700.3917086,
+  "saved_at": 1784569124.1459663,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 5,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "vFDbseiId",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Veena Mariam Nazar",
         "slug": "nazar-veena-mariam",
@@ -175,18 +176,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 2,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784556821
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16572655,
       "defaultPeriodCount": 3,
       "slug": "veena-mariam-nazar-maria-toma",
-      "startTimestamp": 1784548800,
+      "startTimestamp": 1784550367,
       "periods": {
         "point": "Game",
         "current": "Match",

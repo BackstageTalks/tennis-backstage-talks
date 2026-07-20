@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523470.521673,
+  "saved_at": 1784569108.1817973,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "1",
       "tournament": {
         "name": "Prague, Czech Republic",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 699,
+          "userCount": 754,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +94,11 @@
       },
       "customId": "njRsfckc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Prague",
@@ -132,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5683,
+        "userCount": 5704,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 61,
@@ -219,7 +221,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5326,
+        "userCount": 5336,
         "playerTeamInfo": {
           "height": 1.7,
           "plays": "right-handed",
@@ -247,10 +249,10 @@
             "value": 2677739,
             "currency": "EUR"
           },
-          "currentRanking": 59
+          "currentRanking": 57
         },
         "nameCode": "BOU",
-        "ranking": 62,
+        "ranking": 60,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -283,18 +285,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 7,
+        "point": "A",
+        "normaltime": 2
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 5,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3464,
+        "period2": 3907,
+        "currentPeriodStartTimestamp": 1784547244
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784551182
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564867,
       "defaultPeriodCount": 3,
       "slug": "jessica-bouzas-maneiro-marie-bouzkova",
-      "startTimestamp": 1784542200,
+      "currentPeriodStartTimestamp": 1784547244,
+      "startTimestamp": 1784543700,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523519.727275,
+  "saved_at": 1784569104.01708,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "A",
       "tournament": {
         "name": "Segovia, Spain, Qualifying",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 152,
+          "userCount": 171,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "IyBbsrutd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Segovia",
@@ -129,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1245,
+        "userCount": 1254,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 76,
@@ -161,7 +163,7 @@
           "currentRanking": 533
         },
         "nameCode": "VAS",
-        "ranking": 572,
+        "ranking": 578,
         "national": false,
         "type": 1,
         "country": {
@@ -200,7 +202,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 243,
+        "userCount": 248,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 78,
@@ -229,10 +231,10 @@
             "value": 47896,
             "currency": "EUR"
           },
-          "currentRanking": 549
+          "currentRanking": 551
         },
         "nameCode": "SIN",
-        "ranking": 549,
+        "ranking": 561,
         "national": false,
         "type": 1,
         "country": {
@@ -260,18 +262,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 3,
+        "period2": 6,
+        "period3": 1,
+        "point": "0",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 3,
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1789,
+        "period2": 2824,
+        "period3": 2114,
+        "currentPeriodStartTimestamp": 1784548016
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1784550260
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571097,
       "defaultPeriodCount": 3,
       "slug": "alexander-vasilev-digvijay-pratap-singh",
-      "startTimestamp": 1784542200,
+      "currentPeriodStartTimestamp": 1784548016,
+      "startTimestamp": 1784543100,
       "periods": {
         "point": "Game",
         "current": "Match",

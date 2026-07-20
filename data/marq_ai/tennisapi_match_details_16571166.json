@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523395.6466503,
+  "saved_at": 1784569087.4095628,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "3",
       "awayTeamSeed": "8",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 152,
+          "userCount": 171,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "HoZbsbcmd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Segovia",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 368,
+        "userCount": 370,
         "playerTeamInfo": {
           "height": 1.75,
           "weight": 65,
@@ -167,10 +169,10 @@
             "value": 42743,
             "currency": "EUR"
           },
-          "currentRanking": 412
+          "currentRanking": 404
         },
         "nameCode": "CAL",
-        "ranking": 412,
+        "ranking": 413,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -210,7 +212,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 342,
+        "userCount": 343,
         "playerTeamInfo": {
           "height": 1.75,
           "weight": 73,
@@ -250,10 +252,10 @@
             "value": 59114,
             "currency": "EUR"
           },
-          "currentRanking": 512
+          "currentRanking": 514
         },
         "nameCode": "KUM",
-        "ranking": 512,
+        "ranking": 514,
         "national": false,
         "type": 1,
         "country": {
@@ -281,17 +283,42 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 6,
+        "period2TieBreak": 1,
+        "point": "1",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 7,
+        "point": "6",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2676,
+        "period2": 3670,
+        "currentPeriodStartTimestamp": 1784541221
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784544918
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571166,
       "defaultPeriodCount": 3,
       "slug": "sergio-callejon-hernando-takuya-kumasaka",
+      "currentPeriodStartTimestamp": 1784541221,
       "startTimestamp": 1784538000,
       "periods": {
         "point": "Game",

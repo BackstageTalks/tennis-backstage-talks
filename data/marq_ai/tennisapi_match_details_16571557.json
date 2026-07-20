@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523811.9842272,
+  "saved_at": 1784569135.9855018,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 13,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "oPPbslUud",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Anna Siskova",
         "slug": "siskova-anna",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 844,
+        "userCount": 845,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 165678,
@@ -105,10 +106,10 @@
             "value": 519852,
             "currency": "EUR"
           },
-          "currentRanking": 151
+          "currentRanking": 150
         },
         "nameCode": "SIS",
-        "ranking": 232,
+        "ranking": 266,
         "national": false,
         "type": 1,
         "country": {
@@ -161,10 +162,10 @@
             "value": 4093,
             "currency": "EUR"
           },
-          "currentRanking": 1103
+          "currentRanking": 1102
         },
         "nameCode": "SCH",
-        "ranking": 1103,
+        "ranking": 1102,
         "national": false,
         "type": 1,
         "country": {
@@ -193,18 +194,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 0,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784555921
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571557,
       "defaultPeriodCount": 3,
       "slug": "ava-schueller-anna-siskova",
-      "startTimestamp": 1784552400,
+      "startTimestamp": 1784552957,
       "periods": {
         "point": "Game",
         "current": "Match",

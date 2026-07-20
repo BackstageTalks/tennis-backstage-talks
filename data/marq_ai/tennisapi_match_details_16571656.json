@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523815.1516232,
+  "saved_at": 1784569132.449715,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 2,
+          "userCount": 5,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "nfgdsmoRd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Julio Cesar Porras",
         "slug": "cesar-porras-julio",
@@ -117,10 +118,10 @@
             "value": 31934,
             "currency": "EUR"
           },
-          "currentRanking": 1042
+          "currentRanking": 1045
         },
         "nameCode": "POR",
-        "ranking": 1047,
+        "ranking": 1051,
         "national": false,
         "type": 1,
         "country": {
@@ -163,7 +164,7 @@
         "playerTeamInfo": {
           "id": 30341,
           "underage": false,
-          "currentRanking": 2885
+          "currentRanking": 2880
         },
         "nameCode": "BAR",
         "disabled": false,
@@ -195,18 +196,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 0,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784557167
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571656,
       "defaultPeriodCount": 3,
       "slug": "victor-barreira-bonzom-julio-cesar-porras",
-      "startTimestamp": 1784552400,
+      "startTimestamp": 1784552797,
       "periods": {
         "point": "Game",
         "current": "Match",

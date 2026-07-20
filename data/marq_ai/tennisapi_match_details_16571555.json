@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523394.6293094,
+  "saved_at": 1784569091.8633509,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 13,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "PrHbsaxfd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Aneta Laboutkova",
         "slug": "laboutkova-aneta",
@@ -88,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 153,
+        "userCount": 156,
         "playerTeamInfo": {
           "prizeCurrent": 14987,
           "prizeTotal": 87211,
@@ -103,10 +104,10 @@
             "value": 87211,
             "currency": "EUR"
           },
-          "currentRanking": 499
+          "currentRanking": 494
         },
         "nameCode": "LAB",
-        "ranking": 528,
+        "ranking": 501,
         "national": false,
         "type": 1,
         "country": {
@@ -145,7 +146,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 253,
+        "userCount": 256,
         "playerTeamInfo": {
           "prizeCurrent": 2508,
           "prizeTotal": 18409,
@@ -159,10 +160,10 @@
             "value": 18409,
             "currency": "EUR"
           },
-          "currentRanking": 861
+          "currentRanking": 829
         },
         "nameCode": "KOL",
-        "ranking": 877,
+        "ranking": 861,
         "national": false,
         "type": 1,
         "country": {
@@ -191,18 +192,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 2,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784544714
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571555,
       "defaultPeriodCount": 3,
       "slug": "zuzanna-kolonus-aneta-laboutkova",
-      "startTimestamp": 1784538000,
+      "startTimestamp": 1784538492,
       "periods": {
         "point": "Game",
         "current": "Match",

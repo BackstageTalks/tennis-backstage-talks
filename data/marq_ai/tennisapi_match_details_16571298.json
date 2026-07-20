@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523457.9688137,
+  "saved_at": 1784569109.1462166,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 9,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "iMpdsEMKi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Polina Skliar",
         "slug": "polina-skliar",
@@ -88,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 100,
+        "userCount": 104,
         "playerTeamInfo": {
           "prizeCurrent": 1091,
           "prizeTotal": 4766,
@@ -145,7 +146,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 58,
+        "userCount": 60,
         "playerTeamInfo": {
           "prizeCurrent": 2984,
           "prizeTotal": 9366,
@@ -159,10 +160,10 @@
             "value": 9366,
             "currency": "EUR"
           },
-          "currentRanking": 1470
+          "currentRanking": 1471
         },
         "nameCode": "BJO",
-        "ranking": 1470,
+        "ranking": 1471,
         "national": false,
         "type": 1,
         "country": {
@@ -191,18 +192,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 4,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784549325
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571298,
       "defaultPeriodCount": 3,
       "slug": "polina-skliar-june-bjork",
-      "startTimestamp": 1784541600,
+      "startTimestamp": 1784543973,
       "periods": {
         "point": "Game",
         "current": "Match",

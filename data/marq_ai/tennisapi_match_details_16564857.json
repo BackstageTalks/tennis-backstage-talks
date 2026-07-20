@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523578.2794385,
+  "saved_at": 1784569131.1235943,
   "data": {
     "event": {
+      "firstToServe": 2,
       "awayTeamSeed": "WC",
       "tournament": {
         "name": "Prague, Czech Republic",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 699,
+          "userCount": 754,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +94,11 @@
       },
       "customId": "kDNbspzJc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Prague",
@@ -132,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5382,
+        "userCount": 5407,
         "playerTeamInfo": {
           "height": 1.85,
           "plays": "right-handed",
@@ -160,10 +162,10 @@
             "value": 2915492,
             "currency": "EUR"
           },
-          "currentRanking": 66
+          "currentRanking": 65
         },
         "nameCode": "PAR",
-        "ranking": 70,
+        "ranking": 67,
         "national": false,
         "type": 1,
         "country": {
@@ -203,7 +205,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 709,
+        "userCount": 716,
         "playerTeamInfo": {
           "height": 1.78,
           "plays": "right-handed",
@@ -231,10 +233,10 @@
             "value": 215053,
             "currency": "EUR"
           },
-          "currentRanking": 219
+          "currentRanking": 224
         },
         "nameCode": "HAV",
-        "ranking": 219,
+        "ranking": 226,
         "national": false,
         "type": 1,
         "country": {
@@ -265,18 +267,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 4,
+        "point": "15",
+        "normaltime": 0
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2778,
+        "period2": 2758,
+        "currentPeriodStartTimestamp": 1784554892
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784557697
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564857,
       "defaultPeriodCount": 3,
       "slug": "lucie-havlickova-alycia-parks",
-      "startTimestamp": 1784546400,
+      "currentPeriodStartTimestamp": 1784554892,
+      "startTimestamp": 1784551800,
       "periods": {
         "point": "Game",
         "current": "Match",

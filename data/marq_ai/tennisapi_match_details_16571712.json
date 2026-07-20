@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523577.8961926,
+  "saved_at": 1784569108.7521827,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 7,
+          "userCount": 10,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "mcxbsWhwj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Pauline Dore",
         "slug": "dore-pauline",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 38,
+        "userCount": 39,
         "playerTeamInfo": {
           "prizeCurrent": 946,
           "prizeTotal": 3512,
@@ -116,7 +117,7 @@
             "value": 3512,
             "currency": "EUR"
           },
-          "currentRanking": 1034
+          "currentRanking": 1031
         },
         "nameCode": "DOR",
         "ranking": 1099,
@@ -158,7 +159,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 30,
+        "userCount": 33,
         "playerTeamInfo": {
           "id": 37597,
           "underage": false
@@ -193,18 +194,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 0,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784549188
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571712,
       "defaultPeriodCount": 3,
       "slug": "anna-brunet-brady-pauline-dore",
-      "startTimestamp": 1784545200,
+      "startTimestamp": 1784543826,
       "periods": {
         "point": "Game",
         "current": "Match",

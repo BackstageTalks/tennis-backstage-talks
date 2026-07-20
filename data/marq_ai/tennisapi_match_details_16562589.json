@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523471.080356,
+  "saved_at": 1784569109.6573677,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "WC",
       "tournament": {
         "name": "Kitzbuhel, Austria",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1660,
+          "userCount": 1739,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -95,10 +96,11 @@
       },
       "customId": "AjusaOKc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Kitzbuehel",
@@ -142,7 +144,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2551,
+        "userCount": 2567,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 70,
@@ -171,10 +173,10 @@
             "value": 501178,
             "currency": "EUR"
           },
-          "currentRanking": 137
+          "currentRanking": 140
         },
         "nameCode": "NEU",
-        "ranking": 162,
+        "ranking": 172,
         "national": false,
         "type": 1,
         "country": {
@@ -213,7 +215,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 6893,
+        "userCount": 6954,
         "playerTeamInfo": {
           "height": 1.93,
           "weight": 86,
@@ -254,10 +256,10 @@
             "value": 3905842,
             "currency": "EUR"
           },
-          "currentRanking": 51
+          "currentRanking": 52
         },
         "nameCode": "HAN",
-        "ranking": 51,
+        "ranking": 52,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -289,18 +291,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 4,
+        "period1TieBreak": 5,
+        "point": "15",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3838,
+        "period2": 2449,
+        "currentPeriodStartTimestamp": 1784548368
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784550875
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16562589,
       "defaultPeriodCount": 3,
       "slug": "lukas-neumayer-yannick-hanfmann",
-      "startTimestamp": 1784542200,
+      "currentPeriodStartTimestamp": 1784548368,
+      "startTimestamp": 1784544000,
       "periods": {
         "point": "Game",
         "current": "Match",

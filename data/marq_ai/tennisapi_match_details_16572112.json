@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523468.8022692,
+  "saved_at": 1784569116.0245168,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 5,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "iYJcsbQYc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Brenda Fruhvirtova",
         "slug": "fruhvirtova-brenda",
@@ -88,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2129,
+        "userCount": 2133,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 2667,
@@ -207,18 +208,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 2,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784551961
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16572112,
       "defaultPeriodCount": 3,
       "slug": "carolin-raschdorf-brenda-fruhvirtova",
-      "startTimestamp": 1784541600,
+      "startTimestamp": 1784546865,
       "periods": {
         "point": "Game",
         "current": "Match",

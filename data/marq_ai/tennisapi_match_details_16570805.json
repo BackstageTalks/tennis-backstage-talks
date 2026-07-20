@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523335.9936671,
+  "saved_at": 1784569084.8766038,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "4",
       "awayTeamSeed": "A",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 152,
+          "userCount": 171,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "JhhbsJkkd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Segovia",
@@ -130,7 +132,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 455,
+        "userCount": 461,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 76,
@@ -159,10 +161,10 @@
             "value": 49294,
             "currency": "EUR"
           },
-          "currentRanking": 405
+          "currentRanking": 417
         },
         "nameCode": "GIU",
-        "ranking": 429,
+        "ranking": 425,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -202,7 +204,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 353,
+        "userCount": 362,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 76,
@@ -231,10 +233,10 @@
             "value": 30100,
             "currency": "EUR"
           },
-          "currentRanking": 623
+          "currentRanking": 640
         },
         "nameCode": "HER",
-        "ranking": 623,
+        "ranking": 644,
         "national": false,
         "type": 1,
         "country": {
@@ -263,17 +265,48 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 4,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1497,
+        "period2": 2504,
+        "currentPeriodStartTimestamp": 1784540160
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "homeScore.normaltime",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784542709
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16570805,
       "defaultPeriodCount": 3,
       "slug": "samuel-heredia-massimo-giunta",
+      "currentPeriodStartTimestamp": 1784540160,
       "startTimestamp": 1784538000,
       "periods": {
         "point": "Game",

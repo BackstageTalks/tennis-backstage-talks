@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523459.5555754,
+  "saved_at": 1784569106.0128472,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 13,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "ZTocsOvYd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Lucie Petruželova",
         "slug": "petruzelova-lucie",
@@ -88,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 85,
+        "userCount": 87,
         "playerTeamInfo": {
           "prizeCurrent": 7226,
           "prizeTotal": 21006,
@@ -103,10 +104,10 @@
             "value": 21006,
             "currency": "EUR"
           },
-          "currentRanking": 634
+          "currentRanking": 621
         },
         "nameCode": "PET",
-        "ranking": 642,
+        "ranking": 634,
         "national": false,
         "type": 1,
         "country": {
@@ -145,7 +146,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 64,
+        "userCount": 67,
         "playerTeamInfo": {
           "prizeCurrent": 2583,
           "prizeTotal": 5621,
@@ -159,10 +160,10 @@
             "value": 5621,
             "currency": "EUR"
           },
-          "currentRanking": 807
+          "currentRanking": 806
         },
         "nameCode": "SUP",
-        "ranking": 1008,
+        "ranking": 924,
         "national": false,
         "type": 1,
         "country": {
@@ -191,18 +192,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 3,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784547905
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571564,
       "defaultPeriodCount": 3,
       "slug": "kali-supova-lucie-petruzelova",
-      "startTimestamp": 1784541600,
+      "startTimestamp": 1784543423,
       "periods": {
         "point": "Game",
         "current": "Match",

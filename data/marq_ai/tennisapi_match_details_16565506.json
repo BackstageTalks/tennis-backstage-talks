@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523153.436901,
+  "saved_at": 1784569091.405664,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 9,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "VutdsWTxe",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Amelie Justine Hejtmanek",
         "slug": "hejtmanek-amelie-justine",
@@ -105,7 +106,7 @@
           "currentRanking": 867
         },
         "nameCode": "HEJ",
-        "ranking": 871,
+        "ranking": 867,
         "national": false,
         "type": 1,
         "country": {
@@ -144,7 +145,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 24,
+        "userCount": 26,
         "nameCode": "MYH",
         "national": false,
         "type": 1,
@@ -174,21 +175,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 0,
+        "point": "0"
+      },
       "time": {},
       "changes": {
         "changes": [
-          "providerLock.status"
+          "firstToServe"
         ],
-        "changeTimestamp": 1784461914
+        "changeTimestamp": 1784542746
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16565506,
       "defaultPeriodCount": 3,
       "slug": "thale-myhre-amelie-justine-hejtmanek",
-      "startTimestamp": 1784470720,
+      "startTimestamp": 1784538353,
       "periods": {
         "point": "Game",
         "current": "Match",

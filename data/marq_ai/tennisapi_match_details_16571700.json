@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523400.738265,
+  "saved_at": 1784569110.6805723,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "2",
       "awayTeamSeed": "8",
       "tournament": {
@@ -56,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 506,
+          "userCount": 569,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -94,10 +95,11 @@
       },
       "customId": "OgrsEJFb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Hamburg",
@@ -133,7 +135,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 895,
+        "userCount": 920,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 58007,
@@ -152,7 +154,7 @@
           "currentRanking": 178
         },
         "nameCode": "VED",
-        "ranking": 179,
+        "ranking": 178,
         "national": false,
         "type": 1,
         "country": {
@@ -191,7 +193,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1614,
+        "userCount": 1631,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 69,
@@ -233,7 +235,7 @@
             "value": 3922406,
             "currency": "EUR"
           },
-          "currentRanking": 214
+          "currentRanking": 216
         },
         "nameCode": "BAR",
         "ranking": 223,
@@ -266,18 +268,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 3,
+        "period3": 0,
+        "point": "30",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 4,
+        "period2": 6,
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2172,
+        "period2": 2113,
+        "period3": 1401,
+        "currentPeriodStartTimestamp": 1784549076
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1784550506
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571700,
       "defaultPeriodCount": 3,
       "slug": "eva-vedder-mona-barthel",
-      "startTimestamp": 1784538600,
+      "currentPeriodStartTimestamp": 1784549076,
+      "startTimestamp": 1784544300,
       "periods": {
         "point": "Game",
         "current": "Match",

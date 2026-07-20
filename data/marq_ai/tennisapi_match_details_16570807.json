@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523663.8472674,
+  "saved_at": 1784569127.2268026,
   "data": {
     "event": {
+      "firstToServe": 2,
       "awayTeamSeed": "2",
       "tournament": {
         "name": "Hamburg, Germany",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 506,
+          "userCount": 569,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +94,11 @@
       },
       "customId": "onLsXbnd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Hamburg",
@@ -132,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1512,
+        "userCount": 1517,
         "playerTeamInfo": {
           "height": 1.67,
           "plays": "right-handed",
@@ -149,10 +151,10 @@
             "value": 361753,
             "currency": "EUR"
           },
-          "currentRanking": 100
+          "currentRanking": 101
         },
         "nameCode": "QUE",
-        "ranking": 100,
+        "ranking": 101,
         "national": false,
         "type": 1,
         "country": {
@@ -191,7 +193,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4535,
+        "userCount": 4559,
         "playerTeamInfo": {
           "height": 1.8,
           "plays": "right-handed",
@@ -223,7 +225,7 @@
           "currentRanking": 28
         },
         "nameCode": "KAL",
-        "ranking": 59,
+        "ranking": 57,
         "class": 1,
         "disabled": false,
         "national": false,
@@ -255,18 +257,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 4,
+        "point": "40",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3896,
+        "period2": 3204,
+        "currentPeriodStartTimestamp": 1784554908
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784558151
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16570807,
       "defaultPeriodCount": 3,
       "slug": "kaitlin-quevedo-anhelina-kalinina",
-      "startTimestamp": 1784547000,
+      "currentPeriodStartTimestamp": 1784554908,
+      "startTimestamp": 1784550900,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,8 +1,10 @@
 {
-  "saved_at": 1784523580.1524634,
+  "saved_at": 1784569130.002894,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "WC",
+      "awayTeamSeed": "Q",
       "tournament": {
         "name": "Kitzbuhel, Austria",
         "slug": "kitzbuhel-austria",
@@ -55,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1660,
+          "userCount": 1739,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -95,10 +97,11 @@
       },
       "customId": "jdFbsJnEd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Kitzbuehel",
@@ -142,7 +145,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2719,
+        "userCount": 2728,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 86,
@@ -171,10 +174,10 @@
             "value": 261451,
             "currency": "EUR"
           },
-          "currentRanking": 171
+          "currentRanking": 182
         },
         "nameCode": "SCH",
-        "ranking": 171,
+        "ranking": 185,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -214,7 +217,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3295,
+        "userCount": 3351,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 83,
@@ -255,10 +258,10 @@
             "value": 1502515,
             "currency": "EUR"
           },
-          "currentRanking": 143
+          "currentRanking": 139
         },
         "nameCode": "ROD",
-        "ranking": 143,
+        "ranking": 145,
         "national": false,
         "type": 1,
         "country": {
@@ -288,18 +291,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2463,
+        "period2": 2237,
+        "currentPeriodStartTimestamp": 1784554396
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784556654
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571610,
       "defaultPeriodCount": 3,
       "slug": "joel-schwaerzler-jurij-rodionov",
-      "startTimestamp": 1784546400,
+      "currentPeriodStartTimestamp": 1784554396,
+      "startTimestamp": 1784551800,
       "periods": {
         "point": "Game",
         "current": "Match",

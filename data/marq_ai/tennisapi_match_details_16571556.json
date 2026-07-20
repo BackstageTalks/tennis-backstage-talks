@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523574.521578,
+  "saved_at": 1784569115.2357855,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 13,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "lWGbseCWi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Franziska Sziedat",
         "slug": "sziedat-franziska",
@@ -88,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 189,
+        "userCount": 190,
         "playerTeamInfo": {
           "prizeCurrent": 5383,
           "prizeTotal": 32167,
@@ -103,10 +104,10 @@
             "value": 32167,
             "currency": "EUR"
           },
-          "currentRanking": 682
+          "currentRanking": 675
         },
         "nameCode": "SZI",
-        "ranking": 682,
+        "ranking": 692,
         "national": false,
         "type": 1,
         "country": {
@@ -144,7 +145,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 114,
+        "userCount": 117,
         "playerTeamInfo": {
           "prizeCurrent": 2052,
           "prizeTotal": 4338,
@@ -158,10 +159,10 @@
             "value": 4338,
             "currency": "EUR"
           },
-          "currentRanking": 921
+          "currentRanking": 899
         },
         "nameCode": "TMA",
-        "ranking": 924,
+        "ranking": 921,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -191,18 +192,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 1,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784550221
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571556,
       "defaultPeriodCount": 3,
       "slug": "tina-manescu-franziska-sziedat",
-      "startTimestamp": 1784545200,
+      "startTimestamp": 1784545839,
       "periods": {
         "point": "Game",
         "current": "Match",

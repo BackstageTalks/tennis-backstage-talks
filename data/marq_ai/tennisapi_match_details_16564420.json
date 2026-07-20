@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523549.6457224,
+  "saved_at": 1784569114.3218064,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "WC",
       "tournament": {
         "name": "Estoril, Portugal",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1989,
+          "userCount": 2069,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +94,11 @@
       },
       "customId": "ezksBunc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Estoril",
@@ -140,7 +142,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 544,
+        "userCount": 559,
         "playerTeamInfo": {
           "height": 1.75,
           "weight": 73,
@@ -169,10 +171,10 @@
             "value": 42055,
             "currency": "EUR"
           },
-          "currentRanking": 408
+          "currentRanking": 409
         },
         "nameCode": "TOR",
-        "ranking": 430,
+        "ranking": 427,
         "national": false,
         "type": 1,
         "country": {
@@ -211,7 +213,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5821,
+        "userCount": 5886,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 79,
@@ -255,7 +257,7 @@
           "currentRanking": 95
         },
         "nameCode": "BAS",
-        "ranking": 135,
+        "ranking": 130,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -286,17 +288,48 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2314,
+        "period2": 1969,
+        "currentPeriodStartTimestamp": 1784548094
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "homeScore.normaltime",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784550075
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564420,
       "defaultPeriodCount": 3,
       "slug": "tiago-torres-nikoloz-basilashvili",
+      "currentPeriodStartTimestamp": 1784548094,
       "startTimestamp": 1784545200,
       "periods": {
         "point": "Game",

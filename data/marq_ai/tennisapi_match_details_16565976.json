@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523296.2342246,
+  "saved_at": 1784569089.7881513,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Prague, Czech Republic, Doubles",
         "slug": "prague-czech-republic-doubles",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 58,
+          "userCount": 64,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +93,11 @@
       },
       "customId": "AukcsyOZj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Prague",
@@ -130,7 +132,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 0,
+        "userCount": 4,
         "nameCode": "F/S",
         "national": false,
         "type": 2,
@@ -148,7 +150,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 1041,
+            "userCount": 1044,
             "playerTeamInfo": {
               "height": 1.76,
               "plays": "right-handed",
@@ -179,7 +181,7 @@
               "currentRanking": 325
             },
             "nameCode": "FAL",
-            "ranking": 353,
+            "ranking": 325,
             "national": false,
             "type": 1,
             "country": {
@@ -218,7 +220,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 590,
+            "userCount": 592,
             "playerTeamInfo": {
               "plays": "right-handed",
               "prizeCurrent": 26320,
@@ -234,10 +236,10 @@
                 "value": 170452,
                 "currency": "EUR"
               },
-              "currentRanking": 463
+              "currentRanking": 464
             },
             "nameCode": "SMI",
-            "ranking": 463,
+            "ranking": 464,
             "national": false,
             "type": 1,
             "country": {
@@ -283,7 +285,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 0,
+        "userCount": 1,
         "nameCode": "P/T",
         "national": false,
         "type": 2,
@@ -301,7 +303,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 336,
+            "userCount": 338,
             "playerTeamInfo": {
               "height": 1.69,
               "plays": "right-handed",
@@ -330,10 +332,10 @@
                 "value": 382075,
                 "currency": "EUR"
               },
-              "currentRanking": 645
+              "currentRanking": 644
             },
             "nameCode": "PLI",
-            "ranking": 749,
+            "ranking": 752,
             "national": false,
             "type": 1,
             "country": {
@@ -371,7 +373,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 55,
+            "userCount": 56,
             "nameCode": "THO",
             "national": false,
             "type": 1,
@@ -415,18 +417,49 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 2,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1511,
+        "period2": 2022,
+        "currentPeriodStartTimestamp": 1784540007
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "homeScore.normaltime",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784542034
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16565976,
       "defaultPeriodCount": 3,
       "slug": "falkowska-smith-plipuech-thombare",
-      "startTimestamp": 1784538000,
+      "currentPeriodStartTimestamp": 1784540007,
+      "startTimestamp": 1784538300,
       "periods": {
         "point": "Game",
         "current": "Match",

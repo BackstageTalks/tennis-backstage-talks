@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523816.7963533,
+  "saved_at": 1784569129.257317,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 10,
+          "userCount": 11,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "ZCNbsaidd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Angelica Raggi",
         "slug": "raggi-angelica",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 295,
+        "userCount": 297,
         "playerTeamInfo": {
           "prizeCurrent": 5018,
           "prizeTotal": 73358,
@@ -117,10 +118,10 @@
             "value": 73358,
             "currency": "EUR"
           },
-          "currentRanking": 594
+          "currentRanking": 586
         },
         "nameCode": "RAG",
-        "ranking": 596,
+        "ranking": 594,
         "national": false,
         "type": 1,
         "country": {
@@ -159,11 +160,11 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 38,
+        "userCount": 39,
         "playerTeamInfo": {
           "id": 21935,
           "underage": false,
-          "currentRanking": 2208
+          "currentRanking": 2210
         },
         "nameCode": "ILI",
         "national": false,
@@ -194,18 +195,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 0,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784555236
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571638,
       "defaultPeriodCount": 3,
       "slug": "diana-maria-ilie-angelica-raggi",
-      "startTimestamp": 1784552400,
+      "startTimestamp": 1784551486,
       "periods": {
         "point": "Game",
         "current": "Match",

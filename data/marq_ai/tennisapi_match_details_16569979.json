@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523214.2375698,
+  "saved_at": 1784569067.294993,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 10,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "LCJcsZyed",
       "status": {
-        "code": 8,
-        "description": "1st set",
-        "type": "inprogress"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Azuma Visaya",
         "slug": "visaya-azuma",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 76,
+        "userCount": 85,
         "playerTeamInfo": {
           "prizeCurrent": 136,
           "prizeTotal": 2332,
@@ -117,7 +118,7 @@
             "value": 2332,
             "currency": "EUR"
           },
-          "currentRanking": 1390
+          "currentRanking": 1412
         },
         "nameCode": "VIS",
         "national": false,
@@ -158,7 +159,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 60,
+        "userCount": 71,
         "playerTeamInfo": {
           "prizeCurrent": 0,
           "prizeTotal": 1288,
@@ -173,7 +174,7 @@
             "value": 1288,
             "currency": "EUR"
           },
-          "currentRanking": 1934
+          "currentRanking": 1898
         },
         "nameCode": "NIR",
         "national": false,
@@ -205,23 +206,28 @@
         "timeActive": []
       },
       "homeScore": {
-        "current": 0,
-        "display": 0,
-        "period1": 3,
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
         "point": "0"
       },
       "awayScore": {
         "current": 0,
         "display": 0,
-        "period1": 2,
-        "point": "15"
+        "period1": 5,
+        "period2": 4,
+        "point": "0"
       },
       "time": {},
       "changes": {
         "changes": [
-          "awayScore.point"
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
         ],
-        "changeTimestamp": 1784523190
+        "changeTimestamp": 1784528351
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
@@ -238,7 +244,6 @@
         "period4": "4th set",
         "period5": "5th set"
       },
-      "lastPeriod": "period1",
       "finalResultOnly": false,
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",

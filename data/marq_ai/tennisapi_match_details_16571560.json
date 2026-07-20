@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523460.2233512,
+  "saved_at": 1784569106.4882097,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 13,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "AeJbskrme",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Anna Kmiecik",
         "slug": "kmiecik-anna",
@@ -88,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 155,
+        "userCount": 162,
         "playerTeamInfo": {
           "prizeCurrent": 2763,
           "prizeTotal": 5844,
@@ -102,10 +103,10 @@
             "value": 5844,
             "currency": "EUR"
           },
-          "currentRanking": 977
+          "currentRanking": 940
         },
         "nameCode": "KMI",
-        "ranking": 1001,
+        "ranking": 977,
         "national": false,
         "type": 1,
         "country": {
@@ -144,7 +145,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 187,
+        "userCount": 188,
         "playerTeamInfo": {
           "prizeCurrent": 11113,
           "prizeTotal": 124054,
@@ -159,10 +160,10 @@
             "value": 124054,
             "currency": "EUR"
           },
-          "currentRanking": 895
+          "currentRanking": 884
         },
         "nameCode": "BAY",
-        "ranking": 895,
+        "ranking": 898,
         "national": false,
         "type": 1,
         "country": {
@@ -191,18 +192,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 2,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784547167
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571560,
       "defaultPeriodCount": 3,
       "slug": "anna-kmiecik-michaela-bayerlova",
-      "startTimestamp": 1784541600,
+      "startTimestamp": 1784543492,
       "periods": {
         "point": "Game",
         "current": "Match",

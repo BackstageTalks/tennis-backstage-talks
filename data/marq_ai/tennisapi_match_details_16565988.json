@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523811.6908977,
+  "saved_at": 1784569131.893173,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "3",
       "tournament": {
         "name": "Tampere, Finland",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 139,
+          "userCount": 153,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "GQHbsazTb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Tampere",
@@ -166,10 +168,10 @@
             "value": 536437,
             "currency": "EUR"
           },
-          "currentRanking": 169
+          "currentRanking": 178
         },
         "nameCode": "ONC",
-        "ranking": 169,
+        "ranking": 178,
         "national": false,
         "type": 1,
         "country": {
@@ -209,7 +211,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2351,
+        "userCount": 2353,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 78,
@@ -249,10 +251,10 @@
             "value": 624520,
             "currency": "EUR"
           },
-          "currentRanking": 303
+          "currentRanking": 300
         },
         "nameCode": "AJD",
-        "ranking": 303,
+        "ranking": 306,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -282,17 +284,42 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 15,
+        "point": "0",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 1,
+        "period1TieBreak": 13,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 4654,
+        "period2": 1669,
+        "currentPeriodStartTimestamp": 1784557817
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784559513
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16565988,
       "defaultPeriodCount": 3,
       "slug": "gauthier-onclin-duje-ajdukovic",
+      "currentPeriodStartTimestamp": 1784557817,
       "startTimestamp": 1784552400,
       "periods": {
         "point": "Game",

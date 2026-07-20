@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523336.6867282,
+  "saved_at": 1784569090.6271236,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "WC",
       "tournament": {
         "name": "Prague, Czech Republic",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 699,
+          "userCount": 754,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +94,11 @@
       },
       "customId": "tZAsHNFd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Prague",
@@ -132,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 536,
+        "userCount": 544,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 11344,
@@ -148,10 +150,10 @@
             "value": 38777,
             "currency": "EUR"
           },
-          "currentRanking": 156
+          "currentRanking": 157
         },
         "nameCode": "OKT",
-        "ranking": 356,
+        "ranking": 403,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -191,7 +193,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2078,
+        "userCount": 2087,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 58,
@@ -232,10 +234,10 @@
             "value": 2593246,
             "currency": "EUR"
           },
-          "currentRanking": 358
+          "currentRanking": 359
         },
         "nameCode": "DOD",
-        "ranking": 401,
+        "ranking": 362,
         "national": false,
         "type": 1,
         "country": {
@@ -265,18 +267,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 3,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2191,
+        "period2": 2125,
+        "currentPeriodStartTimestamp": 1784540611
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784542771
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564858,
       "defaultPeriodCount": 3,
       "slug": "alisa-oktiabreva-oceane-dodin",
-      "startTimestamp": 1784538000,
+      "currentPeriodStartTimestamp": 1784540611,
+      "startTimestamp": 1784538300,
       "periods": {
         "point": "Game",
         "current": "Match",

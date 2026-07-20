@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523469.5306647,
+  "saved_at": 1784569081.2535813,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 5,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "LtKbsYiuc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Laetitia Pulchartová",
         "slug": "pulchartova-laetitia",
@@ -146,7 +147,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 76,
+        "userCount": 78,
         "playerTeamInfo": {
           "prizeCurrent": 1770,
           "prizeTotal": 10576,
@@ -160,7 +161,7 @@
             "value": 10576,
             "currency": "EUR"
           },
-          "currentRanking": 1056
+          "currentRanking": 1052
         },
         "nameCode": "MAN",
         "ranking": 1094,
@@ -192,18 +193,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 3,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784541576
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16572118,
       "defaultPeriodCount": 3,
       "slug": "katerina-mandelikova-laetitia-pulchartova",
-      "startTimestamp": 1784541600,
+      "startTimestamp": 1784536797,
       "periods": {
         "point": "Game",
         "current": "Match",

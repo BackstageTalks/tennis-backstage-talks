@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523294.8444698,
+  "saved_at": 1784569079.4934013,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "3",
       "awayTeamSeed": "7",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 139,
+          "userCount": 153,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "jvvsAcT",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Tampere",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1953,
+        "userCount": 1975,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 77,
@@ -179,10 +181,10 @@
             "value": 799584,
             "currency": "EUR"
           },
-          "currentRanking": 300
+          "currentRanking": 302
         },
         "nameCode": "KUZ",
-        "ranking": 394,
+        "ranking": 395,
         "national": false,
         "type": 1,
         "country": {
@@ -222,7 +224,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 921,
+        "userCount": 926,
         "playerTeamInfo": {
           "height": 1.96,
           "weight": 85,
@@ -264,10 +266,10 @@
             "value": 883840,
             "currency": "EUR"
           },
-          "currentRanking": 566
+          "currentRanking": 564
         },
         "nameCode": "JAN",
-        "ranking": 566,
+        "ranking": 581,
         "national": false,
         "type": 1,
         "country": {
@@ -297,17 +299,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "30",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 1,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2210,
+        "period2": 1673,
+        "currentPeriodStartTimestamp": 1784539087
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784540806
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571031,
       "defaultPeriodCount": 3,
       "slug": "maxime-janvier-dimitar-kuzmanov",
+      "currentPeriodStartTimestamp": 1784539087,
       "startTimestamp": 1784536200,
       "periods": {
         "point": "Game",

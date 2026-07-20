@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523295.7153034,
+  "saved_at": 1784569091.0331607,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "8",
       "tournament": {
         "name": "Prague, Czech Republic",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 699,
+          "userCount": 754,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +94,11 @@
       },
       "customId": "YRgcsHNYc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Prague",
@@ -132,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2791,
+        "userCount": 2810,
         "playerTeamInfo": {
           "height": 1.76,
           "plays": "right-handed",
@@ -160,10 +162,10 @@
             "value": 968316,
             "currency": "EUR"
           },
-          "currentRanking": 99
+          "currentRanking": 101
         },
         "nameCode": "SEI",
-        "ranking": 99,
+        "ranking": 103,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -203,7 +205,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2506,
+        "userCount": 2534,
         "playerTeamInfo": {
           "height": 1.73,
           "plays": "right-handed",
@@ -234,7 +236,7 @@
           "currentRanking": 34
         },
         "nameCode": "SNI",
-        "ranking": 56,
+        "ranking": 54,
         "national": false,
         "type": 1,
         "country": {
@@ -264,18 +266,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 5,
+        "period2": 6,
+        "period3": 3,
+        "point": "0",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 3,
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3334,
+        "period2": 2123,
+        "period3": 2631,
+        "currentPeriodStartTimestamp": 1784543895
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1784546572
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564861,
       "defaultPeriodCount": 3,
       "slug": "ella-seidel-daria-snigur",
-      "startTimestamp": 1784538000,
+      "currentPeriodStartTimestamp": 1784543895,
+      "startTimestamp": 1784538300,
       "periods": {
         "point": "Game",
         "current": "Match",

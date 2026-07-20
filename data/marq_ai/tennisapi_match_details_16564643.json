@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523683.5271363,
+  "saved_at": 1784569121.3472009,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Estoril, Portugal, Doubles",
         "slug": "estoril-portugal-doubles",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 126,
+          "userCount": 133,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +93,11 @@
       },
       "customId": "dvzcsqEKi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Estoril",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 6,
+        "userCount": 7,
         "nameCode": "HIT",
         "national": false,
         "type": 2,
@@ -235,7 +237,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 15284,
+            "userCount": 15319,
             "playerTeamInfo": {
               "height": 1.88,
               "weight": 75,
@@ -279,7 +281,7 @@
               "currentRanking": 30
             },
             "nameCode": "TAB",
-            "ranking": 31,
+            "ranking": 30,
             "class": 1,
             "disabled": false,
             "national": false,
@@ -335,7 +337,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 12,
+        "userCount": 13,
         "nameCode": "NAY",
         "national": false,
         "type": 2,
@@ -353,7 +355,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 331,
+            "userCount": 333,
             "playerTeamInfo": {
               "height": 1.83,
               "weight": 80,
@@ -396,7 +398,7 @@
               "currentRanking": 690
             },
             "nameCode": "NAM",
-            "ranking": 1020,
+            "ranking": 1021,
             "national": false,
             "type": 1,
             "country": {
@@ -463,10 +465,10 @@
                 "value": 129441,
                 "currency": "EUR"
               },
-              "currentRanking": 557
+              "currentRanking": 556
             },
             "nameCode": "YUZ",
-            "ranking": 1263,
+            "ranking": 1271,
             "national": false,
             "type": 1,
             "country": {
@@ -510,17 +512,48 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 5,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1667,
+        "period2": 2706,
+        "currentPeriodStartTimestamp": 1784551120
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "homeScore.normaltime",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784553841
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564643,
       "defaultPeriodCount": 3,
       "slug": "nam-ji-yuzuki-hidalgo-tabilo",
+      "currentPeriodStartTimestamp": 1784551120,
       "startTimestamp": 1784548800,
       "periods": {
         "point": "Game",
