@@ -23,8 +23,8 @@
         "data/pick_history/all/2026-07-20.json"
       ],
       "history_items_loaded": 756,
-      "resolved_count": 686,
-      "pending_count": 70,
+      "resolved_count": 687,
+      "pending_count": 69,
       "unknown_count": 0
     },
     "top5": {
@@ -52,7 +52,7 @@
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4334,
+  "finished_results_found": 4335,
   "examples_results": [
     {
       "match_id": 16465445,
@@ -851,6 +851,283 @@
           "id": 16564419,
           "slug": "titouan-droguet-camilo-ugo-carabelli",
           "startTimestamp": 1784550600,
+          "periods": {
+            "point": "Game",
+            "current": "Match",
+            "period1": "1st set",
+            "period2": "2nd set",
+            "period3": "3rd set",
+            "period4": "4th set",
+            "period5": "5th set"
+          },
+          "finalResultOnly": false,
+          "feedLocked": false,
+          "groundType": "Red clay",
+          "isEditor": false,
+          "eventFilters": {
+            "category": [
+              "singles"
+            ],
+            "level": [
+              "pro"
+            ],
+            "tournament": [
+              "p250"
+            ],
+            "gender": [
+              "M"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "match_id": 16564422,
+      "event_id": 16564422,
+      "date": "2026-07-20",
+      "player1": "Frederico Ferreira Silva",
+      "player2": "Luca Van Assche",
+      "winner": "Luca Van Assche",
+      "score": "5-7 7-6 1-6",
+      "status": "FINISHED",
+      "source": "TennisApi",
+      "match": "Frederico Ferreira Silva vs Luca Van Assche",
+      "raw": {
+        "source": "TennisApi",
+        "match_id": 16564422,
+        "event_id": 16564422,
+        "date": "2026-07-20",
+        "player1": "Frederico Ferreira Silva",
+        "player2": "Luca Van Assche",
+        "winner": "Luca Van Assche",
+        "score": "5-7 7-6 1-6",
+        "status": "FINISHED",
+        "match": "Frederico Ferreira Silva vs Luca Van Assche",
+        "tournament": "Estoril",
+        "category": "ATP",
+        "start_time_utc": "2026-07-20T14:50:00+00:00",
+        "raw": {
+          "firstToServe": 2,
+          "homeTeamSeed": "WC",
+          "tournament": {
+            "name": "Estoril, Portugal",
+            "slug": "estoril-portugal",
+            "category": {
+              "name": "ATP",
+              "slug": "atp",
+              "sport": {
+                "name": "Tennis",
+                "slug": "tennis",
+                "id": 5
+              },
+              "priority": 8,
+              "country": {},
+              "id": 3,
+              "flag": "atp",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "bn": "এটিপি",
+                  "hi": "डब्ल्यूटीए",
+                  "ar": "رابطة محترفي التنس",
+                  "ru": "ATP"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "uniqueTournament": {
+              "name": "Estoril",
+              "slug": "estoril",
+              "category": {
+                "name": "ATP",
+                "slug": "atp",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "priority": 8,
+                "country": {},
+                "id": 3,
+                "flag": "atp",
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "bn": "এটিপি",
+                    "hi": "डब्ल्यूटीए",
+                    "ar": "رابطة محترفي التنس",
+                    "ru": "ATP"
+                  },
+                  "shortNameTranslation": {}
+                }
+              },
+              "userCount": 2069,
+              "groundType": "Red clay",
+              "tennisPoints": 250,
+              "hasPerformanceGraphFeature": false,
+              "country": {},
+              "id": 2541,
+              "hasEventPlayerStatistics": false,
+              "displayInverseHomeAwayTeams": false,
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "استوريل",
+                  "hi": "एस्टोरिल",
+                  "bn": "এস্টোরিল",
+                  "ru": "Эшторил"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "priority": 0,
+            "isGroup": false,
+            "id": 191829,
+            "endTimestamp": 1785024000,
+            "startTimestamp": 1784505600
+          },
+          "season": {
+            "name": "ATP Estoril, Portugal Men Singles 2026",
+            "year": "2026",
+            "editor": false,
+            "id": 82381
+          },
+          "roundInfo": {
+            "round": 6,
+            "name": "Round of 32",
+            "slug": "round-of-32",
+            "cupRoundType": 16
+          },
+          "customId": "JEBsccJc",
+          "status": {
+            "code": 100,
+            "description": "Ended",
+            "type": "finished"
+          },
+          "winnerCode": 2,
+          "homeTeam": {
+            "name": "Frederico Ferreira Silva",
+            "slug": "ferreira-silva-frederico",
+            "shortName": "F. Ferreira Silva",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 1727,
+            "playerTeamInfo": {
+              "id": 496
+            },
+            "nameCode": "FER",
+            "ranking": 235,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "PT",
+              "alpha3": "PRT",
+              "name": "Portugal",
+              "slug": "portugal"
+            },
+            "id": 66484,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "فريدريكو فيريرا سيلفا",
+                "ru": "Сильва, Фредерико Феррейра"
+              },
+              "shortNameTranslation": {
+                "ar": "ف. سيلفا",
+                "bn": "এফ. ফেরেরা শিলভা",
+                "hi": "एफ. फेरेइरा सिल्वा"
+              }
+            }
+          },
+          "awayTeam": {
+            "name": "Luca Van Assche",
+            "slug": "van-assche-luca",
+            "shortName": "L. Van Assche",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 4518,
+            "playerTeamInfo": {
+              "id": 4788
+            },
+            "nameCode": "VAN",
+            "ranking": 78,
+            "disabled": false,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "FR",
+              "alpha3": "FRA",
+              "name": "France",
+              "slug": "france"
+            },
+            "id": 335102,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "لوكا فان أسيش",
+                "ru": "Лука Ван Асше"
+              },
+              "shortNameTranslation": {
+                "ar": "ل. فان أسيش",
+                "bn": "এল. ভ্যান অ্যাশে",
+                "hi": "एल. वान एस्च",
+                "ru": "Л. Асше"
+              }
+            }
+          },
+          "homeScore": {
+            "current": 1,
+            "display": 1,
+            "period1": 5,
+            "period2": 7,
+            "period3": 1,
+            "period2TieBreak": 7,
+            "point": "0",
+            "normaltime": 1
+          },
+          "awayScore": {
+            "current": 2,
+            "display": 2,
+            "period1": 7,
+            "period2": 6,
+            "period3": 6,
+            "period2TieBreak": 4,
+            "point": "40",
+            "normaltime": 2
+          },
+          "time": {
+            "period1": 4509,
+            "period2": 5438,
+            "period3": 2444,
+            "currentPeriodStartTimestamp": 1784569796
+          },
+          "changes": {
+            "changes": [
+              "time.currentPeriodStart",
+              "time.period3"
+            ],
+            "changeTimestamp": 1784572279
+          },
+          "hasGlobalHighlights": false,
+          "crowdsourcingDataDisplayEnabled": false,
+          "id": 16564422,
+          "slug": "luca-van-assche-frederico-ferreira-silva",
+          "startTimestamp": 1784559000,
           "periods": {
             "point": "Game",
             "current": "Match",
@@ -2515,412 +2792,6 @@
           }
         }
       }
-    },
-    {
-      "match_id": 16564643,
-      "event_id": 16564643,
-      "date": "2026-07-20",
-      "player1": "Hidalgo D / Tabilo A",
-      "player2": "Nam Ji / Yuzuki T",
-      "winner": "Hidalgo D / Tabilo A",
-      "score": "6-3 7-5",
-      "status": "FINISHED",
-      "source": "TennisApi",
-      "match": "Hidalgo D / Tabilo A vs Nam Ji / Yuzuki T",
-      "raw": {
-        "source": "TennisApi",
-        "match_id": 16564643,
-        "event_id": 16564643,
-        "date": "2026-07-20",
-        "player1": "Hidalgo D / Tabilo A",
-        "player2": "Nam Ji / Yuzuki T",
-        "winner": "Hidalgo D / Tabilo A",
-        "score": "6-3 7-5",
-        "status": "FINISHED",
-        "match": "Hidalgo D / Tabilo A vs Nam Ji / Yuzuki T",
-        "tournament": "Estoril, Doubles",
-        "category": "ATP",
-        "start_time_utc": "2026-07-20T12:00:00+00:00",
-        "raw": {
-          "firstToServe": 1,
-          "tournament": {
-            "name": "Estoril, Portugal, Doubles",
-            "slug": "estoril-portugal-doubles",
-            "category": {
-              "name": "ATP",
-              "slug": "atp",
-              "sport": {
-                "name": "Tennis",
-                "slug": "tennis",
-                "id": 5
-              },
-              "priority": 8,
-              "country": {},
-              "id": 3,
-              "flag": "atp",
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "bn": "এটিপি",
-                  "hi": "डब्ल्यूटीए",
-                  "ar": "رابطة محترفي التنس",
-                  "ru": "ATP"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "uniqueTournament": {
-              "name": "Estoril, Doubles",
-              "slug": "estoril-doubles",
-              "primaryColorHex": "#eedf00",
-              "secondaryColorHex": "#c1b300",
-              "category": {
-                "name": "ATP",
-                "slug": "atp",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "priority": 8,
-                "country": {},
-                "id": 3,
-                "flag": "atp",
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "bn": "এটিপি",
-                    "hi": "डब्ल्यूटीए",
-                    "ar": "رابطة محترفي التنس",
-                    "ru": "ATP"
-                  },
-                  "shortNameTranslation": {}
-                }
-              },
-              "userCount": 133,
-              "groundType": "Red clay",
-              "tennisPoints": 250,
-              "hasPerformanceGraphFeature": false,
-              "country": {},
-              "id": 2529,
-              "hasEventPlayerStatistics": false,
-              "displayInverseHomeAwayTeams": false,
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "إستوريل، زوجي",
-                  "ru": "Эшторил, парный разряд"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "priority": 0,
-            "isGroup": false,
-            "id": 191830,
-            "endTimestamp": 1785024000,
-            "startTimestamp": 1784505600
-          },
-          "season": {
-            "name": "ATP Estoril, Portugal Men Doubles 2026",
-            "year": "2026",
-            "editor": false,
-            "id": 82382
-          },
-          "roundInfo": {
-            "round": 5,
-            "name": "Round of 16",
-            "slug": "round-of-16",
-            "cupRoundType": 8
-          },
-          "customId": "dvzcsqEKi",
-          "status": {
-            "code": 100,
-            "description": "Ended",
-            "type": "finished"
-          },
-          "winnerCode": 1,
-          "homeTeam": {
-            "name": "Hidalgo D / Tabilo A",
-            "slug": "hidalgo-d-tabilo-a",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 7,
-            "nameCode": "HIT",
-            "national": false,
-            "type": 2,
-            "country": {},
-            "id": 311003,
-            "subTeams": [
-              {
-                "name": "Diego Hidalgo",
-                "slug": "hidalgo-diego",
-                "shortName": "D. Hidalgo",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 212,
-                "nameCode": "HID",
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "EC",
-                  "alpha3": "ECU",
-                  "name": "Ecuador",
-                  "slug": "ecuador"
-                },
-                "id": 52263,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "دييغو هيدالغو",
-                    "ru": "Хидалго, Диего"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "د. هيدالغو"
-                  }
-                }
-              },
-              {
-                "name": "Alejandro Tabilo",
-                "slug": "tabilo-alejandro",
-                "shortName": "A. Tabilo",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 15319,
-                "nameCode": "TAB",
-                "ranking": 30,
-                "disabled": false,
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "CL",
-                  "alpha3": "CHL",
-                  "name": "Chile",
-                  "slug": "chile"
-                },
-                "id": 102151,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "أليخاندرو تابيلو",
-                    "bn": "আলেকজান্ডার তাবিলো",
-                    "hi": "एलेजांद्रो टाबिलो",
-                    "ru": "Табило, Алехандро"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "أ. تابيلو"
-                  }
-                }
-              }
-            ],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "هيدالغو د / تابيلو أ",
-                "ru": "Хидалго Д / Табило А"
-              },
-              "shortNameTranslation": {}
-            }
-          },
-          "awayTeam": {
-            "name": "Nam Ji / Yuzuki T",
-            "slug": "nam-ji-yuzuki-t",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 13,
-            "nameCode": "NAY",
-            "national": false,
-            "type": 2,
-            "country": {},
-            "id": 1088966,
-            "subTeams": [
-              {
-                "name": "Ji Sung Nam",
-                "slug": "nam-ji-sung",
-                "shortName": "J. Nam",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 333,
-                "nameCode": "NAM",
-                "ranking": 1021,
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "KR",
-                  "alpha3": "KOR",
-                  "name": "South Korea",
-                  "slug": "south-korea"
-                },
-                "id": 42151,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "جي سونغ نام",
-                    "ru": "Нам, Цзи Сун"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "ج. نام"
-                  }
-                }
-              },
-              {
-                "name": "Takeru Yuzuki",
-                "slug": "yuzuki-takeru",
-                "shortName": "T. Yuzuki",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 131,
-                "nameCode": "YUZ",
-                "ranking": 1271,
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "JP",
-                  "alpha3": "JPN",
-                  "name": "Japan",
-                  "slug": "japan"
-                },
-                "id": 310619,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "تاكيرو يوزوكي",
-                    "ru": "Такеру Юдзуки"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "ت. يوزوكي",
-                    "ru": "Т. Юдзуки"
-                  }
-                }
-              }
-            ],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "نام جي / يوزوكي تي",
-                "ru": "Нам Джи / Юдзуки Т"
-              },
-              "shortNameTranslation": {}
-            }
-          },
-          "homeScore": {
-            "current": 2,
-            "display": 2,
-            "period1": 6,
-            "period2": 7,
-            "point": "40",
-            "normaltime": 2
-          },
-          "awayScore": {
-            "current": 0,
-            "display": 0,
-            "period1": 3,
-            "period2": 5,
-            "point": "30",
-            "normaltime": 0
-          },
-          "time": {
-            "period1": 1667,
-            "period2": 2706,
-            "currentPeriodStartTimestamp": 1784551120
-          },
-          "changes": {
-            "changes": [
-              "time.currentPeriodStart",
-              "time.period2",
-              "status.code",
-              "status.description",
-              "status.type",
-              "homeScore.current",
-              "homeScore.display",
-              "homeScore.period2",
-              "homeScore.normaltime",
-              "awayScore.normaltime"
-            ],
-            "changeTimestamp": 1784553841
-          },
-          "hasGlobalHighlights": false,
-          "crowdsourcingDataDisplayEnabled": false,
-          "id": 16564643,
-          "slug": "nam-ji-yuzuki-hidalgo-tabilo",
-          "startTimestamp": 1784548800,
-          "periods": {
-            "point": "Game",
-            "current": "Match",
-            "period1": "1st set",
-            "period2": "2nd set",
-            "period3": "3rd set",
-            "period4": "4th set",
-            "period5": "5th set"
-          },
-          "finalResultOnly": false,
-          "feedLocked": false,
-          "groundType": "Red clay",
-          "isEditor": false,
-          "eventFilters": {
-            "category": [
-              "doubles"
-            ],
-            "level": [
-              "pro"
-            ],
-            "tournament": [
-              "p250"
-            ],
-            "gender": [
-              "M"
-            ]
-          }
-        }
-      }
     }
   ],
   "examples_resolved": [
@@ -3491,6 +3362,13 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-20",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Frederico Ferreira Silva vs Luca Van Assche"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-21",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
@@ -3670,13 +3548,6 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Ella Seidel vs Daria Snigur"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-20",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Marie Bouzkova vs Jessica Bouzas Maneiro"
     }
   ],
   "examples_void": [
