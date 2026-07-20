@@ -23,8 +23,8 @@
         "data/pick_history/all/2026-07-20.json"
       ],
       "history_items_loaded": 756,
-      "resolved_count": 678,
-      "pending_count": 78,
+      "resolved_count": 680,
+      "pending_count": 76,
       "unknown_count": 0
     },
     "top5": {
@@ -47,12 +47,12 @@
         "data/pick_history/top5/2026-07-20.json"
       ],
       "history_items_loaded": 87,
-      "resolved_count": 81,
-      "pending_count": 6,
+      "resolved_count": 82,
+      "pending_count": 5,
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4324,
+  "finished_results_found": 4327,
   "examples_results": [
     {
       "match_id": 16465445,
@@ -851,6 +851,258 @@
           "id": 16564419,
           "slug": "titouan-droguet-camilo-ugo-carabelli",
           "startTimestamp": 1784550600,
+          "periods": {
+            "point": "Game",
+            "current": "Match",
+            "period1": "1st set",
+            "period2": "2nd set",
+            "period3": "3rd set",
+            "period4": "4th set",
+            "period5": "5th set"
+          },
+          "finalResultOnly": false,
+          "feedLocked": false,
+          "groundType": "Red clay",
+          "isEditor": false,
+          "eventFilters": {
+            "category": [
+              "singles"
+            ],
+            "level": [
+              "pro"
+            ],
+            "tournament": [
+              "p250"
+            ],
+            "gender": [
+              "M"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "match_id": 16571628,
+      "event_id": 16571628,
+      "date": "2026-07-21",
+      "player1": "Daniel Merida",
+      "player2": "Taro Daniel",
+      "winner": null,
+      "score": null,
+      "status": "VOID",
+      "source": "TennisApi",
+      "match": "Daniel Merida vs Taro Daniel",
+      "raw": {
+        "source": "TennisApi",
+        "match_id": 16571628,
+        "event_id": 16571628,
+        "date": "2026-07-21",
+        "player1": "Daniel Merida",
+        "player2": "Taro Daniel",
+        "winner": null,
+        "score": null,
+        "status": "VOID",
+        "match": "Daniel Merida vs Taro Daniel",
+        "tournament": "Estoril",
+        "category": "ATP",
+        "start_time_utc": "2026-07-21T12:10:00+00:00",
+        "raw": {
+          "awayTeamSeed": "Q",
+          "tournament": {
+            "name": "Estoril, Portugal",
+            "slug": "estoril-portugal",
+            "category": {
+              "name": "ATP",
+              "slug": "atp",
+              "sport": {
+                "name": "Tennis",
+                "slug": "tennis",
+                "id": 5
+              },
+              "priority": 8,
+              "country": {},
+              "id": 3,
+              "flag": "atp",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "bn": "এটিপি",
+                  "hi": "डब्ल्यूटीए",
+                  "ar": "رابطة محترفي التنس",
+                  "ru": "ATP"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "uniqueTournament": {
+              "name": "Estoril",
+              "slug": "estoril",
+              "category": {
+                "name": "ATP",
+                "slug": "atp",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "priority": 8,
+                "country": {},
+                "id": 3,
+                "flag": "atp",
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "bn": "এটিপি",
+                    "hi": "डब्ल्यूटीए",
+                    "ar": "رابطة محترفي التنس",
+                    "ru": "ATP"
+                  },
+                  "shortNameTranslation": {}
+                }
+              },
+              "userCount": 2069,
+              "groundType": "Red clay",
+              "tennisPoints": 250,
+              "hasPerformanceGraphFeature": false,
+              "country": {},
+              "id": 2541,
+              "hasEventPlayerStatistics": false,
+              "displayInverseHomeAwayTeams": false,
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "استوريل",
+                  "hi": "एस्टोरिल",
+                  "bn": "এস্টোরিল",
+                  "ru": "Эшторил"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "priority": 0,
+            "isGroup": false,
+            "id": 191829,
+            "endTimestamp": 1785024000,
+            "startTimestamp": 1784505600
+          },
+          "season": {
+            "name": "ATP Estoril, Portugal Men Singles 2026",
+            "year": "2026",
+            "editor": false,
+            "id": 82381
+          },
+          "roundInfo": {
+            "round": 6,
+            "name": "Round of 32",
+            "slug": "round-of-32",
+            "cupRoundType": 16
+          },
+          "customId": "HxusPCKc",
+          "status": {
+            "code": 70,
+            "description": "Canceled",
+            "type": "canceled"
+          },
+          "homeTeam": {
+            "name": "Daniel Merida",
+            "slug": "merida-aguilar-daniel",
+            "shortName": "D. Merida",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 4606,
+            "playerTeamInfo": {
+              "id": 4956
+            },
+            "nameCode": "MER",
+            "ranking": 59,
+            "disabled": false,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "ES",
+              "alpha3": "ESP",
+              "name": "Spain",
+              "slug": "spain"
+            },
+            "id": 338890,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دانييل مريديا",
+                "ru": "Даниэль Мерида"
+              },
+              "shortNameTranslation": {
+                "ar": "د. مريديا",
+                "ru": "Д. Мерида"
+              }
+            }
+          },
+          "awayTeam": {
+            "name": "Taro Daniel",
+            "slug": "daniel-taro",
+            "shortName": "T. Daniel",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 3226,
+            "playerTeamInfo": {
+              "id": 70
+            },
+            "nameCode": "DAN",
+            "ranking": 192,
+            "disabled": false,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "JP",
+              "alpha3": "JPN",
+              "name": "Japan",
+              "slug": "japan"
+            },
+            "id": 48632,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "تارو دانييل",
+                "ru": "Даниэль, Таро"
+              },
+              "shortNameTranslation": {
+                "ar": "ت. دانييل",
+                "bn": "টি. ড্যানিয়েল",
+                "hi": "टी. डैनियल"
+              }
+            }
+          },
+          "homeScore": {},
+          "awayScore": {},
+          "time": {},
+          "changes": {
+            "changes": [
+              "status.code",
+              "status.description",
+              "status.type"
+            ],
+            "changeTimestamp": 1784563339
+          },
+          "hasGlobalHighlights": false,
+          "crowdsourcingDataDisplayEnabled": false,
+          "id": 16571628,
+          "slug": "daniel-merida-taro-daniel",
+          "startTimestamp": 1784635800,
           "periods": {
             "point": "Game",
             "current": "Match",
@@ -2767,398 +3019,6 @@
           }
         }
       }
-    },
-    {
-      "match_id": 16465671,
-      "event_id": 16465671,
-      "date": "2026-07-19",
-      "player1": "Miedler L / Polmans M",
-      "player2": "Demoliner M / Galloway R",
-      "winner": "Miedler L / Polmans M",
-      "score": "6-3 6-4",
-      "status": "FINISHED",
-      "source": "TennisApi",
-      "match": "Miedler L / Polmans M vs Demoliner M / Galloway R",
-      "raw": {
-        "source": "TennisApi",
-        "match_id": 16465671,
-        "event_id": 16465671,
-        "date": "2026-07-19",
-        "player1": "Miedler L / Polmans M",
-        "player2": "Demoliner M / Galloway R",
-        "winner": "Miedler L / Polmans M",
-        "score": "6-3 6-4",
-        "status": "FINISHED",
-        "match": "Miedler L / Polmans M vs Demoliner M / Galloway R",
-        "tournament": "Gstaad, Doubles",
-        "category": "ATP",
-        "start_time_utc": "2026-07-19T12:05:00+00:00",
-        "raw": {
-          "firstToServe": 1,
-          "homeTeamSeed": "1",
-          "tournament": {
-            "name": "Gstaad, Switzerland, Doubles",
-            "slug": "gstaad-switzerland-doubles",
-            "category": {
-              "name": "ATP",
-              "slug": "atp",
-              "sport": {
-                "name": "Tennis",
-                "slug": "tennis",
-                "id": 5
-              },
-              "priority": 8,
-              "country": {},
-              "id": 3,
-              "flag": "atp",
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "bn": "এটিপি",
-                  "hi": "डब्ल्यूटीए",
-                  "ar": "رابطة محترفي التنس",
-                  "ru": "ATP"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "uniqueTournament": {
-              "name": "Gstaad, Doubles",
-              "slug": "gstaad-doubles",
-              "primaryColorHex": "#3a4265",
-              "secondaryColorHex": "#5a669e",
-              "category": {
-                "name": "ATP",
-                "slug": "atp",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "priority": 8,
-                "country": {},
-                "id": 3,
-                "flag": "atp",
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "bn": "এটিপি",
-                    "hi": "डब्ल्यूटीए",
-                    "ar": "رابطة محترفي التنس",
-                    "ru": "ATP"
-                  },
-                  "shortNameTranslation": {}
-                }
-              },
-              "userCount": 122,
-              "groundType": "Red clay",
-              "tennisPoints": 250,
-              "hasPerformanceGraphFeature": false,
-              "country": {},
-              "id": 2467,
-              "hasEventPlayerStatistics": false,
-              "displayInverseHomeAwayTeams": false,
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "غشتاد، زوجي",
-                  "ru": "Гштаад, парный разряд"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "priority": 0,
-            "isGroup": false,
-            "id": 191007,
-            "endTimestamp": 1784419200,
-            "startTimestamp": 1783900800
-          },
-          "season": {
-            "name": "ATP Gstaad, Switzerland Men Doubles 2026",
-            "year": "2026",
-            "editor": false,
-            "id": 81904
-          },
-          "roundInfo": {
-            "round": 29,
-            "name": "Final",
-            "slug": "final",
-            "cupRoundType": 1
-          },
-          "customId": "JXIjsqNYj",
-          "status": {
-            "code": 100,
-            "description": "Ended",
-            "type": "finished"
-          },
-          "winnerCode": 1,
-          "homeTeam": {
-            "name": "Miedler L / Polmans M",
-            "slug": "miedler-l-polmans-m",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 18,
-            "nameCode": "M/P",
-            "national": false,
-            "type": 2,
-            "country": {},
-            "id": 1246916,
-            "subTeams": [
-              {
-                "name": "Lucas Miedler",
-                "slug": "miedler-lucas",
-                "shortName": "L. Miedler",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 774,
-                "nameCode": "MIE",
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "AT",
-                  "alpha3": "AUT",
-                  "name": "Austria",
-                  "slug": "austria"
-                },
-                "id": 78793,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "لوكاس ميدلر",
-                    "bn": "লুকাস মিডলার",
-                    "hi": "लुकास मीडलर",
-                    "ru": "Миедлер, Лукас"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "ل. ميدلر"
-                  }
-                }
-              },
-              {
-                "name": "Marc Polmans",
-                "slug": "polmans-marc",
-                "shortName": "M. Polmans",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 1032,
-                "nameCode": "POL",
-                "ranking": 345,
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "AU",
-                  "alpha3": "AUS",
-                  "name": "Australia",
-                  "slug": "australia"
-                },
-                "id": 80665,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "مارك بولمانز",
-                    "bn": "এমএআরসি পোলম্যানস",
-                    "hi": "मार्क पॉलमन्स",
-                    "ru": "Полманс, Марк"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "م. بولمانز"
-                  }
-                }
-              }
-            ],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            }
-          },
-          "awayTeam": {
-            "name": "Demoliner M / Galloway R",
-            "slug": "demoliner-m-galloway-r",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 23,
-            "nameCode": "D/G",
-            "national": false,
-            "type": 2,
-            "country": {},
-            "id": 1209884,
-            "subTeams": [
-              {
-                "name": "Marcelo Demoliner",
-                "slug": "demoliner-marcelo",
-                "shortName": "M. Demoliner",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 1120,
-                "nameCode": "DEM",
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "BR",
-                  "alpha3": "BRA",
-                  "name": "Brazil",
-                  "slug": "brazil"
-                },
-                "id": 16573,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "مارسيلو ديمولينر",
-                    "bn": "মার্সেলো ডেমোলাইনার",
-                    "hi": "मार्सेलो डेमोलिनेर",
-                    "ru": "Марсело Демолинер"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "م. ديمولينر"
-                  }
-                }
-              },
-              {
-                "name": "Robert Galloway",
-                "slug": "galloway-robert",
-                "shortName": "R. Galloway",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 129,
-                "nameCode": "GAL",
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "US",
-                  "alpha3": "USA",
-                  "name": "USA",
-                  "slug": "usa"
-                },
-                "id": 197502,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "روبرت غالواي",
-                    "ru": "Галлоуэй, Роберт"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "ر. غالواي"
-                  }
-                }
-              }
-            ],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "ديمولينر م / غالواي ر",
-                "ru": "Демоли́нер М / Гэллоуэй Р"
-              },
-              "shortNameTranslation": {}
-            }
-          },
-          "homeScore": {
-            "current": 2,
-            "display": 2,
-            "period1": 6,
-            "period2": 6,
-            "point": "40",
-            "normaltime": 2
-          },
-          "awayScore": {
-            "current": 0,
-            "display": 0,
-            "period1": 3,
-            "period2": 4,
-            "point": "0",
-            "normaltime": 0
-          },
-          "time": {
-            "period1": 1752,
-            "period2": 2075,
-            "currentPeriodStartTimestamp": 1784466801
-          },
-          "changes": {
-            "changes": [
-              "time.currentPeriodStart",
-              "time.period2"
-            ],
-            "changeTimestamp": 1784468920
-          },
-          "hasGlobalHighlights": false,
-          "crowdsourcingDataDisplayEnabled": false,
-          "id": 16465671,
-          "slug": "miedler-polmans-demoliner-galloway",
-          "startTimestamp": 1784462700,
-          "periods": {
-            "point": "Game",
-            "current": "Match",
-            "period1": "1st set",
-            "period2": "2nd set",
-            "period3": "3rd set",
-            "period4": "4th set",
-            "period5": "5th set"
-          },
-          "finalResultOnly": false,
-          "feedLocked": false,
-          "groundType": "Red clay",
-          "isEditor": false,
-          "eventFilters": {
-            "category": [
-              "singles"
-            ],
-            "level": [
-              "pro"
-            ],
-            "tournament": [
-              "p250"
-            ],
-            "gender": [
-              "M"
-            ]
-          }
-        }
-      }
     }
   ],
   "examples_resolved": [
@@ -3729,6 +3589,13 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-21",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Daniel Merida vs Taro Daniel"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-20",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
@@ -3897,24 +3764,17 @@
     },
     {
       "pick_date": "2026-07-03",
-      "result_date": "2026-07-21",
+      "result_date": "2026-07-20",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Eva Lys vs Tereza Valentová"
+      "result_match": "Ayla Aksu vs Sofia Costoulas"
     },
     {
       "pick_date": "2026-07-03",
-      "result_date": "2026-07-19",
+      "result_date": "2026-07-20",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Chan H / Kato M vs Lumsden M / Tang Q"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-19",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Charaeva A / Kulambayeva Z vs Detiuc A / Khromacheva I"
+      "result_match": "Antonia Ružić vs Dominika Salkova"
     }
   ],
   "examples_void": [
