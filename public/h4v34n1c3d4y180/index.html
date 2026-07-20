@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BackstageTalks Statistic Model</title>
 <style>
-:root { --bg:#0f172a; --panel:#111827; --panel-2:#1e293b; --border:#334155; --text:#e5e7eb; --muted:#94a3b8; --green:#22c55e; --orange:#fb923c; --red:#ef4444; --yellow:#facc15; --blue:#38bdf8; }
+:root { --bg:#0f172a; --panel:#111827; --panel-2:#1e293b; --border:#334155; --text:#e5e7eb; --muted:#94a3b8; --green:#22c55e; --orange:#fb923c; --red:#ef4444; --yellow:#facc15; --blue:#38bdf8; --purple:#c084fc; }
 * { box-sizing:border-box; }
 html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family:Arial, Helvetica, sans-serif; }
 .wrapper { max-width:1440px; margin:0 auto; padding:28px; }
@@ -43,7 +43,7 @@ tr:hover { background:rgba(255,255,255,.03); }
 .metric-row span { color:var(--muted); }
 .metric-row strong { text-align:right; color:var(--text); font-weight:900; }
 .ai-delta { margin-top:7px; text-align:right; font-size:10px; font-weight:900; }
-.delta-thinq { color:var(--blue); } .delta-corq { color:var(--orange); } .delta-even { color:var(--muted); } .delta-muted { color:var(--muted); }
+.delta-thinq { color:var(--blue); } .delta-corq { color:var(--orange); } .delta-cloq { color:var(--purple); } .delta-even { color:var(--muted); } .delta-muted { color:var(--muted); }
 .market-badge { display:inline-block; margin-top:8px; padding:5px 10px; border-radius:5px; font-size:10px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; }
 .market-bullish { color:#22c55e; border:1px solid rgba(34,197,94,.45); background:rgba(34,197,94,.08); }
 .market-support { color:#38bdf8; border:1px solid rgba(56,189,248,.45); background:rgba(56,189,248,.08); }
@@ -70,8 +70,8 @@ tr:hover { background:rgba(255,255,255,.03); }
 <div class="summary">
     <div class="summary-card"><div class="summary-label">Picks</div><div class="summary-value">7</div></div>
     <div class="summary-card"><div class="summary-label">Average Win %</div><div class="summary-value">62.6%</div></div>
-    <div class="summary-card"><div class="summary-label">Average AI Match</div><div class="summary-value">96.8%</div></div>
-    <div class="summary-card"><div class="summary-label">Updated</div><div class="summary-value small">2026-07-20 21:36 UTC</div></div>
+    <div class="summary-card"><div class="summary-label">Average AI Match</div><div class="summary-value">95.1%</div></div>
+    <div class="summary-card"><div class="summary-label">Updated</div><div class="summary-value small">2026-07-20 22:12 UTC</div></div>
 </div>
 
     <div class="table-wrap"><table><thead><tr><th>#</th><th>Pick</th><th>Opponent</th><th>Time</th><th>Win %</th><th>Odds</th><th>Match Intelligence</th></tr></thead><tbody>
@@ -149,77 +149,6 @@ tr:hover { background:rgba(255,255,255,.03); }
 <tr>
     <td class="rank">#2</td>
     <td class="pick-cell">
-        <div class="pick-name">Alycia Parks</div>
-        <div class="pick-sub">to win</div>
-        <div class="match-name">Alycia Parks vs Lucie Havlickova</div>
-        <div class="match-meta">Prague - Hard - BO3</div>
-    </td>
-    <td>Lucie Havlickova</td>
-    <td>13:20</td>
-    <td class="probability">64.4%</td>
-    <td class="odds">1.50</td>
-    <td class="intel">
-        <div class="intel-title">Match Intelligence</div>
-        <div class="intel-layout">
-            
-        <div class="intel-panel data-ai-panel">
-            <div class="panel-title">DATA AI</div>
-            
-            <div class="metric-row">
-                <span>Corq AI</span>
-                <strong>64.7%</strong>
-            </div>
-
-            <div class="metric-row">
-                <span>Thinq AI</span>
-                <strong>63.4%</strong>
-            </div>
-
-            <div class="metric-row">
-                <span>AI Match</span>
-                <strong>98.7%</strong>
-            </div>
-
-            <div class="ai-delta delta-corq">Corq +1.3%</div>
-        </div>
-
-            
-        <div class="intel-panel marq-panel">
-            <div class="panel-title">MARQ</div>
-            <div class="market-badge market-unavailable">No market data</div>
-        </div>
-
-            
-        <div class="intel-panel sets-panel">
-            <div class="panel-title">SETS</div>
-            
-            <div class="metric-row">
-                <span>Sets</span>
-                <strong>2.43</strong>
-            </div>
-
-            
-            <div class="metric-row">
-                <span>3 Sets</span>
-                <strong>43.4%</strong>
-            </div>
-
-            
-            <div class="metric-row">
-                <span>Score</span>
-                <strong>2-0</strong>
-            </div>
-
-        </div>
-
-        </div>
-</td>
-</tr>
-
-
-<tr>
-    <td class="rank">#3</td>
-    <td class="pick-cell">
         <div class="pick-name">Elina Avanesyan</div>
         <div class="pick-sub">to win</div>
         <div class="match-name">Varvara Lepchenko vs Elina Avanesyan</div>
@@ -279,6 +208,77 @@ tr:hover { background:rgba(255,255,255,.03); }
             <div class="metric-row">
                 <span>Score</span>
                 <strong>0-2</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#3</td>
+    <td class="pick-cell">
+        <div class="pick-name">Alycia Parks</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Alycia Parks vs Lucie Havlickova</div>
+        <div class="match-meta">Prague - Hard - BO3</div>
+    </td>
+    <td>Lucie Havlickova</td>
+    <td>13:20</td>
+    <td class="probability">64.4%</td>
+    <td class="odds">1.50</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>64.7%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>63.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>98.7%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +1.3%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ</div>
+            <div class="market-badge market-unavailable">No market data</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.43</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>43.4%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
             </div>
 
         </div>
@@ -362,6 +362,77 @@ tr:hover { background:rgba(255,255,255,.03); }
 <tr>
     <td class="rank">#5</td>
     <td class="pick-cell">
+        <div class="pick-name">Henrique Rocha</div>
+        <div class="pick-sub">to win</div>
+        <div class="match-name">Henrique Rocha vs Pedro Martinez</div>
+        <div class="match-meta">Estoril - Hard - BO3</div>
+    </td>
+    <td>Pedro Martinez</td>
+    <td>16:30</td>
+    <td class="probability">61.4%</td>
+    <td class="odds">1.73</td>
+    <td class="intel">
+        <div class="intel-title">Match Intelligence</div>
+        <div class="intel-layout">
+            
+        <div class="intel-panel data-ai-panel">
+            <div class="panel-title">DATA AI</div>
+            
+            <div class="metric-row">
+                <span>Corq AI</span>
+                <strong>63.4%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>Thinq AI</span>
+                <strong>53.2%</strong>
+            </div>
+
+            <div class="metric-row">
+                <span>AI Match</span>
+                <strong>89.8%</strong>
+            </div>
+
+            <div class="ai-delta delta-corq">Corq +10.2%</div>
+        </div>
+
+            
+        <div class="intel-panel marq-panel">
+            <div class="panel-title">MARQ</div>
+            <div class="market-badge market-unavailable">No market data</div>
+        </div>
+
+            
+        <div class="intel-panel sets-panel">
+            <div class="panel-title">SETS</div>
+            
+            <div class="metric-row">
+                <span>Sets</span>
+                <strong>2.47</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>3 Sets</span>
+                <strong>47.1%</strong>
+            </div>
+
+            
+            <div class="metric-row">
+                <span>Score</span>
+                <strong>2-0</strong>
+            </div>
+
+        </div>
+
+        </div>
+</td>
+</tr>
+
+
+<tr>
+    <td class="rank">#6</td>
+    <td class="pick-cell">
         <div class="pick-name">Anhelina Kalinina</div>
         <div class="pick-sub">to win</div>
         <div class="match-name">Kaitlin Quevedo vs Anhelina Kalinina</div>
@@ -431,17 +502,17 @@ tr:hover { background:rgba(255,255,255,.03); }
 
 
 <tr>
-    <td class="rank">#6</td>
+    <td class="rank">#7</td>
     <td class="pick-cell">
-        <div class="pick-name">Jurij Rodionov</div>
+        <div class="pick-name">Ignacio Buse</div>
         <div class="pick-sub">to win</div>
-        <div class="match-name">Joel Schwaerzler vs Jurij Rodionov</div>
+        <div class="match-name">Vit Kopřiva vs Ignacio Buse</div>
         <div class="match-meta">Kitzbuhel - Hard - BO3</div>
     </td>
-    <td>Joel Schwaerzler</td>
-    <td>13:20</td>
-    <td class="probability">58.6%</td>
-    <td class="odds">1.73</td>
+    <td>Vit Kopřiva</td>
+    <td>14:30</td>
+    <td class="probability">59.0%</td>
+    <td class="odds">1.53</td>
     <td class="intel">
         <div class="intel-title">Match Intelligence</div>
         <div class="intel-layout">
@@ -451,20 +522,20 @@ tr:hover { background:rgba(255,255,255,.03); }
             
             <div class="metric-row">
                 <span>Corq AI</span>
-                <strong>58.4%</strong>
+                <strong>61.6%</strong>
             </div>
 
             <div class="metric-row">
                 <span>Thinq AI</span>
-                <strong>59.2%</strong>
+                <strong>48.8%</strong>
             </div>
 
             <div class="metric-row">
                 <span>AI Match</span>
-                <strong>99.2%</strong>
+                <strong>87.2%</strong>
             </div>
 
-            <div class="ai-delta delta-thinq">Thinq +0.8%</div>
+            <div class="ai-delta delta-corq">Corq +12.8%</div>
         </div>
 
             
@@ -479,90 +550,19 @@ tr:hover { background:rgba(255,255,255,.03); }
             
             <div class="metric-row">
                 <span>Sets</span>
-                <strong>2.47</strong>
+                <strong>2.41</strong>
             </div>
 
             
             <div class="metric-row">
                 <span>3 Sets</span>
-                <strong>46.8%</strong>
+                <strong>41.2%</strong>
             </div>
 
             
             <div class="metric-row">
                 <span>Score</span>
                 <strong>0-2</strong>
-            </div>
-
-        </div>
-
-        </div>
-</td>
-</tr>
-
-
-<tr>
-    <td class="rank">#7</td>
-    <td class="pick-cell">
-        <div class="pick-name">Henrique Rocha</div>
-        <div class="pick-sub">to win</div>
-        <div class="match-name">Henrique Rocha vs Pedro Martinez</div>
-        <div class="match-meta">Estoril - Hard - BO3</div>
-    </td>
-    <td>Pedro Martinez</td>
-    <td>16:30</td>
-    <td class="probability">61.4%</td>
-    <td class="odds">1.73</td>
-    <td class="intel">
-        <div class="intel-title">Match Intelligence</div>
-        <div class="intel-layout">
-            
-        <div class="intel-panel data-ai-panel">
-            <div class="panel-title">DATA AI</div>
-            
-            <div class="metric-row">
-                <span>Corq AI</span>
-                <strong>63.4%</strong>
-            </div>
-
-            <div class="metric-row">
-                <span>Thinq AI</span>
-                <strong>53.2%</strong>
-            </div>
-
-            <div class="metric-row">
-                <span>AI Match</span>
-                <strong>89.8%</strong>
-            </div>
-
-            <div class="ai-delta delta-corq">Corq +10.2%</div>
-        </div>
-
-            
-        <div class="intel-panel marq-panel">
-            <div class="panel-title">MARQ</div>
-            <div class="market-badge market-unavailable">No market data</div>
-        </div>
-
-            
-        <div class="intel-panel sets-panel">
-            <div class="panel-title">SETS</div>
-            
-            <div class="metric-row">
-                <span>Sets</span>
-                <strong>2.47</strong>
-            </div>
-
-            
-            <div class="metric-row">
-                <span>3 Sets</span>
-                <strong>47.1%</strong>
-            </div>
-
-            
-            <div class="metric-row">
-                <span>Score</span>
-                <strong>2-0</strong>
             </div>
 
         </div>
