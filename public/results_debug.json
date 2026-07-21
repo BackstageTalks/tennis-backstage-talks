@@ -24,8 +24,8 @@
         "data/pick_history/all/2026-07-21.json"
       ],
       "history_items_loaded": 811,
-      "resolved_count": 702,
-      "pending_count": 109,
+      "resolved_count": 704,
+      "pending_count": 107,
       "unknown_count": 0
     },
     "top5": {
@@ -54,7 +54,7 @@
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4300,
+  "finished_results_found": 4301,
   "examples_results": [
     {
       "match_id": 16564419,
@@ -1983,7 +1983,7 @@
       "date": "2026-07-21",
       "player1": "Jan-Lennard Struff",
       "player2": "Aleksandr Shevchenko",
-      "winner": null,
+      "winner": "Jan-Lennard Struff",
       "score": "3-6 7-6 6-4",
       "status": "FINISHED",
       "source": "TennisApi",
@@ -1995,7 +1995,7 @@
         "date": "2026-07-21",
         "player1": "Jan-Lennard Struff",
         "player2": "Aleksandr Shevchenko",
-        "winner": null,
+        "winner": "Jan-Lennard Struff",
         "score": "3-6 7-6 6-4",
         "status": "FINISHED",
         "match": "Jan-Lennard Struff vs Aleksandr Shevchenko",
@@ -2099,7 +2099,7 @@
             "description": "Ended",
             "type": "finished"
           },
-          "winnerCode": 3,
+          "winnerCode": 1,
           "homeTeam": {
             "name": "Jan-Lennard Struff",
             "slug": "struff-jan-lennard",
@@ -2212,20 +2212,15 @@
           "time": {
             "period1": 1704,
             "period2": 3046,
+            "period3": 2221,
             "currentPeriodStartTimestamp": 1784629669
           },
           "changes": {
             "changes": [
-              "status.code",
-              "status.description",
-              "status.type",
-              "homeScore.current",
-              "homeScore.display",
-              "homeScore.period3",
-              "homeScore.normaltime",
-              "awayScore.normaltime"
+              "time.currentPeriodStart",
+              "time.period3"
             ],
-            "changeTimestamp": 1784631897
+            "changeTimestamp": 1784631953
           },
           "hasGlobalHighlights": false,
           "crowdsourcingDataDisplayEnabled": false,
@@ -3726,6 +3721,14 @@
       "result_date": "2026-07-21",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Nikola Bartunkova vs Yue Yuan",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-21",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Bara I M / Karamoko N vs Maleckova J / Skoch M",
       "result_status": "FINISHED"
     },
@@ -3760,27 +3763,8 @@
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Yasmine Kabbaj vs Deborah Chiesa",
       "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-20",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Amarissa Kiara Toth vs Jennifer Ruggeri",
-      "result_status": "FINISHED"
     }
   ],
-  "examples_pending_matched": [
-    {
-      "dataset": "all",
-      "date": "2026-07-21",
-      "match": "Jan-Lennard Struff vs Aleksandr Shevchenko",
-      "pick": "Jan-Lennard Struff",
-      "result_status": "FINISHED",
-      "winner": null,
-      "score": "3-6 7-6 6-4",
-      "raw_status": "FINISHED"
-    }
-  ],
+  "examples_pending_matched": [],
   "examples_void": []
 }
