@@ -11,42 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 34,
-  "found_count": 20,
-  "missing_count": 14,
+  "lookup_count": 24,
+  "found_count": 15,
+  "missing_count": 9,
   "examples_found": [
-    {
-      "input": "Daniel Altmaier",
-      "matched": "Daniel Altmaier",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1733.8,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Raphael Collignon",
-      "matched": "Raphael Collignon",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1893.5,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Oleksandra Oliynykova",
-      "matched": "Oleksandra Oliynykova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1773.4,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Nastasja Schunk",
-      "matched": "Nastasja Schunk",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1398.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Botic Van de Zandschulp",
       "matched": "Botic Van De Zandschulp",
@@ -93,14 +61,6 @@
       "method": "exact",
       "score": 1.0,
       "elo": 1355.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Tyra Caterina Grant",
-      "matched": "Tyra Caterina Grant",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1671.6,
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
@@ -178,36 +138,6 @@
   ],
   "examples_missing": [
     {
-      "input": "Lee Y / Ye Q Y",
-      "normalized": "lee y / ye q y",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Shibahara E / Zvonareva V",
-      "normalized": "shibahara e / zvonareva v",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "González S / Reyes-Varela M",
-      "normalized": "gonzalez s / reyes varela m",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Ferreira Silva F / Pereira T",
-      "normalized": "ferreira silva f / pereira t",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Stevenson D / Willis M",
-      "normalized": "stevenson d / willis m",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Arends S / Pel D",
-      "normalized": "arends s / pel d",
-      "reason": "no_safe_match"
-    },
-    {
       "input": "Kempen M / Panova A",
       "normalized": "kempen m / panova a",
       "reason": "no_safe_match"
@@ -220,6 +150,11 @@
     {
       "input": "Caroline Werner",
       "normalized": "caroline werner",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Raluca Georgiana Serban",
+      "normalized": "raluca georgiana serban",
       "reason": "no_safe_match"
     },
     {
