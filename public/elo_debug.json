@@ -11,42 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 40,
-  "found_count": 24,
-  "missing_count": 16,
+  "lookup_count": 34,
+  "found_count": 20,
+  "missing_count": 14,
   "examples_found": [
-    {
-      "input": "Stan Wawrinka",
-      "matched": "Stan Wawrinka",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1677.9,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Roman Andres Burruchaga",
-      "matched": "Roman Andres Burruchaga",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1711.2,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Linda Fruhvirtova",
-      "matched": "Linda Fruhvirtova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1624.8,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Barbora Krejčiková",
-      "matched": "Barbora Krejcikova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1873.6,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Daniel Altmaier",
       "matched": "Daniel Altmaier",
@@ -209,16 +177,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Frantzen C / Haase R",
-      "normalized": "frantzen c / haase r",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Nouza P / Oberleitner N",
-      "normalized": "nouza p / oberleitner n",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Lee Y / Ye Q Y",
       "normalized": "lee y / ye q y",

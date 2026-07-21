@@ -24,8 +24,8 @@
         "data/pick_history/all/2026-07-21.json"
       ],
       "history_items_loaded": 811,
-      "resolved_count": 716,
-      "pending_count": 95,
+      "resolved_count": 718,
+      "pending_count": 93,
       "unknown_count": 0
     },
     "top5": {
@@ -49,12 +49,12 @@
         "data/pick_history/top5/2026-07-21.json"
       ],
       "history_items_loaded": 94,
-      "resolved_count": 87,
-      "pending_count": 7,
+      "resolved_count": 88,
+      "pending_count": 6,
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4315,
+  "finished_results_found": 4317,
   "examples_results": [
     {
       "match_id": 16564419,
@@ -2223,6 +2223,280 @@
       "raw_status": "VOID"
     },
     {
+      "match_id": 16571630,
+      "event_id": 16571630,
+      "date": "2026-07-21",
+      "player1": "Nuno Borges",
+      "player2": "Orlando Luz",
+      "winner": "Nuno Borges",
+      "score": "6-3 6-3",
+      "status": "FINISHED",
+      "source": "TennisApi",
+      "match": "Nuno Borges vs Orlando Luz",
+      "raw": {
+        "source": "TennisApi",
+        "match_id": 16571630,
+        "event_id": 16571630,
+        "date": "2026-07-21",
+        "player1": "Nuno Borges",
+        "player2": "Orlando Luz",
+        "winner": "Nuno Borges",
+        "score": "6-3 6-3",
+        "status": "FINISHED",
+        "match": "Nuno Borges vs Orlando Luz",
+        "tournament": "Estoril",
+        "category": "ATP",
+        "start_time_utc": "2026-07-21T12:40:00+00:00",
+        "raw": {
+          "firstToServe": 1,
+          "homeTeamSeed": "5",
+          "awayTeamSeed": "Q",
+          "tournament": {
+            "name": "Estoril, Portugal",
+            "slug": "estoril-portugal",
+            "category": {
+              "name": "ATP",
+              "slug": "atp",
+              "sport": {
+                "name": "Tennis",
+                "slug": "tennis",
+                "id": 5
+              },
+              "priority": 8,
+              "country": {},
+              "id": 3,
+              "flag": "atp",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "bn": "এটিপি",
+                  "hi": "डब्ल्यूटीए",
+                  "ar": "رابطة محترفي التنس",
+                  "ru": "ATP"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "uniqueTournament": {
+              "name": "Estoril",
+              "slug": "estoril",
+              "category": {
+                "name": "ATP",
+                "slug": "atp",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "priority": 8,
+                "country": {},
+                "id": 3,
+                "flag": "atp",
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "bn": "এটিপি",
+                    "hi": "डब्ल्यूटीए",
+                    "ar": "رابطة محترفي التنس",
+                    "ru": "ATP"
+                  },
+                  "shortNameTranslation": {}
+                }
+              },
+              "userCount": 2215,
+              "groundType": "Red clay",
+              "tennisPoints": 250,
+              "hasPerformanceGraphFeature": false,
+              "country": {},
+              "id": 2541,
+              "hasEventPlayerStatistics": false,
+              "displayInverseHomeAwayTeams": false,
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "استوريل",
+                  "hi": "एस्टोरिल",
+                  "bn": "এস্টোরিল",
+                  "ru": "Эшторил"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "priority": 0,
+            "isGroup": false,
+            "id": 191829,
+            "endTimestamp": 1785024000,
+            "startTimestamp": 1784505600
+          },
+          "season": {
+            "name": "ATP Estoril, Portugal Men Singles 2026",
+            "year": "2026",
+            "editor": false,
+            "id": 82381
+          },
+          "roundInfo": {
+            "round": 6,
+            "name": "Round of 32",
+            "slug": "round-of-32",
+            "cupRoundType": 16
+          },
+          "customId": "VyUsgaab",
+          "status": {
+            "code": 100,
+            "description": "Ended",
+            "type": "finished"
+          },
+          "winnerCode": 1,
+          "homeTeam": {
+            "name": "Nuno Borges",
+            "slug": "borges-nuno",
+            "shortName": "N. Borges",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 14196,
+            "playerTeamInfo": {
+              "id": 2152
+            },
+            "nameCode": "BOR",
+            "ranking": 48,
+            "disabled": false,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "PT",
+              "alpha3": "PRT",
+              "name": "Portugal",
+              "slug": "portugal"
+            },
+            "id": 125006,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "نونو بورغيس",
+                "ru": "Нуну Боржес"
+              },
+              "shortNameTranslation": {
+                "ar": "ن. بورغيس",
+                "bn": "এন. বোর্হেস",
+                "hi": "एन. बोर्गेस",
+                "ru": "Н. Боржес"
+              }
+            }
+          },
+          "awayTeam": {
+            "name": "Orlando Luz",
+            "slug": "luz-orlando",
+            "shortName": "O. Luz",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 1447,
+            "playerTeamInfo": {
+              "id": 717
+            },
+            "nameCode": "LUZ",
+            "ranking": 1072,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "BR",
+              "alpha3": "BRA",
+              "name": "Brazil",
+              "slug": "brazil"
+            },
+            "id": 111195,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "أورلاندو لوز",
+                "bn": "অরল্যান্ডো লুজ",
+                "hi": "ऑरलैंडो लुज",
+                "ru": "Орландо Луж"
+              },
+              "shortNameTranslation": {
+                "ar": "أ. لوز"
+              }
+            }
+          },
+          "homeScore": {
+            "current": 2,
+            "display": 2,
+            "period1": 6,
+            "period2": 6,
+            "point": "0",
+            "normaltime": 2
+          },
+          "awayScore": {
+            "current": 0,
+            "display": 0,
+            "period1": 3,
+            "period2": 3,
+            "point": "0",
+            "normaltime": 0
+          },
+          "time": {
+            "period1": 2042,
+            "period2": 2638,
+            "currentPeriodStartTimestamp": 1784640190
+          },
+          "changes": {
+            "changes": [
+              "time.currentPeriodStart",
+              "time.period2"
+            ],
+            "changeTimestamp": 1784642915
+          },
+          "hasGlobalHighlights": false,
+          "crowdsourcingDataDisplayEnabled": false,
+          "id": 16571630,
+          "slug": "nuno-borges-orlando-luz",
+          "startTimestamp": 1784637600,
+          "periods": {
+            "point": "Game",
+            "current": "Match",
+            "period1": "1st set",
+            "period2": "2nd set",
+            "period3": "3rd set",
+            "period4": "4th set",
+            "period5": "5th set"
+          },
+          "finalResultOnly": false,
+          "feedLocked": false,
+          "groundType": "Red clay",
+          "isEditor": false,
+          "eventFilters": {
+            "category": [
+              "singles"
+            ],
+            "level": [
+              "pro"
+            ],
+            "tournament": [
+              "p250"
+            ],
+            "gender": [
+              "M"
+            ]
+          }
+        }
+      },
+      "raw_status": "FINISHED"
+    },
+    {
       "match_id": 16571611,
       "event_id": 16571611,
       "date": "2026-07-20",
@@ -2474,280 +2748,6 @@
           "crowdsourcingDataDisplayEnabled": false,
           "id": 16571611,
           "slug": "federico-cina-facundo-diaz-acosta",
-          "startTimestamp": 1784551800,
-          "periods": {
-            "point": "Game",
-            "current": "Match",
-            "period1": "1st set",
-            "period2": "2nd set",
-            "period3": "3rd set",
-            "period4": "4th set",
-            "period5": "5th set"
-          },
-          "finalResultOnly": false,
-          "feedLocked": false,
-          "groundType": "Red clay",
-          "isEditor": false,
-          "eventFilters": {
-            "category": [
-              "singles"
-            ],
-            "level": [
-              "pro"
-            ],
-            "tournament": [
-              "p250"
-            ],
-            "gender": [
-              "M"
-            ]
-          }
-        }
-      },
-      "raw_status": "FINISHED"
-    },
-    {
-      "match_id": 16571610,
-      "event_id": 16571610,
-      "date": "2026-07-20",
-      "player1": "Joel Schwaerzler",
-      "player2": "Jurij Rodionov",
-      "winner": "Jurij Rodionov",
-      "score": "4-6 2-6",
-      "status": "FINISHED",
-      "source": "TennisApi",
-      "match": "Joel Schwaerzler vs Jurij Rodionov",
-      "raw": {
-        "source": "TennisApi",
-        "match_id": 16571610,
-        "event_id": 16571610,
-        "date": "2026-07-20",
-        "player1": "Joel Schwaerzler",
-        "player2": "Jurij Rodionov",
-        "winner": "Jurij Rodionov",
-        "score": "4-6 2-6",
-        "status": "FINISHED",
-        "match": "Joel Schwaerzler vs Jurij Rodionov",
-        "tournament": "Kitzbuhel",
-        "category": "ATP",
-        "start_time_utc": "2026-07-20T12:50:00+00:00",
-        "raw": {
-          "firstToServe": 2,
-          "homeTeamSeed": "WC",
-          "awayTeamSeed": "Q",
-          "tournament": {
-            "name": "Kitzbuhel, Austria",
-            "slug": "kitzbuhel-austria",
-            "category": {
-              "name": "ATP",
-              "slug": "atp",
-              "sport": {
-                "name": "Tennis",
-                "slug": "tennis",
-                "id": 5
-              },
-              "priority": 8,
-              "country": {},
-              "id": 3,
-              "flag": "atp",
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "bn": "এটিপি",
-                  "hi": "डब्ल्यूटीए",
-                  "ar": "رابطة محترفي التنس",
-                  "ru": "ATP"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "uniqueTournament": {
-              "name": "Kitzbuhel",
-              "slug": "kitzbuhel",
-              "primaryColorHex": "#232a3c",
-              "secondaryColorHex": "#c4251c",
-              "category": {
-                "name": "ATP",
-                "slug": "atp",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "priority": 8,
-                "country": {},
-                "id": 3,
-                "flag": "atp",
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "bn": "এটিপি",
-                    "hi": "डब्ल्यूटीए",
-                    "ar": "رابطة محترفي التنس",
-                    "ru": "ATP"
-                  },
-                  "shortNameTranslation": {}
-                }
-              },
-              "userCount": 1848,
-              "groundType": "Red clay",
-              "tennisPoints": 250,
-              "hasPerformanceGraphFeature": false,
-              "country": {},
-              "id": 2501,
-              "hasEventPlayerStatistics": false,
-              "displayInverseHomeAwayTeams": false,
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "كيتزبوهيل",
-                  "hi": "किट्ज़ब्यूल",
-                  "bn": "কিটজবুহেল",
-                  "ru": "Кицбюэль"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "priority": 0,
-            "isGroup": false,
-            "id": 191831,
-            "endTimestamp": 1784937600,
-            "startTimestamp": 1784505600
-          },
-          "season": {
-            "name": "ATP Kitzbuhel, Austria Men Singles 2026",
-            "year": "2026",
-            "editor": false,
-            "id": 81905
-          },
-          "roundInfo": {
-            "round": 6,
-            "name": "Round of 32",
-            "slug": "round-of-32",
-            "cupRoundType": 16
-          },
-          "customId": "jdFbsJnEd",
-          "status": {
-            "code": 100,
-            "description": "Ended",
-            "type": "finished"
-          },
-          "winnerCode": 2,
-          "homeTeam": {
-            "name": "Joel Schwaerzler",
-            "slug": "schwarzler-joel-josef",
-            "shortName": "J. Schwaerzler",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 2738,
-            "playerTeamInfo": {
-              "id": 7232
-            },
-            "nameCode": "SCH",
-            "ranking": 185,
-            "disabled": false,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "AT",
-              "alpha3": "AUT",
-              "name": "Austria",
-              "slug": "austria"
-            },
-            "id": 448184,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "جويل شفايرزلر",
-                "ru": "Жоэль Шваерцлер"
-              },
-              "shortNameTranslation": {
-                "ar": "ج. شفايرزلر",
-                "ru": "Ж. Шваерцлер"
-              }
-            }
-          },
-          "awayTeam": {
-            "name": "Jurij Rodionov",
-            "slug": "rodionov-jurij",
-            "shortName": "J. Rodionov",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 3404,
-            "playerTeamInfo": {
-              "id": 263
-            },
-            "nameCode": "ROD",
-            "ranking": 145,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "AT",
-              "alpha3": "AUT",
-              "name": "Austria",
-              "slug": "austria"
-            },
-            "id": 200159,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "يوري روديونوف",
-                "bn": "জুরিজ রোডিওনভ",
-                "hi": "जुरिज़ रोडियोनोव",
-                "ru": "Родионов, Юрий"
-              },
-              "shortNameTranslation": {
-                "ar": "ي. روديونوف"
-              }
-            }
-          },
-          "homeScore": {
-            "current": 0,
-            "display": 0,
-            "period1": 4,
-            "period2": 2,
-            "point": "30",
-            "normaltime": 0
-          },
-          "awayScore": {
-            "current": 2,
-            "display": 2,
-            "period1": 6,
-            "period2": 6,
-            "point": "40",
-            "normaltime": 2
-          },
-          "time": {
-            "period1": 2463,
-            "period2": 2237,
-            "currentPeriodStartTimestamp": 1784554396
-          },
-          "changes": {
-            "changes": [
-              "time.currentPeriodStart",
-              "time.period2"
-            ],
-            "changeTimestamp": 1784556654
-          },
-          "hasGlobalHighlights": false,
-          "crowdsourcingDataDisplayEnabled": false,
-          "id": 16571610,
-          "slug": "joel-schwaerzler-jurij-rodionov",
           "startTimestamp": 1784551800,
           "periods": {
             "point": "Game",
@@ -3438,8 +3438,8 @@
       "data/pick_history/top5/2026-07-17.json",
       "data/pick_history/top5/2026-07-18.json"
     ],
-    "items_indexed": 1025,
-    "items_enriched": 435
+    "items_indexed": 1016,
+    "items_enriched": 432
   },
   "examples_date_rejected": [
     {
@@ -3508,6 +3508,14 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-21",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Nuno Borges vs Orlando Luz",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-20",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
@@ -3560,6 +3568,14 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Laslo Djere vs Quentin Halys",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-21",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Adolfo Daniel Vallejo vs Kilian Feldbausch",
       "result_status": "FINISHED"
     },
     {
@@ -3664,22 +3680,6 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Mona Barthel vs Yulia Putintseva",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-21",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Valentina Steiner vs Noma Noha Akugue",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-20",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Alycia Parks vs Lucie Havlickova",
       "result_status": "FINISHED"
     }
   ],
