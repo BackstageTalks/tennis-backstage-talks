@@ -11,25 +11,25 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 48,
-  "found_count": 28,
-  "missing_count": 20,
+  "lookup_count": 52,
+  "found_count": 30,
+  "missing_count": 22,
   "examples_found": [
     {
-      "input": "Tamara Korpatsch",
-      "matched": "Tamara Korpatsch",
+      "input": "Alex Molčan",
+      "matched": "Alex Molcan",
       "method": "exact",
       "score": 1.0,
-      "elo": 1667.7,
-      "source": "data/elo/wta_elo_latest.csv"
+      "elo": 1742.2,
+      "source": "data/elo/atp_elo_latest.csv"
     },
     {
-      "input": "Victoria Jimenez Kasintseva",
-      "matched": "Victoria Jimenez Kasintseva",
+      "input": "Sebastian Ofner",
+      "matched": "Sebastian Ofner",
       "method": "exact",
       "score": 1.0,
-      "elo": 1599.4,
-      "source": "data/elo/wta_elo_latest.csv"
+      "elo": 1713.2,
+      "source": "data/elo/atp_elo_latest.csv"
     },
     {
       "input": "Arantxa Rus",
@@ -45,6 +45,22 @@
       "method": "exact",
       "score": 1.0,
       "elo": 1693.7,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Tamara Korpatsch",
+      "matched": "Tamara Korpatsch",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1667.7,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Victoria Jimenez Kasintseva",
+      "matched": "Victoria Jimenez Kasintseva",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1599.4,
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
@@ -64,22 +80,6 @@
       "source": "data/elo/atp_elo_latest.csv"
     },
     {
-      "input": "Daniel Altmaier",
-      "matched": "Daniel Altmaier",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1733.8,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Raphael Collignon",
-      "matched": "Raphael Collignon",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1893.5,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
       "input": "Linda Fruhvirtova",
       "matched": "Linda Fruhvirtova",
       "method": "exact",
@@ -94,6 +94,22 @@
       "score": 1.0,
       "elo": 1873.6,
       "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Daniel Altmaier",
+      "matched": "Daniel Altmaier",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1733.8,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Raphael Collignon",
+      "matched": "Raphael Collignon",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1893.5,
+      "source": "data/elo/atp_elo_latest.csv"
     },
     {
       "input": "Oleksandra Oliynykova",
@@ -242,6 +258,16 @@
   ],
   "examples_missing": [
     {
+      "input": "Herbert P-H / Krawietz K",
+      "normalized": "herbert p h / krawietz k",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Paul J / Seggerman R",
+      "normalized": "paul j / seggerman r",
+      "reason": "no_safe_match"
+    },
+    {
       "input": "Podoroska N / Uchijima M",
       "normalized": "podoroska n / uchijima m",
       "reason": "no_safe_match"
@@ -262,6 +288,16 @@
       "reason": "no_safe_match"
     },
     {
+      "input": "Stevenson D / Willis M",
+      "normalized": "stevenson d / willis m",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Arends S / Pel D",
+      "normalized": "arends s / pel d",
+      "reason": "no_safe_match"
+    },
+    {
       "input": "Frantzen C / Haase R",
       "normalized": "frantzen c / haase r",
       "reason": "no_safe_match"
@@ -279,16 +315,6 @@
     {
       "input": "Ferreira Silva F / Pereira T",
       "normalized": "ferreira silva f / pereira t",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Stevenson D / Willis M",
-      "normalized": "stevenson d / willis m",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Arends S / Pel D",
-      "normalized": "arends s / pel d",
       "reason": "no_safe_match"
     },
     {
