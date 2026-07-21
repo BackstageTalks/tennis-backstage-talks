@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609396.3153198,
+  "saved_at": 1784655094.9731364,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 14,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "rIncsdQYc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Carolina Kuhl",
         "slug": "kuhl-carolina",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 295,
+        "userCount": 293,
         "playerTeamInfo": {
           "plays": "left-handed",
           "prizeCurrent": 1904,
@@ -147,7 +148,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 416,
+        "userCount": 417,
         "playerTeamInfo": {
           "prizeCurrent": 6987,
           "prizeTotal": 64095,
@@ -161,7 +162,7 @@
             "value": 64095,
             "currency": "EUR"
           },
-          "currentRanking": 478
+          "currentRanking": 481
         },
         "nameCode": "GUT",
         "ranking": 547,
@@ -193,18 +194,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 4
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2"
+        ],
+        "changeTimestamp": 1784627329
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579829,
       "defaultPeriodCount": 3,
       "slug": "carolina-kuhl-mara-guth",
-      "startTimestamp": 1784620800,
+      "startTimestamp": 1784621201,
       "periods": {
         "point": "Game",
         "current": "Match",

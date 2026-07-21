@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609362.5386496,
+  "saved_at": 1784655087.1121101,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 13,
+          "userCount": 15,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "nPrdsXwwe",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Alexia Iulia Marginean",
         "slug": "marginean-alexia-iulia",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 92,
+        "userCount": 94,
         "playerTeamInfo": {
           "prizeCurrent": 2662,
           "prizeTotal": 9147,
@@ -116,7 +117,7 @@
             "value": 9147,
             "currency": "EUR"
           },
-          "currentRanking": 1860
+          "currentRanking": 1861
         },
         "nameCode": "MAR",
         "national": false,
@@ -187,18 +188,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 0
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1784621037
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579467,
       "defaultPeriodCount": 3,
       "slug": "simona-cucu-alexia-iulia-marginean",
-      "startTimestamp": 1784615400,
+      "startTimestamp": 1784616261,
       "periods": {
         "point": "Game",
         "current": "Match",

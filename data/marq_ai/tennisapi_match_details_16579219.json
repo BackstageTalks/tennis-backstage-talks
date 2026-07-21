@@ -1,7 +1,9 @@
 {
-  "saved_at": 1784609368.5656154,
+  "saved_at": 1784655092.7762456,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "awayTeamSeed": "Q",
       "tournament": {
         "name": "Tampere, Finland",
         "slug": "tampere-finland",
@@ -52,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 153,
+          "userCount": 176,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +91,11 @@
       },
       "customId": "cLtcshqwc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Tampere",
@@ -136,13 +139,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1431,
+        "userCount": 1434,
         "playerTeamInfo": {
           "height": 1.75,
           "weight": 68,
           "plays": "right-handed",
-          "prizeCurrent": 90113,
-          "prizeTotal": 234577,
+          "prizeCurrent": 114696,
+          "prizeTotal": 259161,
           "birthCity": {
             "name": "Buenos Aires",
             "country": {
@@ -158,11 +161,11 @@
           "birthDateTimestamp": 1034208000,
           "underage": false,
           "prizeCurrentRaw": {
-            "value": 90113,
+            "value": 114696,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 234577,
+            "value": 259161,
             "currency": "EUR"
           },
           "currentRanking": 259
@@ -207,7 +210,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 837,
+        "userCount": 836,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 88,
@@ -236,7 +239,7 @@
             "value": 86555,
             "currency": "EUR"
           },
-          "currentRanking": 431
+          "currentRanking": 417
         },
         "nameCode": "VIS",
         "ranking": 439,
@@ -269,17 +272,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 3,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1523,
+        "period2": 1788,
+        "currentPeriodStartTimestamp": 1784622773
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784624622
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579219,
       "defaultPeriodCount": 3,
       "slug": "alex-barrena-niels-visker",
+      "currentPeriodStartTimestamp": 1784622773,
       "startTimestamp": 1784620800,
       "periods": {
         "point": "Game",

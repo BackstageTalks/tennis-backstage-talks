@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609359.0810587,
+  "saved_at": 1784655085.6157897,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1,
+          "userCount": 2,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "VXZjsfYZj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Chang A / Nirundorn T",
         "slug": "chang-a-nirundorn-t",
@@ -193,7 +194,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 71,
+            "userCount": 75,
             "playerTeamInfo": {
               "prizeCurrent": 0,
               "prizeTotal": 1288,
@@ -208,7 +209,7 @@
                 "value": 1288,
                 "currency": "EUR"
               },
-              "currentRanking": 1898
+              "currentRanking": 1897
             },
             "nameCode": "NIR",
             "national": false,
@@ -276,7 +277,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 62,
+            "userCount": 58,
             "playerTeamInfo": {
               "height": 1.78,
               "weight": 68,
@@ -361,7 +362,7 @@
                 "value": 13488,
                 "currency": "EUR"
               },
-              "currentRanking": 2603
+              "currentRanking": 2610
             },
             "nameCode": "SUS",
             "national": false,
@@ -400,18 +401,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 9
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 6,
+        "period2TieBreak": 7
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "homeScore.period2TieBreak",
+          "awayScore.period2TieBreak"
+        ],
+        "changeTimestamp": 1784619774
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16577062,
       "defaultPeriodCount": 3,
       "slug": "charoenphon-susanto-chang-nirundorn",
-      "startTimestamp": 1784611800,
+      "startTimestamp": 1784614779,
       "periods": {
         "point": "Game",
         "current": "Match",

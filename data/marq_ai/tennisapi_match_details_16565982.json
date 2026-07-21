@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784609366.9419386,
+  "saved_at": 1784655092.4255302,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "WC",
       "tournament": {
         "name": "Tampere, Finland",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 153,
+          "userCount": 176,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "XpWbsRbZd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Tampere",
@@ -137,7 +139,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 275,
+        "userCount": 274,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 82,
@@ -166,7 +168,7 @@
             "value": 14152,
             "currency": "EUR"
           },
-          "currentRanking": 952
+          "currentRanking": 954
         },
         "nameCode": "PAL",
         "ranking": 1294,
@@ -208,13 +210,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1071,
+        "userCount": 1078,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 73,
           "plays": "left-handed",
-          "prizeCurrent": 34277,
-          "prizeTotal": 145180,
+          "prizeCurrent": 60087,
+          "prizeTotal": 171447,
           "birthCity": {
             "name": "Montevideo",
             "country": {
@@ -230,11 +232,11 @@
           "birthDateTimestamp": 949795200,
           "underage": false,
           "prizeCurrentRaw": {
-            "value": 34277,
+            "value": 60087,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 145180,
+            "value": 171447,
             "currency": "EUR"
           },
           "currentRanking": 221
@@ -268,17 +270,42 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 6,
+        "period2TieBreak": 5,
+        "point": "5",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 7,
+        "period2TieBreak": 7,
+        "point": "6",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3319,
+        "period2": 4696,
+        "currentPeriodStartTimestamp": 1784624510
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784629249
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16565982,
       "defaultPeriodCount": 3,
       "slug": "oskari-paldanius-franco-roncadelli",
+      "currentPeriodStartTimestamp": 1784624510,
       "startTimestamp": 1784620800,
       "periods": {
         "point": "Game",

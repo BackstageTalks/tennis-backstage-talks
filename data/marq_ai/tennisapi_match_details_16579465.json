@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609363.0034068,
+  "saved_at": 1784655086.542976,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 13,
+          "userCount": 15,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "JtWdsqyIi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Milena Ciocan",
         "slug": "ciocan-milena",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 165,
+        "userCount": 166,
         "playerTeamInfo": {
           "prizeCurrent": 1552,
           "prizeTotal": 5134,
@@ -116,7 +117,7 @@
             "value": 5134,
             "currency": "EUR"
           },
-          "currentRanking": 1242
+          "currentRanking": 1267
         },
         "nameCode": "CIO",
         "ranking": 1482,
@@ -193,18 +194,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 4
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1784621579
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579465,
       "defaultPeriodCount": 3,
       "slug": "vanesa-salaiova-milena-ciocan",
-      "startTimestamp": 1784615400,
+      "startTimestamp": 1784615997,
       "periods": {
         "point": "Game",
         "current": "Match",

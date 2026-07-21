@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609398.4595733,
+  "saved_at": 1784655086.849453,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1,
+          "userCount": 2,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "IDVisdYZj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Bruce-Smith J / Storch S",
         "slug": "bruce-smith-j-storch-s",
@@ -301,11 +302,11 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 29,
+            "userCount": 28,
             "playerTeamInfo": {
               "id": 28713,
               "underage": false,
-              "currentRanking": 2770
+              "currentRanking": 2774
             },
             "nameCode": "KOM",
             "national": false,
@@ -346,7 +347,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 13,
+            "userCount": 36,
             "playerTeamInfo": {
               "id": 47371,
               "underage": false
@@ -379,18 +380,37 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 3
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "awayScore.period1"
+        ],
+        "changeTimestamp": 1784619775
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16577065,
       "defaultPeriodCount": 3,
       "slug": "komada-da-costaa-bruce-smith-storch",
-      "startTimestamp": 1784621504,
+      "startTimestamp": 1784616253,
       "periods": {
         "point": "Game",
         "current": "Match",

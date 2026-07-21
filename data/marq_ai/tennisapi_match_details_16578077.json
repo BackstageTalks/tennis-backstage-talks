@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609314.251744,
+  "saved_at": 1784655064.226426,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 4,
+          "userCount": 14,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "PlvdstZXd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Kaede Usui",
         "slug": "usui-kaede",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 32,
+        "userCount": 33,
         "playerTeamInfo": {
           "prizeCurrent": 603,
           "prizeTotal": 4812,
@@ -158,7 +159,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 296,
+        "userCount": 297,
         "playerTeamInfo": {
           "prizeCurrent": 18245,
           "prizeTotal": 53970,
@@ -204,11 +205,34 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 3
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period1",
+          "homeScore.period2",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period1",
+          "awayScore.period2"
+        ],
+        "changeTimestamp": 1784614683
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
@@ -236,7 +260,7 @@
         "CH",
         "CA"
       ],
-      "feedLocked": false,
+      "feedLocked": true,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,
       "isEditor": false,

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784609367.8333642,
+  "saved_at": 1784655092.2709653,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "7",
       "tournament": {
         "name": "Segovia, Spain",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 171,
+          "userCount": 189,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "RLBbsgLPb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Segovia",
@@ -137,13 +139,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1103,
+        "userCount": 1101,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 75,
           "plays": "right-handed",
-          "prizeCurrent": 69044,
-          "prizeTotal": 433511,
+          "prizeCurrent": 96202,
+          "prizeTotal": 460669,
           "birthCity": {
             "name": "Strasbourg",
             "country": {
@@ -170,11 +172,11 @@
           "underage": false,
           "residence": "Strasbourg, France",
           "prizeCurrentRaw": {
-            "value": 69044,
+            "value": 96202,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 433511,
+            "value": 460669,
             "currency": "EUR"
           },
           "currentRanking": 218
@@ -218,13 +220,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 847,
+        "userCount": 845,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 78,
           "plays": "right-handed",
-          "prizeCurrent": 50623,
-          "prizeTotal": 139632,
+          "prizeCurrent": 74976,
+          "prizeTotal": 164070,
           "birthCity": {
             "name": "La Reunion",
             "country": {
@@ -240,11 +242,11 @@
           "birthDateTimestamp": 929491200,
           "underage": false,
           "prizeCurrentRaw": {
-            "value": 50623,
+            "value": 74976,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 139632,
+            "value": 164070,
             "currency": "EUR"
           },
           "currentRanking": 246
@@ -278,17 +280,39 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 1,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1856,
+        "period2": 1770,
+        "currentPeriodStartTimestamp": 1784623291
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1784625254
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16566820,
       "defaultPeriodCount": 3,
       "slug": "florent-bax-dan-added",
+      "currentPeriodStartTimestamp": 1784623291,
       "startTimestamp": 1784620800,
       "periods": {
         "point": "Game",

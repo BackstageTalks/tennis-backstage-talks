@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609403.4281647,
+  "saved_at": 1784655099.269033,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 11,
+          "userCount": 12,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "grZdsGKge",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Pablo Perez Navarro",
         "slug": "perez-navarro-pablo",
@@ -102,11 +103,11 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 39,
+        "userCount": 40,
         "playerTeamInfo": {
           "id": 43847,
           "underage": false,
-          "currentRanking": 1991
+          "currentRanking": 1975
         },
         "nameCode": "PER",
         "national": false,
@@ -177,18 +178,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 1
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1784628595
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579982,
       "defaultPeriodCount": 3,
       "slug": "pablo-perez-navarro-manuel-belda",
-      "startTimestamp": 1784622600,
+      "startTimestamp": 1784623036,
       "periods": {
         "point": "Game",
         "current": "Match",

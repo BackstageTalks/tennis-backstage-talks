@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436762.7495959,
+  "saved_at": 1784655104.5764923,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "8",
       "tournament": {
         "name": "Kitzbuhel, Austria",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1648,
+          "userCount": 1848,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -95,9 +96,43 @@
       },
       "customId": "rvpslCZb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 2,
+      "venue": {
+        "city": {
+          "name": "Kitzbuehel",
+          "country": {
+            "alpha2": "AT",
+            "alpha3": "AUT",
+            "name": "Austria",
+            "slug": "austria"
+          },
+          "id": 20653
+        },
+        "hidden": true,
+        "slug": "grand-stand",
+        "name": "Grand Stand",
+        "country": {
+          "alpha2": "AT",
+          "alpha3": "AUT",
+          "name": "Austria",
+          "slug": "austria"
+        },
+        "id": 29580,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "المدرج الكبير",
+            "hi": "ग्रैंड स्टैंड",
+            "bn": "গ্র্যান্ড স্ট্যান্ড"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Grand Stand"
+        }
       },
       "homeTeam": {
         "name": "Juan Manuel Cerundolo",
@@ -109,13 +144,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 10028,
+        "userCount": 10309,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 75,
           "plays": "left-handed",
-          "prizeCurrent": 677966,
-          "prizeTotal": 2124831,
+          "prizeCurrent": 801501,
+          "prizeTotal": 2250019,
           "birthCity": {
             "name": "Buenos Aires",
             "country": {
@@ -142,17 +177,17 @@
           "underage": false,
           "residence": "Buenos Aires, Argentina",
           "prizeCurrentRaw": {
-            "value": 677966,
+            "value": 801501,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 2124831,
+            "value": 2250019,
             "currency": "EUR"
           },
-          "currentRanking": 42
+          "currentRanking": 41
         },
         "nameCode": "CER",
-        "ranking": 45,
+        "ranking": 50,
         "class": 1,
         "disabled": false,
         "national": false,
@@ -194,14 +229,14 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4181,
+        "userCount": 4200,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 80,
           "plays": "right-handed",
           "turnedPro": "2008",
-          "prizeCurrent": 347682,
-          "prizeTotal": 2236856,
+          "prizeCurrent": 450165,
+          "prizeTotal": 2355979,
           "birthCity": {
             "name": "Santiago del Estero",
             "country": {
@@ -228,17 +263,17 @@
           "underage": false,
           "residence": "Ordino, Andorra",
           "prizeCurrentRaw": {
-            "value": 347682,
+            "value": 450165,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 2236856,
+            "value": 2355979,
             "currency": "EUR"
           },
-          "currentRanking": 95
+          "currentRanking": 91
         },
         "nameCode": "TRU",
-        "ranking": 99,
+        "ranking": 95,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -269,18 +304,49 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 1,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2549,
+        "period2": 1859,
+        "currentPeriodStartTimestamp": 1784627502
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784629375
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16562590,
       "defaultPeriodCount": 3,
       "slug": "juan-manuel-cerundolo-marco-trungelliti",
-      "startTimestamp": 1784543400,
+      "currentPeriodStartTimestamp": 1784627502,
+      "startTimestamp": 1784624400,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -291,6 +357,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

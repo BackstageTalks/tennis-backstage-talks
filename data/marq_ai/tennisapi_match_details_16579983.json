@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609402.273484,
+  "saved_at": 1784655100.7107441,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 11,
+          "userCount": 12,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "ecadsUgNi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Alberto Garcia Garcia",
         "slug": "alberto-garcia-garcia",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 19,
+        "userCount": 20,
         "playerTeamInfo": {
           "id": 21750,
           "birthDateTimestamp": 1075680000,
@@ -148,11 +149,11 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 35,
+        "userCount": 34,
         "playerTeamInfo": {
           "id": 31690,
           "underage": false,
-          "currentRanking": 3572
+          "currentRanking": 3573
         },
         "nameCode": "PET",
         "disabled": false,
@@ -184,18 +185,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 3
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2"
+        ],
+        "changeTimestamp": 1784629138
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579983,
       "defaultPeriodCount": 3,
       "slug": "alberto-garcia-garcia-pavel-petrov",
-      "startTimestamp": 1784622600,
+      "startTimestamp": 1784623186,
       "periods": {
         "point": "Game",
         "current": "Match",

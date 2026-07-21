@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784609366.347136,
+  "saved_at": 1784655091.5840578,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Segovia, Spain",
         "slug": "segovia-spain",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 171,
+          "userCount": 189,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +90,11 @@
       },
       "customId": "npIsijOb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Segovia",
@@ -128,13 +130,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 937,
+        "userCount": 944,
         "playerTeamInfo": {
           "height": 1.93,
           "weight": 83,
           "plays": "right-handed",
-          "prizeCurrent": 30749,
-          "prizeTotal": 284790,
+          "prizeCurrent": 31698,
+          "prizeTotal": 285738,
           "birthCity": {
             "name": "Twickenham",
             "country": {
@@ -161,11 +163,11 @@
           "underage": false,
           "residence": "England, United Kingdom",
           "prizeCurrentRaw": {
-            "value": 30749,
+            "value": 31698,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 284790,
+            "value": 285738,
             "currency": "EUR"
           },
           "currentRanking": 261
@@ -210,14 +212,14 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 718,
+        "userCount": 719,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 78,
           "plays": "right-handed",
           "turnedPro": "2013",
-          "prizeCurrent": 18740,
-          "prizeTotal": 491172,
+          "prizeCurrent": 23734,
+          "prizeTotal": 496429,
           "birthCity": {
             "name": "Tokyo",
             "country": {
@@ -244,11 +246,11 @@
           "underage": false,
           "residence": "Brisbane, Australia",
           "prizeCurrentRaw": {
-            "value": 18740,
+            "value": 23734,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 491172,
+            "value": 496429,
             "currency": "EUR"
           },
           "currentRanking": 289
@@ -284,17 +286,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 2,
+        "period3": 3,
+        "point": "30",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 2,
+        "period2": 6,
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1576,
+        "period2": 1773,
+        "period3": 2160,
+        "currentPeriodStartTimestamp": 1784624780
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1784626975
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16566822,
       "defaultPeriodCount": 3,
       "slug": "alastair-gray-akira-santillan",
+      "currentPeriodStartTimestamp": 1784624780,
       "startTimestamp": 1784620800,
       "periods": {
         "point": "Game",

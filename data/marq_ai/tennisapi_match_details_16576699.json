@@ -1,8 +1,7 @@
 {
-  "saved_at": 1784609348.2190375,
+  "saved_at": 1784655079.7977068,
   "data": {
     "event": {
-      "firstToServe": 2,
       "tournament": {
         "name": "ITF M15 Brisbane Men",
         "slug": "itf-m15-brisbane-men",
@@ -49,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 8,
+          "userCount": 14,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +88,11 @@
       },
       "customId": "bOIdsaade",
       "status": {
-        "code": 9,
-        "description": "2nd set",
-        "type": "inprogress"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Ymerali Ibraimi",
         "slug": "ibraimi-ymerali",
@@ -103,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 54,
+        "userCount": 63,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 81,
@@ -174,7 +174,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 26,
+        "userCount": 28,
         "nameCode": "SHE",
         "national": false,
         "type": 1,
@@ -205,28 +205,30 @@
         "timeActive": []
       },
       "homeScore": {
-        "current": 1,
-        "display": 1,
+        "current": 2,
+        "display": 2,
         "period1": 6,
-        "period2": 4,
+        "period2": 7,
+        "period2TieBreak": 7,
         "point": "0"
       },
       "awayScore": {
         "current": 0,
         "display": 0,
         "period1": 1,
-        "period2": 4,
+        "period2": 6,
+        "period2TieBreak": 3,
         "point": "0"
       },
       "time": {},
       "changes": {
         "changes": [
-          "homeScore.period2",
-          "homeScore.point",
-          "awayScore.point",
+          "status.code",
+          "status.description",
+          "status.type",
           "firstToServe"
         ],
-        "changeTimestamp": 1784609335
+        "changeTimestamp": 1784616900
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
@@ -243,7 +245,6 @@
         "period4": "4th set",
         "period5": "5th set"
       },
-      "lastPeriod": "period2",
       "finalResultOnly": false,
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",

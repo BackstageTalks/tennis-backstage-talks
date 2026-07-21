@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609359.99492,
+  "saved_at": 1784655090.6982694,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 2,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "QGVisvlZj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Khan L / Russell T",
         "slug": "khan-l-russell-t",
@@ -302,7 +303,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 270,
+            "userCount": 269,
             "playerTeamInfo": {
               "prizeCurrent": 5594,
               "prizeTotal": 24669,
@@ -362,18 +363,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 4,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784626791
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16575801,
       "defaultPeriodCount": 3,
       "slug": "khan-russell-taylor-thompson",
-      "startTimestamp": 1784615400,
+      "startTimestamp": 1784619711,
       "periods": {
         "point": "Game",
         "current": "Match",

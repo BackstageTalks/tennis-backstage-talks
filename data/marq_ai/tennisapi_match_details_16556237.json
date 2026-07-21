@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609349.6854136,
+  "saved_at": 1784655080.4162087,
   "data": {
     "event": {
       "firstToServe": 2,
@@ -84,10 +84,11 @@
       },
       "customId": "fumesnJZj",
       "status": {
-        "code": 10,
-        "description": "3rd set",
-        "type": "inprogress"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Newport Beach",
@@ -197,29 +198,30 @@
         "period1": 6,
         "period2": 2,
         "period3": 4,
-        "point": "0"
+        "point": "30",
+        "normaltime": 1
       },
       "awayScore": {
-        "current": 1,
-        "display": 1,
+        "current": 2,
+        "display": 2,
         "period1": 4,
         "period2": 6,
-        "period3": 5,
-        "point": "0"
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
       },
       "time": {
         "period1": 3618,
         "period2": 2791,
+        "period3": 3251,
         "currentPeriodStartTimestamp": 1784606450
       },
       "changes": {
         "changes": [
-          "homeScore.period3",
-          "homeScore.point",
-          "awayScore.point",
-          "firstToServe"
+          "time.currentPeriodStart",
+          "time.period3"
         ],
-        "changeTimestamp": 1784609288
+        "changeTimestamp": 1784609723
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
@@ -237,7 +239,6 @@
         "period4": "4th set",
         "period5": "5th set"
       },
-      "lastPeriod": "period3",
       "finalResultOnly": false,
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",

@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609337.7119925,
+  "saved_at": 1784655078.072244,
   "data": {
     "event": {
       "tournament": {
@@ -88,10 +88,11 @@
       },
       "customId": "QYHsYuod",
       "status": {
-        "code": 9,
-        "description": "2nd set",
-        "type": "inprogress"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Jeremy Zhang",
         "slug": "zhang-jeremy",
@@ -245,27 +246,27 @@
         "timeActive": []
       },
       "homeScore": {
-        "current": 1,
-        "display": 1,
+        "current": 2,
+        "display": 2,
         "period1": 6,
-        "period2": 5,
+        "period2": 6,
         "point": "0"
       },
       "awayScore": {
         "current": 0,
         "display": 0,
         "period1": 3,
-        "period2": 0,
+        "period2": 1,
         "point": "0"
       },
       "time": {},
       "changes": {
         "changes": [
-          "homeScore.period2",
-          "homeScore.point",
-          "awayScore.point"
+          "status.code",
+          "status.description",
+          "status.type"
         ],
-        "changeTimestamp": 1784609324
+        "changeTimestamp": 1784609923
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
@@ -282,7 +283,6 @@
         "period4": "4th set",
         "period5": "5th set"
       },
-      "lastPeriod": "period2",
       "finalResultOnly": false,
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",

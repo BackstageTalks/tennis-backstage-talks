@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609401.2590199,
+  "saved_at": 1784655099.4717891,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 10,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "fVGbsiYJc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Fiona Ganz",
         "slug": "ganz-fiona",
@@ -88,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 220,
+        "userCount": 222,
         "playerTeamInfo": {
           "prizeCurrent": 1427,
           "prizeTotal": 61700,
@@ -144,7 +145,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2133,
+        "userCount": 2138,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 2667,
@@ -207,18 +208,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 3
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1784629873
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579391,
       "defaultPeriodCount": 3,
       "slug": "brenda-fruhvirtova-fiona-ganz",
-      "startTimestamp": 1784622600,
+      "startTimestamp": 1784623080,
       "periods": {
         "point": "Game",
         "current": "Match",

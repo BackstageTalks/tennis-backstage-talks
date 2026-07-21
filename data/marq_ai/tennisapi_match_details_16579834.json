@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609369.4570453,
+  "saved_at": 1784655101.2987318,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 10,
+          "userCount": 14,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "cbwcsqhHi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Laia Petretic",
         "slug": "petretic-laia",
@@ -193,18 +194,38 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 5,
+        "period2": 6,
+        "period3": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 7,
+        "period2": 4,
+        "period3": 2,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784635694
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579834,
       "defaultPeriodCount": 3,
       "slug": "mariya-yemshanova-laia-petretic",
-      "startTimestamp": 1784620800,
+      "startTimestamp": 1784623718,
       "periods": {
         "point": "Game",
         "current": "Match",

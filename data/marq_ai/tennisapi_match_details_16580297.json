@@ -1,7 +1,9 @@
 {
-  "saved_at": 1784609398.035063,
+  "saved_at": 1784655093.1366575,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "homeTeamSeed": "Q",
       "tournament": {
         "name": "Segovia, Spain",
         "slug": "segovia-spain",
@@ -52,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 171,
+          "userCount": 189,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +91,11 @@
       },
       "customId": "JPObsHoZb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Segovia",
@@ -136,13 +139,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 343,
+        "userCount": 350,
         "playerTeamInfo": {
           "height": 1.75,
           "weight": 73,
           "plays": "right-handed",
-          "prizeCurrent": 8230,
-          "prizeTotal": 59114,
+          "prizeCurrent": 9137,
+          "prizeTotal": 60478,
           "birthCity": {
             "name": "Yamagata",
             "country": {
@@ -169,11 +172,11 @@
           "underage": false,
           "residence": "Tokyo, Japan",
           "prizeCurrentRaw": {
-            "value": 8230,
+            "value": 9137,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 59114,
+            "value": 60478,
             "currency": "EUR"
           },
           "currentRanking": 514
@@ -217,13 +220,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1600,
+        "userCount": 1594,
         "playerTeamInfo": {
           "height": 1.96,
           "weight": 88,
           "plays": "right-handed",
-          "prizeCurrent": 168285,
-          "prizeTotal": 396213,
+          "prizeCurrent": 206040,
+          "prizeTotal": 434232,
           "birthCity": {
             "name": "Stains",
             "country": {
@@ -239,14 +242,14 @@
           "birthDateTimestamp": 954374400,
           "underage": false,
           "prizeCurrentRaw": {
-            "value": 168285,
+            "value": 206040,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 396213,
+            "value": 434232,
             "currency": "EUR"
           },
-          "currentRanking": 275
+          "currentRanking": 266
         },
         "nameCode": "PAV",
         "ranking": 278,
@@ -279,17 +282,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 1,
+        "period3": 2,
+        "point": "0",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 3,
+        "period2": 6,
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1859,
+        "period2": 1596,
+        "period3": 2081,
+        "currentPeriodStartTimestamp": 1784624934
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1784627036
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16580297,
       "defaultPeriodCount": 3,
       "slug": "takuya-kumasaka-luka-pavlovic",
+      "currentPeriodStartTimestamp": 1784624934,
       "startTimestamp": 1784620800,
       "periods": {
         "point": "Game",

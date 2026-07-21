@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609358.3091319,
+  "saved_at": 1784655084.8443432,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 12,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "YmRbspYQd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Mana Kawamura",
         "slug": "kawamura-mana",
@@ -146,7 +147,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 203,
+        "userCount": 205,
         "playerTeamInfo": {
           "prizeCurrent": 5154,
           "prizeTotal": 19102,
@@ -160,7 +161,7 @@
             "value": 19102,
             "currency": "EUR"
           },
-          "currentRanking": 589
+          "currentRanking": 599
         },
         "nameCode": "YOS",
         "ranking": 633,
@@ -192,18 +193,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 2,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784615631
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16575812,
       "defaultPeriodCount": 3,
       "slug": "natsuki-yoshimoto-mana-kawamura",
-      "startTimestamp": 1784609100,
+      "startTimestamp": 1784609819,
       "periods": {
         "point": "Game",
         "current": "Match",

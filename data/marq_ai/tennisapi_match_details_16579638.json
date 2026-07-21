@@ -1,7 +1,9 @@
 {
-  "saved_at": 1784609370.3168712,
+  "saved_at": 1784655093.5039744,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "homeTeamSeed": "Q",
       "awayTeamSeed": "3",
       "tournament": {
         "name": "Hamburg, Germany",
@@ -55,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 569,
+          "userCount": 633,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +95,11 @@
       },
       "customId": "XqMbscydd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Hamburg",
@@ -132,7 +135,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1228,
+        "userCount": 1246,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 249938,
@@ -190,7 +193,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3219,
+        "userCount": 3240,
         "playerTeamInfo": {
           "height": 1.7,
           "plays": "right-handed",
@@ -264,17 +267,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2,
+        "point": "40",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2573,
+        "period2": 2506,
+        "currentPeriodStartTimestamp": 1784623887
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784626421
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579638,
       "defaultPeriodCount": 3,
       "slug": "elena-pridankina-panna-udvardy",
+      "currentPeriodStartTimestamp": 1784623887,
       "startTimestamp": 1784620800,
       "periods": {
         "point": "Game",

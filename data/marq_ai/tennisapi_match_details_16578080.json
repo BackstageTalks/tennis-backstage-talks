@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609313.8544776,
+  "saved_at": 1784655064.0370903,
   "data": {
     "event": {
       "tournament": {
@@ -88,10 +88,11 @@
       },
       "customId": "BiRcsTAMd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Briley Rhoden",
         "slug": "rhoden-briley",
@@ -189,11 +190,34 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period1",
+          "homeScore.period2",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period1",
+          "awayScore.period2"
+        ],
+        "changeTimestamp": 1784609469
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
@@ -221,7 +245,7 @@
         "CH",
         "CA"
       ],
-      "feedLocked": false,
+      "feedLocked": true,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,
       "isEditor": false,

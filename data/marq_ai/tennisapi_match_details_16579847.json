@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609365.9556556,
+  "saved_at": 1784655087.8129456,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 11,
+          "userCount": 12,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "cPfdsDMhd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Julius Bult",
         "slug": "bult-julius",
@@ -102,11 +103,11 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 65,
+        "userCount": 66,
         "playerTeamInfo": {
           "id": 33962,
           "underage": false,
-          "currentRanking": 3913
+          "currentRanking": 3911
         },
         "nameCode": "BUL",
         "national": false,
@@ -177,18 +178,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 4,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784623268
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579847,
       "defaultPeriodCount": 3,
       "slug": "kolos-kincses-julius-bult",
-      "startTimestamp": 1784617200,
+      "startTimestamp": 1784617969,
       "periods": {
         "point": "Game",
         "current": "Match",

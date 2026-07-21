@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609364.4323325,
+  "saved_at": 1784655088.222193,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 11,
+          "userCount": 12,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "oKbcsILzh",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Sebastiano Cocola",
         "slug": "cocola-sebastiano",
@@ -102,19 +103,19 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 93,
+        "userCount": 92,
         "playerTeamInfo": {
-          "prizeCurrent": 2279,
-          "prizeTotal": 7186,
+          "prizeCurrent": 2660,
+          "prizeTotal": 7651,
           "id": 26524,
           "birthDateTimestamp": 1149292800,
           "underage": false,
           "prizeCurrentRaw": {
-            "value": 2279,
+            "value": 2660,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 7186,
+            "value": 7651,
             "currency": "EUR"
           },
           "currentRanking": 1185
@@ -159,7 +160,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 150,
+        "userCount": 151,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 80,
@@ -188,7 +189,7 @@
             "value": 14777,
             "currency": "EUR"
           },
-          "currentRanking": 1654
+          "currentRanking": 1653
         },
         "nameCode": "BEL",
         "national": false,
@@ -219,18 +220,42 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 6,
+        "period3": 5,
+        "period2TieBreak": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 4,
+        "period2": 7,
+        "period3": 10,
+        "period2TieBreak": 8,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "awayScore.current",
+          "awayScore.display",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784628375
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579840,
       "defaultPeriodCount": 3,
       "slug": "sebastiano-cocola-alessandro-bellifemine",
-      "startTimestamp": 1784617200,
+      "startTimestamp": 1784618041,
       "periods": {
         "point": "Game",
         "current": "Match",

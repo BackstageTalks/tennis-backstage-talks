@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609398.8868198,
+  "saved_at": 1784655100.918207,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 10,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "CyjcsAYpc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Madelief Hageman",
         "slug": "hageman-madelief",
@@ -88,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 194,
+        "userCount": 196,
         "playerTeamInfo": {
           "prizeCurrent": 5504,
           "prizeTotal": 35383,
@@ -144,7 +145,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 58,
+        "userCount": 61,
         "playerTeamInfo": {
           "prizeCurrent": 288,
           "prizeTotal": 4666,
@@ -158,7 +159,7 @@
             "value": 4666,
             "currency": "EUR"
           },
-          "currentRanking": 1261
+          "currentRanking": 1263
         },
         "nameCode": "TIG",
         "national": false,
@@ -189,18 +190,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 1
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1784627529
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579398,
       "defaultPeriodCount": 3,
       "slug": "madelief-hageman-cristina-elena-tiglea",
-      "startTimestamp": 1784622600,
+      "startTimestamp": 1784623215,
       "periods": {
         "point": "Game",
         "current": "Match",

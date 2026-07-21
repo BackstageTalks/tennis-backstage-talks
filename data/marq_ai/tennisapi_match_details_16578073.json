@@ -1,8 +1,7 @@
 {
-  "saved_at": 1784609347.4942675,
+  "saved_at": 1784655079.1833525,
   "data": {
     "event": {
-      "firstToServe": 2,
       "tournament": {
         "name": "ITF W15 Brisbane 2 Women",
         "slug": "itf-w15-brisbane-2-women",
@@ -75,10 +74,11 @@
       },
       "customId": "OKLcsaxgd",
       "status": {
-        "code": 9,
-        "description": "2nd set",
-        "type": "inprogress"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Carolann Delaunay",
         "slug": "delaunay-carolann",
@@ -198,21 +198,18 @@
         "point": "0"
       },
       "awayScore": {
-        "current": 1,
-        "display": 1,
+        "current": 2,
+        "display": 2,
         "period1": 6,
-        "period2": 2,
+        "period2": 6,
         "point": "0"
       },
       "time": {},
       "changes": {
         "changes": [
-          "homeScore.period2",
-          "homeScore.point",
-          "awayScore.point",
           "firstToServe"
         ],
-        "changeTimestamp": 1784609310
+        "changeTimestamp": 1784610643
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
@@ -229,7 +226,6 @@
         "period4": "4th set",
         "period5": "5th set"
       },
-      "lastPeriod": "period2",
       "finalResultOnly": false,
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",

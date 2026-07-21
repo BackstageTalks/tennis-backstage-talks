@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609353.3894074,
+  "saved_at": 1784655084.6265795,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 12,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "lLAbsoeIi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Eva Lopez",
         "slug": "eva-lopez",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 22,
+        "userCount": 23,
         "playerTeamInfo": {
           "prizeCurrent": 2896,
           "prizeTotal": 3821,
@@ -146,7 +147,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 911,
+        "userCount": 913,
         "playerTeamInfo": {
           "height": 1.75,
           "weight": 70,
@@ -224,31 +225,33 @@
       "homeScore": {
         "current": 0,
         "display": 0,
-        "period1": 0,
+        "period1": 1,
+        "period2": 2,
         "point": "0"
       },
       "awayScore": {
-        "current": 0,
-        "display": 0,
-        "period1": 0,
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
         "point": "0"
       },
       "time": {},
       "changes": {
         "changes": [
-          "homeScore.period1",
-          "homeScore.point",
-          "awayScore.period1",
-          "awayScore.point"
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
         ],
-        "changeTimestamp": 1784609177
+        "changeTimestamp": 1784615533
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16575803,
       "defaultPeriodCount": 3,
       "slug": "eva-lopez-destanee-aiava",
-      "startTimestamp": 1784601000,
+      "startTimestamp": 1784609512,
       "periods": {
         "point": "Game",
         "current": "Match",

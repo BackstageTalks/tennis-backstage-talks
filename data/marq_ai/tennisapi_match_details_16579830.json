@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609396.754891,
+  "saved_at": 1784655098.0778172,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 10,
+          "userCount": 14,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "vKNbsATVd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Federica Sacco",
         "slug": "sacco-federica",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 130,
+        "userCount": 133,
         "playerTeamInfo": {
           "prizeCurrent": 4966,
           "prizeTotal": 19310,
@@ -158,7 +159,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 45,
+        "userCount": 55,
         "nameCode": "KOV",
         "national": false,
         "type": 1,
@@ -188,18 +189,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 5,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784629171
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16579830,
       "defaultPeriodCount": 3,
       "slug": "kristina-kovgan-federica-sacco",
-      "startTimestamp": 1784620800,
+      "startTimestamp": 1784622166,
       "periods": {
         "point": "Game",
         "current": "Match",

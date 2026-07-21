@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609320.9958239,
+  "saved_at": 1784655070.9722612,
   "data": {
     "event": {
       "tournament": {
@@ -88,10 +88,11 @@
       },
       "customId": "YifbsyRUi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Hanna Chang",
         "slug": "chang-hanna",
@@ -196,11 +197,34 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 2
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period1",
+          "homeScore.period2",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period1",
+          "awayScore.period2"
+        ],
+        "changeTimestamp": 1784609537
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
@@ -218,7 +242,7 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
-      "feedLocked": false,
+      "feedLocked": true,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,
       "isEditor": false,

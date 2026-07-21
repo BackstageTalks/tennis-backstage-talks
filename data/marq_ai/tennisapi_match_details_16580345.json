@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609397.3715959,
+  "saved_at": 1784655094.5244718,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 13,
+          "userCount": 15,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "XuDbsOiic",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Laura Mair",
         "slug": "mair-laura",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 321,
+        "userCount": 322,
         "playerTeamInfo": {
           "prizeCurrent": 10678,
           "prizeTotal": 45117,
@@ -103,7 +104,7 @@
             "value": 45117,
             "currency": "EUR"
           },
-          "currentRanking": 410
+          "currentRanking": 411
         },
         "nameCode": "MAI",
         "ranking": 412,
@@ -145,7 +146,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 206,
+        "userCount": 207,
         "playerTeamInfo": {
           "prizeCurrent": 10997,
           "prizeTotal": 107975,
@@ -192,18 +193,37 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 7,
+        "period2": 3,
+        "period3": 1,
+        "period1TieBreak": 7,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "period3": 6,
+        "period1TieBreak": 4,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784628890
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16580345,
       "defaultPeriodCount": 3,
       "slug": "laura-mair-aneta-kucmova",
-      "startTimestamp": 1784620800,
+      "startTimestamp": 1784621163,
       "periods": {
         "point": "Game",
         "current": "Match",

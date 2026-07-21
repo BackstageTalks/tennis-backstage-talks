@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784609353.007075,
+  "saved_at": 1784655088.5182312,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 12,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "NAKdseVYj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "I Wen Wan",
         "slug": "wan-i-wen",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 96,
+        "userCount": 99,
         "playerTeamInfo": {
           "prizeCurrent": 3044,
           "prizeTotal": 5950,
@@ -103,7 +104,7 @@
             "value": 5950,
             "currency": "EUR"
           },
-          "currentRanking": 934
+          "currentRanking": 936
         },
         "nameCode": "WAN",
         "ranking": 1000,
@@ -145,7 +146,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 18,
+        "userCount": 19,
         "playerTeamInfo": {
           "id": 47204,
           "underage": false
@@ -170,18 +171,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 0,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784626056
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16575806,
       "defaultPeriodCount": 3,
       "slug": "angel-warang-i-wen-wan",
-      "startTimestamp": 1784601000,
+      "startTimestamp": 1784618104,
       "periods": {
         "point": "Game",
         "current": "Match",
