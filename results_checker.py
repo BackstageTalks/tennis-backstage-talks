@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import glob
 import unicodedata
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
@@ -22,6 +23,66 @@ ALL_RESULTS_PATH = "data/results/all_results.json"
 TOP5_RESULTS_PATH = "data/results/top5_results.json"
 PUBLIC_RESULTS_DATA_PATH = "public/results_data.json"
 RESULTS_DEBUG_PATH = "public/results_debug.json"
+
+AI_ENRICHMENT_PATTERNS = [
+    "public/all_predictions_latest.json",
+    "public/corq_predictions_latest.json",
+    "public/thinq_predictions_latest.json",
+    "public/cloq_predictions_latest.json",
+    "public/all_predictions_*.json",
+    "data/pick_history/all/*.json",
+    "data/pick_history/top5/*.json",
+]
+
+AI_ENRICHMENT_FIELDS = [
+    "corq_ai_probability",
+    "bst_ai_probability",
+    "thinq_ai_probability",
+    "ai_match",
+    "ai_gap",
+    "ai_signed_gap",
+    "ai_lean",
+    "ai_direction_match",
+    "ai_match_color",
+    "bst_ai_status",
+    "bst_ai_reason",
+    "bst_ai_rating_type",
+    "bst_player1_found",
+    "bst_player2_found",
+    "corq_raw_probability",
+    "thinq_raw_probability",
+    "corq_q_probability",
+    "thinq_q_probability",
+    "cloq_ai_probability",
+    "consensus_score",
+    "model_gap",
+    "q_model_gap",
+    "market_probability",
+    "market_break_even",
+    "model_edge",
+    "corq_edge",
+    "corq_q_edge",
+    "thinq_edge",
+    "thinq_q_edge",
+    "dynamic_min_edge",
+    "corq_adjusted_score",
+    "corq_edge_bonus",
+    "corq_risk_penalty",
+    "corq_risk_flags",
+    "cloq_probability",
+    "edge_pp",
+    "cloq_required_edge",
+    "cloq_min_probability",
+    "cloq_value_mode",
+    "cloq_model_gap_bucket",
+    "thinq_quality_gate",
+    "expected_games",
+    "games_pick",
+    "games_line",
+    "games_over_probability",
+]
+
+_AI_ENRICHMENT_LOOKUP = None
 
 FINISHED_STATUSES = {
     "FINISHED",
@@ -78,6 +139,7 @@ _DEBUG = {
     "examples_results": [],
     "examples_resolved": [],
     "examples_unresolved": [],
+    "ai_enrichment": {"source_files": [], "items_indexed": 0, "items_enriched": 0},
     "examples_date_rejected": [],
     "examples_pending_matched": [],
     "examples_void": [],
@@ -259,6 +321,116 @@ def item_key(item):
         normalize(item.get("pick") or ""),
         normalize(item.get("opponent") or ""),
     ])
+
+
+def item_match_key(item):
+    return "|".join([
+        normalize(item.get("match") or ""),
+        normalize(item.get("pick") or ""),
+        normalize(item.get("opponent") or ""),
+    ])
+
+
+def item_date_for_enrichment(item):
+    date = item.get("date") or item.get("result_date")
+    if date:
+        return str(date)[:10]
+    for key in ["match_start", "start_time", "commence_time", "created_at"]:
+        value = item.get(key)
+        if value:
+            return str(value)[:10]
+    return ""
+
+
+def enrichment_keys(item):
+    keys = []
+    match_id = item.get("match_id") or item.get("event_id") or item.get("odds_event_id")
+    if match_id:
+        keys.append(f"id|{match_id}|{normalize(item.get('pick') or '')}")
+    date = item_date_for_enrichment(item)
+    match = normalize(item.get("match") or "")
+    pick = normalize(item.get("pick") or "")
+    opponent = normalize(item.get("opponent") or "")
+    if match and pick:
+        if date:
+            keys.append(f"date|{date}|{match}|{pick}|{opponent}")
+        keys.append(f"match|{match}|{pick}|{opponent}")
+    player1 = normalize(item.get("player1") or "")
+    player2 = normalize(item.get("player2") or "")
+    if player1 and player2 and pick:
+        ordered_match = f"{player1} vs {player2}"
+        if date:
+            keys.append(f"date|{date}|{ordered_match}|{pick}|{opponent}")
+        keys.append(f"match|{ordered_match}|{pick}|{opponent}")
+    return [key for key in keys if key]
+
+
+def add_to_ai_lookup(lookup, item):
+    if not isinstance(item, dict):
+        return 0
+    has_ai = any(item.get(field) not in [None, "", []] for field in AI_ENRICHMENT_FIELDS)
+    if not has_ai:
+        return 0
+    added = 0
+    for key in enrichment_keys(item):
+        if key and key not in lookup:
+            lookup[key] = item
+            added += 1
+    return added
+
+
+def load_ai_enrichment_lookup():
+    global _AI_ENRICHMENT_LOOKUP
+    if _AI_ENRICHMENT_LOOKUP is not None:
+        return _AI_ENRICHMENT_LOOKUP
+
+    lookup = {}
+    source_files = []
+    for pattern in AI_ENRICHMENT_PATTERNS:
+        for path in sorted(glob.glob(pattern)):
+            if not os.path.exists(path):
+                continue
+            data = load_json(path, None)
+            items = snapshot_items(data)
+            if not items:
+                continue
+            source_files.append(path)
+            for item in items:
+                add_to_ai_lookup(lookup, item)
+
+    _DEBUG["ai_enrichment"]["source_files"] = source_files[:50]
+    _DEBUG["ai_enrichment"]["items_indexed"] = len(lookup)
+    _AI_ENRICHMENT_LOOKUP = lookup
+    return lookup
+
+
+def find_ai_enrichment_source(item):
+    lookup = load_ai_enrichment_lookup()
+    for key in enrichment_keys(item):
+        source = lookup.get(key)
+        if source:
+            return source
+    return None
+
+
+def merge_ai_enrichment_fields(item):
+    if not isinstance(item, dict):
+        return item
+    source = find_ai_enrichment_source(item)
+    if not source:
+        return dict(item)
+    updated = dict(item)
+    copied = False
+    for field in AI_ENRICHMENT_FIELDS:
+        current = updated.get(field)
+        source_value = source.get(field)
+        if current in [None, "", []] and source_value not in [None, "", []]:
+            updated[field] = source_value
+            copied = True
+    if copied:
+        updated["ai_enrichment_source"] = "prediction_snapshot"
+        _DEBUG["ai_enrichment"]["items_enriched"] += 1
+    return updated
 
 
 def load_previous_items(dataset):
@@ -606,6 +778,114 @@ def calculate_units(status, odds):
     return 0.0
 
 
+def normalize_probability_decimal(value):
+    number = safe_float(value)
+    if number is None:
+        return None
+    if number > 1.0:
+        return number / 100.0
+    return number
+
+
+def normalize_percent_points(value):
+    number = safe_float(value)
+    if number is None:
+        return None
+    if number <= 1.0:
+        return number * 100.0
+    return number
+
+
+def enrich_ai_result_fields(item):
+    """
+    Keep AI Match and model diagnostic fields available in Results JSON.
+
+    Historical records are rebuilt from pick history by this checker. If old pick history
+    already contains ai_match, it is preserved. If ai_match is missing but Corq/Thinq
+    probabilities exist, a best-effort value is reconstructed as 100 - model gap in pp.
+    """
+    if not isinstance(item, dict):
+        return item
+
+    updated = merge_ai_enrichment_fields(item)
+
+    corq_prob = normalize_probability_decimal(
+        updated.get("corq_ai_probability")
+        or updated.get("corq_display_probability")
+        or updated.get("corq_raw_probability")
+        or updated.get("probability")
+    )
+    thinq_prob = normalize_probability_decimal(
+        updated.get("bst_ai_probability")
+        or updated.get("thinq_ai_probability")
+        or updated.get("thinq_raw_probability")
+    )
+
+    ai_match = normalize_percent_points(updated.get("ai_match"))
+    ai_gap = normalize_percent_points(updated.get("ai_gap"))
+
+    if ai_match is None and corq_prob is not None and thinq_prob is not None:
+        gap_pp = abs(corq_prob - thinq_prob) * 100.0
+        ai_match = max(0.0, 100.0 - gap_pp)
+        ai_gap = gap_pp if ai_gap is None else ai_gap
+        updated["ai_match_backfilled"] = True
+    else:
+        updated["ai_match_backfilled"] = False
+
+    if ai_gap is None and corq_prob is not None and thinq_prob is not None:
+        ai_gap = abs(corq_prob - thinq_prob) * 100.0
+
+    if ai_match is not None:
+        updated["ai_match"] = round(ai_match, 1)
+        updated["ai_match_display"] = f"{ai_match:.1f}%"
+    else:
+        updated.setdefault("ai_match_display", "-")
+
+    if ai_gap is not None:
+        updated["ai_gap"] = round(ai_gap, 1)
+
+    if corq_prob is not None:
+        updated["result_corq_probability"] = round(corq_prob, 4)
+    if thinq_prob is not None:
+        updated["result_thinq_probability"] = round(thinq_prob, 4)
+    if corq_prob is not None and thinq_prob is not None:
+        model_gap = abs(corq_prob - thinq_prob)
+        updated["result_model_gap"] = round(model_gap, 4)
+        updated["result_model_gap_pp"] = round(model_gap * 100.0, 1)
+
+    # Keep the newer Corq/Thinq/Cloq diagnostic fields if they are present in pick history.
+    for key in [
+        "corq_q_probability",
+        "thinq_q_probability",
+        "cloq_ai_probability",
+        "consensus_score",
+        "model_gap",
+        "q_model_gap",
+        "market_probability",
+        "model_edge",
+        "corq_edge",
+        "corq_q_edge",
+        "thinq_edge",
+        "thinq_q_edge",
+        "dynamic_min_edge",
+        "corq_adjusted_score",
+        "corq_edge_bonus",
+        "corq_risk_penalty",
+        "corq_risk_flags",
+        "cloq_probability",
+        "edge_pp",
+        "cloq_required_edge",
+        "cloq_min_probability",
+        "cloq_value_mode",
+        "cloq_model_gap_bucket",
+        "thinq_quality_gate",
+    ]:
+        if key in item:
+            updated[key] = item.get(key)
+
+    return updated
+
+
 def evaluate_pick(pick, results, dataset):
     result = find_matching_result(pick, results)
     if not result:
@@ -693,6 +973,7 @@ def evaluate_pick(pick, results, dataset):
             "units": updated.get("units"),
             "result_date": result.get("date"),
             "raw_status": updated.get("result_raw_status"),
+            "ai_match": updated.get("ai_match"),
         })
     return updated
 
@@ -775,6 +1056,7 @@ def evaluate_dataset(dataset, finished_results):
     prepared_items = [merge_previous_status(item, previous_by_key) for item in history_items]
     evaluated_items = [evaluate_pick(item, finished_results, dataset) for item in prepared_items]
     evaluated_items = [coerce_void_after_evaluation(item) for item in evaluated_items]
+    evaluated_items = [enrich_ai_result_fields(item) for item in evaluated_items]
 
     resolved = 0
     pending = 0

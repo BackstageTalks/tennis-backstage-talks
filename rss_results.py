@@ -81,13 +81,52 @@ def ai_match_value(item):
     value = item.get("ai_match")
     if value is None or value == "":
         value = item.get("ai_match_display")
-    if value is None or value == "":
-        return None
+    if value is not None and value != "":
+        try:
+            number = float(str(value).replace("%", "").strip())
+            if number <= 1.0:
+                number *= 100.0
+            return number
+        except Exception:
+            pass
+
+    # Backfill in the renderer if results_data was generated before ai_match enrichment.
+    gap_pp = item.get("result_model_gap_pp")
+    if gap_pp is None:
+        gap = item.get("result_model_gap") or item.get("model_gap")
+        try:
+            gap_number = float(gap)
+            gap_pp = gap_number * 100.0 if gap_number <= 1.0 else gap_number
+        except Exception:
+            gap_pp = None
+
+    if gap_pp is not None:
+        try:
+            return max(0.0, 100.0 - float(gap_pp))
+        except Exception:
+            pass
+
+    corq = (
+        item.get("result_corq_probability")
+        or item.get("corq_ai_probability")
+        or item.get("corq_raw_probability")
+        or item.get("corq_q_probability")
+    )
+    thinq = (
+        item.get("result_thinq_probability")
+        or item.get("bst_ai_probability")
+        or item.get("thinq_ai_probability")
+        or item.get("thinq_raw_probability")
+        or item.get("thinq_q_probability")
+    )
     try:
-        number = float(str(value).replace("%", "").strip())
-        if number <= 1.0:
-            number *= 100.0
-        return number
+        corq_number = float(corq)
+        thinq_number = float(thinq)
+        if corq_number > 1.0:
+            corq_number /= 100.0
+        if thinq_number > 1.0:
+            thinq_number /= 100.0
+        return max(0.0, 100.0 - abs(corq_number - thinq_number) * 100.0)
     except Exception:
         return None
 
@@ -123,6 +162,82 @@ def compact_pct(value):
         return f"{number:.1f}%"
     except Exception:
         return None
+
+
+def parse_score_sets(score):
+    if not score:
+        return []
+    import re
+    parsed = []
+    for first, second in re.findall(r"(\d+)\s*-\s*(\d+)", str(score)):
+        try:
+            parsed.append((int(first), int(second)))
+        except Exception:
+            pass
+    return parsed
+
+
+def actual_set_score_from_score(score):
+    sets = parse_score_sets(score)
+    if not sets:
+        return None, None, None
+    p1_sets = 0
+    p2_sets = 0
+    total_games = 0
+    for first, second in sets:
+        total_games += first + second
+        if first > second:
+            p1_sets += 1
+        elif second > first:
+            p2_sets += 1
+    return f"{p1_sets}-{p2_sets}", len(sets), total_games
+
+
+def evaluate_score_prediction(item):
+    actual_score = item.get("score")
+    predicted_score = item.get("most_likely_score")
+    actual_set_score, actual_sets, total_games = actual_set_score_from_score(actual_score)
+
+    if actual_set_score is None:
+        return ""
+
+    bits = [f"Real {actual_set_score}"]
+    if total_games is not None:
+        bits.append(f"{total_games}g")
+
+    if predicted_score:
+        if str(predicted_score).strip() == str(actual_set_score).strip():
+            bits.append("Score HIT")
+        else:
+            bits.append(f"Score MISS {predicted_score}")
+
+    sets_label = item.get("sets_probability_label")
+    if sets_label and actual_sets is not None:
+        expected_sets = None
+        label_text = str(sets_label)
+        if "3" in label_text:
+            expected_sets = 3
+        elif "2" in label_text:
+            expected_sets = 2
+        elif "5" in label_text:
+            expected_sets = 5
+        if expected_sets is not None:
+            bits.append("Sets HIT" if expected_sets == actual_sets else f"Sets MISS {actual_sets}")
+
+    games_pick = str(item.get("games_pick") or "").strip()
+    games_line = item.get("games_line")
+    if games_pick and games_line not in [None, ""] and total_games is not None:
+        try:
+            line = float(games_line)
+            lower = games_pick.lower()
+            if "over" in lower:
+                bits.append("Games HIT" if total_games > line else "Games MISS")
+            elif "under" in lower:
+                bits.append("Games HIT" if total_games < line else "Games MISS")
+        except Exception:
+            pass
+
+    return " • ".join(bits)
 
 
 def format_sets_games(item):
@@ -163,7 +278,9 @@ def format_sets_games(item):
             games_text = f"{games_text} ({games_over_probability})"
         games_bits.append(games_text)
 
-    if not sets_bits and not games_bits:
+    eval_text = evaluate_score_prediction(item)
+
+    if not sets_bits and not games_bits and not eval_text:
         return "-"
 
     lines = []
@@ -171,6 +288,8 @@ def format_sets_games(item):
         lines.append(" • ".join(str(part) for part in sets_bits))
     if games_bits:
         lines.append(" • ".join(str(part) for part in games_bits))
+    if eval_text:
+        lines.append(eval_text)
     return "<br>".join(safe(line) for line in lines)
 
 
