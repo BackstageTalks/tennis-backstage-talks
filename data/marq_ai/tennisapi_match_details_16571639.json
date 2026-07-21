@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523967.6307166,
+  "saved_at": 1784609286.6919467,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 10,
+          "userCount": 11,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "BvtbsFtje",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Katerina Tsygourova",
         "slug": "tsygourova-katerina",
@@ -117,10 +118,10 @@
             "value": 58595,
             "currency": "EUR"
           },
-          "currentRanking": 461
+          "currentRanking": 434
         },
         "nameCode": "TSY",
-        "ranking": 461,
+        "ranking": 462,
         "national": false,
         "type": 1,
         "country": {
@@ -188,18 +189,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 3,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784566271
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571639,
       "defaultPeriodCount": 3,
       "slug": "justine-bretnacher-katerina-tsygourova",
-      "startTimestamp": 1784559600,
+      "startTimestamp": 1784559923,
       "periods": {
         "point": "Game",
         "current": "Match",

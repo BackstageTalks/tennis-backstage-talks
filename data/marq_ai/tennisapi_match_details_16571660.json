@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784524001.603568,
+  "saved_at": 1784609305.9001493,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 2,
+          "userCount": 5,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "RWBbsOZDc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Lui Maxted",
         "slug": "maxted-lui",
@@ -118,10 +119,10 @@
             "value": 52438,
             "currency": "EUR"
           },
-          "currentRanking": 404
+          "currentRanking": 395
         },
         "nameCode": "MAX",
-        "ranking": 405,
+        "ranking": 404,
         "national": false,
         "type": 1,
         "country": {
@@ -200,10 +201,10 @@
             "value": 51446,
             "currency": "EUR"
           },
-          "currentRanking": 833
+          "currentRanking": 829
         },
         "nameCode": "PIE",
-        "ranking": 845,
+        "ranking": 833,
         "national": false,
         "type": 1,
         "country": {
@@ -231,18 +232,38 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 9,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 2,
+        "period1TieBreak": 7,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784575340
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571660,
       "defaultPeriodCount": 3,
       "slug": "lui-maxted-benjamin-pietri",
-      "startTimestamp": 1784565000,
+      "startTimestamp": 1784567585,
       "periods": {
         "point": "Game",
         "current": "Match",

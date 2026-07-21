@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523882.9763658,
+  "saved_at": 1784609292.5286431,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Palermo, Italy",
         "slug": "palermo-italy",
@@ -48,7 +49,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 104,
+          "userCount": 113,
           "groundType": "Red clay",
           "tennisPoints": 125,
           "hasRounds": false,
@@ -86,10 +87,11 @@
       },
       "customId": "TeCsxzJc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Palermo",
@@ -125,7 +127,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 714,
+        "userCount": 716,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 158817,
@@ -141,10 +143,10 @@
             "value": 550411,
             "currency": "EUR"
           },
-          "currentRanking": 208
+          "currentRanking": 214
         },
         "nameCode": "GJO",
-        "ranking": 208,
+        "ranking": 214,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -183,7 +185,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2949,
+        "userCount": 2961,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 66398,
@@ -213,7 +215,7 @@
           "currentRanking": 215
         },
         "nameCode": "AND",
-        "ranking": 231,
+        "ranking": 215,
         "national": false,
         "type": 1,
         "country": {
@@ -244,18 +246,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 0,
+        "point": "15",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2734,
+        "period2": 2209,
+        "currentPeriodStartTimestamp": 1784564662
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784566909
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564901,
       "defaultPeriodCount": 3,
       "slug": "erika-andreeva-lina-gjorcheska",
-      "startTimestamp": 1784559600,
+      "currentPeriodStartTimestamp": 1784564662,
+      "startTimestamp": 1784561400,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -266,6 +291,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

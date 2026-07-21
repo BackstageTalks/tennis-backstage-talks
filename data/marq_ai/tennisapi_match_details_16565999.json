@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523863.4060533,
+  "saved_at": 1784609281.334041,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "1",
       "tournament": {
         "name": "Zug, Switzerland",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 134,
+          "userCount": 159,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "cTqsVpHb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 92,
+        "description": "Retired",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Zug",
@@ -129,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3220,
+        "userCount": 3226,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 68,
@@ -173,7 +175,7 @@
           "currentRanking": 119
         },
         "nameCode": "PIR",
-        "ranking": 120,
+        "ranking": 119,
         "national": false,
         "type": 1,
         "country": {
@@ -213,7 +215,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2422,
+        "userCount": 2426,
         "playerTeamInfo": {
           "height": 1.96,
           "weight": 90,
@@ -254,10 +256,10 @@
             "value": 1028256,
             "currency": "EUR"
           },
-          "currentRanking": 229
+          "currentRanking": 222
         },
         "nameCode": "NAP",
-        "ranking": 240,
+        "ranking": 229,
         "national": false,
         "type": 1,
         "country": {
@@ -287,17 +289,38 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 3,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 2,
+        "point": "0"
+      },
+      "time": {
+        "period1": 1110,
+        "period2": 1271,
+        "currentPeriodStartTimestamp": 1784559364
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784560676
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16565999,
       "defaultPeriodCount": 3,
       "slug": "zsombor-piros-stefano-napolitano",
+      "currentPeriodStartTimestamp": 1784559364,
       "startTimestamp": 1784557800,
       "periods": {
         "point": "Game",

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523728.6711822,
+  "saved_at": 1784609280.6528184,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "5",
       "tournament": {
         "name": "Kitzbuhel, Austria",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1660,
+          "userCount": 1739,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -95,10 +96,11 @@
       },
       "customId": "VMEbsHQDc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Kitzbuehel",
@@ -142,7 +144,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4835,
+        "userCount": 4861,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 69,
@@ -182,10 +184,10 @@
             "value": 2105561,
             "currency": "EUR"
           },
-          "currentRanking": 64
+          "currentRanking": 68
         },
         "nameCode": "KOP",
-        "ranking": 64,
+        "ranking": 68,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -228,7 +230,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 10699,
+        "userCount": 10750,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 78,
@@ -257,10 +259,10 @@
             "value": 1258753,
             "currency": "EUR"
           },
-          "currentRanking": 33
+          "currentRanking": 35
         },
         "nameCode": "BUS",
-        "ranking": 33,
+        "ranking": 35,
         "national": false,
         "type": 1,
         "country": {
@@ -289,18 +291,46 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 5,
+        "period2": 7,
+        "period3": 1,
+        "period2TieBreak": 7,
+        "point": "30",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period3": 6,
+        "period2TieBreak": 3,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3591,
+        "period2": 3610,
+        "period3": 2286,
+        "currentPeriodStartTimestamp": 1784564963
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1784567276
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16562591,
       "defaultPeriodCount": 3,
       "slug": "ignacio-buse-vit-kopriva",
-      "startTimestamp": 1784550600,
+      "currentPeriodStartTimestamp": 1784564963,
+      "startTimestamp": 1784557500,
       "periods": {
         "point": "Game",
         "current": "Match",

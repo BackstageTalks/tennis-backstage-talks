@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523858.606072,
+  "saved_at": 1784609288.2429976,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 13,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "TmvsqJX",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Tena Lukas",
         "slug": "lukas-tena",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 676,
+        "userCount": 679,
         "playerTeamInfo": {
           "plays": "right-handed",
           "turnedPro": "2011",
@@ -106,10 +107,10 @@
             "value": 370600,
             "currency": "EUR"
           },
-          "currentRanking": 353
+          "currentRanking": 351
         },
         "nameCode": "LUK",
-        "ranking": 466,
+        "ranking": 451,
         "national": false,
         "type": 1,
         "country": {
@@ -149,7 +150,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 558,
+        "userCount": 560,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 18172,
@@ -165,10 +166,10 @@
             "value": 99881,
             "currency": "EUR"
           },
-          "currentRanking": 340
+          "currentRanking": 349
         },
         "nameCode": "HER",
-        "ranking": 340,
+        "ranking": 350,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -197,18 +198,37 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 7,
+        "period2": 3,
+        "period3": 3,
+        "period1TieBreak": 7,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "period3": 6,
+        "period1TieBreak": 5,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe"
+        ],
+        "changeTimestamp": 1784569833
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571562,
       "defaultPeriodCount": 3,
       "slug": "alicia-herrero-linana-tena-lukas",
-      "startTimestamp": 1784556000,
+      "startTimestamp": 1784560418,
       "periods": {
         "point": "Game",
         "current": "Match",

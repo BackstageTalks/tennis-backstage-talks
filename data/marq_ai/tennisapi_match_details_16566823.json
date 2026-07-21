@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523837.147583,
+  "saved_at": 1784609274.5254042,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "6",
       "tournament": {
         "name": "Segovia, Spain",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 152,
+          "userCount": 171,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "AxQsKnFd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Segovia",
@@ -129,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1453,
+        "userCount": 1449,
         "playerTeamInfo": {
           "height": 1.93,
           "weight": 85,
@@ -161,7 +163,7 @@
           "currentRanking": 232
         },
         "nameCode": "ZHO",
-        "ranking": 236,
+        "ranking": 232,
         "national": false,
         "type": 1,
         "country": {
@@ -202,7 +204,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1184,
+        "userCount": 1183,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 73,
@@ -245,7 +247,7 @@
           "currentRanking": 292
         },
         "nameCode": "GEE",
-        "ranking": 328,
+        "ranking": 342,
         "national": false,
         "type": 1,
         "country": {
@@ -275,17 +277,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 4,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1744,
+        "period2": 1912,
+        "currentPeriodStartTimestamp": 1784558302
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784560248
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16566823,
       "defaultPeriodCount": 3,
       "slug": "yi-zhou-michael-geerts",
+      "currentPeriodStartTimestamp": 1784558302,
       "startTimestamp": 1784556000,
       "periods": {
         "point": "Game",

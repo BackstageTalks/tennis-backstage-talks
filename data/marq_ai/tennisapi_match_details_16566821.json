@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523834.871263,
+  "saved_at": 1784609276.4742336,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "3",
       "tournament": {
         "name": "Segovia, Spain",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 152,
+          "userCount": 171,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "EEVsadFb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Segovia",
@@ -137,7 +139,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 684,
+        "userCount": 685,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 72,
@@ -166,10 +168,10 @@
             "value": 68925,
             "currency": "EUR"
           },
-          "currentRanking": 309
+          "currentRanking": 303
         },
         "nameCode": "ALK",
-        "ranking": 311,
+        "ranking": 309,
         "national": false,
         "type": 1,
         "country": {
@@ -250,10 +252,10 @@
             "value": 860015,
             "currency": "EUR"
           },
-          "currentRanking": 224
+          "currentRanking": 268
         },
         "nameCode": "FIC",
-        "ranking": 224,
+        "ranking": 273,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -284,17 +286,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 4,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2186,
+        "period2": 3112,
+        "currentPeriodStartTimestamp": 1784558626
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784561777
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16566821,
       "defaultPeriodCount": 3,
       "slug": "mert-alkaya-juan-pablo-ficovich",
+      "currentPeriodStartTimestamp": 1784558626,
       "startTimestamp": 1784556000,
       "periods": {
         "point": "Game",

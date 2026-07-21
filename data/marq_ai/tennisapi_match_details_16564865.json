@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436749.9721801,
+  "saved_at": 1784609406.4711444,
   "data": {
     "event": {
+      "awayTeamSeed": "5",
       "tournament": {
         "name": "Prague, Czech Republic",
         "slug": "prague-czech-republic",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 664,
+          "userCount": 754,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,9 +93,9 @@
       },
       "customId": "ypLbsFDcd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 70,
+        "description": "Canceled",
+        "type": "canceled"
       },
       "homeTeam": {
         "name": "Eva Lys",
@@ -106,7 +107,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 9174,
+        "userCount": 9196,
         "playerTeamInfo": {
           "height": 1.65,
           "plays": "right-handed",
@@ -134,10 +135,10 @@
             "value": 2289370,
             "currency": "EUR"
           },
-          "currentRanking": 84
+          "currentRanking": 83
         },
         "nameCode": "LYS",
-        "ranking": 85,
+        "ranking": 86,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -179,7 +180,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3660,
+        "userCount": 3659,
         "playerTeamInfo": {
           "height": 1.74,
           "plays": "right-handed",
@@ -207,10 +208,10 @@
             "value": 1024610,
             "currency": "EUR"
           },
-          "currentRanking": 49
+          "currentRanking": 59
         },
         "nameCode": "VAL",
-        "ranking": 49,
+        "ranking": 63,
         "class": 4,
         "disabled": false,
         "national": false,
@@ -245,14 +246,19 @@
       "awayScore": {},
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784544001
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564865,
       "defaultPeriodCount": 3,
       "slug": "tereza-valentova-eva-lys",
-      "startTimestamp": 1784534400,
+      "startTimestamp": 1784624400,
       "periods": {
         "point": "Game",
         "current": "Match",

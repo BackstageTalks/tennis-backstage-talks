@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784524001.934984,
+  "saved_at": 1784609302.5280275,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 2,
+          "userCount": 5,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "WAkbsMrXc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Alejandro Turriziani Alvarez",
         "slug": "turriziani-alvarez-alejandro",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 137,
+        "userCount": 136,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 80,
@@ -118,10 +119,10 @@
             "value": 25753,
             "currency": "EUR"
           },
-          "currentRanking": 801
+          "currentRanking": 797
         },
         "nameCode": "TUR",
-        "ranking": 802,
+        "ranking": 801,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -161,7 +162,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 91,
+        "userCount": 90,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 80,
@@ -190,10 +191,10 @@
             "value": 25944,
             "currency": "EUR"
           },
-          "currentRanking": 1062
+          "currentRanking": 1065
         },
         "nameCode": "SCA",
-        "ranking": 1062,
+        "ranking": 1065,
         "national": false,
         "type": 1,
         "country": {
@@ -222,18 +223,37 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 1,
+        "period3": 2,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 4,
+        "period2": 6,
+        "period3": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784572769
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571657,
       "defaultPeriodCount": 3,
       "slug": "alejandro-turriziani-alvarez-mathieu-scaglia",
-      "startTimestamp": 1784565000,
+      "startTimestamp": 1784565716,
       "periods": {
         "point": "Game",
         "current": "Match",

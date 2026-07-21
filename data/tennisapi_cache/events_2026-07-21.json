@@ -28605,19 +28605,19 @@
     "start_timestamp": 1784579700,
     "start_time_utc": "2026-07-20T20:35:00+00:00",
     "status_raw": {
-      "code": 9,
-      "description": "2nd set",
-      "type": "inprogress"
+      "code": 100,
+      "description": "Ended",
+      "type": "finished"
     },
-    "status": "LIVE",
-    "winner_code": null,
-    "winner": null,
+    "status": "FINISHED",
+    "winner_code": 2,
+    "winner": "Dalila Spiteri",
     "home_score_current": 0,
-    "away_score_current": 1,
+    "away_score_current": 2,
     "home_score_period1": 6,
     "away_score_period1": 7,
-    "home_score_period2": 0,
-    "away_score_period2": 1,
+    "home_score_period2": 3,
+    "away_score_period2": 6,
     "home_score_period3": null,
     "away_score_period3": null,
     "home_score_period4": null,
@@ -28625,7 +28625,7 @@
     "home_score_period5": null,
     "away_score_period5": null,
     "raw": {
-      "firstToServe": 2,
+      "firstToServe": 1,
       "homeTeamSeed": "WC",
       "tournament": {
         "name": "Palermo, Italy",
@@ -28709,10 +28709,11 @@
       },
       "customId": "cBebsixYb",
       "status": {
-        "code": 9,
-        "description": "2nd set",
-        "type": "inprogress"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Alessandra Mazzola",
         "slug": "mazzola-alessandra",
@@ -28801,30 +28802,31 @@
         "current": 0,
         "display": 0,
         "period1": 6,
-        "period2": 0,
+        "period2": 3,
         "period1TieBreak": 1,
-        "point": "0"
+        "point": "30",
+        "normaltime": 0
       },
       "awayScore": {
-        "current": 1,
-        "display": 1,
+        "current": 2,
+        "display": 2,
         "period1": 7,
-        "period2": 1,
+        "period2": 6,
         "period1TieBreak": 7,
-        "point": "0"
+        "point": "40",
+        "normaltime": 2
       },
       "time": {
         "period1": 4738,
+        "period2": 2880,
         "currentPeriodStartTimestamp": 1784584807
       },
       "changes": {
         "changes": [
-          "homeScore.point",
-          "awayScore.period2",
-          "awayScore.point",
-          "firstToServe"
+          "time.currentPeriodStart",
+          "time.period2"
         ],
-        "changeTimestamp": 1784585348
+        "changeTimestamp": 1784587707
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
@@ -28840,7 +28842,6 @@
         "period4": "4th set",
         "period5": "5th set"
       },
-      "lastPeriod": "period2",
       "finalResultOnly": false,
       "feedLocked": false,
       "groundType": "Red clay",

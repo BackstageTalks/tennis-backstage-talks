@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523817.1196544,
+  "saved_at": 1784609275.7482293,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Tampere, Finland",
         "slug": "tampere-finland",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 139,
+          "userCount": 153,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +90,11 @@
       },
       "customId": "tlqcskWYc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Tampere",
@@ -136,7 +138,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1083,
+        "userCount": 1080,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 79,
@@ -165,10 +167,10 @@
             "value": 114714,
             "currency": "EUR"
           },
-          "currentRanking": 199
+          "currentRanking": 201
         },
         "nameCode": "MON",
-        "ranking": 272,
+        "ranking": 266,
         "national": false,
         "type": 1,
         "country": {
@@ -207,7 +209,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1344,
+        "userCount": 1347,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 72,
@@ -239,7 +241,7 @@
           "currentRanking": 228
         },
         "nameCode": "BAR",
-        "ranking": 256,
+        "ranking": 249,
         "national": false,
         "type": 1,
         "country": {
@@ -268,18 +270,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 2,
+        "point": "15",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2146,
+        "period2": 2131,
+        "currentPeriodStartTimestamp": 1784558580
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784560737
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16565984,
       "defaultPeriodCount": 3,
       "slug": "hynek-barton-inaki-montes-de-la-torre",
-      "startTimestamp": 1784553000,
+      "currentPeriodStartTimestamp": 1784558580,
+      "startTimestamp": 1784556000,
       "periods": {
         "point": "Game",
         "current": "Match",

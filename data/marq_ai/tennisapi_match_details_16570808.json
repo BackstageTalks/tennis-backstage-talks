@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523788.7184732,
+  "saved_at": 1784609284.0303862,
   "data": {
     "event": {
+      "firstToServe": 2,
       "awayTeamSeed": "WC",
       "tournament": {
         "name": "Hamburg, Germany",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 506,
+          "userCount": 569,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +94,11 @@
       },
       "customId": "BfzsXtGd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Hamburg",
@@ -132,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2892,
+        "userCount": 2910,
         "playerTeamInfo": {
           "height": 1.7,
           "weight": 60,
@@ -176,7 +178,7 @@
           "currentRanking": 331
         },
         "nameCode": "POD",
-        "ranking": 533,
+        "ranking": 537,
         "national": false,
         "type": 1,
         "country": {
@@ -216,7 +218,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 550,
+        "userCount": 561,
         "playerTeamInfo": {
           "prizeCurrent": 24449,
           "prizeTotal": 46627,
@@ -231,10 +233,10 @@
             "value": 46627,
             "currency": "EUR"
           },
-          "currentRanking": 435
+          "currentRanking": 430
         },
         "nameCode": "STU",
-        "ranking": 438,
+        "ranking": 435,
         "national": false,
         "type": 1,
         "country": {
@@ -263,18 +265,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 3,
+        "period3": 4,
+        "point": "15",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 4,
+        "period2": 6,
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3769,
+        "period2": 2490,
+        "period3": 2745,
+        "currentPeriodStartTimestamp": 1784565348
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1784568129
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16570808,
       "defaultPeriodCount": 3,
       "slug": "julia-stusek-nadia-podoroska",
-      "startTimestamp": 1784551200,
+      "currentPeriodStartTimestamp": 1784565348,
+      "startTimestamp": 1784558700,
       "periods": {
         "point": "Game",
         "current": "Match",

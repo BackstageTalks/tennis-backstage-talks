@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523968.2598224,
+  "saved_at": 1784609289.1682434,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 2,
+          "userCount": 5,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "enpdsFdKd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Lucas Marionneau",
         "slug": "marionneau-lucas",
@@ -88,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 185,
+        "userCount": 184,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 73,
@@ -117,10 +118,10 @@
             "value": 11857,
             "currency": "EUR"
           },
-          "currentRanking": 821
+          "currentRanking": 833
         },
         "nameCode": "MAR",
-        "ranking": 1184,
+        "ranking": 1193,
         "national": false,
         "type": 1,
         "country": {
@@ -159,11 +160,11 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 33,
+        "userCount": 37,
         "playerTeamInfo": {
           "id": 43314,
           "underage": false,
-          "currentRanking": 4041
+          "currentRanking": 4036
         },
         "nameCode": "SER",
         "disabled": false,
@@ -195,18 +196,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 2,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784563704
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571662,
       "defaultPeriodCount": 3,
       "slug": "ruslan-serazhetdinov-lucas-marionneau",
-      "startTimestamp": 1784559600,
+      "startTimestamp": 1784560694,
       "periods": {
         "point": "Game",
         "current": "Match",

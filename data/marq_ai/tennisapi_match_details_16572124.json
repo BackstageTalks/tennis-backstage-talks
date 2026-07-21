@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523460.9641201,
+  "saved_at": 1784609278.408028,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 5,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "YTtcsvXxh",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Zuzana Kudlackova",
         "slug": "kudlackova-zuzana",
@@ -88,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 10,
+        "userCount": 11,
         "nameCode": "KUD",
         "national": false,
         "type": 1,
@@ -128,7 +129,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 121,
+        "userCount": 120,
         "playerTeamInfo": {
           "prizeCurrent": 2279,
           "prizeTotal": 17763,
@@ -174,18 +175,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 2,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784560994
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16572124,
       "defaultPeriodCount": 3,
       "slug": "zuzana-kudlackova-beatris-spasova",
-      "startTimestamp": 1784541600,
+      "startTimestamp": 1784556535,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -196,6 +214,16 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "CZ",
+        "SK",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Clay",
       "showTotoPromo": true,

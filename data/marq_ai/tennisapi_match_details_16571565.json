@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523812.310359,
+  "saved_at": 1784609295.7940433,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 13,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "jdCseqNd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Julia Adams",
         "slug": "adams-julia",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 198,
+        "userCount": 199,
         "playerTeamInfo": {
           "prizeCurrent": 10689,
           "prizeTotal": 43210,
@@ -103,10 +104,10 @@
             "value": 43210,
             "currency": "EUR"
           },
-          "currentRanking": 462
+          "currentRanking": 463
         },
         "nameCode": "ADA",
-        "ranking": 462,
+        "ranking": 463,
         "national": false,
         "type": 1,
         "country": {
@@ -145,7 +146,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 311,
+        "userCount": 312,
         "playerTeamInfo": {
           "prizeCurrent": 13477,
           "prizeTotal": 90547,
@@ -163,7 +164,7 @@
           "currentRanking": 423
         },
         "nameCode": "PRI",
-        "ranking": 453,
+        "ranking": 454,
         "national": false,
         "type": 1,
         "country": {
@@ -191,18 +192,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 4,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784568062
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571565,
       "defaultPeriodCount": 3,
       "slug": "julia-adams-iva-primorac-pavicic",
-      "startTimestamp": 1784552400,
+      "startTimestamp": 1784562351,
       "periods": {
         "point": "Game",
         "current": "Match",

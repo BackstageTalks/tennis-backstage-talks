@@ -1,8 +1,10 @@
 {
-  "saved_at": 1784523728.3588073,
+  "saved_at": 1784609282.0634208,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "6",
+      "awayTeamSeed": "Q",
       "tournament": {
         "name": "Prague, Czech Republic",
         "slug": "prague-czech-republic",
@@ -55,7 +57,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 699,
+          "userCount": 754,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +95,11 @@
       },
       "customId": "tEBcsiBJc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Prague",
@@ -132,7 +135,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3822,
+        "userCount": 3845,
         "playerTeamInfo": {
           "height": 1.66,
           "plays": "right-handed",
@@ -204,7 +207,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1550,
+        "userCount": 1571,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 158135,
@@ -252,18 +255,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 4,
+        "period1TieBreak": 2,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3235,
+        "period2": 2683,
+        "currentPeriodStartTimestamp": 1784561787
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784564527
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571600,
       "defaultPeriodCount": 3,
       "slug": "dominika-salkova-antonia-ruzic",
-      "startTimestamp": 1784550600,
+      "currentPeriodStartTimestamp": 1784561787,
+      "startTimestamp": 1784558100,
       "periods": {
         "point": "Game",
         "current": "Match",

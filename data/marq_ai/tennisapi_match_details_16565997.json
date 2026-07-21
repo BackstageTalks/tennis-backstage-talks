@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523862.3275084,
+  "saved_at": 1784609280.9813082,
   "data": {
     "event": {
       "awayTeamSeed": "7",
@@ -53,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 134,
+          "userCount": 159,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,9 +90,9 @@
       },
       "customId": "fZwsvNDb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 70,
+        "description": "Canceled",
+        "type": "canceled"
       },
       "venue": {
         "city": {
@@ -137,7 +137,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 800,
+        "userCount": 802,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 85,
@@ -166,10 +166,10 @@
             "value": 156555,
             "currency": "EUR"
           },
-          "currentRanking": 197
+          "currentRanking": 199
         },
         "nameCode": "CRE",
-        "ranking": 268,
+        "ranking": 262,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -209,7 +209,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2384,
+        "userCount": 2387,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 71,
@@ -250,10 +250,10 @@
             "value": 1346337,
             "currency": "EUR"
           },
-          "currentRanking": 181
+          "currentRanking": 183
         },
         "nameCode": "COP",
-        "ranking": 199,
+        "ranking": 217,
         "national": false,
         "type": 1,
         "country": {
@@ -287,7 +287,12 @@
       "awayScore": {},
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784548871
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,

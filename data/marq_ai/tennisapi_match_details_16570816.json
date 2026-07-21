@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523883.6334643,
+  "saved_at": 1784609308.8664892,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "4",
       "tournament": {
         "name": "Hamburg, Germany",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 506,
+          "userCount": 569,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +94,11 @@
       },
       "customId": "zlkbsgrbc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Hamburg",
@@ -132,7 +134,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3760,
+        "userCount": 3763,
         "playerTeamInfo": {
           "height": 1.75,
           "plays": "right-handed",
@@ -161,10 +163,10 @@
             "value": 2856922,
             "currency": "EUR"
           },
-          "currentRanking": 73
+          "currentRanking": 77
         },
         "nameCode": "BON",
-        "ranking": 73,
+        "ranking": 97,
         "national": false,
         "type": 1,
         "country": {
@@ -204,7 +206,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2642,
+        "userCount": 2653,
         "playerTeamInfo": {
           "height": 1.74,
           "plays": "right-handed",
@@ -232,10 +234,10 @@
             "value": 2153126,
             "currency": "EUR"
           },
-          "currentRanking": 108
+          "currentRanking": 107
         },
         "nameCode": "UCH",
-        "ranking": 108,
+        "ranking": 110,
         "national": false,
         "type": 1,
         "country": {
@@ -265,18 +267,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3809,
+        "period2": 3278,
+        "currentPeriodStartTimestamp": 1784572918
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784576245
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16570816,
       "defaultPeriodCount": 3,
       "slug": "moyuka-uchijima-anna-bondar",
-      "startTimestamp": 1784559600,
+      "currentPeriodStartTimestamp": 1784572918,
+      "startTimestamp": 1784568900,
       "periods": {
         "point": "Game",
         "current": "Match",

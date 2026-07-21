@@ -1,7 +1,9 @@
 {
-  "saved_at": 1784523863.7104664,
+  "saved_at": 1784609315.6175215,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "awayTeamSeed": "Q",
       "tournament": {
         "name": "Estoril, Portugal",
         "slug": "estoril-portugal",
@@ -52,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1989,
+          "userCount": 2069,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +94,11 @@
       },
       "customId": "yUFsvLLc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Estoril",
@@ -139,7 +142,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5082,
+        "userCount": 5096,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 83,
@@ -171,7 +174,7 @@
           "currentRanking": 120
         },
         "nameCode": "ROC",
-        "ranking": 124,
+        "ranking": 123,
         "national": false,
         "type": 1,
         "country": {
@@ -210,7 +213,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5372,
+        "userCount": 5423,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 76,
@@ -251,10 +254,10 @@
             "value": 5255904,
             "currency": "EUR"
           },
-          "currentRanking": 145
+          "currentRanking": 142
         },
         "nameCode": "MAR",
-        "ranking": 157,
+        "ranking": 159,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -286,18 +289,49 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 5,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3825,
+        "period2": 4060,
+        "currentPeriodStartTimestamp": 1784577231
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1784581308
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571680,
       "defaultPeriodCount": 3,
       "slug": "henrique-rocha-pedro-martinez",
-      "startTimestamp": 1784557800,
+      "currentPeriodStartTimestamp": 1784577231,
+      "startTimestamp": 1784572800,
       "periods": {
         "point": "Game",
         "current": "Match",

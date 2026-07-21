@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523967.9024754,
+  "saved_at": 1784609293.1218042,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 2,
+          "userCount": 5,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "DYJbsbjbd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Mathis Bondaz",
         "slug": "bondaz-mathis",
@@ -88,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 64,
+        "userCount": 65,
         "playerTeamInfo": {
           "weight": 68,
           "plays": "right-handed",
@@ -116,10 +117,10 @@
             "value": 5217,
             "currency": "EUR"
           },
-          "currentRanking": 1187
+          "currentRanking": 1196
         },
         "nameCode": "BON",
-        "ranking": 1187,
+        "ranking": 1196,
         "national": false,
         "type": 1,
         "country": {
@@ -158,7 +159,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 64,
+        "userCount": 66,
         "nameCode": "BEN",
         "disabled": false,
         "national": false,
@@ -188,18 +189,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784566716
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571659,
       "defaultPeriodCount": 3,
       "slug": "mathis-bondaz-max-benaim",
-      "startTimestamp": 1784559600,
+      "startTimestamp": 1784561595,
       "periods": {
         "point": "Game",
         "current": "Match",

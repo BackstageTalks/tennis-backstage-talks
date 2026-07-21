@@ -1,7 +1,9 @@
 {
-  "saved_at": 1784523726.6653206,
+  "saved_at": 1784609290.8788054,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "3",
       "tournament": {
         "name": "Kitzbuhel, Austria, Doubles",
         "slug": "kitzbuhel-austria-doubles",
@@ -54,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 96,
+          "userCount": 101,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,10 +94,11 @@
       },
       "customId": "hcEdsheVj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Kitzbuehel",
@@ -138,7 +141,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 182,
+        "userCount": 183,
         "nameCode": "S/W",
         "national": false,
         "type": 2,
@@ -156,7 +159,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 229,
+            "userCount": 230,
             "playerTeamInfo": {
               "height": 1.83,
               "weight": 73,
@@ -224,7 +227,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 176,
+            "userCount": 177,
             "playerTeamInfo": {
               "height": 1.98,
               "weight": 93,
@@ -307,7 +310,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3,
+        "userCount": 5,
         "nameCode": "J/V",
         "national": false,
         "type": 2,
@@ -325,7 +328,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 250,
+            "userCount": 251,
             "playerTeamInfo": {
               "height": 1.96,
               "weight": 91,
@@ -365,7 +368,7 @@
                 "value": 152813,
                 "currency": "EUR"
               },
-              "currentRanking": 565
+              "currentRanking": 563
             },
             "nameCode": "JEB",
             "national": false,
@@ -405,7 +408,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 138,
+            "userCount": 140,
             "playerTeamInfo": {
               "height": 1.88,
               "weight": 88,
@@ -434,7 +437,7 @@
                 "value": 69684,
                 "currency": "EUR"
               },
-              "currentRanking": 863
+              "currentRanking": 849
             },
             "nameCode": "VOC",
             "disabled": false,
@@ -479,18 +482,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 8,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 4,
+        "period1TieBreak": 6,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3077,
+        "period2": 2348,
+        "currentPeriodStartTimestamp": 1784564388
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784566787
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16562571,
       "defaultPeriodCount": 3,
       "slug": "jebens-vocel-schnaitter-wallner",
-      "startTimestamp": 1784550600,
+      "currentPeriodStartTimestamp": 1784564388,
+      "startTimestamp": 1784561100,
       "periods": {
         "point": "Game",
         "current": "Match",

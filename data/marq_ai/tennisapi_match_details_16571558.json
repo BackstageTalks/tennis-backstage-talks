@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784523965.8122857,
+  "saved_at": 1784609287.6475778,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 5,
+          "userCount": 13,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "CwpcsWmGc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Gina Marie Dittmann",
         "slug": "dittmann-gina-marie",
@@ -103,10 +104,10 @@
             "value": 33440,
             "currency": "EUR"
           },
-          "currentRanking": 450
+          "currentRanking": 482
         },
         "nameCode": "DIT",
-        "ranking": 450,
+        "ranking": 486,
         "national": false,
         "type": 1,
         "country": {
@@ -145,7 +146,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 828,
+        "userCount": 829,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 38636,
@@ -164,7 +165,7 @@
           "currentRanking": 148
         },
         "nameCode": "SOB",
-        "ranking": 191,
+        "ranking": 206,
         "national": false,
         "type": 1,
         "country": {
@@ -193,18 +194,38 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 7,
+        "period2": 2,
+        "period3": 1,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 5,
+        "period2": 6,
+        "period3": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1784566801
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571558,
       "defaultPeriodCount": 3,
       "slug": "anastasiia-sobolieva-gina-marie-dittmann",
-      "startTimestamp": 1784559600,
+      "startTimestamp": 1784559995,
       "periods": {
         "point": "Game",
         "current": "Match",

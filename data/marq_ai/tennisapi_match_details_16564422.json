@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784523817.4079547,
+  "saved_at": 1784609284.4398146,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "WC",
       "tournament": {
         "name": "Estoril, Portugal",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1989,
+          "userCount": 2069,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,10 +94,11 @@
       },
       "customId": "JEBsccJc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Estoril",
@@ -140,7 +142,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1717,
+        "userCount": 1727,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 74,
@@ -181,10 +183,10 @@
             "value": 768194,
             "currency": "EUR"
           },
-          "currentRanking": 233
+          "currentRanking": 229
         },
         "nameCode": "FER",
-        "ranking": 233,
+        "ranking": 235,
         "national": false,
         "type": 1,
         "country": {
@@ -224,7 +226,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4499,
+        "userCount": 4518,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 72,
@@ -253,10 +255,10 @@
             "value": 2252820,
             "currency": "EUR"
           },
-          "currentRanking": 78
+          "currentRanking": 77
         },
         "nameCode": "VAN",
-        "ranking": 86,
+        "ranking": 78,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -288,18 +290,46 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 5,
+        "period2": 7,
+        "period3": 1,
+        "period2TieBreak": 7,
+        "point": "0",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period3": 6,
+        "period2TieBreak": 4,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 4509,
+        "period2": 5438,
+        "period3": 2444,
+        "currentPeriodStartTimestamp": 1784569796
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1784572279
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564422,
       "defaultPeriodCount": 3,
       "slug": "luca-van-assche-frederico-ferreira-silva",
-      "startTimestamp": 1784553600,
+      "currentPeriodStartTimestamp": 1784569796,
+      "startTimestamp": 1784559000,
       "periods": {
         "point": "Game",
         "current": "Match",
