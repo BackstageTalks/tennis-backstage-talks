@@ -24,8 +24,8 @@
         "data/pick_history/all/2026-07-21.json"
       ],
       "history_items_loaded": 811,
-      "resolved_count": 698,
-      "pending_count": 113,
+      "resolved_count": 700,
+      "pending_count": 111,
       "unknown_count": 0
     },
     "top5": {
@@ -49,12 +49,12 @@
         "data/pick_history/top5/2026-07-21.json"
       ],
       "history_items_loaded": 94,
-      "resolved_count": 85,
-      "pending_count": 9,
+      "resolved_count": 86,
+      "pending_count": 8,
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4295,
+  "finished_results_found": 4297,
   "examples_results": [
     {
       "match_id": 16564419,
@@ -1978,6 +1978,289 @@
       "raw_status": "FINISHED"
     },
     {
+      "match_id": 16562590,
+      "event_id": 16562590,
+      "date": "2026-07-21",
+      "player1": "Juan Manuel Cerundolo",
+      "player2": "Marco Trungelliti",
+      "winner": "Marco Trungelliti",
+      "score": "2-6 1-6",
+      "status": "FINISHED",
+      "source": "TennisApi",
+      "match": "Juan Manuel Cerundolo vs Marco Trungelliti",
+      "raw": {
+        "source": "TennisApi",
+        "match_id": 16562590,
+        "event_id": 16562590,
+        "date": "2026-07-21",
+        "player1": "Juan Manuel Cerundolo",
+        "player2": "Marco Trungelliti",
+        "winner": "Marco Trungelliti",
+        "score": "2-6 1-6",
+        "status": "FINISHED",
+        "match": "Juan Manuel Cerundolo vs Marco Trungelliti",
+        "tournament": "Kitzbuhel",
+        "category": "ATP",
+        "start_time_utc": "2026-07-21T09:00:00+00:00",
+        "raw": {
+          "firstToServe": 2,
+          "homeTeamSeed": "8",
+          "tournament": {
+            "name": "Kitzbuhel, Austria",
+            "slug": "kitzbuhel-austria",
+            "category": {
+              "name": "ATP",
+              "slug": "atp",
+              "sport": {
+                "name": "Tennis",
+                "slug": "tennis",
+                "id": 5
+              },
+              "priority": 8,
+              "country": {},
+              "id": 3,
+              "flag": "atp",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "bn": "এটিপি",
+                  "hi": "डब्ल्यूटीए",
+                  "ar": "رابطة محترفي التنس",
+                  "ru": "ATP"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "uniqueTournament": {
+              "name": "Kitzbuhel",
+              "slug": "kitzbuhel",
+              "primaryColorHex": "#232a3c",
+              "secondaryColorHex": "#c4251c",
+              "category": {
+                "name": "ATP",
+                "slug": "atp",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "priority": 8,
+                "country": {},
+                "id": 3,
+                "flag": "atp",
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "bn": "এটিপি",
+                    "hi": "डब्ल्यूटीए",
+                    "ar": "رابطة محترفي التنس",
+                    "ru": "ATP"
+                  },
+                  "shortNameTranslation": {}
+                }
+              },
+              "userCount": 1848,
+              "groundType": "Red clay",
+              "tennisPoints": 250,
+              "hasPerformanceGraphFeature": false,
+              "country": {},
+              "id": 2501,
+              "hasEventPlayerStatistics": false,
+              "displayInverseHomeAwayTeams": false,
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "كيتزبوهيل",
+                  "hi": "किट्ज़ब्यूल",
+                  "bn": "কিটজবুহেল",
+                  "ru": "Кицбюэль"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "priority": 0,
+            "isGroup": false,
+            "id": 191831,
+            "endTimestamp": 1784937600,
+            "startTimestamp": 1784505600
+          },
+          "season": {
+            "name": "ATP Kitzbuhel, Austria Men Singles 2026",
+            "year": "2026",
+            "editor": false,
+            "id": 81905
+          },
+          "roundInfo": {
+            "round": 6,
+            "name": "Round of 32",
+            "slug": "round-of-32",
+            "cupRoundType": 16
+          },
+          "customId": "rvpslCZb",
+          "status": {
+            "code": 100,
+            "description": "Ended",
+            "type": "finished"
+          },
+          "winnerCode": 2,
+          "homeTeam": {
+            "name": "Juan Manuel Cerundolo",
+            "slug": "cerundolo-juan-manuel",
+            "shortName": "J. Cerundolo",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 10309,
+            "playerTeamInfo": {
+              "id": 3898
+            },
+            "nameCode": "CER",
+            "ranking": 50,
+            "disabled": false,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "AR",
+              "alpha3": "ARG",
+              "name": "Argentina",
+              "slug": "argentina"
+            },
+            "id": 248861,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "خوان مانويل سيروندولو",
+                "ru": "Серундоло, Хуан Мануэл"
+              },
+              "shortNameTranslation": {
+                "ar": "خ. سيروندولو",
+                "bn": "জে. সেরুন্ডোলো",
+                "hi": "जे. सेरुंडोलो"
+              }
+            }
+          },
+          "awayTeam": {
+            "name": "Marco Trungelliti",
+            "slug": "trungelliti-marco",
+            "shortName": "M. Trungelliti",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 4200,
+            "playerTeamInfo": {
+              "id": 142
+            },
+            "nameCode": "TRU",
+            "ranking": 95,
+            "disabled": false,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "AR",
+              "alpha3": "ARG",
+              "name": "Argentina",
+              "slug": "argentina"
+            },
+            "id": 38517,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "ماركو ترونغيلتي",
+                "bn": "মার্কো ট্রুঞ্জেলিটি",
+                "hi": "मार्को त्रुंगेलिती",
+                "ru": "Марко Трунджеллити"
+              },
+              "shortNameTranslation": {
+                "ar": "م. ترونغيلتي"
+              }
+            }
+          },
+          "homeScore": {
+            "current": 0,
+            "display": 0,
+            "period1": 2,
+            "period2": 1,
+            "point": "0",
+            "normaltime": 0
+          },
+          "awayScore": {
+            "current": 2,
+            "display": 2,
+            "period1": 6,
+            "period2": 6,
+            "point": "40",
+            "normaltime": 2
+          },
+          "time": {
+            "period1": 2549,
+            "period2": 1859,
+            "currentPeriodStartTimestamp": 1784627502
+          },
+          "changes": {
+            "changes": [
+              "time.currentPeriodStart",
+              "time.period2",
+              "status.code",
+              "status.description",
+              "status.type",
+              "homeScore.normaltime",
+              "awayScore.current",
+              "awayScore.display",
+              "awayScore.period2",
+              "awayScore.normaltime"
+            ],
+            "changeTimestamp": 1784629375
+          },
+          "hasGlobalHighlights": false,
+          "crowdsourcingDataDisplayEnabled": false,
+          "id": 16562590,
+          "slug": "juan-manuel-cerundolo-marco-trungelliti",
+          "startTimestamp": 1784624400,
+          "periods": {
+            "point": "Game",
+            "current": "Match",
+            "period1": "1st set",
+            "period2": "2nd set",
+            "period3": "3rd set",
+            "period4": "4th set",
+            "period5": "5th set"
+          },
+          "finalResultOnly": false,
+          "feedLocked": false,
+          "groundType": "Red clay",
+          "isEditor": false,
+          "eventFilters": {
+            "category": [
+              "singles"
+            ],
+            "level": [
+              "pro"
+            ],
+            "tournament": [
+              "p250"
+            ],
+            "gender": [
+              "M"
+            ]
+          }
+        }
+      },
+      "raw_status": "FINISHED"
+    },
+    {
       "match_id": 16564643,
       "event_id": 16564643,
       "date": "2026-07-20",
@@ -2760,406 +3043,6 @@
         }
       },
       "raw_status": "VOID"
-    },
-    {
-      "match_id": 16578297,
-      "event_id": 16578297,
-      "date": "2026-07-20",
-      "player1": "Johnson L / Zielinski J",
-      "player2": "Droguet T / Jacquet K",
-      "winner": "Droguet T / Jacquet K",
-      "score": "6-7 1-6",
-      "status": "FINISHED",
-      "source": "TennisApi",
-      "match": "Johnson L / Zielinski J vs Droguet T / Jacquet K",
-      "raw": {
-        "source": "TennisApi",
-        "match_id": 16578297,
-        "event_id": 16578297,
-        "date": "2026-07-20",
-        "player1": "Johnson L / Zielinski J",
-        "player2": "Droguet T / Jacquet K",
-        "winner": "Droguet T / Jacquet K",
-        "score": "6-7 1-6",
-        "status": "FINISHED",
-        "match": "Johnson L / Zielinski J vs Droguet T / Jacquet K",
-        "tournament": "Estoril, Doubles",
-        "category": "ATP",
-        "start_time_utc": "2026-07-20T16:30:00+00:00",
-        "raw": {
-          "firstToServe": 2,
-          "homeTeamSeed": "1",
-          "tournament": {
-            "name": "Estoril, Portugal, Doubles",
-            "slug": "estoril-portugal-doubles",
-            "category": {
-              "name": "ATP",
-              "slug": "atp",
-              "sport": {
-                "name": "Tennis",
-                "slug": "tennis",
-                "id": 5
-              },
-              "priority": 8,
-              "country": {},
-              "id": 3,
-              "flag": "atp",
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "bn": "এটিপি",
-                  "hi": "डब्ल्यूटीए",
-                  "ar": "رابطة محترفي التنس",
-                  "ru": "ATP"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "uniqueTournament": {
-              "name": "Estoril, Doubles",
-              "slug": "estoril-doubles",
-              "primaryColorHex": "#eedf00",
-              "secondaryColorHex": "#c1b300",
-              "category": {
-                "name": "ATP",
-                "slug": "atp",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "priority": 8,
-                "country": {},
-                "id": 3,
-                "flag": "atp",
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "bn": "এটিপি",
-                    "hi": "डब्ल्यूटीए",
-                    "ar": "رابطة محترفي التنس",
-                    "ru": "ATP"
-                  },
-                  "shortNameTranslation": {}
-                }
-              },
-              "userCount": 147,
-              "groundType": "Red clay",
-              "tennisPoints": 250,
-              "hasPerformanceGraphFeature": false,
-              "country": {},
-              "id": 2529,
-              "hasEventPlayerStatistics": false,
-              "displayInverseHomeAwayTeams": false,
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "إستوريل، زوجي",
-                  "ru": "Эшторил, парный разряд"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "priority": 0,
-            "isGroup": false,
-            "id": 191830,
-            "endTimestamp": 1785024000,
-            "startTimestamp": 1784505600
-          },
-          "season": {
-            "name": "ATP Estoril, Portugal Men Doubles 2026",
-            "year": "2026",
-            "editor": false,
-            "id": 82382
-          },
-          "roundInfo": {
-            "round": 5,
-            "name": "Round of 16",
-            "slug": "round-of-16",
-            "cupRoundType": 8
-          },
-          "customId": "ueIcsLMIc",
-          "status": {
-            "code": 100,
-            "description": "Ended",
-            "type": "finished"
-          },
-          "winnerCode": 2,
-          "homeTeam": {
-            "name": "Johnson L / Zielinski J",
-            "slug": "johnson-l-zielinski-j",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 153,
-            "nameCode": "J/Z",
-            "national": false,
-            "type": 2,
-            "country": {},
-            "id": 334386,
-            "subTeams": [
-              {
-                "name": "Luke Johnson",
-                "slug": "johnson-luke",
-                "shortName": "L. Johnson",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 247,
-                "nameCode": "JOH",
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "GB",
-                  "alpha3": "GBR",
-                  "name": "United Kingdom",
-                  "slug": "united-kingdom"
-                },
-                "id": 62410,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "لوك جونسون",
-                    "ru": "Люк Джонсон"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "ل. جونسون"
-                  }
-                }
-              },
-              {
-                "name": "Jan Zielinski",
-                "slug": "zielinski-jan",
-                "shortName": "J. Zielinski",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 1839,
-                "nameCode": "ZIE",
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "PL",
-                  "alpha3": "POL",
-                  "name": "Poland",
-                  "slug": "poland"
-                },
-                "id": 112805,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "يان زيلينسكي",
-                    "ru": "Ян Зелиньский"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "ي. زيلينسكي",
-                    "ru": "Я. Зелиньский"
-                  }
-                }
-              }
-            ],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "جونسن ل / زيلينسكي ج",
-                "ru": "Джонсон Л / Зелиньский Дж"
-              },
-              "shortNameTranslation": {}
-            }
-          },
-          "awayTeam": {
-            "name": "Droguet T / Jacquet K",
-            "slug": "droguet-t-jacquet-k",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 5,
-            "nameCode": "D/J",
-            "national": false,
-            "type": 2,
-            "country": {},
-            "id": 332719,
-            "subTeams": [
-              {
-                "name": "Titouan Droguet",
-                "slug": "droguet-titouan",
-                "shortName": "T. Droguet",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 3173,
-                "nameCode": "DRO",
-                "ranking": 114,
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "FR",
-                  "alpha3": "FRA",
-                  "name": "France",
-                  "slug": "france"
-                },
-                "id": 243925,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "تيتوان دروجيه",
-                    "bn": "টিটুয়ান দ্রোগেট",
-                    "hi": "तीतुआन द्रोगुएट",
-                    "ru": "Дроге, Титуан"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "ت. دروجيه"
-                  }
-                }
-              },
-              {
-                "name": "Kyrian Jacquet",
-                "slug": "jacquet-kyrian",
-                "shortName": "K. Jacquet",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 2241,
-                "nameCode": "JAC",
-                "ranking": 134,
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "FR",
-                  "alpha3": "FRA",
-                  "name": "France",
-                  "slug": "france"
-                },
-                "id": 267577,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "كيريان جاكيه",
-                    "ru": "Жак, Кириан"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "ك. جاكيه"
-                  }
-                }
-              }
-            ],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "دروغيه ت / جاكيت ك",
-                "ru": "Дроге Т. / Жаке К."
-              },
-              "shortNameTranslation": {}
-            }
-          },
-          "homeScore": {
-            "current": 0,
-            "display": 0,
-            "period1": 6,
-            "period2": 1,
-            "period1TieBreak": 3,
-            "point": "40",
-            "normaltime": 0
-          },
-          "awayScore": {
-            "current": 2,
-            "display": 2,
-            "period1": 7,
-            "period2": 6,
-            "period1TieBreak": 7,
-            "point": "40",
-            "normaltime": 2
-          },
-          "time": {
-            "period1": 3155,
-            "period2": 1612,
-            "currentPeriodStartTimestamp": 1784568861
-          },
-          "changes": {
-            "changes": [
-              "time.currentPeriodStart",
-              "time.period2"
-            ],
-            "changeTimestamp": 1784570508
-          },
-          "hasGlobalHighlights": false,
-          "crowdsourcingDataDisplayEnabled": false,
-          "id": 16578297,
-          "slug": "johnson-zielinski-droguet-jacquet",
-          "startTimestamp": 1784565000,
-          "periods": {
-            "point": "Game",
-            "current": "Match",
-            "period1": "1st set",
-            "period2": "2nd set",
-            "period3": "3rd set",
-            "period4": "4th set",
-            "period5": "5th set"
-          },
-          "finalResultOnly": false,
-          "feedLocked": false,
-          "groundType": "Red clay",
-          "isEditor": false,
-          "eventFilters": {
-            "category": [
-              "doubles"
-            ],
-            "level": [
-              "pro"
-            ],
-            "tournament": [
-              "p250"
-            ],
-            "gender": [
-              "M"
-            ]
-          }
-        }
-      },
-      "raw_status": "FINISHED"
     }
   ],
   "examples_resolved": [
@@ -3795,6 +3678,14 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-21",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Juan Manuel Cerundolo vs Marco Trungelliti",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-20",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
@@ -3886,6 +3777,14 @@
       "result_date": "2026-07-21",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Diane Parry vs Mai Hontama",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-21",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Eva Lys vs Tereza Valentová",
       "result_status": "VOID"
     },
@@ -3959,22 +3858,6 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Fiona Ferro vs Yufei Ren",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-20",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Alessandra Mazzola vs Dalila Spiteri",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-19",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Andrey Rublev vs Luciano Darderi",
       "result_status": "FINISHED"
     }
   ],
