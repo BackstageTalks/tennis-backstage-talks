@@ -11,26 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 24,
-  "found_count": 15,
-  "missing_count": 9,
+  "lookup_count": 18,
+  "found_count": 11,
+  "missing_count": 7,
   "examples_found": [
-    {
-      "input": "Botic Van de Zandschulp",
-      "matched": "Botic Van De Zandschulp",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1742.9,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Jaime Faria",
-      "matched": "Jaime Faria",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1735.4,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
     {
       "input": "Mina Hodzic",
       "matched": "Mina Hodzic",
@@ -40,43 +24,11 @@
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
-      "input": "Francesca Jones",
-      "matched": "Francesca Jones",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1619.3,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Darya Astakhova",
-      "matched": "Darya Astakhova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1511.3,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
       "input": "Noemi Basiletti",
       "matched": "Noemi Basiletti",
       "method": "exact",
       "score": 1.0,
       "elo": 1355.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Tessa Johanna Brockmann",
-      "matched": "Tessa Johanna Brockmann",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1387.6,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Elsa Jacquemot",
-      "matched": "Elsa Jacquemot",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1611.1,
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
@@ -120,6 +72,22 @@
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
+      "input": "Tessa Johanna Brockmann",
+      "matched": "Tessa Johanna Brockmann",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1387.6,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Elsa Jacquemot",
+      "matched": "Elsa Jacquemot",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1611.1,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
       "input": "Caijsa Wilda Hennemann",
       "matched": "Caijsa Wilda Hennemann",
       "method": "exact",
@@ -137,16 +105,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Kempen M / Panova A",
-      "normalized": "kempen m / panova a",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Bhosale R / Li Y-Y",
-      "normalized": "bhosale r / li y y",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Caroline Werner",
       "normalized": "caroline werner",

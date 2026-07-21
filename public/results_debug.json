@@ -24,8 +24,8 @@
         "data/pick_history/all/2026-07-21.json"
       ],
       "history_items_loaded": 811,
-      "resolved_count": 724,
-      "pending_count": 87,
+      "resolved_count": 727,
+      "pending_count": 84,
       "unknown_count": 0
     },
     "top5": {
@@ -54,7 +54,7 @@
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4323,
+  "finished_results_found": 4327,
   "examples_results": [
     {
       "match_id": 16564419,
@@ -2460,7 +2460,7 @@
             ],
             "changeTimestamp": 1784642915
           },
-          "hasGlobalHighlights": false,
+          "hasGlobalHighlights": true,
           "crowdsourcingDataDisplayEnabled": false,
           "id": 16571630,
           "slug": "nuno-borges-orlando-luz",
@@ -2497,32 +2497,33 @@
       "raw_status": "FINISHED"
     },
     {
-      "match_id": 16564412,
-      "event_id": 16564412,
+      "match_id": 16579976,
+      "event_id": 16579976,
       "date": "2026-07-21",
-      "player1": "Hugo Gaston",
-      "player2": "Damir Džumhur",
-      "winner": "Hugo Gaston",
-      "score": "5-0",
-      "status": "VOID",
+      "player1": "Daniel Merida",
+      "player2": "Kyrian Jacquet",
+      "winner": "Kyrian Jacquet",
+      "score": "6-1 1-6 5-7",
+      "status": "FINISHED",
       "source": "TennisApi",
-      "match": "Hugo Gaston vs Damir Džumhur",
+      "match": "Daniel Merida vs Kyrian Jacquet",
       "raw": {
         "source": "TennisApi",
-        "match_id": 16564412,
-        "event_id": 16564412,
+        "match_id": 16579976,
+        "event_id": 16579976,
         "date": "2026-07-21",
-        "player1": "Hugo Gaston",
-        "player2": "Damir Džumhur",
-        "winner": "Hugo Gaston",
-        "score": "5-0",
+        "player1": "Daniel Merida",
+        "player2": "Kyrian Jacquet",
+        "winner": "Kyrian Jacquet",
+        "score": "6-1 1-6 5-7",
         "status": "FINISHED",
-        "match": "Hugo Gaston vs Damir Džumhur",
+        "match": "Daniel Merida vs Kyrian Jacquet",
         "tournament": "Estoril",
         "category": "ATP",
-        "start_time_utc": "2026-07-21T13:45:00+00:00",
+        "start_time_utc": "2026-07-21T13:35:00+00:00",
         "raw": {
-          "firstToServe": 2,
+          "firstToServe": 1,
+          "awayTeamSeed": "A",
           "tournament": {
             "name": "Estoril, Portugal",
             "slug": "estoril-portugal",
@@ -2609,30 +2610,72 @@
             "slug": "round-of-32",
             "cupRoundType": 16
           },
-          "customId": "xIusgtHb",
+          "customId": "CbhcsPCKc",
           "status": {
-            "code": 92,
-            "description": "Retired",
+            "code": 100,
+            "description": "Ended",
             "type": "finished"
           },
-          "winnerCode": 1,
+          "winnerCode": 2,
           "homeTeam": {
-            "name": "Hugo Gaston",
-            "slug": "gaston-hugo",
-            "shortName": "H. Gaston",
+            "name": "Daniel Merida",
+            "slug": "merida-aguilar-daniel",
+            "shortName": "D. Merida",
             "gender": "M",
             "sport": {
               "name": "Tennis",
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 5681,
+            "userCount": 4644,
             "playerTeamInfo": {
-              "id": 2731
+              "id": 4956
             },
-            "nameCode": "GAS",
-            "ranking": 109,
+            "nameCode": "MER",
+            "ranking": 59,
             "disabled": false,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "ES",
+              "alpha3": "ESP",
+              "name": "Spain",
+              "slug": "spain"
+            },
+            "id": 338890,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "دانييل مريديا",
+                "ru": "Даниэль Мерида"
+              },
+              "shortNameTranslation": {
+                "ar": "د. مريديا",
+                "ru": "Д. Мерида"
+              }
+            }
+          },
+          "awayTeam": {
+            "name": "Kyrian Jacquet",
+            "slug": "jacquet-kyrian",
+            "shortName": "K. Jacquet",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 2241,
+            "playerTeamInfo": {
+              "id": 3096
+            },
+            "nameCode": "JAC",
+            "ranking": 134,
             "national": false,
             "type": 1,
             "country": {
@@ -2641,7 +2684,7 @@
               "name": "France",
               "slug": "france"
             },
-            "id": 205906,
+            "id": 267577,
             "subTeams": [],
             "teamColors": {
               "primary": "#374df5",
@@ -2650,86 +2693,50 @@
             },
             "fieldTranslations": {
               "nameTranslation": {
-                "ar": "هوجو غاستون",
-                "bn": "হুগো গ্যাস্টন",
-                "hi": "ह्यूगो गैस्टोन",
-                "ru": "Гастон, Юго"
+                "ar": "كيريان جاكيه",
+                "ru": "Жак, Кириан"
               },
               "shortNameTranslation": {
-                "ar": "ه. غاستون"
-              }
-            }
-          },
-          "awayTeam": {
-            "name": "Damir Džumhur",
-            "slug": "dzumhur-damir",
-            "shortName": "D. Džumhur",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 6261,
-            "playerTeamInfo": {
-              "id": 50
-            },
-            "nameCode": "DZU",
-            "ranking": 87,
-            "disabled": false,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "BA",
-              "alpha3": "BIH",
-              "name": "Bosnia & Herzegovina",
-              "slug": "bosnia-and-herzegovina"
-            },
-            "id": 49172,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "دامير دزومهور",
-                "ru": "Джумур, Дамир"
-              },
-              "shortNameTranslation": {
-                "ar": "د. دزومهور",
-                "bn": "ডি. জুমহুর",
-                "hi": "डी. दज़ुम्हुर"
+                "ar": "ك. جاكيه"
               }
             }
           },
           "homeScore": {
-            "current": 0,
-            "display": 0,
-            "period1": 5,
-            "point": "A"
+            "current": 1,
+            "display": 1,
+            "period1": 6,
+            "period2": 1,
+            "period3": 5,
+            "point": "30",
+            "normaltime": 1
           },
           "awayScore": {
-            "current": 0,
-            "display": 0,
-            "period1": 0,
-            "point": "40"
+            "current": 2,
+            "display": 2,
+            "period1": 1,
+            "period2": 6,
+            "period3": 7,
+            "point": "40",
+            "normaltime": 2
           },
           "time": {
-            "currentPeriodStartTimestamp": 1784642076
+            "period1": 1431,
+            "period2": 1342,
+            "period3": 2958,
+            "currentPeriodStartTimestamp": 1784644159
           },
           "changes": {
             "changes": [
-              "time.currentPeriodStart"
+              "time.currentPeriodStart",
+              "time.period3"
             ],
-            "changeTimestamp": 1784643775
+            "changeTimestamp": 1784647155
           },
           "hasGlobalHighlights": false,
           "crowdsourcingDataDisplayEnabled": false,
-          "id": 16564412,
-          "slug": "hugo-gaston-damir-dzumhur",
-          "startTimestamp": 1784641500,
+          "id": 16579976,
+          "slug": "daniel-merida-kyrian-jacquet",
+          "startTimestamp": 1784640900,
           "periods": {
             "point": "Game",
             "current": "Match",
@@ -3370,7 +3377,6 @@
     "source_files": [
       "public/all_predictions_latest.json",
       "public/corq_predictions_latest.json",
-      "public/cloq_predictions_latest.json",
       "public/all_predictions_2026-07-07.json",
       "public/all_predictions_2026-07-08.json",
       "public/all_predictions_2026-07-09.json",
@@ -3417,10 +3423,11 @@
       "data/pick_history/top5/2026-07-15.json",
       "data/pick_history/top5/2026-07-16.json",
       "data/pick_history/top5/2026-07-17.json",
-      "data/pick_history/top5/2026-07-18.json"
+      "data/pick_history/top5/2026-07-18.json",
+      "data/pick_history/top5/2026-07-19.json"
     ],
-    "items_indexed": 1001,
-    "items_enriched": 425
+    "items_indexed": 992,
+    "items_enriched": 422
   },
   "examples_date_rejected": [
     {
@@ -3493,6 +3500,14 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Nuno Borges vs Orlando Luz",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-21",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Daniel Merida vs Kyrian Jacquet",
       "result_status": "FINISHED"
     },
     {
@@ -3625,6 +3640,22 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-21",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Herbert P-H / Krawietz K vs Paul J / Seggerman R",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-21",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Frantzen C / Haase R vs Nouza P / Oberleitner N",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-20",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
@@ -3637,30 +3668,6 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Nadia Podoroska vs Julia Stusek",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-20",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Anna Bondar vs Moyuka Uchijima",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-21",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Elena Pridankina vs Panna Udvardy",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-21",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Darja Semenistaja vs Sinja Kraus",
       "result_status": "FINISHED"
     }
   ],
