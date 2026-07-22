@@ -20,7 +20,7 @@ def _num(value: Any, default: float = 0.0) -> float:
 
 def _history(raw: Dict[str, Any], side: str) -> Dict[str, Any]:
     player = raw.get(side, {}) if isinstance(raw.get(side), dict) else {}
-    return player.get("history", player.get("historyq", {})) if isinstance(player, dict) else {}
+    return player.get("history", player.get("history", {})) if isinstance(player, dict) else {}
 
 
 def build_data_quality(raw: Dict[str, Any], edges: Dict[str, Any]) -> Dict[str, Any]:
