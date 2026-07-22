@@ -25,8 +25,8 @@
         "data/pick_history/all/2026-07-22.json"
       ],
       "history_items_loaded": 857,
-      "resolved_count": 786,
-      "pending_count": 71,
+      "resolved_count": 793,
+      "pending_count": 64,
       "unknown_count": 0
     },
     "top5": {
@@ -51,12 +51,12 @@
         "data/pick_history/top5/2026-07-22.json"
       ],
       "history_items_loaded": 101,
-      "resolved_count": 96,
-      "pending_count": 5,
+      "resolved_count": 97,
+      "pending_count": 4,
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4341,
+  "finished_results_found": 4349,
   "examples_results": [
     {
       "match_id": 16571628,
@@ -2459,7 +2459,7 @@
             ],
             "changeTimestamp": 1784743219
           },
-          "hasGlobalHighlights": false,
+          "hasGlobalHighlights": true,
           "crowdsourcingDataDisplayEnabled": false,
           "id": 16515714,
           "slug": "tiago-torres-alejandro-tabilo",
@@ -2496,36 +2496,37 @@
       "raw_status": "FINISHED"
     },
     {
-      "match_id": 16571618,
-      "event_id": 16571618,
-      "date": "2026-07-21",
-      "player1": "Adolfo Daniel Vallejo",
-      "player2": "Kilian Feldbausch",
-      "winner": "Kilian Feldbausch",
-      "score": "6-7 1-6",
+      "match_id": 16515724,
+      "event_id": 16515724,
+      "date": "2026-07-22",
+      "player1": "Kyrian Jacquet",
+      "player2": "Alexander Blockx",
+      "winner": "Alexander Blockx",
+      "score": "6-3 4-6 6-7",
       "status": "FINISHED",
       "source": "TennisApi",
-      "match": "Adolfo Daniel Vallejo vs Kilian Feldbausch",
+      "match": "Kyrian Jacquet vs Alexander Blockx",
       "raw": {
         "source": "TennisApi",
-        "match_id": 16571618,
-        "event_id": 16571618,
-        "date": "2026-07-21",
-        "player1": "Adolfo Daniel Vallejo",
-        "player2": "Kilian Feldbausch",
-        "winner": "Kilian Feldbausch",
-        "score": "6-7 1-6",
+        "match_id": 16515724,
+        "event_id": 16515724,
+        "date": "2026-07-22",
+        "player1": "Kyrian Jacquet",
+        "player2": "Alexander Blockx",
+        "winner": "Alexander Blockx",
+        "score": "6-3 4-6 6-7",
         "status": "FINISHED",
-        "match": "Adolfo Daniel Vallejo vs Kilian Feldbausch",
-        "tournament": "Kitzbuhel",
+        "match": "Kyrian Jacquet vs Alexander Blockx",
+        "tournament": "Estoril",
         "category": "ATP",
-        "start_time_utc": "2026-07-21T12:15:00+00:00",
+        "start_time_utc": "2026-07-22T18:20:00+00:00",
         "raw": {
           "firstToServe": 2,
-          "awayTeamSeed": "Q",
+          "homeTeamSeed": "A",
+          "awayTeamSeed": "4",
           "tournament": {
-            "name": "Kitzbuhel, Austria",
-            "slug": "kitzbuhel-austria",
+            "name": "Estoril, Portugal",
+            "slug": "estoril-portugal",
             "category": {
               "name": "ATP",
               "slug": "atp",
@@ -2549,10 +2550,8 @@
               }
             },
             "uniqueTournament": {
-              "name": "Kitzbuhel",
-              "slug": "kitzbuhel",
-              "primaryColorHex": "#232a3c",
-              "secondaryColorHex": "#c4251c",
+              "name": "Estoril",
+              "slug": "estoril",
               "category": {
                 "name": "ATP",
                 "slug": "atp",
@@ -2575,43 +2574,43 @@
                   "shortNameTranslation": {}
                 }
               },
-              "userCount": 1910,
+              "userCount": 2290,
               "groundType": "Red clay",
               "tennisPoints": 250,
               "hasPerformanceGraphFeature": false,
               "country": {},
-              "id": 2501,
+              "id": 2541,
               "hasEventPlayerStatistics": false,
               "displayInverseHomeAwayTeams": false,
               "fieldTranslations": {
                 "nameTranslation": {
-                  "ar": "كيتزبوهيل",
-                  "hi": "किट्ज़ब्यूल",
-                  "bn": "কিটজবুহেল",
-                  "ru": "Кицбюэль"
+                  "ar": "استوريل",
+                  "hi": "एस्टोरिल",
+                  "bn": "এস্টোরিল",
+                  "ru": "Эшторил"
                 },
                 "shortNameTranslation": {}
               }
             },
             "priority": 0,
             "isGroup": false,
-            "id": 191831,
-            "endTimestamp": 1784937600,
+            "id": 191829,
+            "endTimestamp": 1785024000,
             "startTimestamp": 1784505600
           },
           "season": {
-            "name": "ATP Kitzbuhel, Austria Men Singles 2026",
+            "name": "ATP Estoril, Portugal Men Singles 2026",
             "year": "2026",
             "editor": false,
-            "id": 81905
+            "id": 82381
           },
           "roundInfo": {
-            "round": 6,
-            "name": "Round of 32",
-            "slug": "round-of-32",
-            "cupRoundType": 16
+            "round": 5,
+            "name": "Round of 16",
+            "slug": "round-of-16",
+            "cupRoundType": 8
           },
-          "customId": "ZNFcsOZad",
+          "customId": "Cbhcsoegd",
           "status": {
             "code": 100,
             "description": "Ended",
@@ -2619,31 +2618,30 @@
           },
           "winnerCode": 2,
           "homeTeam": {
-            "name": "Adolfo Daniel Vallejo",
-            "slug": "vallejo-daniel",
-            "shortName": "A. Vallejo",
+            "name": "Kyrian Jacquet",
+            "slug": "jacquet-kyrian",
+            "shortName": "K. Jacquet",
             "gender": "M",
             "sport": {
               "name": "Tennis",
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 4604,
+            "userCount": 2303,
             "playerTeamInfo": {
-              "id": 5354
+              "id": 3096
             },
-            "nameCode": "VAL",
-            "ranking": 63,
-            "disabled": false,
+            "nameCode": "JAC",
+            "ranking": 134,
             "national": false,
             "type": 1,
             "country": {
-              "alpha2": "PY",
-              "alpha3": "PRY",
-              "name": "Paraguay",
-              "slug": "paraguay"
+              "alpha2": "FR",
+              "alpha3": "FRA",
+              "name": "France",
+              "slug": "france"
             },
-            "id": 326949,
+            "id": 267577,
             "subTeams": [],
             "teamColors": {
               "primary": "#374df5",
@@ -2652,40 +2650,39 @@
             },
             "fieldTranslations": {
               "nameTranslation": {
-                "ar": "أدولفو دانييل فاليخو",
-                "ru": "Адольфо Даниэль Вальехо"
+                "ar": "كيريان جاكيه",
+                "ru": "Жак, Кириан"
               },
               "shortNameTranslation": {
-                "ar": "أ. فاليخو",
-                "ru": "А. Вальехо"
+                "ar": "ك. جاكيه"
               }
             }
           },
           "awayTeam": {
-            "name": "Kilian Feldbausch",
-            "slug": "feldbausch-kilian",
-            "shortName": "K. Feldbausch",
+            "name": "Alexander Blockx",
+            "slug": "blockx-alexander",
+            "shortName": "A. Blockx",
             "gender": "M",
             "sport": {
               "name": "Tennis",
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 1362,
+            "userCount": 8900,
             "playerTeamInfo": {
-              "id": 5331
+              "id": 5678
             },
-            "nameCode": "FEL",
-            "ranking": 284,
+            "nameCode": "BLO",
+            "ranking": 38,
             "national": false,
             "type": 1,
             "country": {
-              "alpha2": "CH",
-              "alpha3": "CHE",
-              "name": "Switzerland",
-              "slug": "switzerland"
+              "alpha2": "BE",
+              "alpha3": "BEL",
+              "name": "Belgium",
+              "slug": "belgium"
             },
-            "id": 377489,
+            "id": 390214,
             "subTeams": [],
             "teamColors": {
               "primary": "#374df5",
@@ -2694,50 +2691,52 @@
             },
             "fieldTranslations": {
               "nameTranslation": {
-                "ar": "كيليان فيلدباوش",
-                "ru": "Килиан Фельдбауш"
+                "ar": "ألكسندر بلوكس",
+                "ru": "Александр Блоккс"
               },
               "shortNameTranslation": {
-                "ar": "ك. فيلدباوش",
-                "ru": "К. Фельдбауш"
+                "ar": "أ. بلوكس",
+                "ru": "А. Блоккс"
               }
             }
           },
           "homeScore": {
-            "current": 0,
-            "display": 0,
+            "current": 1,
+            "display": 1,
             "period1": 6,
-            "period2": 1,
-            "period1TieBreak": 2,
-            "point": "40",
-            "normaltime": 0
+            "period2": 4,
+            "period3": 6,
+            "period3TieBreak": 4,
+            "point": "4",
+            "normaltime": 1
           },
           "awayScore": {
             "current": 2,
             "display": 2,
-            "period1": 7,
+            "period1": 3,
             "period2": 6,
-            "period1TieBreak": 7,
-            "point": "A",
+            "period3": 7,
+            "period3TieBreak": 7,
+            "point": "6",
             "normaltime": 2
           },
           "time": {
-            "period1": 3891,
-            "period2": 2429,
-            "currentPeriodStartTimestamp": 1784640439
+            "period1": 2145,
+            "period2": 2969,
+            "period3": 3216,
+            "currentPeriodStartTimestamp": 1784749410
           },
           "changes": {
             "changes": [
-              "time.currentPeriodStart",
-              "time.period2"
+              "time.currentPeriodStart"
             ],
-            "changeTimestamp": 1784642914
+            "changeTimestamp": 1784752757
           },
           "hasGlobalHighlights": false,
           "crowdsourcingDataDisplayEnabled": false,
-          "id": 16571618,
-          "slug": "kilian-feldbausch-adolfo-daniel-vallejo",
-          "startTimestamp": 1784636100,
+          "id": 16515724,
+          "slug": "alexander-blockx-kyrian-jacquet",
+          "startTimestamp": 1784744400,
           "periods": {
             "point": "Game",
             "current": "Match",
@@ -3378,6 +3377,7 @@
     "source_files": [
       "public/all_predictions_latest.json",
       "public/corq_predictions_latest.json",
+      "public/thinq_predictions_latest.json",
       "public/all_predictions_2026-07-07.json",
       "public/all_predictions_2026-07-08.json",
       "public/all_predictions_2026-07-09.json",
@@ -3424,11 +3424,10 @@
       "data/pick_history/top5/2026-07-13.json",
       "data/pick_history/top5/2026-07-14.json",
       "data/pick_history/top5/2026-07-15.json",
-      "data/pick_history/top5/2026-07-16.json",
-      "data/pick_history/top5/2026-07-17.json"
+      "data/pick_history/top5/2026-07-16.json"
     ],
-    "items_indexed": 1078,
-    "items_enriched": 477
+    "items_indexed": 1166,
+    "items_enriched": 527
   },
   "examples_date_rejected": [
     {
@@ -3501,6 +3500,14 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Alejandro Tabilo vs Tiago Torres",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-22",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Kyrian Jacquet vs Alexander Blockx",
       "result_status": "FINISHED"
     },
     {
@@ -3625,6 +3632,30 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-22",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Burruchaga R A / Ugo Carabelli C vs Faria J / Rocha H",
+      "result_status": "VOID"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-22",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Borges N / Cabral F vs Reymond A / Sanchez L",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-22",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Domingues J / Torres T vs Faria J / Rocha H",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-21",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
@@ -3637,38 +3668,6 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Frantzen C / Haase R vs Nouza P / Oberleitner N",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-22",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Schnaitter J / Wallner M vs Molteni A / Trhac P",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-22",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Balaji N S / Goransson A vs Frantzen C / Haase R",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-22",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Pavlasek A / Rikl P vs Miedler L / Polmans M",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-21",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Sara Sorribes Tormo vs Alina Charaeva",
       "result_status": "FINISHED"
     }
   ],
