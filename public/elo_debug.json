@@ -11,26 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 30,
-  "found_count": 14,
-  "missing_count": 16,
+  "lookup_count": 24,
+  "found_count": 12,
+  "missing_count": 12,
   "examples_found": [
-    {
-      "input": "Dominika Salkova",
-      "matched": "Dominika Salkova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1617.5,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Oceane Dodin",
-      "matched": "Oceane Dodin",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1539.1,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Anna Bondar",
       "matched": "Anna Bondar",
@@ -129,26 +113,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Zaar L / Zimmermann K",
-      "normalized": "zaar l / zimmermann k",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Brockmann T J / Kraus S",
-      "normalized": "brockmann t j / kraus s",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Pavlasek A / Rikl P",
-      "normalized": "pavlasek a / rikl p",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Miedler L / Polmans M",
-      "normalized": "miedler l / polmans m",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Tikhonova A / Zidansek T",
       "normalized": "tikhonova a / zidansek t",
