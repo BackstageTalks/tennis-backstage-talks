@@ -22,29 +22,21 @@ html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-
 .summary-value { font-size:22px; font-weight:800; }
 .summary-value.small { font-size:14px; }
 .table-wrap { overflow-x:auto; background:var(--panel); border:1px solid var(--border); border-radius:16px; }
-table { width:100%; border-collapse:collapse; min-width:1160px; }
+table { width:100%; border-collapse:collapse; min-width:1040px; }
 thead { background:var(--panel-2); }
 th { padding:14px 12px; text-align:left; font-size:13px; color:var(--muted); border-bottom:1px solid var(--border); text-transform:uppercase; letter-spacing:.04em; }
 td { padding:16px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
 tr:hover { background:rgba(255,255,255,.03); }
 .rank { font-weight:800; color:var(--blue); }
 .pick-name { font-size:20px; line-height:1.12; font-weight:900; }
-.pick-sub { color:var(--green); font-size:13px; line-height:1.1; margin-top:5px; font-weight:900; }
+.pick-sub { color:var(--green); font-size:14px; line-height:1.1; margin-top:4px; font-weight:900; }
 .match-name { color:var(--muted); font-size:12px; line-height:1.18; margin-top:7px; }
 .match-meta { color:var(--blue); font-size:12px; line-height:1.18; margin-top:5px; font-weight:700; }
-.opponent-name { font-size:16px; line-height:1.15; font-weight:900; color:var(--text); }
-.pick-odds-under, .opponent-odds-under { margin-top:6px; line-height:1.1; }
-.pick-odds-under { min-height:22px; }
-.opponent-odds-under { min-height:22px; }
-.odds-badge { display:inline-block; padding:4px 8px; border-radius:999px; font-size:11px; font-weight:900; line-height:1.1; white-space:nowrap; }
-.pick-odds-badge { color:#22c55e; background:rgba(34,197,94,.16); border:1px solid rgba(34,197,94,.45); }
-.opponent-odds-badge { color:#94a3b8; background:rgba(100,116,139,.16); border:1px solid rgba(100,116,139,.38); }
 .probability { font-weight:800; color:var(--green); }
-.odds { font-weight:800; color:var(--yellow); white-space:nowrap; }
-.odds-main-pill { display:inline-block; padding:5px 9px; border-radius:999px; color:#facc15; background:rgba(250,204,21,.14); border:1px solid rgba(250,204,21,.45); }
+.odds { font-weight:800; color:var(--yellow); }
 .intel { line-height:1.45; min-width:390px; }
 .intel-title { margin-bottom:6px; color:var(--muted); font-size:11px; font-weight:900; letter-spacing:.04em; text-transform:uppercase; }
-.intel-layout { display:grid; grid-template-columns:minmax(110px,1fr) minmax(110px,1fr) minmax(130px,1.15fr) minmax(130px,1.15fr); gap:8px; align-items:stretch; }
+.intel-layout { display:grid; grid-template-columns:minmax(110px,1fr) minmax(110px,1fr) minmax(130px,1.15fr); gap:8px; align-items:stretch; }
 .intel-panel { min-height:92px; padding:8px 9px; border-radius:8px; font-size:11px; line-height:1.35; background:rgba(100,116,139,.14); border:1px solid rgba(100,116,139,.38); }
 .panel-title { color:#fff; font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; }
 .metric-row { display:grid; grid-template-columns:58px auto; column-gap:7px; align-items:center; margin-top:3px; }
@@ -59,9 +51,6 @@ tr:hover { background:rgba(255,255,255,.03); }
 .market-caution { color:#fb923c; border:1px solid rgba(251,146,60,.45); background:rgba(251,146,60,.08); }
 .market-bearish { color:#ef4444; border:1px solid rgba(239,68,68,.45); background:rgba(239,68,68,.08); }
 .market-unavailable { color:#94a3b8; border:1px solid rgba(148,163,184,.35); background:rgba(148,163,184,.05); text-transform:none; }
-.thinq-badge { display:inline-block; margin-top:8px; padding:5px 10px; border-radius:5px; font-size:10px; font-weight:900; letter-spacing:.04em; text-transform:uppercase; }
-.thinq-ok { color:#38bdf8; border:1px solid rgba(56,189,248,.45); background:rgba(56,189,248,.08); }
-.thinq-unavailable { color:#94a3b8; border:1px solid rgba(148,163,184,.35); background:rgba(148,163,184,.05); text-transform:none; }
 .empty { text-align:center; color:var(--muted); padding:40px; }
 .footer { max-width:900px; margin:38px auto 0; color:var(--muted); font-size:12px; text-align:center; line-height:1.7; }
 @media (max-width:1050px) { .header{display:block;} .logo{white-space:normal;} .nav{margin-top:16px; padding-top:0; flex-wrap:wrap;} .summary{grid-template-columns:1fr 1fr;} }
@@ -82,7 +71,7 @@ tr:hover { background:rgba(255,255,255,.03); }
     <div class="summary-card"><div class="summary-label">Picks</div><div class="summary-value">0</div></div>
     <div class="summary-card"><div class="summary-label">Average Win %</div><div class="summary-value">-</div></div>
     <div class="summary-card"><div class="summary-label">Average AI Match</div><div class="summary-value">-</div></div>
-    <div class="summary-card"><div class="summary-label">Updated</div><div class="summary-value small">2026-07-22 23:17 UTC</div></div>
+    <div class="summary-card"><div class="summary-label">Updated</div><div class="summary-value small">2026-07-22 23:26 UTC</div></div>
 </div>
 
     <div class="table-wrap"><table><thead><tr><th>#</th><th>Pick</th><th>Opponent</th><th>Time</th><th>Win %</th><th>Odds</th><th>Match Intelligence</th></tr></thead><tbody><tr><td colspan="7" class="empty">No picks available.</td></tr></tbody></table></div>
