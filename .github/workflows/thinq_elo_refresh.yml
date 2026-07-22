@@ -1,0 +1,40 @@
+name: THINQ ELO Refresh
+
+on:
+  schedule:
+    # Monday night / early morning in Europe depending on DST.
+    # GitHub cron is UTC.
+    - cron: "30 1 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-elo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Refresh THINQ ELO cache
+        run: |
+          python thinq/loaders/elo_loader.py --refresh
+
+      - name: Commit refreshed ELO cache
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add thinq/data/elo/elo_cache.json thinq/data/elo/elo_last_refresh.json
+          if git diff --cached --quiet; then
+            echo "No ELO cache changes to commit."
+          else
+            git commit -m "Refresh THINQ ELO cache"
+            git push
+          fi
