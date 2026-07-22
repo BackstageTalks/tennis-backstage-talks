@@ -1,9 +1,9 @@
 """
-THINQ / HistoryQ Sackmann Loader
+THINQ / History Sackmann Loader
 
 Role in project:
 - Sackmann is a historical data source.
-- HistoryQ is the normalized historical feature layer.
+- History is the normalized historical feature layer.
 - THINQ is the intelligence layer for CORQ.
 - This loader does not produce final match probability.
 
