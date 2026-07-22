@@ -11,58 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 46,
-  "found_count": 23,
-  "missing_count": 23,
+  "lookup_count": 36,
+  "found_count": 17,
+  "missing_count": 19,
   "examples_found": [
-    {
-      "input": "Maya Joint",
-      "matched": "Maya Joint",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1659.0,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Tereza Valentová",
-      "matched": "Tereza Valentova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1817.5,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Alex Molčan",
-      "matched": "Alex Molcan",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1742.2,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Daniel Altmaier",
-      "matched": "Daniel Altmaier",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1733.8,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Alexander Bublik",
-      "matched": "Alexander Bublik",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1889.2,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Facundo Diaz Acosta",
-      "matched": "Facundo Diaz Acosta",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1680.5,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
     {
       "input": "Tamara Korpatsch",
       "matched": "Tamara Korpatsch",
@@ -201,26 +153,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Borges N / Cabral F",
-      "normalized": "borges n / cabral f",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Reymond A / Sanchez L",
-      "normalized": "reymond a / sanchez l",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Burruchaga R A / Ugo Carabelli C",
-      "normalized": "burruchaga r a / ugo carabelli c",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Faria J / Rocha H",
-      "normalized": "faria j / rocha h",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Martins I / Ninomiya M",
       "normalized": "martins i / ninomiya m",
