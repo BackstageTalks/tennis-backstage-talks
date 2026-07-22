@@ -359,12 +359,12 @@ def load_all_matches(start_year: int = 2018, end_year: int = 2030) -> List[Dict[
 
 
 # -----------------------------------------------------------------------------
-# THINQ / HistoryQ feature layer
+# THINQ / History feature layer
 # -----------------------------------------------------------------------------
 
 
 @dataclass
-class HistoryQPlayerData:
+class HistoryPlayerData:
     player: str
 
     last5_win_pct: Optional[float] = None
@@ -389,7 +389,7 @@ class HistoryQPlayerData:
     level_sample_size: int = 0
 
     data_confidence: Optional[float] = None
-    source: str = "sackmann_historyq"
+    source: str = "sackmann_history"
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -397,7 +397,7 @@ class HistoryQPlayerData:
 
 class SackmannLoader:
     """
-    HistoryQ/Sackmann loader for THINQ.
+    History/Sackmann loader for THINQ.
 
     Public methods expected by thinq/loaders/thinq_loader.py:
     - load_player(player_name, surface=None, level=None)
@@ -415,7 +415,7 @@ class SackmannLoader:
         end_year: Optional[int] = None,
         refresh: bool = False,
     ) -> None:
-        self.data_dir = Path(data_dir) if data_dir else Path("thinq/data/historyq")
+        self.data_dir = Path(data_dir) if data_dir else Path("thinq/data/history")
         self.data_dir.mkdir(parents=True, exist_ok=True)
 
         self.cache_file = Path(cache_file) if cache_file else self.data_dir / "sackmann_matches_cache.json"
