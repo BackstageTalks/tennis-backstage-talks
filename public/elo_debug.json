@@ -12,9 +12,17 @@
   ],
   "players_loaded": 1074,
   "lookup_count": 12,
-  "found_count": 4,
-  "missing_count": 8,
+  "found_count": 5,
+  "missing_count": 7,
   "examples_found": [
+    {
+      "input": "Federica Urgesi",
+      "matched": "Federica Urgesi",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1546.2,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
     {
       "input": "Kyrian Jacquet",
       "matched": "Kyrian Jacquet",
@@ -50,23 +58,8 @@
   ],
   "examples_missing": [
     {
-      "input": "Zaar L / Zimmermann K",
-      "normalized": "zaar l / zimmermann k",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Brockmann T J / Kraus S",
-      "normalized": "brockmann t j / kraus s",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Gavrila O / Webley-Smith E",
-      "normalized": "gavrila o / webley smith e",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Abbagnato A / Tona M",
-      "normalized": "abbagnato a / tona m",
+      "input": "Clara Burel",
+      "normalized": "clara burel",
       "reason": "no_safe_match"
     },
     {
@@ -80,13 +73,23 @@
       "reason": "no_safe_match"
     },
     {
-      "input": "Ayukawa M / Serban R G",
-      "normalized": "ayukawa m / serban r g",
+      "input": "Gavrila O / Webley-Smith E",
+      "normalized": "gavrila o / webley smith e",
       "reason": "no_safe_match"
     },
     {
-      "input": "Basiletti N / Urgesi F",
-      "normalized": "basiletti n / urgesi f",
+      "input": "Abbagnato A / Tona M",
+      "normalized": "abbagnato a / tona m",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Zaar L / Zimmermann K",
+      "normalized": "zaar l / zimmermann k",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Brockmann T J / Kraus S",
+      "normalized": "brockmann t j / kraus s",
       "reason": "no_safe_match"
     }
   ],
