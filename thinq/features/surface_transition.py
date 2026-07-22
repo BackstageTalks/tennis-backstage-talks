@@ -29,8 +29,8 @@ def build_surface_transition_context(raw: Dict[str, Any], surface: Optional[str]
     current = _norm(surface)
     p1 = raw.get("player1", {}) if isinstance(raw.get("player1"), dict) else {}
     p2 = raw.get("player2", {}) if isinstance(raw.get("player2"), dict) else {}
-    p1_hist = p1.get("history", p1.get("historyq", {}))
-    p2_hist = p2.get("history", p2.get("historyq", {}))
+    p1_hist = p1.get("history", p1.get("History", {}))
+    p2_hist = p2.get("history", p2.get("History", {}))
 
     p1_prev = _last_surface(p1_hist)
     p2_prev = _last_surface(p2_hist)
