@@ -1,22 +1,5 @@
-"""
-THINQ Loaders Package
+"""THINQ loader exports."""
 
-Loaders collect and normalize source data for THINQ.
-They must not calculate final CORQ predictions.
-"""
+from .h2h_loader import H2HLoader, build_h2h_context
 
-from .sackmann_loader import SackmannLoader
-from .elo_loader import EloLoader
-from .ta_loader import TALoader
-from .h2h_loader import H2HLoader
-from .player_resolver import PlayerResolver
-from .thinq_loader import ThinqLoader
-
-__all__ = [
-    "SackmannLoader",
-    "EloLoader",
-    "TALoader",
-    "H2HLoader",
-    "PlayerResolver",
-    "ThinqLoader",
-]
+__all__ = ["H2HLoader", "build_h2h_context"]
