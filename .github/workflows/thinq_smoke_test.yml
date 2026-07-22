@@ -1,0 +1,124 @@
+name: THINQ Smoke Test
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "thinq/**"
+      - ".github/workflows/thinq_smoke_test.yml"
+  pull_request:
+    paths:
+      - "thinq/**"
+      - ".github/workflows/thinq_smoke_test.yml"
+
+jobs:
+  thinq-smoke-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Show Python version
+        run: python --version
+
+      - name: Install THINQ runtime dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests
+
+      - name: Compile THINQ core files
+        run: |
+          python -m py_compile thinq/loaders/elo_loader.py
+          python -m py_compile thinq/loaders/h2h_loader.py
+          python -m py_compile thinq/loaders/player_resolver.py
+          python -m py_compile thinq/loaders/sackmann_loader.py
+          python -m py_compile thinq/loaders/thinq_loader.py
+          python -m py_compile thinq/features/data_quality.py
+          python -m py_compile thinq/features/level_context.py
+          python -m py_compile thinq/features/match_dynamics.py
+          python -m py_compile thinq/features/schedule_fatigue.py
+          python -m py_compile thinq/features/status_risk.py
+          python -m py_compile thinq/features/surface_transition.py
+          python -m py_compile thinq/thinq_service.py
+          python -m py_compile thinq/build_thinq_snapshot.py
+
+      - name: Check ELO cache exists
+        run: |
+          if [ ! -f thinq/data/elo/elo_cache.json ]; then
+            echo "ELO cache missing. Run THINQ ELO Refresh workflow first."
+            exit 1
+          fi
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path('thinq/data/elo/elo_cache.json')
+          data = json.loads(path.read_text(encoding='utf-8'))
+          print('generated_at:', data.get('generated_at'))
+          print('players:', len(data.get('players', {})))
+          print('sources:', list((data.get('sources') or {}).keys()))
+          assert len(data.get('players', {})) > 100, 'ELO cache player count is unexpectedly low'
+          PY
+
+      - name: Run THINQ smoke test
+        env:
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          TENNISAPI_PRO_HOST: ${{ secrets.TENNISAPI_PRO_HOST }}
+          TENNISAPI_PRO_BASE_URL: ${{ secrets.TENNISAPI_PRO_BASE_URL }}
+          TENNISAPI_PRO_H2H_HISTORY_PATH: ${{ secrets.TENNISAPI_PRO_H2H_HISTORY_PATH }}
+          TENNISAPI_PRO_H2H_SUMMARY_PATH: ${{ secrets.TENNISAPI_PRO_H2H_SUMMARY_PATH }}
+        run: |
+          python thinq/scripts/smoke_test_thinq.py
+
+      - name: Build sample THINQ snapshot
+        env:
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+          TENNISAPI_PRO_HOST: ${{ secrets.TENNISAPI_PRO_HOST }}
+          TENNISAPI_PRO_BASE_URL: ${{ secrets.TENNISAPI_PRO_BASE_URL }}
+          TENNISAPI_PRO_H2H_HISTORY_PATH: ${{ secrets.TENNISAPI_PRO_H2H_HISTORY_PATH }}
+          TENNISAPI_PRO_H2H_SUMMARY_PATH: ${{ secrets.TENNISAPI_PRO_H2H_SUMMARY_PATH }}
+        run: |
+          cat > /tmp/thinq_test_matches.json <<'JSON'
+          [
+            {
+              "player1": "Jannik Sinner",
+              "player2": "Carlos Alcaraz",
+              "surface": "Grass",
+              "tour_type": "atp",
+              "best_of": 5
+            },
+            {
+              "player1": "Iga Swiatek",
+              "player2": "Aryna Sabalenka",
+              "surface": "Clay",
+              "tour_type": "wta",
+              "best_of": 3
+            }
+          ]
+          JSON
+          python -m thinq.build_thinq_snapshot --input /tmp/thinq_test_matches.json --output thinq/outputs/thinq_smoke_snapshot.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path('thinq/outputs/thinq_smoke_snapshot.json')
+          data = json.loads(path.read_text(encoding='utf-8'))
+          print('snapshot count:', data.get('count'))
+          print('snapshot errors:', data.get('error_count'))
+          assert data.get('count') == 2, 'Snapshot did not build both test matches'
+          assert data.get('error_count') == 0, data.get('errors')
+          for match in data.get('matches', []):
+              assert 'edges' in match, 'Missing edges block'
+              assert 'contexts' in match, 'Missing contexts block'
+              assert 'match_dynamics' in match['contexts'], 'Missing match_dynamics context'
+          PY
+
+      - name: Upload smoke snapshot artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: thinq-smoke-snapshot
+          path: thinq/outputs/thinq_smoke_snapshot.json
