@@ -25,8 +25,8 @@
         "data/pick_history/all/2026-07-22.json"
       ],
       "history_items_loaded": 857,
-      "resolved_count": 782,
-      "pending_count": 75,
+      "resolved_count": 786,
+      "pending_count": 71,
       "unknown_count": 0
     },
     "top5": {
@@ -56,7 +56,7 @@
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4337,
+  "finished_results_found": 4341,
   "examples_results": [
     {
       "match_id": 16571628,
@@ -2224,6 +2224,278 @@
       "raw_status": "FINISHED"
     },
     {
+      "match_id": 16515714,
+      "event_id": 16515714,
+      "date": "2026-07-22",
+      "player1": "Alejandro Tabilo",
+      "player2": "Tiago Torres",
+      "winner": "Tiago Torres",
+      "score": "4-6 4-6",
+      "status": "FINISHED",
+      "source": "TennisApi",
+      "match": "Alejandro Tabilo vs Tiago Torres",
+      "raw": {
+        "source": "TennisApi",
+        "match_id": 16515714,
+        "event_id": 16515714,
+        "date": "2026-07-22",
+        "player1": "Alejandro Tabilo",
+        "player2": "Tiago Torres",
+        "winner": "Tiago Torres",
+        "score": "4-6 4-6",
+        "status": "FINISHED",
+        "match": "Alejandro Tabilo vs Tiago Torres",
+        "tournament": "Estoril",
+        "category": "ATP",
+        "start_time_utc": "2026-07-22T16:30:00+00:00",
+        "raw": {
+          "firstToServe": 2,
+          "homeTeamSeed": "3",
+          "awayTeamSeed": "WC",
+          "tournament": {
+            "name": "Estoril, Portugal",
+            "slug": "estoril-portugal",
+            "category": {
+              "name": "ATP",
+              "slug": "atp",
+              "sport": {
+                "name": "Tennis",
+                "slug": "tennis",
+                "id": 5
+              },
+              "priority": 8,
+              "country": {},
+              "id": 3,
+              "flag": "atp",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "bn": "এটিপি",
+                  "hi": "डब्ल्यूटीए",
+                  "ar": "رابطة محترفي التنس",
+                  "ru": "ATP"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "uniqueTournament": {
+              "name": "Estoril",
+              "slug": "estoril",
+              "category": {
+                "name": "ATP",
+                "slug": "atp",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "priority": 8,
+                "country": {},
+                "id": 3,
+                "flag": "atp",
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "bn": "এটিপি",
+                    "hi": "डब्ल्यूटीए",
+                    "ar": "رابطة محترفي التنس",
+                    "ru": "ATP"
+                  },
+                  "shortNameTranslation": {}
+                }
+              },
+              "userCount": 2290,
+              "groundType": "Red clay",
+              "tennisPoints": 250,
+              "hasPerformanceGraphFeature": false,
+              "country": {},
+              "id": 2541,
+              "hasEventPlayerStatistics": false,
+              "displayInverseHomeAwayTeams": false,
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "استوريل",
+                  "hi": "एस्टोरिल",
+                  "bn": "এস্টোরিল",
+                  "ru": "Эшторил"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "priority": 0,
+            "isGroup": false,
+            "id": 191829,
+            "endTimestamp": 1785024000,
+            "startTimestamp": 1784505600
+          },
+          "season": {
+            "name": "ATP Estoril, Portugal Men Singles 2026",
+            "year": "2026",
+            "editor": false,
+            "id": 82381
+          },
+          "roundInfo": {
+            "round": 5,
+            "name": "Round of 16",
+            "slug": "round-of-16",
+            "cupRoundType": 8
+          },
+          "customId": "bTPsBunc",
+          "status": {
+            "code": 100,
+            "description": "Ended",
+            "type": "finished"
+          },
+          "winnerCode": 2,
+          "homeTeam": {
+            "name": "Alejandro Tabilo",
+            "slug": "tabilo-alejandro",
+            "shortName": "A. Tabilo",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 15363,
+            "playerTeamInfo": {
+              "id": 1931
+            },
+            "nameCode": "TAB",
+            "ranking": 30,
+            "disabled": false,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "CL",
+              "alpha3": "CHL",
+              "name": "Chile",
+              "slug": "chile"
+            },
+            "id": 102151,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "أليخاندرو تابيلو",
+                "bn": "আলেকজান্ডার তাবিলো",
+                "hi": "एलेजांद्रो टाबिलो",
+                "ru": "Табило, Алехандро"
+              },
+              "shortNameTranslation": {
+                "ar": "أ. تابيلو"
+              }
+            }
+          },
+          "awayTeam": {
+            "name": "Tiago Torres",
+            "slug": "torres-tiago",
+            "shortName": "T. Torres",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 689,
+            "playerTeamInfo": {
+              "id": 18956
+            },
+            "nameCode": "TOR",
+            "ranking": 427,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "PT",
+              "alpha3": "PRT",
+              "name": "Portugal",
+              "slug": "portugal"
+            },
+            "id": 283476,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "تياغو توريس",
+                "ru": "Тьяго Торрес"
+              },
+              "shortNameTranslation": {
+                "ar": "ت. توريس",
+                "ru": "Т. Торрес"
+              }
+            }
+          },
+          "homeScore": {
+            "current": 0,
+            "display": 0,
+            "period1": 4,
+            "period2": 4,
+            "point": "30",
+            "normaltime": 0
+          },
+          "awayScore": {
+            "current": 2,
+            "display": 2,
+            "period1": 6,
+            "period2": 6,
+            "point": "40",
+            "normaltime": 2
+          },
+          "time": {
+            "period1": 2577,
+            "period2": 2968,
+            "currentPeriodStartTimestamp": 1784740221
+          },
+          "changes": {
+            "changes": [
+              "time.currentPeriodStart",
+              "time.period2"
+            ],
+            "changeTimestamp": 1784743219
+          },
+          "hasGlobalHighlights": false,
+          "crowdsourcingDataDisplayEnabled": false,
+          "id": 16515714,
+          "slug": "tiago-torres-alejandro-tabilo",
+          "startTimestamp": 1784737800,
+          "periods": {
+            "point": "Game",
+            "current": "Match",
+            "period1": "1st set",
+            "period2": "2nd set",
+            "period3": "3rd set",
+            "period4": "4th set",
+            "period5": "5th set"
+          },
+          "finalResultOnly": false,
+          "feedLocked": false,
+          "groundType": "Red clay",
+          "isEditor": false,
+          "eventFilters": {
+            "category": [
+              "singles"
+            ],
+            "level": [
+              "pro"
+            ],
+            "tournament": [
+              "p250"
+            ],
+            "gender": [
+              "M"
+            ]
+          }
+        }
+      },
+      "raw_status": "FINISHED"
+    },
+    {
       "match_id": 16571618,
       "event_id": 16571618,
       "date": "2026-07-21",
@@ -2466,278 +2738,6 @@
           "id": 16571618,
           "slug": "kilian-feldbausch-adolfo-daniel-vallejo",
           "startTimestamp": 1784636100,
-          "periods": {
-            "point": "Game",
-            "current": "Match",
-            "period1": "1st set",
-            "period2": "2nd set",
-            "period3": "3rd set",
-            "period4": "4th set",
-            "period5": "5th set"
-          },
-          "finalResultOnly": false,
-          "feedLocked": false,
-          "groundType": "Red clay",
-          "isEditor": false,
-          "eventFilters": {
-            "category": [
-              "singles"
-            ],
-            "level": [
-              "pro"
-            ],
-            "tournament": [
-              "p250"
-            ],
-            "gender": [
-              "M"
-            ]
-          }
-        }
-      },
-      "raw_status": "FINISHED"
-    },
-    {
-      "match_id": 16562593,
-      "event_id": 16562593,
-      "date": "2026-07-21",
-      "player1": "Alex Molčan",
-      "player2": "Sebastian Ofner",
-      "winner": "Alex Molčan",
-      "score": "6-4 6-4",
-      "status": "FINISHED",
-      "source": "TennisApi",
-      "match": "Alex Molčan vs Sebastian Ofner",
-      "raw": {
-        "source": "TennisApi",
-        "match_id": 16562593,
-        "event_id": 16562593,
-        "date": "2026-07-21",
-        "player1": "Alex Molčan",
-        "player2": "Sebastian Ofner",
-        "winner": "Alex Molčan",
-        "score": "6-4 6-4",
-        "status": "FINISHED",
-        "match": "Alex Molčan vs Sebastian Ofner",
-        "tournament": "Kitzbuhel",
-        "category": "ATP",
-        "start_time_utc": "2026-07-21T13:20:00+00:00",
-        "raw": {
-          "firstToServe": 1,
-          "tournament": {
-            "name": "Kitzbuhel, Austria",
-            "slug": "kitzbuhel-austria",
-            "category": {
-              "name": "ATP",
-              "slug": "atp",
-              "sport": {
-                "name": "Tennis",
-                "slug": "tennis",
-                "id": 5
-              },
-              "priority": 8,
-              "country": {},
-              "id": 3,
-              "flag": "atp",
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "bn": "এটিপি",
-                  "hi": "डब्ल्यूटीए",
-                  "ar": "رابطة محترفي التنس",
-                  "ru": "ATP"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "uniqueTournament": {
-              "name": "Kitzbuhel",
-              "slug": "kitzbuhel",
-              "primaryColorHex": "#232a3c",
-              "secondaryColorHex": "#c4251c",
-              "category": {
-                "name": "ATP",
-                "slug": "atp",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "priority": 8,
-                "country": {},
-                "id": 3,
-                "flag": "atp",
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "bn": "এটিপি",
-                    "hi": "डब्ल्यूटीए",
-                    "ar": "رابطة محترفي التنس",
-                    "ru": "ATP"
-                  },
-                  "shortNameTranslation": {}
-                }
-              },
-              "userCount": 1910,
-              "groundType": "Red clay",
-              "tennisPoints": 250,
-              "hasPerformanceGraphFeature": false,
-              "country": {},
-              "id": 2501,
-              "hasEventPlayerStatistics": false,
-              "displayInverseHomeAwayTeams": false,
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "كيتزبوهيل",
-                  "hi": "किट्ज़ब्यूल",
-                  "bn": "কিটজবুহেল",
-                  "ru": "Кицбюэль"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "priority": 0,
-            "isGroup": false,
-            "id": 191831,
-            "endTimestamp": 1784937600,
-            "startTimestamp": 1784505600
-          },
-          "season": {
-            "name": "ATP Kitzbuhel, Austria Men Singles 2026",
-            "year": "2026",
-            "editor": false,
-            "id": 81905
-          },
-          "roundInfo": {
-            "round": 6,
-            "name": "Round of 32",
-            "slug": "round-of-32",
-            "cupRoundType": 16
-          },
-          "customId": "XrIsFcib",
-          "status": {
-            "code": 100,
-            "description": "Ended",
-            "type": "finished"
-          },
-          "winnerCode": 1,
-          "homeTeam": {
-            "name": "Alex Molčan",
-            "slug": "molcan-alex",
-            "shortName": "A. Molčan",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 3866,
-            "playerTeamInfo": {
-              "id": 509
-            },
-            "nameCode": "MOL",
-            "ranking": 81,
-            "disabled": false,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "SK",
-              "alpha3": "SVK",
-              "name": "Slovakia",
-              "slug": "slovakia"
-            },
-            "id": 145130,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "أليكس مولكان",
-                "ru": "Молчан, Алекс"
-              },
-              "shortNameTranslation": {
-                "ar": "أ. مولكان",
-                "bn": "এ. মোলকান",
-                "hi": "ए. मोल्कान"
-              }
-            }
-          },
-          "awayTeam": {
-            "name": "Sebastian Ofner",
-            "slug": "ofner-sebastian",
-            "shortName": "S. Ofner",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 6298,
-            "playerTeamInfo": {
-              "id": 231
-            },
-            "nameCode": "OFN",
-            "ranking": 124,
-            "disabled": false,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "AT",
-              "alpha3": "AUT",
-              "name": "Austria",
-              "slug": "austria"
-            },
-            "id": 83397,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "سيباستيان أوفنر",
-                "bn": "সেবাস্টিয়ান অফনার",
-                "hi": "सेबास्टियन ऑफनर",
-                "ru": "Офнер, Себастиан"
-              },
-              "shortNameTranslation": {}
-            }
-          },
-          "homeScore": {
-            "current": 2,
-            "display": 2,
-            "period1": 6,
-            "period2": 6,
-            "point": "40",
-            "normaltime": 2
-          },
-          "awayScore": {
-            "current": 0,
-            "display": 0,
-            "period1": 4,
-            "period2": 4,
-            "point": "30",
-            "normaltime": 0
-          },
-          "time": {
-            "period1": 1964,
-            "period2": 2168,
-            "currentPeriodStartTimestamp": 1784642503
-          },
-          "changes": {
-            "changes": [
-              "time.currentPeriodStart",
-              "time.period2"
-            ],
-            "changeTimestamp": 1784644695
-          },
-          "hasGlobalHighlights": false,
-          "crowdsourcingDataDisplayEnabled": false,
-          "id": 16562593,
-          "slug": "alex-molcan-sebastian-ofner",
-          "startTimestamp": 1784640000,
           "periods": {
             "point": "Game",
             "current": "Match",
@@ -3378,8 +3378,6 @@
     "source_files": [
       "public/all_predictions_latest.json",
       "public/corq_predictions_latest.json",
-      "public/thinq_predictions_latest.json",
-      "public/cloq_predictions_latest.json",
       "public/all_predictions_2026-07-07.json",
       "public/all_predictions_2026-07-08.json",
       "public/all_predictions_2026-07-09.json",
@@ -3425,10 +3423,12 @@
       "data/pick_history/top5/2026-07-12.json",
       "data/pick_history/top5/2026-07-13.json",
       "data/pick_history/top5/2026-07-14.json",
-      "data/pick_history/top5/2026-07-15.json"
+      "data/pick_history/top5/2026-07-15.json",
+      "data/pick_history/top5/2026-07-16.json",
+      "data/pick_history/top5/2026-07-17.json"
     ],
-    "items_indexed": 1099,
-    "items_enriched": 483
+    "items_indexed": 1078,
+    "items_enriched": 477
   },
   "examples_date_rejected": [
     {
@@ -3493,6 +3493,14 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Nuno Borges vs Roman Andres Burruchaga",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-22",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Alejandro Tabilo vs Tiago Torres",
       "result_status": "FINISHED"
     },
     {
@@ -3662,14 +3670,6 @@
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Sara Sorribes Tormo vs Alina Charaeva",
       "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-21",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Tamara Korpatsch vs Victoria Jimenez Kasintseva",
-      "result_status": "VOID"
     }
   ],
   "examples_pending_matched": [],
