@@ -59,8 +59,8 @@ def _build_player_load(history: Dict[str, Any], as_of_date: Optional[str]) -> Di
 def build_fatigue_context(raw: Dict[str, Any], as_of_date: Optional[str] = None) -> Dict[str, Any]:
     p1 = raw.get("player1", {}) if isinstance(raw.get("player1"), dict) else {}
     p2 = raw.get("player2", {}) if isinstance(raw.get("player2"), dict) else {}
-    p1_hist = p1.get("history", p1.get("historyq", {}))
-    p2_hist = p2.get("history", p2.get("historyq", {}))
+    p1_hist = p1.get("history", p1.get("History", {}))
+    p2_hist = p2.get("history", p2.get("History", {}))
 
     p1_load = _build_player_load(p1_hist, as_of_date)
     p2_load = _build_player_load(p2_hist, as_of_date)
