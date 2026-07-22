@@ -11,18 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 36,
-  "found_count": 17,
-  "missing_count": 19,
+  "lookup_count": 30,
+  "found_count": 14,
+  "missing_count": 16,
   "examples_found": [
-    {
-      "input": "Tamara Korpatsch",
-      "matched": "Tamara Korpatsch",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1667.7,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Dominika Salkova",
       "matched": "Dominika Salkova",
@@ -38,22 +30,6 @@
       "score": 1.0,
       "elo": 1539.1,
       "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Nuno Borges",
-      "matched": "Nuno Borges",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1769.0,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Roman Andres Burruchaga",
-      "matched": "Roman Andres Burruchaga",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1711.2,
-      "source": "data/elo/atp_elo_latest.csv"
     },
     {
       "input": "Anna Bondar",
@@ -153,21 +129,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Martins I / Ninomiya M",
-      "normalized": "martins i / ninomiya m",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Kichenok N / Kubka M",
-      "normalized": "kichenok n / kubka m",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Julia Stusek",
-      "normalized": "julia stusek",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Zaar L / Zimmermann K",
       "normalized": "zaar l / zimmermann k",
