@@ -13,7 +13,7 @@ RISKY_STATUS = {"retired", "withdrawn", "walkover", "inactive", "injury", "medic
 
 
 def _status(player: Dict[str, Any]) -> str:
-    for layer_name in ["ta", "taq", "history", "historyq", "elo", "eloq"]:
+    for layer_name in ["ta", "taq", "history", "History", "elo", "eloq"]:
         layer = player.get(layer_name)
         if isinstance(layer, dict):
             value = layer.get("status") or layer.get("player_status") or layer.get("last_match_status")
