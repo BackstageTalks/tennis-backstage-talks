@@ -11,42 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 24,
-  "found_count": 12,
-  "missing_count": 12,
+  "lookup_count": 16,
+  "found_count": 8,
+  "missing_count": 8,
   "examples_found": [
-    {
-      "input": "Anna Bondar",
-      "matched": "Anna Bondar",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1734.5,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Noma Noha Akugue",
-      "matched": "Noma Noha Akugue",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1624.4,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Jennifer Ruggeri",
-      "matched": "Jennifer Ruggeri",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1577.1,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Lola Radivojević",
-      "matched": "Lola Radivojevic",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1554.7,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Alejandro Tabilo",
       "matched": "Alejandro Tabilo",
@@ -113,26 +81,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Tikhonova A / Zidansek T",
-      "normalized": "tikhonova a / zidansek t",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Da Silva Fick G / McGiffin T",
-      "normalized": "da silva fick g / mcgiffin t",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Schunk N / Stusek J",
-      "normalized": "schunk n / stusek j",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Romero Gormaz L / Sorribes Tormo S",
-      "normalized": "romero gormaz l / sorribes tormo s",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Tiago Torres",
       "normalized": "tiago torres",
