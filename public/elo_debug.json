@@ -11,42 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 16,
-  "found_count": 8,
+  "lookup_count": 12,
+  "found_count": 4,
   "missing_count": 8,
   "examples_found": [
-    {
-      "input": "Alejandro Tabilo",
-      "matched": "Alejandro Tabilo",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1819.3,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Federica Urgesi",
-      "matched": "Federica Urgesi",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1546.2,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Ekaterine Gorgodze",
-      "matched": "Ekaterine Gorgodze",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1478.3,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Yasmine Kabbaj",
-      "matched": "Yasmine Kabbaj",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1444.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Kyrian Jacquet",
       "matched": "Kyrian Jacquet",
@@ -82,23 +50,13 @@
   ],
   "examples_missing": [
     {
-      "input": "Tiago Torres",
-      "normalized": "tiago torres",
+      "input": "Zaar L / Zimmermann K",
+      "normalized": "zaar l / zimmermann k",
       "reason": "no_safe_match"
     },
     {
-      "input": "Dražić M / Shinikova I",
-      "normalized": "drazic m / shinikova i",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Hennemann C W / Toth A K",
-      "normalized": "hennemann c w / toth a k",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Clara Burel",
-      "normalized": "clara burel",
+      "input": "Brockmann T J / Kraus S",
+      "normalized": "brockmann t j / kraus s",
       "reason": "no_safe_match"
     },
     {
@@ -109,6 +67,16 @@
     {
       "input": "Abbagnato A / Tona M",
       "normalized": "abbagnato a / tona m",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Schunk N / Stusek J",
+      "normalized": "schunk n / stusek j",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Romero Gormaz L / Sorribes Tormo S",
+      "normalized": "romero gormaz l / sorribes tormo s",
       "reason": "no_safe_match"
     },
     {
