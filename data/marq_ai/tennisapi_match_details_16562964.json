@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784568998.2686648,
+  "saved_at": 1784705453.5337112,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Zug, Switzerland, Doubles",
         "slug": "zug-switzerland-doubles",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 10,
+          "userCount": 11,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +90,11 @@
       },
       "customId": "VhidsfGwj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Zug",
@@ -214,7 +216,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 212,
+            "userCount": 210,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 78,
@@ -254,7 +256,7 @@
                 "value": 74507,
                 "currency": "EUR"
               },
-              "currentRanking": 1750
+              "currentRanking": 1753
             },
             "nameCode": "VEL",
             "national": false,
@@ -326,13 +328,13 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 393,
+            "userCount": 395,
             "playerTeamInfo": {
               "height": 1.91,
               "weight": 85,
               "plays": "right-handed",
               "prizeCurrent": 4650,
-              "prizeTotal": 175176,
+              "prizeTotal": 177430,
               "birthCity": {
                 "name": "Prague",
                 "country": {
@@ -352,10 +354,10 @@
                 "currency": "EUR"
               },
               "prizeTotalRaw": {
-                "value": 175176,
+                "value": 177430,
                 "currency": "EUR"
               },
-              "currentRanking": 603
+              "currentRanking": 605
             },
             "nameCode": "PAU",
             "ranking": 611,
@@ -396,13 +398,13 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 369,
+            "userCount": 370,
             "playerTeamInfo": {
               "height": 1.88,
               "weight": 77,
               "plays": "right-handed",
-              "prizeCurrent": 2628,
-              "prizeTotal": 160325,
+              "prizeCurrent": 2867,
+              "prizeTotal": 162817,
               "birthCity": {
                 "name": "Ostrava",
                 "country": {
@@ -429,14 +431,14 @@
               "underage": false,
               "residence": "Ostrava, Czechia",
               "prizeCurrentRaw": {
-                "value": 2628,
+                "value": 2867,
                 "currency": "EUR"
               },
               "prizeTotalRaw": {
-                "value": 160325,
+                "value": 162817,
                 "currency": "EUR"
               },
-              "currentRanking": 1057
+              "currentRanking": 1061
             },
             "nameCode": "POL",
             "ranking": 1100,
@@ -482,18 +484,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 4,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1846,
+        "period2": 2184,
+        "currentPeriodStartTimestamp": 1784653459
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784655708
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16562964,
       "defaultPeriodCount": 3,
       "slug": "ruehl-veldheer-paulson-poljak",
-      "startTimestamp": 1784641200,
+      "currentPeriodStartTimestamp": 1784653459,
+      "startTimestamp": 1784650200,
       "periods": {
         "point": "Game",
         "current": "Match",

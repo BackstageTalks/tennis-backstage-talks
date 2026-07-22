@@ -1,8 +1,10 @@
 {
-  "saved_at": 1784523108.3900304,
+  "saved_at": 1784705361.271027,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "5",
+      "awayTeamSeed": "Q",
       "tournament": {
         "name": "Estoril, Portugal",
         "slug": "estoril-portugal",
@@ -53,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1989,
+          "userCount": 2215,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,9 +95,43 @@
       },
       "customId": "VyUsgaab",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 1,
+      "venue": {
+        "city": {
+          "name": "Estoril",
+          "country": {
+            "alpha2": "PT",
+            "alpha3": "PRT",
+            "name": "Portugal",
+            "slug": "portugal"
+          },
+          "id": 21129
+        },
+        "hidden": true,
+        "slug": "estadio-millennium",
+        "name": "Estadio Millennium",
+        "country": {
+          "alpha2": "PT",
+          "alpha3": "PRT",
+          "name": "Portugal",
+          "slug": "portugal"
+        },
+        "id": 21420,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "ملعب ميلينيوم",
+            "hi": "एस्टेडियो मिलेनियम",
+            "bn": "এস্টাডিও মিলেনিয়াম"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Estadio Millennium"
+        }
       },
       "homeTeam": {
         "name": "Nuno Borges",
@@ -107,13 +143,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 14162,
+        "userCount": 14196,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 78,
           "plays": "right-handed",
-          "prizeCurrent": 737072,
-          "prizeTotal": 4599743,
+          "prizeCurrent": 900054,
+          "prizeTotal": 4773054,
           "birthCity": {
             "name": "Maia",
             "country": {
@@ -140,17 +176,17 @@
           "underage": false,
           "residence": "Portugal, Portugal",
           "prizeCurrentRaw": {
-            "value": 737072,
+            "value": 900054,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 4599743,
+            "value": 4773054,
             "currency": "EUR"
           },
-          "currentRanking": 44
+          "currentRanking": 45
         },
         "nameCode": "BOR",
-        "ranking": 52,
+        "ranking": 48,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -193,13 +229,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1340,
+        "userCount": 1447,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 78,
           "plays": "right-handed",
           "prizeCurrent": 5067,
-          "prizeTotal": 668143,
+          "prizeTotal": 680124,
           "birthCity": {
             "name": "Carazinho",
             "country": {
@@ -230,10 +266,10 @@
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 668143,
+            "value": 680124,
             "currency": "EUR"
           },
-          "currentRanking": 907
+          "currentRanking": 811
         },
         "nameCode": "LUZ",
         "ranking": 1072,
@@ -266,18 +302,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0",
+        "normaltime": 2
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 3,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2042,
+        "period2": 2638,
+        "currentPeriodStartTimestamp": 1784640190
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784642915
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16571630,
       "defaultPeriodCount": 3,
       "slug": "nuno-borges-orlando-luz",
-      "startTimestamp": 1784631600,
+      "currentPeriodStartTimestamp": 1784640190,
+      "startTimestamp": 1784637600,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -288,6 +347,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

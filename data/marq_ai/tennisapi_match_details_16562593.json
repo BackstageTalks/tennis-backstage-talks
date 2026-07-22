@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436760.585369,
+  "saved_at": 1784705380.380994,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Kitzbuhel, Austria",
         "slug": "kitzbuhel-austria",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1648,
+          "userCount": 1848,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -94,9 +95,43 @@
       },
       "customId": "XrIsFcib",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 1,
+      "venue": {
+        "city": {
+          "name": "Kitzbuehel",
+          "country": {
+            "alpha2": "AT",
+            "alpha3": "AUT",
+            "name": "Austria",
+            "slug": "austria"
+          },
+          "id": 20653
+        },
+        "hidden": true,
+        "slug": "centre-court",
+        "name": "Centre Court",
+        "country": {
+          "alpha2": "AT",
+          "alpha3": "AUT",
+          "name": "Austria",
+          "slug": "austria"
+        },
+        "id": 17486,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "الملعب المركزي",
+            "hi": "सेंटर कोर्ट",
+            "bn": "সেন্টার কোর্ট"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Centre Court"
+        }
       },
       "homeTeam": {
         "name": "Alex Molčan",
@@ -108,13 +143,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3693,
+        "userCount": 3808,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 73,
           "plays": "left-handed",
-          "prizeCurrent": 263426,
-          "prizeTotal": 2329617,
+          "prizeCurrent": 439752,
+          "prizeTotal": 2505944,
           "birthCity": {
             "name": "Presov",
             "country": {
@@ -141,17 +176,17 @@
           "underage": false,
           "residence": "Presov Slovak Republic, Slovakia",
           "prizeCurrentRaw": {
-            "value": 263426,
+            "value": 439752,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 2329617,
+            "value": 2505944,
             "currency": "EUR"
           },
-          "currentRanking": 37
+          "currentRanking": 35
         },
         "nameCode": "MOL",
-        "ranking": 101,
+        "ranking": 81,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -192,14 +227,14 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 6247,
+        "userCount": 6251,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 81,
           "plays": "right-handed",
           "turnedPro": "2014",
-          "prizeCurrent": 303711,
-          "prizeTotal": 3341376,
+          "prizeCurrent": 454834,
+          "prizeTotal": 3492499,
           "birthCity": {
             "name": "Bruck an der Mur",
             "country": {
@@ -226,17 +261,17 @@
           "underage": false,
           "residence": "Sankt Marein, Austria",
           "prizeCurrentRaw": {
-            "value": 303711,
+            "value": 454834,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 3341376,
+            "value": 3492499,
             "currency": "EUR"
           },
-          "currentRanking": 105
+          "currentRanking": 107
         },
         "nameCode": "OFN",
-        "ranking": 125,
+        "ranking": 124,
         "class": 0,
         "disabled": false,
         "national": false,
@@ -266,18 +301,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1964,
+        "period2": 2168,
+        "currentPeriodStartTimestamp": 1784642503
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784644695
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16562593,
       "defaultPeriodCount": 3,
       "slug": "alex-molcan-sebastian-ofner",
-      "startTimestamp": 1784543400,
+      "currentPeriodStartTimestamp": 1784642503,
+      "startTimestamp": 1784640000,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -288,6 +346,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784436768.079545,
+  "saved_at": 1784705386.7496746,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Estoril, Portugal",
         "slug": "estoril-portugal",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1994,
+          "userCount": 2290,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,9 +93,43 @@
       },
       "customId": "xIusgtHb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 92,
+        "description": "Retired",
+        "type": "finished"
+      },
+      "winnerCode": 1,
+      "venue": {
+        "city": {
+          "name": "Estoril",
+          "country": {
+            "alpha2": "PT",
+            "alpha3": "PRT",
+            "name": "Portugal",
+            "slug": "portugal"
+          },
+          "id": 21129
+        },
+        "hidden": true,
+        "slug": "court-cte",
+        "name": "Court CTE",
+        "country": {
+          "alpha2": "PT",
+          "alpha3": "PRT",
+          "name": "Portugal",
+          "slug": "portugal"
+        },
+        "id": 38784,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "ملعب CTE",
+            "hi": "कोर्ट सीटीई",
+            "bn": "কোর্ট সিটিই"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Court CTE"
+        }
       },
       "homeTeam": {
         "name": "Hugo Gaston",
@@ -106,13 +141,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5676,
+        "userCount": 5720,
         "playerTeamInfo": {
           "height": 1.73,
           "weight": 68,
           "plays": "left-handed",
-          "prizeCurrent": 326996,
-          "prizeTotal": 3515820,
+          "prizeCurrent": 425328,
+          "prizeTotal": 3614151,
           "birthCity": {
             "name": "Toulouse",
             "country": {
@@ -139,17 +174,17 @@
           "underage": false,
           "residence": "Fonsorbes, France",
           "prizeCurrentRaw": {
-            "value": 326996,
+            "value": 425328,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 3515820,
+            "value": 3614151,
             "currency": "EUR"
           },
-          "currentRanking": 107
+          "currentRanking": 105
         },
         "nameCode": "GAS",
-        "ranking": 107,
+        "ranking": 109,
         "disabled": false,
         "national": false,
         "type": 1,
@@ -190,14 +225,14 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 5961,
+        "userCount": 6291,
         "playerTeamInfo": {
           "height": 1.75,
           "weight": 68,
           "plays": "right-handed",
           "turnedPro": "2011",
-          "prizeCurrent": 468364,
-          "prizeTotal": 5981917,
+          "prizeCurrent": 614143,
+          "prizeTotal": 6130501,
           "birthCity": {
             "name": "Sarajevo",
             "country": {
@@ -224,17 +259,17 @@
           "underage": false,
           "residence": "Sarajevo, Bosnia & Herzegovina",
           "prizeCurrentRaw": {
-            "value": 468364,
+            "value": 614143,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 5981917,
+            "value": 6130501,
             "currency": "EUR"
           },
           "currentRanking": 87
         },
         "nameCode": "DZU",
-        "ranking": 108,
+        "ranking": 87,
         "class": 1,
         "disabled": false,
         "national": false,
@@ -266,18 +301,34 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "point": "A"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "point": "40"
+      },
+      "time": {
+        "currentPeriodStartTimestamp": 1784642076
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1784643775
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564412,
       "defaultPeriodCount": 3,
       "slug": "hugo-gaston-damir-dzumhur",
-      "startTimestamp": 1784545200,
+      "currentPeriodStartTimestamp": 1784642076,
+      "startTimestamp": 1784641500,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -288,6 +339,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,
