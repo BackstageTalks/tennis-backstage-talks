@@ -495,7 +495,7 @@ class SackmannLoader:
             level_matches=len(level_matches),
         )
 
-        data = HistoryQPlayerData(
+        data = HistoryPlayerData(
             player=player_name,
             last5_win_pct=recent_5,
             last10_win_pct=recent_10,
@@ -533,7 +533,7 @@ class SackmannLoader:
             "player2": p2,
             "surface": surface,
             "level": level,
-            "historyq_edges": self._build_basic_edges(p1, p2),
+            "History_edges": self._build_basic_edges(p1, p2),
         }
 
     @staticmethod
@@ -604,7 +604,7 @@ class SackmannLoader:
                 p2.get("surface_win_pct_52w"),
             ),
             "level_form_edge": self._edge_from_pct_diff(p1.get("level_win_pct"), p2.get("level_win_pct")),
-            "historyq_confidence": round(
+            "History_confidence": round(
                 ((p1.get("data_confidence") or 0.0) + (p2.get("data_confidence") or 0.0)) / 2,
                 4,
             ),
