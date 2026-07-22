@@ -36,8 +36,8 @@ def _score(level: Optional[str]) -> Optional[float]:
 def build_level_context(raw: Dict[str, Any], level: Optional[str]) -> Dict[str, Any]:
     p1 = raw.get("player1", {}) if isinstance(raw.get("player1"), dict) else {}
     p2 = raw.get("player2", {}) if isinstance(raw.get("player2"), dict) else {}
-    p1_hist = p1.get("history", p1.get("historyq", {}))
-    p2_hist = p2.get("history", p2.get("historyq", {}))
+    p1_hist = p1.get("history", p1.get("History", {}))
+    p2_hist = p2.get("history", p2.get("History", {}))
 
     current_score = _score(level)
     p1_level = p1_hist.get("recent_level") or p1_hist.get("level")
