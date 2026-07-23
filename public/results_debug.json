@@ -26,8 +26,8 @@
         "data/pick_history/all/2026-07-23.json"
       ],
       "history_items_loaded": 893,
-      "resolved_count": 817,
-      "pending_count": 76,
+      "resolved_count": 826,
+      "pending_count": 67,
       "unknown_count": 0
     },
     "top5": {
@@ -53,12 +53,12 @@
         "data/pick_history/top5/2026-07-23.json"
       ],
       "history_items_loaded": 108,
-      "resolved_count": 103,
-      "pending_count": 5,
+      "resolved_count": 104,
+      "pending_count": 4,
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4327,
+  "finished_results_found": 4335,
   "examples_results": [
     {
       "match_id": 16515727,
@@ -1428,6 +1428,280 @@
       "raw_status": "FINISHED"
     },
     {
+      "match_id": 16515715,
+      "event_id": 16515715,
+      "date": "2026-07-23",
+      "player1": "Andrey Rublev",
+      "player2": "Timofey Skatov",
+      "winner": "Andrey Rublev",
+      "score": "6-1 6-1",
+      "status": "FINISHED",
+      "source": "TennisApi",
+      "match": "Andrey Rublev vs Timofey Skatov",
+      "raw": {
+        "source": "TennisApi",
+        "match_id": 16515715,
+        "event_id": 16515715,
+        "date": "2026-07-23",
+        "player1": "Andrey Rublev",
+        "player2": "Timofey Skatov",
+        "winner": "Andrey Rublev",
+        "score": "6-1 6-1",
+        "status": "FINISHED",
+        "match": "Andrey Rublev vs Timofey Skatov",
+        "tournament": "Estoril",
+        "category": "ATP",
+        "start_time_utc": "2026-07-23T16:00:00+00:00",
+        "raw": {
+          "firstToServe": 2,
+          "homeTeamSeed": "1",
+          "awayTeamSeed": "LL",
+          "tournament": {
+            "name": "Estoril, Portugal",
+            "slug": "estoril-portugal",
+            "category": {
+              "name": "ATP",
+              "slug": "atp",
+              "sport": {
+                "name": "Tennis",
+                "slug": "tennis",
+                "id": 5
+              },
+              "priority": 8,
+              "country": {},
+              "id": 3,
+              "flag": "atp",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "bn": "এটিপি",
+                  "hi": "डब्ल्यूटीए",
+                  "ar": "رابطة محترفي التنس",
+                  "ru": "ATP"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "uniqueTournament": {
+              "name": "Estoril",
+              "slug": "estoril",
+              "category": {
+                "name": "ATP",
+                "slug": "atp",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "priority": 8,
+                "country": {},
+                "id": 3,
+                "flag": "atp",
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "bn": "এটিপি",
+                    "hi": "डब्ल्यूटीए",
+                    "ar": "رابطة محترفي التنس",
+                    "ru": "ATP"
+                  },
+                  "shortNameTranslation": {}
+                }
+              },
+              "userCount": 2357,
+              "groundType": "Red clay",
+              "tennisPoints": 250,
+              "hasPerformanceGraphFeature": false,
+              "country": {},
+              "id": 2541,
+              "hasEventPlayerStatistics": false,
+              "displayInverseHomeAwayTeams": false,
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "استوريل",
+                  "hi": "एस्टोरिल",
+                  "bn": "এস্টোরিল",
+                  "ru": "Эшторил"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "priority": 0,
+            "isGroup": false,
+            "id": 191829,
+            "endTimestamp": 1785024000,
+            "startTimestamp": 1784505600
+          },
+          "season": {
+            "name": "ATP Estoril, Portugal Men Singles 2026",
+            "year": "2026",
+            "editor": false,
+            "id": 82381
+          },
+          "roundInfo": {
+            "round": 5,
+            "name": "Round of 16",
+            "slug": "round-of-16",
+            "cupRoundType": 8
+          },
+          "customId": "fKRsAKQb",
+          "status": {
+            "code": 100,
+            "description": "Ended",
+            "type": "finished"
+          },
+          "winnerCode": 1,
+          "homeTeam": {
+            "name": "Andrey Rublev",
+            "slug": "rublev-andrey",
+            "shortName": "A. Rublev",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 42707,
+            "playerTeamInfo": {
+              "id": 125
+            },
+            "nameCode": "RUB",
+            "ranking": 14,
+            "disabled": false,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "RU",
+              "alpha3": "RUS",
+              "name": "Russia",
+              "slug": "russia"
+            },
+            "id": 106755,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "أندريه روبليف",
+                "ru": "Рублёв, Андрей"
+              },
+              "shortNameTranslation": {
+                "ar": "أ. روبليف",
+                "bn": "এ. রুবলেভ",
+                "hi": "ए. रुबलेव"
+              }
+            }
+          },
+          "awayTeam": {
+            "name": "Timofey Skatov",
+            "slug": "skatov-timofey",
+            "shortName": "T. Skatov",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 2298,
+            "playerTeamInfo": {
+              "id": 2952
+            },
+            "nameCode": "SKA",
+            "ranking": 163,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "KZ",
+              "alpha3": "KAZ",
+              "name": "Kazakhstan",
+              "slug": "kazakhstan"
+            },
+            "id": 229275,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "تيموفي سكاطوف",
+                "bn": "টিমোফে স্কাটভ",
+                "hi": "तिमोफे स्कातोव",
+                "ru": "Тимофей Скатов"
+              },
+              "shortNameTranslation": {
+                "ar": "ت. سكاطوف",
+                "ru": "Т. Скатов"
+              }
+            }
+          },
+          "homeScore": {
+            "current": 2,
+            "display": 2,
+            "period1": 6,
+            "period2": 6,
+            "point": "40",
+            "normaltime": 2
+          },
+          "awayScore": {
+            "current": 0,
+            "display": 0,
+            "period1": 1,
+            "period2": 1,
+            "point": "30",
+            "normaltime": 0
+          },
+          "time": {
+            "period1": 2014,
+            "period2": 1582,
+            "currentPeriodStartTimestamp": 1784824909
+          },
+          "changes": {
+            "changes": [
+              "time.currentPeriodStart",
+              "time.period2"
+            ],
+            "changeTimestamp": 1784826521
+          },
+          "hasGlobalHighlights": false,
+          "crowdsourcingDataDisplayEnabled": false,
+          "id": 16515715,
+          "slug": "timofey-skatov-andrey-rublev",
+          "startTimestamp": 1784822400,
+          "periods": {
+            "point": "Game",
+            "current": "Match",
+            "period1": "1st set",
+            "period2": "2nd set",
+            "period3": "3rd set",
+            "period4": "4th set",
+            "period5": "5th set"
+          },
+          "finalResultOnly": false,
+          "feedLocked": false,
+          "groundType": "Red clay",
+          "isEditor": false,
+          "eventFilters": {
+            "category": [
+              "singles"
+            ],
+            "level": [
+              "pro"
+            ],
+            "tournament": [
+              "p250"
+            ],
+            "gender": [
+              "M"
+            ]
+          }
+        }
+      },
+      "raw_status": "FINISHED"
+    },
+    {
       "match_id": 16515768,
       "event_id": 16515768,
       "date": "2026-07-22",
@@ -2545,280 +2819,6 @@
         }
       },
       "raw_status": "FINISHED"
-    },
-    {
-      "match_id": 16515766,
-      "event_id": 16515766,
-      "date": "2026-07-23",
-      "player1": "Yannick Hanfmann",
-      "player2": "Sebastián Báez",
-      "winner": "Yannick Hanfmann",
-      "score": "6-3 6-1",
-      "status": "FINISHED",
-      "source": "TennisApi",
-      "match": "Yannick Hanfmann vs Sebastián Báez",
-      "raw": {
-        "source": "TennisApi",
-        "match_id": 16515766,
-        "event_id": 16515766,
-        "date": "2026-07-23",
-        "player1": "Yannick Hanfmann",
-        "player2": "Sebastián Báez",
-        "winner": "Yannick Hanfmann",
-        "score": "6-3 6-1",
-        "status": "FINISHED",
-        "match": "Yannick Hanfmann vs Sebastián Báez",
-        "tournament": "Kitzbuhel",
-        "category": "ATP",
-        "start_time_utc": "2026-07-23T10:45:00+00:00",
-        "raw": {
-          "firstToServe": 1,
-          "tournament": {
-            "name": "Kitzbuhel, Austria",
-            "slug": "kitzbuhel-austria",
-            "category": {
-              "name": "ATP",
-              "slug": "atp",
-              "sport": {
-                "name": "Tennis",
-                "slug": "tennis",
-                "id": 5
-              },
-              "priority": 8,
-              "country": {},
-              "id": 3,
-              "flag": "atp",
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "bn": "এটিপি",
-                  "hi": "डब्ल्यूटीए",
-                  "ar": "رابطة محترفي التنس",
-                  "ru": "ATP"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "uniqueTournament": {
-              "name": "Kitzbuhel",
-              "slug": "kitzbuhel",
-              "primaryColorHex": "#232a3c",
-              "secondaryColorHex": "#c4251c",
-              "category": {
-                "name": "ATP",
-                "slug": "atp",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "priority": 8,
-                "country": {},
-                "id": 3,
-                "flag": "atp",
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "bn": "এটিপি",
-                    "hi": "डब्ल्यूटीए",
-                    "ar": "رابطة محترفي التنس",
-                    "ru": "ATP"
-                  },
-                  "shortNameTranslation": {}
-                }
-              },
-              "userCount": 1957,
-              "groundType": "Red clay",
-              "tennisPoints": 250,
-              "hasPerformanceGraphFeature": false,
-              "country": {},
-              "id": 2501,
-              "hasEventPlayerStatistics": false,
-              "displayInverseHomeAwayTeams": false,
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "كيتزبوهيل",
-                  "hi": "किट्ज़ब्यूल",
-                  "bn": "কিটজবুহেল",
-                  "ru": "Кицбюэль"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "priority": 0,
-            "isGroup": false,
-            "id": 191831,
-            "endTimestamp": 1784937600,
-            "startTimestamp": 1784505600
-          },
-          "season": {
-            "name": "ATP Kitzbuhel, Austria Men Singles 2026",
-            "year": "2026",
-            "editor": false,
-            "id": 81905
-          },
-          "roundInfo": {
-            "round": 27,
-            "name": "Quarterfinals",
-            "slug": "quarterfinals",
-            "cupRoundType": 4
-          },
-          "customId": "AjusgLNb",
-          "status": {
-            "code": 100,
-            "description": "Ended",
-            "type": "finished"
-          },
-          "winnerCode": 1,
-          "homeTeam": {
-            "name": "Yannick Hanfmann",
-            "slug": "hanfmann-yannick",
-            "shortName": "Y. Hanfmann",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 7147,
-            "playerTeamInfo": {
-              "id": 212
-            },
-            "nameCode": "HAN",
-            "ranking": 52,
-            "disabled": false,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "DE",
-              "alpha3": "DEU",
-              "name": "Germany",
-              "slug": "germany"
-            },
-            "id": 47975,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "يانيك هانفمان",
-                "ru": "Ханфманн, Янник"
-              },
-              "shortNameTranslation": {
-                "ar": "ي. هانفمان",
-                "bn": "ওয়াই. হ্যানফম্যান",
-                "hi": "वाई. हैंफमैन"
-              }
-            }
-          },
-          "awayTeam": {
-            "name": "Sebastián Báez",
-            "slug": "baez-sebastian",
-            "shortName": "S. Báez",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 11737,
-            "playerTeamInfo": {
-              "id": 2882
-            },
-            "nameCode": "BAE",
-            "ranking": 56,
-            "disabled": false,
-            "national": false,
-            "type": 1,
-            "country": {
-              "alpha2": "AR",
-              "alpha3": "ARG",
-              "name": "Argentina",
-              "slug": "argentina"
-            },
-            "id": 221806,
-            "subTeams": [],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "سيباستيان بايز",
-                "ru": "Баэс, Себастьян"
-              },
-              "shortNameTranslation": {
-                "ar": "س. بايز",
-                "bn": "এস. বেজ",
-                "hi": "एस. बैज़"
-              }
-            }
-          },
-          "homeScore": {
-            "current": 2,
-            "display": 2,
-            "period1": 6,
-            "period2": 6,
-            "point": "A",
-            "normaltime": 2
-          },
-          "awayScore": {
-            "current": 0,
-            "display": 0,
-            "period1": 3,
-            "period2": 1,
-            "point": "40",
-            "normaltime": 0
-          },
-          "time": {
-            "period1": 2452,
-            "period2": 2264,
-            "currentPeriodStartTimestamp": 1784806563
-          },
-          "changes": {
-            "changes": [
-              "time.currentPeriodStart",
-              "time.period2"
-            ],
-            "changeTimestamp": 1784808878
-          },
-          "hasGlobalHighlights": true,
-          "crowdsourcingDataDisplayEnabled": false,
-          "id": 16515766,
-          "slug": "sebastian-baez-yannick-hanfmann",
-          "startTimestamp": 1784803500,
-          "periods": {
-            "point": "Game",
-            "current": "Match",
-            "period1": "1st set",
-            "period2": "2nd set",
-            "period3": "3rd set",
-            "period4": "4th set",
-            "period5": "5th set"
-          },
-          "finalResultOnly": false,
-          "feedLocked": false,
-          "groundType": "Red clay",
-          "isEditor": false,
-          "eventFilters": {
-            "category": [
-              "singles"
-            ],
-            "level": [
-              "pro"
-            ],
-            "tournament": [
-              "p250"
-            ],
-            "gender": [
-              "M"
-            ]
-          }
-        }
-      },
-      "raw_status": "FINISHED"
     }
   ],
   "examples_resolved": [
@@ -3478,8 +3478,8 @@
       "data/pick_history/top5/2026-07-15.json",
       "data/pick_history/top5/2026-07-16.json"
     ],
-    "items_indexed": 1178,
-    "items_enriched": 532
+    "items_indexed": 1169,
+    "items_enriched": 529
   },
   "examples_date_rejected": [
     {
@@ -3520,6 +3520,14 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Jaime Faria vs Gonzalo Bueno",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-23",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Andrey Rublev vs Timofey Skatov",
       "result_status": "FINISHED"
     },
     {
@@ -3668,6 +3676,14 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-23",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Rojer J-J / Winegar T vs Miedler L / Polmans M",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-22",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
@@ -3704,22 +3720,6 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Mayar Sherif vs Elsa Jacquemot",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-23",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Oleksandra Oliynykova vs Leyre Romero Gormaz",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-23",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Paula Badosa vs Panna Udvardy",
       "result_status": "FINISHED"
     }
   ],

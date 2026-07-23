@@ -1,5 +1,5 @@
 {
-  "saved_at": 1784785189.8124003,
+  "saved_at": 1784830042.6028314,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "oAzbsLaIc",
       "status": {
-        "code": 80,
-        "description": "Interrupted",
-        "type": "interrupted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Fnu Nidunjianzan",
         "slug": "nidunjianzan-fnu",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 109,
+        "userCount": 112,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 91,
@@ -170,7 +171,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 276,
+        "userCount": 282,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 78,
@@ -233,23 +234,35 @@
         "timeActive": []
       },
       "homeScore": {
-        "current": 0,
-        "display": 0,
-        "period1": 5
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7
       },
       "awayScore": {
         "current": 0,
         "display": 0,
-        "period1": 4
+        "period1": 6,
+        "period2": 3,
+        "period1TieBreak": 2
       },
       "time": {},
       "changes": {
         "changes": [
           "status.code",
           "status.description",
-          "status.type"
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period1",
+          "homeScore.period2",
+          "homeScore.period1TieBreak",
+          "awayScore.period1",
+          "awayScore.period2",
+          "awayScore.period1TieBreak"
         ],
-        "changeTimestamp": 1784744067
+        "changeTimestamp": 1784808677
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
@@ -277,7 +290,7 @@
         "CH",
         "CA"
       ],
-      "feedLocked": false,
+      "feedLocked": true,
       "groundType": "Clay",
       "showTotoPromo": true,
       "isEditor": false,
