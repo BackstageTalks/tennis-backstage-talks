@@ -1,7 +1,7 @@
 """Clean CORQ engine.
 
-This module intentionally does not call legacy prediction_engine_* files.
-It uses fetch_matches.py only as the current match source until a clean source module is introduced.
+Flow:
+fetch_matches -> normalize -> odds -> candidate expansion -> THINQ -> CORQ -> ranking -> web
 """
 from __future__ import annotations
 
@@ -10,6 +10,7 @@ import importlib
 
 from match_normalizer import normalize_match
 from .odds import enrich_odds
+from .candidates import build_pick_candidates
 from .model import CorqModel
 from .ranking import rank_predictions, top_n_from_ranked
 from .outputs import publish_outputs
@@ -91,28 +92,30 @@ def build_predictions(raw_matches: Iterable[Dict[str, Any]]) -> List[Dict[str, A
     model = CorqModel()
     predictions: List[Dict[str, Any]] = []
     for raw in raw_matches:
-        match = normalize_match(raw)
-        match = enrich_odds(match)
-        thinq = build_thinq(match)
-        match["thinq"] = thinq
+        base_match = normalize_match(raw)
+        base_match = enrich_odds(base_match)
+        candidates = build_pick_candidates(base_match)
+        for candidate in candidates:
+            thinq = build_thinq(candidate)
+            candidate["thinq"] = thinq
 
-        surface = thinq.get("surface") or {}
-        match["surface"] = surface.get("surface") or match.get("surface") or "Unknown"
-        match["surface_raw"] = surface.get("surface_raw")
-        match["surface_source"] = surface.get("surface_source")
-        match["surface_model_bucket"] = surface.get("surface_model_bucket")
-        match["thinq_selected_elo_type"] = surface.get("thinq_selected_elo_type")
-        match["thinq_available"] = bool(thinq.get("available"))
-        match["thinq_error"] = thinq.get("error")
-        match["thinq_confidence"] = thinq.get("confidence")
-        match["thinq_edges"] = thinq.get("edges") or {}
-        h2h = thinq.get("h2h") or {}
-        match["thinq_h2h_status"] = h2h.get("status")
-        match["thinq_h2h_edge"] = h2h.get("edge")
-        match["thinq_h2h_source"] = h2h.get("source")
-        match["thinq_h2h_confidence"] = h2h.get("confidence")
+            surface = thinq.get("surface") or {}
+            candidate["surface"] = surface.get("surface") or candidate.get("surface") or "Unknown"
+            candidate["surface_raw"] = surface.get("surface_raw")
+            candidate["surface_source"] = surface.get("surface_source")
+            candidate["surface_model_bucket"] = surface.get("surface_model_bucket")
+            candidate["thinq_selected_elo_type"] = surface.get("thinq_selected_elo_type")
+            candidate["thinq_available"] = bool(thinq.get("available"))
+            candidate["thinq_error"] = thinq.get("error")
+            candidate["thinq_confidence"] = thinq.get("confidence")
+            candidate["thinq_edges"] = thinq.get("edges") or {}
+            h2h = thinq.get("h2h") or {}
+            candidate["thinq_h2h_status"] = h2h.get("status")
+            candidate["thinq_h2h_edge"] = h2h.get("edge")
+            candidate["thinq_h2h_source"] = h2h.get("source")
+            candidate["thinq_h2h_confidence"] = h2h.get("confidence")
 
-        predictions.append(model.score(match, thinq))
+            predictions.append(model.score(candidate, thinq))
     return predictions
 
 
@@ -127,7 +130,7 @@ def main() -> None:
         render_all_pages(all_predictions=all_predictions, corq_predictions=ranked, top7=top7)
     except Exception as exc:
         print(f"WEB_RENDER_NON_BLOCKING_ERROR: {exc}")
-    print(f"CORQ CLEAN RUNTIME OK: all={len(all_predictions)} ranked={len(ranked)} top7={len(top7)}")
+    print(f"CORQ CLEAN RUNTIME OK: matches={len(raw_matches)} candidates={len(all_predictions)} ranked={len(ranked)} top7={len(top7)}")
 
 
 if __name__ == "__main__":
