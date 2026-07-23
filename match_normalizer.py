@@ -1,95 +1,143 @@
-from __future__ import annotations
-from typing import Any, Dict
-import re
+"""Match normalizer for clean CORQ runtime.
 
-def first_value(mapping: Dict[str, Any], keys, default=None):
+This module normalizes raw match dictionaries from the existing fetch_matches.py.
+It intentionally never defaults surface to Hard. Unknown surface stays Unknown.
+"""
+from __future__ import annotations
+
+from typing import Any, Dict, Optional
+import re
+import unicodedata
+
+
+def first_value(source: Dict[str, Any], keys: list[str], default: Any = None) -> Any:
     for key in keys:
-        if key in mapping and mapping.get(key) not in (None, ""):
-            return mapping.get(key)
+        if key in source and source.get(key) not in (None, ""):
+            return source.get(key)
     return default
 
-def dig(mapping: Dict[str, Any], *path, default=None):
-    cur = mapping
-    for key in path:
-        if not isinstance(cur, dict):
-            return default
-        cur = cur.get(key)
-        if cur is None:
-            return default
-    return cur
 
-def normalize_name(value: Any) -> str:
-    return " ".join(str(value or "").replace("_", " ").split()).strip()
+def norm_name(value: Any) -> str:
+    text = unicodedata.normalize("NFKD", str(value or "").strip())
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
 
-def normalize_surface_string(value: Any) -> str:
-    raw = str(value or "").strip()
-    text = raw.lower()
-    if not text or text in {"unknown", "none", "null", "-"}:
-        return "Unknown"
-    if "clay" in text:
-        return "Clay"
-    if "grass" in text:
-        return "Grass"
-    if "carpet" in text:
-        return "Carpet"
-    if "hard" in text:
-        return "Hard"
-    return "Unknown"
+
+def recursive_find_id(obj: Any, key_names: set[str]) -> Optional[Any]:
+    if isinstance(obj, dict):
+        for key, value in obj.items():
+            if key in key_names and value not in (None, ""):
+                return value
+        for value in obj.values():
+            found = recursive_find_id(value, key_names)
+            if found not in (None, ""):
+                return found
+    elif isinstance(obj, list):
+        for value in obj:
+            found = recursive_find_id(value, key_names)
+            if found not in (None, ""):
+                return found
+    return None
+
 
 def is_doubles_match(match: Dict[str, Any]) -> bool:
-    text = " ".join(str(match.get(k, "")) for k in ["match", "player1", "player2", "tournament", "competitionName", "match_type", "matchType"])
-    return "/" in text or bool(re.search(r"\bdoubles?\b", text, re.I))
+    fields = [
+        match.get("match_type"), match.get("matchType"), match.get("type"),
+        match.get("competitionName"), match.get("tournament"), match.get("match"),
+        match.get("player1"), match.get("player2"),
+    ]
+    text = " ".join(str(x or "") for x in fields).lower()
+    if "doubles" in text or " double" in text:
+        return True
+    return any("/" in str(match.get(k) or "") for k in ["player1", "player2", "pick", "opponent"])
 
-def extract_players(raw: Dict[str, Any]) -> tuple[str, str]:
-    player1 = first_value(raw, ["player1", "home", "home_name", "homeTeam", "player_one", "p1"])
-    player2 = first_value(raw, ["player2", "away", "away_name", "awayTeam", "player_two", "p2"])
-    if isinstance(player1, dict):
-        player1 = first_value(player1, ["name", "shortName", "fullName"])
-    if isinstance(player2, dict):
-        player2 = first_value(player2, ["name", "shortName", "fullName"])
-    player1 = player1 or dig(raw, "homeTeam", "name") or dig(raw, "home", "name")
-    player2 = player2 or dig(raw, "awayTeam", "name") or dig(raw, "away", "name")
-    match_name = str(raw.get("match") or raw.get("event_name") or "")
-    if (not player1 or not player2) and " vs " in match_name.lower():
-        parts = re.split(r"\s+vs\s+", match_name, flags=re.I)
-        if len(parts) == 2:
-            player1 = player1 or parts[0]
-            player2 = player2 or parts[1]
-    return normalize_name(player1), normalize_name(player2)
+
+def to_float(value: Any) -> Optional[float]:
+    try:
+        if value in (None, ""):
+            return None
+        return float(value)
+    except Exception:
+        return None
+
 
 def normalize_match(raw: Dict[str, Any]) -> Dict[str, Any]:
-    raw = dict(raw or {})
-    player1, player2 = extract_players(raw)
-    tournament = normalize_name(first_value(raw, ["tournament", "tourney_name", "competitionName", "league", "category_name"], ""))
-    tournament_id = first_value(raw, ["tournament_id", "tournamentId", "competition_id", "competitionId"]) or dig(raw, "tournament", "id") or dig(raw, "competition", "id")
-    unique_tournament_id = first_value(raw, ["unique_tournament_id", "uniqueTournamentId"]) or dig(raw, "uniqueTournament", "id") or dig(raw, "tournament", "uniqueTournament", "id")
-    surface_raw = first_value(raw, ["surface_raw", "surfaceType", "surface", "court", "Court"], None)
-    surface = normalize_surface_string(surface_raw)
-    event_id = first_value(raw, ["event_id", "eventId", "id", "match_id", "matchId"])
-    best_of = first_value(raw, ["best_of", "bestOf"], 3)
-    output = {
-        "event_id": event_id,
-        "eventId": event_id,
+    raw = raw or {}
+    player1 = norm_name(first_value(raw, ["player1", "home", "home_name", "player_one", "p1", "competitor1"]))
+    player2 = norm_name(first_value(raw, ["player2", "away", "away_name", "player_two", "p2", "competitor2"]))
+
+    # If match field contains "A vs B", use it as fallback.
+    match_name = first_value(raw, ["match", "name", "event_name"])
+    if (not player1 or not player2) and isinstance(match_name, str) and " vs " in match_name.lower():
+        parts = re.split(r"\s+vs\s+", match_name, flags=re.I)
+        if len(parts) >= 2:
+            player1 = player1 or norm_name(parts[0])
+            player2 = player2 or norm_name(parts[1])
+
+    pick = norm_name(first_value(raw, ["pick", "prediction_pick", "winner_pick"], player1))
+    opponent = norm_name(first_value(raw, ["opponent"], player2 if pick == player1 else player1))
+
+    odds1 = to_float(first_value(raw, ["odds_player1", "p1_odds", "home_odds", "odds1", "price1"]))
+    odds2 = to_float(first_value(raw, ["odds_player2", "p2_odds", "away_odds", "odds2", "price2"]))
+    pick_odds = to_float(first_value(raw, ["pick_odds", "odds", "marq_current_pick_odds", "marq_initial_pick_odds"]))
+    opponent_odds = to_float(first_value(raw, ["opponent_odds", "marq_current_opponent_odds", "marq_initial_opponent_odds"]))
+
+    if pick_odds is None:
+        if pick and player1 and pick.lower() == player1.lower():
+            pick_odds = odds1
+            opponent_odds = opponent_odds if opponent_odds is not None else odds2
+        elif pick and player2 and pick.lower() == player2.lower():
+            pick_odds = odds2
+            opponent_odds = opponent_odds if opponent_odds is not None else odds1
+    if opponent_odds is None:
+        if pick and player1 and pick.lower() == player1.lower():
+            opponent_odds = odds2
+        elif pick and player2 and pick.lower() == player2.lower():
+            opponent_odds = odds1
+
+    tournament_id = first_value(raw, ["tournament_id", "tournamentId", "competition_id", "competitionId"])
+    if tournament_id in (None, ""):
+        tournament_id = recursive_find_id(raw.get("raw") or raw, {"tournamentId", "tournament_id", "competitionId", "competition_id"})
+    unique_tournament_id = first_value(raw, ["unique_tournament_id", "uniqueTournamentId"])
+    if unique_tournament_id in (None, ""):
+        unique_tournament_id = recursive_find_id(raw.get("raw") or raw, {"uniqueTournamentId", "unique_tournament_id"})
+
+    surface = first_value(raw, ["surface"])
+    surface_raw = first_value(raw, ["surface_raw", "surfaceType"], surface)
+    if not surface:
+        surface = "Unknown"
+
+    normalized = {
+        **raw,
+        "event_id": first_value(raw, ["event_id", "eventId", "id"]),
+        "eventId": first_value(raw, ["event_id", "eventId", "id"]),
+        "player1": player1,
+        "player2": player2,
+        "pick": pick,
+        "opponent": opponent,
+        "match": match_name or f"{player1} vs {player2}",
+        "tournament": first_value(raw, ["tournament", "competition", "competitionName", "league", "category"], "-"),
         "tournament_id": tournament_id,
         "tournamentId": tournament_id,
         "unique_tournament_id": unique_tournament_id,
         "uniqueTournamentId": unique_tournament_id,
-        "player1": player1,
-        "player2": player2,
-        "pick": raw.get("pick") or player1,
-        "opponent": raw.get("opponent") or player2,
-        "match": f"{player1} vs {player2}" if player1 and player2 else raw.get("match", ""),
-        "tournament": tournament,
-        "gender": first_value(raw, ["gender", "tour", "category"], None),
+        "gender": first_value(raw, ["gender", "tour", "category_gender"], None),
         "surface": surface,
         "surface_raw": surface_raw,
-        "surface_source": raw.get("surface_source") or ("raw_event" if surface != "Unknown" else "unknown"),
-        "best_of": int(best_of or 3) if str(best_of or "").isdigit() else 3,
-        "time": first_value(raw, ["time", "match_time", "start_time", "startTime", "scheduled_time", "datetime"], None),
-        "raw": raw,
+        "best_of": int(first_value(raw, ["best_of", "bestOf"], 3) or 3),
+        "odds_player1": odds1,
+        "odds_player2": odds2,
+        "pick_odds": pick_odds,
+        "opponent_odds": opponent_odds,
+        "odds_pair_available": pick_odds is not None and opponent_odds is not None,
+        "is_doubles": bool(raw.get("is_doubles")) or is_doubles_match(raw),
+        "raw": raw.get("raw") or raw,
     }
-    for key in ["pick_odds", "opponent_odds", "odds", "odds_player1", "odds_player2", "p1_odds", "p2_odds", "home_odds", "away_odds"]:
-        if key in raw:
-            output[key] = raw.get(key)
-    output["is_doubles"] = is_doubles_match(output)
-    return output
+    if pick_odds is not None and opponent_odds is not None:
+        try:
+            normalized["odds_gap_abs"] = abs(pick_odds - opponent_odds)
+            normalized["odds_gap_pct"] = abs(pick_odds - opponent_odds) / min(pick_odds, opponent_odds)
+        except Exception:
+            pass
+    return normalized

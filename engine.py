@@ -1,7 +1,9 @@
-"""Clean CORQ runtime entrypoint.
+"""Clean production entrypoint for CORQ Daily Predictions.
 
-This is the new production entrypoint for the clean runtime:
-THINQ -> CORQ -> TOP7 -> web.
+Architecture:
+- THINQ = intelligence layer / brain
+- CORQ = CORE output model + ranking
+- TOP7 = first 7 from CORQ ranking
 
 Run:
     python engine.py
