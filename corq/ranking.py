@@ -1,16 +1,11 @@
 """CORQ ranking utilities.
 
-Critical production rule:
-- TOP7 is not a model.
-- TOP7 is only the first N records from CORQ ranking.
-- CORQ ranking must contain at most one selected pick per real match/event.
-
-Why this exists:
-Candidate expansion creates one candidate for player1 and one candidate for player2.
-That is useful for CORQ side selection, but both sides of the same match must never
-enter TOP7 together.
+Rules:
+- CORQ produces model score and ranking.
+- TOP7 is not a model, only the first N rows from CORQ ranking.
+- Candidate expansion may create one candidate per side, but any public match-level
+  output must contain at most one selected pick per real match/event.
 """
-
 from __future__ import annotations
 
 from typing import Any, Dict, Iterable, List, Tuple
@@ -31,7 +26,7 @@ def match_identity(prediction: Dict[str, Any]) -> str:
     """Stable identity for one real match.
 
     Prefer provider ids. Fall back to sorted player names + tournament/date.
-    This prevents both sides of the same event from entering CORQ ranking.
+    This prevents both sides of the same event from entering CORQ ranking and ALL UI.
     """
     for key in ("event_id", "eventId", "match_id", "matchId", "id"):
         value = prediction.get(key)
@@ -42,7 +37,13 @@ def match_identity(prediction: Dict[str, Any]) -> str:
     p2 = _clean_name(prediction.get("player2"))
     players = "__".join(sorted([p1, p2]))
     tournament = _clean_name(prediction.get("tournament"))
-    time_key = str(prediction.get("time") or prediction.get("match_time") or prediction.get("start_time") or "")[:10]
+    time_key = str(
+        prediction.get("time")
+        or prediction.get("match_time")
+        or prediction.get("start_time")
+        or prediction.get("scheduled_time")
+        or ""
+    )[:10]
     return f"pair:{players}:{tournament}:{time_key}"
 
 
@@ -68,16 +69,63 @@ def score_value(prediction: Dict[str, Any]) -> float:
     return 0.0
 
 
-def corq_rank_tuple(prediction: Dict[str, Any]) -> Tuple[float, float, float]:
+def corq_rank_tuple(prediction: Dict[str, Any]) -> Tuple[int, float, float, float]:
+    """Ranking tuple.
+
+    Eligible rows sort above rejected rows when collapsing ALL by match.
+    Then higher CORQ score, higher probability, and slightly higher odds.
+    """
+    eligible = 1 if prediction.get("eligible_for_corq") else 0
     score = score_value(prediction)
     prob = normalize_probability(prediction.get("corq_probability") or prediction.get("probability")) or 0.0
     odds = safe_float(prediction.get("pick_odds") or prediction.get("odds")) or 0.0
-    # Higher score first, then higher probability, then slightly higher odds.
-    return (score, prob, odds)
+    return (eligible, score, prob, odds)
+
+
+def _side_audit(prediction: Dict[str, Any]) -> Dict[str, Any]:
+    return {
+        "pick": prediction.get("pick"),
+        "opponent": prediction.get("opponent"),
+        "pick_odds": prediction.get("pick_odds") or prediction.get("odds"),
+        "opponent_odds": prediction.get("opponent_odds"),
+        "probability": prediction.get("corq_probability") or prediction.get("probability"),
+        "corq_adjusted_score": prediction.get("corq_adjusted_score"),
+        "eligible_for_corq": prediction.get("eligible_for_corq"),
+        "eligible_for_top7": prediction.get("eligible_for_top7"),
+        "corq_reject_reasons": prediction.get("corq_reject_reasons", []),
+    }
+
+
+def select_one_prediction_per_match(predictions: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Collapse side candidates to one public row per real match.
+
+    This is used for ALL web/JSON. It keeps the strongest CORQ side as the visible row
+    and stores all side candidates in ``corq_side_candidates`` for audit.
+    """
+    grouped: Dict[str, List[Dict[str, Any]]] = {}
+    for raw in predictions:
+        prediction = dict(raw)
+        key = match_identity(prediction)
+        prediction["corq_match_identity"] = key
+        grouped.setdefault(key, []).append(prediction)
+
+    selected: List[Dict[str, Any]] = []
+    for key, rows in grouped.items():
+        annotated = [apply_corq_eligibility(dict(row)) for row in rows]
+        best = max(annotated, key=corq_rank_tuple)
+        best = dict(best)
+        best["corq_match_identity"] = key
+        best["corq_candidate_selected"] = True
+        best["corq_side_candidates"] = [_side_audit(row) for row in sorted(annotated, key=corq_rank_tuple, reverse=True)]
+        if len(annotated) > 1:
+            best["corq_all_deduped_sides"] = len(annotated) - 1
+        selected.append(best)
+
+    return sorted(selected, key=corq_rank_tuple, reverse=True)
 
 
 def _dedupe_one_pick_per_match(eligible: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Keep only the strongest CORQ candidate for each real match/event."""
+    """Keep only the strongest CORQ-eligible candidate for each real match/event."""
     best_by_match: Dict[str, Dict[str, Any]] = {}
     dropped_count = 0
 

@@ -12,7 +12,7 @@ from match_normalizer import normalize_match
 from .odds import enrich_odds
 from .candidates import build_pick_candidates
 from .model import CorqModel
-from .ranking import rank_predictions, top_n_from_ranked
+from .ranking import rank_predictions, top_n_from_ranked, select_one_prediction_per_match
 from .outputs import publish_outputs
 
 
@@ -53,7 +53,10 @@ def load_raw_matches() -> List[Dict[str, Any]]:
             if matches is not None:
                 return matches
 
-    available = [name for name in ["get_today_matches", "fetch_matches", "get_matches", "load_matches", "main", "get_matches_for_date"] if callable(getattr(fetch, name, None))]
+    available = [
+        name for name in ["get_today_matches", "fetch_matches", "get_matches", "load_matches", "main", "get_matches_for_date"]
+        if callable(getattr(fetch, name, None))
+    ]
     raise RuntimeError(
         "fetch_matches.py does not expose a supported match loading function returning matches. "
         f"Callable candidates found: {available}"
@@ -88,6 +91,24 @@ def build_thinq(match: Dict[str, Any]) -> Dict[str, Any]:
         }
 
 
+def _flatten_thinq(candidate: Dict[str, Any], thinq: Dict[str, Any]) -> None:
+    surface = thinq.get("surface") or {}
+    candidate["surface"] = surface.get("surface") or candidate.get("surface") or "Unknown"
+    candidate["surface_raw"] = surface.get("surface_raw")
+    candidate["surface_source"] = surface.get("surface_source")
+    candidate["surface_model_bucket"] = surface.get("surface_model_bucket")
+    candidate["thinq_selected_elo_type"] = surface.get("thinq_selected_elo_type")
+    candidate["thinq_available"] = bool(thinq.get("available"))
+    candidate["thinq_error"] = thinq.get("error")
+    candidate["thinq_confidence"] = thinq.get("confidence")
+    candidate["thinq_edges"] = thinq.get("edges") or {}
+    h2h = thinq.get("h2h") or {}
+    candidate["thinq_h2h_status"] = h2h.get("status")
+    candidate["thinq_h2h_edge"] = h2h.get("edge")
+    candidate["thinq_h2h_source"] = h2h.get("source")
+    candidate["thinq_h2h_confidence"] = h2h.get("confidence")
+
+
 def build_predictions(raw_matches: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
     model = CorqModel()
     predictions: List[Dict[str, Any]] = []
@@ -98,31 +119,19 @@ def build_predictions(raw_matches: Iterable[Dict[str, Any]]) -> List[Dict[str, A
         for candidate in candidates:
             thinq = build_thinq(candidate)
             candidate["thinq"] = thinq
-
-            surface = thinq.get("surface") or {}
-            candidate["surface"] = surface.get("surface") or candidate.get("surface") or "Unknown"
-            candidate["surface_raw"] = surface.get("surface_raw")
-            candidate["surface_source"] = surface.get("surface_source")
-            candidate["surface_model_bucket"] = surface.get("surface_model_bucket")
-            candidate["thinq_selected_elo_type"] = surface.get("thinq_selected_elo_type")
-            candidate["thinq_available"] = bool(thinq.get("available"))
-            candidate["thinq_error"] = thinq.get("error")
-            candidate["thinq_confidence"] = thinq.get("confidence")
-            candidate["thinq_edges"] = thinq.get("edges") or {}
-            h2h = thinq.get("h2h") or {}
-            candidate["thinq_h2h_status"] = h2h.get("status")
-            candidate["thinq_h2h_edge"] = h2h.get("edge")
-            candidate["thinq_h2h_source"] = h2h.get("source")
-            candidate["thinq_h2h_confidence"] = h2h.get("confidence")
-
+            _flatten_thinq(candidate, thinq)
             predictions.append(model.score(candidate, thinq))
     return predictions
 
 
 def main() -> None:
     raw_matches = load_raw_matches()
-    all_predictions = build_predictions(raw_matches)
-    ranked = rank_predictions(all_predictions)
+    candidate_predictions = build_predictions(raw_matches)
+
+    # ALL is now match-level: one selected CORQ side per real match, with side audit kept in JSON.
+    all_predictions = select_one_prediction_per_match(candidate_predictions)
+
+    ranked = rank_predictions(candidate_predictions)
     top7 = top_n_from_ranked(ranked, 7)
     publish_outputs(all_predictions, ranked, top7)
     try:
@@ -130,7 +139,11 @@ def main() -> None:
         render_all_pages(all_predictions=all_predictions, corq_predictions=ranked, top7=top7)
     except Exception as exc:
         print(f"WEB_RENDER_NON_BLOCKING_ERROR: {exc}")
-    print(f"CORQ CLEAN RUNTIME OK: matches={len(raw_matches)} candidates={len(all_predictions)} ranked={len(ranked)} top7={len(top7)}")
+    print(
+        "CORQ CLEAN RUNTIME OK: "
+        f"matches={len(raw_matches)} candidates={len(candidate_predictions)} "
+        f"all_matches={len(all_predictions)} ranked={len(ranked)} top7={len(top7)}"
+    )
 
 
 if __name__ == "__main__":
