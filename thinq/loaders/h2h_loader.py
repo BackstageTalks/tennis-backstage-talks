@@ -1,4 +1,4 @@
-# THINQ_H2H_LAYER_VERSION = thinq_h2h_clean_v1
+# THINQ_H2H_IMPORT_FIX_V3
 """
 THINQ / H2HQ Loader
 
@@ -217,6 +217,13 @@ class H2HLoader:
         tour_type: Optional[str] = None,
         limit: bool = False,
         include_all: bool = False,
+        event_id: Optional[Any] = None,
+        player1_id: Optional[Any] = None,
+        player2_id: Optional[Any] = None,
+        tournament_id: Optional[Any] = None,
+        pick: Optional[str] = None,
+        force_refresh: bool = False,
+        **kwargs,
     ) -> Dict[str, Any]:
         """
         Main method used by THINQ.
