@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784609338.1811225,
+  "saved_at": 1784785223.7920406,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Zug, Switzerland",
         "slug": "zug-switzerland",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 159,
+          "userCount": 197,
           "groundType": "Red clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,9 +90,35 @@
       },
       "customId": "mAobsQXxc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 2,
+      "venue": {
+        "city": {
+          "name": "Zug",
+          "country": {
+            "alpha2": "CH",
+            "alpha3": "CHE",
+            "name": "Switzerland",
+            "slug": "switzerland"
+          },
+          "id": 21297
+        },
+        "hidden": true,
+        "slug": "redcomet-arena",
+        "name": "Redcomet Arena",
+        "country": {
+          "alpha2": "CH",
+          "alpha3": "CHE",
+          "name": "Switzerland",
+          "slug": "switzerland"
+        },
+        "id": 61152,
+        "stadium": {
+          "name": "Redcomet Arena"
+        }
       },
       "homeTeam": {
         "name": "Daniel Rincon",
@@ -103,7 +130,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2002,
+        "userCount": 2052,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 85,
@@ -174,14 +201,14 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 8278,
+        "userCount": 8273,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 80,
           "plays": "right-handed",
           "turnedPro": "2018",
-          "prizeCurrent": 100979,
-          "prizeTotal": 2142344,
+          "prizeCurrent": 102558,
+          "prizeTotal": 2143923,
           "birthCity": {
             "name": "Marechal Candido Rondon",
             "country": {
@@ -208,14 +235,14 @@
           "underage": false,
           "residence": "Rio de Janeiro, Brazil",
           "prizeCurrentRaw": {
-            "value": 100979,
+            "value": 102558,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 2142344,
+            "value": 2143923,
             "currency": "EUR"
           },
-          "currentRanking": 253
+          "currentRanking": 241
         },
         "nameCode": "SEY",
         "ranking": 276,
@@ -250,18 +277,46 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 6,
+        "period3": 3,
+        "period1TieBreak": 8,
+        "point": "30",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 4,
+        "period3": 6,
+        "period1TieBreak": 10,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 4090,
+        "period2": 2131,
+        "period3": 2634,
+        "currentPeriodStartTimestamp": 1784737290
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1784739958
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16516140,
       "defaultPeriodCount": 3,
       "slug": "daniel-rincon-thiago-seyboth-wild",
-      "startTimestamp": 1784710800,
+      "currentPeriodStartTimestamp": 1784737290,
+      "startTimestamp": 1784730600,
       "periods": {
         "point": "Game",
         "current": "Match",

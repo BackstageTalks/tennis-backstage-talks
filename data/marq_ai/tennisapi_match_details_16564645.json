@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784609272.548751,
+  "saved_at": 1784785403.583039,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Estoril, Portugal, Doubles",
         "slug": "estoril-portugal-doubles",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 133,
+          "userCount": 152,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,9 +93,43 @@
       },
       "customId": "LAwbsGqpd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 1,
+      "venue": {
+        "city": {
+          "name": "Estoril",
+          "country": {
+            "alpha2": "PT",
+            "alpha3": "PRT",
+            "name": "Portugal",
+            "slug": "portugal"
+          },
+          "id": 21129
+        },
+        "hidden": true,
+        "slug": "court-cascais",
+        "name": "Court Cascais",
+        "country": {
+          "alpha2": "PT",
+          "alpha3": "PRT",
+          "name": "Portugal",
+          "slug": "portugal"
+        },
+        "id": 21421,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "ملعب كاسكايس",
+            "hi": "कोर्ट कास्केयस",
+            "bn": "কোর্ট কাসাসিয়াস"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Court Cascais"
+        }
       },
       "homeTeam": {
         "name": "Borges N / Cabral F",
@@ -105,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 113,
+        "userCount": 115,
         "nameCode": "B/C",
         "national": false,
         "type": 2,
@@ -128,13 +163,13 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 14181,
+            "userCount": 14243,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 78,
               "plays": "right-handed",
-              "prizeCurrent": 737072,
-              "prizeTotal": 4599743,
+              "prizeCurrent": 900054,
+              "prizeTotal": 4773054,
               "birthCity": {
                 "name": "Maia",
                 "country": {
@@ -161,14 +196,14 @@
               "underage": false,
               "residence": "Portugal, Portugal",
               "prizeCurrentRaw": {
-                "value": 737072,
+                "value": 900054,
                 "currency": "EUR"
               },
               "prizeTotalRaw": {
-                "value": 4599743,
+                "value": 4773054,
                 "currency": "EUR"
               },
-              "currentRanking": 44
+              "currentRanking": 45
             },
             "nameCode": "BOR",
             "ranking": 48,
@@ -214,7 +249,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 965,
+            "userCount": 968,
             "playerTeamInfo": {
               "height": 1.91,
               "weight": 86,
@@ -316,13 +351,13 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 372,
+            "userCount": 370,
             "playerTeamInfo": {
               "height": 1.8,
               "weight": 73,
               "plays": "left-handed",
               "prizeCurrent": 2397,
-              "prizeTotal": 164845,
+              "prizeTotal": 183138,
               "birthCity": {
                 "name": "Toulouse",
                 "country": {
@@ -353,10 +388,10 @@
                 "currency": "EUR"
               },
               "prizeTotalRaw": {
-                "value": 164845,
+                "value": 183138,
                 "currency": "EUR"
               },
-              "currentRanking": 857
+              "currentRanking": 863
             },
             "nameCode": "REY",
             "ranking": 1121,
@@ -443,18 +478,45 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 7,
+        "period1TieBreak": 7,
+        "period2TieBreak": 7,
+        "point": "6",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 6,
+        "period1TieBreak": 4,
+        "period2TieBreak": 0,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3052,
+        "period2": 3055,
+        "currentPeriodStartTimestamp": 1784744114
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784747222
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564645,
       "defaultPeriodCount": 3,
       "slug": "reymond-sanchez-borges-cabral",
-      "startTimestamp": 1784718000,
+      "currentPeriodStartTimestamp": 1784744114,
+      "startTimestamp": 1784740800,
       "periods": {
         "point": "Game",
         "current": "Match",

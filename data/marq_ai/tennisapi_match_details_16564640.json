@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784609343.4391222,
+  "saved_at": 1784785114.7151988,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "2",
       "tournament": {
         "name": "Estoril, Portugal, Doubles",
@@ -55,7 +56,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 133,
+          "userCount": 152,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -93,9 +94,43 @@
       },
       "customId": "pIzcsGPYj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 2,
+      "venue": {
+        "city": {
+          "name": "Estoril",
+          "country": {
+            "alpha2": "PT",
+            "alpha3": "PRT",
+            "name": "Portugal",
+            "slug": "portugal"
+          },
+          "id": 21129
+        },
+        "hidden": true,
+        "slug": "court-cascais",
+        "name": "Court Cascais",
+        "country": {
+          "alpha2": "PT",
+          "alpha3": "PRT",
+          "name": "Portugal",
+          "slug": "portugal"
+        },
+        "id": 21421,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "ملعب كاسكايس",
+            "hi": "कोर्ट कास्केयस",
+            "bn": "কোর্ট কাসাসিয়াস"
+          },
+          "shortNameTranslation": {}
+        },
+        "stadium": {
+          "name": "Court Cascais"
+        }
       },
       "homeTeam": {
         "name": "Ho R / Kittay B",
@@ -124,7 +159,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 129,
+            "userCount": 130,
             "playerTeamInfo": {
               "height": 1.88,
               "weight": 85,
@@ -164,7 +199,7 @@
                 "value": 158305,
                 "currency": "EUR"
               },
-              "currentRanking": 616
+              "currentRanking": 621
             },
             "nameCode": "RAY",
             "national": false,
@@ -257,7 +292,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 207,
+        "userCount": 209,
         "nameCode": "L/M",
         "disabled": false,
         "national": false,
@@ -276,13 +311,13 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 1425,
+            "userCount": 1499,
             "playerTeamInfo": {
               "height": 1.8,
               "weight": 78,
               "plays": "right-handed",
               "prizeCurrent": 5067,
-              "prizeTotal": 668143,
+              "prizeTotal": 680124,
               "birthCity": {
                 "name": "Carazinho",
                 "country": {
@@ -313,10 +348,10 @@
                 "currency": "EUR"
               },
               "prizeTotalRaw": {
-                "value": 668143,
+                "value": 680124,
                 "currency": "EUR"
               },
-              "currentRanking": 868
+              "currentRanking": 798
             },
             "nameCode": "LUZ",
             "ranking": 1072,
@@ -399,7 +434,7 @@
                 "value": 357813,
                 "currency": "EUR"
               },
-              "currentRanking": 1558
+              "currentRanking": 1584
             },
             "nameCode": "MAT",
             "national": false,
@@ -448,18 +483,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 2,
+        "period1TieBreak": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3311,
+        "period2": 1645,
+        "currentPeriodStartTimestamp": 1784725500
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784727190
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16564640,
       "defaultPeriodCount": 3,
       "slug": "ho-kittay-luz-matos",
-      "startTimestamp": 1784718000,
+      "currentPeriodStartTimestamp": 1784725500,
+      "startTimestamp": 1784721600,
       "periods": {
         "point": "Game",
         "current": "Match",

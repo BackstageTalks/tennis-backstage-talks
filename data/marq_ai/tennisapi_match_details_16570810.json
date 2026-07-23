@@ -1,7 +1,8 @@
 {
-  "saved_at": 1784609340.2233326,
+  "saved_at": 1784785128.633107,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Hamburg, Germany",
         "slug": "hamburg-germany",
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 569,
+          "userCount": 670,
           "groundType": "Red clay",
           "tennisPoints": 250,
           "hasRounds": true,
@@ -92,9 +93,35 @@
       },
       "customId": "RZqsaGC",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 2,
+      "venue": {
+        "city": {
+          "name": "Hamburg",
+          "country": {
+            "alpha2": "DE",
+            "alpha3": "DEU",
+            "name": "Germany",
+            "slug": "germany"
+          },
+          "id": 19484
+        },
+        "hidden": true,
+        "slug": "centre-court",
+        "name": "Centre Court",
+        "country": {
+          "alpha2": "DE",
+          "alpha3": "DEU",
+          "name": "Germany",
+          "slug": "germany"
+        },
+        "id": 59177,
+        "stadium": {
+          "name": "Centre Court"
+        }
       },
       "homeTeam": {
         "name": "Katarzyna Kawa",
@@ -106,12 +133,12 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4277,
+        "userCount": 4282,
         "playerTeamInfo": {
           "plays": "right-handed",
           "turnedPro": "2007",
-          "prizeCurrent": 174931,
-          "prizeTotal": 1334635,
+          "prizeCurrent": 178659,
+          "prizeTotal": 1338363,
           "birthCity": {
             "name": "Krynica-Zdroj",
             "country": {
@@ -127,14 +154,14 @@
           "birthDateTimestamp": 721958400,
           "underage": false,
           "prizeCurrentRaw": {
-            "value": 174931,
+            "value": 178659,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 1334635,
+            "value": 1338363,
             "currency": "EUR"
           },
-          "currentRanking": 102
+          "currentRanking": 106
         },
         "nameCode": "KAW",
         "ranking": 131,
@@ -177,13 +204,13 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 20678,
+        "userCount": 20782,
         "playerTeamInfo": {
           "height": 1.8,
           "plays": "right-handed",
           "turnedPro": "2013",
-          "prizeCurrent": 450338,
-          "prizeTotal": 8523001,
+          "prizeCurrent": 469587,
+          "prizeTotal": 8542250,
           "birthCity": {
             "name": "New York City",
             "country": {
@@ -210,11 +237,11 @@
           "underage": false,
           "residence": "Barcelona, Spain",
           "prizeCurrentRaw": {
-            "value": 450338,
+            "value": 469587,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 8523001,
+            "value": 8542250,
             "currency": "EUR"
           },
           "currentRanking": 46
@@ -252,18 +279,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 4,
+        "point": "15",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 4039,
+        "period2": 2507,
+        "currentPeriodStartTimestamp": 1784728199
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1784730722
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16570810,
       "defaultPeriodCount": 3,
       "slug": "paula-badosa-katarzyna-kawa",
-      "startTimestamp": 1784710800,
+      "currentPeriodStartTimestamp": 1784728199,
+      "startTimestamp": 1784723700,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -274,6 +324,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Red clay",
       "showTotoPromo": true,
