@@ -26,8 +26,8 @@
         "data/pick_history/all/2026-07-23.json"
       ],
       "history_items_loaded": 893,
-      "resolved_count": 795,
-      "pending_count": 98,
+      "resolved_count": 801,
+      "pending_count": 92,
       "unknown_count": 0
     },
     "top5": {
@@ -53,12 +53,12 @@
         "data/pick_history/top5/2026-07-23.json"
       ],
       "history_items_loaded": 108,
-      "resolved_count": 98,
-      "pending_count": 10,
+      "resolved_count": 99,
+      "pending_count": 9,
       "unknown_count": 0
     }
   },
-  "finished_results_found": 4305,
+  "finished_results_found": 4310,
   "examples_results": [
     {
       "match_id": 16515727,
@@ -2000,6 +2000,280 @@
       "raw_status": "FINISHED"
     },
     {
+      "match_id": 16515766,
+      "event_id": 16515766,
+      "date": "2026-07-23",
+      "player1": "Yannick Hanfmann",
+      "player2": "Sebastián Báez",
+      "winner": "Yannick Hanfmann",
+      "score": "6-3 6-1",
+      "status": "FINISHED",
+      "source": "TennisApi",
+      "match": "Yannick Hanfmann vs Sebastián Báez",
+      "raw": {
+        "source": "TennisApi",
+        "match_id": 16515766,
+        "event_id": 16515766,
+        "date": "2026-07-23",
+        "player1": "Yannick Hanfmann",
+        "player2": "Sebastián Báez",
+        "winner": "Yannick Hanfmann",
+        "score": "6-3 6-1",
+        "status": "FINISHED",
+        "match": "Yannick Hanfmann vs Sebastián Báez",
+        "tournament": "Kitzbuhel",
+        "category": "ATP",
+        "start_time_utc": "2026-07-23T10:45:00+00:00",
+        "raw": {
+          "firstToServe": 1,
+          "tournament": {
+            "name": "Kitzbuhel, Austria",
+            "slug": "kitzbuhel-austria",
+            "category": {
+              "name": "ATP",
+              "slug": "atp",
+              "sport": {
+                "name": "Tennis",
+                "slug": "tennis",
+                "id": 5
+              },
+              "priority": 8,
+              "country": {},
+              "id": 3,
+              "flag": "atp",
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "bn": "এটিপি",
+                  "hi": "डब्ल्यूटीए",
+                  "ar": "رابطة محترفي التنس",
+                  "ru": "ATP"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "uniqueTournament": {
+              "name": "Kitzbuhel",
+              "slug": "kitzbuhel",
+              "primaryColorHex": "#232a3c",
+              "secondaryColorHex": "#c4251c",
+              "category": {
+                "name": "ATP",
+                "slug": "atp",
+                "sport": {
+                  "name": "Tennis",
+                  "slug": "tennis",
+                  "id": 5
+                },
+                "priority": 8,
+                "country": {},
+                "id": 3,
+                "flag": "atp",
+                "fieldTranslations": {
+                  "nameTranslation": {
+                    "bn": "এটিপি",
+                    "hi": "डब्ल्यूटीए",
+                    "ar": "رابطة محترفي التنس",
+                    "ru": "ATP"
+                  },
+                  "shortNameTranslation": {}
+                }
+              },
+              "userCount": 1957,
+              "groundType": "Red clay",
+              "tennisPoints": 250,
+              "hasPerformanceGraphFeature": false,
+              "country": {},
+              "id": 2501,
+              "hasEventPlayerStatistics": false,
+              "displayInverseHomeAwayTeams": false,
+              "fieldTranslations": {
+                "nameTranslation": {
+                  "ar": "كيتزبوهيل",
+                  "hi": "किट्ज़ब्यूल",
+                  "bn": "কিটজবুহেল",
+                  "ru": "Кицбюэль"
+                },
+                "shortNameTranslation": {}
+              }
+            },
+            "priority": 0,
+            "isGroup": false,
+            "id": 191831,
+            "endTimestamp": 1784937600,
+            "startTimestamp": 1784505600
+          },
+          "season": {
+            "name": "ATP Kitzbuhel, Austria Men Singles 2026",
+            "year": "2026",
+            "editor": false,
+            "id": 81905
+          },
+          "roundInfo": {
+            "round": 27,
+            "name": "Quarterfinals",
+            "slug": "quarterfinals",
+            "cupRoundType": 4
+          },
+          "customId": "AjusgLNb",
+          "status": {
+            "code": 100,
+            "description": "Ended",
+            "type": "finished"
+          },
+          "winnerCode": 1,
+          "homeTeam": {
+            "name": "Yannick Hanfmann",
+            "slug": "hanfmann-yannick",
+            "shortName": "Y. Hanfmann",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 7147,
+            "playerTeamInfo": {
+              "id": 212
+            },
+            "nameCode": "HAN",
+            "ranking": 52,
+            "disabled": false,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "DE",
+              "alpha3": "DEU",
+              "name": "Germany",
+              "slug": "germany"
+            },
+            "id": 47975,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "يانيك هانفمان",
+                "ru": "Ханфманн, Янник"
+              },
+              "shortNameTranslation": {
+                "ar": "ي. هانفمان",
+                "bn": "ওয়াই. হ্যানফম্যান",
+                "hi": "वाई. हैंफमैन"
+              }
+            }
+          },
+          "awayTeam": {
+            "name": "Sebastián Báez",
+            "slug": "baez-sebastian",
+            "shortName": "S. Báez",
+            "gender": "M",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "userCount": 11737,
+            "playerTeamInfo": {
+              "id": 2882
+            },
+            "nameCode": "BAE",
+            "ranking": 56,
+            "disabled": false,
+            "national": false,
+            "type": 1,
+            "country": {
+              "alpha2": "AR",
+              "alpha3": "ARG",
+              "name": "Argentina",
+              "slug": "argentina"
+            },
+            "id": 221806,
+            "subTeams": [],
+            "teamColors": {
+              "primary": "#374df5",
+              "secondary": "#374df5",
+              "text": "#ffffff"
+            },
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "سيباستيان بايز",
+                "ru": "Баэс, Себастьян"
+              },
+              "shortNameTranslation": {
+                "ar": "س. بايز",
+                "bn": "এস. বেজ",
+                "hi": "एस. बैज़"
+              }
+            }
+          },
+          "homeScore": {
+            "current": 2,
+            "display": 2,
+            "period1": 6,
+            "period2": 6,
+            "point": "A",
+            "normaltime": 2
+          },
+          "awayScore": {
+            "current": 0,
+            "display": 0,
+            "period1": 3,
+            "period2": 1,
+            "point": "40",
+            "normaltime": 0
+          },
+          "time": {
+            "period1": 2452,
+            "period2": 2264,
+            "currentPeriodStartTimestamp": 1784806563
+          },
+          "changes": {
+            "changes": [
+              "time.currentPeriodStart",
+              "time.period2"
+            ],
+            "changeTimestamp": 1784808878
+          },
+          "hasGlobalHighlights": false,
+          "crowdsourcingDataDisplayEnabled": false,
+          "id": 16515766,
+          "slug": "sebastian-baez-yannick-hanfmann",
+          "startTimestamp": 1784803500,
+          "periods": {
+            "point": "Game",
+            "current": "Match",
+            "period1": "1st set",
+            "period2": "2nd set",
+            "period3": "3rd set",
+            "period4": "4th set",
+            "period5": "5th set"
+          },
+          "finalResultOnly": false,
+          "feedLocked": false,
+          "groundType": "Red clay",
+          "isEditor": false,
+          "eventFilters": {
+            "category": [
+              "singles"
+            ],
+            "level": [
+              "pro"
+            ],
+            "tournament": [
+              "p250"
+            ],
+            "gender": [
+              "M"
+            ]
+          }
+        }
+      },
+      "raw_status": "FINISHED"
+    },
+    {
       "match_id": 16564640,
       "event_id": 16564640,
       "date": "2026-07-22",
@@ -2800,384 +3074,6 @@
         }
       },
       "raw_status": "FINISHED"
-    },
-    {
-      "match_id": 16564641,
-      "event_id": 16564641,
-      "date": "2026-07-22",
-      "player1": "Burruchaga R A / Ugo Carabelli C",
-      "player2": "Faria J / Rocha H",
-      "winner": null,
-      "score": null,
-      "status": "VOID",
-      "source": "TennisApi",
-      "match": "Burruchaga R A / Ugo Carabelli C vs Faria J / Rocha H",
-      "raw": {
-        "source": "TennisApi",
-        "match_id": 16564641,
-        "event_id": 16564641,
-        "date": "2026-07-22",
-        "player1": "Burruchaga R A / Ugo Carabelli C",
-        "player2": "Faria J / Rocha H",
-        "winner": null,
-        "score": null,
-        "status": "VOID",
-        "match": "Burruchaga R A / Ugo Carabelli C vs Faria J / Rocha H",
-        "tournament": "Estoril, Doubles",
-        "category": "ATP",
-        "start_time_utc": "2026-07-22T17:15:00+00:00",
-        "raw": {
-          "awayTeamSeed": "WC",
-          "tournament": {
-            "name": "Estoril, Portugal, Doubles",
-            "slug": "estoril-portugal-doubles",
-            "category": {
-              "name": "ATP",
-              "slug": "atp",
-              "sport": {
-                "name": "Tennis",
-                "slug": "tennis",
-                "id": 5
-              },
-              "priority": 8,
-              "country": {},
-              "id": 3,
-              "flag": "atp",
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "bn": "এটিপি",
-                  "hi": "डब्ल्यूटीए",
-                  "ar": "رابطة محترفي التنس",
-                  "ru": "ATP"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "uniqueTournament": {
-              "name": "Estoril, Doubles",
-              "slug": "estoril-doubles",
-              "primaryColorHex": "#eedf00",
-              "secondaryColorHex": "#c1b300",
-              "category": {
-                "name": "ATP",
-                "slug": "atp",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "priority": 8,
-                "country": {},
-                "id": 3,
-                "flag": "atp",
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "bn": "এটিপি",
-                    "hi": "डब्ल्यूटीए",
-                    "ar": "رابطة محترفي التنس",
-                    "ru": "ATP"
-                  },
-                  "shortNameTranslation": {}
-                }
-              },
-              "userCount": 159,
-              "groundType": "Red clay",
-              "tennisPoints": 250,
-              "hasPerformanceGraphFeature": false,
-              "country": {},
-              "id": 2529,
-              "hasEventPlayerStatistics": false,
-              "displayInverseHomeAwayTeams": false,
-              "fieldTranslations": {
-                "nameTranslation": {
-                  "ar": "إستوريل، زوجي",
-                  "ru": "Эшторил, парный разряд"
-                },
-                "shortNameTranslation": {}
-              }
-            },
-            "priority": 0,
-            "isGroup": false,
-            "id": 191830,
-            "endTimestamp": 1785024000,
-            "startTimestamp": 1784505600
-          },
-          "season": {
-            "name": "ATP Estoril, Portugal Men Doubles 2026",
-            "year": "2026",
-            "editor": false,
-            "id": 82382
-          },
-          "roundInfo": {
-            "round": 5,
-            "name": "Round of 16",
-            "slug": "round-of-16",
-            "cupRoundType": 8
-          },
-          "customId": "xPgdsjNZj",
-          "status": {
-            "code": 70,
-            "description": "Canceled",
-            "type": "canceled"
-          },
-          "homeTeam": {
-            "name": "Burruchaga R A / Ugo Carabelli C",
-            "slug": "burruchaga-r-a-ugo-carabelli-c",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 2,
-            "nameCode": "B/U",
-            "national": false,
-            "type": 2,
-            "country": {},
-            "id": 1249409,
-            "subTeams": [
-              {
-                "name": "Roman Andres Burruchaga",
-                "slug": "burruchaga-roman-andres",
-                "shortName": "R. Burruchaga",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 4793,
-                "nameCode": "BUR",
-                "ranking": 60,
-                "disabled": false,
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "AR",
-                  "alpha3": "ARG",
-                  "name": "Argentina",
-                  "slug": "argentina"
-                },
-                "id": 287181,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "رومان أندريس بوروتشاغا",
-                    "ru": "Бурручага, Роман Андрес"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "ر. بوروتشاغا"
-                  }
-                }
-              },
-              {
-                "name": "Camilo Ugo Carabelli",
-                "slug": "ugo-carabelli-camilo",
-                "shortName": "C. Ugo Carabelli",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 6731,
-                "nameCode": "UGO",
-                "ranking": 69,
-                "disabled": false,
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "AR",
-                  "alpha3": "ARG",
-                  "name": "Argentina",
-                  "slug": "argentina"
-                },
-                "id": 196122,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "كاميلو أوجو كارابيلي",
-                    "ru": "Уго Карабельи, Камило"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "ك. كارابيلي",
-                    "bn": "সি. উগো কারাবেলি",
-                    "hi": "सी. उगो काराबेली"
-                  }
-                }
-              }
-            ],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            }
-          },
-          "awayTeam": {
-            "name": "Faria J / Rocha H",
-            "slug": "faria-j-rocha-h",
-            "gender": "M",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "userCount": 38,
-            "nameCode": "F/R",
-            "national": false,
-            "type": 2,
-            "country": {},
-            "id": 392022,
-            "subTeams": [
-              {
-                "name": "Jaime Faria",
-                "slug": "faria-jaime",
-                "shortName": "J. Faria",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 7542,
-                "nameCode": "FAR",
-                "ranking": 88,
-                "disabled": false,
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "PT",
-                  "alpha3": "PRT",
-                  "name": "Portugal",
-                  "slug": "portugal"
-                },
-                "id": 341818,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "خايمي فاريا",
-                    "ru": "Хайме Фария"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "خ. فاريا",
-                    "ru": "Х. Фария"
-                  }
-                }
-              },
-              {
-                "name": "Henrique Rocha",
-                "slug": "rocha-henrique",
-                "shortName": "H. Rocha",
-                "gender": "M",
-                "sport": {
-                  "name": "Tennis",
-                  "slug": "tennis",
-                  "id": 5
-                },
-                "userCount": 5240,
-                "nameCode": "ROC",
-                "ranking": 123,
-                "national": false,
-                "type": 1,
-                "country": {
-                  "alpha2": "PT",
-                  "alpha3": "PRT",
-                  "name": "Portugal",
-                  "slug": "portugal"
-                },
-                "id": 341820,
-                "subTeams": [],
-                "teamColors": {
-                  "primary": "#374df5",
-                  "secondary": "#374df5",
-                  "text": "#ffffff"
-                },
-                "fieldTranslations": {
-                  "nameTranslation": {
-                    "ar": "هنريكي روشا",
-                    "ru": "Энрике Роша"
-                  },
-                  "shortNameTranslation": {
-                    "ar": "ه. روشا",
-                    "ru": "Э. Роша"
-                  }
-                }
-              }
-            ],
-            "teamColors": {
-              "primary": "#374df5",
-              "secondary": "#374df5",
-              "text": "#ffffff"
-            },
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "فاريا ج / روشا ه",
-                "ru": "Фария Й / Роша Х"
-              },
-              "shortNameTranslation": {}
-            }
-          },
-          "homeScore": {},
-          "awayScore": {},
-          "time": {},
-          "changes": {
-            "changes": [
-              "status.code",
-              "status.description",
-              "status.type"
-            ],
-            "changeTimestamp": 1784750534
-          },
-          "hasGlobalHighlights": false,
-          "crowdsourcingDataDisplayEnabled": false,
-          "id": 16564641,
-          "slug": "burruchagaa-ugo-carabelli-faria-rocha",
-          "startTimestamp": 1784740500,
-          "periods": {
-            "point": "Game",
-            "current": "Match",
-            "period1": "1st set",
-            "period2": "2nd set",
-            "period3": "3rd set",
-            "period4": "4th set",
-            "period5": "5th set"
-          },
-          "finalResultOnly": false,
-          "feedLocked": false,
-          "groundType": "Red clay",
-          "isEditor": false,
-          "eventFilters": {
-            "category": [
-              "doubles"
-            ],
-            "level": [
-              "pro"
-            ],
-            "tournament": [
-              "p250"
-            ],
-            "gender": [
-              "M"
-            ]
-          }
-        }
-      },
-      "raw_status": "VOID"
     }
   ],
   "examples_resolved": [
@@ -3789,7 +3685,6 @@
       "public/all_predictions_latest.json",
       "public/corq_predictions_latest.json",
       "public/thinq_predictions_latest.json",
-      "public/cloq_predictions_latest.json",
       "public/all_predictions_2026-07-07.json",
       "public/all_predictions_2026-07-08.json",
       "public/all_predictions_2026-07-09.json",
@@ -3835,10 +3730,11 @@
       "data/pick_history/top5/2026-07-10.json",
       "data/pick_history/top5/2026-07-11.json",
       "data/pick_history/top5/2026-07-12.json",
-      "data/pick_history/top5/2026-07-13.json"
+      "data/pick_history/top5/2026-07-13.json",
+      "data/pick_history/top5/2026-07-14.json"
     ],
-    "items_indexed": 1249,
-    "items_enriched": 559
+    "items_indexed": 1225,
+    "items_enriched": 550
   },
   "examples_date_rejected": [
     {
@@ -3899,6 +3795,14 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-23",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Yannick Hanfmann vs Sebastián Báez",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-22",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
@@ -3951,6 +3855,14 @@
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Pavlasek A / Rikl P vs Miedler L / Polmans M",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-23",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Herbert P-H / Krawietz K vs Neumayer L / Schwaerzler J",
       "result_status": "FINISHED"
     },
     {
@@ -4011,11 +3923,27 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-23",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Nikola Bartunkova vs Lanlana Tararudee",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-22",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Zaar L / Zimmermann K vs Brockmann T J / Kraus S",
       "result_status": "VOID"
+    },
+    {
+      "pick_date": "2026-07-03",
+      "result_date": "2026-07-23",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Jakupovic D / Radisic N vs Kozyreva M / Pridankina E",
+      "result_status": "FINISHED"
     },
     {
       "pick_date": "2026-07-03",
@@ -4035,50 +3963,18 @@
     },
     {
       "pick_date": "2026-07-03",
+      "result_date": "2026-07-23",
+      "pick": "Jannik Sinner",
+      "match": "Jannik Sinner vs Jenson Brooksby",
+      "result_match": "Falkowska W / Smith A vs Chan H / Kato M",
+      "result_status": "FINISHED"
+    },
+    {
+      "pick_date": "2026-07-03",
       "result_date": "2026-07-22",
       "pick": "Jannik Sinner",
       "match": "Jannik Sinner vs Jenson Brooksby",
       "result_match": "Jennifer Ruggeri vs Lola Radivojević",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-22",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Ekaterine Gorgodze vs Yasmine Kabbaj",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-22",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Clara Burel vs Federica Urgesi",
-      "result_status": "VOID"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-22",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Fiona Ferro vs Erika Andreeva",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-22",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Tikhonova A / Zidansek T vs Da Silva Fick G / McGiffin T",
-      "result_status": "FINISHED"
-    },
-    {
-      "pick_date": "2026-07-03",
-      "result_date": "2026-07-22",
-      "pick": "Jannik Sinner",
-      "match": "Jannik Sinner vs Jenson Brooksby",
-      "result_match": "Dražić M / Shinikova I vs Hennemann C W / Toth A K",
       "result_status": "FINISHED"
     }
   ],
