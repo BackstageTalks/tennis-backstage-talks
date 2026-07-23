@@ -9,13 +9,13 @@ from typing import Any, Dict, Iterable, List
 import importlib
 
 from match_normalizer import normalize_match
+from .odds import enrich_odds
 from .model import CorqModel
 from .ranking import rank_predictions, top_n_from_ranked
 from .outputs import publish_outputs
 
 
 def _extract_match_list(data: Any) -> List[Dict[str, Any]] | None:
-    """Extract a match list from common return payload shapes."""
     if isinstance(data, list):
         return data
     if isinstance(data, dict):
@@ -27,30 +27,16 @@ def _extract_match_list(data: Any) -> List[Dict[str, Any]] | None:
 
 
 def load_raw_matches() -> List[Dict[str, Any]]:
-    """Load raw matches from the current fetch_matches.py source.
-
-    Existing project naming uses get_today_matches() / get_matches_for_date().
-    The clean runtime now supports both old and clean source function names.
-    """
     fetch = importlib.import_module("fetch_matches")
 
-    # Most likely existing project entrypoints first.
-    for name in [
-        "get_today_matches",
-        "fetch_matches",
-        "get_matches",
-        "load_matches",
-        "main",
-    ]:
+    for name in ["get_today_matches", "fetch_matches", "get_matches", "load_matches", "main"]:
         func = getattr(fetch, name, None)
-        if not callable(func):
-            continue
-        data = func()
-        matches = _extract_match_list(data)
-        if matches is not None:
-            return matches
+        if callable(func):
+            data = func()
+            matches = _extract_match_list(data)
+            if matches is not None:
+                return matches
 
-    # Optional date-based loader fallback. It may require betting_day() from same module.
     get_for_date = getattr(fetch, "get_matches_for_date", None)
     if callable(get_for_date):
         target_date = None
@@ -74,7 +60,6 @@ def load_raw_matches() -> List[Dict[str, Any]]:
 
 
 def build_thinq(match: Dict[str, Any]) -> Dict[str, Any]:
-    """Call THINQ and never let THINQ errors kill the CORQ build."""
     try:
         from thinq.service import ThinqService
         return ThinqService().analyse_match(match)
@@ -107,10 +92,10 @@ def build_predictions(raw_matches: Iterable[Dict[str, Any]]) -> List[Dict[str, A
     predictions: List[Dict[str, Any]] = []
     for raw in raw_matches:
         match = normalize_match(raw)
+        match = enrich_odds(match)
         thinq = build_thinq(match)
         match["thinq"] = thinq
 
-        # Flatten critical audit fields for JSON/search/UI convenience.
         surface = thinq.get("surface") or {}
         match["surface"] = surface.get("surface") or match.get("surface") or "Unknown"
         match["surface_raw"] = surface.get("surface_raw")
