@@ -1,25 +1,25 @@
 [
   {
-    "match_id": 16602257,
-    "event_id": 16602257,
-    "id": 16602257,
+    "match_id": 16515859,
+    "event_id": 16515859,
+    "id": 16515859,
     "source": "TennisApiPROCategoryEvents",
-    "player1": "Isabella Marton",
-    "player2": "Thara Gowda",
-    "match": "Isabella Marton vs Thara Gowda",
+    "player1": "Alex Michelsen",
+    "player2": "Lloyd Harris",
+    "match": "Alex Michelsen vs Lloyd Harris",
     "surface": "Hard",
-    "tournament": "ITF W35 Saskatoon Women",
-    "category": "ITF Women",
-    "gender": "WTA",
+    "tournament": "Bloomfield Hills, USA",
+    "category": "Challenger",
+    "gender": "ATP",
     "best_of": 3,
-    "tournament_id": 192171,
-    "tournamentId": 192171,
-    "unique_tournament_id": 36146,
-    "uniqueTournamentId": 36146,
+    "tournament_id": 191834,
+    "tournamentId": 191834,
+    "unique_tournament_id": 20666,
+    "uniqueTournamentId": 20666,
     "competition_id": null,
     "competitionId": null,
-    "category_id": 213,
-    "categoryId": 213,
+    "category_id": 72,
+    "categoryId": 72,
     "surface_raw": "Hardcourt outdoor",
     "surface_environment": "Outdoor",
     "surface_model_bucket": "Hard",
@@ -27,77 +27,92 @@
     "surface_confidence": "MEDIUM",
     "surface_flags": [],
     "thinq_selected_elo_type": "hard_elo",
-    "match_start": "2026-07-23T20:03:59+00:00",
-    "start_time": "2026-07-23T20:03:59+00:00",
-    "commence_time": "2026-07-23T20:03:59+00:00",
-    "start_timestamp": 1784837039,
+    "match_start": "2026-07-23T20:20:00+00:00",
+    "start_time": "2026-07-23T20:20:00+00:00",
+    "commence_time": "2026-07-23T20:20:00+00:00",
+    "start_timestamp": 1784838000,
     "status": "NOT_STARTED",
     "round": "Round of 16",
-    "home_seed": null,
+    "home_seed": "1",
     "away_seed": null,
     "raw": {
+      "homeTeamSeed": "1",
       "tournament": {
-        "name": "ITF W35 Saskatoon Women",
-        "slug": "itf-w35-saskatoon-women",
+        "name": "Bloomfield Hills, USA",
+        "slug": "bloomfield-hills-usa",
         "category": {
-          "name": "ITF Women",
-          "slug": "itf-women",
+          "name": "Challenger",
+          "slug": "challenger",
           "sport": {
             "name": "Tennis",
             "slug": "tennis",
             "id": 5
           },
-          "priority": 3,
+          "priority": 6,
           "country": {},
-          "id": 213,
-          "flag": "itf-women",
+          "id": 72,
+          "flag": "challenger",
           "fieldTranslations": {
             "nameTranslation": {
-              "ar": "اتحاد التنس الدولي للسيدات",
-              "ru": "Женский мировой теннисный тур ITF"
+              "bn": "চ্যালেঞ্জার",
+              "ar": "تحدي (تنس)",
+              "hi": "डेनमार्क",
+              "ru": "Challenger"
             },
             "shortNameTranslation": {}
           }
         },
         "uniqueTournament": {
-          "name": "ITF W35 Saskatoon Women",
-          "slug": "itf-w35-saskatoon-women",
+          "name": "Bloomfield Hills, USA",
+          "slug": "bloomfield-hills-usa",
           "category": {
-            "name": "ITF Women",
-            "slug": "itf-women",
+            "name": "Challenger",
+            "slug": "challenger",
             "sport": {
               "name": "Tennis",
               "slug": "tennis",
               "id": 5
             },
-            "priority": 3,
+            "priority": 6,
             "country": {},
-            "id": 213,
-            "flag": "itf-women",
+            "id": 72,
+            "flag": "challenger",
             "fieldTranslations": {
               "nameTranslation": {
-                "ar": "اتحاد التنس الدولي للسيدات",
-                "ru": "Женский мировой теннисный тур ITF"
+                "bn": "চ্যালেঞ্জার",
+                "ar": "تحدي (تنس)",
+                "hi": "डेनमार्क",
+                "ru": "Challenger"
               },
               "shortNameTranslation": {}
             }
           },
-          "userCount": 16,
+          "userCount": 184,
           "groundType": "Hardcourt outdoor",
           "hasPerformanceGraphFeature": false,
           "country": {},
-          "id": 36146,
+          "id": 20666,
           "hasEventPlayerStatistics": false,
-          "displayInverseHomeAwayTeams": false
+          "displayInverseHomeAwayTeams": false,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "بلومفيلد هيلز، الولايات المتحدة الأمريكية",
+              "ru": "Лига Bloomfield Hills, США"
+            },
+            "shortNameTranslation": {}
+          }
         },
         "priority": 0,
-        "id": 192171
+        "isGroup": false,
+        "id": 191834,
+        "endTimestamp": 1785024000,
+        "startTimestamp": 1784505600
       },
       "season": {
-        "name": "2026",
+        "name": "ATP Challenger Bloomfield Hills, USA Men Singles 2026",
         "year": "2026",
         "editor": false,
-        "id": 98525
+        "id": 89924
       },
       "roundInfo": {
         "round": 5,
@@ -105,70 +120,29 @@
         "slug": "round-of-16",
         "cupRoundType": 8
       },
-      "customId": "cgudsQGri",
+      "customId": "ignbsDJmd",
       "status": {
         "code": 0,
         "description": "Not started",
         "type": "notstarted"
       },
       "homeTeam": {
-        "name": "Isabella Marton",
-        "slug": "marton-isabella",
-        "shortName": "I. Marton",
-        "gender": "F",
+        "name": "Alex Michelsen",
+        "slug": "michelsen-alex",
+        "shortName": "A. Michelsen",
+        "gender": "M",
         "sport": {
           "name": "Tennis",
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 83,
+        "userCount": 7278,
         "playerTeamInfo": {
-          "id": 27258
+          "id": 5333
         },
-        "nameCode": "MAR",
-        "ranking": 992,
-        "national": false,
-        "type": 1,
-        "country": {
-          "alpha2": "CA",
-          "alpha3": "CAN",
-          "name": "Canada",
-          "slug": "canada"
-        },
-        "id": 422802,
-        "subTeams": [],
-        "teamColors": {
-          "primary": "#374df5",
-          "secondary": "#374df5",
-          "text": "#ffffff"
-        },
-        "fieldTranslations": {
-          "nameTranslation": {
-            "ar": "إيزابيلا مارتون",
-            "ru": "Изабелла Мартон"
-          },
-          "shortNameTranslation": {
-            "ar": "إ. مارتون",
-            "ru": "И. Мартон"
-          }
-        }
-      },
-      "awayTeam": {
-        "name": "Thara Gowda",
-        "slug": "gowda-thara",
-        "shortName": "T. Gowda",
-        "gender": "F",
-        "sport": {
-          "name": "Tennis",
-          "slug": "tennis",
-          "id": 5
-        },
-        "userCount": 82,
-        "playerTeamInfo": {
-          "id": 47316
-        },
-        "nameCode": "TGO",
-        "ranking": 1033,
+        "nameCode": "MIC",
+        "ranking": 44,
+        "disabled": false,
         "national": false,
         "type": 1,
         "country": {
@@ -177,7 +151,7 @@
           "name": "USA",
           "slug": "usa"
         },
-        "id": 1044091,
+        "id": 406728,
         "subTeams": [],
         "teamColors": {
           "primary": "#374df5",
@@ -186,320 +160,43 @@
         },
         "fieldTranslations": {
           "nameTranslation": {
-            "ar": "ثارا غودا",
-            "ru": "Тара Говда"
+            "ar": "أليكس ميشيلسن",
+            "bn": "অ্যালেক্স মিশেলসেন",
+            "hi": "एलेक्स मिकेलसन",
+            "ru": "Алекс Михельсен"
           },
           "shortNameTranslation": {
-            "ar": "ث. غودا",
-            "ru": "Т. Говда"
-          }
-        }
-      },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changes": [
-          "providerLock.status"
-        ],
-        "changeTimestamp": 1784836529
-      },
-      "hasGlobalHighlights": false,
-      "crowdsourcingDataDisplayEnabled": false,
-      "id": 16602257,
-      "slug": "thara-gowda-isabella-marton",
-      "startTimestamp": 1784837039,
-      "periods": {
-        "point": "Game",
-        "current": "Match",
-        "period1": "1st set",
-        "period2": "2nd set",
-        "period3": "3rd set",
-        "period4": "4th set",
-        "period5": "5th set"
-      },
-      "finalResultOnly": false,
-      "feedLocked": false,
-      "groundType": "Hardcourt outdoor",
-      "isEditor": false,
-      "eventFilters": {
-        "category": [
-          "singles"
-        ],
-        "level": [
-          "pro"
-        ],
-        "tournament": [
-          "lower"
-        ],
-        "gender": [
-          "F"
-        ]
-      }
-    },
-    "eventId": 16602257,
-    "pick": "Isabella Marton",
-    "opponent": "Thara Gowda",
-    "odds_player1": null,
-    "odds_player2": null,
-    "pick_odds": null,
-    "opponent_odds": null,
-    "odds_pair_available": false,
-    "is_doubles": false,
-    "thinq": {
-      "available": true,
-      "error": null,
-      "confidence": 0.15,
-      "surface": {
-        "surface": "Hard",
-        "surface_raw": "Hardcourt outdoor",
-        "surface_environment": "Outdoor",
-        "surface_model_bucket": "Hard",
-        "surface_confidence": "HIGH",
-        "surface_flags": [],
-        "thinq_selected_elo_type": "hard_elo",
-        "surface_source": "raw_match_fallback_after_api_error",
-        "surface_error": "Expecting value: line 1 column 1 (char 0)",
-        "tournament_id": 192171,
-        "tournament": "ITF W35 Saskatoon Women"
-      },
-      "elo": {
-        "status": "NO_DATA",
-        "selected_elo_type": "hard_elo",
-        "player1_elo": null,
-        "player2_elo": null,
-        "pick_elo_edge": 0.0
-      },
-      "h2h": {
-        "status": "NO_DATA",
-        "source": "none",
-        "total_matches": 0,
-        "player1_wins": 0,
-        "player2_wins": 0,
-        "pick_wins": 0,
-        "opponent_wins": 0,
-        "edge": 0.0,
-        "confidence": 0.0,
-        "reason": "No API H2H events returned",
-        "flags": [
-          "NO_DATA"
-        ]
-      },
-      "edges": {
-        "elo_edge": 0.0,
-        "h2h_edge": 0.0
-      },
-      "flags": [
-        "MISSING_ELO",
-        "NO_DATA"
-      ]
-    },
-    "thinq_available": true,
-    "thinq_error": null,
-    "thinq_confidence": 0.15,
-    "thinq_edges": {
-      "elo_edge": 0.0,
-      "h2h_edge": 0.0
-    },
-    "thinq_h2h_status": "NO_DATA",
-    "thinq_h2h_edge": 0.0,
-    "thinq_h2h_source": "none",
-    "thinq_h2h_confidence": 0.0,
-    "corq_raw_probability": 0.485,
-    "thinq_total_adjustment": 0.0,
-    "corq_thinq_contributions": {},
-    "corq_probability": 0.465,
-    "probability": 0.465,
-    "corq_edge": null,
-    "corq_edge_bonus": 0.0,
-    "corq_risk_penalty": 0.02,
-    "corq_risk_flags": [
-      "LOW_THINQ_CONFIDENCE"
-    ],
-    "corq_adjusted_score": 0.445,
-    "corq_reject_reasons": [
-      "MISSING_PICK_ODDS"
-    ],
-    "corq_eligible": false
-  },
-  {
-    "match_id": 16602254,
-    "event_id": 16602254,
-    "id": 16602254,
-    "source": "TennisApiPROCategoryEvents",
-    "player1": "Lilian Poling",
-    "player2": "Emma SI Yu Dong",
-    "match": "Lilian Poling vs Emma SI Yu Dong",
-    "surface": "Hard",
-    "tournament": "ITF W35 Saskatoon Women",
-    "category": "ITF Women",
-    "gender": "WTA",
-    "best_of": 3,
-    "tournament_id": 192171,
-    "tournamentId": 192171,
-    "unique_tournament_id": 36146,
-    "uniqueTournamentId": 36146,
-    "competition_id": null,
-    "competitionId": null,
-    "category_id": 213,
-    "categoryId": 213,
-    "surface_raw": "Hardcourt outdoor",
-    "surface_environment": "Outdoor",
-    "surface_model_bucket": "Hard",
-    "surface_source": "raw_match_fallback_after_api_error",
-    "surface_confidence": "MEDIUM",
-    "surface_flags": [],
-    "thinq_selected_elo_type": "hard_elo",
-    "match_start": "2026-07-23T20:07:02+00:00",
-    "start_time": "2026-07-23T20:07:02+00:00",
-    "commence_time": "2026-07-23T20:07:02+00:00",
-    "start_timestamp": 1784837222,
-    "status": "NOT_STARTED",
-    "round": "Round of 16",
-    "home_seed": null,
-    "away_seed": null,
-    "raw": {
-      "tournament": {
-        "name": "ITF W35 Saskatoon Women",
-        "slug": "itf-w35-saskatoon-women",
-        "category": {
-          "name": "ITF Women",
-          "slug": "itf-women",
-          "sport": {
-            "name": "Tennis",
-            "slug": "tennis",
-            "id": 5
-          },
-          "priority": 3,
-          "country": {},
-          "id": 213,
-          "flag": "itf-women",
-          "fieldTranslations": {
-            "nameTranslation": {
-              "ar": "اتحاد التنس الدولي للسيدات",
-              "ru": "Женский мировой теннисный тур ITF"
-            },
-            "shortNameTranslation": {}
-          }
-        },
-        "uniqueTournament": {
-          "name": "ITF W35 Saskatoon Women",
-          "slug": "itf-w35-saskatoon-women",
-          "category": {
-            "name": "ITF Women",
-            "slug": "itf-women",
-            "sport": {
-              "name": "Tennis",
-              "slug": "tennis",
-              "id": 5
-            },
-            "priority": 3,
-            "country": {},
-            "id": 213,
-            "flag": "itf-women",
-            "fieldTranslations": {
-              "nameTranslation": {
-                "ar": "اتحاد التنس الدولي للسيدات",
-                "ru": "Женский мировой теннисный тур ITF"
-              },
-              "shortNameTranslation": {}
-            }
-          },
-          "userCount": 16,
-          "groundType": "Hardcourt outdoor",
-          "hasPerformanceGraphFeature": false,
-          "country": {},
-          "id": 36146,
-          "hasEventPlayerStatistics": false,
-          "displayInverseHomeAwayTeams": false
-        },
-        "priority": 0,
-        "id": 192171
-      },
-      "season": {
-        "name": "2026",
-        "year": "2026",
-        "editor": false,
-        "id": 98525
-      },
-      "roundInfo": {
-        "round": 5,
-        "name": "Round of 16",
-        "slug": "round-of-16",
-        "cupRoundType": 8
-      },
-      "customId": "wpLbsEETd",
-      "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
-      },
-      "homeTeam": {
-        "name": "Lilian Poling",
-        "slug": "poling-lilian",
-        "shortName": "L. Poling",
-        "gender": "F",
-        "sport": {
-          "name": "Tennis",
-          "slug": "tennis",
-          "id": 5
-        },
-        "userCount": 73,
-        "playerTeamInfo": {
-          "id": 13341
-        },
-        "nameCode": "POL",
-        "ranking": 951,
-        "national": false,
-        "type": 1,
-        "country": {
-          "alpha2": "US",
-          "alpha3": "USA",
-          "name": "USA",
-          "slug": "usa"
-        },
-        "id": 215771,
-        "subTeams": [],
-        "teamColors": {
-          "primary": "#374df5",
-          "secondary": "#374df5",
-          "text": "#ffffff"
-        },
-        "fieldTranslations": {
-          "nameTranslation": {
-            "ar": "ليليان بولينغ",
-            "ru": "Лилиан Полинг"
-          },
-          "shortNameTranslation": {
-            "ar": "ل. بولينغ",
-            "ru": "Л. Полинг"
+            "ar": "أ. ميشيلسن",
+            "ru": "А. Михельсен"
           }
         }
       },
       "awayTeam": {
-        "name": "Emma SI Yu Dong",
-        "slug": "dong-emma-si-yu",
-        "shortName": "E. S. Y. Dong",
-        "gender": "F",
+        "name": "Lloyd Harris",
+        "slug": "harris-lloyd",
+        "shortName": "L. Harris",
+        "gender": "M",
         "sport": {
           "name": "Tennis",
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 39,
+        "userCount": 3658,
         "playerTeamInfo": {
-          "id": 19136
+          "id": 100
         },
-        "nameCode": "DON",
+        "nameCode": "HAR",
+        "ranking": 186,
+        "disabled": false,
         "national": false,
         "type": 1,
         "country": {
-          "alpha2": "CA",
-          "alpha3": "CAN",
-          "name": "Canada",
-          "slug": "canada"
+          "alpha2": "ZA",
+          "alpha3": "ZAF",
+          "name": "South Africa",
+          "slug": "south-africa"
         },
-        "id": 483979,
+        "id": 157808,
         "subTeams": [],
         "teamColors": {
           "primary": "#374df5",
@@ -508,12 +205,13 @@
         },
         "fieldTranslations": {
           "nameTranslation": {
-            "ar": "إيما س. ي. دوغ",
-            "ru": "Эмма СИ Ю Дун"
+            "ar": "لويد هاريس",
+            "ru": "Харрис, Ллойд"
           },
           "shortNameTranslation": {
-            "ar": "إ. دوغ",
-            "ru": "Э. Дун"
+            "ar": "ل. هاريس",
+            "bn": "এল. হ্যারিস",
+            "hi": "एल. हैरिस"
           }
         }
       },
@@ -525,9 +223,9 @@
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
-      "id": 16602254,
-      "slug": "emma-si-yu-dong-lilian-poling",
-      "startTimestamp": 1784837222,
+      "id": 16515859,
+      "slug": "alex-michelsen-lloyd-harris",
+      "startTimestamp": 1784838000,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -552,23 +250,33 @@
           "lower"
         ],
         "gender": [
-          "F"
+          "M"
         ]
       }
     },
-    "eventId": 16602254,
-    "pick": "Lilian Poling",
-    "opponent": "Emma SI Yu Dong",
-    "odds_player1": null,
-    "odds_player2": null,
-    "pick_odds": null,
-    "opponent_odds": null,
-    "odds_pair_available": false,
+    "eventId": 16515859,
+    "pick": "Alex Michelsen",
+    "opponent": "Lloyd Harris",
+    "odds_player1": 1.28,
+    "odds_player2": 3.5,
+    "pick_odds": 1.28,
+    "opponent_odds": 3.5,
+    "odds_pair_available": true,
     "is_doubles": false,
+    "p1_odds": 1.28,
+    "p2_odds": 3.5,
+    "home_odds": 1.28,
+    "away_odds": 3.5,
+    "odds": 1.28,
+    "odds_source": "TennisApiMatchBettingOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 2.22,
+    "odds_gap_pct": 1.7344,
     "thinq": {
       "available": true,
       "error": null,
-      "confidence": 0.15,
+      "confidence": 0.7,
       "surface": {
         "surface": "Hard",
         "surface_raw": "Hardcourt outdoor",
@@ -579,15 +287,15 @@
         "thinq_selected_elo_type": "hard_elo",
         "surface_source": "raw_match_fallback_after_api_error",
         "surface_error": "Expecting value: line 1 column 1 (char 0)",
-        "tournament_id": 192171,
-        "tournament": "ITF W35 Saskatoon Women"
+        "tournament_id": 191834,
+        "tournament": "Bloomfield Hills, USA"
       },
       "elo": {
-        "status": "NO_DATA",
+        "status": "OK",
         "selected_elo_type": "hard_elo",
-        "player1_elo": null,
-        "player2_elo": null,
-        "pick_elo_edge": 0.0
+        "player1_elo": 1796.0,
+        "player2_elo": 1640.2,
+        "pick_elo_edge": 0.0779
       },
       "h2h": {
         "status": "NO_DATA",
@@ -605,39 +313,40 @@
         ]
       },
       "edges": {
-        "elo_edge": 0.0,
+        "elo_edge": 0.0779,
         "h2h_edge": 0.0
       },
       "flags": [
-        "MISSING_ELO",
         "NO_DATA"
       ]
     },
     "thinq_available": true,
     "thinq_error": null,
-    "thinq_confidence": 0.15,
+    "thinq_confidence": 0.7,
     "thinq_edges": {
-      "elo_edge": 0.0,
+      "elo_edge": 0.0779,
       "h2h_edge": 0.0
     },
     "thinq_h2h_status": "NO_DATA",
     "thinq_h2h_edge": 0.0,
     "thinq_h2h_source": "none",
     "thinq_h2h_confidence": 0.0,
-    "corq_raw_probability": 0.485,
-    "thinq_total_adjustment": 0.0,
-    "corq_thinq_contributions": {},
-    "corq_probability": 0.465,
-    "probability": 0.465,
-    "corq_edge": null,
-    "corq_edge_bonus": 0.0,
-    "corq_risk_penalty": 0.02,
+    "corq_raw_probability": 0.7662,
+    "thinq_total_adjustment": 0.06,
+    "corq_thinq_contributions": {
+      "elo_edge": 0.0779
+    },
+    "corq_probability": 0.7862,
+    "probability": 0.7862,
+    "corq_edge": 0.005,
+    "corq_edge_bonus": 0.0012,
+    "corq_risk_penalty": 0.04,
     "corq_risk_flags": [
-      "LOW_THINQ_CONFIDENCE"
+      "LOW_ODDS_OVERCONFIDENCE_GUARD"
     ],
-    "corq_adjusted_score": 0.445,
+    "corq_adjusted_score": 0.7475,
     "corq_reject_reasons": [
-      "MISSING_PICK_ODDS"
+      "ODDS_BELOW_MIN"
     ],
     "corq_eligible": false
   },
@@ -880,12 +589,22 @@
     "eventId": 16603164,
     "pick": "Lizette Cabrera",
     "opponent": "Anna Tabunshchyk",
-    "odds_player1": null,
-    "odds_player2": null,
-    "pick_odds": null,
-    "opponent_odds": null,
-    "odds_pair_available": false,
+    "odds_player1": 1.0303,
+    "odds_player2": 10.0,
+    "pick_odds": 1.0303,
+    "opponent_odds": 10.0,
+    "odds_pair_available": true,
     "is_doubles": false,
+    "p1_odds": 1.0303,
+    "p2_odds": 10.0,
+    "home_odds": 1.0303,
+    "away_odds": 10.0,
+    "odds": 1.0303,
+    "odds_source": "TennisApiMatchBettingOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 8.9697,
+    "odds_gap_pct": 8.7059,
     "thinq": {
       "available": true,
       "error": null,
@@ -945,20 +664,21 @@
     "thinq_h2h_edge": 0.0,
     "thinq_h2h_source": "none",
     "thinq_h2h_confidence": 0.0,
-    "corq_raw_probability": 0.485,
+    "corq_raw_probability": 0.88,
     "thinq_total_adjustment": 0.0,
     "corq_thinq_contributions": {},
-    "corq_probability": 0.465,
-    "probability": 0.465,
-    "corq_edge": null,
+    "corq_probability": 0.82,
+    "probability": 0.82,
+    "corq_edge": -0.1506,
     "corq_edge_bonus": 0.0,
-    "corq_risk_penalty": 0.02,
+    "corq_risk_penalty": 0.06,
     "corq_risk_flags": [
+      "LOW_ODDS_OVERCONFIDENCE_GUARD",
       "LOW_THINQ_CONFIDENCE"
     ],
-    "corq_adjusted_score": 0.445,
+    "corq_adjusted_score": 0.76,
     "corq_reject_reasons": [
-      "MISSING_PICK_ODDS"
+      "ODDS_BELOW_MIN"
     ],
     "corq_eligible": false
   },
@@ -1342,12 +1062,22 @@
     "eventId": 16602265,
     "pick": "Foster Z / Roddick J",
     "opponent": "Bowers T / Filin N",
-    "odds_player1": null,
-    "odds_player2": null,
-    "pick_odds": null,
-    "opponent_odds": null,
-    "odds_pair_available": false,
+    "odds_player1": 2.5,
+    "odds_player2": 1.5,
+    "pick_odds": 2.5,
+    "opponent_odds": 1.5,
+    "odds_pair_available": true,
     "is_doubles": true,
+    "p1_odds": 2.5,
+    "p2_odds": 1.5,
+    "home_odds": 2.5,
+    "away_odds": 1.5,
+    "odds": 2.5,
+    "odds_source": "TennisApiMatchBettingOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 1.0,
+    "odds_gap_pct": 0.6667,
     "thinq": {
       "available": true,
       "error": null,
@@ -1407,21 +1137,20 @@
     "thinq_h2h_edge": 0.0,
     "thinq_h2h_source": "none",
     "thinq_h2h_confidence": 0.0,
-    "corq_raw_probability": 0.485,
+    "corq_raw_probability": 0.385,
     "thinq_total_adjustment": 0.0,
     "corq_thinq_contributions": {},
-    "corq_probability": 0.465,
-    "probability": 0.465,
-    "corq_edge": null,
+    "corq_probability": 0.365,
+    "probability": 0.365,
+    "corq_edge": -0.035,
     "corq_edge_bonus": 0.0,
     "corq_risk_penalty": 0.02,
     "corq_risk_flags": [
       "LOW_THINQ_CONFIDENCE"
     ],
-    "corq_adjusted_score": 0.445,
+    "corq_adjusted_score": 0.345,
     "corq_reject_reasons": [
-      "DOUBLES_EXCLUDED",
-      "MISSING_PICK_ODDS"
+      "DOUBLES_EXCLUDED"
     ],
     "corq_eligible": false
   },
@@ -1664,12 +1393,22 @@
     "eventId": 16602258,
     "pick": "Avery Alexander",
     "opponent": "Miho Kuramochi",
-    "odds_player1": null,
-    "odds_player2": null,
-    "pick_odds": null,
-    "opponent_odds": null,
-    "odds_pair_available": false,
+    "odds_player1": 4.5,
+    "odds_player2": 1.1667,
+    "pick_odds": 4.5,
+    "opponent_odds": 1.1667,
+    "odds_pair_available": true,
     "is_doubles": false,
+    "p1_odds": 4.5,
+    "p2_odds": 1.1667,
+    "home_odds": 4.5,
+    "away_odds": 1.1667,
+    "odds": 4.5,
+    "odds_source": "TennisApiMatchBettingOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 3.3333,
+    "odds_gap_pct": 2.857,
     "thinq": {
       "available": true,
       "error": null,
@@ -1729,22 +1468,21 @@
     "thinq_h2h_edge": 0.0,
     "thinq_h2h_source": "none",
     "thinq_h2h_confidence": 0.0,
-    "corq_raw_probability": 0.485,
+    "corq_raw_probability": 0.35,
     "thinq_total_adjustment": 0.0,
     "corq_thinq_contributions": {},
-    "corq_probability": 0.465,
-    "probability": 0.465,
-    "corq_edge": null,
-    "corq_edge_bonus": 0.0,
+    "corq_probability": 0.33,
+    "probability": 0.33,
+    "corq_edge": 0.1078,
+    "corq_edge_bonus": 0.02,
     "corq_risk_penalty": 0.02,
     "corq_risk_flags": [
       "LOW_THINQ_CONFIDENCE"
     ],
-    "corq_adjusted_score": 0.445,
-    "corq_reject_reasons": [
-      "MISSING_PICK_ODDS"
-    ],
-    "corq_eligible": false
+    "corq_adjusted_score": 0.33,
+    "corq_reject_reasons": [],
+    "corq_eligible": true,
+    "corq_rank": 2
   },
   {
     "match_id": 16602255,
@@ -1986,12 +1724,22 @@
     "eventId": 16602255,
     "pick": "Dasha Plekhanova",
     "opponent": "Jia-Jing Lu",
-    "odds_player1": null,
-    "odds_player2": null,
-    "pick_odds": null,
-    "opponent_odds": null,
-    "odds_pair_available": false,
+    "odds_player1": 2.1,
+    "odds_player2": 1.6667,
+    "pick_odds": 2.1,
+    "opponent_odds": 1.6667,
+    "odds_pair_available": true,
     "is_doubles": false,
+    "p1_odds": 2.1,
+    "p2_odds": 1.6667,
+    "home_odds": 2.1,
+    "away_odds": 1.6667,
+    "odds": 2.1,
+    "odds_source": "TennisApiMatchWinningOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 0.4333,
+    "odds_gap_pct": 0.26,
     "thinq": {
       "available": true,
       "error": null,
@@ -2050,22 +1798,21 @@
     "thinq_h2h_edge": 0.0,
     "thinq_h2h_source": "none",
     "thinq_h2h_confidence": 0.0,
-    "corq_raw_probability": 0.485,
+    "corq_raw_probability": 0.4612,
     "thinq_total_adjustment": -0.0054,
     "corq_thinq_contributions": {
       "elo_edge": -0.0054
     },
-    "corq_probability": 0.4796,
-    "probability": 0.4796,
-    "corq_edge": null,
+    "corq_probability": 0.4558,
+    "probability": 0.4558,
+    "corq_edge": -0.0204,
     "corq_edge_bonus": 0.0,
     "corq_risk_penalty": 0.0,
     "corq_risk_flags": [],
-    "corq_adjusted_score": 0.4796,
-    "corq_reject_reasons": [
-      "MISSING_PICK_ODDS"
-    ],
-    "corq_eligible": false
+    "corq_adjusted_score": 0.4558,
+    "corq_reject_reasons": [],
+    "corq_eligible": true,
+    "corq_rank": 1
   },
   {
     "match_id": 16601784,
@@ -2446,12 +2193,22 @@
     "eventId": 16601784,
     "pick": "Fullana L / Souza M",
     "opponent": "Moyano L / Romero C",
-    "odds_player1": null,
-    "odds_player2": null,
-    "pick_odds": null,
-    "opponent_odds": null,
-    "odds_pair_available": false,
+    "odds_player1": 3.25,
+    "odds_player2": 1.3333,
+    "pick_odds": 3.25,
+    "opponent_odds": 1.3333,
+    "odds_pair_available": true,
     "is_doubles": true,
+    "p1_odds": 3.25,
+    "p2_odds": 1.3333,
+    "home_odds": 3.25,
+    "away_odds": 1.3333,
+    "odds": 3.25,
+    "odds_source": "TennisApiMatchBettingOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 1.9167,
+    "odds_gap_pct": 1.4376,
     "thinq": {
       "available": true,
       "error": null,
@@ -2511,21 +2268,20 @@
     "thinq_h2h_edge": 0.0,
     "thinq_h2h_source": "none",
     "thinq_h2h_confidence": 0.0,
-    "corq_raw_probability": 0.485,
+    "corq_raw_probability": 0.35,
     "thinq_total_adjustment": 0.0,
     "corq_thinq_contributions": {},
-    "corq_probability": 0.465,
-    "probability": 0.465,
-    "corq_edge": null,
-    "corq_edge_bonus": 0.0,
+    "corq_probability": 0.33,
+    "probability": 0.33,
+    "corq_edge": 0.0223,
+    "corq_edge_bonus": 0.0056,
     "corq_risk_penalty": 0.02,
     "corq_risk_flags": [
       "LOW_THINQ_CONFIDENCE"
     ],
-    "corq_adjusted_score": 0.445,
+    "corq_adjusted_score": 0.3156,
     "corq_reject_reasons": [
-      "DOUBLES_EXCLUDED",
-      "MISSING_PICK_ODDS"
+      "DOUBLES_EXCLUDED"
     ],
     "corq_eligible": false
   },
@@ -2911,12 +2667,22 @@
     "eventId": 16601789,
     "pick": "Leme Da Silva N V / Pigossi L",
     "opponent": "Labrana F / Riera J",
-    "odds_player1": null,
-    "odds_player2": null,
-    "pick_odds": null,
-    "opponent_odds": null,
-    "odds_pair_available": false,
+    "odds_player1": 1.8333,
+    "odds_player2": 1.8333,
+    "pick_odds": 1.8333,
+    "opponent_odds": 1.8333,
+    "odds_pair_available": true,
     "is_doubles": true,
+    "p1_odds": 1.8333,
+    "p2_odds": 1.8333,
+    "home_odds": 1.8333,
+    "away_odds": 1.8333,
+    "odds": 1.8333,
+    "odds_source": "TennisApiMatchBettingOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 0.0,
+    "odds_gap_pct": 0.0,
     "thinq": {
       "available": true,
       "error": null,
@@ -2976,21 +2742,20 @@
     "thinq_h2h_edge": 0.0,
     "thinq_h2h_source": "none",
     "thinq_h2h_confidence": 0.0,
-    "corq_raw_probability": 0.485,
+    "corq_raw_probability": 0.5305,
     "thinq_total_adjustment": 0.0,
     "corq_thinq_contributions": {},
-    "corq_probability": 0.465,
-    "probability": 0.465,
-    "corq_edge": null,
+    "corq_probability": 0.5105,
+    "probability": 0.5105,
+    "corq_edge": -0.035,
     "corq_edge_bonus": 0.0,
     "corq_risk_penalty": 0.02,
     "corq_risk_flags": [
       "LOW_THINQ_CONFIDENCE"
     ],
-    "corq_adjusted_score": 0.445,
+    "corq_adjusted_score": 0.4905,
     "corq_reject_reasons": [
-      "DOUBLES_EXCLUDED",
-      "MISSING_PICK_ODDS"
+      "DOUBLES_EXCLUDED"
     ],
     "corq_eligible": false
   },
@@ -3373,12 +3138,22 @@
     "eventId": 16603016,
     "pick": "Zamarripa A / Zarazua R",
     "opponent": "Kuwata H / Raina A",
-    "odds_player1": null,
-    "odds_player2": null,
-    "pick_odds": null,
-    "opponent_odds": null,
-    "odds_pair_available": false,
+    "odds_player1": 1.8333,
+    "odds_player2": 1.8333,
+    "pick_odds": 1.8333,
+    "opponent_odds": 1.8333,
+    "odds_pair_available": true,
     "is_doubles": true,
+    "p1_odds": 1.8333,
+    "p2_odds": 1.8333,
+    "home_odds": 1.8333,
+    "away_odds": 1.8333,
+    "odds": 1.8333,
+    "odds_source": "TennisApiMatchBettingOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 0.0,
+    "odds_gap_pct": 0.0,
     "thinq": {
       "available": true,
       "error": null,
@@ -3438,21 +3213,20 @@
     "thinq_h2h_edge": 0.0,
     "thinq_h2h_source": "none",
     "thinq_h2h_confidence": 0.0,
-    "corq_raw_probability": 0.485,
+    "corq_raw_probability": 0.5305,
     "thinq_total_adjustment": 0.0,
     "corq_thinq_contributions": {},
-    "corq_probability": 0.465,
-    "probability": 0.465,
-    "corq_edge": null,
+    "corq_probability": 0.5105,
+    "probability": 0.5105,
+    "corq_edge": -0.035,
     "corq_edge_bonus": 0.0,
     "corq_risk_penalty": 0.02,
     "corq_risk_flags": [
       "LOW_THINQ_CONFIDENCE"
     ],
-    "corq_adjusted_score": 0.445,
+    "corq_adjusted_score": 0.4905,
     "corq_reject_reasons": [
-      "DOUBLES_EXCLUDED",
-      "MISSING_PICK_ODDS"
+      "DOUBLES_EXCLUDED"
     ],
     "corq_eligible": false
   },
@@ -3833,12 +3607,22 @@
     "eventId": 16602262,
     "pick": "Okonkwo O / Okonkwo A",
     "opponent": "Sheldon M / Sheldon M",
-    "odds_player1": null,
-    "odds_player2": null,
-    "pick_odds": null,
-    "opponent_odds": null,
-    "odds_pair_available": false,
+    "odds_player1": 1.3,
+    "odds_player2": 3.4,
+    "pick_odds": 1.3,
+    "opponent_odds": 3.4,
+    "odds_pair_available": true,
     "is_doubles": true,
+    "p1_odds": 1.3,
+    "p2_odds": 3.4,
+    "home_odds": 1.3,
+    "away_odds": 3.4,
+    "odds": 1.3,
+    "odds_source": "TennisApiMatchBettingOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 2.1,
+    "odds_gap_pct": 1.6154,
     "thinq": {
       "available": true,
       "error": null,
@@ -3898,21 +3682,22 @@
     "thinq_h2h_edge": 0.0,
     "thinq_h2h_source": "none",
     "thinq_h2h_confidence": 0.0,
-    "corq_raw_probability": 0.485,
+    "corq_raw_probability": 0.7542,
     "thinq_total_adjustment": 0.0,
     "corq_thinq_contributions": {},
-    "corq_probability": 0.465,
-    "probability": 0.465,
-    "corq_edge": null,
+    "corq_probability": 0.6942,
+    "probability": 0.6942,
+    "corq_edge": -0.075,
     "corq_edge_bonus": 0.0,
-    "corq_risk_penalty": 0.02,
+    "corq_risk_penalty": 0.06,
     "corq_risk_flags": [
+      "LOW_ODDS_OVERCONFIDENCE_GUARD",
       "LOW_THINQ_CONFIDENCE"
     ],
-    "corq_adjusted_score": 0.445,
+    "corq_adjusted_score": 0.6342,
     "corq_reject_reasons": [
       "DOUBLES_EXCLUDED",
-      "MISSING_PICK_ODDS"
+      "ODDS_BELOW_MIN"
     ],
     "corq_eligible": false
   },
@@ -4271,12 +4056,22 @@
     "eventId": 16603300,
     "pick": "Lee E / Lewis M",
     "opponent": "Gomez C / Simunyu C",
-    "odds_player1": null,
-    "odds_player2": null,
-    "pick_odds": null,
-    "opponent_odds": null,
-    "odds_pair_available": false,
+    "odds_player1": 1.2222,
+    "odds_player2": 4.0,
+    "pick_odds": 1.2222,
+    "opponent_odds": 4.0,
+    "odds_pair_available": true,
     "is_doubles": true,
+    "p1_odds": 1.2222,
+    "p2_odds": 4.0,
+    "home_odds": 1.2222,
+    "away_odds": 4.0,
+    "odds": 1.2222,
+    "odds_source": "TennisApiMatchBettingOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 2.7778,
+    "odds_gap_pct": 2.2728,
     "thinq": {
       "available": true,
       "error": null,
@@ -4336,21 +4131,22 @@
     "thinq_h2h_edge": 0.0,
     "thinq_h2h_source": "none",
     "thinq_h2h_confidence": 0.0,
-    "corq_raw_probability": 0.485,
+    "corq_raw_probability": 0.8032,
     "thinq_total_adjustment": 0.0,
     "corq_thinq_contributions": {},
-    "corq_probability": 0.465,
-    "probability": 0.465,
-    "corq_edge": null,
+    "corq_probability": 0.7432,
+    "probability": 0.7432,
+    "corq_edge": -0.075,
     "corq_edge_bonus": 0.0,
-    "corq_risk_penalty": 0.02,
+    "corq_risk_penalty": 0.06,
     "corq_risk_flags": [
+      "LOW_ODDS_OVERCONFIDENCE_GUARD",
       "LOW_THINQ_CONFIDENCE"
     ],
-    "corq_adjusted_score": 0.445,
+    "corq_adjusted_score": 0.6832,
     "corq_reject_reasons": [
       "DOUBLES_EXCLUDED",
-      "MISSING_PICK_ODDS"
+      "ODDS_BELOW_MIN"
     ],
     "corq_eligible": false
   },
@@ -4725,6 +4521,14 @@
     "opponent_odds": null,
     "odds_pair_available": false,
     "is_doubles": true,
+    "p1_odds": null,
+    "p2_odds": null,
+    "home_odds": null,
+    "away_odds": null,
+    "odds": null,
+    "odds_source": "TennisApi",
+    "bookmaker": "TennisApi",
+    "odds_status": "NO_ODDS",
     "thinq": {
       "available": true,
       "error": null,
@@ -5055,12 +4859,22 @@
     "eventId": 16601974,
     "pick": "Bastian Malla",
     "opponent": "Felipe Meligeni Alves",
-    "odds_player1": null,
-    "odds_player2": null,
-    "pick_odds": null,
-    "opponent_odds": null,
-    "odds_pair_available": false,
+    "odds_player1": 4.3333,
+    "odds_player2": 1.2,
+    "pick_odds": 4.3333,
+    "opponent_odds": 1.2,
+    "odds_pair_available": true,
     "is_doubles": false,
+    "p1_odds": 4.3333,
+    "p2_odds": 1.2,
+    "home_odds": 4.3333,
+    "away_odds": 1.2,
+    "odds": 4.3333,
+    "odds_source": "TennisApiMatchBettingOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 3.1333,
+    "odds_gap_pct": 2.6111,
     "thinq": {
       "available": true,
       "error": null,
@@ -5120,21 +4934,20 @@
     "thinq_h2h_edge": 0.0,
     "thinq_h2h_source": "none",
     "thinq_h2h_confidence": 0.0,
-    "corq_raw_probability": 0.485,
+    "corq_raw_probability": 0.35,
     "thinq_total_adjustment": 0.0,
     "corq_thinq_contributions": {},
-    "corq_probability": 0.465,
-    "probability": 0.465,
-    "corq_edge": null,
-    "corq_edge_bonus": 0.0,
+    "corq_probability": 0.33,
+    "probability": 0.33,
+    "corq_edge": 0.0992,
+    "corq_edge_bonus": 0.02,
     "corq_risk_penalty": 0.02,
     "corq_risk_flags": [
       "LOW_THINQ_CONFIDENCE"
     ],
-    "corq_adjusted_score": 0.445,
-    "corq_reject_reasons": [
-      "MISSING_PICK_ODDS"
-    ],
-    "corq_eligible": false
+    "corq_adjusted_score": 0.33,
+    "corq_reject_reasons": [],
+    "corq_eligible": true,
+    "corq_rank": 3
   }
 ]

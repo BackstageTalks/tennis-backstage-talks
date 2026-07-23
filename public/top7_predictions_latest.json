@@ -1,1 +1,1006 @@
-[]
+[
+  {
+    "match_id": 16602255,
+    "event_id": 16602255,
+    "id": 16602255,
+    "source": "TennisApiPROCategoryEvents",
+    "player1": "Dasha Plekhanova",
+    "player2": "Jia-Jing Lu",
+    "match": "Dasha Plekhanova vs Jia-Jing Lu",
+    "surface": "Hard",
+    "tournament": "ITF W35 Saskatoon Women",
+    "category": "ITF Women",
+    "gender": "WTA",
+    "best_of": 3,
+    "tournament_id": 192171,
+    "tournamentId": 192171,
+    "unique_tournament_id": 36146,
+    "uniqueTournamentId": 36146,
+    "competition_id": null,
+    "competitionId": null,
+    "category_id": 213,
+    "categoryId": 213,
+    "surface_raw": "Hardcourt outdoor",
+    "surface_environment": "Outdoor",
+    "surface_model_bucket": "Hard",
+    "surface_source": "raw_match_fallback_after_api_error",
+    "surface_confidence": "MEDIUM",
+    "surface_flags": [],
+    "thinq_selected_elo_type": "hard_elo",
+    "match_start": "2026-07-23T21:00:00+00:00",
+    "start_time": "2026-07-23T21:00:00+00:00",
+    "commence_time": "2026-07-23T21:00:00+00:00",
+    "start_timestamp": 1784840400,
+    "status": "NOT_STARTED",
+    "round": "Round of 16",
+    "home_seed": null,
+    "away_seed": null,
+    "raw": {
+      "tournament": {
+        "name": "ITF W35 Saskatoon Women",
+        "slug": "itf-w35-saskatoon-women",
+        "category": {
+          "name": "ITF Women",
+          "slug": "itf-women",
+          "sport": {
+            "name": "Tennis",
+            "slug": "tennis",
+            "id": 5
+          },
+          "priority": 3,
+          "country": {},
+          "id": 213,
+          "flag": "itf-women",
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "اتحاد التنس الدولي للسيدات",
+              "ru": "Женский мировой теннисный тур ITF"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "uniqueTournament": {
+          "name": "ITF W35 Saskatoon Women",
+          "slug": "itf-w35-saskatoon-women",
+          "category": {
+            "name": "ITF Women",
+            "slug": "itf-women",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "priority": 3,
+            "country": {},
+            "id": 213,
+            "flag": "itf-women",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "اتحاد التنس الدولي للسيدات",
+                "ru": "Женский мировой теннисный тур ITF"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "userCount": 16,
+          "groundType": "Hardcourt outdoor",
+          "hasPerformanceGraphFeature": false,
+          "country": {},
+          "id": 36146,
+          "hasEventPlayerStatistics": false,
+          "displayInverseHomeAwayTeams": false
+        },
+        "priority": 0,
+        "id": 192171
+      },
+      "season": {
+        "name": "2026",
+        "year": "2026",
+        "editor": false,
+        "id": 98525
+      },
+      "roundInfo": {
+        "round": 5,
+        "name": "Round of 16",
+        "slug": "round-of-16",
+        "cupRoundType": 8
+      },
+      "customId": "cvrsezLc",
+      "status": {
+        "code": 0,
+        "description": "Not started",
+        "type": "notstarted"
+      },
+      "homeTeam": {
+        "name": "Dasha Plekhanova",
+        "slug": "plekhanova-dasha",
+        "shortName": "D. Plekhanova",
+        "gender": "F",
+        "sport": {
+          "name": "Tennis",
+          "slug": "tennis",
+          "id": 5
+        },
+        "userCount": 135,
+        "playerTeamInfo": {
+          "id": 12351
+        },
+        "nameCode": "PLE",
+        "ranking": 766,
+        "national": false,
+        "type": 1,
+        "country": {
+          "alpha2": "CA",
+          "alpha3": "CAN",
+          "name": "Canada",
+          "slug": "canada"
+        },
+        "id": 341204,
+        "subTeams": [],
+        "teamColors": {
+          "primary": "#374df5",
+          "secondary": "#374df5",
+          "text": "#ffffff"
+        },
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "داشا بليخانوفا",
+            "ru": "Даша Плеханова"
+          },
+          "shortNameTranslation": {
+            "ar": "د. بليخانوفا",
+            "ru": "Д. Плеханова"
+          }
+        }
+      },
+      "awayTeam": {
+        "name": "Jia-Jing Lu",
+        "slug": "lu-jia-jing",
+        "shortName": "J. Lu",
+        "gender": "F",
+        "sport": {
+          "name": "Tennis",
+          "slug": "tennis",
+          "id": 5
+        },
+        "userCount": 495,
+        "playerTeamInfo": {
+          "id": 561
+        },
+        "nameCode": "JIA",
+        "ranking": 405,
+        "disabled": false,
+        "national": false,
+        "type": 1,
+        "country": {
+          "alpha2": "CN",
+          "alpha3": "CHN",
+          "name": "China",
+          "slug": "china"
+        },
+        "id": 43502,
+        "subTeams": [],
+        "teamColors": {
+          "primary": "#374df5",
+          "secondary": "#374df5",
+          "text": "#ffffff"
+        },
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "جيا-جينغ لو",
+            "ru": "Лю, Хиа-Йинг"
+          },
+          "shortNameTranslation": {
+            "ar": "ج. لو",
+            "bn": "লু জিয়া-জিং",
+            "hi": "लू. जिया-जिंग"
+          }
+        }
+      },
+      "homeScore": {},
+      "awayScore": {},
+      "time": {},
+      "changes": {
+        "changeTimestamp": 0
+      },
+      "hasGlobalHighlights": false,
+      "crowdsourcingDataDisplayEnabled": false,
+      "id": 16602255,
+      "slug": "dasha-plekhanova-jia-jing-lu",
+      "startTimestamp": 1784840400,
+      "periods": {
+        "point": "Game",
+        "current": "Match",
+        "period1": "1st set",
+        "period2": "2nd set",
+        "period3": "3rd set",
+        "period4": "4th set",
+        "period5": "5th set"
+      },
+      "finalResultOnly": false,
+      "feedLocked": false,
+      "groundType": "Hardcourt outdoor",
+      "isEditor": false,
+      "eventFilters": {
+        "category": [
+          "singles"
+        ],
+        "level": [
+          "pro"
+        ],
+        "tournament": [
+          "lower"
+        ],
+        "gender": [
+          "F"
+        ]
+      }
+    },
+    "eventId": 16602255,
+    "pick": "Dasha Plekhanova",
+    "opponent": "Jia-Jing Lu",
+    "odds_player1": 2.1,
+    "odds_player2": 1.6667,
+    "pick_odds": 2.1,
+    "opponent_odds": 1.6667,
+    "odds_pair_available": true,
+    "is_doubles": false,
+    "p1_odds": 2.1,
+    "p2_odds": 1.6667,
+    "home_odds": 2.1,
+    "away_odds": 1.6667,
+    "odds": 2.1,
+    "odds_source": "TennisApiMatchWinningOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 0.4333,
+    "odds_gap_pct": 0.26,
+    "thinq": {
+      "available": true,
+      "error": null,
+      "confidence": 0.7,
+      "surface": {
+        "surface": "Hard",
+        "surface_raw": "Hardcourt outdoor",
+        "surface_environment": "Outdoor",
+        "surface_model_bucket": "Hard",
+        "surface_confidence": "HIGH",
+        "surface_flags": [],
+        "thinq_selected_elo_type": "hard_elo",
+        "surface_source": "raw_match_fallback_after_api_error",
+        "surface_error": "Expecting value: line 1 column 1 (char 0)",
+        "tournament_id": 192171,
+        "tournament": "ITF W35 Saskatoon Women"
+      },
+      "elo": {
+        "status": "OK",
+        "selected_elo_type": "hard_elo",
+        "player1_elo": 1301.9,
+        "player2_elo": 1312.8,
+        "pick_elo_edge": -0.0054
+      },
+      "h2h": {
+        "status": "NO_DATA",
+        "source": "none",
+        "total_matches": 0,
+        "player1_wins": 0,
+        "player2_wins": 0,
+        "pick_wins": 0,
+        "opponent_wins": 0,
+        "edge": 0.0,
+        "confidence": 0.0,
+        "reason": "No API H2H events returned",
+        "flags": [
+          "NO_DATA"
+        ]
+      },
+      "edges": {
+        "elo_edge": -0.0054,
+        "h2h_edge": 0.0
+      },
+      "flags": [
+        "NO_DATA"
+      ]
+    },
+    "thinq_available": true,
+    "thinq_error": null,
+    "thinq_confidence": 0.7,
+    "thinq_edges": {
+      "elo_edge": -0.0054,
+      "h2h_edge": 0.0
+    },
+    "thinq_h2h_status": "NO_DATA",
+    "thinq_h2h_edge": 0.0,
+    "thinq_h2h_source": "none",
+    "thinq_h2h_confidence": 0.0,
+    "corq_raw_probability": 0.4612,
+    "thinq_total_adjustment": -0.0054,
+    "corq_thinq_contributions": {
+      "elo_edge": -0.0054
+    },
+    "corq_probability": 0.4558,
+    "probability": 0.4558,
+    "corq_edge": -0.0204,
+    "corq_edge_bonus": 0.0,
+    "corq_risk_penalty": 0.0,
+    "corq_risk_flags": [],
+    "corq_adjusted_score": 0.4558,
+    "corq_reject_reasons": [],
+    "corq_eligible": true,
+    "corq_rank": 1
+  },
+  {
+    "match_id": 16602258,
+    "event_id": 16602258,
+    "id": 16602258,
+    "source": "TennisApiPROCategoryEvents",
+    "player1": "Avery Alexander",
+    "player2": "Miho Kuramochi",
+    "match": "Avery Alexander vs Miho Kuramochi",
+    "surface": "Hard",
+    "tournament": "ITF W35 Saskatoon Women",
+    "category": "ITF Women",
+    "gender": "WTA",
+    "best_of": 3,
+    "tournament_id": 192171,
+    "tournamentId": 192171,
+    "unique_tournament_id": 36146,
+    "uniqueTournamentId": 36146,
+    "competition_id": null,
+    "competitionId": null,
+    "category_id": 213,
+    "categoryId": 213,
+    "surface_raw": "Hardcourt outdoor",
+    "surface_environment": "Outdoor",
+    "surface_model_bucket": "Hard",
+    "surface_source": "raw_match_fallback_after_api_error",
+    "surface_confidence": "MEDIUM",
+    "surface_flags": [],
+    "thinq_selected_elo_type": "hard_elo",
+    "match_start": "2026-07-23T21:00:00+00:00",
+    "start_time": "2026-07-23T21:00:00+00:00",
+    "commence_time": "2026-07-23T21:00:00+00:00",
+    "start_timestamp": 1784840400,
+    "status": "NOT_STARTED",
+    "round": "Round of 16",
+    "home_seed": null,
+    "away_seed": null,
+    "raw": {
+      "tournament": {
+        "name": "ITF W35 Saskatoon Women",
+        "slug": "itf-w35-saskatoon-women",
+        "category": {
+          "name": "ITF Women",
+          "slug": "itf-women",
+          "sport": {
+            "name": "Tennis",
+            "slug": "tennis",
+            "id": 5
+          },
+          "priority": 3,
+          "country": {},
+          "id": 213,
+          "flag": "itf-women",
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "اتحاد التنس الدولي للسيدات",
+              "ru": "Женский мировой теннисный тур ITF"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "uniqueTournament": {
+          "name": "ITF W35 Saskatoon Women",
+          "slug": "itf-w35-saskatoon-women",
+          "category": {
+            "name": "ITF Women",
+            "slug": "itf-women",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "priority": 3,
+            "country": {},
+            "id": 213,
+            "flag": "itf-women",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "اتحاد التنس الدولي للسيدات",
+                "ru": "Женский мировой теннисный тур ITF"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "userCount": 16,
+          "groundType": "Hardcourt outdoor",
+          "hasPerformanceGraphFeature": false,
+          "country": {},
+          "id": 36146,
+          "hasEventPlayerStatistics": false,
+          "displayInverseHomeAwayTeams": false
+        },
+        "priority": 0,
+        "id": 192171
+      },
+      "season": {
+        "name": "2026",
+        "year": "2026",
+        "editor": false,
+        "id": 98525
+      },
+      "roundInfo": {
+        "round": 5,
+        "name": "Round of 16",
+        "slug": "round-of-16",
+        "cupRoundType": 8
+      },
+      "customId": "yugdsQvWi",
+      "status": {
+        "code": 0,
+        "description": "Not started",
+        "type": "notstarted"
+      },
+      "homeTeam": {
+        "name": "Avery Alexander",
+        "slug": "avery-alexander",
+        "shortName": "A. Alexander",
+        "gender": "F",
+        "sport": {
+          "name": "Tennis",
+          "slug": "tennis",
+          "id": 5
+        },
+        "userCount": 24,
+        "playerTeamInfo": {
+          "id": 26856
+        },
+        "nameCode": "AAL",
+        "ranking": 1248,
+        "disabled": false,
+        "national": false,
+        "type": 1,
+        "country": {
+          "alpha2": "CA",
+          "alpha3": "CAN",
+          "name": "Canada",
+          "slug": "canada"
+        },
+        "id": 1116041,
+        "subTeams": [],
+        "teamColors": {
+          "primary": "#374df5",
+          "secondary": "#374df5",
+          "text": "#ffffff"
+        },
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "أفيري ألكسندر",
+            "ru": "Эйвери Александер"
+          },
+          "shortNameTranslation": {
+            "ar": "أ. ألكسندر",
+            "ru": "Э. Александер"
+          }
+        }
+      },
+      "awayTeam": {
+        "name": "Miho Kuramochi",
+        "slug": "kuramochi-miho",
+        "shortName": "M. Kuramochi",
+        "gender": "F",
+        "sport": {
+          "name": "Tennis",
+          "slug": "tennis",
+          "id": 5
+        },
+        "userCount": 286,
+        "playerTeamInfo": {
+          "id": 5151
+        },
+        "nameCode": "KUR",
+        "ranking": 360,
+        "national": false,
+        "type": 1,
+        "country": {
+          "alpha2": "JP",
+          "alpha3": "JPN",
+          "name": "Japan",
+          "slug": "japan"
+        },
+        "id": 390973,
+        "subTeams": [],
+        "teamColors": {
+          "primary": "#374df5",
+          "secondary": "#374df5",
+          "text": "#ffffff"
+        },
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "ميهو كوراموتشي",
+            "ru": "Михо Курамочи"
+          },
+          "shortNameTranslation": {
+            "ar": "م. كوراموتشي",
+            "ru": "М. Курамочи"
+          }
+        }
+      },
+      "homeScore": {},
+      "awayScore": {},
+      "time": {},
+      "changes": {
+        "changeTimestamp": 0
+      },
+      "hasGlobalHighlights": false,
+      "crowdsourcingDataDisplayEnabled": false,
+      "id": 16602258,
+      "slug": "avery-alexander-miho-kuramochi",
+      "startTimestamp": 1784840400,
+      "periods": {
+        "point": "Game",
+        "current": "Match",
+        "period1": "1st set",
+        "period2": "2nd set",
+        "period3": "3rd set",
+        "period4": "4th set",
+        "period5": "5th set"
+      },
+      "finalResultOnly": false,
+      "feedLocked": false,
+      "groundType": "Hardcourt outdoor",
+      "isEditor": false,
+      "eventFilters": {
+        "category": [
+          "singles"
+        ],
+        "level": [
+          "pro"
+        ],
+        "tournament": [
+          "lower"
+        ],
+        "gender": [
+          "F"
+        ]
+      }
+    },
+    "eventId": 16602258,
+    "pick": "Avery Alexander",
+    "opponent": "Miho Kuramochi",
+    "odds_player1": 4.5,
+    "odds_player2": 1.1667,
+    "pick_odds": 4.5,
+    "opponent_odds": 1.1667,
+    "odds_pair_available": true,
+    "is_doubles": false,
+    "p1_odds": 4.5,
+    "p2_odds": 1.1667,
+    "home_odds": 4.5,
+    "away_odds": 1.1667,
+    "odds": 4.5,
+    "odds_source": "TennisApiMatchBettingOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 3.3333,
+    "odds_gap_pct": 2.857,
+    "thinq": {
+      "available": true,
+      "error": null,
+      "confidence": 0.15,
+      "surface": {
+        "surface": "Hard",
+        "surface_raw": "Hardcourt outdoor",
+        "surface_environment": "Outdoor",
+        "surface_model_bucket": "Hard",
+        "surface_confidence": "HIGH",
+        "surface_flags": [],
+        "thinq_selected_elo_type": "hard_elo",
+        "surface_source": "raw_match_fallback_after_api_error",
+        "surface_error": "Expecting value: line 1 column 1 (char 0)",
+        "tournament_id": 192171,
+        "tournament": "ITF W35 Saskatoon Women"
+      },
+      "elo": {
+        "status": "NO_DATA",
+        "selected_elo_type": "hard_elo",
+        "player1_elo": null,
+        "player2_elo": 1365.3,
+        "pick_elo_edge": 0.0
+      },
+      "h2h": {
+        "status": "NO_DATA",
+        "source": "none",
+        "total_matches": 0,
+        "player1_wins": 0,
+        "player2_wins": 0,
+        "pick_wins": 0,
+        "opponent_wins": 0,
+        "edge": 0.0,
+        "confidence": 0.0,
+        "reason": "No API H2H events returned",
+        "flags": [
+          "NO_DATA"
+        ]
+      },
+      "edges": {
+        "elo_edge": 0.0,
+        "h2h_edge": 0.0
+      },
+      "flags": [
+        "MISSING_ELO",
+        "NO_DATA"
+      ]
+    },
+    "thinq_available": true,
+    "thinq_error": null,
+    "thinq_confidence": 0.15,
+    "thinq_edges": {
+      "elo_edge": 0.0,
+      "h2h_edge": 0.0
+    },
+    "thinq_h2h_status": "NO_DATA",
+    "thinq_h2h_edge": 0.0,
+    "thinq_h2h_source": "none",
+    "thinq_h2h_confidence": 0.0,
+    "corq_raw_probability": 0.35,
+    "thinq_total_adjustment": 0.0,
+    "corq_thinq_contributions": {},
+    "corq_probability": 0.33,
+    "probability": 0.33,
+    "corq_edge": 0.1078,
+    "corq_edge_bonus": 0.02,
+    "corq_risk_penalty": 0.02,
+    "corq_risk_flags": [
+      "LOW_THINQ_CONFIDENCE"
+    ],
+    "corq_adjusted_score": 0.33,
+    "corq_reject_reasons": [],
+    "corq_eligible": true,
+    "corq_rank": 2
+  },
+  {
+    "match_id": 16601974,
+    "event_id": 16601974,
+    "id": 16601974,
+    "source": "TennisApiPROCategoryEvents",
+    "player1": "Bastian Malla",
+    "player2": "Felipe Meligeni Alves",
+    "match": "Bastian Malla vs Felipe Meligeni Alves",
+    "surface": "Clay",
+    "tournament": "ITF M25 Sao Paulo Men",
+    "category": "ITF Men",
+    "gender": "ITF Men",
+    "best_of": 3,
+    "tournament_id": 158385,
+    "tournamentId": 158385,
+    "unique_tournament_id": 28037,
+    "uniqueTournamentId": 28037,
+    "competition_id": null,
+    "competitionId": null,
+    "category_id": 785,
+    "categoryId": 785,
+    "surface_raw": "Clay",
+    "surface_environment": null,
+    "surface_model_bucket": "Clay",
+    "surface_source": "raw_match_fallback_after_api_error",
+    "surface_confidence": "MEDIUM",
+    "surface_flags": [],
+    "thinq_selected_elo_type": "clay_elo",
+    "match_start": "2026-07-23T21:30:00+00:00",
+    "start_time": "2026-07-23T21:30:00+00:00",
+    "commence_time": "2026-07-23T21:30:00+00:00",
+    "start_timestamp": 1784842200,
+    "status": "NOT_STARTED",
+    "round": "Round of 16",
+    "home_seed": null,
+    "away_seed": null,
+    "raw": {
+      "tournament": {
+        "name": "ITF M25 Sao Paulo Men",
+        "slug": "itf-m25-sao-paulo-men",
+        "category": {
+          "name": "ITF Men",
+          "slug": "itf-men",
+          "sport": {
+            "name": "Tennis",
+            "slug": "tennis",
+            "id": 5
+          },
+          "priority": 4,
+          "country": {},
+          "id": 785,
+          "flag": "itf-men",
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "اتحاد التنس الدولي للرجال",
+              "ru": "Мужской мировой теннисный тур ITF"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "uniqueTournament": {
+          "name": "ITF M25 Sao Paulo Men",
+          "slug": "itf-m25-sao-paulo-men",
+          "category": {
+            "name": "ITF Men",
+            "slug": "itf-men",
+            "sport": {
+              "name": "Tennis",
+              "slug": "tennis",
+              "id": 5
+            },
+            "priority": 4,
+            "country": {},
+            "id": 785,
+            "flag": "itf-men",
+            "fieldTranslations": {
+              "nameTranslation": {
+                "ar": "اتحاد التنس الدولي للرجال",
+                "ru": "Мужской мировой теннисный тур ITF"
+              },
+              "shortNameTranslation": {}
+            }
+          },
+          "userCount": 24,
+          "groundType": "Clay",
+          "hasPerformanceGraphFeature": false,
+          "country": {},
+          "id": 28037,
+          "hasEventPlayerStatistics": false,
+          "displayInverseHomeAwayTeams": false,
+          "fieldTranslations": {
+            "nameTranslation": {
+              "ar": "ITF M25 ساو باولو الرجال",
+              "ru": "ITF M25 Сан-Паулу среди мужчин"
+            },
+            "shortNameTranslation": {}
+          }
+        },
+        "priority": 0,
+        "id": 158385,
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "ITF M25 ساو باولو للرجال",
+            "ru": "ITF M25 Сан-Паулу Мужчины"
+          },
+          "shortNameTranslation": {}
+        }
+      },
+      "season": {
+        "name": "2026",
+        "year": "2026",
+        "editor": false,
+        "id": 98477
+      },
+      "roundInfo": {
+        "round": 5,
+        "name": "Round of 16",
+        "slug": "round-of-16",
+        "cupRoundType": 8
+      },
+      "customId": "LYysYznb",
+      "status": {
+        "code": 0,
+        "description": "Not started",
+        "type": "notstarted"
+      },
+      "homeTeam": {
+        "name": "Bastian Malla",
+        "slug": "malla-bastian",
+        "shortName": "B. Malla",
+        "gender": "M",
+        "sport": {
+          "name": "Tennis",
+          "slug": "tennis",
+          "id": 5
+        },
+        "userCount": 472,
+        "playerTeamInfo": {
+          "id": 683
+        },
+        "nameCode": "MAL",
+        "ranking": 958,
+        "national": false,
+        "type": 1,
+        "country": {
+          "alpha2": "CL",
+          "alpha3": "CHL",
+          "name": "Chile",
+          "slug": "chile"
+        },
+        "id": 59936,
+        "subTeams": [],
+        "teamColors": {
+          "primary": "#374df5",
+          "secondary": "#374df5",
+          "text": "#ffffff"
+        },
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "باستيان مالا",
+            "ru": "Бастиан Малла"
+          },
+          "shortNameTranslation": {
+            "ar": "ب. مالا"
+          }
+        }
+      },
+      "awayTeam": {
+        "name": "Felipe Meligeni Alves",
+        "slug": "meligeni-alves-felipe",
+        "shortName": "F. Meligeni Alves",
+        "gender": "M",
+        "sport": {
+          "name": "Tennis",
+          "slug": "tennis",
+          "id": 5
+        },
+        "userCount": 3156,
+        "playerTeamInfo": {
+          "id": 2299
+        },
+        "nameCode": "MEL",
+        "ranking": 709,
+        "disabled": false,
+        "national": false,
+        "type": 1,
+        "country": {
+          "alpha2": "BR",
+          "alpha3": "BRA",
+          "name": "Brazil",
+          "slug": "brazil"
+        },
+        "id": 158748,
+        "subTeams": [],
+        "teamColors": {
+          "primary": "#374df5",
+          "secondary": "#374df5",
+          "text": "#ffffff"
+        },
+        "fieldTranslations": {
+          "nameTranslation": {
+            "ar": "فيليبي ميليغيني ألفيس",
+            "ru": "Меллгени Родригес Алвеш, Фелипе"
+          },
+          "shortNameTranslation": {
+            "ar": "ف. ألفيس",
+            "bn": "এফ. মেলিগেনি আলভেস",
+            "hi": "एफ. मेलिगेनी अल्वेस"
+          }
+        }
+      },
+      "homeScore": {},
+      "awayScore": {},
+      "time": {},
+      "changes": {
+        "changeTimestamp": 0
+      },
+      "hasGlobalHighlights": false,
+      "crowdsourcingDataDisplayEnabled": false,
+      "id": 16601974,
+      "slug": "felipe-meligeni-alves-bastian-malla",
+      "startTimestamp": 1784842200,
+      "periods": {
+        "point": "Game",
+        "current": "Match",
+        "period1": "1st set",
+        "period2": "2nd set",
+        "period3": "3rd set",
+        "period4": "4th set",
+        "period5": "5th set"
+      },
+      "finalResultOnly": false,
+      "feedLocked": false,
+      "groundType": "Clay",
+      "isEditor": false,
+      "eventFilters": {
+        "category": [
+          "singles"
+        ],
+        "level": [
+          "pro"
+        ],
+        "tournament": [
+          "lower"
+        ],
+        "gender": [
+          "M"
+        ]
+      }
+    },
+    "eventId": 16601974,
+    "pick": "Bastian Malla",
+    "opponent": "Felipe Meligeni Alves",
+    "odds_player1": 4.3333,
+    "odds_player2": 1.2,
+    "pick_odds": 4.3333,
+    "opponent_odds": 1.2,
+    "odds_pair_available": true,
+    "is_doubles": false,
+    "p1_odds": 4.3333,
+    "p2_odds": 1.2,
+    "home_odds": 4.3333,
+    "away_odds": 1.2,
+    "odds": 4.3333,
+    "odds_source": "TennisApiMatchBettingOdds",
+    "bookmaker": "TennisApi",
+    "odds_status": "OK",
+    "odds_gap_abs": 3.1333,
+    "odds_gap_pct": 2.6111,
+    "thinq": {
+      "available": true,
+      "error": null,
+      "confidence": 0.15,
+      "surface": {
+        "surface": "Clay",
+        "surface_raw": "Clay",
+        "surface_environment": null,
+        "surface_model_bucket": "Clay",
+        "surface_confidence": "HIGH",
+        "surface_flags": [],
+        "thinq_selected_elo_type": "clay_elo",
+        "surface_source": "raw_match_fallback_after_api_error",
+        "surface_error": "Expecting value: line 1 column 1 (char 0)",
+        "tournament_id": 158385,
+        "tournament": "ITF M25 Sao Paulo Men"
+      },
+      "elo": {
+        "status": "NO_DATA",
+        "selected_elo_type": "clay_elo",
+        "player1_elo": null,
+        "player2_elo": 1468.6,
+        "pick_elo_edge": 0.0
+      },
+      "h2h": {
+        "status": "NO_DATA",
+        "source": "none",
+        "total_matches": 0,
+        "player1_wins": 0,
+        "player2_wins": 0,
+        "pick_wins": 0,
+        "opponent_wins": 0,
+        "edge": 0.0,
+        "confidence": 0.0,
+        "reason": "No API H2H events returned",
+        "flags": [
+          "NO_DATA"
+        ]
+      },
+      "edges": {
+        "elo_edge": 0.0,
+        "h2h_edge": 0.0
+      },
+      "flags": [
+        "MISSING_ELO",
+        "NO_DATA"
+      ]
+    },
+    "thinq_available": true,
+    "thinq_error": null,
+    "thinq_confidence": 0.15,
+    "thinq_edges": {
+      "elo_edge": 0.0,
+      "h2h_edge": 0.0
+    },
+    "thinq_h2h_status": "NO_DATA",
+    "thinq_h2h_edge": 0.0,
+    "thinq_h2h_source": "none",
+    "thinq_h2h_confidence": 0.0,
+    "corq_raw_probability": 0.35,
+    "thinq_total_adjustment": 0.0,
+    "corq_thinq_contributions": {},
+    "corq_probability": 0.33,
+    "probability": 0.33,
+    "corq_edge": 0.0992,
+    "corq_edge_bonus": 0.02,
+    "corq_risk_penalty": 0.02,
+    "corq_risk_flags": [
+      "LOW_THINQ_CONFIDENCE"
+    ],
+    "corq_adjusted_score": 0.33,
+    "corq_reject_reasons": [],
+    "corq_eligible": true,
+    "corq_rank": 3
+  }
+]
