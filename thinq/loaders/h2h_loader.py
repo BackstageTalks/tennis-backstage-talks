@@ -1,781 +1,673 @@
-import csv
+# THINQ_H2H_LAYER_VERSION = thinq_h2h_clean_v1
+"""
+THINQ / H2HQ Loader
+
+Role in project:
+- H2HQ is a standalone THINQ layer for head-to-head context.
+- H2HQ does not create final match probability.
+- H2HQ returns H2H feature/edge/confidence data for CORQ.
+
+Primary source:
+- Tennis API - ATP WTA ITF via RapidAPI
+- Host: tennis-api-atp-wta-itf.p.rapidapi.com
+- Name-based endpoints:
+  - /tennis/v2/ms-api/h2h/playerType/{player}
+  - /tennis/v2/ms-api/h2h/{tourType}/{player1}/{player2}/{limit}
+
+Fallback source:
+- SackmannLoader.load_matches() from thinq/loaders/sackmann_loader.py
+
+Recommended location:
+- thinq/loaders/h2h_loader.py
+
+Environment variables:
+- RAPIDAPI_KEY is preferred
+- TENNIS_API_KEY is accepted as fallback
+
+Important:
+- H2H edge is intentionally capped because H2H usually has small sample size.
+- H2HQ is a context signal, not a standalone model.
+"""
+
+from __future__ import annotations
+
 import json
-import logging
 import os
+import re
 import unicodedata
+from dataclasses import asdict, dataclass
 from datetime import datetime
-from io import StringIO
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import quote
 
 import requests
 
-from tennisapi_client import TennisApiClient
-
-logger = logging.getLogger(__name__)
-
-_H2H_CACHE: Dict[str, Dict[str, Any]] = {}
-_EVENT_CACHE: Dict[str, Optional[Dict[str, Any]]] = {}
-_SACKMANN_CSV_CACHE: Dict[str, List[Dict[str, Any]]] = {}
-
-H2H_DATA_DIR = Path(os.getenv("H2H_DATA_DIR", "thinq/data/h2h"))
-H2H_NORMALIZED_DIR = H2H_DATA_DIR / "normalized"
-H2H_RAW_API_DIR = H2H_DATA_DIR / "raw" / "api"
-H2H_RAW_SACKMANN_DIR = H2H_DATA_DIR / "raw" / "sackmann"
-LOCAL_SACKMANN_CACHE_DIR = Path(os.getenv("SACKMANN_H2H_CACHE_DIR", str(H2H_DATA_DIR / "sackmann_csv")))
-SACKMANN_H2H_YEARS = int(os.getenv("SACKMANN_H2H_YEARS", "12"))
-SACKMANN_H2H_ENABLED = os.getenv("SACKMANN_H2H_ENABLED", "1").strip().lower() not in {"0", "false", "no", "off"}
-H2H_PERSIST_ENABLED = os.getenv("H2H_PERSIST_ENABLED", "1").strip().lower() not in {"0", "false", "no", "off"}
-
-SACKMANN_SOURCES = [
-    ("atp_main", "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_matches_{year}.csv"),
-    ("atp_qual_chall", "https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_matches_qual_chall_{year}.csv"),
-    ("wta_main", "https://raw.githubusercontent.com/JeffSackmann/tennis_wta/master/wta_matches_{year}.csv"),
-]
+try:
+    from .sackmann_loader import SackmannLoader
+except ImportError:
+    # Allows direct local execution from thinq/loaders.
+    from sackmann_loader import SackmannLoader
 
 
-def _normalize_name(value: Any) -> str:
-    text = str(value or "").strip().lower()
+RAPIDAPI_HOST = "tennis-api-atp-wta-itf.p.rapidapi.com"
+RAPIDAPI_BASE_URL = f"https://{RAPIDAPI_HOST}"
+
+
+# -----------------------------------------------------------------------------
+# Helpers
+# -----------------------------------------------------------------------------
+
+
+def normalize_player_name(name: Any) -> str:
+    if name is None:
+        return ""
+    text = str(name).strip().lower()
     text = unicodedata.normalize("NFKD", text)
     text = "".join(ch for ch in text if not unicodedata.combining(ch))
-    for ch in [".", ",", "'", "`", "’", "-", "_", "(", ")", "[", "]"]:
-        text = text.replace(ch, " ")
-    return " ".join(text.split())
+    text = re.sub(r"[^a-z0-9 ]+", " ", text)
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
 
 
-def _tokens(value: Any) -> set[str]:
-    return set(_normalize_name(value).split())
+def normalize_surface(surface: Optional[str]) -> Optional[str]:
+    if surface is None:
+        return None
+
+    value = str(surface).strip().lower()
+    if not value:
+        return None
+
+    mapping = {
+        "hard": "hard",
+        "clay": "clay",
+        "grass": "grass",
+        "carpet": "carpet",
+        "i.hard": "indoor hard",
+        "ihard": "indoor hard",
+        "indoor": "indoor hard",
+        "indoor hard": "indoor hard",
+        "indoor_hard": "indoor hard",
+    }
+    return mapping.get(value, value)
 
 
-def _same_player(a: Any, b: Any) -> bool:
-    na = _normalize_name(a)
-    nb = _normalize_name(b)
-    if not na or not nb:
-        return False
-    if na == nb or na in nb or nb in na:
-        return True
-    ta = _tokens(na)
-    tb = _tokens(nb)
-    if not ta or not tb:
-        return False
-    if ta & tb:
-        return True
-    a_parts = na.split()
-    b_parts = nb.split()
-    return bool(a_parts and b_parts and a_parts[-1] == b_parts[-1])
-
-
-def _team_name(team: Any) -> str:
-    if isinstance(team, dict):
-        for key in ("name", "shortName", "fullName", "displayName", "slug"):
-            value = team.get(key)
-            if value:
-                return str(value)
-    return str(team or "")
-
-
-def _extract_event(payload: Any) -> Optional[Dict[str, Any]]:
-    if isinstance(payload, dict):
-        event = payload.get("event")
-        if isinstance(event, dict):
-            return event
-        data = payload.get("data")
-        if isinstance(data, dict):
-            nested = data.get("event")
-            if isinstance(nested, dict):
-                return nested
-            if data.get("homeTeam") or data.get("awayTeam"):
-                return data
-        if payload.get("homeTeam") or payload.get("awayTeam"):
-            return payload
-    return None
-
-
-def _extract_events(payload: Any) -> List[Dict[str, Any]]:
-    if isinstance(payload, dict):
-        for key in ("events", "h2h", "data", "items", "results", "matches"):
-            value = payload.get(key)
-            if isinstance(value, list):
-                return [item for item in value if isinstance(item, dict)]
-            if isinstance(value, dict):
-                nested = _extract_events(value)
-                if nested:
-                    return nested
-    if isinstance(payload, list):
-        return [item for item in payload if isinstance(item, dict)]
-    return []
-
-
-def _surface_key(value: Any) -> str:
-    text = str(value or "").lower()
-    if "clay" in text:
-        return "clay"
-    if "grass" in text:
-        return "grass"
-    if "hard" in text or "indoor" in text:
+def surface_to_api(surface: Optional[str]) -> Optional[str]:
+    normalized = normalize_surface(surface)
+    if normalized in ["hard", "clay", "grass", "carpet"]:
+        return normalized
+    if normalized == "indoor hard":
+        # The public H2H matches endpoint accepts hard/clay/grass/carpet.
+        # Indoor hard may still appear in response surfaceData, but query filter uses hard.
         return "hard"
-    return ""
+    return None
 
 
-def _safe_slug(value: Any, max_len: int = 80) -> str:
-    text = _normalize_name(value).replace(" ", "-")
-    text = "".join(ch for ch in text if ch.isalnum() or ch == "-")
-    text = text.strip("-")
-    return (text[:max_len] or "unknown")
-
-
-def _h2h_match_slug(event_id: Optional[Any], player1: str, player2: str) -> str:
-    event_part = str(event_id) if event_id not in [None, ""] else "noevent"
-    return f"{event_part}__{_safe_slug(player1)}__vs__{_safe_slug(player2)}"
-
-
-def _json_safe(value: Any) -> Any:
-    if isinstance(value, dict):
-        return {str(k): _json_safe(v) for k, v in value.items()}
-    if isinstance(value, list):
-        return [_json_safe(item) for item in value]
-    if isinstance(value, (str, int, float, bool)) or value is None:
-        return value
-    return str(value)
-
-
-def _write_json(path: Path, payload: Any) -> None:
-    if not H2H_PERSIST_ENABLED:
-        return
+def parse_int(value: Any, default: int = 0) -> int:
+    if value is None:
+        return default
     try:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(_json_safe(payload), ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
-    except Exception as exc:
-        logger.debug("H2H persist failed path=%s error=%s", path, exc)
-
-
-def _persist_h2h_artifacts(
-    event_id: Optional[Any],
-    player1: str,
-    player2: str,
-    pick: str,
-    surface: Optional[str],
-    result: Dict[str, Any],
-    api_events: List[Dict[str, Any]],
-    sackmann_events: List[Dict[str, Any]],
-    combined_events: List[Dict[str, Any]],
-    api_payload: Any = None,
-    api_endpoint_path: Optional[str] = None,
-) -> None:
-    if not H2H_PERSIST_ENABLED:
-        return
-
-    slug = _h2h_match_slug(event_id, player1, player2)
-    persisted_at = datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
-
-    normalized_payload = {
-        "schema_version": "h2h_context_v1",
-        "persisted_at_utc": persisted_at,
-        "event_id": event_id,
-        "player1": player1,
-        "player2": player2,
-        "pick": pick,
-        "surface": surface,
-        "result": result,
-        "events": combined_events,
-    }
-    _write_json(H2H_NORMALIZED_DIR / f"{slug}.json", normalized_payload)
-    if event_id not in [None, ""]:
-        _write_json(H2H_NORMALIZED_DIR / "by_event" / f"{event_id}.json", normalized_payload)
-
-    raw_index = {
-        "schema_version": "h2h_raw_index_v1",
-        "persisted_at_utc": persisted_at,
-        "event_id": event_id,
-        "player1": player1,
-        "player2": player2,
-        "api_endpoint_path": api_endpoint_path,
-        "api_events_count": len(api_events),
-        "sackmann_events_count": len(sackmann_events),
-    }
-    _write_json(H2H_DATA_DIR / "index" / f"{slug}.json", raw_index)
-
-    if api_payload is not None:
-        _write_json(H2H_RAW_API_DIR / f"{slug}.json", {"endpoint_path": api_endpoint_path, "payload": api_payload})
-    if sackmann_events:
-        _write_json(H2H_RAW_SACKMANN_DIR / f"{slug}.json", {"events": sackmann_events})
-
-
-def _event_players(event: Dict[str, Any]) -> Tuple[str, str]:
-    home = _team_name(event.get("homeTeam") or event.get("home") or event.get("participant1"))
-    away = _team_name(event.get("awayTeam") or event.get("away") or event.get("participant2"))
-    return home, away
-
-
-def _pick_result_for_event(event: Dict[str, Any], pick: str) -> Optional[bool]:
-    # Sackmann normalized pseudo-events carry this directly.
-    if isinstance(event.get("pick_won"), bool):
-        return bool(event.get("pick_won"))
-
-    home, away = _event_players(event)
-    winner_code = event.get("winnerCode")
-    try:
-        winner_code = int(winner_code)
+        return int(value)
     except Exception:
-        winner_code = None
-    if winner_code in (1, 2):
-        if _same_player(pick, home):
-            return winner_code == 1
-        if _same_player(pick, away):
-            return winner_code == 2
-
-    winner_team = event.get("winnerTeam") or event.get("winner")
-    winner_name = _team_name(winner_team)
-    if winner_name:
-        return _same_player(pick, winner_name)
-    return None
-
-
-def _valid_h2h_event(event: Dict[str, Any], player1: str, player2: str) -> bool:
-    home, away = _event_players(event)
-    direct = _same_player(player1, home) and _same_player(player2, away)
-    reverse = _same_player(player1, away) and _same_player(player2, home)
-    return direct or reverse
-
-
-def _score_summary(event: Dict[str, Any]) -> str:
-    if event.get("score_summary"):
-        return str(event.get("score_summary"))
-    home, away = _event_players(event)
-    home_score = event.get("homeScore") or {}
-    away_score = event.get("awayScore") or {}
-    if not isinstance(home_score, dict) or not isinstance(away_score, dict):
-        return ""
-    home_sets = home_score.get("current") or home_score.get("display")
-    away_sets = away_score.get("current") or away_score.get("display")
-    if home and away and home_sets is not None and away_sets is not None:
-        return f"{home} {home_sets}-{away_sets} {away}"
-    return ""
-
-
-def _event_surface(event: Dict[str, Any]) -> str:
-    direct = event.get("groundType") or event.get("surface")
-    if direct:
-        return _surface_key(direct)
-    tournament = event.get("tournament")
-    if isinstance(tournament, dict):
-        unique = tournament.get("uniqueTournament")
-        if isinstance(unique, dict):
-            value = unique.get("groundType") or unique.get("surface")
-            if value:
-                return _surface_key(value)
-        value = tournament.get("groundType") or tournament.get("surface")
-        if value:
-            return _surface_key(value)
-    return ""
-
-
-def _empty_h2h(event_id: Optional[Any] = None, reason: str = "No H2H data") -> Dict[str, Any]:
-    return {
-        "h2h_event_id": event_id,
-        "h2h_total_matches": 0,
-        "h2h_pick_wins": 0,
-        "h2h_opponent_wins": 0,
-        "h2h_pick_win_pct": None,
-        "h2h_same_surface_matches": 0,
-        "h2h_same_surface_pick_wins": 0,
-        "h2h_same_surface_pick_win_pct": None,
-        "h2h_signal": "NO_DATA",
-        "h2h_adjustment": 0.0,
-        "h2h_adjustment_pct": 0.0,
-        "h2h_component_pct": 0.0,
-        "thinq_h2h_pct": 0.0,
-        "h2h_reason": reason,
-        "h2h_recent_result": None,
-        "h2h_raw_count": 0,
-        "h2h_endpoint_path": None,
-        "h2h_source": "none",
-        "h2h_api_total_matches": 0,
-        "h2h_sackmann_total_matches": 0,
-    }
-
-
-def _compute_adjustment_pct(total: int, pick_wins: int, same_surface_total: int = 0, same_surface_pick_wins: int = 0) -> float:
-    if total <= 0:
-        return 0.0
-    opponent_wins = total - pick_wins
-    pick_win_pct = pick_wins / total
-    sample_weight = min(total / 4.0, 1.0)
-    adjustment = (pick_win_pct - 0.5) * 8.0 * sample_weight
-    if same_surface_total > 0:
-        same_surface_pct = same_surface_pick_wins / same_surface_total
-        surface_weight = min(same_surface_total / 3.0, 1.0)
-        adjustment += (same_surface_pct - 0.5) * 3.0 * surface_weight
-    adjustment = max(-5.0, min(5.0, adjustment))
-    if pick_wins == opponent_wins and same_surface_total == 0:
-        adjustment = 0.0
-    return round(adjustment, 1)
-
-
-def fetch_event_details(event_id: Any, force_refresh: bool = False) -> Optional[Dict[str, Any]]:
-    if not event_id:
-        return None
-    key = str(event_id)
-    if key in _EVENT_CACHE and not force_refresh:
-        return _EVENT_CACHE[key]
-    client = TennisApiClient()
-    try:
-        payload = client.get_match_details(int(event_id))
-        event = _extract_event(payload)
-        _EVENT_CACHE[key] = event
-        return event
-    except Exception as exc:
-        logger.debug("H2H event details failed. event_id=%s error=%s", event_id, exc)
-        _EVENT_CACHE[key] = None
-        return None
-
-
-def fetch_h2h_history_payload(event_id: Any, force_refresh: bool = False) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-    if not event_id:
-        return None, None
-    key = f"history:{event_id}"
-    if key in _H2H_CACHE and not force_refresh:
-        cached = _H2H_CACHE[key]
-        return cached.get("payload"), cached.get("path")
-    client = TennisApiClient()
-    paths = [
-        f"/api/tennis/event/{event_id}/h2h/events",
-        f"/api/tennis/event/{event_id}/h2h/history",
-        f"/api/tennis/event/{event_id}/head-to-head/history",
-        f"/api/tennis/event/{event_id}/head-to-head/events",
-        f"/api/tennis/event/{event_id}/headtohead/history",
-        f"/api/tennis/event/{event_id}/h2h",
-        f"/api/tennis/event/{event_id}/head-to-head",
-        f"/api/tennis/match/{event_id}/h2h/events",
-        f"/api/tennis/match/{event_id}/h2h/history",
-    ]
-    for path in paths:
         try:
-            payload = client._request_json("GET", path)
-            events = _extract_events(payload)
-            if events:
-                _H2H_CACHE[key] = {"payload": payload, "path": path}
-                print(f"H2H DEBUG: api history ok event_id={event_id} path={path} events={len(events)}")
-                return payload, path
-        except Exception as exc:
-            logger.debug("H2H history candidate failed. path=%s error=%s", path, exc)
-    print(f"H2H DEBUG: api history missing event_id={event_id}")
-    _H2H_CACHE[key] = {"payload": None, "path": None}
-    return None, None
-
-
-def fetch_h2h_summary_payload(event_id: Any, force_refresh: bool = False) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
-    if not event_id:
-        return None, None
-    key = f"summary:{event_id}"
-    if key in _H2H_CACHE and not force_refresh:
-        cached = _H2H_CACHE[key]
-        return cached.get("payload"), cached.get("path")
-    client = TennisApiClient()
-    paths = [
-        f"/api/tennis/event/{event_id}/h2h/summary",
-        f"/api/tennis/event/{event_id}/head-to-head/summary",
-        f"/api/tennis/event/{event_id}/headtohead/summary",
-        f"/api/tennis/match/{event_id}/h2h/summary",
-    ]
-    for path in paths:
-        try:
-            payload = client._request_json("GET", path)
-            if isinstance(payload, dict) and payload:
-                keys = set(payload.keys()) | set(payload.get("data", {}).keys() if isinstance(payload.get("data"), dict) else [])
-                if keys & {"homeWins", "awayWins", "player1Wins", "player2Wins", "homeTeamWins", "awayTeamWins", "h2h"}:
-                    _H2H_CACHE[key] = {"payload": payload, "path": path}
-                    print(f"H2H DEBUG: api summary ok event_id={event_id} path={path}")
-                    return payload, path
-        except Exception as exc:
-            logger.debug("H2H summary candidate failed. path=%s error=%s", path, exc)
-    _H2H_CACHE[key] = {"payload": None, "path": None}
-    return None, None
-
-
-def _summary_counts(payload: Dict[str, Any], current_event: Optional[Dict[str, Any]], pick: str) -> Optional[Tuple[int, int]]:
-    data = payload.get("data") if isinstance(payload.get("data"), dict) else payload
-    if not isinstance(data, dict):
-        return None
-    home_wins = data.get("homeWins") or data.get("homeTeamWins")
-    away_wins = data.get("awayWins") or data.get("awayTeamWins")
-    p1_wins = data.get("player1Wins") or data.get("player1AllWins")
-    p2_wins = data.get("player2Wins") or data.get("player2AllWins")
-
-    def to_int(value: Any) -> Optional[int]:
-        try:
-            if value is None or value == "":
-                return None
-            return int(value)
+            return int(float(str(value).strip()))
         except Exception:
-            return None
-
-    home_wins_i = to_int(home_wins)
-    away_wins_i = to_int(away_wins)
-    if current_event and home_wins_i is not None and away_wins_i is not None:
-        home, away = _event_players(current_event)
-        if _same_player(pick, home):
-            return home_wins_i, away_wins_i
-        if _same_player(pick, away):
-            return away_wins_i, home_wins_i
-
-    p1_wins_i = to_int(p1_wins)
-    p2_wins_i = to_int(p2_wins)
-    if p1_wins_i is not None and p2_wins_i is not None:
-        if current_event:
-            home, away = _event_players(current_event)
-            if _same_player(pick, home):
-                return p1_wins_i, p2_wins_i
-            if _same_player(pick, away):
-                return p2_wins_i, p1_wins_i
-        return p1_wins_i, p2_wins_i
-    return None
+            return default
 
 
-def _read_remote_csv(url: str, cache_path: Path, force_refresh: bool = False) -> List[Dict[str, Any]]:
-    cache_key = str(cache_path)
-    if cache_key in _SACKMANN_CSV_CACHE and not force_refresh:
-        return _SACKMANN_CSV_CACHE[cache_key]
-
-    text = None
-    if cache_path.exists() and not force_refresh:
-        try:
-            text = cache_path.read_text(encoding="utf-8")
-        except Exception:
-            text = None
-
-    if text is None:
-        try:
-            response = requests.get(url, timeout=25)
-            if response.status_code != 200 or "," not in response.text:
-                _SACKMANN_CSV_CACHE[cache_key] = []
-                return []
-            text = response.text
-            cache_path.parent.mkdir(parents=True, exist_ok=True)
-            cache_path.write_text(text, encoding="utf-8")
-        except Exception as exc:
-            logger.debug("Sackmann H2H CSV fetch failed url=%s error=%s", url, exc)
-            _SACKMANN_CSV_CACHE[cache_key] = []
-            return []
-
+def parse_date_key(value: Any) -> str:
+    if not value:
+        return "0"
+    text = str(value).strip()
+    if re.match(r"^\d{8}$", text):
+        return text
     try:
-        rows = list(csv.DictReader(StringIO(text)))
-    except Exception as exc:
-        logger.debug("Sackmann H2H CSV parse failed path=%s error=%s", cache_path, exc)
-        rows = []
-    _SACKMANN_CSV_CACHE[cache_key] = rows
-    return rows
-
-
-def _sackmann_years() -> List[int]:
-    current_year = datetime.utcnow().year
-    return list(range(current_year, current_year - SACKMANN_H2H_YEARS, -1))
-
-
-def _sackmann_event_from_row(row: Dict[str, Any], player1: str, player2: str, pick: str, source_label: str) -> Optional[Dict[str, Any]]:
-    winner = row.get("winner_name") or row.get("winner")
-    loser = row.get("loser_name") or row.get("loser")
-    if not winner or not loser:
-        return None
-
-    direct = _same_player(player1, winner) and _same_player(player2, loser)
-    reverse = _same_player(player1, loser) and _same_player(player2, winner)
-    if not direct and not reverse:
-        return None
-
-    pick_won = _same_player(pick, winner)
-    score = row.get("score") or ""
-    tourney_date = row.get("tourney_date") or row.get("date") or ""
-    surface = row.get("surface") or ""
-    tourney = row.get("tourney_name") or row.get("tournament") or ""
-    winner_rank = row.get("winner_rank") or ""
-    loser_rank = row.get("loser_rank") or ""
-
-    return {
-        "homeTeam": {"name": str(winner)},
-        "awayTeam": {"name": str(loser)},
-        "winnerCode": 1,
-        "winnerTeam": {"name": str(winner)},
-        "pick_won": pick_won,
-        "surface": surface,
-        "groundType": surface,
-        "tournament": {"name": tourney, "surface": surface},
-        "startDate": tourney_date,
-        "tourney_date": tourney_date,
-        "score": score,
-        "score_summary": f"{winner} def. {loser} {score}".strip(),
-        "h2h_source": f"sackmann:{source_label}",
-        "winner_rank": winner_rank,
-        "loser_rank": loser_rank,
-    }
-
-
-def fetch_sackmann_h2h_events(
-    player1: str,
-    player2: str,
-    pick: str,
-    force_refresh: bool = False,
-) -> List[Dict[str, Any]]:
-    if not SACKMANN_H2H_ENABLED:
-        return []
-
-    cache_key = f"sackmann:{_normalize_name(player1)}:{_normalize_name(player2)}"
-    if cache_key in _H2H_CACHE and not force_refresh:
-        cached = _H2H_CACHE[cache_key].get("events")
-        return cached if isinstance(cached, list) else []
-
-    output: List[Dict[str, Any]] = []
-    for year in _sackmann_years():
-        for label, template in SACKMANN_SOURCES:
-            url = template.format(year=year)
-            path = LOCAL_SACKMANN_CACHE_DIR / label / f"{year}.csv"
-            rows = _read_remote_csv(url, path, force_refresh=force_refresh)
-            if not rows:
-                continue
-            for row in rows:
-                event = _sackmann_event_from_row(row, player1, player2, pick, label)
-                if event:
-                    output.append(event)
-
-    _H2H_CACHE[cache_key] = {"events": output}
-    if output:
-        print(f"H2H DEBUG: sackmann ok {player1} vs {player2} events={len(output)}")
-    return output
-
-
-def _event_key(event: Dict[str, Any]) -> str:
-    home, away = _event_players(event)
-    names = sorted([_normalize_name(home), _normalize_name(away)])
-    date = str(event.get("startDate") or event.get("tourney_date") or event.get("startTimestamp") or "")
-    score = str(event.get("score") or event.get("score_summary") or "")
-    return "|".join(names + [date, score])
-
-
-def _usable_api_events(events: List[Dict[str, Any]], player1: str, player2: str, pick: str) -> List[Dict[str, Any]]:
-    output = []
-    for event in events:
-        if not _valid_h2h_event(event, player1, player2):
-            continue
-        if _pick_result_for_event(event, pick) is None:
-            continue
-        output.append(event)
-    return output
-
-
-def _merge_events(api_events: List[Dict[str, Any]], sackmann_events: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    seen = set()
-    output = []
-    for event in api_events + sackmann_events:
-        key = _event_key(event)
-        if key in seen:
-            continue
-        seen.add(key)
-        output.append(event)
-    return output
-
-
-def _source_label(api_count: int, sackmann_count: int) -> str:
-    if api_count > 0 and sackmann_count > 0:
-        return "api+sackmann"
-    if api_count > 0:
-        return "api"
-    if sackmann_count > 0:
-        return "sackmann"
-    return "none"
-
-
-def build_h2h_context(
-    event_id: Optional[Any],
-    player1: str,
-    player2: str,
-    pick: str,
-    surface: Optional[str] = None,
-    force_refresh: bool = False,
-) -> Dict[str, Any]:
-    current_event = fetch_event_details(event_id, force_refresh=force_refresh) if event_id else None
-    current_surface_key = _surface_key(surface) or _event_surface(current_event or {})
-
-    history_payload, history_path = fetch_h2h_history_payload(event_id, force_refresh=force_refresh) if event_id else (None, None)
-    api_raw_events = _extract_events(history_payload) if history_payload else []
-    api_events = _usable_api_events(api_raw_events, player1, player2, pick)
-
-    endpoint_path = history_path
-    summary_counts: Optional[Tuple[int, int]] = None
-
-    if not api_events and event_id:
-        summary_payload, summary_path = fetch_h2h_summary_payload(event_id, force_refresh=force_refresh)
-        endpoint_path = summary_path or endpoint_path
-        if summary_payload:
-            summary_counts = _summary_counts(summary_payload, current_event, pick)
-
-    sackmann_events = fetch_sackmann_h2h_events(player1, player2, pick, force_refresh=force_refresh)
-    events = _merge_events(api_events, sackmann_events)
-
-    total = 0
-    pick_wins = 0
-    same_surface_total = 0
-    same_surface_pick_wins = 0
-    recent_result = None
-
-    for event in events:
-        pick_won = _pick_result_for_event(event, pick)
-        if pick_won is None:
-            continue
-        total += 1
-        if pick_won:
-            pick_wins += 1
-        if recent_result is None:
-            recent_result = _score_summary(event) or None
-        event_surface_key = _event_surface(event)
-        if current_surface_key and event_surface_key and current_surface_key == event_surface_key:
-            same_surface_total += 1
-            if pick_won:
-                same_surface_pick_wins += 1
-
-    # If event history has no usable events but summary has totals, use summary as API source.
-    if total <= 0 and summary_counts:
-        pick_wins, opponent_wins = summary_counts
-        total = pick_wins + opponent_wins
-        same_surface_total = 0
-        same_surface_pick_wins = 0
-    else:
-        opponent_wins = total - pick_wins
-
-    api_count = len(api_events) if api_events else (total if summary_counts and total > 0 and not events else 0)
-    sackmann_count = len(sackmann_events)
-    source = _source_label(api_count, sackmann_count)
-
-    if total <= 0:
-        result = _empty_h2h(event_id, reason="No usable H2H events")
-        result["h2h_raw_count"] = len(api_raw_events) + sackmann_count
-        result["h2h_endpoint_path"] = endpoint_path
-        result["h2h_source"] = source
-        result["h2h_api_total_matches"] = api_count
-        result["h2h_sackmann_total_matches"] = sackmann_count
-        _persist_h2h_artifacts(
-            event_id=event_id,
-            player1=player1,
-            player2=player2,
-            pick=pick,
-            surface=surface,
-            result=result,
-            api_events=api_events,
-            sackmann_events=sackmann_events,
-            combined_events=events,
-            api_payload=history_payload,
-            api_endpoint_path=endpoint_path,
-        )
-        return result
-
-    opponent_wins = total - pick_wins
-    pick_win_pct = pick_wins / total
-    same_surface_pick_win_pct = (same_surface_pick_wins / same_surface_total) if same_surface_total > 0 else None
-
-    if pick_wins > opponent_wins:
-        signal = "SUPPORT"
-        reason = f"Pick leads H2H {pick_wins}-{opponent_wins}"
-    elif pick_wins < opponent_wins:
-        signal = "AGAINST"
-        reason = f"Pick trails H2H {pick_wins}-{opponent_wins}"
-    else:
-        signal = "NEUTRAL"
-        reason = f"H2H balanced {pick_wins}-{opponent_wins}"
-
-    adjustment_pct = _compute_adjustment_pct(total, pick_wins, same_surface_total, same_surface_pick_wins)
-
-    result = {
-        "h2h_event_id": event_id,
-        "h2h_total_matches": total,
-        "h2h_pick_wins": pick_wins,
-        "h2h_opponent_wins": opponent_wins,
-        "h2h_pick_win_pct": round(pick_win_pct, 4),
-        "h2h_same_surface_matches": same_surface_total,
-        "h2h_same_surface_pick_wins": same_surface_pick_wins,
-        "h2h_same_surface_pick_win_pct": round(same_surface_pick_win_pct, 4) if same_surface_pick_win_pct is not None else None,
-        "h2h_signal": signal,
-        "h2h_adjustment": round(adjustment_pct / 100.0, 4),
-        "h2h_adjustment_pct": adjustment_pct,
-        "h2h_component_pct": adjustment_pct,
-        "thinq_h2h_pct": adjustment_pct,
-        "h2h_reason": reason,
-        "h2h_recent_result": recent_result,
-        "h2h_raw_count": len(api_raw_events) + sackmann_count,
-        "h2h_endpoint_path": endpoint_path,
-        "h2h_source": source,
-        "h2h_api_total_matches": api_count,
-        "h2h_sackmann_total_matches": sackmann_count,
-    }
-    _persist_h2h_artifacts(
-        event_id=event_id,
-        player1=player1,
-        player2=player2,
-        pick=pick,
-        surface=surface,
-        result=result,
-        api_events=api_events,
-        sackmann_events=sackmann_events,
-        combined_events=events,
-        api_payload=history_payload,
-        api_endpoint_path=endpoint_path,
-    )
-    return result
+        if re.match(r"^\d{4}-\d{2}-\d{2}", text):
+            return datetime.fromisoformat(text[:10]).strftime("%Y%m%d")
+    except Exception:
+        pass
+    return "0"
 
 
 # -----------------------------------------------------------------------------
-# Backward-compatible THINQ loader class
+# Data schema
 # -----------------------------------------------------------------------------
+
+
+@dataclass
+class H2HQData:
+    player1: str
+    player2: str
+    surface: Optional[str] = None
+
+    h2h_total_matches: int = 0
+    h2h_player1_wins: int = 0
+    h2h_player2_wins: int = 0
+
+    h2h_surface_matches: int = 0
+    h2h_surface_player1_wins: int = 0
+    h2h_surface_player2_wins: int = 0
+
+    h2h_recent_matches: int = 0
+    h2h_recent_player1_wins: int = 0
+    h2h_recent_player2_wins: int = 0
+    h2h_recent_winner: Optional[str] = None
+
+    h2h_edge: float = 0.0
+    h2h_confidence: float = 0.0
+
+    source: str = "none"
+    api_status: str = "not_used"
+    fallback_used: bool = False
+    error: Optional[str] = None
+
+    raw_api: Optional[Dict[str, Any]] = None
+
+    def to_dict(self) -> Dict[str, Any]:
+        return asdict(self)
+
+
+# -----------------------------------------------------------------------------
+# Loader
+# -----------------------------------------------------------------------------
+
 
 class H2HLoader:
-    """Compatibility wrapper for older THINQ imports.
+    """
+    Standalone H2HQ loader for THINQ.
 
-    Older THINQ package code imports `H2HLoader` from `thinq.loaders.h2h_loader`.
-    The canonical function is `build_h2h_context`, so this class simply delegates
-    to that function while preserving the old class-based interface.
+    Load order:
+    1. Tennis API name-based H2H profile endpoint.
+    2. Sackmann fallback from historical match cache.
+
+    Returned edge is from player1 perspective:
+    - positive h2h_edge means H2H favors player1
+    - negative h2h_edge means H2H favors player2
     """
 
-    def __init__(self, *args, **kwargs):
-        self.args = args
-        self.kwargs = kwargs
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        cache_dir: Optional[str] = None,
+        use_api: bool = True,
+        use_cache: bool = True,
+        use_sackmann_fallback: bool = True,
+        timeout: int = 25,
+        sackmann_loader: Optional[SackmannLoader] = None,
+    ) -> None:
+        self.api_key = api_key or os.getenv("RAPIDAPI_KEY") or os.getenv("TENNIS_API_KEY")
+        self.cache_dir = Path(cache_dir) if cache_dir else Path("thinq/data/h2h")
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+
+        self.use_api = use_api
+        self.use_cache = use_cache
+        self.use_sackmann_fallback = use_sackmann_fallback
+        self.timeout = timeout
+        self.sackmann_loader = sackmann_loader
+
+    # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
 
     def load_h2h(
         self,
         player1: str,
         player2: str,
         surface: Optional[str] = None,
-        event_id: Optional[Any] = None,
-        pick: Optional[str] = None,
-        force_refresh: bool = False,
-        **kwargs,
+        tour_type: Optional[str] = None,
+        limit: bool = False,
+        include_all: bool = False,
     ) -> Dict[str, Any]:
-        return build_h2h_context(
-            event_id=event_id or kwargs.get("match_id") or kwargs.get("id"),
-            player1=player1,
-            player2=player2,
-            pick=pick or player1,
-            surface=surface,
-            force_refresh=force_refresh,
-        )
+        """
+        Main method used by THINQ.
 
-    def build_context(
+        Args:
+            player1: First player display name.
+            player2: Second player display name.
+            surface: Optional current match surface.
+            tour_type: Optional atp/wta. If missing, loader tries playerType endpoint.
+            limit: Passed to profile endpoint as true/false string.
+            include_all: Query parameter for profile endpoint.
+        """
+        cache_key = self._cache_key(player1, player2, surface, tour_type, limit, include_all)
+
+        if self.use_cache:
+            cached = self._read_cache(cache_key)
+            if cached:
+                return cached
+
+        result: Optional[Dict[str, Any]] = None
+        api_error: Optional[str] = None
+
+        if self.use_api and self.api_key:
+            try:
+                result = self._load_from_api(
+                    player1=player1,
+                    player2=player2,
+                    surface=surface,
+                    tour_type=tour_type,
+                    limit=limit,
+                    include_all=include_all,
+                )
+            except Exception as exc:
+                api_error = str(exc)
+
+        if not result and self.use_sackmann_fallback:
+            result = self._load_from_sackmann(
+                player1=player1,
+                player2=player2,
+                surface=surface,
+                api_error=api_error,
+            )
+
+        if not result:
+            data = H2HQData(
+                player1=player1,
+                player2=player2,
+                surface=surface,
+                source="none",
+                api_status="failed" if api_error else "not_used",
+                error=api_error,
+            )
+            result = data.to_dict()
+
+        if self.use_cache:
+            self._write_cache(cache_key, result)
+
+        return result
+
+    # Compatibility alias.
+    def load_match(
         self,
-        event_id: Optional[Any],
         player1: str,
         player2: str,
-        pick: str,
         surface: Optional[str] = None,
-        force_refresh: bool = False,
+        **kwargs: Any,
     ) -> Dict[str, Any]:
-        return build_h2h_context(
-            event_id=event_id,
+        return self.load_h2h(player1=player1, player2=player2, surface=surface, **kwargs)
+
+    # ------------------------------------------------------------------
+    # Tennis API source
+    # ------------------------------------------------------------------
+
+    def _headers(self) -> Dict[str, str]:
+        return {
+            "X-RapidAPI-Key": self.api_key or "",
+            "X-RapidAPI-Host": RAPIDAPI_HOST,
+        }
+
+    def _get_json(self, path: str, params: Optional[Dict[str, Any]] = None) -> Any:
+        url = f"{RAPIDAPI_BASE_URL}{path}"
+        response = requests.get(url, headers=self._headers(), params=params, timeout=self.timeout)
+        if response.status_code == 204:
+            return None
+        if response.status_code != 200:
+            raise RuntimeError(f"API HTTP {response.status_code}: {url} :: {response.text[:300]}")
+        try:
+            return response.json()
+        except Exception as exc:
+            raise RuntimeError(f"API JSON decode failed: {url} :: {exc}")
+
+    def get_player_type(self, player_name: str) -> Optional[str]:
+        encoded = quote(player_name.strip())
+        data = self._get_json(f"/tennis/v2/ms-api/h2h/playerType/{encoded}")
+        if not isinstance(data, dict):
+            return None
+        value = data.get("type")
+        if not value:
+            return None
+        value = str(value).strip().lower()
+        if value in ["atp", "wta"]:
+            return value
+        return None
+
+    def _resolve_tour_type(self, player1: str, player2: str, tour_type: Optional[str]) -> Optional[str]:
+        if tour_type:
+            value = str(tour_type).strip().lower()
+            if value in ["atp", "wta"]:
+                return value
+
+        p1_type = self.get_player_type(player1)
+        if p1_type in ["atp", "wta"]:
+            return p1_type
+
+        p2_type = self.get_player_type(player2)
+        if p2_type in ["atp", "wta"]:
+            return p2_type
+
+        return None
+
+    def _load_from_api(
+        self,
+        player1: str,
+        player2: str,
+        surface: Optional[str],
+        tour_type: Optional[str],
+        limit: bool,
+        include_all: bool,
+    ) -> Optional[Dict[str, Any]]:
+        resolved_tour = self._resolve_tour_type(player1, player2, tour_type)
+        if not resolved_tour:
+            raise RuntimeError("Could not resolve tour_type for H2H API")
+
+        encoded_p1 = quote(player1.strip())
+        encoded_p2 = quote(player2.strip())
+        limit_text = "true" if limit else "false"
+        include_all_text = "true" if include_all else "false"
+
+        path = f"/tennis/v2/ms-api/h2h/{resolved_tour}/{encoded_p1}/{encoded_p2}/{limit_text}"
+        raw = self._get_json(path, params={"includeAll": include_all_text})
+
+        if not isinstance(raw, dict):
+            return None
+
+        parsed = self._parse_api_profile(
+            raw=raw,
             player1=player1,
             player2=player2,
-            pick=pick,
             surface=surface,
-            force_refresh=force_refresh,
+        )
+        parsed["api_status"] = "ok"
+        parsed["source"] = "tennis_api_h2h"
+        parsed["fallback_used"] = False
+        parsed["raw_api"] = raw
+        return parsed
+
+    def _parse_api_profile(
+        self,
+        raw: Dict[str, Any],
+        player1: str,
+        player2: str,
+        surface: Optional[str],
+    ) -> Dict[str, Any]:
+        surface_data = raw.get("surfaceData") if isinstance(raw.get("surfaceData"), dict) else {}
+
+        total_p1, total_p2 = self._extract_api_total_wins(raw, surface_data)
+        surface_p1, surface_p2 = self._extract_api_surface_wins(surface_data, surface)
+
+        recent_p1, recent_p2, recent_winner, recent_total = self._extract_recent_from_api(raw)
+
+        total_matches = total_p1 + total_p2
+        surface_matches = surface_p1 + surface_p2
+
+        edge = self._calculate_edge(
+            p1_wins=total_p1,
+            p2_wins=total_p2,
+            surface_p1_wins=surface_p1,
+            surface_p2_wins=surface_p2,
+            recent_p1_wins=recent_p1,
+            recent_p2_wins=recent_p2,
+        )
+        confidence = self._calculate_confidence(
+            total_matches=total_matches,
+            surface_matches=surface_matches,
+            recent_matches=recent_total,
         )
 
-    def __call__(self, *args, **kwargs) -> Dict[str, Any]:
-        return self.load_h2h(*args, **kwargs)
+        data = H2HQData(
+            player1=player1,
+            player2=player2,
+            surface=surface,
+            h2h_total_matches=total_matches,
+            h2h_player1_wins=total_p1,
+            h2h_player2_wins=total_p2,
+            h2h_surface_matches=surface_matches,
+            h2h_surface_player1_wins=surface_p1,
+            h2h_surface_player2_wins=surface_p2,
+            h2h_recent_matches=recent_total,
+            h2h_recent_player1_wins=recent_p1,
+            h2h_recent_player2_wins=recent_p2,
+            h2h_recent_winner=recent_winner,
+            h2h_edge=edge,
+            h2h_confidence=confidence,
+            source="tennis_api_h2h",
+            api_status="ok",
+        )
+        return data.to_dict()
+
+    def _extract_api_total_wins(self, raw: Dict[str, Any], surface_data: Dict[str, Any]) -> Tuple[int, int]:
+        # Advanced profile usually has surfaceData.total1 / total2.
+        p1 = parse_int(surface_data.get("total1"), 0)
+        p2 = parse_int(surface_data.get("total2"), 0)
+        if p1 or p2:
+            return p1, p2
+
+        # Other API responses may expose direct all-wins fields.
+        p1 = parse_int(raw.get("player1AllWins"), 0)
+        p2 = parse_int(raw.get("player2AllWins"), 0)
+        if p1 or p2:
+            return p1, p2
+
+        p1 = parse_int(raw.get("player1Wins"), 0)
+        p2 = parse_int(raw.get("player2Wins"), 0)
+        return p1, p2
+
+    def _extract_api_surface_wins(self, surface_data: Dict[str, Any], surface: Optional[str]) -> Tuple[int, int]:
+        normalized = normalize_surface(surface)
+        if not normalized or not surface_data:
+            return 0, 0
+
+        key_map = {
+            "hard": ("hard1", "hard2"),
+            "indoor hard": ("iHard1", "iHard2"),
+            "clay": ("clay1", "clay2"),
+            "grass": ("grass1", "grass2"),
+            "carpet": ("carpet1", "carpet2"),
+        }
+        keys = key_map.get(normalized)
+        if not keys:
+            return 0, 0
+        return parse_int(surface_data.get(keys[0]), 0), parse_int(surface_data.get(keys[1]), 0)
+
+    def _extract_recent_from_api(self, raw: Dict[str, Any]) -> Tuple[int, int, Optional[str], int]:
+        # The advanced profile exposes recentGames per player, but those are general recent games,
+        # not necessarily direct H2H matches. Therefore we do not convert those into H2H edge.
+        # Keep this as neutral until a full matches endpoint parser is added.
+        return 0, 0, None, 0
+
+    # ------------------------------------------------------------------
+    # Sackmann fallback source
+    # ------------------------------------------------------------------
+
+    def _load_from_sackmann(
+        self,
+        player1: str,
+        player2: str,
+        surface: Optional[str],
+        api_error: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        loader = self.sackmann_loader or SackmannLoader()
+        matches = loader.load_matches()
+
+        p1_key = normalize_player_name(player1)
+        p2_key = normalize_player_name(player2)
+        surface_key = normalize_surface(surface)
+
+        h2h_matches: List[Dict[str, Any]] = []
+        surface_matches: List[Dict[str, Any]] = []
+
+        for match in matches:
+            m_p1 = normalize_player_name(match.get("player1"))
+            m_p2 = normalize_player_name(match.get("player2"))
+            players = {m_p1, m_p2}
+            if players != {p1_key, p2_key}:
+                continue
+
+            h2h_matches.append(match)
+
+            match_surface = normalize_surface(match.get("surface"))
+            if surface_key and match_surface == surface_key:
+                surface_matches.append(match)
+
+        h2h_matches.sort(key=lambda item: parse_date_key(item.get("date")), reverse=True)
+        surface_matches.sort(key=lambda item: parse_date_key(item.get("date")), reverse=True)
+
+        total_p1 = self._count_wins(h2h_matches, p1_key)
+        total_p2 = self._count_wins(h2h_matches, p2_key)
+        surface_p1 = self._count_wins(surface_matches, p1_key)
+        surface_p2 = self._count_wins(surface_matches, p2_key)
+
+        recent_matches = h2h_matches[:3]
+        recent_p1 = self._count_wins(recent_matches, p1_key)
+        recent_p2 = self._count_wins(recent_matches, p2_key)
+        recent_winner = None
+        if recent_matches:
+            winner_key = normalize_player_name(recent_matches[0].get("winner"))
+            if winner_key == p1_key:
+                recent_winner = "player1"
+            elif winner_key == p2_key:
+                recent_winner = "player2"
+
+        edge = self._calculate_edge(
+            p1_wins=total_p1,
+            p2_wins=total_p2,
+            surface_p1_wins=surface_p1,
+            surface_p2_wins=surface_p2,
+            recent_p1_wins=recent_p1,
+            recent_p2_wins=recent_p2,
+        )
+        confidence = self._calculate_confidence(
+            total_matches=len(h2h_matches),
+            surface_matches=len(surface_matches),
+            recent_matches=len(recent_matches),
+        )
+
+        data = H2HQData(
+            player1=player1,
+            player2=player2,
+            surface=surface,
+            h2h_total_matches=len(h2h_matches),
+            h2h_player1_wins=total_p1,
+            h2h_player2_wins=total_p2,
+            h2h_surface_matches=len(surface_matches),
+            h2h_surface_player1_wins=surface_p1,
+            h2h_surface_player2_wins=surface_p2,
+            h2h_recent_matches=len(recent_matches),
+            h2h_recent_player1_wins=recent_p1,
+            h2h_recent_player2_wins=recent_p2,
+            h2h_recent_winner=recent_winner,
+            h2h_edge=edge,
+            h2h_confidence=confidence,
+            source="sackmann_h2h_fallback",
+            api_status="failed" if api_error else "not_used",
+            fallback_used=True,
+            error=api_error,
+        )
+        return data.to_dict()
+
+    @staticmethod
+    def _count_wins(matches: List[Dict[str, Any]], player_key: str) -> int:
+        return sum(1 for match in matches if normalize_player_name(match.get("winner")) == player_key)
+
+    # ------------------------------------------------------------------
+    # Edge/confidence formulas
+    # ------------------------------------------------------------------
+
+    def _calculate_edge(
+        self,
+        p1_wins: int,
+        p2_wins: int,
+        surface_p1_wins: int = 0,
+        surface_p2_wins: int = 0,
+        recent_p1_wins: int = 0,
+        recent_p2_wins: int = 0,
+    ) -> float:
+        """
+        Conservative H2H edge from player1 perspective.
+
+        Caps:
+        - 0 matches: 0.00
+        - 1 match: +/-0.02
+        - 2-3 matches: +/-0.04
+        - 4+ matches: +/-0.06
+
+        Surface/recent components only influence available H2H sample.
+        """
+        total = p1_wins + p2_wins
+        if total <= 0:
+            return 0.0
+
+        total_diff = (p1_wins - p2_wins) / total
+
+        surface_total = surface_p1_wins + surface_p2_wins
+        if surface_total > 0:
+            surface_diff = (surface_p1_wins - surface_p2_wins) / surface_total
+        else:
+            surface_diff = 0.0
+
+        recent_total = recent_p1_wins + recent_p2_wins
+        if recent_total > 0:
+            recent_diff = (recent_p1_wins - recent_p2_wins) / recent_total
+        else:
+            recent_diff = 0.0
+
+        weighted = (0.60 * total_diff) + (0.25 * surface_diff) + (0.15 * recent_diff)
+
+        if total == 1:
+            cap = 0.02
+        elif total <= 3:
+            cap = 0.04
+        else:
+            cap = 0.06
+
+        edge = max(min(weighted * cap, cap), -cap)
+        return round(edge, 4)
+
+    @staticmethod
+    def _calculate_confidence(total_matches: int, surface_matches: int, recent_matches: int) -> float:
+        if total_matches <= 0:
+            return 0.0
+
+        total_score = min(total_matches / 5, 1.0)
+        surface_score = min(surface_matches / 3, 1.0)
+        recent_score = min(recent_matches / 3, 1.0)
+
+        confidence = (0.60 * total_score) + (0.25 * surface_score) + (0.15 * recent_score)
+        return round(confidence, 4)
+
+    # ------------------------------------------------------------------
+    # Cache
+    # ------------------------------------------------------------------
+
+    def _cache_key(
+        self,
+        player1: str,
+        player2: str,
+        surface: Optional[str],
+        tour_type: Optional[str],
+        limit: bool,
+        include_all: bool,
+    ) -> str:
+        p1 = normalize_player_name(player1).replace(" ", "_")
+        p2 = normalize_player_name(player2).replace(" ", "_")
+        s = (normalize_surface(surface) or "all").replace(" ", "_")
+        t = (tour_type or "auto").lower()
+        l = "limited" if limit else "full"
+        ia = "all" if include_all else "default"
+        ordered = sorted([p1, p2])
+        return f"{ordered[0]}__{ordered[1]}__{s}__{t}__{l}__{ia}.json"
+
+    def _read_cache(self, cache_key: str) -> Optional[Dict[str, Any]]:
+        path = self.cache_dir / cache_key
+        if not path.exists():
+            return None
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(data, dict):
+                return data
+        except Exception:
+            return None
+        return None
+
+    def _write_cache(self, cache_key: str, data: Dict[str, Any]) -> None:
+        path = self.cache_dir / cache_key
+        try:
+            path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+        except Exception as exc:
+            print("H2H CACHE WRITE ERROR:", exc)
 
 
-__all__ = ["H2HLoader", "build_h2h_context"]
+if __name__ == "__main__":
+    loader = H2HLoader(use_api=False, use_sackmann_fallback=True)
+    sample = loader.load_h2h("Novak Djokovic", "Carlos Alcaraz", surface="Grass")
+    print(json.dumps(sample, ensure_ascii=False, indent=2))
