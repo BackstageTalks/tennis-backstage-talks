@@ -38,7 +38,6 @@ def corq_rank_tuple(prediction: Dict[str, Any]) -> Tuple[float, float, float]:
     score = score_value(prediction)
     prob = normalize_probability(prediction.get("corq_probability") or prediction.get("probability")) or 0.0
     odds = safe_float(prediction.get("pick_odds") or prediction.get("odds")) or 0.0
-    # Higher score first, then higher probability, then slightly higher odds.
     return (score, prob, odds)
 
 
@@ -76,6 +75,8 @@ def select_top7_from_corq_ranking(ranked_predictions: Iterable[Dict[str, Any]], 
         prediction["top7_source"] = "CORQ_RANKING"
     return top
 
-# Backward-compatible aliases
+
+# Backward-compatible aliases used by corq.engine and earlier files.
 rank_predictions = rank_corq_predictions
 get_top_predictions = select_top7_from_corq_ranking
+top_n_from_ranked = select_top7_from_corq_ranking
