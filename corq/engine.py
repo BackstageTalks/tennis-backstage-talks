@@ -14,25 +14,63 @@ from .ranking import rank_predictions, top_n_from_ranked
 from .outputs import publish_outputs
 
 
+def _extract_match_list(data: Any) -> List[Dict[str, Any]] | None:
+    """Extract a match list from common return payload shapes."""
+    if isinstance(data, list):
+        return data
+    if isinstance(data, dict):
+        for key in ["matches", "events", "data", "fixtures", "items"]:
+            value = data.get(key)
+            if isinstance(value, list):
+                return value
+    return None
+
+
 def load_raw_matches() -> List[Dict[str, Any]]:
     """Load raw matches from the current fetch_matches.py source.
 
-    Supported function names are intentionally broad so the new runtime can work
-    with the existing fetch file without rewriting it tonight.
+    Existing project naming uses get_today_matches() / get_matches_for_date().
+    The clean runtime now supports both old and clean source function names.
     """
     fetch = importlib.import_module("fetch_matches")
-    for name in ["fetch_matches", "get_matches", "main", "load_matches"]:
+
+    # Most likely existing project entrypoints first.
+    for name in [
+        "get_today_matches",
+        "fetch_matches",
+        "get_matches",
+        "load_matches",
+        "main",
+    ]:
         func = getattr(fetch, name, None)
         if not callable(func):
             continue
         data = func()
-        if isinstance(data, list):
-            return data
-        if isinstance(data, dict):
-            for key in ["matches", "events", "data"]:
-                if isinstance(data.get(key), list):
-                    return data.get(key)
-    raise RuntimeError("fetch_matches.py does not expose fetch_matches/get_matches/main/load_matches returning matches")
+        matches = _extract_match_list(data)
+        if matches is not None:
+            return matches
+
+    # Optional date-based loader fallback. It may require betting_day() from same module.
+    get_for_date = getattr(fetch, "get_matches_for_date", None)
+    if callable(get_for_date):
+        target_date = None
+        betting_day = getattr(fetch, "betting_day", None)
+        if callable(betting_day):
+            try:
+                target_date = betting_day()
+            except Exception:
+                target_date = None
+        if target_date is not None:
+            data = get_for_date(target_date)
+            matches = _extract_match_list(data)
+            if matches is not None:
+                return matches
+
+    available = [name for name in ["get_today_matches", "fetch_matches", "get_matches", "load_matches", "main", "get_matches_for_date"] if callable(getattr(fetch, name, None))]
+    raise RuntimeError(
+        "fetch_matches.py does not expose a supported match loading function returning matches. "
+        f"Callable candidates found: {available}"
+    )
 
 
 def build_thinq(match: Dict[str, Any]) -> Dict[str, Any]:
