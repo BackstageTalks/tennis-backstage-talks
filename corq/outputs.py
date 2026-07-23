@@ -4,18 +4,21 @@ from typing import Any, Dict, List
 from datetime import datetime, timezone
 import json
 
-PUBLIC_DIR = Path("public")
+PUBLIC = Path("public")
 
-def write_json(path: str | Path, data: Any) -> None:
-    path = Path(path)
+
+def stamp() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def write_json(path: Path, data: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    payload = {"generated_at": stamp(), "data": data} if isinstance(data, list) else data
+    path.write_text(json.dumps(payload if not isinstance(data, list) else data, ensure_ascii=False, indent=2), encoding="utf-8")
+
 
 def publish_outputs(all_predictions: List[Dict[str, Any]], ranked: List[Dict[str, Any]], top7: List[Dict[str, Any]]) -> None:
-    PUBLIC_DIR.mkdir(exist_ok=True)
-    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    write_json(PUBLIC_DIR / "all_predictions_latest.json", all_predictions)
-    write_json(PUBLIC_DIR / f"all_predictions_{stamp}.json", all_predictions)
-    write_json(PUBLIC_DIR / "corq_predictions_latest.json", ranked)
-    write_json(PUBLIC_DIR / "top7_predictions_latest.json", top7)
-    write_json(PUBLIC_DIR / "runtime_meta.json", {"generated_at": datetime.now(timezone.utc).isoformat(), "runtime": "clean_corq"})
+    PUBLIC.mkdir(parents=True, exist_ok=True)
+    write_json(PUBLIC / "all_predictions_latest.json", all_predictions)
+    write_json(PUBLIC / "corq_predictions_latest.json", ranked)
+    write_json(PUBLIC / "top7_predictions_latest.json", top7)

@@ -1,58 +1,79 @@
 from __future__ import annotations
 from typing import Any, Dict
-from .schema import clamp, to_float, implied_probability
-from .rules import pick_odds
+from .rules import to_float, is_eligible_for_corq, risk_penalty
+
+
+def clamp(value: float, low: float = 0.01, high: float = 0.99) -> float:
+    return max(low, min(high, value))
+
+
+def implied_probability(odds: Any) -> float | None:
+    val = to_float(odds)
+    if not val or val <= 1.0:
+        return None
+    return 1.0 / val
+
 
 class CorqModel:
-    def __init__(self, max_thinq_adjustment: float = 0.06):
-        self.max_thinq_adjustment = max_thinq_adjustment
+    """CORQ CORE output model.
 
-    def raw_probability(self, match: Dict[str, Any]) -> float:
-        for key in ["corq_raw_probability", "corq_ai_probability", "probability", "model_probability"]:
-            value = to_float(match.get(key))
-            if value is not None:
-                return value if value <= 1.0 else value / 100.0
-        implied = implied_probability(pick_odds(match))
-        if implied is not None:
-            return clamp(implied + 0.015, 0.35, 0.82)
-        return 0.50
-
-    def thinq_adjustment(self, thinq: Dict[str, Any]) -> tuple[float, Dict[str, float]]:
-        edges = thinq.get("edges") or {}
-        confidence = clamp(to_float(thinq.get("confidence"), 0.0) or 0.0, 0.0, 1.0)
-        contributions: Dict[str, float] = {}
-        for key in ["elo_edge", "h2h_edge", "surface_edge", "history_edge", "opponent_quality_edge"]:
-            contributions[key] = (to_float(edges.get(key), 0.0) or 0.0) * confidence
-        total = clamp(sum(contributions.values()), -self.max_thinq_adjustment, self.max_thinq_adjustment)
-        return total, contributions
-
+    CORQ creates its own corq_raw_probability from available production inputs,
+    then applies THINQ intelligence adjustment and risk penalties.
+    """
     def score(self, match: Dict[str, Any], thinq: Dict[str, Any] | None = None) -> Dict[str, Any]:
-        thinq = thinq or {}
-        raw = self.raw_probability(match)
-        adjustment, contributions = self.thinq_adjustment(thinq)
-        probability = clamp(raw + adjustment, 0.01, 0.99)
-        implied = implied_probability(pick_odds(match)) or 0.0
-        edge = probability - implied if implied else 0.0
-        edge_bonus = clamp(edge * 0.25, -0.02, 0.02)
-        risk_penalty = 0.0
-        risk_flags = []
-        odds = pick_odds(match)
-        if odds is not None and odds < 1.60 and probability >= 0.75 and edge >= 0.12:
-            risk_penalty += 0.06
-            risk_flags.append("LOW_ODDS_OVERCONFIDENCE")
-        adjusted_score = clamp(probability + edge_bonus - risk_penalty, 0.0, 1.0)
-        result = dict(match)
-        result.update({
-            "corq_raw_probability": raw,
-            "thinq_total_adjustment": adjustment,
+        thinq = thinq or match.get("thinq") or {}
+        eligible, reject_reasons = is_eligible_for_corq(match)
+        pick_odds = match.get("pick_odds") or match.get("odds")
+
+        # If old pipeline has a probability, use it as raw seed; otherwise use odds implied plus margin correction.
+        raw = to_float(match.get("corq_raw_probability"))
+        if raw is None:
+            raw = to_float(match.get("corq_ai_probability"))
+        if raw is None:
+            raw = to_float(match.get("probability"))
+        if raw is not None and raw > 1.0:
+            raw = raw / 100.0
+        if raw is None:
+            implied = implied_probability(pick_odds)
+            raw = implied if implied is not None else 0.50
+            # Slightly conservative correction vs bookmaker margin when only odds are available.
+            raw = clamp(raw - 0.015, 0.35, 0.88)
+
+        edges = thinq.get("edges") or match.get("thinq_edges") or {}
+        thinq_adjustment = 0.0
+        contributions = {}
+        for key, weight in [("elo_edge", 1.00), ("h2h_edge", 0.80), ("surface_form_edge", 0.60), ("recent_form_edge", 0.50)]:
+            edge = to_float(edges.get(key), 0.0) or 0.0
+            if edge:
+                value = edge * weight
+                contributions[key] = round(value, 4)
+                thinq_adjustment += value
+        thinq_adjustment = clamp(thinq_adjustment, -0.06, 0.06)
+        probability_before_risk = clamp(raw + thinq_adjustment, 0.01, 0.99)
+        penalty, risk_flags = risk_penalty(match, probability_before_risk)
+        corq_probability = clamp(probability_before_risk - penalty, 0.01, 0.99)
+
+        odds = to_float(pick_odds)
+        market_edge = None
+        if odds and odds > 1:
+            market_edge = corq_probability - (1.0 / odds)
+        edge_bonus = min(max((market_edge or 0.0) * 0.25, 0.0), 0.02)
+        corq_adjusted_score = clamp(corq_probability + edge_bonus - penalty, 0.01, 0.99)
+
+        output = dict(match)
+        output.update({
+            "corq_raw_probability": round(raw, 4),
+            "thinq_total_adjustment": round(thinq_adjustment, 4),
             "corq_thinq_contributions": contributions,
-            "corq_probability": probability,
-            "probability": probability,
-            "corq_edge": edge,
-            "corq_edge_bonus": edge_bonus,
-            "corq_risk_penalty": risk_penalty,
+            "corq_probability": round(corq_probability, 4),
+            "probability": round(corq_probability, 4),
+            "corq_edge": round(market_edge, 4) if market_edge is not None else None,
+            "corq_edge_bonus": round(edge_bonus, 4),
+            "corq_risk_penalty": round(penalty, 4),
             "corq_risk_flags": risk_flags,
-            "corq_adjusted_score": adjusted_score,
-            "corq_top_score": adjusted_score,
+            "corq_adjusted_score": round(corq_adjusted_score, 4),
+            "corq_reject_reasons": reject_reasons,
+            "corq_eligible": eligible,
+            "thinq": thinq,
         })
-        return result
+        return output
