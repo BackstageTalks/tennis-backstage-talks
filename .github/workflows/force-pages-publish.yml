@@ -1,0 +1,109 @@
+name: Force Pages Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      rebuild_pages:
+        description: "Run python build_pages.py before publishing"
+        required: true
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      cache_bust_label:
+        description: "Optional cache-bust label used in public/.force_publish"
+        required: false
+        default: "manual-force"
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and package public site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies if present
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
+      - name: Sanity check patched files
+        run: |
+          python -m py_compile \
+            prediction_engine_core.py \
+            corq_thinq_adapter.py \
+            render_site.py \
+            thinq/thinq_service.py \
+            thinq/loaders/thinq_loader.py \
+            thinq/loaders/h2h_loader.py \
+            thinq/loaders/__init__.py
+
+          echo "Checking expected robust THINQ markers..."
+          grep -R "render_thinq_box" -n render_site.py
+          grep -R "thinq-card" -n render_site.py
+          grep -R "THINQ Data Aggregator - robust" -n thinq/loaders/thinq_loader.py
+          grep -R "thinq_h2h_status" -n corq_thinq_adapter.py
+
+          echo "Checking forbidden old imports..."
+          ! grep -R "from sackmann_loader" -n thinq || exit 1
+          ! grep -R "from loaders" -n . || exit 1
+
+      - name: Rebuild pages
+        if: ${{ inputs.rebuild_pages == 'true' }}
+        run: |
+          python build_pages.py
+
+      - name: Force cache-busting publish marker
+        run: |
+          mkdir -p public
+          date -u +"%Y-%m-%d %H:%M:%S UTC" > public/.force_publish
+          echo "${{ inputs.cache_bust_label }}" >> public/.force_publish
+          touch public/.nojekyll
+          echo "Force publish marker:"
+          cat public/.force_publish
+
+      - name: Verify generated public HTML contains THINQ box
+        run: |
+          test -d public
+          grep -R "THINQ" -n public | head -20
+          grep -R "ELO PICK" -n public | head -20
+          grep -R "thinq-card" -n public | head -20
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy artifact to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
