@@ -11,34 +11,10 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 12,
-  "found_count": 7,
-  "missing_count": 5,
+  "lookup_count": 8,
+  "found_count": 4,
+  "missing_count": 4,
   "examples_found": [
-    {
-      "input": "Francesca Jones",
-      "matched": "Francesca Jones",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1619.3,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Alevtina Ibragimova",
-      "matched": "Alevtina Ibragimova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1507.7,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Alice Rame",
-      "matched": "Alice Rame",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1339.2,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
     {
       "input": "Pedro Martinez",
       "matched": "Pedro Martinez",
@@ -73,11 +49,6 @@
     }
   ],
   "examples_missing": [
-    {
-      "input": "Miriam Bulgaru",
-      "normalized": "miriam bulgaru",
-      "reason": "no_safe_match"
-    },
     {
       "input": "Abbagnato A / Tona M",
       "normalized": "abbagnato a / tona m",
