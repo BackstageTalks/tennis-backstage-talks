@@ -1,192 +1,110 @@
-"""CORQ ranking utilities.
-
-Rules:
-- CORQ produces model score and ranking.
-- TOP7 is not a model, only the first N rows from CORQ ranking.
-- Candidate expansion may create one candidate per side, but any public match-level
-  output must contain at most one selected pick per real match/event.
-"""
+# CORQ ranking - TOP7 is first 7 from CORQ ranking
 from __future__ import annotations
-
 from typing import Any, Dict, Iterable, List, Tuple
-import re
 
-from .rules import apply_corq_eligibility, normalize_probability, safe_float
-
-TOP_N = 7
-
-
-def _clean_name(value: Any) -> str:
-    text = str(value or "").strip().lower()
-    text = re.sub(r"[^a-z0-9]+", "", text)
-    return text
+MIN_TOP_ODDS = 1.40
+MAX_ODDS_GAP_PCT = 2.50
+MIN_THINQ_CONFIDENCE = 0.15
 
 
-def match_identity(prediction: Dict[str, Any]) -> str:
-    """Stable identity for one real match.
-
-    Prefer provider ids. Fall back to sorted player names + tournament/date.
-    This prevents both sides of the same event from entering CORQ ranking and ALL UI.
-    """
-    for key in ("event_id", "eventId", "match_id", "matchId", "id"):
-        value = prediction.get(key)
-        if value not in (None, ""):
-            return f"event:{value}"
-
-    p1 = _clean_name(prediction.get("player1"))
-    p2 = _clean_name(prediction.get("player2"))
-    players = "__".join(sorted([p1, p2]))
-    tournament = _clean_name(prediction.get("tournament"))
-    time_key = str(
-        prediction.get("time")
-        or prediction.get("match_time")
-        or prediction.get("start_time")
-        or prediction.get("scheduled_time")
-        or ""
-    )[:10]
-    return f"pair:{players}:{tournament}:{time_key}"
+def _as_float(value, default=None):
+    try:
+        if value is None or value == '':
+            return default
+        return float(value)
+    except Exception:
+        return default
 
 
-def score_value(prediction: Dict[str, Any]) -> float:
-    for key in (
-        "corq_adjusted_score",
-        "corq_top_score",
-        "corq_q_probability",
-        "corq_thinq_adjusted_probability",
-        "corq_probability",
-        "corq_ai_probability",
-        "probability",
-    ):
-        val = prediction.get(key)
-        if key.endswith("probability") or key in {"corq_ai_probability", "probability"}:
-            prob = normalize_probability(val)
-            if prob is not None:
-                return prob
-        else:
-            number = safe_float(val)
-            if number is not None:
-                return number
-    return 0.0
+def _match_key(rec: Dict[str, Any]) -> str:
+    for key in ('event_id', 'eventId', 'match_id', 'match_key'):
+        if rec.get(key):
+            return str(rec.get(key))
+    p1 = str(rec.get('player1') or rec.get('pick') or '').lower().strip()
+    p2 = str(rec.get('player2') or rec.get('opponent') or '').lower().strip()
+    names = sorted([p1, p2])
+    return '::'.join(names + [str(rec.get('tournament') or '').lower().strip()])
 
 
-def corq_rank_tuple(prediction: Dict[str, Any]) -> Tuple[int, float, float, float]:
-    """Ranking tuple.
+def evaluate_eligibility(rec: Dict[str, Any]) -> Dict[str, Any]:
+    reasons: List[str] = []
+    if rec.get('is_doubles'):
+        reasons.append('REJECT_DOUBLES')
+    pick_odds = _as_float(rec.get('pick_odds') or rec.get('odds'))
+    opponent_odds = _as_float(rec.get('opponent_odds'))
+    if pick_odds is None:
+        reasons.append('REJECT_MISSING_ODDS')
+    elif pick_odds < MIN_TOP_ODDS:
+        reasons.append('REJECT_LOW_ODDS')
+    if opponent_odds is None:
+        reasons.append('REJECT_MISSING_OPPONENT_ODDS')
+    gap = _as_float(rec.get('odds_gap_pct'))
+    if gap is None and pick_odds and opponent_odds:
+        gap = abs(pick_odds - opponent_odds) / max(min(pick_odds, opponent_odds), 0.0001)
+    if gap is not None and gap > MAX_ODDS_GAP_PCT:
+        reasons.append('REJECT_EXTREME_ODDS_GAP')
+    surface = str(rec.get('surface') or '').strip().lower()
+    if not surface or surface == 'unknown':
+        reasons.append('REJECT_SURFACE_UNKNOWN')
+    if not rec.get('thinq_available', True):
+        reasons.append('REJECT_NO_THINQ')
+    thinq_conf = _as_float(rec.get('thinq_confidence'), 0.0) or 0.0
+    if thinq_conf < MIN_THINQ_CONFIDENCE:
+        reasons.append('REJECT_LOW_THINQ_CONFIDENCE')
 
-    Eligible rows sort above rejected rows when collapsing ALL by match.
-    Then higher CORQ score, higher probability, and slightly higher odds.
-    """
-    eligible = 1 if prediction.get("eligible_for_corq") else 0
-    score = score_value(prediction)
-    prob = normalize_probability(prediction.get("corq_probability") or prediction.get("probability")) or 0.0
-    odds = safe_float(prediction.get("pick_odds") or prediction.get("odds")) or 0.0
-    return (eligible, score, prob, odds)
-
-
-def _side_audit(prediction: Dict[str, Any]) -> Dict[str, Any]:
-    return {
-        "pick": prediction.get("pick"),
-        "opponent": prediction.get("opponent"),
-        "pick_odds": prediction.get("pick_odds") or prediction.get("odds"),
-        "opponent_odds": prediction.get("opponent_odds"),
-        "probability": prediction.get("corq_probability") or prediction.get("probability"),
-        "corq_adjusted_score": prediction.get("corq_adjusted_score"),
-        "eligible_for_corq": prediction.get("eligible_for_corq"),
-        "eligible_for_top7": prediction.get("eligible_for_top7"),
-        "corq_reject_reasons": prediction.get("corq_reject_reasons", []),
-    }
-
-
-def select_one_prediction_per_match(predictions: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Collapse side candidates to one public row per real match.
-
-    This is used for ALL web/JSON. It keeps the strongest CORQ side as the visible row
-    and stores all side candidates in ``corq_side_candidates`` for audit.
-    """
-    grouped: Dict[str, List[Dict[str, Any]]] = {}
-    for raw in predictions:
-        prediction = dict(raw)
-        key = match_identity(prediction)
-        prediction["corq_match_identity"] = key
-        grouped.setdefault(key, []).append(prediction)
-
-    selected: List[Dict[str, Any]] = []
-    for key, rows in grouped.items():
-        annotated = [apply_corq_eligibility(dict(row)) for row in rows]
-        best = max(annotated, key=corq_rank_tuple)
-        best = dict(best)
-        best["corq_match_identity"] = key
-        best["corq_candidate_selected"] = True
-        best["corq_side_candidates"] = [_side_audit(row) for row in sorted(annotated, key=corq_rank_tuple, reverse=True)]
-        if len(annotated) > 1:
-            best["corq_all_deduped_sides"] = len(annotated) - 1
-        selected.append(best)
-
-    return sorted(selected, key=corq_rank_tuple, reverse=True)
+    out = dict(rec)
+    out['corq_reject_reasons'] = sorted(set(list(out.get('corq_reject_reasons') or []) + reasons))
+    out['eligible_for_corq'] = len(out['corq_reject_reasons']) == 0
+    out['eligible_for_top7'] = out['eligible_for_corq']
+    return out
 
 
-def _dedupe_one_pick_per_match(eligible: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Keep only the strongest CORQ-eligible candidate for each real match/event."""
-    best_by_match: Dict[str, Dict[str, Any]] = {}
-    dropped_count = 0
-
-    for prediction in eligible:
-        key = match_identity(prediction)
-        current = best_by_match.get(key)
-        if current is None or corq_rank_tuple(prediction) > corq_rank_tuple(current):
-            if current is not None:
-                dropped_count += 1
-            chosen = dict(prediction)
-            chosen["corq_match_identity"] = key
-            chosen["corq_candidate_selected"] = True
-            best_by_match[key] = chosen
-        else:
-            dropped_count += 1
-
-    if dropped_count:
-        print("CORQ DEDUPE SUMMARY:", {"dropped_opposite_side_candidates": dropped_count})
-
-    return list(best_by_match.values())
+def dedupe_by_match(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    best: Dict[str, Dict[str, Any]] = {}
+    for rec in records:
+        key = _match_key(rec)
+        current = best.get(key)
+        score = _as_float(rec.get('corq_adjusted_score'), 0.0) or 0.0
+        cur_score = _as_float(current.get('corq_adjusted_score'), -1.0) if current else -1.0
+        if current is None or score > cur_score:
+            best[key] = dict(rec)
+    return list(best.values())
 
 
-def rank_corq_predictions(predictions: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    eligible: List[Dict[str, Any]] = []
-    rejected_count = 0
-    rejected_by_reason: Dict[str, int] = {}
-
-    for raw in predictions:
-        prediction = apply_corq_eligibility(dict(raw))
-        if prediction.get("eligible_for_corq"):
-            eligible.append(prediction)
-        else:
-            rejected_count += 1
-            for reason in prediction.get("corq_reject_reasons", []):
-                rejected_by_reason[reason] = rejected_by_reason.get(reason, 0) + 1
-
-    one_per_match = _dedupe_one_pick_per_match(eligible)
-    ranked = sorted(one_per_match, key=corq_rank_tuple, reverse=True)
-
-    for idx, prediction in enumerate(ranked, start=1):
-        prediction["corq_rank"] = idx
-        prediction["corq_rank_score"] = score_value(prediction)
-
-    print("CORQ RANKING SUMMARY:", {
-        "eligible_candidates": len(eligible),
-        "eligible_matches_after_dedupe": len(ranked),
-        "rejected": rejected_count,
-        "rejected_by_reason": rejected_by_reason,
-    })
+def rank_corq(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    evaluated = [evaluate_eligibility(r) for r in records]
+    eligible = [r for r in evaluated if r.get('eligible_for_corq')]
+    eligible = dedupe_by_match(eligible)
+    ranked = sorted(eligible, key=lambda r: (_as_float(r.get('corq_adjusted_score'), 0.0) or 0.0, _as_float(r.get('corq_probability'), 0.0) or 0.0), reverse=True)
+    for idx, rec in enumerate(ranked, start=1):
+        rec['corq_rank'] = idx
     return ranked
 
 
-def select_top7_from_corq_ranking(ranked_predictions: Iterable[Dict[str, Any]], top_n: int = TOP_N) -> List[Dict[str, Any]]:
-    top = list(ranked_predictions)[:top_n]
-    for idx, prediction in enumerate(top, start=1):
-        prediction["top7_rank"] = idx
-        prediction["top7_source"] = "CORQ_RANKING"
-    return top
+def make_all_match_view(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    evaluated = [evaluate_eligibility(r) for r in records]
+    grouped: Dict[str, List[Dict[str, Any]]] = {}
+    for r in evaluated:
+        grouped.setdefault(_match_key(r), []).append(r)
+    result: List[Dict[str, Any]] = []
+    for key, items in grouped.items():
+        selected = sorted(items, key=lambda r: (_as_float(r.get('corq_adjusted_score'), 0.0) or 0.0, _as_float(r.get('corq_probability'), 0.0) or 0.0), reverse=True)[0]
+        selected = dict(selected)
+        selected['corq_match_identity'] = key
+        selected['corq_candidate_selected'] = True
+        selected['corq_side_candidates'] = [
+            {
+                'pick': i.get('pick'),
+                'opponent': i.get('opponent'),
+                'corq_probability': i.get('corq_probability'),
+                'corq_adjusted_score': i.get('corq_adjusted_score'),
+                'eligible_for_corq': i.get('eligible_for_corq'),
+                'corq_reject_reasons': i.get('corq_reject_reasons'),
+            } for i in items
+        ]
+        result.append(selected)
+    return sorted(result, key=lambda r: (_as_float(r.get('corq_adjusted_score'), 0.0) or 0.0), reverse=True)
 
 
-# Backward-compatible aliases used by corq.engine and earlier files.
-rank_predictions = rank_corq_predictions
-get_top_predictions = select_top7_from_corq_ranking
-top_n_from_ranked = select_top7_from_corq_ranking
+def top7_from_ranking(ranked: List[Dict[str, Any]], top_n: int = 7) -> List[Dict[str, Any]]:
+    return ranked[:top_n]
