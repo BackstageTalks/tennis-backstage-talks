@@ -1,0 +1,6 @@
+# Use this inside the step that runs python update.py,
+# or define it at workflow/job level under env:.
+env:
+  RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+  TENNISAPI_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+  X_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}

@@ -3,7 +3,6 @@ name: Daily Tennis Predictions
 on:
   workflow_dispatch:
   schedule:
-    # 06:10 SK/CZ in summer is 04:10 UTC. Adjust if needed.
     - cron: "10 4 * * *"
 
 permissions:
@@ -13,12 +12,14 @@ permissions:
 
 env:
   PYTHONUNBUFFERED: "1"
+  RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+  TENNISAPI_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+  X_RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
 
 jobs:
   build:
     name: Build predictions and site
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,6 +38,17 @@ jobs:
           else
             python -m pip install requests pandas numpy openpyxl beautifulsoup4 lxml python-dateutil pytz
           fi
+
+      - name: Validate TennisApi key mapping
+        run: |
+          python - <<'PY'
+          import os
+          names = ["RAPIDAPI_KEY", "TENNISAPI_RAPIDAPI_KEY", "X_RAPIDAPI_KEY"]
+          present = {name: bool((os.getenv(name) or '').strip()) for name in names}
+          print("SECRET_MAPPING", present)
+          if not any(present.values()):
+              raise SystemExit("Missing RapidAPI key. Add repository secret RAPIDAPI_KEY.")
+          PY
 
       - name: Debug dependency versions
         run: |
