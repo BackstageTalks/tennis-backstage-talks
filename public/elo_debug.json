@@ -11,28 +11,503 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 2,
-  "found_count": 2,
-  "missing_count": 0,
+  "lookup_count": 378,
+  "found_count": 120,
+  "missing_count": 258,
   "examples_found": [
     {
-      "input": "Dalila Spiteri",
-      "matched": "Dalila Spiteri",
+      "input": "Ilinca Dalina Amariei",
+      "matched": "Ilinca Dalina Amariei",
       "method": "exact",
       "score": 1.0,
-      "elo": 1375.6,
+      "elo": 1308.4,
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
-      "input": "Lucia Bronzetti",
-      "matched": "Lucia Bronzetti",
+      "input": "Georgia Andreea Craciun",
+      "matched": "Georgia Andreea Craciun",
       "method": "exact",
       "score": 1.0,
-      "elo": 1622.0,
+      "elo": 1283.1,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Hernan Casanova",
+      "matched": "Hernan Casanova",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1393.2,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Astrid Lew Yan Foon",
+      "matched": "Astrid Lew Yan Foon",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1285.3,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Lucia Cortez Llorca",
+      "matched": "Lucia Cortez Llorca",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1312.6,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Anna Bondar",
+      "matched": "Anna Bondar",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1734.5,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Alina Charaeva",
+      "matched": "Alina Charaeva",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1693.5,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Lanlana Tararudee",
+      "matched": "Lanlana Tararudee",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1677.9,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Daria Snigur",
+      "matched": "Daria Snigur",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1781.2,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Luka Pavlović",
+      "matched": "Luka Pavlovic",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1510.1,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Mert Alkaya",
+      "matched": "Mert Alkaya",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1358.0,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Kristina Novak",
+      "matched": "Kristina Novak",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1180.9,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Keegan Smith",
+      "matched": "Keegan Smith",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1421.0,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Gauthier Onclin",
+      "matched": "Gauthier Onclin",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1566.9,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Tom Gentzsch",
+      "matched": "Tom Gentzsch",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1564.9,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Diego Dedura-Palomero",
+      "matched": "Diego Dedura Palomero",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1512.1,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Anna Siskova",
+      "matched": "Anna Siskova",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1554.9,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Anastasiia Sobolieva",
+      "matched": "Anastasiya Soboleva",
+      "method": "fuzzy_safe",
+      "score": 0.923,
+      "elo": 1533.0,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Mayar Sherif",
+      "matched": "Mayar Sherif",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1684.9,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Paula Badosa",
+      "matched": "Paula Badosa",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1779.6,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Marie Bouzkova",
+      "matched": "Marie Bouzkova",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1870.7,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Tereza Valentová",
+      "matched": "Tereza Valentova",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1817.5,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Yannick Hanfmann",
+      "matched": "Yannick Hanfmann",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1781.2,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Quentin Halys",
+      "matched": "Quentin Halys",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1706.6,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Sarah Iliev",
+      "matched": "Sarah Iliev",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1218.6,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Hugo Gaston",
+      "matched": "Hugo Gaston",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1622.1,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Matteo Martineau",
+      "matched": "Matteo Martineau",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1416.9,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Philip Henning",
+      "matched": "Philip Henning",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1461.3,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Thiago Seyboth Wild",
+      "matched": "Thiago Seyboth Wild",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1531.8,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Angela Fita Boluda",
+      "matched": "Angela Fita Boluda",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1444.4,
       "source": "data/elo/wta_elo_latest.csv"
     }
   ],
-  "examples_missing": [],
+  "examples_missing": [
+    {
+      "input": "Patricia Georgiana Goina",
+      "normalized": "patricia georgiana goina",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Teodora Miron",
+      "normalized": "teodora miron",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Radu David Turcanu",
+      "normalized": "radu david turcanu",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Tudor Batin",
+      "normalized": "tudor batin",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Radu Mihai Papoe",
+      "normalized": "radu mihai papoe",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Stefan Adrian Andreescu",
+      "normalized": "stefan adrian andreescu",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Yannick Theodor Alexandrescou",
+      "normalized": "yannick theodor alexandrescou",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Robert Guna",
+      "normalized": "robert guna",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Carlos Lopez Montagud",
+      "normalized": "carlos lopez montagud",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Pavel Lagutin",
+      "normalized": "pavel lagutin",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Lorenzo Angelini",
+      "normalized": "lorenzo angelini",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Nellie Taraba Wallberg",
+      "normalized": "nellie taraba wallberg",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Dragos Nicolae Cazacu",
+      "normalized": "dragos nicolae cazacu",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Matei Florin Breazu",
+      "normalized": "matei florin breazu",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Herbert P-H / Krawietz K",
+      "normalized": "herbert p h / krawietz k",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Schnaitter J / Wallner M",
+      "normalized": "schnaitter j / wallner m",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Rebecca Munk Mortensen",
+      "normalized": "rebecca munk mortensen",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Michele Mecarelli",
+      "normalized": "michele mecarelli",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Martin Van der Meerschen",
+      "normalized": "martin van der meerschen",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Nicolas Parizzia",
+      "normalized": "nicolas parizzia",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Adrian Andreev",
+      "normalized": "adrian andreev",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Mishkin K / Shvets V",
+      "normalized": "mishkin k / shvets v",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Bozemoj B / Pel S",
+      "normalized": "bozemoj b / pel s",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Kovackova A / Kovackova J",
+      "normalized": "kovackova a / kovackova j",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Dart H / Lumsden M",
+      "normalized": "dart h / lumsden m",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Ioana Maria Sandru",
+      "normalized": "ioana maria sandru",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Paula Ormaechea",
+      "normalized": "paula ormaechea",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Katarina Kujovic",
+      "normalized": "katarina kujovic",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Sara Victoria Balan",
+      "normalized": "sara victoria balan",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Anna Shkutova",
+      "normalized": "anna shkutova",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Noemi Maines",
+      "normalized": "noemi maines",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Lucia Rodriguez",
+      "normalized": "lucia rodriguez",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Shannon Lam",
+      "normalized": "shannon lam",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Emma Lene",
+      "normalized": "emma lene",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Dušan Obradović",
+      "normalized": "dusan obradovic",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Elgin Khoeblal",
+      "normalized": "elgin khoeblal",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Yanaki Milev",
+      "normalized": "yanaki milev",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Pedro Vives Marcos",
+      "normalized": "pedro vives marcos",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Kulambayeva Z / Semenistaja D",
+      "normalized": "kulambayeva z / semenistaja d",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Maleckova J / Skoch M",
+      "normalized": "maleckova j / skoch m",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Paul Inchauspe",
+      "normalized": "paul inchauspe",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Igor Marcondes",
+      "normalized": "igor marcondes",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Federica Sacco",
+      "normalized": "federica sacco",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Marianne Argyrokastriti",
+      "normalized": "marianne argyrokastriti",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Natalija Senic",
+      "normalized": "natalija senic",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Ariana Geerlings Martinez",
+      "normalized": "ariana geerlings martinez",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Rikke de Koning",
+      "normalized": "rikke de koning",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Nina Radovanović",
+      "normalized": "nina radovanovic",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Valentina Ivanov",
+      "normalized": "valentina ivanov",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Johanne Christine Svendsen",
+      "normalized": "johanne christine svendsen",
+      "reason": "no_safe_match"
+    }
+  ],
   "rating_samples": [
     {
       "name": "Player",
