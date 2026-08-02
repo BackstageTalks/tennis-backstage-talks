@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566685.982838,
+  "saved_at": 1785653356.6519978,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "UAiesdbck",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Grzegorzewski O / Pereira T",
         "slug": "grzegorzewski-o-pereira-t",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 0,
+        "userCount": 2,
         "nameCode": "O/T",
         "disabled": false,
         "national": false,
@@ -122,7 +123,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 140,
+            "userCount": 141,
             "playerTeamInfo": {
               "prizeCurrent": 136,
               "prizeTotal": 8152,
@@ -137,7 +138,7 @@
                 "value": 8152,
                 "currency": "EUR"
               },
-              "currentRanking": 2760
+              "currentRanking": 2757
             },
             "nameCode": "GRZ",
             "national": false,
@@ -178,7 +179,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 1238,
+            "userCount": 1236,
             "playerTeamInfo": {
               "weight": 78,
               "plays": "right-handed",
@@ -344,11 +345,11 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 24,
+            "userCount": 23,
             "playerTeamInfo": {
               "id": 43331,
               "underage": false,
-              "currentRanking": 3967
+              "currentRanking": 3966
             },
             "nameCode": "PEC",
             "national": false,
@@ -394,18 +395,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 3,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785600077
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16685717,
       "defaultPeriodCount": 3,
       "slug": "grzegorzewski-pereira-hrazdil-pecak",
-      "startTimestamp": 1785589200,
+      "startTimestamp": 1785595959,
       "periods": {
         "point": "Game",
         "current": "Match",

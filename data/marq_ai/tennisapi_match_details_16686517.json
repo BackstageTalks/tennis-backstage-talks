@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785566690.4050214,
+  "saved_at": 1785653351.110516,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "UTR PTT Auburn Men 01, 9-12 Playoff",
         "slug": "utr-ptt-auburn-men-01-9-12-playoff",
@@ -78,10 +79,11 @@
       },
       "customId": "XAwesWOMi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Auburn",
@@ -118,7 +120,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 64,
+        "userCount": 67,
         "playerTeamInfo": {
           "id": 31030,
           "underage": false
@@ -192,17 +194,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 2,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2424,
+        "period2": 2633,
+        "currentPeriodStartTimestamp": 1785596015
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785598700
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16686517,
       "defaultPeriodCount": 3,
       "slug": "nathan-pitts-leo-pade",
+      "currentPeriodStartTimestamp": 1785596015,
       "startTimestamp": 1785592800,
       "periods": {
         "point": "Game",

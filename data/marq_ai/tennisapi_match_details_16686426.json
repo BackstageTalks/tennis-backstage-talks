@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785566690.1357872,
+  "saved_at": 1785653350.840261,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "UTR PTT Auburn Men 01, 1-4 Playoff",
         "slug": "utr-ptt-auburn-men-01-1-4-playoff",
@@ -78,10 +79,11 @@
       },
       "customId": "VnEdsTXPd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Auburn",
@@ -118,7 +120,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 326,
+        "userCount": 325,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 83,
@@ -189,7 +191,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 31,
+        "userCount": 32,
         "nameCode": "KRA",
         "national": false,
         "type": 1,
@@ -219,17 +221,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 3,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2156,
+        "period2": 3166,
+        "currentPeriodStartTimestamp": 1785595620
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785598823
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16686426,
       "defaultPeriodCount": 3,
       "slug": "enzo-aguiard-david-krasner",
+      "currentPeriodStartTimestamp": 1785595620,
       "startTimestamp": 1785592800,
       "periods": {
         "point": "Game",

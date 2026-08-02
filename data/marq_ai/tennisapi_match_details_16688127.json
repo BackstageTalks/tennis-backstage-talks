@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566689.3098824,
+  "saved_at": 1785653363.760465,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "xBAcsFmJc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Johannus Monday",
         "slug": "monday-johannus",
@@ -236,18 +237,37 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 3,
+        "period3": 4,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 2,
+        "period2": 6,
+        "period3": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785608124
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16688127,
       "defaultPeriodCount": 3,
       "slug": "ozan-baris-johannus-monday",
-      "startTimestamp": 1785591000,
+      "startTimestamp": 1785600283,
       "periods": {
         "point": "Game",
         "current": "Match",

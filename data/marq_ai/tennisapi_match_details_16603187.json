@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785566588.5162842,
+  "saved_at": 1785653380.609367,
   "data": {
     "event": {
+      "firstToServe": 2,
       "awayTeamSeed": "3",
       "tournament": {
         "name": "Washington, USA",
@@ -95,10 +96,11 @@
       },
       "customId": "RvebsBlUb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Washington, DC",
@@ -307,17 +309,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 3,
+        "period2": 6,
+        "period3": 3,
+        "point": "30",
+        "normaltime": 1
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 3,
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2067,
+        "period2": 1851,
+        "period3": 2488,
+        "currentPeriodStartTimestamp": 1785628026
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1785630542
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": false,
       "id": 16603187,
       "defaultPeriodCount": 3,
       "slug": "brandon-nakashima-taylor-fritz",
+      "currentPeriodStartTimestamp": 1785628026,
       "startTimestamp": 1785623400,
       "periods": {
         "point": "Game",

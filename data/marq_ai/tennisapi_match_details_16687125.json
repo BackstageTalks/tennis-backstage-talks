@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785566691.1200893,
+  "saved_at": 1785653350.264447,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "UTR PTT Auburn Women 01, 1-4 Playoff",
         "slug": "utr-ptt-auburn-women-01-1-4-playoff",
@@ -48,7 +49,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 6,
+          "userCount": 5,
           "groundType": "Hardcourt outdoor",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -78,10 +79,11 @@
       },
       "customId": "wIYbsfgYd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Auburn",
@@ -118,7 +120,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 163,
+        "userCount": 164,
         "nameCode": "WEI",
         "national": false,
         "type": 1,
@@ -157,11 +159,11 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 45,
+        "userCount": 47,
         "playerTeamInfo": {
           "id": 21881,
           "underage": false,
-          "currentRanking": 1023
+          "currentRanking": 1025
         },
         "nameCode": "ESP",
         "national": false,
@@ -192,17 +194,48 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 3,
+        "point": "15",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3343,
+        "period2": 2366,
+        "currentPeriodStartTimestamp": 1785596446
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1785598822
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16687125,
       "defaultPeriodCount": 3,
       "slug": "ava-esposito-cogan-lexie-weir",
+      "currentPeriodStartTimestamp": 1785596446,
       "startTimestamp": 1785592800,
       "periods": {
         "point": "Game",

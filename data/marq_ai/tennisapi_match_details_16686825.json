@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566682.7156224,
+  "saved_at": 1785653342.2508059,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "luMisKpTj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Ovcharenko O / Perin R",
         "slug": "ovcharenko-o-perin-r",
@@ -121,7 +122,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 437,
+            "userCount": 436,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 82,
@@ -266,7 +267,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 189,
+            "userCount": 190,
             "playerTeamInfo": {
               "height": 1.93,
               "weight": 85,
@@ -295,7 +296,7 @@
                 "value": 16144,
                 "currency": "EUR"
               },
-              "currentRanking": 710
+              "currentRanking": 702
             },
             "nameCode": "HAI",
             "ranking": 844,
@@ -337,7 +338,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 276,
+            "userCount": 274,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 73,
@@ -366,7 +367,7 @@
                 "value": 28109,
                 "currency": "EUR"
               },
-              "currentRanking": 600
+              "currentRanking": 602
             },
             "nameCode": "TUR",
             "ranking": 663,
@@ -414,18 +415,39 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 2,
+        "period3": 5,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 2,
+        "period2": 6,
+        "period3": 10,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "awayScore.current",
+          "awayScore.display"
+        ],
+        "changeTimestamp": 1785590825
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16686825,
       "defaultPeriodCount": 3,
       "slug": "horia-haita-turcanud-ovcharenko-perin",
-      "startTimestamp": 1785585600,
+      "startTimestamp": 1785586282,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566663.2486532,
+  "saved_at": 1785653344.4423394,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 13,
+          "userCount": 16,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "AoUbsoKnd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Tiago Pereira",
         "slug": "pereira-tiago",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1238,
+        "userCount": 1236,
         "playerTeamInfo": {
           "weight": 78,
           "plays": "right-handed",
@@ -173,7 +174,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 97,
+        "userCount": 104,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 70,
@@ -247,18 +248,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 1,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1785593640
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16685716,
       "defaultPeriodCount": 3,
       "slug": "tiago-pereira-niklas-guttau",
-      "startTimestamp": 1785574800,
+      "startTimestamp": 1785588278,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -271,7 +290,6 @@
       "finalResultOnly": false,
       "hasBet365LiveStream": true,
       "bet365ExcludedCountryCodes": [
-        "AN",
         "CZ",
         "SK",
         "IR",

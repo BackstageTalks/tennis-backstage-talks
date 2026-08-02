@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785566587.9043748,
+  "saved_at": 1785653377.8516252,
   "data": {
     "event": {
+      "homeTeamSeed": "12",
       "tournament": {
         "name": "Toronto, Canada, Qualifying",
         "slug": "toronto-canada-qualifying",
@@ -90,9 +91,9 @@
       },
       "customId": "mjfbsOquc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 70,
+        "description": "Canceled",
+        "type": "canceled"
       },
       "venue": {
         "city": {
@@ -273,14 +274,19 @@
       "awayScore": {},
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785592685
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16687750,
       "defaultPeriodCount": 3,
       "slug": "darja-vidmanova-kayla-day",
-      "startTimestamp": 1785619800,
+      "startTimestamp": 1785615000,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566681.2339985,
+  "saved_at": 1785653344.8094928,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "wdRdsZbUd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Overbeck C E / Poulsen O B",
         "slug": "overbeck-c-e-poulsen-o-b",
@@ -120,7 +121,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 621,
+            "userCount": 622,
             "playerTeamInfo": {
               "height": 1.93,
               "weight": 82,
@@ -220,7 +221,7 @@
                 "value": 22824,
                 "currency": "EUR"
               },
-              "currentRanking": 744
+              "currentRanking": 745
             },
             "nameCode": "POU",
             "ranking": 746,
@@ -276,7 +277,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 0,
+        "userCount": 1,
         "nameCode": "P/T",
         "national": false,
         "type": 2,
@@ -294,7 +295,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 51,
+            "userCount": 53,
             "nameCode": "PAP",
             "national": false,
             "type": 1,
@@ -334,7 +335,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 35,
+            "userCount": 36,
             "nameCode": "THE",
             "national": false,
             "type": 1,
@@ -379,18 +380,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 2,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785592522
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16685929,
       "defaultPeriodCount": 3,
       "slug": "papef-theilgaard-overbecke-poulsenb",
-      "startTimestamp": 1785583800,
+      "startTimestamp": 1785588522,
       "periods": {
         "point": "Game",
         "current": "Match",

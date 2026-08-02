@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566681.5390642,
+  "saved_at": 1785653349.7127323,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 2,
+          "userCount": 3,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "iKqisWUbk",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Hands T / Summers M",
         "slug": "hands-t-summers-m",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 6,
+        "userCount": 7,
         "nameCode": "H/S",
         "national": false,
         "type": 2,
@@ -120,7 +121,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 105,
+            "userCount": 106,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 82,
@@ -149,7 +150,7 @@
                 "value": 22804,
                 "currency": "EUR"
               },
-              "currentRanking": 2571
+              "currentRanking": 2572
             },
             "nameCode": "HAN",
             "national": false,
@@ -190,7 +191,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 236,
+            "userCount": 235,
             "playerTeamInfo": {
               "height": 1.8,
               "weight": 77,
@@ -324,7 +325,7 @@
                 "value": 16901,
                 "currency": "EUR"
               },
-              "currentRanking": 508
+              "currentRanking": 509
             },
             "nameCode": "DOM",
             "ranking": 1122,
@@ -396,7 +397,7 @@
                 "value": 35117,
                 "currency": "EUR"
               },
-              "currentRanking": 1222
+              "currentRanking": 1224
             },
             "nameCode": "GOD",
             "ranking": 1388,
@@ -436,18 +437,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 4,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785596128
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16687758,
       "defaultPeriodCount": 3,
       "slug": "dominko-godsick-hands-summers",
-      "startTimestamp": 1785583800,
+      "startTimestamp": 1785592661,
       "periods": {
         "point": "Game",
         "current": "Match",

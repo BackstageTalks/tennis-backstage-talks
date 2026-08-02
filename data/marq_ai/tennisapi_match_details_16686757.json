@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566685.415592,
+  "saved_at": 1785653348.7991369,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 2,
+          "userCount": 3,
           "groundType": "Synthetic outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "BObksXbck",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Dudeney A / Pawlikowska Z",
         "slug": "dudeney-a-pawlikowska-z",
@@ -262,7 +263,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 378,
+            "userCount": 379,
             "playerTeamInfo": {
               "prizeCurrent": 31203,
               "prizeTotal": 137211,
@@ -277,7 +278,7 @@
                 "value": 137211,
                 "currency": "EUR"
               },
-              "currentRanking": 406
+              "currentRanking": 412
             },
             "nameCode": "MCD",
             "ranking": 528,
@@ -320,7 +321,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 306,
+            "userCount": 315,
             "playerTeamInfo": {
               "prizeCurrent": 51003,
               "prizeTotal": 146865,
@@ -375,18 +376,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 1,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785592909
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16686757,
       "defaultPeriodCount": 3,
       "slug": "dudeney-pawlikowska-mcdonald-rajecki",
-      "startTimestamp": 1785587400,
+      "startTimestamp": 1785589894,
       "periods": {
         "point": "Game",
         "current": "Match",

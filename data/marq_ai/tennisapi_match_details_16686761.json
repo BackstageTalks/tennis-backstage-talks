@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566684.3368444,
+  "saved_at": 1785653352.4902833,
   "data": {
     "event": {
       "tournament": {
@@ -88,10 +88,11 @@
       },
       "customId": "BRgesrtUj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Agwi M / Mischker F",
         "slug": "agwi-m-mischker-f",
@@ -119,7 +120,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 511,
+            "userCount": 514,
             "playerTeamInfo": {
               "height": 1.93,
               "weight": 85,
@@ -190,7 +191,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 1514,
+            "userCount": 1513,
             "nameCode": "MIS",
             "national": false,
             "type": 1,
@@ -278,7 +279,7 @@
                 "value": 5093,
                 "currency": "EUR"
               },
-              "currentRanking": 729
+              "currentRanking": 739
             },
             "nameCode": "PRP",
             "ranking": 943,
@@ -320,7 +321,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 77,
+            "userCount": 76,
             "nameCode": "WRI",
             "national": false,
             "type": 1,
@@ -364,18 +365,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 5,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1785598546
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16686761,
       "defaultPeriodCount": 3,
       "slug": "perez-ramos-wright-agwi-mischker",
-      "startTimestamp": 1785587400,
+      "startTimestamp": 1785594346,
       "periods": {
         "point": "Game",
         "current": "Match",

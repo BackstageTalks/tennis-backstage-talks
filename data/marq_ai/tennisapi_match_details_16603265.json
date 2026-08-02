@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785566687.9057484,
+  "saved_at": 1785653349.0808046,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "1",
       "awayTeamSeed": "3",
       "tournament": {
@@ -50,7 +51,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 111,
+          "userCount": 122,
           "groundType": "Red clay",
           "tennisPoints": 125,
           "hasRounds": false,
@@ -81,10 +82,11 @@
       },
       "customId": "PpCbsXbnd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 92,
+        "description": "Retired",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Targu Mures",
@@ -128,7 +130,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1563,
+        "userCount": 1592,
         "playerTeamInfo": {
           "height": 1.67,
           "plays": "right-handed",
@@ -187,7 +189,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2747,
+        "userCount": 2773,
         "playerTeamInfo": {
           "height": 1.73,
           "plays": "right-handed",
@@ -215,7 +217,7 @@
             "value": 1305812,
             "currency": "EUR"
           },
-          "currentRanking": 105
+          "currentRanking": 106
         },
         "nameCode": "JON",
         "ranking": 110,
@@ -248,18 +250,39 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 7,
+        "period1TieBreak": 7,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period1TieBreak": 5,
+        "point": "0"
+      },
+      "time": {
+        "currentPeriodStartTimestamp": 1785590699
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "homeScore.period2",
+          "awayScore.period2",
+          "time.currentPeriodStart",
+          "time.period1"
+        ],
+        "changeTimestamp": 1785595625
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16603265,
       "defaultPeriodCount": 3,
       "slug": "kaitlin-quevedo-francesca-jones",
-      "startTimestamp": 1785589200,
+      "currentPeriodStartTimestamp": 1785590699,
+      "startTimestamp": 1785590400,
       "periods": {
         "point": "Game",
         "current": "Match",

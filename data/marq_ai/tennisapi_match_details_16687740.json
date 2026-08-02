@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785566587.3070185,
+  "saved_at": 1785653377.4737306,
   "data": {
     "event": {
+      "homeTeamSeed": "8",
       "tournament": {
         "name": "Toronto, Canada, Qualifying",
         "slug": "toronto-canada-qualifying",
@@ -90,9 +91,9 @@
       },
       "customId": "VZAbsVPgc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 70,
+        "description": "Canceled",
+        "type": "canceled"
       },
       "venue": {
         "city": {
@@ -276,7 +277,12 @@
       "awayScore": {},
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785592502
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,

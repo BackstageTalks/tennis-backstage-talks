@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566673.0443833,
+  "saved_at": 1785653341.5976794,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 14,
+          "userCount": 18,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "jcYbsWyed",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Billy Blaydes",
         "slug": "blaydes-billy",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 90,
+        "userCount": 98,
         "playerTeamInfo": {
           "prizeCurrent": 927,
           "prizeTotal": 8684,
@@ -118,7 +119,7 @@
             "value": 8684,
             "currency": "EUR"
           },
-          "currentRanking": 1069
+          "currentRanking": 1033
         },
         "nameCode": "BLA",
         "national": false,
@@ -159,7 +160,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 335,
+        "userCount": 338,
         "playerTeamInfo": {
           "height": 1.93,
           "weight": 87,
@@ -219,18 +220,37 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 4,
+        "period2": 6,
+        "period3": 4,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 2,
+        "period3": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785594803
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16686293,
       "defaultPeriodCount": 3,
       "slug": "billy-blaydes-emile-hudd",
-      "startTimestamp": 1785574800,
+      "startTimestamp": 1785586091,
       "periods": {
         "point": "Game",
         "current": "Match",

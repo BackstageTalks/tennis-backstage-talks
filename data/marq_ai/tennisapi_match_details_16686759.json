@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566683.112871,
+  "saved_at": 1785653345.502665,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 17,
+          "userCount": 20,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "OjbdsThhd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Irina Balus",
         "slug": "balus-irina",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 108,
+        "userCount": 113,
         "playerTeamInfo": {
           "prizeCurrent": 4103,
           "prizeTotal": 21391,
@@ -104,7 +105,7 @@
             "value": 21391,
             "currency": "EUR"
           },
-          "currentRanking": 412
+          "currentRanking": 401
         },
         "nameCode": "BAL",
         "ranking": 591,
@@ -146,7 +147,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 331,
+        "userCount": 337,
         "playerTeamInfo": {
           "prizeCurrent": 14656,
           "prizeTotal": 97456,
@@ -193,18 +194,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 3,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785593667
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16686759,
       "defaultPeriodCount": 3,
       "slug": "jenny-lim-irina-balus",
-      "startTimestamp": 1785585600,
+      "startTimestamp": 1785588776,
       "periods": {
         "point": "Game",
         "current": "Match",

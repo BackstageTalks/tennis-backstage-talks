@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566688.4797792,
+  "saved_at": 1785653368.9868135,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "wWVdsHZjj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Exsted M / Woestendick C",
         "slug": "exsted-m-woestendick-c",
@@ -120,7 +121,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 170,
+            "userCount": 173,
             "playerTeamInfo": {
               "height": 1.75,
               "weight": 70,
@@ -206,7 +207,7 @@
                 "value": 33562,
                 "currency": "EUR"
               },
-              "currentRanking": 831
+              "currentRanking": 840
             },
             "nameCode": "WOE",
             "national": false,
@@ -324,7 +325,7 @@
             "playerTeamInfo": {
               "id": 47241,
               "underage": false,
-              "currentRanking": 715
+              "currentRanking": 716
             },
             "nameCode": "FIL",
             "national": false,
@@ -370,18 +371,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 3,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785611323
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16679167,
       "defaultPeriodCount": 3,
       "slug": "carpico-filin-exsted-woestendick",
-      "startTimestamp": 1785591000,
+      "startTimestamp": 1785606896,
       "periods": {
         "point": "Game",
         "current": "Match",

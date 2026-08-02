@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785566588.2035668,
+  "saved_at": 1785653380.9398344,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "8",
       "tournament": {
         "name": "Vancouver, Canada",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 149,
+          "userCount": 161,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "EjJbsQEdd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Vancouver",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2528,
+        "userCount": 2553,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 81,
@@ -180,7 +182,7 @@
             "value": 2190623,
             "currency": "EUR"
           },
-          "currentRanking": 334
+          "currentRanking": 303
         },
         "nameCode": "WOL",
         "ranking": 563,
@@ -224,7 +226,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3578,
+        "userCount": 3610,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 85,
@@ -289,18 +291,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 1,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3568,
+        "period2": 1596,
+        "currentPeriodStartTimestamp": 1785642184
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785643829
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16593381,
       "defaultPeriodCount": 3,
       "slug": "mark-lajal-jeffrey-john-wolf",
-      "startTimestamp": 1785623400,
+      "currentPeriodStartTimestamp": 1785642184,
+      "startTimestamp": 1785625800,
       "periods": {
         "point": "Game",
         "current": "Match",

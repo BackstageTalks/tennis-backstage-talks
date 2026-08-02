@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566683.7048771,
+  "saved_at": 1785653349.432881,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "nZVdsLIbk",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Eichenseher D / Schiessl E",
         "slug": "eichenseher-d-schiessl-e",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1,
+        "userCount": 4,
         "nameCode": "D/E",
         "disabled": false,
         "national": false,
@@ -193,11 +194,11 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 56,
+            "userCount": 60,
             "playerTeamInfo": {
               "id": 32676,
               "underage": false,
-              "currentRanking": 1097
+              "currentRanking": 1096
             },
             "nameCode": "SCH",
             "national": false,
@@ -245,7 +246,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1,
+        "userCount": 2,
         "nameCode": "B/J",
         "national": false,
         "type": 2,
@@ -303,7 +304,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 130,
+            "userCount": 129,
             "playerTeamInfo": {
               "prizeCurrent": 856,
               "prizeTotal": 7773,
@@ -365,18 +366,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 4,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1785596419
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16686442,
       "defaultPeriodCount": 3,
       "slug": "eichenseher-schiessl-bakonyi-jilly",
-      "startTimestamp": 1785587400,
+      "startTimestamp": 1785591632,
       "periods": {
         "point": "Game",
         "current": "Match",

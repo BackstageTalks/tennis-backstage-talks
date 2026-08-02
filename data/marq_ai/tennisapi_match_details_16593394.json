@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785566683.4085233,
+  "saved_at": 1785653345.1131835,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "1",
       "awayTeamSeed": "8",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 161,
+          "userCount": 173,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "hmRsPvib",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Bonn",
@@ -130,7 +132,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2959,
+        "userCount": 2973,
         "playerTeamInfo": {
           "height": 1.96,
           "weight": 88,
@@ -214,7 +216,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2411,
+        "userCount": 2469,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 95,
@@ -243,7 +245,7 @@
             "value": 663727,
             "currency": "EUR"
           },
-          "currentRanking": 173
+          "currentRanking": 174
         },
         "nameCode": "GOM",
         "ranking": 191,
@@ -276,18 +278,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2253,
+        "period2": 2597,
+        "currentPeriodStartTimestamp": 1785592602
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785595257
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16593394,
       "defaultPeriodCount": 3,
       "slug": "federico-agustin-gomez-jan-choinski",
-      "startTimestamp": 1785586200,
+      "currentPeriodStartTimestamp": 1785592602,
+      "startTimestamp": 1785588600,
       "periods": {
         "point": "Game",
         "current": "Match",

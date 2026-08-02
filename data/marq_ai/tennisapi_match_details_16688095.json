@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785566687.645188,
+  "saved_at": 1785653347.131301,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "UTR PTT Columbus Men 01, 1-4 Playoff",
         "slug": "utr-ptt-columbus-men-01-1-4-playoff",
@@ -48,7 +49,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 8,
+          "userCount": 9,
           "groundType": "Hardcourt indoor",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -77,10 +78,11 @@
       },
       "customId": "EVEisuApj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Columbus",
@@ -117,7 +119,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 20,
+        "userCount": 19,
         "nameCode": "BER",
         "national": false,
         "type": 1,
@@ -157,7 +159,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 24,
+        "userCount": 27,
         "nameCode": "SKR",
         "national": false,
         "type": 1,
@@ -187,17 +189,39 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 4,
+        "point": "15",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1672,
+        "period2": 2875,
+        "currentPeriodStartTimestamp": 1785591278
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1785594215
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16688095,
       "defaultPeriodCount": 3,
       "slug": "gregory-bernadsky-lathan-skrobarcek",
+      "currentPeriodStartTimestamp": 1785591278,
       "startTimestamp": 1785589200,
       "periods": {
         "point": "Game",

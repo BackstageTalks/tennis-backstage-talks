@@ -1,0 +1,97 @@
+{
+  "saved_at": 1785654739.4645567,
+  "data": {
+    "markets": [
+      {
+        "sourceId": 198849615,
+        "structureType": 1,
+        "marketId": 1,
+        "marketName": "Full time",
+        "isLive": false,
+        "fid": 198849615,
+        "suspended": false,
+        "id": 363217033,
+        "marketGroup": "Home/Away",
+        "marketPeriod": "Match",
+        "choices": [
+          {
+            "initialFractionalValue": "13/10",
+            "fractionalValue": "6/5",
+            "sourceId": 1816096796,
+            "name": "1",
+            "change": -1
+          },
+          {
+            "initialFractionalValue": "31/50",
+            "fractionalValue": "67/100",
+            "sourceId": 1816096943,
+            "name": "2",
+            "change": 1
+          }
+        ]
+      },
+      {
+        "sourceId": 198849615,
+        "structureType": 1,
+        "marketId": 11,
+        "marketName": "First set winner",
+        "isLive": false,
+        "fid": 198849615,
+        "suspended": false,
+        "id": 363344113,
+        "marketGroup": "Home/Away",
+        "marketPeriod": "1st set",
+        "choices": [
+          {
+            "initialFractionalValue": "6/5",
+            "fractionalValue": "11/10",
+            "sourceId": 1817175388,
+            "name": "1",
+            "slipContent": "/?bs=198849615-1817175388~11/10~10",
+            "change": -1
+          },
+          {
+            "initialFractionalValue": "4/6",
+            "fractionalValue": "8/11",
+            "sourceId": 1817175415,
+            "name": "2",
+            "slipContent": "/?bs=198849615-1817175415~8/11~10",
+            "change": 1
+          }
+        ]
+      },
+      {
+        "sourceId": 198849615,
+        "structureType": 2,
+        "marketId": 12,
+        "marketName": "Total games won",
+        "choiceGroup": "22.5",
+        "isLive": false,
+        "fid": 198849615,
+        "suspended": false,
+        "id": 363344114,
+        "marketGroup": "Total sets/games",
+        "marketPeriod": "Extra time",
+        "choices": [
+          {
+            "initialFractionalValue": "5/6",
+            "fractionalValue": "4/5",
+            "sourceId": 1817175339,
+            "name": "Over",
+            "slipContent": "/?bs=198849615-1817175339~4/5~10",
+            "change": -1
+          },
+          {
+            "initialFractionalValue": "5/6",
+            "fractionalValue": "10/11",
+            "sourceId": 1817175329,
+            "name": "Under",
+            "slipContent": "/?bs=198849615-1817175329~10/11~10",
+            "change": 1
+          }
+        ]
+      }
+    ],
+    "eventId": 16686602
+  }
+}

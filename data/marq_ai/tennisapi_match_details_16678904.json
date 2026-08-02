@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566685.695921,
+  "saved_at": 1785653348.0922816,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "ZaaesBdck",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Moyano L / Romero C",
         "slug": "moyano-l-romero-c",
@@ -120,7 +121,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 383,
+            "userCount": 384,
             "playerTeamInfo": {
               "prizeCurrent": 12328,
               "prizeTotal": 37661,
@@ -178,7 +179,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 287,
+            "userCount": 289,
             "playerTeamInfo": {
               "prizeCurrent": 6711,
               "prizeTotal": 51872,
@@ -322,7 +323,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 104,
+            "userCount": 105,
             "playerTeamInfo": {
               "prizeCurrent": 1713,
               "prizeTotal": 9829,
@@ -378,18 +379,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 3,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785594494
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16678904,
       "defaultPeriodCount": 3,
       "slug": "bonardi-estevez-moyano-romero",
-      "startTimestamp": 1785589200,
+      "startTimestamp": 1785589510,
       "periods": {
         "point": "Game",
         "current": "Match",

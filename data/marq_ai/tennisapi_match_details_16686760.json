@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566688.7186475,
+  "saved_at": 1785653354.711308,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 17,
+          "userCount": 20,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "bqNbsXWDd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Jule Niemeier",
         "slug": "niemeier-jule",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2335,
+        "userCount": 2342,
         "playerTeamInfo": {
           "height": 1.78,
           "plays": "right-handed",
@@ -118,7 +119,7 @@
             "value": 2155944,
             "currency": "EUR"
           },
-          "currentRanking": 501
+          "currentRanking": 474
         },
         "nameCode": "NIE",
         "ranking": 525,
@@ -161,7 +162,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 301,
+        "userCount": 306,
         "playerTeamInfo": {
           "prizeCurrent": 12577,
           "prizeTotal": 49048,
@@ -208,18 +209,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 2,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe"
+        ],
+        "changeTimestamp": 1785599087
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16686760,
       "defaultPeriodCount": 3,
       "slug": "sarah-van-emst-jule-niemeier",
-      "startTimestamp": 1785591000,
+      "startTimestamp": 1785594936,
       "periods": {
         "point": "Game",
         "current": "Match",

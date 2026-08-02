@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566678.6282067,
+  "saved_at": 1785653343.3754325,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 2,
+          "userCount": 3,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "AwRisrHbk",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Gniewkowska O / Podlinska M",
         "slug": "gniewkowska-o-podlinska-m",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2,
+        "userCount": 3,
         "nameCode": "O/M",
         "disabled": false,
         "national": false,
@@ -122,7 +123,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 145,
+            "userCount": 155,
             "playerTeamInfo": {
               "prizeCurrent": 1449,
               "prizeTotal": 4788,
@@ -178,7 +179,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 347,
+            "userCount": 348,
             "playerTeamInfo": {
               "prizeCurrent": 3695,
               "prizeTotal": 38488,
@@ -260,7 +261,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 198,
+            "userCount": 196,
             "playerTeamInfo": {
               "prizeCurrent": 2007,
               "prizeTotal": 10037,
@@ -316,7 +317,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 64,
+            "userCount": 67,
             "playerTeamInfo": {
               "prizeCurrent": 2326,
               "prizeTotal": 15306,
@@ -330,7 +331,7 @@
                 "value": 15306,
                 "currency": "EUR"
               },
-              "currentRanking": 1032
+              "currentRanking": 1015
             },
             "nameCode": "SLA",
             "ranking": 1032,
@@ -380,18 +381,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 2,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785593725
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16685529,
       "defaultPeriodCount": 3,
       "slug": "gniewkowska-podlinska-gorska-slavikova",
-      "startTimestamp": 1785582000,
+      "startTimestamp": 1785587767,
       "periods": {
         "point": "Game",
         "current": "Match",

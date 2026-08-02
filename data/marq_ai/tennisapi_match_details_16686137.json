@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785566686.2739515,
+  "saved_at": 1785653342.7564135,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 14,
+          "userCount": 15,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "pLTdsfibe",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Emma Ottavia Ghirardato",
         "slug": "ghirardato-emma-ottavia",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 114,
+        "userCount": 124,
         "playerTeamInfo": {
           "prizeCurrent": 2303,
           "prizeTotal": 7873,
@@ -117,7 +118,7 @@
             "value": 7873,
             "currency": "EUR"
           },
-          "currentRanking": 1009
+          "currentRanking": 985
         },
         "nameCode": "GHI",
         "ranking": 1152,
@@ -159,7 +160,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 112,
+        "userCount": 116,
         "playerTeamInfo": {
           "prizeCurrent": 8110,
           "prizeTotal": 16512,
@@ -205,18 +206,38 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 0,
+        "period1TieBreak": 5,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1785592817
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16686137,
       "defaultPeriodCount": 3,
       "slug": "dune-vaissaud-emma-ottavia-ghirardato",
-      "startTimestamp": 1785589200,
+      "startTimestamp": 1785586907,
       "periods": {
         "point": "Game",
         "current": "Match",
