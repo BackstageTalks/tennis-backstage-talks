@@ -1,7 +1,10 @@
 {
-  "saved_at": 1785653416.786432,
+  "saved_at": 1785743399.8025541,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "homeTeamSeed": "WC",
+      "awayTeamSeed": "7",
       "tournament": {
         "name": "Plovdiv 2, Bulgaria, Qualifying",
         "slug": "plovdiv-2-bulgaria-qualifying",
@@ -52,7 +55,8 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 9,
+          "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
           "country": {},
@@ -81,10 +85,11 @@
       },
       "customId": "dZBcsZfVj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Plovdiv",
@@ -120,11 +125,11 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 20,
+        "userCount": 21,
         "playerTeamInfo": {
           "id": 46341,
           "underage": false,
-          "currentRanking": 3549
+          "currentRanking": 3553
         },
         "nameCode": "TOL",
         "disabled": false,
@@ -164,7 +169,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 226,
+        "userCount": 227,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 70,
@@ -193,7 +198,7 @@
             "value": 34811,
             "currency": "EUR"
           },
-          "currentRanking": 707
+          "currentRanking": 709
         },
         "nameCode": "CAZ",
         "ranking": 822,
@@ -225,18 +230,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 7,
+        "period2": 0,
+        "period3": 1,
+        "point": "40",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 5,
+        "period2": 6,
+        "period3": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 4124,
+        "period2": 1954,
+        "period3": 2110,
+        "currentPeriodStartTimestamp": 1785694304
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1785696456
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693892,
       "defaultPeriodCount": 3,
       "slug": "aleksandar-tolev-dragos-nicolae-cazacu",
-      "startTimestamp": 1785684600,
+      "currentPeriodStartTimestamp": 1785694304,
+      "startTimestamp": 1785688200,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -248,6 +279,7 @@
       },
       "finalResultOnly": false,
       "feedLocked": false,
+      "groundType": "Red clay",
       "showTotoPromo": true,
       "isEditor": false,
       "eventFilters": {

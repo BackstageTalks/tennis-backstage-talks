@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785653418.7257645,
+  "saved_at": 1785743432.3589942,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "1",
       "tournament": {
         "name": "Washington, USA",
@@ -93,9 +94,9 @@
       },
       "customId": "JWrsziGc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 81,
+        "description": "Suspended",
+        "type": "suspended"
       },
       "venue": {
         "city": {
@@ -290,18 +291,37 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 1,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2,
+        "point": "0"
+      },
+      "time": {
+        "period1": 2413,
+        "currentPeriodStartTimestamp": 1785699768
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1785722035
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16593513,
       "defaultPeriodCount": 3,
       "slug": "alexandra-eala-jessica-pegula",
-      "startTimestamp": 1785686400,
+      "currentPeriodStartTimestamp": 1785699768,
+      "startTimestamp": 1785772800,
       "periods": {
         "point": "Game",
         "current": "Match",

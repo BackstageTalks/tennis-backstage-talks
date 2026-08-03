@@ -1,7 +1,10 @@
 {
-  "saved_at": 1785653416.5238159,
+  "saved_at": 1785743401.44851,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "6",
+      "awayTeamSeed": "A",
       "tournament": {
         "name": "Plovdiv 2, Bulgaria, Qualifying",
         "slug": "plovdiv-2-bulgaria-qualifying",
@@ -52,7 +55,8 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 9,
+          "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
           "country": {},
@@ -81,10 +85,11 @@
       },
       "customId": "zBIbsBeid",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Plovdiv",
@@ -120,7 +125,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 242,
+        "userCount": 244,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 82,
@@ -149,7 +154,7 @@
             "value": 14181,
             "currency": "EUR"
           },
-          "currentRanking": 422
+          "currentRanking": 449
         },
         "nameCode": "ROL",
         "ranking": 816,
@@ -191,7 +196,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1468,
+        "userCount": 1471,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 73,
@@ -232,7 +237,7 @@
             "value": 465695,
             "currency": "EUR"
           },
-          "currentRanking": 632
+          "currentRanking": 617
         },
         "nameCode": "AND",
         "ranking": 1148,
@@ -266,18 +271,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 1,
+        "point": "40",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3241,
+        "period2": 2311,
+        "currentPeriodStartTimestamp": 1785700538
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785702872
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693885,
       "defaultPeriodCount": 3,
       "slug": "cosme-rolland-de-ravel-adrian-andreev",
-      "startTimestamp": 1785684600,
+      "currentPeriodStartTimestamp": 1785700538,
+      "startTimestamp": 1785697200,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -289,6 +317,7 @@
       },
       "finalResultOnly": false,
       "feedLocked": false,
+      "groundType": "Red clay",
       "showTotoPromo": true,
       "isEditor": false,
       "eventFilters": {

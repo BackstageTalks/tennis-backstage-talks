@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785653411.9218552,
+  "saved_at": 1785743397.8963315,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "2",
       "tournament": {
         "name": "Istanbul 2, Turkiye, Qualifying",
         "slug": "istanbul-2-turkiye-qualifying",
@@ -52,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 24,
+          "userCount": 33,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +91,11 @@
       },
       "customId": "hbGbsbjkc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Istanbul",
@@ -128,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 602,
+        "userCount": 604,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 83,
@@ -228,7 +231,7 @@
             "value": 20187,
             "currency": "EUR"
           },
-          "currentRanking": 730
+          "currentRanking": 731
         },
         "nameCode": "HEC",
         "ranking": 731,
@@ -260,18 +263,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 4,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1689,
+        "period2": 2380,
+        "currentPeriodStartTimestamp": 1785688297
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785690713
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693936,
       "defaultPeriodCount": 3,
       "slug": "hunter-heck-aziz-ouakaa",
-      "startTimestamp": 1785677400,
+      "currentPeriodStartTimestamp": 1785688297,
+      "startTimestamp": 1785686100,
       "periods": {
         "point": "Game",
         "current": "Match",

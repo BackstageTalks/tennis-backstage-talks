@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785653422.187053,
+  "saved_at": 1785743400.0332077,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "UzFbszMIi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Pavel Lagutin",
         "slug": "lagutin-pavel",
@@ -132,7 +133,7 @@
             "value": 13351,
             "currency": "EUR"
           },
-          "currentRanking": 497
+          "currentRanking": 482
         },
         "nameCode": "LAG",
         "ranking": 718,
@@ -174,7 +175,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 469,
+        "userCount": 478,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 77,
@@ -235,18 +236,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 5,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785698126
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16695102,
       "defaultPeriodCount": 3,
       "slug": "pavel-lagutin-carlos-lopez-montagud",
-      "startTimestamp": 1785690000,
+      "startTimestamp": 1785690542,
       "periods": {
         "point": "Game",
         "current": "Match",

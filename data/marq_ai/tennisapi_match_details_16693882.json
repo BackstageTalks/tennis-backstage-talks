@@ -1,7 +1,10 @@
 {
-  "saved_at": 1785653413.9473128,
+  "saved_at": 1785743399.6321976,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "homeTeamSeed": "WC",
+      "awayTeamSeed": "9",
       "tournament": {
         "name": "Plovdiv 2, Bulgaria, Qualifying",
         "slug": "plovdiv-2-bulgaria-qualifying",
@@ -52,7 +55,8 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 9,
+          "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
           "country": {},
@@ -81,10 +85,11 @@
       },
       "customId": "ACUdsCBqj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Plovdiv",
@@ -120,12 +125,12 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 173,
+        "userCount": 174,
         "playerTeamInfo": {
           "plays": "right-handed",
           "id": 36599,
           "underage": false,
-          "currentRanking": 935
+          "currentRanking": 943
         },
         "nameCode": "KIS",
         "disabled": false,
@@ -196,7 +201,7 @@
             "value": 16144,
             "currency": "EUR"
           },
-          "currentRanking": 702
+          "currentRanking": 663
         },
         "nameCode": "HAI",
         "ranking": 844,
@@ -228,18 +233,54 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 1,
+        "period2": 7,
+        "period3": 0,
+        "period2TieBreak": 8,
+        "point": "30",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "period3": 6,
+        "period2TieBreak": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1286,
+        "period2": 4817,
+        "period3": 1861,
+        "currentPeriodStartTimestamp": 1785694457
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period3",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1785696333
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693882,
       "defaultPeriodCount": 3,
       "slug": "dimitar-kisimov-stefan-horia-haita",
-      "startTimestamp": 1785680400,
+      "currentPeriodStartTimestamp": 1785694457,
+      "startTimestamp": 1785687600,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -264,6 +305,7 @@
         "CA"
       ],
       "feedLocked": false,
+      "groundType": "Red clay",
       "showTotoPromo": true,
       "isEditor": false,
       "eventFilters": {

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785653415.0344062,
+  "saved_at": 1785743396.765465,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Montreal, Canada",
         "slug": "montreal-canada",
@@ -91,10 +92,11 @@
       },
       "customId": "gCabscZUb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Montréal",
@@ -299,18 +301,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "A",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 3,
+        "period1TieBreak": 3,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3801,
+        "period2": 14605,
+        "currentPeriodStartTimestamp": 1785687158
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1785701892
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": true,
       "id": 16686543,
       "defaultPeriodCount": 3,
       "slug": "rinky-hijikata-jaume-munar",
-      "startTimestamp": 1785682800,
+      "currentPeriodStartTimestamp": 1785687158,
+      "startTimestamp": 1785683100,
       "periods": {
         "point": "Game",
         "current": "Match",

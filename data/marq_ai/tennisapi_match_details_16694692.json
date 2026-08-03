@@ -1,7 +1,10 @@
 {
-  "saved_at": 1785653403.9214444,
+  "saved_at": 1785743390.3700104,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "5",
+      "awayTeamSeed": "WC",
       "tournament": {
         "name": "Hagen, Germany, Qualifying",
         "slug": "hagen-germany-qualifying",
@@ -52,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 51,
+          "userCount": 59,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +92,11 @@
       },
       "customId": "WqFdsenUd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Hagen",
@@ -128,7 +132,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1077,
+        "userCount": 1080,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 68,
@@ -203,7 +207,7 @@
         "playerTeamInfo": {
           "id": 26696,
           "underage": false,
-          "currentRanking": 4848
+          "currentRanking": 4851
         },
         "nameCode": "MER",
         "national": false,
@@ -234,18 +238,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 2,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1130,
+        "period2": 1573,
+        "currentPeriodStartTimestamp": 1785673740
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785675334
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16694692,
       "defaultPeriodCount": 3,
       "slug": "nick-mertgens-maxim-mrva",
-      "startTimestamp": 1785669600,
+      "currentPeriodStartTimestamp": 1785673740,
+      "startTimestamp": 1785672000,
       "periods": {
         "point": "Game",
         "current": "Match",

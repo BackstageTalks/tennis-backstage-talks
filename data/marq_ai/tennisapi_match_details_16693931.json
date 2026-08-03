@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785653405.902476,
+  "saved_at": 1785743397.3868723,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "homeTeamSeed": "3",
       "tournament": {
         "name": "Grodzisk Mazowiecki, Poland, Qualifying",
         "slug": "grodzisk-mazowiecki-poland-qualifying",
@@ -52,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 156,
+          "userCount": 166,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 100,
           "hasRounds": true,
@@ -90,10 +92,11 @@
       },
       "customId": "HXhcsVvYc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Grodzisk Mazowiecki",
@@ -137,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 524,
+        "userCount": 526,
         "playerTeamInfo": {
           "weight": 70,
           "plays": "right-handed",
@@ -269,18 +272,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 3,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2676,
+        "period2": 2785,
+        "currentPeriodStartTimestamp": 1785687497
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785690346
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693931,
       "defaultPeriodCount": 3,
       "slug": "dimitris-sakellaridis-younes-lalami-laaroussi",
-      "startTimestamp": 1785673800,
+      "currentPeriodStartTimestamp": 1785687497,
+      "startTimestamp": 1785684600,
       "periods": {
         "point": "Game",
         "current": "Match",

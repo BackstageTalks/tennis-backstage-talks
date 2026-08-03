@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785653417.5611684,
+  "saved_at": 1785743399.4417093,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 8,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "GlKbsPEdd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Theo Papamalamis",
         "slug": "papamalamis-theo",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 499,
+        "userCount": 514,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 76,
@@ -160,7 +161,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 325,
+        "userCount": 331,
         "playerTeamInfo": {
           "height": 1.98,
           "weight": 97,
@@ -189,7 +190,7 @@
             "value": 49439,
             "currency": "EUR"
           },
-          "currentRanking": 679
+          "currentRanking": 680
         },
         "nameCode": "DEL",
         "ranking": 682,
@@ -221,18 +222,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 1,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe",
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785692901
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693916,
       "defaultPeriodCount": 3,
       "slug": "theo-papamalamis-pierre-delage",
-      "startTimestamp": 1785686400,
+      "startTimestamp": 1785687430,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785653414.7699978,
+  "saved_at": 1785743402.0469308,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "WC",
       "tournament": {
         "name": "Toronto, Canada",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1141,
+          "userCount": 1232,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 1000,
           "hasRounds": true,
@@ -90,10 +91,11 @@
       },
       "customId": "jLccsfckc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Toronto",
@@ -211,7 +213,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 344,
+        "userCount": 348,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 16052,
@@ -259,18 +261,42 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 4,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1761,
+        "period2": 2902,
+        "currentPeriodStartTimestamp": 1785699446
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785702383
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": true,
       "id": 16687411,
       "defaultPeriodCount": 3,
       "slug": "jessica-bouzas-maneiro-ariana-arseneault",
-      "startTimestamp": 1785682800,
+      "currentPeriodStartTimestamp": 1785699446,
+      "startTimestamp": 1785697500,
       "periods": {
         "point": "Game",
         "current": "Match",

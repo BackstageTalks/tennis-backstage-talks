@@ -1,7 +1,10 @@
 {
-  "saved_at": 1785653424.048352,
+  "saved_at": 1785743403.7226028,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "6",
+      "awayTeamSeed": "WC",
       "tournament": {
         "name": "Lexington, USA, Qualifying",
         "slug": "lexington-usa-qualifying",
@@ -90,41 +93,35 @@
       },
       "customId": "wKFbsmMDc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Lexington",
+          "state": "US-KY",
           "country": {
             "alpha2": "US",
             "alpha3": "USA",
             "name": "USA",
             "slug": "usa"
           },
-          "id": 19174
+          "id": 26048
         },
         "hidden": true,
-        "slug": "court-3",
-        "name": "Court 3",
+        "slug": "stadium-2",
+        "name": "Stadium 2",
         "country": {
           "alpha2": "US",
           "alpha3": "USA",
           "name": "USA",
           "slug": "usa"
         },
-        "id": 40863,
-        "fieldTranslations": {
-          "nameTranslation": {
-            "ar": "ملعب 3",
-            "hi": "कोर्ट 3",
-            "bn": "কোর্ট 3"
-          },
-          "shortNameTranslation": {}
-        },
+        "id": 61938,
         "stadium": {
-          "name": "Court 3"
+          "name": "Stadium 2"
         }
       },
       "homeTeam": {
@@ -167,7 +164,7 @@
             "value": 203690,
             "currency": "EUR"
           },
-          "currentRanking": 339
+          "currentRanking": 340
         },
         "nameCode": "MAR",
         "ranking": 381,
@@ -237,18 +234,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 1,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1357,
+        "period2": 1592,
+        "currentPeriodStartTimestamp": 1785710263
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785711902
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16695411,
       "defaultPeriodCount": 3,
       "slug": "andres-martin-alex-kobelt",
-      "startTimestamp": 1785692400,
+      "currentPeriodStartTimestamp": 1785710263,
+      "startTimestamp": 1785708600,
       "periods": {
         "point": "Game",
         "current": "Match",

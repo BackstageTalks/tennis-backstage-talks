@@ -1,7 +1,10 @@
 {
-  "saved_at": 1785653404.465851,
+  "saved_at": 1785743390.1585283,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "WC",
+      "awayTeamSeed": "11",
       "tournament": {
         "name": "Plovdiv 2, Bulgaria, Qualifying",
         "slug": "plovdiv-2-bulgaria-qualifying",
@@ -52,7 +55,8 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 9,
+          "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
           "country": {},
@@ -81,10 +85,11 @@
       },
       "customId": "wEPdsdhde",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Plovdiv",
@@ -149,7 +154,7 @@
             "value": 24034,
             "currency": "EUR"
           },
-          "currentRanking": 1218
+          "currentRanking": 1217
         },
         "nameCode": "GEO",
         "national": false,
@@ -251,17 +256,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3309,
+        "period2": 4148,
+        "currentPeriodStartTimestamp": 1785675905
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785680114
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693877,
       "defaultPeriodCount": 3,
       "slug": "nikita-belozertsev-georgi-georgiev",
+      "currentPeriodStartTimestamp": 1785675905,
       "startTimestamp": 1785672000,
       "periods": {
         "point": "Game",
@@ -274,6 +302,7 @@
       },
       "finalResultOnly": false,
       "feedLocked": false,
+      "groundType": "Red clay",
       "showTotoPromo": true,
       "isEditor": false,
       "eventFilters": {

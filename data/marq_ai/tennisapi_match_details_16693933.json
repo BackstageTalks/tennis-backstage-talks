@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785653402.8503273,
+  "saved_at": 1785743393.9195096,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "awayTeamSeed": "12",
       "tournament": {
         "name": "Grodzisk Mazowiecki, Poland, Qualifying",
         "slug": "grodzisk-mazowiecki-poland-qualifying",
@@ -52,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 156,
+          "userCount": 166,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 100,
           "hasRounds": true,
@@ -90,10 +92,11 @@
       },
       "customId": "JCxbseHIb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Grodzisk Mazowiecki",
@@ -137,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 136,
+        "userCount": 137,
         "playerTeamInfo": {
           "height": 1.75,
           "weight": 80,
@@ -207,7 +210,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 220,
+        "userCount": 219,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 68,
@@ -278,18 +281,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 6,
+        "period2TieBreak": 2,
+        "point": "2",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 7,
+        "point": "6",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2628,
+        "period2": 3356,
+        "currentPeriodStartTimestamp": 1785680686
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785684096
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693933,
       "defaultPeriodCount": 3,
       "slug": "edison-ambarzumjan-nitin-kumar-sinha",
-      "startTimestamp": 1785669600,
+      "currentPeriodStartTimestamp": 1785680686,
+      "startTimestamp": 1785677400,
       "periods": {
         "point": "Game",
         "current": "Match",

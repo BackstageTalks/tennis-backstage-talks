@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785653417.086763,
+  "saved_at": 1785743398.7154086,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "4",
       "tournament": {
         "name": "Istanbul 2, Turkiye, Qualifying",
         "slug": "istanbul-2-turkiye-qualifying",
@@ -52,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 24,
+          "userCount": 33,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +91,11 @@
       },
       "customId": "InwszrFd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Istanbul",
@@ -105,17 +108,17 @@
           "id": 18208
         },
         "hidden": true,
-        "slug": "center-court",
-        "name": "Center Court",
+        "slug": "court-a",
+        "name": "Court A",
         "country": {
           "alpha2": "TR",
           "alpha3": "TUR",
           "name": "Türkiye",
           "slug": "turkiye"
         },
-        "id": 60721,
+        "id": 60803,
         "stadium": {
-          "name": "Center Court"
+          "name": "Court A"
         }
       },
       "homeTeam": {
@@ -128,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 438,
+        "userCount": 439,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 73,
@@ -199,7 +202,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 783,
+        "userCount": 784,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 81,
@@ -240,7 +243,7 @@
             "value": 659072,
             "currency": "EUR"
           },
-          "currentRanking": 2132
+          "currentRanking": 2131
         },
         "nameCode": "ILK",
         "national": false,
@@ -272,18 +275,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 5,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2643,
+        "period2": 3581,
+        "currentPeriodStartTimestamp": 1785690452
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785694076
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693940,
       "defaultPeriodCount": 3,
       "slug": "koki-matsuda-cem-ilkel",
-      "startTimestamp": 1785686400,
+      "currentPeriodStartTimestamp": 1785690452,
+      "startTimestamp": 1785687000,
       "periods": {
         "point": "Game",
         "current": "Match",

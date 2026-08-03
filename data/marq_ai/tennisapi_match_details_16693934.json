@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785653402.4997103,
+  "saved_at": 1785743391.2051973,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "homeTeamSeed": "1",
       "tournament": {
         "name": "Grodzisk Mazowiecki, Poland, Qualifying",
         "slug": "grodzisk-mazowiecki-poland-qualifying",
@@ -52,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 156,
+          "userCount": 166,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 100,
           "hasRounds": true,
@@ -90,10 +92,11 @@
       },
       "customId": "vLKszbXd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Grodzisk Mazowiecki",
@@ -137,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1985,
+        "userCount": 1988,
         "playerTeamInfo": {
           "height": 1.93,
           "weight": 87,
@@ -178,7 +181,7 @@
             "value": 2971925,
             "currency": "EUR"
           },
-          "currentRanking": 359
+          "currentRanking": 358
         },
         "nameCode": "IVA",
         "ranking": 401,
@@ -222,7 +225,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 43,
+        "userCount": 44,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 81,
@@ -283,18 +286,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 1,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2275,
+        "period2": 1889,
+        "currentPeriodStartTimestamp": 1785674956
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785676865
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693934,
       "defaultPeriodCount": 3,
       "slug": "melvin-kumar-ilya-ivashka",
-      "startTimestamp": 1785669600,
+      "currentPeriodStartTimestamp": 1785674956,
+      "startTimestamp": 1785672300,
       "periods": {
         "point": "Game",
         "current": "Match",

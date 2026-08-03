@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785653418.4225073,
+  "saved_at": 1785743399.2534761,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "zcPcsIXfj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Mika Buchnik",
         "slug": "buchnik-mika",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 117,
+        "userCount": 120,
         "playerTeamInfo": {
           "prizeCurrent": 1990,
           "prizeTotal": 10976,
@@ -159,7 +160,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 21,
+        "userCount": 26,
         "playerTeamInfo": {
           "id": 30846,
           "underage": false
@@ -194,18 +195,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 0,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785692970
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16696515,
       "defaultPeriodCount": 3,
       "slug": "marianne-angel-mika-buchnik",
-      "startTimestamp": 1785686400,
+      "startTimestamp": 1785687263,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785653420.5133252,
+  "saved_at": 1785743402.2273855,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Toronto, Canada",
         "slug": "toronto-canada",
@@ -89,10 +90,11 @@
       },
       "customId": "YmObsJdUc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Toronto",
@@ -272,18 +274,45 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 3,
+        "period2": 6,
+        "period3": 5,
+        "point": "30",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 4,
+        "period3": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2405,
+        "period2": 3874,
+        "period3": 4554,
+        "currentPeriodStartTimestamp": 1785703917
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1785708486
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": false,
       "id": 16687404,
       "defaultPeriodCount": 3,
       "slug": "sara-bejlek-xiyu-wang",
-      "startTimestamp": 1785688200,
+      "currentPeriodStartTimestamp": 1785703917,
+      "startTimestamp": 1785697500,
       "periods": {
         "point": "Game",
         "current": "Match",

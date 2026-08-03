@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785653412.408943,
+  "saved_at": 1785743394.7665153,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 18,
+          "userCount": 17,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "BVGbsEcnd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Gustavo Ribeiro de Almeida",
         "slug": "de-almeida-gustavo-ribeiro",
@@ -89,7 +90,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 433,
+        "userCount": 442,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 76,
@@ -161,7 +162,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1328,
+        "userCount": 1336,
         "playerTeamInfo": {
           "height": 1.93,
           "weight": 88,
@@ -233,18 +234,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 5,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "firstToServe"
+        ],
+        "changeTimestamp": 1785688025
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16694074,
       "defaultPeriodCount": 3,
       "slug": "gustavo-ribeiro-de-almeida-mateus-alves",
-      "startTimestamp": 1785679200,
+      "startTimestamp": 1785679827,
       "periods": {
         "point": "Game",
         "current": "Match",

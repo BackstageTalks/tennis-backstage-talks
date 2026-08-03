@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785653420.7995193,
+  "saved_at": 1785743401.877104,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Toronto, Canada",
         "slug": "toronto-canada",
@@ -89,10 +90,11 @@
       },
       "customId": "fuusZbR",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Toronto",
@@ -297,18 +299,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 4,
+        "period1TieBreak": 7,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 9,
+        "point": "0",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3473,
+        "period2": 2792,
+        "currentPeriodStartTimestamp": 1785701130
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785703971
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": true,
       "id": 16687405,
       "defaultPeriodCount": 3,
       "slug": "kimberly-birrell-viktorija-golubic",
-      "startTimestamp": 1785688200,
+      "currentPeriodStartTimestamp": 1785701130,
+      "startTimestamp": 1785697500,
       "periods": {
         "point": "Game",
         "current": "Match",

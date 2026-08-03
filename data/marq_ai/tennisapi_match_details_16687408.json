@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785653421.383374,
+  "saved_at": 1785743401.2456713,
   "data": {
     "event": {
+      "firstToServe": 2,
       "awayTeamSeed": "WC",
       "tournament": {
         "name": "Toronto, Canada",
@@ -90,10 +91,11 @@
       },
       "customId": "bphsDgMb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Toronto",
@@ -286,18 +288,50 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 1,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3092,
+        "period2": 2166,
+        "currentPeriodStartTimestamp": 1785698372
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "homeScore.normaltime",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1785700550
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": true,
       "id": 16687408,
       "defaultPeriodCount": 3,
       "slug": "kamilla-rakhimova-venus-williams",
-      "startTimestamp": 1785688200,
+      "currentPeriodStartTimestamp": 1785698372,
+      "startTimestamp": 1785695100,
       "periods": {
         "point": "Game",
         "current": "Match",

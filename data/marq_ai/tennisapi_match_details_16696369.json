@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785653418.9744122,
+  "saved_at": 1785743428.6129115,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "awayTeamSeed": "Q",
       "tournament": {
         "name": "Montreal, Canada",
         "slug": "montreal-canada",
@@ -298,18 +300,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period1",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period1"
+        ],
+        "changeTimestamp": 1785701708
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16696369,
       "defaultPeriodCount": 3,
       "slug": "christopher-oconnell-james-duckworth",
-      "startTimestamp": 1785687000,
+      "startTimestamp": 1785769200,
       "periods": {
         "point": "Game",
         "current": "Match",

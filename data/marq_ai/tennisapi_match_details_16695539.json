@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785653409.216998,
+  "saved_at": 1785743392.4222314,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "5",
       "tournament": {
         "name": "Lexington, USA, Qualifying",
         "slug": "lexington-usa-qualifying",
@@ -90,10 +92,11 @@
       },
       "customId": "DJRbsrMgd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Lexington",
@@ -262,17 +265,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 6,
+        "period1TieBreak": 4,
+        "period2TieBreak": 3,
+        "point": "3",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 7,
+        "period1TieBreak": 7,
+        "period2TieBreak": 7,
+        "point": "6",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3398,
+        "period2": 2871,
+        "currentPeriodStartTimestamp": 1785679702
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785682625
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16695539,
       "defaultPeriodCount": 3,
       "slug": "ryan-colby-dhakshineswar-suresh",
+      "currentPeriodStartTimestamp": 1785679702,
       "startTimestamp": 1785675600,
       "periods": {
         "point": "Game",

@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785653409.8099322,
+  "saved_at": 1785743395.5612872,
   "data": {
     "event": {
       "tournament": {
@@ -88,10 +88,11 @@
       },
       "customId": "mdTbslPpd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Summer Yardley",
         "slug": "yardley-summer",
@@ -208,18 +209,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785684836
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16695635,
       "defaultPeriodCount": 3,
       "slug": "sayaka-ishii-summer-yardley",
-      "startTimestamp": 1785675600,
+      "startTimestamp": 1785681068,
       "periods": {
         "point": "Game",
         "current": "Match",

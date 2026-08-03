@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785653422.4695368,
+  "saved_at": 1785743400.400595,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "gaqbsJXQd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Anastasia Kulikova",
         "slug": "kulikova-anastasia",
@@ -220,18 +221,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 4,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785700302
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16695540,
       "defaultPeriodCount": 3,
       "slug": "ayana-akli-anastasia-kulikova",
-      "startTimestamp": 1785690000,
+      "startTimestamp": 1785690655,
       "periods": {
         "point": "Game",
         "current": "Match",

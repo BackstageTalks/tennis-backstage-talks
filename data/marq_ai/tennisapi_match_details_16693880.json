@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785653411.2184494,
+  "saved_at": 1785743395.3426757,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "5",
       "tournament": {
         "name": "Plovdiv 2, Bulgaria, Qualifying",
         "slug": "plovdiv-2-bulgaria-qualifying",
@@ -53,6 +55,7 @@
             }
           },
           "userCount": 9,
+          "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
           "country": {},
@@ -81,10 +84,11 @@
       },
       "customId": "xDYcsPBed",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Plovdiv",
@@ -252,18 +256,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2809,
+        "period2": 3362,
+        "currentPeriodStartTimestamp": 1785683926
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785687351
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693880,
       "defaultPeriodCount": 3,
       "slug": "dinko-dinev-valentin-basel",
-      "startTimestamp": 1785676200,
+      "currentPeriodStartTimestamp": 1785683926,
+      "startTimestamp": 1785680400,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -288,6 +315,7 @@
         "CA"
       ],
       "feedLocked": false,
+      "groundType": "Red clay",
       "showTotoPromo": true,
       "isEditor": false,
       "eventFilters": {

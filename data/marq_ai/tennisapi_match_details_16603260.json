@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785653407.6931226,
+  "saved_at": 1785743393.1365354,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "1",
       "awayTeamSeed": "5",
       "tournament": {
@@ -50,7 +51,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 122,
+          "userCount": 134,
           "groundType": "Red clay",
           "tennisPoints": 125,
           "hasRounds": false,
@@ -81,10 +82,11 @@
       },
       "customId": "XbndsNDQd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Targu Mures",
@@ -128,7 +130,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1592,
+        "userCount": 1632,
         "playerTeamInfo": {
           "height": 1.67,
           "plays": "right-handed",
@@ -145,7 +147,7 @@
             "value": 368147,
             "currency": "EUR"
           },
-          "currentRanking": 93
+          "currentRanking": 94
         },
         "nameCode": "QUE",
         "ranking": 103,
@@ -187,7 +189,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1564,
+        "userCount": 1595,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 154894,
@@ -214,7 +216,7 @@
             "value": 319224,
             "currency": "EUR"
           },
-          "currentRanking": 144
+          "currentRanking": 133
         },
         "nameCode": "SAM",
         "ranking": 153,
@@ -247,18 +249,52 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 3,
+        "period3": 1,
+        "point": "40",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 2,
+        "period2": 6,
+        "period3": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2052,
+        "period2": 2519,
+        "period3": 1933,
+        "currentPeriodStartTimestamp": 1785683200
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period3",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1785685139
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16603260,
       "defaultPeriodCount": 3,
       "slug": "laura-samson-kaitlin-quevedo",
-      "startTimestamp": 1785675600,
+      "currentPeriodStartTimestamp": 1785683200,
+      "startTimestamp": 1785676800,
       "periods": {
         "point": "Game",
         "current": "Match",

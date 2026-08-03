@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785653410.6465197,
+  "saved_at": 1785743394.5232208,
   "data": {
     "event": {
       "tournament": {
@@ -88,10 +88,11 @@
       },
       "customId": "LkNbsyjFg",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Alice Gillan",
         "slug": "gillan-alice",
@@ -205,18 +206,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 2
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1785685373
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16695630,
       "defaultPeriodCount": 3,
       "slug": "katarina-kujovic-alice-gillan",
-      "startTimestamp": 1785675600,
+      "startTimestamp": 1785679608,
       "periods": {
         "point": "Game",
         "current": "Match",

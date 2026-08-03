@@ -1,7 +1,10 @@
 {
-  "saved_at": 1785653405.0471973,
+  "saved_at": 1785743391.0031474,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "4",
+      "awayTeamSeed": "WC",
       "tournament": {
         "name": "Plovdiv 2, Bulgaria, Qualifying",
         "slug": "plovdiv-2-bulgaria-qualifying",
@@ -52,7 +55,8 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 9,
+          "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
           "country": {},
@@ -81,10 +85,11 @@
       },
       "customId": "ekIcsbfJd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Plovdiv",
@@ -120,7 +125,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 369,
+        "userCount": 373,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 72,
@@ -191,11 +196,11 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 24,
+        "userCount": 25,
         "playerTeamInfo": {
           "id": 34213,
           "underage": false,
-          "currentRanking": 4622
+          "currentRanking": 4627
         },
         "nameCode": "NAY",
         "national": false,
@@ -226,17 +231,39 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 3,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2084,
+        "period2": 3027,
+        "currentPeriodStartTimestamp": 1785674624
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1785677846
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693881,
       "defaultPeriodCount": 3,
       "slug": "yoan-naydenov-luca-castagnola",
+      "currentPeriodStartTimestamp": 1785674624,
       "startTimestamp": 1785672000,
       "periods": {
         "point": "Game",
@@ -262,6 +289,7 @@
         "CA"
       ],
       "feedLocked": false,
+      "groundType": "Red clay",
       "showTotoPromo": true,
       "isEditor": false,
       "eventFilters": {

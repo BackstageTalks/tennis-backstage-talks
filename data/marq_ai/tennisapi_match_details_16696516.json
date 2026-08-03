@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785653418.1481276,
+  "saved_at": 1785743398.527117,
   "data": {
     "event": {
       "tournament": {
@@ -89,10 +89,11 @@
       },
       "customId": "GWecsgpjd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Elijah Strode",
         "slug": "strode-elijah",
@@ -103,7 +104,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 115,
+        "userCount": 118,
         "playerTeamInfo": {
           "plays": "left-handed",
           "prizeCurrent": 0,
@@ -130,7 +131,7 @@
             "value": 14813,
             "currency": "EUR"
           },
-          "currentRanking": 3051
+          "currentRanking": 3036
         },
         "nameCode": "STR",
         "national": false,
@@ -171,7 +172,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 213,
+        "userCount": 215,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 75,
@@ -200,7 +201,7 @@
             "value": 48007,
             "currency": "EUR"
           },
-          "currentRanking": 1005
+          "currentRanking": 991
         },
         "nameCode": "TUD",
         "ranking": 1324,
@@ -232,18 +233,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 4,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "firstToServe"
+        ],
+        "changeTimestamp": 1785691638
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16696516,
       "defaultPeriodCount": 3,
       "slug": "elijah-strode-alvin-nicholas-tudorica",
-      "startTimestamp": 1785686400,
+      "startTimestamp": 1785686962,
       "periods": {
         "point": "Game",
         "current": "Match",

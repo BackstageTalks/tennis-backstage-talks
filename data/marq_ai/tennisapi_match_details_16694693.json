@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785653403.1270213,
+  "saved_at": 1785743395.1178637,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "awayTeamSeed": "7",
       "tournament": {
         "name": "Hagen, Germany, Qualifying",
         "slug": "hagen-germany-qualifying",
@@ -52,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 51,
+          "userCount": 59,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +91,11 @@
       },
       "customId": "pcTbsGlIc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Hagen",
@@ -128,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 628,
+        "userCount": 630,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 78,
@@ -262,18 +265,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 1,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2778,
+        "period2": 2081,
+        "currentPeriodStartTimestamp": 1785683567
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785685693
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16694693,
       "defaultPeriodCount": 3,
       "slug": "luciano-emanuel-ambrogi-oleksii-krutykh",
-      "startTimestamp": 1785669600,
+      "currentPeriodStartTimestamp": 1785683567,
+      "startTimestamp": 1785680400,
       "periods": {
         "point": "Game",
         "current": "Match",

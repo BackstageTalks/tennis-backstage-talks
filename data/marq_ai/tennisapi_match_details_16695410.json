@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785653413.1012437,
+  "saved_at": 1785743396.56935,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "awayTeamSeed": "10",
       "tournament": {
         "name": "Lexington, USA, Qualifying",
         "slug": "lexington-usa-qualifying",
@@ -90,10 +92,11 @@
       },
       "customId": "dOEbsPJdd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Lexington",
@@ -262,18 +265,49 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 4,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1997,
+        "period2": 2754,
+        "currentPeriodStartTimestamp": 1785687581
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "homeScore.normaltime",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1785690346
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16695410,
       "defaultPeriodCount": 3,
       "slug": "aidan-kim-karl-poling",
-      "startTimestamp": 1785679800,
+      "currentPeriodStartTimestamp": 1785687581,
+      "startTimestamp": 1785683100,
       "periods": {
         "point": "Game",
         "current": "Match",

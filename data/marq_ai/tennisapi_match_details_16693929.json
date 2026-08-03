@@ -1,7 +1,10 @@
 {
-  "saved_at": 1785653403.6480165,
+  "saved_at": 1785743391.8354223,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "WC",
+      "awayTeamSeed": "10",
       "tournament": {
         "name": "Grodzisk Mazowiecki, Poland, Qualifying",
         "slug": "grodzisk-mazowiecki-poland-qualifying",
@@ -52,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 156,
+          "userCount": 166,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 100,
           "hasRounds": true,
@@ -90,10 +93,11 @@
       },
       "customId": "HZtbsgNHc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Grodzisk Mazowiecki",
@@ -137,7 +141,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 174,
+        "userCount": 177,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 75,
@@ -207,7 +211,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1705,
+        "userCount": 1702,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 82,
@@ -247,7 +251,7 @@
             "value": 642526,
             "currency": "EUR"
           },
-          "currentRanking": 394
+          "currentRanking": 398
         },
         "nameCode": "DOU",
         "ranking": 687,
@@ -280,18 +284,46 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 2,
+        "period2": 7,
+        "period3": 1,
+        "period2TieBreak": 7,
+        "point": "40",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "period3": 6,
+        "period2TieBreak": 3,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1422,
+        "period2": 3613,
+        "period3": 1685,
+        "currentPeriodStartTimestamp": 1785679623
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1785681340
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693929,
       "defaultPeriodCount": 3,
       "slug": "alan-bojarski-aziz-dougaz",
-      "startTimestamp": 1785669600,
+      "currentPeriodStartTimestamp": 1785679623,
+      "startTimestamp": 1785673800,
       "periods": {
         "point": "Game",
         "current": "Match",

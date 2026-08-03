@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785653413.6800356,
+  "saved_at": 1785743397.5588005,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "homeTeamSeed": "1",
       "tournament": {
         "name": "Plovdiv 2, Bulgaria, Qualifying",
         "slug": "plovdiv-2-bulgaria-qualifying",
@@ -52,7 +54,8 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 0,
+          "userCount": 9,
+          "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
           "country": {},
@@ -81,10 +84,11 @@
       },
       "customId": "PwqbsUacd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Plovdiv",
@@ -120,7 +124,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 634,
+        "userCount": 639,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 83,
@@ -191,7 +195,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 113,
+        "userCount": 114,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 88,
@@ -252,18 +256,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 3,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 1586,
+        "period2": 3371,
+        "currentPeriodStartTimestamp": 1785687394
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1785690958
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693884,
       "defaultPeriodCount": 3,
       "slug": "gerard-campana-lee-vladislav-melnic",
-      "startTimestamp": 1785680400,
+      "currentPeriodStartTimestamp": 1785687394,
+      "startTimestamp": 1785685200,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -275,6 +301,7 @@
       },
       "finalResultOnly": false,
       "feedLocked": false,
+      "groundType": "Red clay",
       "showTotoPromo": true,
       "isEditor": false,
       "eventFilters": {

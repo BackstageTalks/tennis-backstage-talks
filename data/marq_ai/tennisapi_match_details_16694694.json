@@ -1,7 +1,10 @@
 {
-  "saved_at": 1785653403.3671086,
+  "saved_at": 1785743391.6252878,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "1",
+      "awayTeamSeed": "A",
       "tournament": {
         "name": "Hagen, Germany, Qualifying",
         "slug": "hagen-germany-qualifying",
@@ -52,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 51,
+          "userCount": 59,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +92,11 @@
       },
       "customId": "UKwbsBrtd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Hagen",
@@ -128,7 +132,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2242,
+        "userCount": 2243,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 81,
@@ -200,7 +204,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 165,
+        "userCount": 166,
         "playerTeamInfo": {
           "height": 1.93,
           "weight": 95,
@@ -260,18 +264,51 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 9,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 2,
+        "period1TieBreak": 7,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3770,
+        "period2": 1794,
+        "currentPeriodStartTimestamp": 1785677019
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "homeScore.normaltime",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1785678825
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16694694,
       "defaultPeriodCount": 3,
       "slug": "matej-dodig-jannik-opitz",
-      "startTimestamp": 1785669600,
+      "currentPeriodStartTimestamp": 1785677019,
+      "startTimestamp": 1785672900,
       "periods": {
         "point": "Game",
         "current": "Match",
