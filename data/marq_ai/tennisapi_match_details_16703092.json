@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743423.1543632,
+  "saved_at": 1785825949.5883083,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 17,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "TtmeszTUi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Henrique Ortenblad Nogueira",
         "slug": "ortenblad-nogueira-henrique",
@@ -148,7 +149,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 37,
+        "userCount": 40,
         "playerTeamInfo": {
           "id": 26624,
           "underage": false
@@ -182,18 +183,37 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.period2",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2"
+        ],
+        "changeTimestamp": 1785772519
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703092,
       "defaultPeriodCount": 3,
       "slug": "gabriel-augusto-carvalho-henrique-ortenblad-nogueira",
-      "startTimestamp": 1785762000,
+      "startTimestamp": 1785762839,
       "periods": {
         "point": "Game",
         "current": "Match",

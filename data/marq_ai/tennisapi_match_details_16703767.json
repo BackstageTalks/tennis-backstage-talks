@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743425.598112,
+  "saved_at": 1785825950.3078263,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1,
+          "userCount": 2,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "UQrdsWUmj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Dennis Andre Dutine",
         "slug": "dutine-dennis-andre",
@@ -147,7 +148,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 13,
+        "userCount": 12,
         "playerTeamInfo": {
           "id": 32704,
           "underage": false
@@ -182,18 +183,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 3
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1785769622
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703767,
       "defaultPeriodCount": 3,
       "slug": "noah-held-dennis-andre-dutine",
-      "startTimestamp": 1785765600,
+      "startTimestamp": 1785763329,
       "periods": {
         "point": "Game",
         "current": "Match",

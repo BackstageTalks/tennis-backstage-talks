@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743422.3644218,
+  "saved_at": 1785825954.7700515,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "A",
       "awayTeamSeed": "7",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 59,
+          "userCount": 84,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "AKQbshqwc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Hagen",
@@ -130,7 +132,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1454,
+        "userCount": 1456,
         "playerTeamInfo": {
           "height": 1.75,
           "weight": 68,
@@ -159,7 +161,7 @@
             "value": 260111,
             "currency": "EUR"
           },
-          "currentRanking": 261
+          "currentRanking": 263
         },
         "nameCode": "BAR",
         "ranking": 264,
@@ -201,7 +203,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2417,
+        "userCount": 2425,
         "playerTeamInfo": {
           "height": 1.73,
           "weight": 73,
@@ -275,18 +277,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 2,
+        "period1TieBreak": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3932,
+        "period2": 2592,
+        "currentPeriodStartTimestamp": 1785771433
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785774054
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16694522,
       "defaultPeriodCount": 3,
       "slug": "alex-barrena-timofey-skatov",
-      "startTimestamp": 1785760200,
+      "currentPeriodStartTimestamp": 1785771433,
+      "startTimestamp": 1785766800,
       "periods": {
         "point": "Game",
         "current": "Match",

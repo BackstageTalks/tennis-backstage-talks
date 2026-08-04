@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785743419.5681322,
+  "saved_at": 1785825947.357294,
   "data": {
     "event": {
+      "firstToServe": 1,
+      "homeTeamSeed": "Q",
       "awayTeamSeed": "3",
       "tournament": {
         "name": "Warsaw, Poland",
@@ -49,7 +51,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 135,
+          "userCount": 164,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 125,
           "hasRounds": true,
@@ -87,10 +89,11 @@
       },
       "customId": "WuBbsepEb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Warsaw",
@@ -134,7 +137,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 675,
+        "userCount": 688,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 28339,
@@ -192,7 +195,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3387,
+        "userCount": 3394,
         "playerTeamInfo": {
           "height": 1.78,
           "plays": "right-handed",
@@ -254,18 +257,49 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 4,
+        "point": "15",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1978,
+        "period2": 2965,
+        "currentPeriodStartTimestamp": 1785762596
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1785765568
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16699552,
       "defaultPeriodCount": 3,
       "slug": "alana-smith-yue-yuan",
-      "startTimestamp": 1785756000,
+      "currentPeriodStartTimestamp": 1785762596,
+      "startTimestamp": 1785760200,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743423.9163718,
+  "saved_at": 1785825951.1719565,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "1",
       "awayTeamSeed": "9",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 29,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -84,10 +85,11 @@
       },
       "customId": "UacdsACUd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Plovdiv",
@@ -123,7 +125,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 639,
+        "userCount": 645,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 83,
@@ -194,7 +196,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 190,
+        "userCount": 201,
         "playerTeamInfo": {
           "height": 1.93,
           "weight": 85,
@@ -223,7 +225,7 @@
             "value": 16144,
             "currency": "EUR"
           },
-          "currentRanking": 663
+          "currentRanking": 664
         },
         "nameCode": "HAI",
         "ranking": 844,
@@ -255,18 +257,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 2,
+        "point": "15",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2486,
+        "period2": 3115,
+        "currentPeriodStartTimestamp": 1785768630
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785771776
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16701721,
       "defaultPeriodCount": 3,
       "slug": "stefan-horia-haita-gerard-campana-lee",
-      "startTimestamp": 1785762600,
+      "currentPeriodStartTimestamp": 1785768630,
+      "startTimestamp": 1785765300,
       "periods": {
         "point": "Game",
         "current": "Match",

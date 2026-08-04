@@ -1,7 +1,9 @@
 {
-  "saved_at": 1785653423.4901762,
+  "saved_at": 1785825966.029609,
   "data": {
     "event": {
+      "firstToServe": 2,
+      "awayTeamSeed": "Q",
       "tournament": {
         "name": "Toronto, Canada",
         "slug": "toronto-canada",
@@ -52,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1232,
+          "userCount": 1365,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 1000,
           "hasRounds": true,
@@ -89,10 +91,11 @@
       },
       "customId": "aADshjV",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Toronto",
@@ -136,7 +139,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 10426,
+        "userCount": 10479,
         "playerTeamInfo": {
           "height": 1.71,
           "plays": "right-handed",
@@ -168,7 +171,7 @@
           "currentRanking": 45
         },
         "nameCode": "FRE",
-        "ranking": 48,
+        "ranking": 45,
         "class": 4,
         "disabled": false,
         "national": false,
@@ -210,7 +213,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2715,
+        "userCount": 2756,
         "playerTeamInfo": {
           "height": 1.68,
           "plays": "right-handed",
@@ -238,10 +241,10 @@
             "value": 1705631,
             "currency": "EUR"
           },
-          "currentRanking": 117
+          "currentRanking": 119
         },
         "nameCode": "JEA",
-        "ranking": 117,
+        "ranking": 119,
         "national": false,
         "type": 1,
         "country": {
@@ -271,18 +274,50 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 3,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 74290,
+        "period2": 3611,
+        "currentPeriodStartTimestamp": 1785783518
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2",
+          "homeScore.normaltime",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1785787137
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": false,
       "id": 16696395,
       "defaultPeriodCount": 3,
       "slug": "leolia-jeanjean-magdalena-frech",
-      "startTimestamp": 1785691200,
+      "currentPeriodStartTimestamp": 1785783518,
+      "startTimestamp": 1785778800,
       "periods": {
         "point": "Game",
         "current": "Match",

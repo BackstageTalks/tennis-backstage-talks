@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743419.9951105,
+  "saved_at": 1785825948.247912,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "1",
       "tournament": {
         "name": "Hagen, Germany, Qualifying",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 59,
+          "userCount": 84,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "pcTbsBrtd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Hagen",
@@ -129,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2243,
+        "userCount": 2241,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 81,
@@ -201,7 +203,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 630,
+        "userCount": 634,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 78,
@@ -264,18 +266,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 5,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2167,
+        "period2": 3384,
+        "currentPeriodStartTimestamp": 1785763063
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785766490
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16700925,
       "defaultPeriodCount": 3,
       "slug": "matej-dodig-oleksii-krutykh",
-      "startTimestamp": 1785756000,
+      "currentPeriodStartTimestamp": 1785763063,
+      "startTimestamp": 1785760500,
       "periods": {
         "point": "Game",
         "current": "Match",

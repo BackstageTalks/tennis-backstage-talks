@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743428.8267925,
+  "saved_at": 1785825956.5105703,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "Q",
       "awayTeamSeed": "Q",
       "tournament": {
@@ -91,10 +92,11 @@
       },
       "customId": "tCrcsTAid",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 92,
+        "description": "Retired",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Toronto",
@@ -246,18 +248,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 3,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 0,
+        "point": "0"
+      },
+      "time": {
+        "period1": 603,
+        "period2": 1359,
+        "currentPeriodStartTimestamp": 1785770818
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785772205
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": true,
       "id": 16696389,
       "defaultPeriodCount": 3,
       "slug": "alina-korneeva-polina-kudermetova",
-      "startTimestamp": 1785769200,
+      "currentPeriodStartTimestamp": 1785770818,
+      "startTimestamp": 1785769500,
       "periods": {
         "point": "Game",
         "current": "Match",

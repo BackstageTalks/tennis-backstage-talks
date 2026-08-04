@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743430.8648868,
+  "saved_at": 1785825964.1412632,
   "data": {
     "event": {
       "tournament": {
@@ -75,10 +75,11 @@
       },
       "customId": "ukdesquVi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Mondazzi A / Sardo G",
         "slug": "mondazzi-a-sardo-g",
@@ -112,7 +113,7 @@
             "playerTeamInfo": {
               "id": 43346,
               "underage": false,
-              "currentRanking": 2389
+              "currentRanking": 2386
             },
             "nameCode": "MON",
             "national": false,
@@ -299,7 +300,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 194,
+            "userCount": 193,
             "playerTeamInfo": {
               "prizeCurrent": 2905,
               "prizeTotal": 10493,
@@ -361,18 +362,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 4
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1785781160
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16701191,
       "defaultPeriodCount": 3,
       "slug": "mondazzi-sardo-figl-toffanin",
-      "startTimestamp": 1785772800,
+      "startTimestamp": 1785777222,
       "periods": {
         "point": "Game",
         "current": "Match",

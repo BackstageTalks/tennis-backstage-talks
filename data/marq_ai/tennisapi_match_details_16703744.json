@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743431.0907094,
+  "saved_at": 1785825958.8102953,
   "data": {
     "event": {
       "tournament": {
@@ -88,10 +88,11 @@
       },
       "customId": "oxpcsaudd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Savannah Broadus",
         "slug": "broadus-savannah",
@@ -188,18 +189,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 1
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1785773775
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703744,
       "defaultPeriodCount": 3,
       "slug": "elena-ecker-savannah-broadus",
-      "startTimestamp": 1785772800,
+      "startTimestamp": 1785771015,
       "periods": {
         "point": "Game",
         "current": "Match",

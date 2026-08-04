@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743432.2808526,
+  "saved_at": 1785825962.6975915,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "4",
       "awayTeamSeed": "A",
       "tournament": {
@@ -92,10 +93,11 @@
       },
       "customId": "XcgcsnREc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Lexington",
@@ -168,7 +170,7 @@
             "value": 168012,
             "currency": "EUR"
           },
-          "currentRanking": 320
+          "currentRanking": 321
         },
         "nameCode": "ZIN",
         "ranking": 343,
@@ -270,18 +272,48 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 7,
+        "period3": 6,
+        "period1TieBreak": 2,
+        "period3TieBreak": 4,
+        "point": "4",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 5,
+        "period3": 7,
+        "period1TieBreak": 7,
+        "period3TieBreak": 7,
+        "point": "6",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2974,
+        "period2": 3877,
+        "period3": 4129,
+        "currentPeriodStartTimestamp": 1785782647
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1785786830
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703882,
       "defaultPeriodCount": 3,
       "slug": "millen-hurrion-tyler-zink",
-      "startTimestamp": 1785772800,
+      "currentPeriodStartTimestamp": 1785782647,
+      "startTimestamp": 1785775500,
       "periods": {
         "point": "Game",
         "current": "Match",

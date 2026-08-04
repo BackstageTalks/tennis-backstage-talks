@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743422.1627114,
+  "saved_at": 1785825953.3750398,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 2,
+          "userCount": 4,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -74,10 +74,11 @@
       },
       "customId": "KCUdsCPYd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Timeo Trufelli",
         "slug": "trufelli-timeo",
@@ -88,7 +89,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 114,
+        "userCount": 115,
         "playerTeamInfo": {
           "plays": "right-handed",
           "prizeCurrent": 5205,
@@ -176,18 +177,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 7
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 6,
+        "period2TieBreak": 4
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785776470
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16701190,
       "defaultPeriodCount": 3,
       "slug": "timeo-trufelli-leonardo-angeloni",
-      "startTimestamp": 1785760200,
+      "startTimestamp": 1785766193,
       "periods": {
         "point": "Game",
         "current": "Match",

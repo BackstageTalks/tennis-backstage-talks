@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743420.998493,
+  "saved_at": 1785825947.0030653,
   "data": {
     "event": {
+      "firstToServe": 2,
       "awayTeamSeed": "2",
       "tournament": {
         "name": "Grodzisk Mazowiecki, Poland",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 166,
+          "userCount": 189,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 100,
           "hasRounds": true,
@@ -91,10 +92,11 @@
       },
       "customId": "IaJbsHmgc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Grodzisk Mazowiecki",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 336,
+        "userCount": 339,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 83,
@@ -167,7 +169,7 @@
             "value": 53967,
             "currency": "EUR"
           },
-          "currentRanking": 513
+          "currentRanking": 515
         },
         "nameCode": "ZAK",
         "ranking": 517,
@@ -210,7 +212,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1482,
+        "userCount": 1483,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 83,
@@ -270,18 +272,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 4,
+        "period2": 6,
+        "period3": 1,
+        "point": "0",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 3,
+        "period3": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2942,
+        "period2": 2459,
+        "period3": 2442,
+        "currentPeriodStartTimestamp": 1785765214
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1785767719
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693947,
       "defaultPeriodCount": 3,
       "slug": "faris-zakaria-daniil-glinka",
-      "startTimestamp": 1785758400,
+      "currentPeriodStartTimestamp": 1785765214,
+      "startTimestamp": 1785759300,
       "periods": {
         "point": "Game",
         "current": "Match",

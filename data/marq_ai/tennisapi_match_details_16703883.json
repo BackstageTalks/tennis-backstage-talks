@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743431.7939475,
+  "saved_at": 1785825961.290803,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "2",
       "awayTeamSeed": "7",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 142,
+          "userCount": 172,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 75,
           "hasRounds": true,
@@ -92,10 +93,11 @@
       },
       "customId": "IXxcsvjDd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Lexington",
@@ -139,7 +141,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1939,
+        "userCount": 1964,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 73,
@@ -210,7 +212,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1456,
+        "userCount": 1498,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 80,
@@ -239,7 +241,7 @@
             "value": 91786,
             "currency": "EUR"
           },
-          "currentRanking": 383
+          "currentRanking": 386
         },
         "nameCode": "ROT",
         "ranking": 411,
@@ -271,18 +273,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 3172,
+        "period2": 2868,
+        "currentPeriodStartTimestamp": 1785777309
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785780196
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703883,
       "defaultPeriodCount": 3,
       "slug": "mees-rottgering-abdullah-shelbayh",
-      "startTimestamp": 1785772800,
+      "currentPeriodStartTimestamp": 1785777309,
+      "startTimestamp": 1785773700,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743432.767128,
+  "saved_at": 1785825974.7907684,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "Q",
       "tournament": {
         "name": "Montreal, Canada",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 3130,
+          "userCount": 3359,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 1000,
           "hasRounds": true,
@@ -92,10 +93,11 @@
       },
       "customId": "MhgseyLb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Montréal",
@@ -139,7 +141,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2438,
+        "userCount": 2447,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 83,
@@ -168,7 +170,7 @@
             "value": 995584,
             "currency": "EUR"
           },
-          "currentRanking": 94
+          "currentRanking": 91
         },
         "nameCode": "SHI",
         "ranking": 94,
@@ -211,7 +213,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 16082,
+        "userCount": 16116,
         "playerTeamInfo": {
           "height": 1.98,
           "weight": 89,
@@ -287,18 +289,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 1,
+        "period1TieBreak": 2,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3536,
+        "period2": 1994,
+        "currentPeriodStartTimestamp": 1785805372
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785807406
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": true,
       "id": 16696336,
       "defaultPeriodCount": 3,
       "slug": "sho-shimabukuro-marin-cilic",
-      "startTimestamp": 1785773400,
+      "currentPeriodStartTimestamp": 1785805372,
+      "startTimestamp": 1785801000,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743430.1430104,
+  "saved_at": 1785825957.2950542,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 17,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "uDldszjcj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Kauã Pereira dos Santos",
         "slug": "pereira-dos-santos-kaua-emanuel",
@@ -102,11 +103,11 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 17,
+        "userCount": 23,
         "playerTeamInfo": {
           "id": 47638,
           "underage": false,
-          "currentRanking": 3514
+          "currentRanking": 3589
         },
         "nameCode": "PER",
         "national": false,
@@ -181,18 +182,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 2
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2"
+        ],
+        "changeTimestamp": 1785777728
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703213,
       "defaultPeriodCount": 3,
       "slug": "andre-souza-kaua-pereira-dos-santos",
-      "startTimestamp": 1785769200,
+      "startTimestamp": 1785769759,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743427.6731758,
+  "saved_at": 1785825958.328794,
   "data": {
     "event": {
       "tournament": {
@@ -75,10 +75,11 @@
       },
       "customId": "vEdjsmeMj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Amarandei D A / Berto L",
         "slug": "amarandei-d-a-berto-l",
@@ -154,7 +155,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 62,
+            "userCount": 63,
             "playerTeamInfo": {
               "prizeCurrent": 1973,
               "prizeTotal": 3397,
@@ -247,7 +248,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 1672,
+            "userCount": 1676,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 78,
@@ -287,7 +288,7 @@
                 "value": 279542,
                 "currency": "EUR"
               },
-              "currentRanking": 379
+              "currentRanking": 380
             },
             "nameCode": "ARN",
             "ranking": 524,
@@ -373,18 +374,38 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 3,
+        "period1TieBreak": 2
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1785776165
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16700994,
       "defaultPeriodCount": 3,
       "slug": "arnaboldi-biondolillo-amarandeia-berto",
-      "startTimestamp": 1785767400,
+      "startTimestamp": 1785770605,
       "periods": {
         "point": "Game",
         "current": "Match",

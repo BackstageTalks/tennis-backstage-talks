@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743425.995722,
+  "saved_at": 1785825953.0018733,
   "data": {
     "event": {
       "tournament": {
@@ -88,10 +88,11 @@
       },
       "customId": "QgPsOXQd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Kallista Liu",
         "slug": "liu-kallista",
@@ -208,18 +209,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 7
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 6,
+        "period2TieBreak": 3
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785773071
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703749,
       "defaultPeriodCount": 3,
       "slug": "kallista-liu-mariam-bolkvadze",
-      "startTimestamp": 1785765600,
+      "startTimestamp": 1785766019,
       "periods": {
         "point": "Game",
         "current": "Match",

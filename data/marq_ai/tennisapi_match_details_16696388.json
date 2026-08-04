@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743429.2166288,
+  "saved_at": 1785825957.0262318,
   "data": {
     "event": {
+      "firstToServe": 2,
       "awayTeamSeed": "Q",
       "tournament": {
         "name": "Toronto, Canada",
@@ -90,10 +91,11 @@
       },
       "customId": "mjfbsQfZb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Toronto",
@@ -282,18 +284,45 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 3,
+        "period3": 5,
+        "point": "0",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 3,
+        "period2": 6,
+        "period3": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2532,
+        "period2": 2883,
+        "period3": 3496,
+        "currentPeriodStartTimestamp": 1785775418
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1785778967
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": false,
       "id": 16696388,
       "defaultPeriodCount": 3,
       "slug": "diane-parry-kayla-day",
-      "startTimestamp": 1785769200,
+      "currentPeriodStartTimestamp": 1785775418,
+      "startTimestamp": 1785769500,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743421.184561,
+  "saved_at": 1785825990.7831242,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "4",
       "awayTeamSeed": "WC",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 29,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -84,10 +85,11 @@
       },
       "customId": "ekIcswEPd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Plovdiv",
@@ -123,7 +125,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 373,
+        "userCount": 374,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 72,
@@ -194,7 +196,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 199,
+        "userCount": 208,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 78,
@@ -223,7 +225,7 @@
             "value": 24034,
             "currency": "EUR"
           },
-          "currentRanking": 1217
+          "currentRanking": 1223
         },
         "nameCode": "GEO",
         "national": false,
@@ -254,17 +256,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 3,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3030,
+        "period2": 3036,
+        "currentPeriodStartTimestamp": 1785761865
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785764953
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16700031,
       "defaultPeriodCount": 3,
       "slug": "georgi-georgiev-luca-castagnola",
+      "currentPeriodStartTimestamp": 1785761865,
       "startTimestamp": 1785758400,
       "periods": {
         "point": "Game",

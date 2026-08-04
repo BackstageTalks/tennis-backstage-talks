@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743428.2155905,
+  "saved_at": 1785825956.321412,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Toronto, Canada",
         "slug": "toronto-canada",
@@ -89,10 +90,11 @@
       },
       "customId": "Hoisjrac",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Toronto",
@@ -280,18 +282,42 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 4,
+        "point": "15",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2488,
+        "period2": 2420,
+        "currentPeriodStartTimestamp": 1785772286
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785774726
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": false,
       "id": 16687400,
       "defaultPeriodCount": 3,
       "slug": "oleksandra-oliynykova-karolina-pliskova",
-      "startTimestamp": 1785769200,
+      "currentPeriodStartTimestamp": 1785772286,
+      "startTimestamp": 1785769500,
       "periods": {
         "point": "Game",
         "current": "Match",

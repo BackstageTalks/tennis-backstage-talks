@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743426.4887037,
+  "saved_at": 1785825948.6113029,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1,
+          "userCount": 2,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "HDkdsGUbe",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Giovanni Branchetti",
         "slug": "branchetti-giovanni",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 20,
+        "userCount": 21,
         "nameCode": "BRA",
         "national": false,
         "type": 1,
@@ -172,18 +173,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 0
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1785765078
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703771,
       "defaultPeriodCount": 3,
       "slug": "hanu-patel-giovanni-branchetti",
-      "startTimestamp": 1785765600,
+      "startTimestamp": 1785761062,
       "periods": {
         "point": "Game",
         "current": "Match",

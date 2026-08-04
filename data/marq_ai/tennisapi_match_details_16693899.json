@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743427.460358,
+  "saved_at": 1785825960.2745056,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Plovdiv 2, Bulgaria",
         "slug": "plovdiv-2-bulgaria",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 29,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -82,10 +83,11 @@
       },
       "customId": "xNDbsORtc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Plovdiv",
@@ -121,7 +123,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 800,
+        "userCount": 798,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 73,
@@ -255,18 +257,44 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 2,
+        "period2": 6,
+        "period3": 2,
+        "point": "40",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 2,
+        "period3": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1860,
+        "period2": 2269,
+        "period3": 3206,
+        "currentPeriodStartTimestamp": 1785776939
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1785780196
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693899,
       "defaultPeriodCount": 3,
       "slug": "valerio-aboian-carlos-sanchez-jover",
-      "startTimestamp": 1785766800,
+      "currentPeriodStartTimestamp": 1785776939,
+      "startTimestamp": 1785772500,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -290,6 +318,9 @@
         ],
         "tournament": [
           "lower"
+        ],
+        "gender": [
+          "M"
         ]
       }
     }

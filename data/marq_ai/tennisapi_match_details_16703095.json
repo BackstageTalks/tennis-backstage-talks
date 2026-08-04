@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743429.6292427,
+  "saved_at": 1785825957.6712928,
   "data": {
     "event": {
       "tournament": {
@@ -88,10 +88,11 @@
       },
       "customId": "RuwcsGPkd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Breno Braga",
         "slug": "braga-breno",
@@ -209,18 +210,35 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 1,
+        "period2": 6,
+        "period3": 5
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 2,
+        "period3": 10
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785777729
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703095,
       "defaultPeriodCount": 3,
       "slug": "breno-braga-victor-bini",
-      "startTimestamp": 1785769200,
+      "startTimestamp": 1785770160,
       "periods": {
         "point": "Game",
         "current": "Match",

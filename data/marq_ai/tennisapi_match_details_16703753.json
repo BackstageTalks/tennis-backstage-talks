@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743431.557712,
+  "saved_at": 1785825959.5024705,
   "data": {
     "event": {
       "tournament": {
@@ -88,10 +88,11 @@
       },
       "customId": "cXpbsIhtd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 92,
+        "description": "Retired",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Ava Catanzarite",
         "slug": "catanzarite-ava",
@@ -204,18 +205,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 6,
+        "period2": 1
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 3
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785775387
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703753,
       "defaultPeriodCount": 3,
       "slug": "ava-catanzarite-martina-okalova",
-      "startTimestamp": 1785772800,
+      "startTimestamp": 1785771656,
       "periods": {
         "point": "Game",
         "current": "Match",

@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743430.3158953,
+  "saved_at": 1785825958.9954295,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 17,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "VNbdsjZkd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Ryan Augusto Dos Santos",
         "slug": "dos-santos-ryan-augusto",
@@ -102,11 +103,11 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 233,
+        "userCount": 235,
         "playerTeamInfo": {
           "id": 26492,
           "underage": false,
-          "currentRanking": 2443
+          "currentRanking": 2442
         },
         "nameCode": "DOS",
         "national": false,
@@ -182,18 +183,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 3
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2"
+        ],
+        "changeTimestamp": 1785777187
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703152,
       "defaultPeriodCount": 3,
       "slug": "ryan-augusto-dos-santos-ivan-dreycopp",
-      "startTimestamp": 1785769200,
+      "startTimestamp": 1785771239,
       "periods": {
         "point": "Game",
         "current": "Match",

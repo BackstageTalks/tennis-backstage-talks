@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743428.0270965,
+  "saved_at": 1785825956.0101974,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "5",
       "tournament": {
         "name": "Hagen, Germany",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 59,
+          "userCount": 84,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "REKsBkRc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Hagen",
@@ -129,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1570,
+        "userCount": 1569,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 76,
@@ -201,7 +203,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 6675,
+        "userCount": 6671,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 75,
@@ -242,7 +244,7 @@
             "value": 3858386,
             "currency": "EUR"
           },
-          "currentRanking": 129
+          "currentRanking": 130
         },
         "nameCode": "MUL",
         "ranking": 132,
@@ -277,17 +279,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 2,
+        "point": "0",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 4015,
+        "period2": 2598,
+        "currentPeriodStartTimestamp": 1785774103
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785776754
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16694520,
       "defaultPeriodCount": 3,
       "slug": "guy-den-ouden-alexandre-muller",
+      "currentPeriodStartTimestamp": 1785774103,
       "startTimestamp": 1785769200,
       "periods": {
         "point": "Game",

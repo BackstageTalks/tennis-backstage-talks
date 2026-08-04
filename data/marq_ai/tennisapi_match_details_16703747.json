@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743431.364419,
+  "saved_at": 1785825960.0734541,
   "data": {
     "event": {
       "tournament": {
@@ -88,10 +88,11 @@
       },
       "customId": "DZrsocJb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Tori Kinard",
         "slug": "kinard-tori",
@@ -205,18 +206,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2"
+        ],
+        "changeTimestamp": 1785776166
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703747,
       "defaultPeriodCount": 3,
       "slug": "ekaterina-ovcharenko-tori-kinard",
-      "startTimestamp": 1785772800,
+      "startTimestamp": 1785772459,
       "periods": {
         "point": "Game",
         "current": "Match",

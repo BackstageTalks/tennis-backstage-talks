@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743421.9654381,
+  "saved_at": 1785825955.24991,
   "data": {
     "event": {
+      "firstToServe": 2,
       "awayTeamSeed": "3",
       "tournament": {
         "name": "Istanbul 2, Turkiye",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 33,
+          "userCount": 52,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -90,10 +91,11 @@
       },
       "customId": "zbkcszcmd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Istanbul",
@@ -129,7 +131,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 576,
+        "userCount": 577,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 73,
@@ -200,7 +202,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 739,
+        "userCount": 744,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 70,
@@ -229,7 +231,7 @@
             "value": 138800,
             "currency": "EUR"
           },
-          "currentRanking": 250
+          "currentRanking": 251
         },
         "nameCode": "BAS",
         "ranking": 257,
@@ -261,18 +263,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 1,
+        "period1TieBreak": 5,
+        "point": "0",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 4602,
+        "period2": 1810,
+        "currentPeriodStartTimestamp": 1785773308
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785775156
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693952,
       "defaultPeriodCount": 3,
       "slug": "lucio-ratti-max-basing",
-      "startTimestamp": 1785760200,
+      "currentPeriodStartTimestamp": 1785773308,
+      "startTimestamp": 1785768300,
       "periods": {
         "point": "Game",
         "current": "Match",

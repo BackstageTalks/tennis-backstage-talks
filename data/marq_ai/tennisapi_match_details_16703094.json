@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743422.7663548,
+  "saved_at": 1785825948.984302,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 17,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "NyMiskxYi",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Thomas Menzel",
         "slug": "thomas-enrique-menzel-piccioli",
@@ -106,7 +107,7 @@
         "playerTeamInfo": {
           "id": 21558,
           "underage": false,
-          "currentRanking": 3227
+          "currentRanking": 3231
         },
         "nameCode": "MEN",
         "disabled": false,
@@ -183,18 +184,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 0,
+        "period2": 4
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2"
+        ],
+        "changeTimestamp": 1785769053
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703094,
       "defaultPeriodCount": 3,
       "slug": "tomas-jordi-leston-thomas-menzel",
-      "startTimestamp": 1785762000,
+      "startTimestamp": 1785762679,
       "periods": {
         "point": "Game",
         "current": "Match",

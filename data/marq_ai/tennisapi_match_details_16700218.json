@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743419.8098667,
+  "saved_at": 1785825946.0093737,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "5",
       "awayTeamSeed": "10",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 59,
+          "userCount": 84,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -91,10 +92,11 @@
       },
       "customId": "LwBsWqFd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Hagen",
@@ -130,7 +132,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1080,
+        "userCount": 1078,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 68,
@@ -159,7 +161,7 @@
             "value": 93910,
             "currency": "EUR"
           },
-          "currentRanking": 286
+          "currentRanking": 287
         },
         "nameCode": "MRV",
         "ranking": 304,
@@ -201,7 +203,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1919,
+        "userCount": 1924,
         "playerTeamInfo": {
           "height": 1.78,
           "weight": 75,
@@ -242,7 +244,7 @@
             "value": 1089610,
             "currency": "EUR"
           },
-          "currentRanking": 365
+          "currentRanking": 364
         },
         "nameCode": "KIC",
         "ranking": 369,
@@ -275,18 +277,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "period2": 2,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2300,
+        "period2": 2447,
+        "currentPeriodStartTimestamp": 1785761314
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785763787
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16700218,
       "defaultPeriodCount": 3,
       "slug": "maxim-mrva-nicolas-kicker",
-      "startTimestamp": 1785756000,
+      "currentPeriodStartTimestamp": 1785761314,
+      "startTimestamp": 1785758400,
       "periods": {
         "point": "Game",
         "current": "Match",

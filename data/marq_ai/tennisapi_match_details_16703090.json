@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785743422.9421659,
+  "saved_at": 1785825948.7760077,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 17,
           "groundType": "Clay",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -88,10 +88,11 @@
       },
       "customId": "czLcszZkd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Joao Vitor Scramin Do Lago",
         "slug": "scramin-do-lago-joao-vitor",
@@ -102,7 +103,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 164,
+        "userCount": 166,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 80,
@@ -203,7 +204,7 @@
             "value": 5549,
             "currency": "EUR"
           },
-          "currentRanking": 3300
+          "currentRanking": 3301
         },
         "nameCode": "ROS",
         "national": false,
@@ -234,18 +235,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 0
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1785767247
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16703090,
       "defaultPeriodCount": 3,
       "slug": "joao-vitor-scramin-do-lago-jackson-ross",
-      "startTimestamp": 1785762000,
+      "startTimestamp": 1785762623,
       "periods": {
         "point": "Game",
         "current": "Match",

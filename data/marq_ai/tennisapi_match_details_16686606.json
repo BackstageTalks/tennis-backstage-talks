@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743430.490312,
+  "saved_at": 1785825963.230084,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Montreal, Canada",
         "slug": "montreal-canada",
@@ -91,10 +92,11 @@
       },
       "customId": "IfVsOCic",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Montréal",
@@ -289,18 +291,47 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 3,
+        "period2": 7,
+        "period3": 3,
+        "period2TieBreak": 7,
+        "point": "30",
+        "normaltime": 1
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "period3": 6,
+        "period2TieBreak": 5,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2890,
+        "period2": 4240,
+        "period3": 2478,
+        "currentPeriodStartTimestamp": 1785798173
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1785800703
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": false,
       "id": 16686606,
       "defaultPeriodCount": 3,
       "slug": "mariano-navone-matteo-berrettini",
-      "startTimestamp": 1785769200,
+      "currentPeriodStartTimestamp": 1785798173,
+      "startTimestamp": 1785776700,
       "periods": {
         "point": "Game",
         "current": "Match",

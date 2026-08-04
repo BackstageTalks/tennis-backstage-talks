@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743424.6298084,
+  "saved_at": 1785825954.95025,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "WC",
       "tournament": {
         "name": "Grodzisk Mazowiecki, Poland",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 166,
+          "userCount": 189,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 100,
           "hasRounds": true,
@@ -91,10 +92,11 @@
       },
       "customId": "FnpshUqd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Grodzisk Mazowiecki",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1331,
+        "userCount": 1335,
         "playerTeamInfo": {
           "height": 1.91,
           "weight": 90,
@@ -167,7 +169,7 @@
             "value": 43811,
             "currency": "EUR"
           },
-          "currentRanking": 558
+          "currentRanking": 563
         },
         "nameCode": "BER",
         "ranking": 570,
@@ -284,18 +286,42 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 7,
+        "period2TieBreak": 7,
+        "point": "6",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 6,
+        "period2TieBreak": 1,
+        "point": "1",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2154,
+        "period2": 2925,
+        "currentPeriodStartTimestamp": 1785770627
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1785773745
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693812,
       "defaultPeriodCount": 3,
       "slug": "tomasz-berkieta-facundo-mena",
-      "startTimestamp": 1785765600,
+      "currentPeriodStartTimestamp": 1785770627,
+      "startTimestamp": 1785768000,
       "periods": {
         "point": "Game",
         "current": "Match",

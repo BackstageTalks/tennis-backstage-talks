@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743424.1414626,
+  "saved_at": 1785825952.4870486,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "2",
       "awayTeamSeed": "7",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 9,
+          "userCount": 29,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -84,10 +85,11 @@
       },
       "customId": "ButbsdZBc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Plovdiv",
@@ -123,7 +125,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 348,
+        "userCount": 358,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 82,
@@ -163,7 +165,7 @@
             "value": 52107,
             "currency": "EUR"
           },
-          "currentRanking": 733
+          "currentRanking": 732
         },
         "nameCode": "RIB",
         "ranking": 733,
@@ -205,7 +207,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 227,
+        "userCount": 234,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 70,
@@ -234,7 +236,7 @@
             "value": 34811,
             "currency": "EUR"
           },
-          "currentRanking": 709
+          "currentRanking": 714
         },
         "nameCode": "CAZ",
         "ranking": 822,
@@ -266,18 +268,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 1,
+        "point": "40",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2549,
+        "period2": 1917,
+        "currentPeriodStartTimestamp": 1785769942
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785771898
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16702696,
       "defaultPeriodCount": 3,
       "slug": "dragos-nicolae-cazacu-franco-ribero",
-      "startTimestamp": 1785762600,
+      "currentPeriodStartTimestamp": 1785769942,
+      "startTimestamp": 1785765900,
       "periods": {
         "point": "Game",
         "current": "Match",

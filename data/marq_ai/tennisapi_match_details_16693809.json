@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785743420.834365,
+  "saved_at": 1785825949.7721565,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "8",
       "tournament": {
         "name": "Grodzisk Mazowiecki, Poland",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 166,
+          "userCount": 189,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 100,
           "hasRounds": true,
@@ -91,10 +92,11 @@
       },
       "customId": "NxtdstTJd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "venue": {
         "city": {
           "name": "Grodzisk Mazowiecki",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 779,
+        "userCount": 781,
         "playerTeamInfo": {
           "height": 1.73,
           "weight": 75,
@@ -167,7 +169,7 @@
             "value": 74675,
             "currency": "EUR"
           },
-          "currentRanking": 265
+          "currentRanking": 266
         },
         "nameCode": "RIB",
         "ranking": 267,
@@ -209,7 +211,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 686,
+        "userCount": 687,
         "playerTeamInfo": {
           "height": 1.87,
           "weight": 80,
@@ -238,7 +240,7 @@
             "value": 46761,
             "currency": "EUR"
           },
-          "currentRanking": 433
+          "currentRanking": 431
         },
         "nameCode": "RAD",
         "ranking": 615,
@@ -270,18 +272,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 1,
+        "point": "30",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2887,
+        "period2": 1729,
+        "currentPeriodStartTimestamp": 1785766013
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785767780
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16693809,
       "defaultPeriodCount": 3,
       "slug": "michele-ribecai-iliyan-radulov",
-      "startTimestamp": 1785758400,
+      "currentPeriodStartTimestamp": 1785766013,
+      "startTimestamp": 1785762900,
       "periods": {
         "point": "Game",
         "current": "Match",
