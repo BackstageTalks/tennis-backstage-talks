@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785653341.25976,
+  "saved_at": 1785912470.8972037,
   "data": {
     "event": {
+      "homeTeamSeed": "WC",
       "tournament": {
         "name": "Hagen, Germany",
         "slug": "hagen-germany",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 51,
+          "userCount": 107,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -89,9 +90,34 @@
       },
       "customId": "hmRsegtd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 70,
+        "description": "Canceled",
+        "type": "canceled"
+      },
+      "venue": {
+        "city": {
+          "name": "Hagen",
+          "country": {
+            "alpha2": "DE",
+            "alpha3": "DEU",
+            "name": "Germany",
+            "slug": "germany"
+          },
+          "id": 18807
+        },
+        "hidden": true,
+        "slug": "platzmann-centre-court",
+        "name": "Platzmann Centre Court",
+        "country": {
+          "alpha2": "DE",
+          "alpha3": "DEU",
+          "name": "Germany",
+          "slug": "germany"
+        },
+        "id": 50580,
+        "stadium": {
+          "name": "Platzmann Centre Court"
+        }
       },
       "homeTeam": {
         "name": "Max Schoenhaus",
@@ -103,7 +129,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1196,
+        "userCount": 1200,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 80,
@@ -174,7 +200,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 2973,
+        "userCount": 3021,
         "playerTeamInfo": {
           "height": 1.96,
           "weight": 88,
@@ -215,7 +241,7 @@
             "value": 1262184,
             "currency": "EUR"
           },
-          "currentRanking": 82
+          "currentRanking": 77
         },
         "nameCode": "CHO",
         "ranking": 88,
@@ -252,14 +278,19 @@
       "awayScore": {},
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785772901
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16694698,
       "defaultPeriodCount": 3,
       "slug": "max-schoenhaus-jan-choinski",
-      "startTimestamp": 1785747600,
+      "startTimestamp": 1785855600,
       "periods": {
         "point": "Game",
         "current": "Match",

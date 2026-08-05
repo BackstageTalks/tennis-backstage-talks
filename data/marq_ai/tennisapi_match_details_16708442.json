@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785825999.7017655,
+  "saved_at": 1785912440.8484356,
   "data": {
     "event": {
       "tournament": {
@@ -75,9 +75,9 @@
       },
       "customId": "kewjsUQbk",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 80,
+        "description": "Interrupted",
+        "type": "interrupted"
       },
       "homeTeam": {
         "name": "H Im / E Kim",
@@ -352,18 +352,33 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 4,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785861466
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16708442,
       "defaultPeriodCount": 3,
       "slug": "arakawa-ha-jang-h-im-kim",
-      "startTimestamp": 1785823200,
+      "startTimestamp": 1785846900,
       "periods": {
         "point": "Game",
         "current": "Match",
