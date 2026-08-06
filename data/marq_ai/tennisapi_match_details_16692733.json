@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785825987.564662,
+  "saved_at": 1785998998.1329527,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "2",
       "tournament": {
         "name": "Hagen, Germany, Doubles",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 3,
+          "userCount": 5,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -90,9 +91,35 @@
       },
       "customId": "NTWjsgFck",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 2,
+      "venue": {
+        "city": {
+          "name": "Hagen",
+          "country": {
+            "alpha2": "DE",
+            "alpha3": "DEU",
+            "name": "Germany",
+            "slug": "germany"
+          },
+          "id": 18807
+        },
+        "hidden": true,
+        "slug": "mark-e-power-court",
+        "name": "Mark-E Power Court",
+        "country": {
+          "alpha2": "DE",
+          "alpha3": "DEU",
+          "name": "Germany",
+          "slug": "germany"
+        },
+        "id": 50578,
+        "stadium": {
+          "name": "Mark-E Power Court"
+        }
       },
       "homeTeam": {
         "name": "Carou I / Gomez F A",
@@ -103,7 +130,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3,
+        "userCount": 4,
         "nameCode": "C/G",
         "national": false,
         "type": 2,
@@ -121,7 +148,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 241,
+            "userCount": 240,
             "playerTeamInfo": {
               "height": 1.78,
               "weight": 70,
@@ -161,7 +188,7 @@
                 "value": 81154,
                 "currency": "EUR"
               },
-              "currentRanking": 2402
+              "currentRanking": 2401
             },
             "nameCode": "CAR",
             "national": false,
@@ -201,7 +228,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 2489,
+            "userCount": 2510,
             "playerTeamInfo": {
               "height": 1.91,
               "weight": 95,
@@ -230,7 +257,7 @@
                 "value": 663727,
                 "currency": "EUR"
               },
-              "currentRanking": 174
+              "currentRanking": 178
             },
             "nameCode": "GOM",
             "ranking": 191,
@@ -298,7 +325,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 228,
+            "userCount": 227,
             "playerTeamInfo": {
               "height": 1.96,
               "weight": 91,
@@ -369,7 +396,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 187,
+            "userCount": 188,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 75,
@@ -450,18 +477,46 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 3,
+        "period2": 7,
+        "period3": 15,
+        "period3TieBreak": 15,
+        "point": "15",
+        "normaltime": 1
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 5,
+        "period3": 17,
+        "period3TieBreak": 15,
+        "point": "16",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2013,
+        "period2": 2524,
+        "period3": 1344,
+        "currentPeriodStartTimestamp": 1785945676
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1785947039
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16692733,
       "defaultPeriodCount": 3,
       "slug": "latinovic-zeballos-carou-gomeza",
-      "startTimestamp": 1785916800,
+      "currentPeriodStartTimestamp": 1785945676,
+      "startTimestamp": 1785940500,
       "periods": {
         "point": "Game",
         "current": "Match",

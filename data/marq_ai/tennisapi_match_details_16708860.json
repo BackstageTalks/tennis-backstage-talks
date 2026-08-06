@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785825992.6278234,
+  "saved_at": 1785998961.0878613,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1,
+          "userCount": 3,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -75,10 +75,11 @@
       },
       "customId": "jHVisCQck",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "homeTeam": {
         "name": "Atay S / Mozgaleva A",
         "slug": "atay-s-mozgaleva-a",
@@ -108,18 +109,18 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 153,
+            "userCount": 155,
             "playerTeamInfo": {
-              "prizeCurrent": 4039,
-              "prizeTotal": 21877,
+              "prizeCurrent": 4167,
+              "prizeTotal": 22005,
               "id": 5194,
               "underage": false,
               "prizeCurrentRaw": {
-                "value": 4039,
+                "value": 4167,
                 "currency": "EUR"
               },
               "prizeTotalRaw": {
-                "value": 21877,
+                "value": 22005,
                 "currency": "EUR"
               },
               "currentRanking": 982
@@ -166,16 +167,16 @@
             },
             "userCount": 87,
             "playerTeamInfo": {
-              "prizeCurrent": 2075,
-              "prizeTotal": 13115,
+              "prizeCurrent": 2203,
+              "prizeTotal": 13243,
               "id": 15419,
               "underage": false,
               "prizeCurrentRaw": {
-                "value": 2075,
+                "value": 2203,
                 "currency": "EUR"
               },
               "prizeTotalRaw": {
-                "value": 13115,
+                "value": 13243,
                 "currency": "EUR"
               },
               "currentRanking": 1465
@@ -246,7 +247,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 104,
+            "userCount": 105,
             "playerTeamInfo": {
               "prizeCurrent": 4313,
               "prizeTotal": 15333,
@@ -302,7 +303,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 47,
+            "userCount": 49,
             "playerTeamInfo": {
               "prizeCurrent": 3198,
               "prizeTotal": 7669,
@@ -316,7 +317,7 @@
                 "value": 7669,
                 "currency": "EUR"
               },
-              "currentRanking": 1275
+              "currentRanking": 1274
             },
             "nameCode": "DYU",
             "ranking": 1308,
@@ -363,18 +364,37 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 1,
+        "period1TieBreak": 1,
+        "point": "0"
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 7,
+        "point": "0"
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785936897
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16708860,
       "defaultPeriodCount": 3,
       "slug": "atay-mozgaleva-arystanbekova-dyussebay",
-      "startTimestamp": 1785816000,
+      "startTimestamp": 1785931687,
       "periods": {
         "point": "Game",
         "current": "Match",

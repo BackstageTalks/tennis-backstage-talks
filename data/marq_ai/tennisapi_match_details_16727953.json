@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785912494.8873608,
+  "saved_at": 1785999073.2374423,
   "data": {
     "event": {
       "tournament": {
@@ -48,7 +48,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 2,
+          "userCount": 3,
           "groundType": "Hardcourt outdoor",
           "hasRounds": true,
           "hasPerformanceGraphFeature": false,
@@ -89,10 +89,11 @@
       },
       "customId": "fRccsJjdk",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 1,
       "homeTeam": {
         "name": "Cho I-H / Cho Y T",
         "slug": "cho-i-h-cho-y-t",
@@ -137,7 +138,7 @@
                 "value": 49529,
                 "currency": "EUR"
               },
-              "currentRanking": 1735
+              "currentRanking": 1733
             },
             "nameCode": "CHO",
             "national": false,
@@ -192,7 +193,7 @@
                 "value": 45203,
                 "currency": "EUR"
               },
-              "currentRanking": 818
+              "currentRanking": 819
             },
             "nameCode": "CHO",
             "national": false,
@@ -269,16 +270,16 @@
             },
             "userCount": 519,
             "playerTeamInfo": {
-              "prizeCurrent": 58925,
-              "prizeTotal": 168716,
+              "prizeCurrent": 64631,
+              "prizeTotal": 174422,
               "id": 12508,
               "underage": false,
               "prizeCurrentRaw": {
-                "value": 58925,
+                "value": 64631,
                 "currency": "EUR"
               },
               "prizeTotalRaw": {
-                "value": 168716,
+                "value": 174422,
                 "currency": "EUR"
               },
               "currentRanking": 242
@@ -323,22 +324,22 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 229,
+            "userCount": 230,
             "playerTeamInfo": {
-              "prizeCurrent": 24800,
-              "prizeTotal": 151472,
+              "prizeCurrent": 27467,
+              "prizeTotal": 154139,
               "id": 4382,
               "birthDateTimestamp": 1096934400,
               "underage": false,
               "prizeCurrentRaw": {
-                "value": 24800,
+                "value": 27467,
                 "currency": "EUR"
               },
               "prizeTotalRaw": {
-                "value": 151472,
+                "value": 154139,
                 "currency": "EUR"
               },
-              "currentRanking": 339
+              "currentRanking": 340
             },
             "nameCode": "BRA",
             "ranking": 495,
@@ -379,18 +380,36 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 5,
+        "period2": 3
+      },
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.current",
+          "homeScore.display",
+          "homeScore.period2"
+        ],
+        "changeTimestamp": 1785982626
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16727953,
       "defaultPeriodCount": 3,
       "slug": "akli-brantmeier-cho-i-h-chot",
-      "startTimestamp": 1785970800,
+      "startTimestamp": 1785973155,
       "periods": {
         "point": "Game",
         "current": "Match",

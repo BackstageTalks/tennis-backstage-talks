@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785825987.721953,
+  "saved_at": 1785998966.5947804,
   "data": {
     "event": {
+      "firstToServe": 2,
       "tournament": {
         "name": "Hagen, Germany, Doubles",
         "slug": "hagen-germany-doubles",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 3,
+          "userCount": 5,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -89,9 +90,35 @@
       },
       "customId": "bFfjsfGwj",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 1,
+      "venue": {
+        "city": {
+          "name": "Hagen",
+          "country": {
+            "alpha2": "DE",
+            "alpha3": "DEU",
+            "name": "Germany",
+            "slug": "germany"
+          },
+          "id": 18807
+        },
+        "hidden": true,
+        "slug": "mark-e-power-court",
+        "name": "Mark-E Power Court",
+        "country": {
+          "alpha2": "DE",
+          "alpha3": "DEU",
+          "name": "Germany",
+          "slug": "germany"
+        },
+        "id": 50578,
+        "stadium": {
+          "name": "Mark-E Power Court"
+        }
       },
       "homeTeam": {
         "name": "Kalender A / Serdarusic N",
@@ -102,7 +129,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 19,
+        "userCount": 22,
         "nameCode": "K/S",
         "national": false,
         "type": 2,
@@ -120,7 +147,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 182,
+            "userCount": 186,
             "playerTeamInfo": {
               "plays": "right-handed",
               "prizeCurrent": 1275,
@@ -136,7 +163,7 @@
                 "value": 23194,
                 "currency": "EUR"
               },
-              "currentRanking": 2667
+              "currentRanking": 2660
             },
             "nameCode": "KAL",
             "national": false,
@@ -179,7 +206,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 723,
+            "userCount": 726,
             "playerTeamInfo": {
               "height": 1.91,
               "weight": 85,
@@ -220,7 +247,7 @@
                 "value": 493735,
                 "currency": "EUR"
               },
-              "currentRanking": 1317
+              "currentRanking": 1321
             },
             "nameCode": "SER",
             "ranking": 1498,
@@ -405,7 +432,7 @@
                 "value": 74507,
                 "currency": "EUR"
               },
-              "currentRanking": 1766
+              "currentRanking": 1763
             },
             "nameCode": "VEL",
             "national": false,
@@ -450,18 +477,45 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 7,
+        "period1TieBreak": 7,
+        "period2TieBreak": 8,
+        "point": "7",
+        "normaltime": 2
+      },
+      "awayScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 6,
+        "period1TieBreak": 2,
+        "period2TieBreak": 6,
+        "point": "6",
+        "normaltime": 0
+      },
+      "time": {
+        "period1": 2879,
+        "period2": 3745,
+        "currentPeriodStartTimestamp": 1785936328
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1785940136
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16692736,
       "defaultPeriodCount": 3,
       "slug": "ruehl-veldheer-kalender-serdarusic",
-      "startTimestamp": 1785916800,
+      "currentPeriodStartTimestamp": 1785936328,
+      "startTimestamp": 1785933000,
       "periods": {
         "point": "Game",
         "current": "Match",

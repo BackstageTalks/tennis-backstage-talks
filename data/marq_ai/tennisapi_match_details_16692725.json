@@ -1,5 +1,5 @@
 {
-  "saved_at": 1785825990.1240993,
+  "saved_at": 1785998964.388101,
   "data": {
     "event": {
       "tournament": {
@@ -89,9 +89,34 @@
       },
       "customId": "uYaksZEck",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 70,
+        "description": "Canceled",
+        "type": "canceled"
+      },
+      "venue": {
+        "city": {
+          "name": "Istanbul",
+          "country": {
+            "alpha2": "TR",
+            "alpha3": "TUR",
+            "name": "Türkiye",
+            "slug": "turkiye"
+          },
+          "id": 18208
+        },
+        "hidden": true,
+        "slug": "court-a",
+        "name": "Court A",
+        "country": {
+          "alpha2": "TR",
+          "alpha3": "TUR",
+          "name": "Türkiye",
+          "slug": "turkiye"
+        },
+        "id": 60803,
+        "stadium": {
+          "name": "Court A"
+        }
       },
       "homeTeam": {
         "name": "Boitan G A / Ratti L",
@@ -120,7 +145,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 715,
+            "userCount": 725,
             "playerTeamInfo": {
               "height": 1.85,
               "weight": 82,
@@ -191,7 +216,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 577,
+            "userCount": 592,
             "playerTeamInfo": {
               "height": 1.83,
               "weight": 73,
@@ -269,7 +294,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 10,
+        "userCount": 9,
         "nameCode": "A/D",
         "national": false,
         "type": 2,
@@ -327,7 +352,7 @@
                 "value": 461619,
                 "currency": "EUR"
               },
-              "currentRanking": 220
+              "currentRanking": 221
             },
             "nameCode": "ADD",
             "ranking": 224,
@@ -368,7 +393,7 @@
               "slug": "tennis",
               "id": 5
             },
-            "userCount": 1935,
+            "userCount": 1943,
             "playerTeamInfo": {
               "height": 1.93,
               "weight": 78,
@@ -397,7 +422,7 @@
                 "value": 146411,
                 "currency": "EUR"
               },
-              "currentRanking": 555
+              "currentRanking": 536
             },
             "nameCode": "DEB",
             "national": false,
@@ -440,14 +465,19 @@
       "awayScore": {},
       "time": {},
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "status.code",
+          "status.description",
+          "status.type"
+        ],
+        "changeTimestamp": 1785859309
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16692725,
       "defaultPeriodCount": 3,
       "slug": "boitana-ratti-added-debru",
-      "startTimestamp": 1785924000,
+      "startTimestamp": 1785932400,
       "periods": {
         "point": "Game",
         "current": "Match",

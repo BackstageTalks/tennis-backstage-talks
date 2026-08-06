@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785912494.4158883,
+  "saved_at": 1785999068.7568283,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "30",
       "tournament": {
         "name": "Toronto, Canada",
@@ -90,10 +91,11 @@
       },
       "customId": "OyUsEfac",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Toronto",
@@ -142,8 +144,8 @@
           "height": 1.6,
           "plays": "right-handed",
           "turnedPro": "2014",
-          "prizeCurrent": 462870,
-          "prizeTotal": 2269621,
+          "prizeCurrent": 475508,
+          "prizeTotal": 2282259,
           "birthCity": {
             "name": "Mexico City",
             "country": {
@@ -159,11 +161,11 @@
           "birthDateTimestamp": 875577600,
           "underage": false,
           "prizeCurrentRaw": {
-            "value": 462870,
+            "value": 475508,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 2269621,
+            "value": 2282259,
             "currency": "EUR"
           },
           "currentRanking": 72
@@ -215,8 +217,8 @@
         "playerTeamInfo": {
           "height": 1.68,
           "plays": "left-handed",
-          "prizeCurrent": 788552,
-          "prizeTotal": 7190133,
+          "prizeCurrent": 817857,
+          "prizeTotal": 7219438,
           "birthCity": {
             "name": "Montreal",
             "state": "CA-QC",
@@ -233,14 +235,14 @@
           "birthDateTimestamp": 1031270400,
           "underage": false,
           "prizeCurrentRaw": {
-            "value": 788552,
+            "value": 817857,
             "currency": "EUR"
           },
           "prizeTotalRaw": {
-            "value": 7190133,
+            "value": 7219438,
             "currency": "EUR"
           },
-          "currentRanking": 31
+          "currentRanking": 32
         },
         "nameCode": "FER",
         "ranking": 34,
@@ -275,17 +277,40 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 2,
+        "period2": 2,
+        "point": "40",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "A",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2385,
+        "period2": 2602,
+        "currentPeriodStartTimestamp": 1785973700
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1785976364
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": true,
       "id": 16662042,
       "defaultPeriodCount": 3,
       "slug": "leylah-fernandez-renata-zarazua",
+      "currentPeriodStartTimestamp": 1785973700,
       "startTimestamp": 1785970800,
       "periods": {
         "point": "Game",
