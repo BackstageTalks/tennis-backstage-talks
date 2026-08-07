@@ -1,7 +1,8 @@
 {
-  "saved_at": 1785912496.3467455,
+  "saved_at": 1786081990.1860106,
   "data": {
     "event": {
+      "firstToServe": 1,
       "tournament": {
         "name": "Hagen, Germany",
         "slug": "hagen-germany",
@@ -52,7 +53,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 107,
+          "userCount": 122,
           "groundType": "Red clay",
           "hasRounds": false,
           "hasPerformanceGraphFeature": false,
@@ -89,9 +90,35 @@
       },
       "customId": "XLFbsJWZd",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
+      },
+      "winnerCode": 2,
+      "venue": {
+        "city": {
+          "name": "Hagen",
+          "country": {
+            "alpha2": "DE",
+            "alpha3": "DEU",
+            "name": "Germany",
+            "slug": "germany"
+          },
+          "id": 18807
+        },
+        "hidden": true,
+        "slug": "platzmann-centre-court",
+        "name": "Platzmann Centre Court",
+        "country": {
+          "alpha2": "DE",
+          "alpha3": "DEU",
+          "name": "Germany",
+          "slug": "germany"
+        },
+        "id": 50580,
+        "stadium": {
+          "name": "Platzmann Centre Court"
+        }
       },
       "homeTeam": {
         "name": "Raul Brancaccio",
@@ -103,7 +130,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 1466,
+        "userCount": 1472,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 73,
@@ -143,7 +170,7 @@
             "value": 545797,
             "currency": "EUR"
           },
-          "currentRanking": 229
+          "currentRanking": 230
         },
         "nameCode": "BRA",
         "ranking": 236,
@@ -187,7 +214,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 4390,
+        "userCount": 4394,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 73,
@@ -216,7 +243,7 @@
             "value": 634379,
             "currency": "EUR"
           },
-          "currentRanking": 180
+          "currentRanking": 183
         },
         "nameCode": "MOE",
         "ranking": 190,
@@ -248,18 +275,45 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 6,
+        "period1TieBreak": 4,
+        "period2TieBreak": 2,
+        "point": "2",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 7,
+        "period1TieBreak": 7,
+        "period2TieBreak": 7,
+        "point": "6",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 4096,
+        "period2": 3532,
+        "currentPeriodStartTimestamp": 1786028148
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1786031723
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
       "id": 16661536,
       "defaultPeriodCount": 3,
       "slug": "elmer-moller-raul-brancaccio",
-      "startTimestamp": 1786006800,
+      "currentPeriodStartTimestamp": 1786028148,
+      "startTimestamp": 1786023600,
       "periods": {
         "point": "Game",
         "current": "Match",
