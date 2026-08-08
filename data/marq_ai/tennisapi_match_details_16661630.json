@@ -1,7 +1,8 @@
 {
-  "saved_at": 1786082103.319513,
+  "saved_at": 1786165897.8499475,
   "data": {
     "event": {
+      "firstToServe": 1,
       "homeTeamSeed": "9",
       "awayTeamSeed": "22",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 3911,
+          "userCount": 4015,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 1000,
           "hasRounds": true,
@@ -94,10 +95,11 @@
       },
       "customId": "YJXsuCld",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Montréal",
@@ -141,7 +143,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 43488,
+        "userCount": 43460,
         "playerTeamInfo": {
           "height": 1.83,
           "weight": 81,
@@ -227,7 +229,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 84824,
+        "userCount": 84927,
         "playerTeamInfo": {
           "height": 1.88,
           "weight": 81,
@@ -290,17 +292,43 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 6,
+        "period2": 3,
+        "period1TieBreak": 6,
+        "point": "0",
+        "normaltime": 0
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 7,
+        "period2": 6,
+        "period1TieBreak": 8,
+        "point": "0",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 3926,
+        "period2": 2970,
+        "currentPeriodStartTimestamp": 1786148063
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2"
+        ],
+        "changeTimestamp": 1786151098
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": true,
       "id": 16661630,
       "defaultPeriodCount": 3,
       "slug": "joao-fonseca-casper-ruud",
+      "currentPeriodStartTimestamp": 1786148063,
       "startTimestamp": 1786143600,
       "periods": {
         "point": "Game",
@@ -312,6 +340,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1786082099.8785665,
+  "saved_at": 1786165895.202197,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "20",
       "awayTeamSeed": "11",
       "tournament": {
@@ -54,7 +55,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1682,
+          "userCount": 1743,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 1000,
           "hasRounds": true,
@@ -92,10 +93,11 @@
       },
       "customId": "BEBsbwG",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Toronto",
@@ -139,7 +141,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 9832,
+        "userCount": 9823,
         "playerTeamInfo": {
           "height": 1.79,
           "weight": 67,
@@ -180,7 +182,7 @@
             "value": 17435239,
             "currency": "EUR"
           },
-          "currentRanking": 18
+          "currentRanking": 19
         },
         "nameCode": "MER",
         "ranking": 24,
@@ -225,7 +227,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 29976,
+        "userCount": 30020,
         "playerTeamInfo": {
           "height": 1.8,
           "weight": 69,
@@ -302,18 +304,50 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 1,
+        "period2": 2,
+        "point": "0",
+        "normaltime": 0
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 1679,
+        "period2": 2593,
+        "currentPeriodStartTimestamp": 1786142863
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period2",
+          "status.code",
+          "status.description",
+          "status.type",
+          "homeScore.normaltime",
+          "awayScore.current",
+          "awayScore.display",
+          "awayScore.period2",
+          "awayScore.normaltime"
+        ],
+        "changeTimestamp": 1786145473
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": false,
       "id": 16662068,
       "defaultPeriodCount": 3,
       "slug": "elise-mertens-naomi-osaka",
-      "startTimestamp": 1786136400,
+      "currentPeriodStartTimestamp": 1786142863,
+      "startTimestamp": 1786140900,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -324,6 +358,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

@@ -1,7 +1,8 @@
 {
-  "saved_at": 1786082104.6408265,
+  "saved_at": 1786165902.0755804,
   "data": {
     "event": {
+      "firstToServe": 2,
       "homeTeamSeed": "Q",
       "tournament": {
         "name": "Montreal, Canada",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 3911,
+          "userCount": 4015,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 1000,
           "hasRounds": true,
@@ -93,10 +94,11 @@
       },
       "customId": "cwbbspFNb",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Montréal",
@@ -140,7 +142,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 9351,
+        "userCount": 9368,
         "playerTeamInfo": {
           "height": 1.96,
           "weight": 78,
@@ -226,7 +228,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 6022,
+        "userCount": 6035,
         "playerTeamInfo": {
           "height": 1.85,
           "weight": 81,
@@ -266,7 +268,7 @@
             "value": 1920292,
             "currency": "EUR"
           },
-          "currentRanking": 58
+          "currentRanking": 60
         },
         "nameCode": "TIR",
         "ranking": 64,
@@ -300,18 +302,41 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
+      "homeScore": {
+        "current": 0,
+        "display": 0,
+        "period1": 3,
+        "period2": 4,
+        "point": "30",
+        "normaltime": 0
+      },
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 6,
+        "point": "40",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2301,
+        "period2": 2273,
+        "currentPeriodStartTimestamp": 1786151874
+      },
       "changes": {
-        "changeTimestamp": 0
+        "changes": [
+          "time.currentPeriodStart"
+        ],
+        "changeTimestamp": 1786154276
       },
       "hasGlobalHighlights": false,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": true,
       "id": 16661626,
       "defaultPeriodCount": 3,
       "slug": "thiago-agustin-tirante-alexei-popyrin",
-      "startTimestamp": 1786144200,
+      "currentPeriodStartTimestamp": 1786151874,
+      "startTimestamp": 1786148700,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -322,6 +347,19 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "AN",
+        "CU",
+        "IR",
+        "KP",
+        "SY",
+        "VE",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,

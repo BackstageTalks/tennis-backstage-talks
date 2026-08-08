@@ -1,5 +1,5 @@
 {
-  "saved_at": 1786082601.1386967,
+  "saved_at": 1786166177.0636399,
   "data": {
     "markets": [
       {
@@ -16,19 +16,21 @@
         "choices": [
           {
             "initialFractionalValue": "1/8",
-            "fractionalValue": "13/100",
+            "fractionalValue": "17/100",
             "sourceId": 1855579246,
             "name": "1",
+            "winning": true,
             "slipContent": "/?bs=199156214-1855579246~1/8~10",
-            "change": -1
+            "change": 1
           },
           {
             "initialFractionalValue": "5/1",
-            "fractionalValue": "5/1",
+            "fractionalValue": "4/1",
             "sourceId": 1855579445,
             "name": "2",
+            "winning": false,
             "slipContent": "/?bs=199156214-1855579445~5/1~10",
-            "change": 0
+            "change": -1
           }
         ]
       },
@@ -46,19 +48,21 @@
         "choices": [
           {
             "initialFractionalValue": "1/5",
-            "fractionalValue": "1/5",
+            "fractionalValue": "1/4",
             "sourceId": 1856035148,
             "name": "1",
-            "slipContent": "/?bs=199156214-1856035148~1/5~10",
-            "change": 0
+            "winning": true,
+            "slipContent": "/?bs=199156214-1856035148~1/4~10",
+            "change": 1
           },
           {
             "initialFractionalValue": "10/3",
-            "fractionalValue": "10/3",
+            "fractionalValue": "11/4",
             "sourceId": 1856035403,
             "name": "2",
-            "slipContent": "/?bs=199156214-1856035403~10/3~10",
-            "change": 0
+            "winning": false,
+            "slipContent": "/?bs=199156214-1856035403~11/4~10",
+            "change": -1
           }
         ]
       }

@@ -11,10 +11,18 @@
     }
   ],
   "players_loaded": 1074,
-  "lookup_count": 366,
-  "found_count": 107,
-  "missing_count": 259,
+  "lookup_count": 174,
+  "found_count": 51,
+  "missing_count": 123,
   "examples_found": [
+    {
+      "input": "Su-jeong Jang",
+      "matched": "Su Jeong Jang",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1383.6,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
     {
       "input": "Vittoria Paganetti",
       "matched": "Vittoria Paganetti",
@@ -24,27 +32,11 @@
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
-      "input": "Martha Matoula",
-      "matched": "Martha Matoula",
+      "input": "Denislava Glushkova",
+      "matched": "Denislava Glushkova",
       "method": "exact",
       "score": 1.0,
-      "elo": 1400.1,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Noemi Basiletti",
-      "matched": "Noemi Basiletti",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1355.9,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Greet Minnen",
-      "matched": "Greet Minnen",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1722.5,
+      "elo": 1284.1,
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
@@ -56,14 +48,6 @@
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
-      "input": "Kira Pavlova",
-      "matched": "Kira Pavlova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1292.7,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
       "input": "Britt Du Pree",
       "matched": "Britt Du Pree",
       "method": "exact",
@@ -72,75 +56,11 @@
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
-      "input": "Emily Appleton",
-      "matched": "Emily Appleton",
+      "input": "Andrea Guerrieri",
+      "matched": "Andrea Guerrieri",
       "method": "exact",
       "score": 1.0,
-      "elo": 1278.3,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Hiromi Abe",
-      "matched": "Hiromi Abe",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1395.2,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Alex Rybakov",
-      "matched": "Alex Rybakov",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1351.7,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Oliver Tarvet",
-      "matched": "Oliver Tarvet",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1489.9,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Denislava Glushkova",
-      "matched": "Denislava Glushkova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1284.1,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Rina Saigo",
-      "matched": "Rina Saigo",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1307.2,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Alicia Dudeney",
-      "matched": "Alicia Dudeney",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1446.5,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Bor Artnak",
-      "matched": "Bor Artnak",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1253.3,
-      "source": "data/elo/atp_elo_latest.csv"
-    },
-    {
-      "input": "Alexander Donski",
-      "matched": "Alexander Donski",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1428.1,
+      "elo": 1544.8,
       "source": "data/elo/atp_elo_latest.csv"
     },
     {
@@ -152,67 +72,27 @@
       "source": "data/elo/atp_elo_latest.csv"
     },
     {
-      "input": "Michele Ribecai",
-      "matched": "Michele Ribecai",
+      "input": "Bor Artnak",
+      "matched": "Bor Artnak",
       "method": "exact",
       "score": 1.0,
-      "elo": 1372.9,
+      "elo": 1253.3,
       "source": "data/elo/atp_elo_latest.csv"
     },
     {
-      "input": "Andrea Guerrieri",
-      "matched": "Andrea Guerrieri",
+      "input": "Charles Broom",
+      "matched": "Charles Broom",
       "method": "exact",
       "score": 1.0,
-      "elo": 1544.8,
+      "elo": 1408.7,
       "source": "data/elo/atp_elo_latest.csv"
     },
     {
-      "input": "Elizara Yaneva",
-      "matched": "Elizara Yaneva",
+      "input": "Emily Appleton",
+      "matched": "Emily Appleton",
       "method": "exact",
       "score": 1.0,
-      "elo": 1549.3,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Laura Hietaranta",
-      "matched": "Laura Hietaranta",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1292.3,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Ane Mintegi Del Olmo",
-      "matched": "Ane Mintegi Del Olmo",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1438.6,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Elena Ruxandra Bertea",
-      "matched": "Elena Ruxandra Bertea",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1494.0,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Aneta Laboutkova",
-      "matched": "Aneta Laboutkova",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1220.4,
-      "source": "data/elo/wta_elo_latest.csv"
-    },
-    {
-      "input": "Amelia Rajecki",
-      "matched": "Amelia Rajecki",
-      "method": "exact",
-      "score": 1.0,
-      "elo": 1236.2,
+      "elo": 1278.3,
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
@@ -224,6 +104,38 @@
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
+      "input": "Rina Saigo",
+      "matched": "Rina Saigo",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1307.2,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Laura Hietaranta",
+      "matched": "Laura Hietaranta",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1292.3,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Aneta Laboutkova",
+      "matched": "Aneta Laboutkova",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1220.4,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Mathys Erhard",
+      "matched": "Mathys Erhard",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1381.7,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
       "input": "Joel Schwaerzler",
       "matched": "Joel Schwaerzler",
       "method": "exact",
@@ -232,11 +144,51 @@
       "source": "data/elo/atp_elo_latest.csv"
     },
     {
-      "input": "Ilya Ivashka",
-      "matched": "Ilya Ivashka",
+      "input": "Noemi Basiletti",
+      "matched": "Noemi Basiletti",
       "method": "exact",
       "score": 1.0,
-      "elo": 1538.0,
+      "elo": 1355.9,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Oliver Tarvet",
+      "matched": "Oliver Tarvet",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1489.9,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Jerome Kym",
+      "matched": "Jerome Kym",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1598.5,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Elmer Moller",
+      "matched": "Elmer Moller",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1609.2,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Antoine Ghibaudo",
+      "matched": "Antoine Ghibaudo",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1475.0,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Ilia Simakin",
+      "matched": "Ilia Simakin",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1462.7,
       "source": "data/elo/atp_elo_latest.csv"
     },
     {
@@ -248,18 +200,66 @@
       "source": "data/elo/wta_elo_latest.csv"
     },
     {
-      "input": "Vendula Valdmannova",
-      "matched": "Vendula Valdmannova",
+      "input": "Caijsa Wilda Hennemann",
+      "matched": "Caijsa Wilda Hennemann",
       "method": "exact",
       "score": 1.0,
-      "elo": 1607.9,
+      "elo": 1509.1,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Barbora Palicova",
+      "matched": "Barbora Palicova",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1379.5,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Elena Ruxandra Bertea",
+      "matched": "Elena Ruxandra Bertea",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1494.0,
+      "source": "data/elo/wta_elo_latest.csv"
+    },
+    {
+      "input": "Tom Gentzsch",
+      "matched": "Tom Gentzsch",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1564.9,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Zsombor Piros",
+      "matched": "Zsombor Piros",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1660.6,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Lucas Poullain",
+      "matched": "Lucas Poullain",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1295.3,
+      "source": "data/elo/atp_elo_latest.csv"
+    },
+    {
+      "input": "Ana Sofia Sanchez",
+      "matched": "Ana Sofia Sanchez",
+      "method": "exact",
+      "score": 1.0,
+      "elo": 1336.0,
       "source": "data/elo/wta_elo_latest.csv"
     }
   ],
   "examples_missing": [
     {
-      "input": "Moon J / Nishimoto S",
-      "normalized": "moon j / nishimoto s",
+      "input": "Lin Y J / Zhang R",
+      "normalized": "lin y j / zhang r",
       "reason": "no_safe_match"
     },
     {
@@ -273,23 +273,18 @@
       "reason": "no_safe_match"
     },
     {
-      "input": "Huang T-H / Wang Y",
-      "normalized": "huang t h / wang y",
+      "input": "Chin K / Sarksian D",
+      "normalized": "chin k / sarksian d",
       "reason": "no_safe_match"
     },
     {
-      "input": "Lin Y J / Zhang R",
-      "normalized": "lin y j / zhang r",
+      "input": "Arina Arifullina",
+      "normalized": "arina arifullina",
       "reason": "no_safe_match"
     },
     {
-      "input": "Kim D / Shin J",
-      "normalized": "kim d / shin j",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Kira Bataikina",
-      "normalized": "kira bataikina",
+      "input": "Edda Mamedova",
+      "normalized": "edda mamedova",
       "reason": "no_safe_match"
     },
     {
@@ -298,53 +293,23 @@
       "reason": "no_safe_match"
     },
     {
-      "input": "H Im / E Kim",
-      "normalized": "h im / e kim",
+      "input": "Victoria Milovanova",
+      "normalized": "victoria milovanova",
       "reason": "no_safe_match"
     },
     {
-      "input": "Hosoki Y / Yoshioka K",
-      "normalized": "hosoki y / yoshioka k",
+      "input": "Kisa Yoshioka",
+      "normalized": "kisa yoshioka",
       "reason": "no_safe_match"
     },
     {
-      "input": "Milovanova V / Zelinskaya D",
-      "normalized": "milovanova v / zelinskaya d",
+      "input": "Asylzhan Arystanbekova",
+      "normalized": "asylzhan arystanbekova",
       "reason": "no_safe_match"
     },
     {
-      "input": "Arystanbekova A / Dyussebay I",
-      "normalized": "arystanbekova a / dyussebay i",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Bessonov D / Shebekin G",
-      "normalized": "bessonov d / shebekin g",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Rakhmatullayev D / Zhalgasbay D",
-      "normalized": "rakhmatullayev d / zhalgasbay d",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Duhan C / Murtaza M",
-      "normalized": "duhan c / murtaza m",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Borisiouk M / Singh K",
-      "normalized": "borisiouk m / singh k",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Alibek Kachmazov",
-      "normalized": "alibek kachmazov",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Maan Kesharwani",
-      "normalized": "maan kesharwani",
+      "input": "Anna Pushkareva",
+      "normalized": "anna pushkareva",
       "reason": "no_safe_match"
     },
     {
@@ -353,123 +318,8 @@
       "reason": "no_safe_match"
     },
     {
-      "input": "Charlotte van Zonneveld",
-      "normalized": "charlotte van zonneveld",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Mariia Masiianskaia",
-      "normalized": "mariia masiianskaia",
-      "reason": "no_safe_match"
-    },
-    {
       "input": "Maria Fernanda Herazo Gonzalez",
       "normalized": "maria fernanda herazo gonzalez",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Massimo Pizzigoni",
-      "normalized": "massimo pizzigoni",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Matthias Ujvary",
-      "normalized": "matthias ujvary",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Peter Makk",
-      "normalized": "peter makk",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Nico Hipfl",
-      "normalized": "nico hipfl",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Aleksa Pisarić",
-      "normalized": "aleksa pisaric",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Walid Ahouda",
-      "normalized": "walid ahouda",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Lorenzo Comino",
-      "normalized": "lorenzo comino",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Dušan Obradović",
-      "normalized": "dusan obradovic",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Amelie Justine Hejtmanek",
-      "normalized": "amelie justine hejtmanek",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Madelief Hageman",
-      "normalized": "madelief hageman",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Victoria Pohle",
-      "normalized": "victoria pohle",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Dune Vaissaud",
-      "normalized": "dune vaissaud",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Arina Bulatova",
-      "normalized": "arina bulatova",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Gabriel Ghetu",
-      "normalized": "gabriel ghetu",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Filiberto Fumagalli",
-      "normalized": "filiberto fumagalli",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Nicolas Robert",
-      "normalized": "nicolas robert",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Giannicola Misasi",
-      "normalized": "giannicola misasi",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Rares Teodor Pieleanu",
-      "normalized": "rares teodor pieleanu",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Robert Guna",
-      "normalized": "robert guna",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Ruslan Tiukaev",
-      "normalized": "ruslan tiukaev",
-      "reason": "no_safe_match"
-    },
-    {
-      "input": "Ali Yazdani",
-      "normalized": "ali yazdani",
       "reason": "no_safe_match"
     },
     {
@@ -478,33 +328,183 @@
       "reason": "no_safe_match"
     },
     {
-      "input": "Aleshchev A / Pinter P L",
-      "normalized": "aleshchev a / pinter p l",
+      "input": "Lánik T / Novansky M",
+      "normalized": "lanik t / novansky m",
       "reason": "no_safe_match"
     },
     {
-      "input": "Allegra Korpanec Davies",
-      "normalized": "allegra korpanec davies",
+      "input": "Pisaric A / Radjenovic V",
+      "normalized": "pisaric a / radjenovic v",
       "reason": "no_safe_match"
     },
     {
-      "input": "Jodie Burrage",
-      "normalized": "jodie burrage",
+      "input": "Chatziavraam N / Kountourakis I",
+      "normalized": "chatziavraam n / kountourakis i",
       "reason": "no_safe_match"
     },
     {
-      "input": "Blazkova K / Eigelsbach E V",
-      "normalized": "blazkova k / eigelsbach e v",
+      "input": "Amelie Justine Hejtmanek",
+      "normalized": "amelie justine hejtmanek",
       "reason": "no_safe_match"
     },
     {
-      "input": "Hejtmanek A J / Urbanova L",
-      "normalized": "hejtmanek a j / urbanova l",
+      "input": "Victoria Pohle",
+      "normalized": "victoria pohle",
       "reason": "no_safe_match"
     },
     {
-      "input": "Gregor Hausberger",
-      "normalized": "gregor hausberger",
+      "input": "Giannicola Misasi",
+      "normalized": "giannicola misasi",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Gabriel Ghetu",
+      "normalized": "gabriel ghetu",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Rares Teodor Pieleanu",
+      "normalized": "rares teodor pieleanu",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Stefan Adrian Andreescu",
+      "normalized": "stefan adrian andreescu",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Matthias Ujvary",
+      "normalized": "matthias ujvary",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Karol Filar",
+      "normalized": "karol filar",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Daniel Salazar Martinez",
+      "normalized": "daniel salazar martinez",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Alec Beckley",
+      "normalized": "alec beckley",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Vladyslav Orlov",
+      "normalized": "vladyslav orlov",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Marcel Zielinski",
+      "normalized": "marcel zielinski",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Lorenzo Comino",
+      "normalized": "lorenzo comino",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Walid Ahouda",
+      "normalized": "walid ahouda",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Ali Yazdani",
+      "normalized": "ali yazdani",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Lui Maxted",
+      "normalized": "lui maxted",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Sonja Zhiyenbayeva",
+      "normalized": "sonja zhiyenbayeva",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Dominko S / Godsick N",
+      "normalized": "dominko s / godsick n",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Vujic S / Walters M",
+      "normalized": "vujic s / walters m",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Bass F / Jans J",
+      "normalized": "bass f / jans j",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Kalender A / Serdarusic N",
+      "normalized": "kalender a / serdarusic n",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Rachel Gailis",
+      "normalized": "rachel gailis",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Ida Wobker",
+      "normalized": "ida wobker",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Martin Van der Meerschen",
+      "normalized": "martin van der meerschen",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Abel Forger",
+      "normalized": "abel forger",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Bosio G / Tenti F",
+      "normalized": "bosio g / tenti f",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Garbero F F / Sciahbasi M",
+      "normalized": "garbero f f / sciahbasi m",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Branchetti G / Ilić J",
+      "normalized": "branchetti g / ilic j",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Haupt H / Maute J",
+      "normalized": "haupt h / maute j",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Dorofeeva-Rybas F / Panshina V",
+      "normalized": "dorofeeva rybas f / panshina v",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Herazo M / Horvit M",
+      "normalized": "herazo m / horvit m",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Loes Ebeling Koning",
+      "normalized": "loes ebeling koning",
+      "reason": "no_safe_match"
+    },
+    {
+      "input": "Black B / Okutoyi A",
+      "normalized": "black b / okutoyi a",
       "reason": "no_safe_match"
     }
   ],

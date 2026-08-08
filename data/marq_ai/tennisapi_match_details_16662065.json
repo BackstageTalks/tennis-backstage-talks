@@ -1,7 +1,8 @@
 {
-  "saved_at": 1786081963.1035247,
+  "saved_at": 1786165902.3300679,
   "data": {
     "event": {
+      "firstToServe": 1,
       "awayTeamSeed": "25",
       "tournament": {
         "name": "Toronto, Canada",
@@ -53,7 +54,7 @@
               "shortNameTranslation": {}
             }
           },
-          "userCount": 1682,
+          "userCount": 1743,
           "groundType": "Hardcourt outdoor",
           "tennisPoints": 1000,
           "hasRounds": true,
@@ -91,10 +92,11 @@
       },
       "customId": "RlNbsziGc",
       "status": {
-        "code": 0,
-        "description": "Not started",
-        "type": "notstarted"
+        "code": 100,
+        "description": "Ended",
+        "type": "finished"
       },
+      "winnerCode": 2,
       "venue": {
         "city": {
           "name": "Toronto",
@@ -138,7 +140,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 3224,
+        "userCount": 3234,
         "playerTeamInfo": {
           "height": 1.81,
           "plays": "right-handed",
@@ -180,7 +182,7 @@
             "value": 3388265,
             "currency": "EUR"
           },
-          "currentRanking": 36
+          "currentRanking": 33
         },
         "nameCode": "MCC",
         "ranking": 70,
@@ -225,7 +227,7 @@
           "slug": "tennis",
           "id": 5
         },
-        "userCount": 16601,
+        "userCount": 16706,
         "playerTeamInfo": {
           "height": 1.75,
           "plays": "left-handed",
@@ -287,18 +289,45 @@
         },
         "timeActive": []
       },
-      "homeScore": {},
-      "awayScore": {},
-      "time": {},
-      "changes": {
-        "changeTimestamp": 0
+      "homeScore": {
+        "current": 1,
+        "display": 1,
+        "period1": 3,
+        "period2": 7,
+        "period3": 4,
+        "point": "0",
+        "normaltime": 1
       },
-      "hasGlobalHighlights": false,
+      "awayScore": {
+        "current": 2,
+        "display": 2,
+        "period1": 6,
+        "period2": 5,
+        "period3": 6,
+        "point": "0",
+        "normaltime": 2
+      },
+      "time": {
+        "period1": 2358,
+        "period2": 3861,
+        "period3": 3326,
+        "currentPeriodStartTimestamp": 1786156143
+      },
+      "changes": {
+        "changes": [
+          "time.currentPeriodStart",
+          "time.period3"
+        ],
+        "changeTimestamp": 1786159530
+      },
+      "hasGlobalHighlights": true,
       "crowdsourcingDataDisplayEnabled": false,
+      "correctAiInsight": true,
       "id": 16662065,
       "defaultPeriodCount": 3,
       "slug": "alexandra-eala-catherine-mcnally",
-      "startTimestamp": 1786147800,
+      "currentPeriodStartTimestamp": 1786156143,
+      "startTimestamp": 1786149000,
       "periods": {
         "point": "Game",
         "current": "Match",
@@ -309,6 +338,15 @@
         "period5": "5th set"
       },
       "finalResultOnly": false,
+      "hasBet365LiveStream": true,
+      "bet365ExcludedCountryCodes": [
+        "",
+        "IR",
+        "GR",
+        "RU",
+        "CH",
+        "CA"
+      ],
       "feedLocked": false,
       "groundType": "Hardcourt outdoor",
       "showTotoPromo": true,
